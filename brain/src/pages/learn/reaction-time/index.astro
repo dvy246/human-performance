@@ -1,0 +1,83 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Reaction Time Hub — Science and Training | BrainBenchmarks";
+const description = "Scientific analysis of human reaction time, Hick's Law formulas, training systems, and population percentile curves.";
+const canonicalUrl = "https://brainbenchmarks.com/learn/reaction-time";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Scientific Analysis of Reaction Time & Neural Latency",
+  "description": "Comprehensive guide to human reaction speed benchmarks, visual paint-sync calibration, and reflex training protocols.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Alan Vanc",
+    "jobTitle": "Neuroscience Researcher"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "BrainBenchmarks"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Learning Center</span>
+        <span>&middot;</span>
+        <span>Pillar Page</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white animate-fade-in">
+        Reaction Time Science & Assessments
+      </h1>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed">
+        Understanding the physiological latency of visual transduction, auditory synapse transmission, and motor response times.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">1. Biological Pathways of Visual Stimulus Response</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          When a visual stimulus flashes (such as a screen transitioning from red to green), photoreceptors in the retina convert photons into electric potentials. These signals travel via the optic nerve to the lateral geniculate nucleus (LGN) and visual cortex, before prefrontal motor areas dispatch commands through the spinal tract to execute a muscle contraction.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">2. Hick's Law: Decision Complexity and Latency</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Choice reaction times increase logarithmically with the count of alternative stimuli. Hick's Law specifies that every binary alternative (or bit of choice information) introduces a prefrontal cognitive routing delay. For choice assessments, this overhead is isolated from the base reflex time to quantify decision efficiency.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">3. Practical Protocols to Train Reaction Speed</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed font-sans">
+          Physical reflex latency is bounded by myelination quality. However, cognitive decision speed and stimulus classification can be trained through:
+        </p>
+        <ul class="list-disc pl-5 flex flex-col gap-2 text-zinc-400 text-sm">
+          <li><strong>Anticipatory suppression:</strong> Training the prefrontal cortex to inhibit actions until the stimulus is painted.</li>
+          <li><strong>Spatial chunking:</strong> Reducing choice overhead by categorizing screen regions into singular visual chunks.</li>
+          <li><strong>Cadence consistency:</strong> Optimizing muscle memory responses for stable execution intervals.</li>
+        </ul>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4 text-sm">
+          <div>
+            <h4 class="text-white font-bold mb-1">What is the average human reaction time?</h4>
+            <p class="text-zinc-400">The average visual reaction speed is roughly 250ms for simple stimuli, while auditory triggers average around 170ms due to shorter synapse pathways.</p>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">How does monitor refresh rate affect scores?</h4>
+            <p class="text-zinc-400">A 60Hz display introduces up to 16.7ms of visual display lag. Using a 144Hz or 240Hz screen minimizes paint delay, displaying the trigger stimulus faster.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</Layout>

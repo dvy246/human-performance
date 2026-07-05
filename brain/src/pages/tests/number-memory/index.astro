@@ -1,0 +1,58 @@
+---
+import Layout from "@/layouts/main.astro";
+import NumberMemoryTest from "@/components/tests/NumberMemoryTest";
+
+const title = "Number Memory Test — Working Memory Benchmark | BrainBenchmarks";
+const description = "Test your numerical memory span and benchmark your working memory recall capacity. Free, millisecond-accurate, and local-first.";
+const canonicalUrl = "https://brainbenchmarks.com/tests/number-memory";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Number Memory Test",
+  "description": "Benchmark your short-term working memory span with expanding digit patterns.",
+  "about": {
+    "@type": "Thing",
+    "name": "Working Memory"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Assessment Suite</span>
+        <span>&middot;</span>
+        <span>Memory Suite</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+        Number Memory Test
+      </h1>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        Most people can hold around 7 digits in short-term working memory. Test your limits with this expanding digit sequencer.
+      </p>
+    </header>
+
+    <section class="w-full">
+      <NumberMemoryTest client:load />
+    </section>
+
+    <!-- Below the fold SEO and Methodology Content -->
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">How the Number Memory Test Works</h2>
+        <p class="text-zinc-450 text-sm leading-relaxed">
+          The test displays a number on the screen. Try to remember it. Once the countdown timer ends, type the number back into the input field. If correct, the number of digits increases by one. If incorrect, the test finishes.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">Understanding Short-Term Memory Capacity</h2>
+        <p class="text-zinc-450 text-sm leading-relaxed">
+          Cognitive research suggests that adult working memory span is constrained by Miller's Law: we can typically hold between 5 to 9 chunks of information simultaneously. High-performance recall relies on chunking strategies, converting digits into associations, shapes, or sequences.
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

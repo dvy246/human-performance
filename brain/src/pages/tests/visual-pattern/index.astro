@@ -1,0 +1,58 @@
+---
+import Layout from "@/layouts/main.astro";
+import VisualPatternTest from "@/components/tests/VisualPatternTest";
+
+const title = "Visual Pattern Memory Test — Spatial Assessment | BrainBenchmarks";
+const description = "Benchmark your visuospatial working memory. Recall grid patterns under millisecond-accurate display intervals.";
+const canonicalUrl = "https://brainbenchmarks.com/tests/visual-pattern";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Visual Pattern Memory Test",
+  "description": "Assess visual pattern recognition and visuospatial chunking abilities.",
+  "about": {
+    "@type": "Thing",
+    "name": "Spatial Memory"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Assessment Suite</span>
+        <span>&middot;</span>
+        <span>Memory Suite</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+        Visual Pattern Memory Test
+      </h1>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        Test your visual pattern memory boundaries. Memorize the illuminated grid locations and recall them correctly.
+      </p>
+    </header>
+
+    <section class="w-full">
+      <VisualPatternTest client:load />
+    </section>
+
+    <!-- Below the fold SEO and Methodology Content -->
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">How the Visual Pattern Memory Test Works</h2>
+        <p class="text-zinc-450 text-sm leading-relaxed">
+          At the start of each level, a grid displays a pattern of highlighted tiles. Memorize their coordinates. When they disappear, click all cells that were part of the pattern, then submit.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">Visuospatial Processing Efficiency</h2>
+        <p class="text-zinc-450 text-sm leading-relaxed">
+          The parietal lobe and prefrontal cortex play central roles in processing spatial positions. Visual chunking strategies allow high-level performers to group adjacent tiles into single vector shapes, optimizing visual cache recall.
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

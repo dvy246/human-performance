@@ -13,11 +13,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     if (variant === "primary") {
       variantStyles = "bg-accent hover:bg-accent-hover text-black font-semibold shadow-sm focus-visible:ring-accent";
     } else if (variant === "secondary") {
-      variantStyles = "bg-zinc-900 border border-zinc-800 text-zinc-200 hover:bg-zinc-800 hover:text-white focus-visible:ring-zinc-700";
+      variantStyles = "bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] focus-visible:ring-accent";
     } else if (variant === "danger") {
-      variantStyles = "bg-rose-950 border border-rose-900 hover:bg-rose-900 text-rose-200 focus-visible:ring-rose-700";
+      variantStyles = "bg-red-600 hover:bg-red-700 text-white font-semibold shadow-sm focus-visible:ring-red-500";
     } else if (variant === "ghost") {
-      variantStyles = "text-zinc-400 hover:text-white hover:bg-zinc-900/50 focus-visible:ring-zinc-700";
+      variantStyles = "text-[var(--btn-ghost-text)] hover:bg-[var(--btn-ghost-hover-bg)] text-foreground/80 hover:text-foreground focus-visible:ring-accent";
     }
 
     return (
@@ -34,3 +34,4 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
 Button.displayName = "Button";
 export default Button;
+

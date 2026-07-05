@@ -1,0 +1,115 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Scientific Methodology & Calibration Protocols | BrainBenchmarks";
+const description = "Explore the neural science and technical formulas behind BrainBenchmarks, including Hick's Law, Fitts's Law, Miller's Law, and high-precision browser timers.";
+const canonicalUrl = "https://brainbenchmarks.com/methodology";
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Scientific Foundation</span>
+        <span>&middot;</span>
+        <span>Calibration Specs</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white animate-fade-in">
+        Technical & Scientific Methodology
+      </h1>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed">
+        BrainBenchmarks is engineered to eliminate browser rendering discrepancies and quantify cognitive-motor functions using established neuro-computational models.
+      </p>
+    </header>
+
+    <!-- Methodology Content Grid -->
+    <section class="flex flex-col gap-12 border-t border-card-border pt-10">
+      
+      <!-- 1. Millisecond-Accurate Paint Sync -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span class="text-accent font-mono text-sm">01.</span>
+          Millisecond-Accurate Paint Sync Calibration
+        </h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Standard browser reaction timers initiate time-captions during a state trigger, letting the browser queue and paint the visual state change asynchronously. This introduces a variable latency jitter of 8ms to 32ms depending on GPU scheduling and screen refresh rates.
+        </p>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          BrainBenchmarks resolves this by measuring reaction triggers using a double-nested <code>requestAnimationFrame (rAF)</code> loop. The start timestamp is locked only when the browser confirms the paint buffer has updated, matching real-world photon emission delays.
+        </p>
+        <div class="bg-zinc-950/60 border border-card-border p-4 rounded-lg font-mono text-xs text-zinc-300">
+          <span class="text-zinc-500">// Visual trigger paint synchronization</span><br />
+          requestAnimationFrame(() =&gt; &#123;<br />
+          &nbsp;&nbsp;requestAnimationFrame(() =&gt; &#123;<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;startTime.current = performance.now();<br />
+          &nbsp;&nbsp;&#125;);<br />
+          &#125;);
+        </div>
+      </article>
+
+      <!-- 2. Hick's Law -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span class="text-accent font-mono text-sm">02.</span>
+          Hick's Law (Choice & Decision Latency)
+        </h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Hick's Law states that the time it takes to make a decision increases logarithmically with the number of alternatives:
+        </p>
+        <div class="bg-zinc-950/60 border border-card-border py-3 px-5 rounded-lg font-mono text-base text-accent text-center">
+          RT = a + b &middot; log₂ (n)
+        </div>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          In our <strong>Choice Reaction Test</strong>, <code>n = 4</code>. This logarithmic increase represents prefrontal cortex stimulus-classification delays. We calibrate this by subtracting the participant's simple reaction time base to measure pure decision-overhead.
+        </p>
+      </article>
+
+      <!-- 3. Fitts's Law -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span class="text-accent font-mono text-sm">03.</span>
+          Fitts's Law (Spatial Aim Precision)
+        </h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Fitts's Law predicts that the time required to rapidly move to a target is a function of the ratio between the distance to the target and the width of the target:
+        </p>
+        <div class="bg-zinc-950/60 border border-card-border py-3 px-5 rounded-lg font-mono text-base text-accent text-center">
+          MT = a + b &middot; log₂ (2D / W)
+        </div>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Our <strong>Aim Precision Trainer</strong> logs pinpoint coordinate offsets (sub-pixel distances from target center) and target acquire latency. This indexes the efficiency of the motor-cortex feedback loops governing spatial control.
+        </p>
+      </article>
+
+      <!-- 4. Web Audio API Auditory Low-Latency -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span class="text-accent font-mono text-sm">04.</span>
+          Auditory Low-Latency Web Audio API
+        </h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Playing compressed audio formats like <code>.mp3</code> or <code>.wav</code> via HTML5 <code>&lt;audio&gt;</code> elements triggers decoder setup overhead and buffer delay.
+        </p>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Our <strong>Sound Reflex Test</strong> synthesizes a pure 750Hz sine tone directly on the audio hardware thread using the Web Audio API <code>OscillatorNode</code>. This minimizes audio emission delay to sub-millisecond ranges.
+        </p>
+      </article>
+
+      <!-- 5. Miller's Law -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight flex items-center gap-2">
+          <span class="text-accent font-mono text-sm">05.</span>
+          Miller's Law (Working Memory)
+        </h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Miller's Law states that the average human short-term working memory span can hold approximately 7 items or "chunks" (7 &plusmn; 2).
+        </p>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          The <strong>Sequence Memory Test</strong> evaluates this boundary. By chunking coordinate lists into visual shapes, patterns, or vectors, participants can bypass Miller's Law limits and reach higher levels.
+        </p>
+      </article>
+
+    </section>
+  </div>
+</Layout>

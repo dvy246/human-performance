@@ -2,21 +2,21 @@
 import Layout from "@/layouts/main.astro";
 import { Button } from "@/components/ui/button";
 
-const title = "BrainBenchmarks — Measure. Understand. Improve. | Cognitive Reflext Assessments";
+const title = "BrainBenchmarks — Measure. Understand. Improve. | Cognitive Reflex Assessments";
 const description = "BrainBenchmarks is a high-performance cognitive assessment suite. Measure raw reaction speed, memory, focus, and precision against global averages. 100% anonymous & local.";
 ---
 
 <Layout title={title} description={description}>
   <div class="flex flex-col gap-16 py-4">
     <!-- Hero Block -->
-    <header class="flex flex-col items-center text-center gap-6 max-w-2xl mx-auto py-8">
+    <header class="flex flex-col items-center text-center gap-6 max-w-2xl mx-auto py-8 animate-fade-in-up">
       <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/15 text-[11px] font-mono uppercase text-accent tracking-wider">
         <span>⚡ Phase 1 Foundation Live</span>
       </div>
-      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-none">
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-foreground leading-none">
         Measure. Understand. <span class="text-accent">Improve.</span>
       </h1>
-      <p class="text-zinc-400 text-sm md:text-base leading-relaxed">
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
         Evaluate your neural performance using millisecond-accurate browser assessments. Review population percentile graphs, track daily progress local-first, and challenge friends.
       </p>
       <div class="flex gap-4 mt-2">
@@ -30,7 +30,7 @@ const description = "BrainBenchmarks is a high-performance cognitive assessment 
     </header>
 
     <!-- Cognitive Profile Showcase Lock Panel -->
-    <section class="w-full max-w-4xl mx-auto p-6 md:p-8 rounded-xl bg-card border border-card-border flex flex-col md:flex-row gap-8 items-center relative overflow-hidden">
+    <section class="w-full max-w-4xl mx-auto p-6 md:p-8 rounded-xl bg-card border border-card-border flex flex-col md:flex-row gap-8 items-center relative overflow-hidden card-interactive animate-fade-in-up stagger-1">
       {/* Background Glow */}
       <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
 
@@ -60,8 +60,8 @@ const description = "BrainBenchmarks is a high-performance cognitive assessment 
       {/* Info Block */}
       <div class="flex flex-col gap-4 flex-1">
         <span class="text-[10px] font-mono uppercase text-accent tracking-widest">Flagship Feature</span>
-        <h2 class="text-xl font-bold text-white tracking-tight">The Cognitive Profile</h2>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">The Cognitive Profile</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
           Unlock your hexagonal skill radar and track changes in cognitive speed, working memory, spatial reasoning, typing efficiency, focus retention, and target control. 
         </p>
         <p class="text-zinc-500 text-xs leading-relaxed font-mono">
@@ -73,77 +73,222 @@ const description = "BrainBenchmarks is a high-performance cognitive assessment 
     <!-- Assessment Suite Grid -->
     <section id="suite" class="flex flex-col gap-8">
       <div class="flex flex-col gap-2">
-        <h2 class="text-2xl font-bold text-white tracking-tight">Assessment Suite</h2>
-        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Phase 1 Target Roadmap</p>
+        <h2 class="text-2xl font-bold text-foreground tracking-tight">Reaction Suite</h2>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Playable Assessments</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
-        <!-- Active: Reaction Time Test -->
-        <div class="p-6 rounded-xl bg-card border border-card-border hover:border-zinc-800 transition-standard flex flex-col justify-between gap-6 glow-amber">
+        <!-- Playable: Reaction Time Test -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-1">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
               <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
-              <span class="text-xs font-mono text-zinc-600">RT-001</span>
+              <span class="text-xs font-mono text-zinc-500">RT-001</span>
             </div>
-            <h3 class="text-lg font-bold text-white">Reaction Time Test</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">
+            <h3 class="text-lg font-bold text-foreground">Visual Reaction Test</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Test your raw physical reflexes against visual triggers. Calibrate input delay, monitor refresh rate, and view population distributions.
             </p>
           </div>
           <a href="/tests/reaction-time">
             <Button variant="secondary" className="w-full justify-between group">
-              <span>Start Assessment</span>
+              <span>Start Visual Test</span>
               <span class="group-hover:translate-x-1 transition-transform">⚡</span>
             </Button>
           </a>
         </div>
 
-        <!-- Locked: Click Speed (CPS) -->
-        <div class="p-6 rounded-xl bg-[#050505] border border-card-border/50 opacity-60 flex flex-col justify-between gap-6">
+        <!-- Playable: F1 Starting Lights -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-2">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest px-2 py-0.5 rounded bg-zinc-900/20 border border-zinc-800/30">Locked</span>
-              <span class="text-xs font-mono text-zinc-600">CPS-002</span>
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">RT-002</span>
             </div>
-            <h3 class="text-lg font-bold text-zinc-300">Click Speed Test (CPS)</h3>
-            <p class="text-zinc-500 text-sm leading-relaxed">
-              Measure your clicks-per-second motor endurance. Train muscle memory and jitters over 1s, 5s, and 10s intervals.
+            <h3 class="text-lg font-bold text-foreground">F1 Start Lights</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Simulate a Grand Prix start gantry. Suppress anticipatory impulse and release motor actions at the exact millisecond lights extinguish.
             </p>
           </div>
-          <Button variant="ghost" disabled className="w-full">Coming Soon</Button>
+          <a href="/tests/f1-lights">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Launch Telemetry</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
         </div>
 
-        <!-- Locked: Sequence Memory -->
-        <div class="p-6 rounded-xl bg-[#050505] border border-card-border/50 opacity-60 flex flex-col justify-between gap-6">
+        <!-- Playable: Sound Reflex -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-3">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest px-2 py-0.5 rounded bg-zinc-900/20 border border-zinc-800/30">Locked</span>
-              <span class="text-xs font-mono text-zinc-600">MEM-003</span>
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">RT-003</span>
             </div>
-            <h3 class="text-lg font-bold text-zinc-300">Sequence Memory Test</h3>
-            <p class="text-zinc-500 text-sm leading-relaxed">
-              Assess your spatial working memory capacity. Memorize and repeat an expanding pattern of grid flashes.
+            <h3 class="text-lg font-bold text-foreground">Sound Reflex Test</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Measure your auditory response speeds to low-latency synthesized sound waves. Contrast hearing triggers against visual pathways.
             </p>
           </div>
-          <Button variant="ghost" disabled className="w-full">Coming Soon</Button>
+          <a href="/tests/sound-reaction">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Sound Test</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
         </div>
 
-        <!-- Locked: Aim Trainer -->
-        <div class="p-6 rounded-xl bg-[#050505] border border-card-border/50 opacity-60 flex flex-col justify-between gap-6">
+        <!-- Playable: Choice Grid -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-4">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
-              <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest px-2 py-0.5 rounded bg-zinc-900/20 border border-zinc-800/30">Locked</span>
-              <span class="text-xs font-mono text-zinc-600">AIM-004</span>
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">RT-004</span>
             </div>
-            <h3 class="text-lg font-bold text-zinc-300">Aim Trainer</h3>
-            <p class="text-zinc-500 text-sm leading-relaxed">
-              Evaluate visual precision and coordination. Hit random shrinking targets as fast and accurately as possible.
+            <h3 class="text-lg font-bold text-foreground">Choice Grid (Hick's Law)</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Map color changes to keys R, G, B, Y. Manage accuracy-speed trade-offs under cognitive decision load with built-in mismatch penalties.
             </p>
           </div>
-          <Button variant="ghost" disabled className="w-full">Coming Soon</Button>
+          <a href="/tests/choice-reaction">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Choice Test</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
         </div>
 
+        <!-- Playable: Go/No-Go Color Test -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-5">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">RT-005</span>
+            </div>
+            <h3 class="text-lg font-bold text-foreground">Go/No-Go Color Test</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Inhibitory motor control. Click only when green flashes; suppress actions for distractors (Red, Blue, Purple).
+            </p>
+          </div>
+          <a href="/tests/go-no-go">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Go/No-Go Test</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- Speed & Precision Modules Row -->
+    <section class="flex flex-col gap-8 pt-4 animate-fade-in">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-2xl font-bold text-foreground tracking-tight">Speed, Precision & Memory</h2>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Playable Assessments</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Playable: Click Speed -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-1">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">CPS-001</span>
+            </div>
+            <h3 class="text-lg font-bold text-foreground">Click Speed (CPS)</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Measure your clicks-per-second motor stamina over a 10s timeframe, plotting a real-time cadence frequency curve.
+            </p>
+          </div>
+          <a href="/tests/click-speed">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Click Test</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
+        </div>
+
+        <!-- Playable: Aim Precision -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-2">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">AIM-001</span>
+            </div>
+            <h3 class="text-lg font-bold text-foreground">Aim Precision</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Acquire 30 targets on our Canvas-based coordinate trainer to test pinpoint pixel offset errors and acquisition times.
+            </p>
+          </div>
+          <a href="/tests/aim-trainer">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Aim Test</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
+        </div>
+
+        <!-- Playable: Sequence Memory -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-3">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">MEM-001</span>
+            </div>
+            <h3 class="text-lg font-bold text-foreground">Sequence Memory</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Benchmark spatial working memory using an expanding pattern on a 3x3 grid, testing Miller's Law limits.
+            </p>
+          </div>
+          <a href="/tests/sequence-memory">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Memory Test</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
+        </div>
+
+        <!-- Playable: Number Memory -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-4">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">MEM-002</span>
+            </div>
+            <h3 class="text-lg font-bold text-foreground">Number Memory</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Benchmark numerical recall spans with expanding numeric sequences, highlighting short-term chunking limits.
+            </p>
+          </div>
+          <a href="/tests/number-memory">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Number Test</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
+        </div>
+
+        <!-- Playable: Visual Pattern Memory -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber animate-fade-in-up stagger-5">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-500">MEM-003</span>
+            </div>
+            <h3 class="text-lg font-bold text-foreground">Visual Pattern Memory</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+              Memorize illuminated pattern arrays on an dynamic scale matrix, checking visuospatial coordination.
+            </p>
+          </div>
+          <a href="/tests/visual-pattern">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Pattern Test</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
+        </div>
       </div>
     </section>
   </div>

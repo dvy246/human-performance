@@ -1,0 +1,66 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Contact Us | BrainBenchmarks Platform Support";
+const description = "Get in touch with BrainBenchmarks platform support, feedback submissions, and developer integration requests.";
+---
+
+<Layout title={title} description={description}>
+  <div class="flex flex-col gap-10 w-full max-w-3xl mx-auto py-4">
+    <header class="flex flex-col gap-3">
+      <span class="text-xs font-mono uppercase tracking-widest text-accent">Communications</span>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Contact Platform Support</h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+        Submit feedback, feature requests, or report calibration anomalies.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm text-zinc-650 dark:text-zinc-400 leading-relaxed">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <article class="flex flex-col gap-4">
+          <h2 class="text-lg font-bold text-foreground">Submit Platform Feedback</h2>
+          <p>
+            Since we run entirely anonymous local-first clients, we do not require account logins to receive messages. Please reach out to our team at:
+          </p>
+          <div class="p-4 rounded-lg bg-subtle border border-card-border font-mono text-accent font-semibold text-center sm:text-left">
+            support@brainbenchmarks.com
+          </div>
+          <p class="text-xs text-zinc-500">
+            For hardware synchronization and display calibration queries, please attach your environment specs from the Diagnostics tab in your profile.
+          </p>
+        </article>
+
+        {/* Mock Contact Form for user friendly interface */}
+        <div class="flex flex-col gap-4 p-5 rounded-xl border border-card-border bg-card">
+          <h3 class="text-sm font-bold text-foreground uppercase font-mono tracking-wider">Send a Message</h3>
+          <div class="flex flex-col gap-3">
+            <div class="flex flex-col gap-1">
+              <label class="text-[10px] font-mono text-zinc-500 uppercase">Subject</label>
+              <select class="bg-subtle border border-card-border rounded px-2.5 py-1.5 text-xs text-foreground outline-none w-full">
+                <option>General Feedback</option>
+                <option>Calibration Assistance</option>
+                <option>Integration Request</option>
+                <option>Report Anomaly</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label class="text-[10px] font-mono text-zinc-500 uppercase">Message</label>
+              <textarea 
+                rows="3" 
+                placeholder="Type your message here..."
+                class="bg-subtle border border-card-border rounded px-2.5 py-1.5 text-xs text-foreground outline-none w-full resize-none focus:border-accent"
+              ></textarea>
+            </div>
+            <button 
+              type="button"
+              onclick="alert('Thank you for your feedback! Since all profile data is stored locally in your browser, this mock form demonstrates interface validation. For direct support, please email support@brainbenchmarks.com.')"
+              class="w-full h-9 rounded bg-accent hover:bg-accent-hover text-black font-semibold text-xs font-mono uppercase tracking-wider transition-standard cursor-pointer"
+            >
+              Submit Message
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

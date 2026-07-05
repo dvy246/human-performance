@@ -1,0 +1,41 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Terms of Service | BrainBenchmarks";
+const description = "BrainBenchmarks Terms of Service. Understand local ledger limitations and non-medical assessment disclaimers.";
+---
+
+<Layout title={title} description={description}>
+  <div class="flex flex-col gap-10 w-full max-w-3xl mx-auto py-4">
+    <header class="flex flex-col gap-3">
+      <span class="text-xs font-mono uppercase tracking-widest text-accent">Legal Documentation</span>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Terms of Service</h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+        Effective date: July 5, 2026.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm text-zinc-650 dark:text-zinc-400 leading-relaxed">
+      <article class="flex flex-col gap-3">
+        <h2 class="text-lg font-bold text-foreground">1. Service Utilization & Limits</h2>
+        <p>
+          BrainBenchmarks is provided for self-assessment, cognitive training, and general performance logging purposes only. The assessments are not medical, diagnostic, or clinical evaluations and should not be used as such.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2 class="text-lg font-bold text-foreground">2. Disclaimer of Warranties</h2>
+        <p>
+          We do not warrant that our telemetry scores are free from hardware delay distortions (such as touchscreen interface processing delays, GPU paint syncing latency, or operating system interrupts).
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2 class="text-lg font-bold text-foreground">3. Fair Use & Bot Protocols</h2>
+        <p>
+          Attempts to automate grid inputs, visual paint clicks, or coordinate target acquisition using scripted macro tools or background headless instances is strictly prohibited. We reserve the right to flag anomalies in local scores to preserve leaderboard integrity.
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

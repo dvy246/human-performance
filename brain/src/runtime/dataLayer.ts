@@ -1,3 +1,5 @@
+import { hashRecoveryCode } from './recovery';
+
 export interface SessionRecord {
   id: string;
   testId: string;
@@ -6,6 +8,7 @@ export interface SessionRecord {
   rawScore: number;
   percentile: number;
   metadata?: Record<string, any>;
+  synced?: boolean; // Phase 2: local-first sync marker
 }
 
 export interface UserSettings {
@@ -16,6 +19,7 @@ export interface UserSettings {
 const DB_NAME = 'BrainBenchmarksDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'sessions';
+const SYNC_API_URL = 'https://brainbenchmarks-sync.divyyadav.workers.dev';
 
 // Helper to initialize IndexedDB
 function initDB(): Promise<IDBDatabase> {
@@ -43,12 +47,13 @@ function initDB(): Promise<IDBDatabase> {
 
 export const dataLayer = {
   // Save a test result session
-  async saveSession(record: Omit<SessionRecord, 'id' | 'timestamp'>): Promise<SessionRecord> {
+  async saveSession(record: Omit<SessionRecord, 'id' | 'timestamp' | 'synced'>): Promise<SessionRecord> {
     const db = await initDB();
     const newRecord: SessionRecord = {
       ...record,
       id: crypto.randomUUID(),
-      timestamp: Date.now()
+      timestamp: Date.now(),
+      synced: false
     };
 
     return new Promise((resolve, reject) => {
@@ -57,8 +62,9 @@ export const dataLayer = {
       const request = store.add(newRecord);
 
       request.onsuccess = () => {
-        // Also update the daily streak on a successful test completion
         this.updateStreak();
+        // Trigger background sync if recovery code exists
+        this.triggerSync().catch(console.error);
         resolve(newRecord);
       };
       request.onerror = () => reject(request.error);
@@ -99,7 +105,7 @@ export const dataLayer = {
     });
   },
 
-  // Retrieve Personal Best for a specific test (lower is better for reaction time, higher is better for typing/clicks)
+  // Retrieve Personal Best for a specific test
   async getPersonalBest(testId: string, criteria: 'lower' | 'higher' = 'lower'): Promise<number | null> {
     const history = await this.getHistory(testId);
     if (history.length === 0) return null;
@@ -112,7 +118,7 @@ export const dataLayer = {
     }
   },
 
-  // Streak system logic (localStorage, synchronous)
+  // Streak system logic
   getStreak(): UserSettings {
     if (typeof window === 'undefined') {
       return { streakCount: 0, lastActiveDate: '' };
@@ -133,7 +139,6 @@ export const dataLayer = {
     const { streakCount, lastActiveDate } = this.getStreak();
 
     if (lastActiveDate === today) {
-      // Already active today, streak is maintained
       return { streakCount, lastActiveDate };
     }
 
@@ -150,5 +155,113 @@ export const dataLayer = {
     localStorage.setItem('bb_last_active_date', today);
 
     return { streakCount: newStreak, lastActiveDate: today };
+  },
+
+  // Phase 2 Sync Engine
+  getRecoveryCode(): string | null {
+    if (typeof window === 'undefined') return null;
+    return localStorage.getItem('bb_recovery_code');
+  },
+
+  setRecoveryCode(code: string) {
+    if (typeof window === 'undefined') return;
+    localStorage.setItem('bb_recovery_code', code.trim().toLowerCase());
+  },
+
+  // Pushes local unsynced records to the edge D1 database
+  async triggerSync(): Promise<void> {
+    const code = this.getRecoveryCode();
+    if (!code) return; // Sync not configured
+
+    const history = await this.getHistory();
+    const unsynced = history.filter(r => !r.synced);
+    if (unsynced.length === 0) return; // Nothing to sync
+
+    const hash = await hashRecoveryCode(code);
+    const payloadAttempts = unsynced.map(r => ({
+      id: r.id,
+      testId: r.testId,
+      category: r.category,
+      rawScore: r.rawScore,
+      percentile: r.percentile,
+      metadata: JSON.stringify(r.metadata || {}),
+      createdAt: r.timestamp
+    }));
+
+    try {
+      const response = await fetch(`${SYNC_API_URL}/api/sync/push`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          recoveryHash: hash,
+          attempts: payloadAttempts
+        })
+      });
+
+      if (response.ok) {
+        // Mark pushed records as synced locally
+        const db = await initDB();
+        const transaction = db.transaction([STORE_NAME], 'readwrite');
+        const store = transaction.objectStore(STORE_NAME);
+
+        for (const record of unsynced) {
+          record.synced = true;
+          store.put(record);
+        }
+      }
+    } catch (err) {
+      console.warn('Sync push deferred (offline or network failure):', err);
+    }
+  },
+
+  // Pulls all records from edge D1 and merges them into local IndexedDB
+  async pullSync(): Promise<number> {
+    const code = this.getRecoveryCode();
+    if (!code) throw new Error('No recovery code is set');
+
+    const hash = await hashRecoveryCode(code);
+
+    const response = await fetch(`${SYNC_API_URL}/api/sync/pull`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ recoveryHash: hash })
+    });
+
+    if (!response.ok) {
+      throw new Error(`Sync pull failed with code: ${response.status}`);
+    }
+
+    const body: { success: boolean; attempts: any[] } = await response.json();
+    if (!body.success || !Array.isArray(body.attempts)) {
+      throw new Error('Invalid server sync response');
+    }
+
+    const db = await initDB();
+    const transaction = db.transaction([STORE_NAME], 'readwrite');
+    const store = transaction.objectStore(STORE_NAME);
+
+    let mergeCount = 0;
+
+    for (const item of body.attempts) {
+      const metadataObj = typeof item.metadata === 'string'
+        ? JSON.parse(item.metadata)
+        : (item.metadata || {});
+
+      const mergedRecord: SessionRecord = {
+        id: item.id,
+        testId: item.testId,
+        category: item.category,
+        rawScore: item.rawScore,
+        percentile: item.percentile,
+        timestamp: item.createdAt,
+        metadata: metadataObj,
+        synced: true
+      };
+
+      store.put(mergedRecord);
+      mergeCount++;
+    }
+
+    return mergeCount;
   }
 };

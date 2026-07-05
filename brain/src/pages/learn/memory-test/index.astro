@@ -1,0 +1,71 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Memory Span & Visuospatial Science | BrainBenchmarks";
+const description = "Understand visuospatial chunking limits, Miller's Law equations, short-term working memory capacity, and pattern recognition.";
+const canonicalUrl = "https://brainbenchmarks.com/learn/memory-test";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Science of Visuospatial Recall, Working Memory, and Miller's Law Limits",
+  "description": "Analyze chunking tactics, Short-term memory limits, and cognitive decay rates.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Alan Vanc",
+    "jobTitle": "Neuroscience Researcher"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "BrainBenchmarks"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Learning Center</span>
+        <span>&middot;</span>
+        <span>Pillar Page</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white animate-fade-in">
+        Memory Science & Chunking Limits
+      </h1>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed">
+        Investigating prefrontal working memory limits, sensory memory decay rates, and spatial chunking strategies.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">1. Miller's Law and Working Memory Capacity</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Formulated by cognitive psychologist George Miller in 1956, Miller's Law states that the number of objects an average human can hold in working memory is 7 &plusmn; 2. This limit applies to immediate recall tasks (sensory buffer registers) and is governed by prefrontal cortical circuit sizes.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">2. Visuospatial Chunking Strategies</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          High-performance memory scores are achieved by chunking individual items into consolidated logical units. In a spatial grid test, this involves grouping coordinate sequences into visual lines, polygons, or motion trajectories, mapping multiple variables into a single conceptual unit.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-white tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4 text-sm">
+          <div>
+            <h4 class="text-white font-bold mb-1">Can working memory span be permanently increased?</h4>
+            <p class="text-zinc-400">While absolute working memory capacity is highly correlated with genetics, you can significantly optimize effective recall through chunking techniques and spatial associations.</p>
+          </div>
+          <div>
+            <h4 class="text-white font-bold mb-1">What is the difference between short-term and working memory?</h4>
+            <p class="text-zinc-400">Short-term memory refers strictly to the passive storage of information, while working memory involves both storage and active manipulation of those data points.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</Layout>

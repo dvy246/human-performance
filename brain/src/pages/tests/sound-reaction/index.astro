@@ -1,0 +1,119 @@
+---
+import Layout from "@/layouts/main.astro";
+import SoundReactionTest from "@/components/tests/SoundReactionTest";
+
+const title = "Sound Reaction Time Test — Auditory Reflexes | BrainBenchmarks";
+const description = "Benchmark your auditory reaction speed. Measure your response time to a low-latency synthesized tone and compare visual vs. sound reflexes.";
+const canonicalUrl = "https://brainbenchmarks.com/tests/sound-reaction";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Sound Reaction Test",
+  "description": "An auditory cognitive reflex test using low-latency Web Audio API synthesizers to measure hearing-to-motor response speeds.",
+  "about": {
+    "@type": "Thing",
+    "name": "Auditory Reaction"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Assessment Suite</span>
+        <span>&middot;</span>
+        <span>Reaction Suite</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+        Sound Reaction Test
+      </h1>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        Measure your raw response time to auditory stimuli. This test uses the high-precision Web Audio API to bypass audio player buffer delays, offering true millisecond-level audio reflex measurement.
+      </p>
+    </header>
+
+    <!-- Interactive Game Island Container -->
+    <section class="w-full">
+      <SoundReactionTest client:visible />
+    </section>
+
+    <!-- Below the fold SEO and Methodology Content -->
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      
+      {/* Scientific Methodology link */}
+      <div class="flex items-center gap-3 text-xs text-zinc-400">
+        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
+        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+      </div>
+
+      <!-- What is it -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-white tracking-tight">What is the Sound Reaction Test?</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          The sound reaction test measures how quickly your motor system executes a movement in response to an auditory cue. When you hear the high-frequency beep tone emitted by the browser, your auditory system captures the wave, routes it to the brainstem and primary auditory cortex, which triggers the motor signal down to your finger to click or tap.
+        </p>
+      </article>
+
+      <!-- Why Auditory is Faster -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-white tracking-tight">Why Auditory Reflexes are Faster Than Visual</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          For most humans, auditory reaction times are consistently **30 to 50 milliseconds faster** than visual reaction times. This is a physiological difference rooted in how our sensory organs process inputs:
+        </p>
+        <ul class="list-disc list-inside text-zinc-400 text-sm flex flex-col gap-2 leading-relaxed">
+          <li><strong class="text-zinc-200">Retinal Phototransduction Delay:</strong> When light hits your eye, the photoreceptors must convert the photon energy into electrical impulses (phototransduction). This biochemical process adds a fixed delay of **20 to 40 milliseconds** before the signal even leaves the eye.</li>
+          <li><strong class="text-zinc-200">Direct Auditory Pathways:</strong> Sound waves hitting the eardrum are mechanical. Hair cells convert them to electrical impulses almost instantly. The signal travels through the cochlear nerve directly to the brainstem, bypassing complex cortical routing, taking just **8 to 10 milliseconds** to register.</li>
+        </ul>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          While a normal visual reaction average is roughly 250ms, a typical auditory reaction average sits between **160ms and 190ms**.
+        </p>
+      </article>
+
+      <!-- Bluetooth vs Wired Latency -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-white tracking-tight">The Impact of Headphone Latency</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Your choice of audio hardware dictates the accuracy of your results:
+        </p>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-2">
+          <div class="p-4 rounded-lg bg-zinc-950/60 border border-rose-950/40 flex flex-col gap-2">
+            <h3 class="text-xs font-mono uppercase text-rose-400">Avoid: Bluetooth Headphones</h3>
+            <p class="text-zinc-500 text-xs leading-normal">
+              Wireless Bluetooth codecs (AAC, SBC, AptX) compress and buffer audio signals. This adds an unavoidable delay of **100ms to 300ms** to your score. A reaction time of 150ms could show up as 400ms on Bluetooth earbuds.
+            </p>
+          </div>
+          <div class="p-4 rounded-lg bg-zinc-950/60 border border-emerald-950/40 flex flex-col gap-2">
+            <h3 class="text-xs font-mono uppercase text-emerald-400">Recommended: Wired or Speakers</h3>
+            <p class="text-zinc-500 text-xs leading-normal">
+              Wired headphones (3.5mm jack or USB-C) and native laptop speakers route analog signals instantly, adding less than **1ms** of hardware latency to your assessment.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <!-- FAQ Section -->
+      <article class="flex flex-col gap-6">
+        <h2 class="text-xl font-semibold text-white tracking-tight">Frequently Asked Questions</h2>
+        
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-white">How does BrainBenchmarks achieve audio accuracy?</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">
+              Standard sites load static audio files (.mp3 or .wav), which require browser media players to buffer and spin up decoding threads. We utilize the native browser **Web Audio API** to synthesize a raw 750Hz sine wave directly on the main thread, reducing buffer latency to nearly 0ms.
+            </p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-white">What is a good auditory reaction score?</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">
+              Anything below 150ms is elite. 150ms to 180ms is excellent and typical of esports athletes and musicians. 180ms to 220ms is average, and above 250ms indicates attention fatigue or hardware lag.
+            </p>
+          </div>
+        </div>
+      </article>
+      
+    </section>
+  </div>
+</Layout>

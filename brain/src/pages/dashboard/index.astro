@@ -1,0 +1,84 @@
+---
+import Layout from "@/layouts/main.astro";
+import CognitiveProfile from "@/components/dashboard/CognitiveProfile";
+
+const title = "Your Cognitive Profile & Performance Radar | BrainBenchmarks";
+const description = "Review your hexagonal cognitive skills radar, monitor daily active streaks, and inspect all historical assessment attempts logged local-first.";
+const canonicalUrl = "https://brainbenchmarks.com/dashboard";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  "name": "Cognitive Performance Dashboard",
+  "description": "User performance profile tracking cognitive reflexes, memory limits, and motor precision statistics."
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-5xl mx-auto">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Ecosystem Portal</span>
+        <span>&middot;</span>
+        <span>Neural Stats</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+        Your Brain Profile
+      </h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        Unlock insights into your cognitive speed and motor precision. This profile displays averages across all finished assessments, plotted against global benchmarks.
+      </p>
+    </header>
+
+    <!-- Interactive Dashboard Island Container -->
+    <section class="w-full">
+      <CognitiveProfile client:load />
+    </section>
+
+    <!-- Below the fold Scientific Content -->
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12 max-w-3xl">
+      
+      {/* Scientific Methodology link */}
+      <div class="flex items-center gap-3 text-xs text-zinc-550 dark:text-zinc-400">
+        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
+        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+      </div>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Understanding Your Skill Radar Chart</h2>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+          The hexagonal skill radar measures your cognitive capabilities across five distinct dimensions. Your score in each category represents your **percentile rank** compared to global, calibrated averages:
+        </p>
+        <ul class="list-disc pl-5 flex flex-col gap-2.5 text-zinc-550 dark:text-zinc-400 text-sm">
+          <li>
+            <strong class="text-foreground">Reaction (Visual/Decision Speed):</strong> Measures visual transduction pathways and Hick's Law decision overhead across simple, Choice grid, and Go/No-Go tests.
+          </li>
+          <li>
+            <strong class="text-foreground">Memory (Visuospatial Recall):</strong> Evaluates your spatial working memory capacity (Miller's Law limits) on the Simon grid sequence.
+          </li>
+          <li>
+            <strong class="text-foreground">Precision (Motor Coordination):</strong> Measures spatial target acquisition and sub-pixel clicking accuracy on the HTML5 Canvas aim precision board.
+          </li>
+          <li>
+            <strong class="text-foreground">Speed & Motor (CPS):</strong> Logs motor firing stamina and endurance click cadences.
+          </li>
+          <li>
+            <strong class="text-foreground">Auditory (Sound Reflex):</strong> Assesses hearing reaction speed (low-latency synthesizers) contrasting auditory vs. visual pathways.
+          </li>
+        </ul>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Privacy & Local Ledger Integrity</h2>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+          BrainBenchmarks is anonymous and does not collect personal identifiers. All performance records are stored locally inside your browser's IndexedDB database. 
+        </p>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+          By activating **Cloud Sync**, an encrypted hash of your recovery key is saved to the Cloudflare D1 edge database to back up your achievements against cache clears. Disconnecting sync removes edge links immediately.
+        </p>
+      </article>
+
+    </section>
+  </div>
+</Layout>

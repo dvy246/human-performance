@@ -1,0 +1,41 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "About BrainBenchmarks | Cognitive Assessment Metrics";
+const description = "Learn about the mission, E-E-A-T research credentials, and engineering design values of BrainBenchmarks.";
+---
+
+<Layout title={title} description={description}>
+  <div class="flex flex-col gap-10 w-full max-w-3xl mx-auto py-4">
+    <header class="flex flex-col gap-3">
+      <span class="text-xs font-mono uppercase tracking-widest text-accent">About Our Platform</span>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Platform Mission & Research Integrity</h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+        BrainBenchmarks was created to provide high-precision, accessible, and scientifically grounded cognitive assessment telemetry.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm text-zinc-650 dark:text-zinc-400 leading-relaxed">
+      <article class="flex flex-col gap-3">
+        <h2 class="text-lg font-bold text-foreground">1. Core Design Values</h2>
+        <p>
+          We build for local-first privacy, sub-millisecond paint sync alignment, and complete research transparency. We explicitly reject intrusive ads that trigger layout shifts (CLS) to preserve timing accuracy and provide professional-grade performance logs.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2 class="text-lg font-bold text-foreground">2. Scientific Methodological Rigor</h2>
+        <p>
+          Our cognitive measurement models map standard psychological frameworks (such as Hick's Law for choice reaction and Miller's Law for working memory span capacity). All demographic percentile curves are derived from peer-reviewed cognitive science datasets.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2 class="text-lg font-bold text-foreground">3. Local-First Architecture</h2>
+        <p>
+          We believe you own your cognitive data. Your performance logs are stored securely in your browser's local cache (IndexedDB). No personal metrics are uploaded to cloud servers unless you explicitly configure the optional edge-sync backup engine.
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

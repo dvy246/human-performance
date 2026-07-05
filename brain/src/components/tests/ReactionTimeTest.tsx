@@ -3,6 +3,7 @@ import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibr
 import { dataLayer, type SessionRecord } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import percentilesData from '../../data/percentiles.json';
+import SocialShare from '../ui/SocialShare';
 
 type GameState = 'idle' | 'calibration' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -237,9 +238,9 @@ export default function ReactionTimeTest() {
       {/* Target Challenge Display */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
-          <div class="flex items-center gap-2 text-zinc-300">
+          <div className="flex items-center gap-2 text-zinc-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" className="text-accent"><path d="M6 12 10 16 18 8"/></svg>
-            <span>Active Challenge: Beat your friend's score of <strong class="text-white font-mono">{challengeScore} ms</strong>!</span>
+            <span>Active Challenge: Beat your friend's score of <strong className="text-white font-mono">{challengeScore} ms</strong>!</span>
           </div>
           <button 
             onClick={() => setChallengeScore(null)} 
@@ -261,7 +262,7 @@ export default function ReactionTimeTest() {
             ? 'bg-emerald-600/90 text-white shadow-emerald-950/20 shadow-2xl border border-emerald-500' 
             : gameState === 'abort'
             ? 'bg-rose-950/40 text-rose-200 border border-rose-900/50'
-            : 'bg-card text-zinc-400 border border-card-border hover:border-zinc-800'
+            : 'bg-card text-foreground/80 border border-card-border hover:border-zinc-400 dark:hover:border-zinc-800'
         }`}
       >
         {gameState === 'idle' && (
@@ -270,8 +271,8 @@ export default function ReactionTimeTest() {
               ⚡
             </div>
             <div>
-              <h2 className="text-2xl font-bold text-white tracking-tight mb-2">Reaction Time Test</h2>
-              <p className="text-zinc-400 text-sm max-w-sm mb-6">
+              <h2 className="text-2xl font-bold text-foreground tracking-tight mb-2">Reaction Time Test</h2>
+              <p className="text-zinc-550 dark:text-zinc-400 text-sm max-w-sm mb-6">
                 When the red screen turns green, click as fast as you can.
               </p>
             </div>
@@ -300,8 +301,8 @@ export default function ReactionTimeTest() {
         {gameState === 'attempt-result' && (
           <div className="flex flex-col items-center gap-4">
             <span className="text-zinc-500 text-xs uppercase font-mono">Attempt {attempts.length} Finished</span>
-            <div className="text-5xl font-mono font-bold text-white">{currentScore} ms</div>
-            <p className="text-zinc-400 text-sm max-w-sm mb-4">
+            <div className="text-5xl font-mono font-bold text-foreground">{currentScore} ms</div>
+            <p className="text-zinc-550 dark:text-zinc-400 text-sm max-w-sm mb-4">
               Click anywhere to proceed to attempt {attempts.length + 1} of 5.
             </p>
           </div>
@@ -310,8 +311,8 @@ export default function ReactionTimeTest() {
         {gameState === 'abort' && (
           <div className="flex flex-col items-center gap-4">
             <span className="text-rose-500 text-2xl">⚠️</span>
-            <h2 className="text-2xl font-bold text-white">Too Early!</h2>
-            <p className="text-zinc-400 text-sm max-w-sm mb-4">
+            <h2 className="text-2xl font-bold text-foreground">Too Early!</h2>
+            <p className="text-zinc-550 dark:text-zinc-400 text-sm max-w-sm mb-4">
               You clicked before the screen turned green. Clicks are reset.
             </p>
             <span className="text-xs uppercase font-mono text-zinc-500">Click to restart</span>
@@ -322,7 +323,7 @@ export default function ReactionTimeTest() {
           <div className="w-full flex flex-col items-center gap-6 py-4">
             <div className="flex flex-col items-center gap-1">
               <span className="text-zinc-500 text-xs uppercase font-mono">Final Average Score</span>
-              <div className="text-5xl font-mono font-extrabold text-white tracking-tight">
+              <div className="text-5xl font-mono font-extrabold text-foreground tracking-tight">
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
               </div>
               <span className="text-accent text-sm font-medium">
@@ -339,15 +340,15 @@ export default function ReactionTimeTest() {
             <div className="grid grid-cols-3 gap-8 w-full max-w-md text-center">
               <div>
                 <div className="text-zinc-500 text-[10px] uppercase font-mono">Personal Best</div>
-                <div className="text-white font-mono font-medium">{personalBest ? `${personalBest} ms` : '--'}</div>
+                <div className="text-foreground font-mono font-medium">{personalBest ? `${personalBest} ms` : '--'}</div>
               </div>
               <div>
                 <div className="text-zinc-500 text-[10px] uppercase font-mono">Calibration</div>
-                <div className="text-white font-mono font-medium">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
+                <div className="text-foreground font-mono font-medium">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
               </div>
               <div>
                 <div className="text-zinc-500 text-[10px] uppercase font-mono">Attempts</div>
-                <div className="text-white font-mono text-xs gap-1 flex justify-center">
+                <div className="text-foreground font-mono text-xs gap-1 flex justify-center">
                   {attempts.map((a, idx) => (
                     <span key={idx} className="opacity-80">{a}</span>
                   ))}
@@ -362,7 +363,7 @@ export default function ReactionTimeTest() {
 
       {/* Action buttons footer for Result screen */}
       {gameState === 'result' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-4">
           {shareImage && (
             <a
               href={shareImage}
@@ -374,13 +375,12 @@ export default function ReactionTimeTest() {
             </a>
           )}
           
-          <button
-            onClick={copyChallengeLink}
-            className="flex items-center justify-center gap-2 rounded-md bg-zinc-900 border border-zinc-800 text-zinc-200 hover:bg-zinc-800 hover:text-white h-10 text-sm active:scale-[0.98] transition-standard"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            <span>{copiedChallenge ? 'Link Copied!' : 'Challenge a Friend'}</span>
-          </button>
+          <SocialShare 
+            testId="reaction-time" 
+            score={average} 
+            scoreLabel={`${average} ms`} 
+            testName="Visual Reaction Test" 
+          />
         </div>
       )}
 
