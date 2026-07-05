@@ -1,0 +1,151 @@
+---
+import "@/styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonicalUrl?: string;
+  schemaJson?: Record<string, any>;
+}
+
+const {
+  title = "BrainBenchmarks — Measure. Understand. Improve.",
+  description = "Benchmark your reaction time, cognitive endurance, memory, and precision speed. Track improvements and challenge your friends.",
+  canonicalUrl = "https://brainbenchmarks.com",
+  schemaJson,
+} = Astro.props;
+
+// Default structured data for the site
+const defaultSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "BrainBenchmarks",
+  "operatingSystem": "All",
+  "applicationCategory": "CognitiveAssessment",
+  "browserRequirements": "Requires HTML5, requestAnimationFrame, performance.now",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  }
+};
+
+const finalSchema = schemaJson || defaultSchema;
+---
+
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="canonical" href={canonicalUrl} />
+    <title>{title}</title>
+    
+    <!-- Meta tags for SEO -->
+    <meta name="description" content={description} />
+    <meta name="robots" content="index, follow" />
+    
+    <!-- Open Graph tags for Social Sharing -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:site_name" content="BrainBenchmarks" />
+    <meta property="og:image" content="https://brainbenchmarks.com/og-image.png" />
+    
+    <!-- Twitter card tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(finalSchema)} />
+
+    <!-- Google AdSense script placeholder (lazy loaded below fold / CLS-safe) -->
+    <script is:inline>
+      window.addEventListener('load', () => {
+        // Only load heavy ads script after page load to preserve initial metrics
+        setTimeout(() => {
+          const script = document.createElement('script');
+          script.async = true;
+          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-placeholder";
+          script.crossOrigin = "anonymous";
+          document.head.appendChild(script);
+        }, 1500);
+      });
+    </script>
+  </head>
+  <body class="bg-background text-foreground min-h-screen flex flex-col lg:flex-row antialiased">
+    <!-- AdSense Top Reserved Banner: Fixed Height, CLS-safe -->
+    <div class="w-full h-12 bg-card/40 border-b border-card-border flex items-center justify-center text-xs text-muted-foreground/30 select-none overflow-hidden shrink-0">
+      <div id="ad-header-slot" class="w-full max-w-[728px] h-full flex items-center justify-center">
+        <!-- Google AdSense Unit (Placeholder) -->
+        <span>Advertisements</span>
+      </div>
+    </div>
+
+    <div class="flex flex-1 flex-col lg:flex-row min-h-[calc(100vh-48px)]">
+      <!-- Desktop Sidebar Layout -->
+      <aside class="hidden lg:flex flex-col w-64 border-r border-card-border bg-[#050505] shrink-0 p-6 gap-8">
+        <div class="flex flex-col gap-2">
+          <a href="/" class="flex items-center gap-2 hover:opacity-90 transition-opacity">
+            <span class="w-6 h-6 rounded bg-accent flex items-center justify-center text-black font-bold text-sm tracking-tighter">B</span>
+            <span class="font-bold text-lg tracking-tight">BrainBenchmarks</span>
+          </a>
+          <span class="text-[10px] text-zinc-500 uppercase tracking-widest px-1">Measure. Understand. Improve.</span>
+        </div>
+
+        <nav class="flex flex-col gap-1 flex-1">
+          <span class="text-[10px] font-medium text-zinc-600 uppercase tracking-widest px-2 mb-2">Ecosystem</span>
+          <a href="/" class="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-zinc-900/50 transition-standard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            <span>Home Overview</span>
+          </a>
+          
+          <a href="/tests/reaction-time" class="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-zinc-900/50 transition-standard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            <span>Reaction Time Test</span>
+          </a>
+
+          <a href="/dashboard" class="flex items-center gap-3 px-3 py-2 rounded-md text-sm text-zinc-400 hover:text-white hover:bg-zinc-900/50 transition-standard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+            <span>Brain Profile</span>
+          </a>
+        </nav>
+
+        <div class="flex flex-col gap-3 pt-6 border-t border-card-border text-[11px] text-zinc-600">
+          <div class="flex items-center justify-between">
+            <span>Server Calibration</span>
+            <span class="text-accent">Online</span>
+          </div>
+          <div class="flex gap-2">
+            <a href="/privacy" class="hover:text-zinc-400 transition-colors">Privacy</a>
+            <span>&middot;</span>
+            <a href="/terms" class="hover:text-zinc-400 transition-colors">Terms</a>
+          </div>
+        </div>
+      </aside>
+
+      <!-- Main Layout Body Content Area -->
+      <main class="flex-1 flex flex-col p-4 md:p-8 lg:p-12 pb-24 lg:pb-12 max-w-6xl mx-auto w-full overflow-hidden">
+        <slot />
+      </main>
+    </div>
+
+    <!-- Mobile Bottom Navigation Bar -->
+    <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-[#050505]/95 backdrop-blur border-t border-card-border flex items-center justify-around z-50 px-4">
+      <a href="/" class="flex flex-col items-center gap-1 text-[10px] text-zinc-400 hover:text-white transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span>Home</span>
+      </a>
+      <a href="/tests/reaction-time" class="flex flex-col items-center gap-1 text-[10px] text-zinc-400 hover:text-white transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <span>Reaction</span>
+      </a>
+      <a href="/dashboard" class="flex flex-col items-center gap-1 text-[10px] text-zinc-400 hover:text-white transition-colors">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
+        <span>Profile</span>
+      </a>
+    </nav>
+  </body>
+</html>

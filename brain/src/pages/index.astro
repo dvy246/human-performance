@@ -1,0 +1,150 @@
+---
+import Layout from "@/layouts/main.astro";
+import { Button } from "@/components/ui/button";
+
+const title = "BrainBenchmarks — Measure. Understand. Improve. | Cognitive Reflext Assessments";
+const description = "BrainBenchmarks is a high-performance cognitive assessment suite. Measure raw reaction speed, memory, focus, and precision against global averages. 100% anonymous & local.";
+---
+
+<Layout title={title} description={description}>
+  <div class="flex flex-col gap-16 py-4">
+    <!-- Hero Block -->
+    <header class="flex flex-col items-center text-center gap-6 max-w-2xl mx-auto py-8">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/15 text-[11px] font-mono uppercase text-accent tracking-wider">
+        <span>⚡ Phase 1 Foundation Live</span>
+      </div>
+      <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white leading-none">
+        Measure. Understand. <span class="text-accent">Improve.</span>
+      </h1>
+      <p class="text-zinc-400 text-sm md:text-base leading-relaxed">
+        Evaluate your neural performance using millisecond-accurate browser assessments. Review population percentile graphs, track daily progress local-first, and challenge friends.
+      </p>
+      <div class="flex gap-4 mt-2">
+        <a href="/tests/reaction-time">
+          <Button variant="primary">Start Reaction Assessment</Button>
+        </a>
+        <a href="#suite">
+          <Button variant="secondary">View Ecosystem</Button>
+        </a>
+      </div>
+    </header>
+
+    <!-- Cognitive Profile Showcase Lock Panel -->
+    <section class="w-full max-w-4xl mx-auto p-6 md:p-8 rounded-xl bg-card border border-card-border flex flex-col md:flex-row gap-8 items-center relative overflow-hidden">
+      {/* Background Glow */}
+      <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
+
+      {/* Profile Hexagon Mockup */}
+      <div class="w-full md:w-1/2 flex justify-center shrink-0 relative py-4">
+        <svg viewBox="0 0 200 200" class="w-48 h-48 opacity-25">
+          {/* Hexagon axes */}
+          <polygon points="100,20 180,66 180,154 100,180 20,154 20,66" fill="none" stroke="#27272a" stroke-width="2" />
+          <polygon points="100,50 160,84 160,136 100,150 40,136 40,84" fill="none" stroke="#27272a" stroke-width="1.5" stroke-dasharray="2,2" />
+          
+          {/* Axis Labels */}
+          <text x="100" y="12" fill="#71717a" font-size="8" font-family="monospace" text-anchor="middle">REACTION</text>
+          <text x="190" y="66" fill="#71717a" font-size="8" font-family="monospace" text-anchor="start">MEMORY</text>
+          <text x="190" y="158" fill="#71717a" font-size="8" font-family="monospace" text-anchor="start">PRECISION</text>
+          <text x="100" y="194" fill="#71717a" font-size="8" font-family="monospace" text-anchor="middle">TYPING</text>
+          <text x="10" y="158" fill="#71717a" font-size="8" font-family="monospace" text-anchor="end">FOCUS</text>
+          <text x="10" y="66" fill="#71717a" font-size="8" font-family="monospace" text-anchor="end">REASONING</text>
+        </svg>
+        
+        {/* Lock Overlay */}
+        <div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
+          <span class="text-2xl">🔒</span>
+          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Profile Locked</span>
+        </div>
+      </div>
+
+      {/* Info Block */}
+      <div class="flex flex-col gap-4 flex-1">
+        <span class="text-[10px] font-mono uppercase text-accent tracking-widest">Flagship Feature</span>
+        <h2 class="text-xl font-bold text-white tracking-tight">The Cognitive Profile</h2>
+        <p class="text-zinc-400 text-sm leading-relaxed">
+          Unlock your hexagonal skill radar and track changes in cognitive speed, working memory, spatial reasoning, typing efficiency, focus retention, and target control. 
+        </p>
+        <p class="text-zinc-500 text-xs leading-relaxed font-mono">
+          *Requires completing at least one assessment. All calculations are executed securely inside your browser local-first.
+        </p>
+      </div>
+    </section>
+
+    <!-- Assessment Suite Grid -->
+    <section id="suite" class="flex flex-col gap-8">
+      <div class="flex flex-col gap-2">
+        <h2 class="text-2xl font-bold text-white tracking-tight">Assessment Suite</h2>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Phase 1 Target Roadmap</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        
+        <!-- Active: Reaction Time Test -->
+        <div class="p-6 rounded-xl bg-card border border-card-border hover:border-zinc-800 transition-standard flex flex-col justify-between gap-6 glow-amber">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Playable</span>
+              <span class="text-xs font-mono text-zinc-600">RT-001</span>
+            </div>
+            <h3 class="text-lg font-bold text-white">Reaction Time Test</h3>
+            <p class="text-zinc-400 text-sm leading-relaxed">
+              Test your raw physical reflexes against visual triggers. Calibrate input delay, monitor refresh rate, and view population distributions.
+            </p>
+          </div>
+          <a href="/tests/reaction-time">
+            <Button variant="secondary" className="w-full justify-between group">
+              <span>Start Assessment</span>
+              <span class="group-hover:translate-x-1 transition-transform">⚡</span>
+            </Button>
+          </a>
+        </div>
+
+        <!-- Locked: Click Speed (CPS) -->
+        <div class="p-6 rounded-xl bg-[#050505] border border-card-border/50 opacity-60 flex flex-col justify-between gap-6">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest px-2 py-0.5 rounded bg-zinc-900/20 border border-zinc-800/30">Locked</span>
+              <span class="text-xs font-mono text-zinc-600">CPS-002</span>
+            </div>
+            <h3 class="text-lg font-bold text-zinc-300">Click Speed Test (CPS)</h3>
+            <p class="text-zinc-500 text-sm leading-relaxed">
+              Measure your clicks-per-second motor endurance. Train muscle memory and jitters over 1s, 5s, and 10s intervals.
+            </p>
+          </div>
+          <Button variant="ghost" disabled className="w-full">Coming Soon</Button>
+        </div>
+
+        <!-- Locked: Sequence Memory -->
+        <div class="p-6 rounded-xl bg-[#050505] border border-card-border/50 opacity-60 flex flex-col justify-between gap-6">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest px-2 py-0.5 rounded bg-zinc-900/20 border border-zinc-800/30">Locked</span>
+              <span class="text-xs font-mono text-zinc-600">MEM-003</span>
+            </div>
+            <h3 class="text-lg font-bold text-zinc-300">Sequence Memory Test</h3>
+            <p class="text-zinc-500 text-sm leading-relaxed">
+              Assess your spatial working memory capacity. Memorize and repeat an expanding pattern of grid flashes.
+            </p>
+          </div>
+          <Button variant="ghost" disabled className="w-full">Coming Soon</Button>
+        </div>
+
+        <!-- Locked: Aim Trainer -->
+        <div class="p-6 rounded-xl bg-[#050505] border border-card-border/50 opacity-60 flex flex-col justify-between gap-6">
+          <div class="flex flex-col gap-3">
+            <div class="flex justify-between items-start">
+              <span class="text-[10px] font-mono text-zinc-600 uppercase tracking-widest px-2 py-0.5 rounded bg-zinc-900/20 border border-zinc-800/30">Locked</span>
+              <span class="text-xs font-mono text-zinc-600">AIM-004</span>
+            </div>
+            <h3 class="text-lg font-bold text-zinc-300">Aim Trainer</h3>
+            <p class="text-zinc-500 text-sm leading-relaxed">
+              Evaluate visual precision and coordination. Hit random shrinking targets as fast and accurately as possible.
+            </p>
+          </div>
+          <Button variant="ghost" disabled className="w-full">Coming Soon</Button>
+        </div>
+
+      </div>
+    </section>
+  </div>
+</Layout>

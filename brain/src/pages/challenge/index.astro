@@ -1,0 +1,50 @@
+---
+import Layout from "@/layouts/main.astro";
+---
+
+<Layout title="Resolving Challenge | BrainBenchmarks">
+  <div class="flex flex-col items-center justify-center min-h-[300px] gap-6 text-center">
+    <div class="w-8 h-8 rounded-full border-2 border-zinc-800 border-t-accent animate-spin"></div>
+    <div class="flex flex-col gap-1">
+      <h2 class="text-white font-medium text-sm">Decoding Challenge Link</h2>
+      <p class="text-zinc-500 font-mono text-xs">Preparing test canvas and benchmarks...</p>
+    </div>
+  </div>
+
+  <script>
+    import { decodeChallenge } from "@/runtime/share";
+
+    // Read token from URL (query param 'id', location hash, or trailing pathname)
+    const getHashToken = () => {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get('id')) return params.get('id');
+      
+      if (window.location.hash) return window.location.hash.substring(1);
+
+      // Trailing path name: e.g. /challenge/abc123 -> ["challenge", "abc123"]
+      const paths = window.location.pathname.split('/').filter(Boolean);
+      if (paths.length > 1 && paths[0] === 'challenge') {
+        return paths[1];
+      }
+      
+      return null;
+    };
+
+    const token = getHashToken();
+    if (token) {
+      const payload = decodeChallenge(token);
+      if (payload && payload.testId) {
+        // Map to correct route
+        // Reaction-time is standard, check for testId naming
+        let route = payload.testId;
+        if (route === 'reaction') route = 'reaction-time'; // normalize
+        
+        window.location.href = `/tests/${route}/?challenge=${token}`;
+      } else {
+        window.location.href = "/";
+      }
+    } else {
+      window.location.href = "/";
+    }
+  </script>
+</Layout>
