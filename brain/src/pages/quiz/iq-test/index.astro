@@ -1,0 +1,40 @@
+---
+import Layout from "@/layouts/main.astro";
+import IQTest from "@/components/quiz/IQTest";
+
+const title = "Free IQ Test — 20 Questions, 4 Domains | CogniArena";
+const description = "Take our free research-backed IQ test. 20 questions across numerical, verbal, spatial, and logical reasoning. Instant browser-scored results with domain breakdown and percentile ranking.";
+const canonicalUrl = "https://cogniarena.com/quiz/iq-test";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "CogniArena Free IQ Test",
+  "description": "A 20-question cognitive ability assessment covering numerical, verbal, spatial, and logical reasoning domains, inspired by the ICAR framework.",
+  "about": { "@type": "Thing", "name": "Intelligence Quotient" },
+  "educationalAlignment": {
+    "@type": "AlignmentObject",
+    "alignmentType": "educationalRequirement",
+    "educationalFramework": "Cognitive Science"
+  }
+};
+---
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-6 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Quizzes</span>
+        <span>&middot;</span>
+        <span>IQ Test</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Free IQ Test</h1>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        Assess your cognitive abilities across four domains. 20 questions, no time limit, instant results.
+      </p>
+    </header>
+    <section class="w-full"><IQTest client:visible /></section>
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
+      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This quiz is for self-educational and entertainment purposes only. Not a clinical or diagnostic evaluation. IQ scores are estimates based on a 20-question sample.
+    </div>
+  </div>
+</Layout>

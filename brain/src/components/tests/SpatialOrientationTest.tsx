@@ -4,7 +4,7 @@ import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 
 const TOTAL = 12;
-const ANGLES = [30, 60, 90, 120, 150, 180];
+const ANGLES = [90, 180, 270];
 const PATTERNS = [
   [[1, 0, 1], [0, 1, 0], [1, 0, 1]],
   [[1, 1, 0], [0, 1, 0], [0, 1, 1]],

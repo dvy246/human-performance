@@ -35,11 +35,11 @@ export const PERSONAS: Record<keyof CognitiveAverages, Persona> = {
   memory: {
     title: 'Pattern Hunter',
     desc: 'Visuospatial Chunking Planner',
-    explanation: 'You group sequence coordinates and structural matrices into spatial memory blocks, bypassing passive short-term recall decay limits.'
+    explanation: 'You group sequence coordinates and structural matrices into spatial memory blocks, recalling longer sequences by organizing items into meaningful chunks.'
   },
   processing: {
     title: 'Choice Strategist',
-    desc: 'Hick\'s Law Decision Optimizer',
+    desc: 'Fast Choice Strategist',
     explanation: 'You maintain fast visual choice-decision paths. When faced with multiple choices, you resolve selection paths cleanly.'
   },
   precision: {

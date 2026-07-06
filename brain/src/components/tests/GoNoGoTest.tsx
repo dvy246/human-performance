@@ -255,7 +255,7 @@ export default function GoNoGoTest() {
           <div className="flex flex-col items-center gap-3">
             <span className="text-2xl">🟢</span>
             <h2 className="text-lg font-bold text-foreground tracking-tight">Go/No-Go Color Test</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
+            <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
               Click the screen <strong className="text-emerald-400">ONLY when GREEN</strong> appears. 
               If other colors flash (Red, Blue, Purple, Yellow), suppress your click and wait. 
               False clicks or misses carry a <strong className="text-rose-400">+250ms penalty</strong>!
@@ -303,7 +303,7 @@ export default function GoNoGoTest() {
           <div className="flex flex-col items-center gap-3">
             <span className="text-rose-500 text-2xl">⚠️</span>
             <h2 className="text-lg font-bold text-foreground">Early Click!</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-xs">
+            <p className="text-zinc-500 dark:text-zinc-400 text-xs">
               You clicked before a color flashed.
             </p>
             <span className="text-xs uppercase font-mono text-zinc-500 mt-2">Click card to restart</span>
@@ -337,7 +337,7 @@ export default function GoNoGoTest() {
               </div>
             </div>
 
-            <span className="text-xs uppercase font-mono text-zinc-650 mt-2">Click card to try again</span>
+            <span className="text-xs uppercase font-mono text-zinc-500 mt-2">Click card to try again</span>
           </div>
         )}
       </div>

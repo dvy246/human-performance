@@ -36,6 +36,7 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const distractorIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
   const isErrorRef = useRef(false);
+  const completedRef = useRef(false);
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(clearTimeout);
@@ -151,6 +152,8 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
         if (levelRef.current >= MAX_LEVEL) {
           finishGame();
         } else {
+          if (completedRef.current) return;
+          completedRef.current = true;
           setPhase('done');
           const score = Math.max(0, Math.min(100, Math.round((reached / MAX_LEVEL) * 100)));
           onComplete({
@@ -168,6 +171,8 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
       clearTimers();
       const nextLvl = levelRef.current + 1;
       if (nextLvl > MAX_LEVEL) {
+        if (completedRef.current) return;
+        completedRef.current = true;
         setPhase('done');
         maxLevelRef.current = MAX_LEVEL;
         setMaxLevelReached(MAX_LEVEL);
@@ -190,6 +195,8 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
   }, [phase, onComplete, st, clearTimers, startLevel]);
 
   const finishGame = useCallback(() => {
+    if (completedRef.current) return;
+    completedRef.current = true;
     setPhase('done');
     const score = Math.max(0, Math.min(100, Math.round((maxLevelRef.current / MAX_LEVEL) * 100)));
     onComplete({
@@ -203,6 +210,8 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
   const startPlaying = useCallback(() => {
     levelRef.current = 1;
     maxLevelRef.current = 0;
+    completedRef.current = false;
+    isErrorRef.current = false;
     setLevel(1);
     setMaxLevelReached(0);
     startLevel(1);

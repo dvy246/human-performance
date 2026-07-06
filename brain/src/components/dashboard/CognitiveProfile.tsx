@@ -134,7 +134,7 @@ export default function CognitiveProfile() {
 
     return {
       percentile: adjustedPercentile.toFixed(1),
-      text: `Illustrative Estimate: your performance adjusted ranking is approximately in the Top ${adjustedPercentile.toFixed(1)}% of all ${demographicProfession}s in the ${demographicAge} age bracket residing in ${demographicState} (extrapolated relative to standard motor-cognitive distributions).`,
+      text: `Illustrative Estimate: your performance adjusted ranking is approximately in the Top ${adjustedPercentile.toFixed(1)}% of all ${demographicProfession}s in the ${demographicAge} age bracket residing in ${demographicState}.`,
     };
   };
 
@@ -484,7 +484,7 @@ export default function CognitiveProfile() {
           </div>
 
           {/* Visible scientific/medical disclaimer alert in same viewport */}
-          <div className="bg-subtle border border-card-border p-4 rounded-xl text-xs text-zinc-550 dark:text-zinc-400 flex items-start gap-3 leading-relaxed shadow-sm">
+          <div className="bg-subtle border border-card-border p-4 rounded-xl text-xs text-zinc-500 dark:text-zinc-400 flex items-start gap-3 leading-relaxed shadow-sm">
             <span className="text-lg leading-none select-none">⚠️</span>
             <div>
               <strong className="text-foreground font-semibold">Disclaimer & Scope Note:</strong>{' '}
@@ -638,7 +638,7 @@ export default function CognitiveProfile() {
                   <div className="flex flex-col gap-3">
                     {getRecommendations().map((rec, i) => (
                       <div key={i} className="flex justify-between items-center text-xs py-2 border-b border-card-border/40 last:border-0">
-                        <span className="text-zinc-650 dark:text-zinc-300">{rec.text}</span>
+                        <span className="text-zinc-500 dark:text-zinc-300">{rec.text}</span>
                         <a 
                           href={rec.link}
                           className="text-accent hover:underline font-mono uppercase text-[10px] shrink-0 ml-3"
@@ -654,7 +654,7 @@ export default function CognitiveProfile() {
                   <div className="flex flex-col gap-1">
                     <span className="text-xs font-mono uppercase tracking-widest text-zinc-500">US Demographic Benchmark</span>
                     <h4 className="text-sm font-bold text-foreground">National Cognitive Comparison Engine</h4>
-                    <p className="text-zinc-550 dark:text-zinc-400 text-xs leading-normal">
+                    <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-normal">
                       Compare your composite CAI scores against US Census demographics, professional benchmarks, and state-level cognitive norms.
                     </p>
                   </div>
@@ -713,7 +713,7 @@ export default function CognitiveProfile() {
                   {getDemographicComparison() && (
                     <div className="p-3.5 bg-accent/5 border border-accent/20 rounded-lg flex flex-col gap-2 mt-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono text-zinc-550 dark:text-zinc-400">Demographic Rank:</span>
+                        <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">Demographic Rank:</span>
                         <span className="text-sm font-bold text-accent">Top {getDemographicComparison()?.percentile}%</span>
                       </div>
                       <p className="text-[11px] leading-relaxed text-foreground font-mono">
@@ -876,7 +876,7 @@ export default function CognitiveProfile() {
                           {row.synced ? (
                             <span className="text-emerald-400" title="Edge Backup Active">✓</span>
                           ) : (
-                            <span className="text-zinc-650" title="Local Cache Only">◷</span>
+                            <span className="text-zinc-500" title="Local Cache Only">◷</span>
                           )}
                         </td>
                       </tr>
@@ -892,7 +892,7 @@ export default function CognitiveProfile() {
             <div className="rounded-xl border border-card-border bg-card p-6 shadow-lg flex flex-col gap-6">
               <div>
                 <h3 className="text-sm font-bold text-foreground uppercase font-mono tracking-wider">Achievements Trophy Room</h3>
-                <p className="text-zinc-550 dark:text-zinc-400 text-xs mt-1">Unlock professional badges by hitting cognitive milestones.</p>
+                <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-1">Unlock professional badges by hitting cognitive milestones.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -912,7 +912,7 @@ export default function CognitiveProfile() {
                       </div>
                       <div className="flex flex-col gap-0.5">
                         <span className={`text-sm font-bold ${unlocked ? 'text-foreground font-semibold' : 'text-zinc-500 dark:text-zinc-400'}`}>{ach.title}</span>
-                        <span className="text-[11px] text-zinc-500 dark:text-zinc-450">{ach.desc}</span>
+                        <span className="text-[11px] text-zinc-500 dark:text-zinc-400">{ach.desc}</span>
                       </div>
                     </div>
                   );
@@ -925,7 +925,7 @@ export default function CognitiveProfile() {
             <div className="rounded-xl border border-card-border bg-card p-6 shadow-lg flex flex-col gap-6">
               <div>
                 <h3 className="text-sm font-bold text-foreground uppercase font-mono tracking-wider">Hardware & Browser Diagnostics</h3>
-                <p className="text-zinc-550 dark:text-zinc-400 text-xs mt-1">Telemetry parameters measuring measurement fidelity.</p>
+                <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-1">Telemetry parameters measuring measurement fidelity.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">

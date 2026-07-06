@@ -246,7 +246,7 @@ export default function DualNBackTest() {
           </div>
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">Dual N-Back Memory</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
               The gold standard for visual-auditory working memory training.
               Compare the **current grid position** and **spoken letter** to those shown **N steps back**.
             </p>
@@ -346,7 +346,7 @@ export default function DualNBackTest() {
             ✓
           </div>
           <div>
-            <span className="text-zinc-550 text-xs font-mono uppercase tracking-widest">
+            <span className="text-zinc-500 text-xs font-mono uppercase tracking-widest">
               Dual {n}-Back Result
             </span>
             <h2 className="text-4xl font-extrabold tracking-tight text-foreground mt-1">

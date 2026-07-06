@@ -46,56 +46,6 @@ Output: BBI score, archetype, per-category breakdown, share card
 
 The gauntlet reuses existing test logic (reaction, sequence memory, stroop, pattern reasoning, aim trainer) but runs them sequentially in one session with a unified results page.
 
-### Onboarding Funnel
-
-Instead of asking new users "choose a test," the homepage funnels them:
-
-```
-Homepage
-  ↓
-"The BrainBenchmarks Challenge" — CTA
-  ↓
-Gauntlet (5-min multi-test)
-  ↓
-Brain Profile + BBI Score + Archetype
-  ↓
-Dashboard unlocked → Recommendations → Share card
-```
-
-This creates a clear user journey and a recognizable flagship experience.
-
----
-
-## 2b. User Retention Loop
-
-**Problem**: Users take the Gauntlet once, get their profile, and leave.
-
-**Solution**: A recurring content cycle that answers "why should I come back?":
-
-| Frequency | Feature | Data Source | Effort |
-|---|---|---|---|
-| Daily | **Today's Challenge** — fixed daily test+target combo | `trainingEngine.ts` already generates this | Already built |
-| Daily | **Streak counter** — consecutive days with a completed test | `dataLayer.ts` tracks `lastActiveDate` | Already built |
-| Weekly | **Weekly Brain Report** — auto-generated summary: sessions logged, streak status, biggest improvement, weakest skill | IndexedDB aggregate + `skillRadar.ts` | ~4h (new Dashboard card + notification) |
-| Monthly | **Monthly Performance Review** — trend lines, skill evolution, personal bests updated, recommended focus for next month | Same data source | ~6h (reuses Weekly template with longer time window) |
-
-**Phase 0/1 delivers**: Daily challenge + streak (already built). Weekly Report card on Dashboard.
-**Phase 2 delivers**: Monthly Review as a dedicated page with exportable PDF.
-
----
-
-## 2c. Traffic & Distribution Channels
-
-The plan's original assumption was SEO → Traffic → Revenue. Diversification reduces risk:
-
-| Channel | Mechanic | Effort | Impact |
-|---|---|---|---|
-| **SEO** (primary) | Learning Center pillars + glossary + comparison pages + FAQ schema | Phase 2 | HIGH — sustained organic growth |
-| **Discord/Reddit** | Share cards + challenge links: users post results, others try to beat them | Phase 0 (already built) | HIGH — viral loop |
-| **Twitter/X** | Share cards auto-generated with score + percentile + challenge URL | Phase 0 (already built) | MEDIUM — influencers |
-| **YouTube Shorts / TikTok** | Creators record gauntlet runs, share challenge links. Add "Streamer Mode" (fullscreen, minimal UI, OBS-friendly) in Phase 3 | Phase 3 candidate | HIGH — creator-driven |
-| **Direct / Bookmark** | Typing test, reaction test users bookmark the site and return | Phase 0 (already works) | MEDIUM — compounding |
-
 ---
 
 ## 3. Execution Phases
@@ -111,8 +61,6 @@ The plan's original assumption was SEO → Traffic → Revenue. Diversification 
 | 0.3 | **Write scoring unit tests**: Each of 8 core launch tests (Reaction, Choice Reaction, F1 Lights, Sound Reaction, CPS, Aim Trainer, Sequence Memory, Stroop) gets `*.test.ts` with known-input → expected-output | `src/components/tests/*.test.ts` (8 new files) | `npx vitest run` passes all tests. Each scoring function tested against 5+ known inputs. |
 | 0.4 | **Verify all 14 tests work**: Manual QA pass — play each test on desktop + mobile, verify score saves to IndexedDB, verify dashboard reflects it | All test pages | Every test completes without console errors. Scores persist to localStorage. |
 | 0.5 | **Run Lighthouse on 8 launch test pages + homepage + dashboard**: Fix below-threshold items | CSS/JS optimization | All pages ≥90 Performance, ≥95 Accessibility, 100 SEO (hard floor per PLAN.md §13.1) |
-| 0.6 | **Promote browser calibration**: Move calibration result (refresh rate, device type, input method) to a visible top-of-page banner on every test page. Already built in `calibration.ts` — just needs UI placement. | All test pages | Every test page shows hardware context. Users see "144Hz — ~6.9ms expected lag" before testing. |
-| 0.7 | **Reframe Dashboard → Performance HQ**: Reorganize the Dashboard layout to answer 5 questions: (1) How am I improving? (2) What should I practice? (3) Where am I weak? (4) What changed? (5) What should I do next? Existing data (BBI, radar, recommendations, timeline) covers all 5 — just needs layout/copy changes. | `CognitiveProfile.tsx` + `dashboard/index.astro` | Dashboard answers all 5 questions without requiring a second click. |
 
 ### Phase 1 — Flagship + E-E-A-T (Week 2-3, ~8 days)
 
@@ -124,7 +72,7 @@ The plan's original assumption was SEO → Traffic → Revenue. Diversification 
 | 1.2 | **Add real E-E-A-T signal**: Create `/about/` with real author bio + credential. Add byline component ("Written by [name], [credential]") to methodology page and every test page. | HIGH — AdSense/trust requirement | `src/pages/about/index.astro` updated. New byline Astro component. All test pages + methodology page show byline. | Every benchmark-carrying page has a named author with one-line credential. No placeholder or fabricated names. |
 | 1.3 | **Add hardware factor content blocks**: "What affects your measured score" section on every test page (PLAN.md §9.5 template requirement) | MEDIUM — unique content, thin-content guardrail | Per-test hardware factors: refresh rate, input latency, DPI, keyboard type, headphone latency, etc. | Every test page has a unique content block not duplicated on any other page. |
 | 1.4 | **Add FAQPage JSON-LD schema with real PAA data to every test page**: 3-5 Q&A pairs per test, sourced from actual "People Also Ask" / autocomplete data | HIGH — rich snippet eligibility | Schema injected via layout or per-page frontmatter | Google Rich Results Test validates all FAQ schemas. |
-| 1.5 | **Add Weekly Brain Report card to Dashboard**: Auto-generated summary of sessions, streak, biggest improvement, weakest skill. All data already in IndexedDB. | HIGH — retention | New Dashboard card. ~4h. | Weekly Report renders for users with 3+ sessions in the past 7 days. |
+| 1.5 | **Add Google Analytics 4**: Basic pageview tracking + test completion events | MEDIUM — analytics requirement | GA4 snippet in layout head. Events: `test_start`, `test_complete`, `gauntlet_complete`. | Real-time GA4 dashboard shows pageviews and events. |
 
 ### Phase 2 — Content Depth (Week 3-4, ~7 days)
 
@@ -132,12 +80,10 @@ The plan's original assumption was SEO → Traffic → Revenue. Diversification 
 
 | # | Task | Detail | Content Bar |
 |---|---|---|---|
-| 2.1 | **Expand 4 Learning Center pillars** to 1000-2000 words each with named citations. Structure each cluster as a hub with supporting articles: e.g. Reaction pillar → "How Reaction Time Works" → "Average by Age" → "Mouse Latency" → "Refresh Rate" → "Sleep/Caffeine Effects" → "Training Drills" | Reaction, Click Speed, Aim, Memory clusters | Every claim cites specific study (author, year, link). No vague "studies show" gestures. |
+| 2.1 | **Expand 4 Learning Center pillars** to 1000-2000 words each with named citations | Reaction, Click Speed, Aim, Memory | Every claim cites specific study (author, year, link). No vague "studies show" gestures. |
 | 2.2 | **Write 10 supporting articles** (800-1200 words, long-tail keyword targets) | Target clusters per PLAN.md §9.2 priority | Each has unique data point + internal links to pillar + test page |
-| 2.3 | **Elevate Pattern Recognition**: Promote PatternReasoningTest to first-class sidebar category alongside Reaction and Memory. Add dedicated `/learn/pattern-recognition/` pillar page. High search volume, high engagement category. | Sidebar nav + new pillar page + homepage placement | Pattern Reasoning appears as primary nav item. Pillar page ranks for "pattern recognition test" keywords. |
-| 2.4 | **Build glossary hub + 50 term pages** (150-300 words each) | `/learn/glossary/` + per-term pages | Definitional schema markup, heavy internal linking |
-| 2.5 | **Create 10 programmatic comparison pages** with unique generated charts | `/compare/reaction-time-by-age/`, etc. | 150+ words page-specific analysis + unique SVG chart per PLAN.md §9.6 |
-| 2.6 | **Data moat foundation**: Once sync (Phase 2) produces aggregate data, publish "Average scores by age/country/device/refresh rate" pages. These use real user data (anonymous, aggregated) that no competitor can replicate without equivalent usage. | `/data/` pages (Phase 4 candidate) | Aggregate data pages published. Dataset becomes the durable competitive moat. |
+| 2.3 | **Build glossary hub + 50 term pages** (150-300 words each) | `/learn/glossary/` + per-term pages | Definitional schema markup, heavy internal linking |
+| 2.4 | **Create 10 programmatic comparison pages** with unique generated charts | `/compare/reaction-time-by-age/`, etc. | 150+ words page-specific analysis + unique SVG chart per PLAN.md §9.6 |
 
 ### Phase 3 — Production Polish (Week 4-5, ~6 days)
 
@@ -148,18 +94,18 @@ The plan's original assumption was SEO → Traffic → Revenue. Diversification 
 | 3.1 | **Mobile touch debounce**: Fix touch events on CPS, Aim Trainer, Reaction tests where taps can double-count | PLAN.md §10.4 requirement | Touch test on mobile device: single tap = single count |
 | 3.2 | **Internal linking audit**: No orphan pages. Every page linked from 2+ others. Max 3 clicks from homepage. | PLAN.md §9.9 | Scripted crawl reports zero orphan pages |
 | 3.3 | **Accessibility pass**: Keyboard nav on all test pages, ARIA labels on icon buttons, focus management, `prefers-reduced-motion` | WCAG 2.1 AA per PLAN.md §10.3 | Tab through every page — full keyboard operability |
-| 3.4 | **Reserved ad slot containers** with CLS-safe fixed heights, lazy-loaded after test completion | PLAN.md §12.3 | Lighthouse CLS < 0.1 with ads loaded. Ads never appear before test result. |
-| 3.6 | **Streamer Mode / OBS-friendly layout**: Fullscreen toggle, minimal UI mode that hides navigation, auto-hide cursor during tests. Enables creators to stream gauntlet runs and share challenge URLs. | `main.astro` + new CSS class | Fullscreen API + `.streamer-mode` CSS that hides sidebar/nav/footer. OBS window capture shows only the test. |
+| 3.4 | **Submit sitemap to Google Search Console**: Fix all coverage errors | SEO | No errors, no warnings in GSC. Pages indexed within 2 weeks. |
+| 3.5 | **Reserved ad slot containers** with CLS-safe fixed heights, lazy-loaded after test completion | PLAN.md §12.3 | Lighthouse CLS < 0.1 with ads loaded. Ads never appear before test result. |
 
 ### Phase 4 — AdSense Readiness (Week 5-6)
 
 **Objective**: Meet AdSense approval criteria and apply.
 
 | # | Task | Detail | Criteria |
-|---|---|---|---|---|
+|---|---|---|---|
 | 4.1 | **Content audit for AdSense policies**: Scan all pages for health claims, YMYL-adjacent language, insufficient content | PRD §1.4, PLAN §12.2 | No medical claims. No "cognitive age" without disclaimer. No predictive improvement claims. |
-| 4.2 | **Wait for content maturity**: Apply when Phase 2 content is published and site has been live long enough to develop an organic presence. Traffic helps approval odds but is not a formal AdSense requirement. | Site has been live 3+ months with consistent content | Organic traffic baseline established. |
-| 4.3 | **Apply for AdSense** | Only after content maturity + indexation verified | Approval or resubmission plan documented per PLAN.md §12.2 |
+| 4.2 | **Wait for organic traffic baseline** | Do NOT apply before 500+ daily visitors | GSC reports consistent organic clicks |
+| 4.3 | **Apply for AdSense** | Only after Phase 2 content is indexed and traffic exists | Approval or resubmission plan documented per PLAN.md §12.2 |
 
 ---
 
@@ -207,27 +153,7 @@ The existing codebase uses "Modern Dark (Cinema Mobile)" profile with amber acce
 
 ---
 
-## 6. Feature Priority Reference Table
-
-| Feature | Impact | Effort | Phase | Why |
-|---|---|---|---|---|
-| Share Cards + Challenge Links | ⭐⭐⭐⭐⭐ | Already built | P0 | Virality — zero-login social distribution |
-| BrainBenchmarks Challenge (Gauntlet) | ⭐⭐⭐⭐⭐ | 3-5 days | P0 | Flagship — the product identity |
-| Browser Calibration | ⭐⭐⭐⭐⭐ | Already built; ~1h UI work | P0 | Trust — shows hardware context |
-| Weekly Brain Report | ⭐⭐⭐⭐ | 4h | P1 | Retention — reason to return weekly |
-| Performance HQ Dashboard | ⭐⭐⭐⭐ | 3h redesign | P1 | Retention — answers "what should I do next?" |
-| Pattern Recognition as primary category | ⭐⭐⭐⭐ | ~2h | P1 | SEO + engagement — high-search category |
-| Learning Center content clusters | ⭐⭐⭐⭐⭐ | Phase 2 scope | P1 | SEO — pillar pages for head terms |
-| Glossary (50+ terms) | ⭐⭐⭐ | Phase 2 scope | P1 | SEO — definitional long-tail queries |
-| FAQ Schema on test pages | ⭐⭐⭐⭐ | ~2h | P1 | SEO — rich snippet eligibility |
-| Programmatic comparison pages | ⭐⭐⭐⭐ | Phase 2 scope | P2 | SEO — comparison long-tail traffic |
-| Streamer Mode / OBS overlay | ⭐⭐⭐⭐ | 2-3 days | P2 | Distribution — creator-driven traffic |
-| Aggregate data insights | ⭐⭐⭐⭐⭐ | Phase 4+ | P3 | Long-term moat — data no competitor can copy |
-| Monthly Performance Review | ⭐⭐⭐⭐ | 2 days | P2 | Retention — longer-horizon progress tracking |
-
----
-
-## 7. Key Risks & Mitigations
+## 6. Key Risks & Mitigations
 
 | Risk | Probability | Impact | Mitigation |
 |---|---|---|---|
@@ -241,38 +167,28 @@ The existing codebase uses "Modern Dark (Cinema Mobile)" profile with amber acce
 
 ---
 
-## 8. Build Order Summary
+## 7. Build Order Summary
 
 ```
-Week 1:  Fix light mode + verify build + write tests + QA all tests + 
-         Lighthouse + calibration prominence + Dashboard → Performance HQ
+Week 1:  Fix light mode + verify build + write tests + QA all tests + Lighthouse
          ↳ This must complete before anything else — the app is broken in light mode
 
-Week 2-3: Build Gauntlet + E-E-A-T + hardware content + FAQ schema + 
-          Weekly Brain Report + Pattern Recognition elevation
-         ↳ Flagship test + retention + trust signals in parallel
+Week 2-3: Build Gauntlet + E-E-A-T + hardware content + FAQ schema + GA4
+         ↳ Flagship test + trust signals in parallel
 
-Week 3-4: Expand Learning Center clusters + write articles + glossary + 
-          comparison pages + data moat foundation
+Week 3-4: Expand Learning Center + write articles + glossary + comparison pages
          ↳ Content depth for rankings + AdSense
 
-Week 4-5: Mobile touch fix + internal linking + accessibility + 
-          ad slots + Streamer Mode
-         ↳ Production polish + creator distribution
+Week 4-5: Mobile touch fix + internal linking + accessibility + GSC submission + ad slots
+         ↳ Production polish
 
-Week 5-6: AdSense content audit + verify indexation + apply
-         ↳ Revenue readiness (traffic helps but is not a gate)
+Week 5-6: AdSense content audit + wait for traffic + apply
+         ↳ Revenue readiness
 ```
-
-**Sequencing dependencies:**
-- Phase 0 → Phase 1 (0 must complete before 1 starts — broken light mode blocks all UI work)
-- Phase 1 → Phase 2 (gauntlet must ship before content cluster optimization)
-- Phase 2 + 3 can overlap (content writing is independent from mobile/accessibility fixes)
-- Phase 4 is gated on content maturity, not traffic
 
 ---
 
-## 9. Success Criteria
+## 8. Success Criteria
 
 ### Launch Gate (Phase 0 completion)
 - [ ] All 14 tests work correctly in both light and dark mode

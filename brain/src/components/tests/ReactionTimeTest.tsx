@@ -28,7 +28,7 @@ export default function ReactionTimeTest() {
 
     // 1. Calibration on mount
     measureRefreshRate((result) => {
-      setCalibration(result);
+      if (mounted) setCalibration(result);
     });
 
     // 2. Personal Best from history
@@ -46,7 +46,7 @@ export default function ReactionTimeTest() {
           if (payload && payload.testId === 'reaction-time') {
             if (mounted) setChallengeScore(payload.score);
           }
-        });
+        }).catch(console.error);
       }
     }
 
@@ -232,7 +232,7 @@ export default function ReactionTimeTest() {
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
       setTimeout(() => setCopiedChallenge(false), 2000);
-    });
+    }).catch(console.error);
   };
 
   // Keyboard navigation support: Spacebar/Enter triggers clicks
@@ -281,7 +281,7 @@ export default function ReactionTimeTest() {
             </div>
             <div>
               <h2 className="text-2xl font-bold text-foreground tracking-tight mb-2">Reaction Time Test</h2>
-              <p className="text-zinc-550 dark:text-zinc-400 text-sm max-w-sm mb-6">
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-sm mb-6">
                 When the red screen turns green, click as fast as you can.
               </p>
             </div>
@@ -311,7 +311,7 @@ export default function ReactionTimeTest() {
           <div className="flex flex-col items-center gap-4">
             <span className="text-zinc-500 text-xs uppercase font-mono">Attempt {attempts.length} Finished</span>
             <div className="text-5xl font-mono font-bold text-foreground">{currentScore} ms</div>
-            <p className="text-zinc-550 dark:text-zinc-400 text-sm max-w-sm mb-4">
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-sm mb-4">
               Click anywhere to proceed to attempt {attempts.length + 1} of 5.
             </p>
           </div>
@@ -321,7 +321,7 @@ export default function ReactionTimeTest() {
           <div className="flex flex-col items-center gap-4">
             <span className="text-rose-500 text-2xl">⚠️</span>
             <h2 className="text-2xl font-bold text-foreground">Too Early!</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-sm max-w-sm mb-4">
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-sm mb-4">
               You clicked before the screen turned green. Clicks are reset.
             </p>
             <span className="text-xs uppercase font-mono text-zinc-500">Click to restart</span>

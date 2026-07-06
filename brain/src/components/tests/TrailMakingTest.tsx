@@ -24,6 +24,7 @@ export default function TrailMakingTest() {
   const [personalBestA, setPersonalBestA] = useState<number | null>(null);
   const [personalBestB, setPersonalBestB] = useState<number | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
+  const [resultPercentile, setResultPercentile] = useState(0);
 
   const startTimeRef = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -104,6 +105,7 @@ export default function TrailMakingTest() {
     setElapsedTime(0);
     setWrongNodeId(null);
     setShareImage(null);
+    setResultPercentile(0);
     setGameState('running');
 
     startTimeRef.current = performance.now();
@@ -149,6 +151,7 @@ export default function TrailMakingTest() {
     const diff = totalScore - medianVal;
     const z = diff / sigma;
     const percentile = Math.round(Math.max(1, Math.min(99, 100 - (1 / (1 + Math.exp(-1.6 * z)) * 100))));
+    setResultPercentile(percentile);
 
     await dataLayer.saveSession({
       testId,
@@ -184,7 +187,7 @@ export default function TrailMakingTest() {
           </div>
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">Trail Making Test (TMT)</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
               Measure visual scanning, processing speed, and cognitive flexibility.
               Click the targets sequentially as fast as possible. 
               Mismatched target clicks add a **+2.0 second penalty** to your time.
@@ -285,14 +288,14 @@ export default function TrailMakingTest() {
             ✓
           </div>
           <div>
-            <span className="text-zinc-550 text-xs font-mono uppercase tracking-widest">
+            <span className="text-zinc-500 text-xs font-mono uppercase tracking-widest">
               TMT {mode === 'partA' ? 'Part A' : 'Part B'} Result
             </span>
             <h2 className="text-4xl font-extrabold tracking-tight text-foreground mt-1">
               {((elapsedTime + penalties) / 1000).toFixed(2)}s
             </h2>
             <span className="text-[11px] text-zinc-500 font-mono uppercase mt-1 block">
-              Accuracy-adjusted percentile: Top {100 - Math.round((elapsedTime + penalties) / 1000)}%
+              Accuracy-adjusted percentile: Top {100 - resultPercentile}%
             </span>
           </div>
 

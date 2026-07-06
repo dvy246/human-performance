@@ -24,6 +24,7 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
   const switchCountRef = useRef(0);
   const prevRuleRef = useRef(RULES[1].id);
   const respondedRef = useRef(false);
+  const completedRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
   const clearTimers = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
@@ -36,6 +37,8 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
   const isSwitch = (idx: number) => idx > 0 && getCurrentRule(idx).id !== prevRuleRef.current;
 
   const finish = useCallback(() => {
+    if (completedRef.current) return;
+    completedRef.current = true;
     clearTimers();
     setPhase('done');
     const acc = correctRef.current / TOTAL_TRIALS;
@@ -96,6 +99,7 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
     correctRef.current = 0;
     switchCountRef.current = 0;
     trialRef.current = 0;
+    completedRef.current = false;
     setCorrectCount(0);
     setDisplaySwitchCount(0);
     setTrialIndex(0);

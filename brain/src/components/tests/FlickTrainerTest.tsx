@@ -15,6 +15,7 @@ export default function FlickTrainerTest() {
   const containerRef = useRef<HTMLDivElement>(null);
   const startTimeRef = useRef(0);
   const submittedRef = useRef(false);
+  const resultsRef = useRef<{ rt: number; hit: boolean }[]>([]);
 
   const spawnTarget = (container: HTMLDivElement) => {
     const rect = container.getBoundingClientRect();
@@ -35,12 +36,12 @@ export default function FlickTrainerTest() {
     const rt = Math.round(performance.now() - startTimeRef.current);
     const dist = Math.sqrt((cx - target.x) ** 2 + (cy - target.y) ** 2);
     const hit = dist <= TARGET_RADIUS;
-    const newResults = [...results, { rt, hit }];
+    resultsRef.current = [...resultsRef.current, { rt, hit }];
     setResults(prev => [...prev, { rt, hit }]);
     const next = trial + 1;
     if (next >= TOTAL) {
       setPhase('done');
-      finalize(newResults);
+      finalize(resultsRef.current);
       return;
     }
     setTrial(prev => prev + 1);
@@ -73,6 +74,8 @@ export default function FlickTrainerTest() {
     setPhase('playing');
     setTrial(0);
     setResults([]);
+    resultsRef.current = [];
+    submittedRef.current = false;
     setTimeout(() => { if (containerRef.current) spawnTarget(containerRef.current); }, 300);
   };
 

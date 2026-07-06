@@ -187,7 +187,7 @@ export default function ClickSpeedTest() {
               <span className="text-3xl">🖱️</span>
               <div>
                 <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Click Speed Test (CPS)</h2>
-                <p className="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
+                <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
                   Click inside this card as fast as you can. The 10-second timer begins on your first click.
                 </p>
               </div>

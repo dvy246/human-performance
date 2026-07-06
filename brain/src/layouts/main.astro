@@ -78,13 +78,17 @@ const isScienceOpen = pathname.includes('/learn/');
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="CogniArena" />
-    <meta property="og:site_name" content="CogniArena" />
     <meta property="og:image" content="https://cogniarena.com/og-image.png" />
     
     <!-- Twitter card tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content="https://cogniarena.com/og-image.png" />
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json" set:html={JSON.stringify(finalSchema)} />
@@ -104,6 +108,7 @@ const isScienceOpen = pathname.includes('/learn/');
     </script>
   </head>
   <body class="bg-background text-foreground min-h-screen flex flex-col antialiased">
+    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-md focus:bg-accent focus:text-white focus:text-sm focus:font-semibold">Skip to content</a>
     <div class="flex flex-1 flex-col lg:flex-row min-h-screen">
       <!-- Desktop Sidebar Layout -->
       <aside class="hidden lg:flex flex-col w-64 border-r border-card-border bg-card shrink-0 p-6 gap-8">
@@ -119,20 +124,20 @@ const isScienceOpen = pathname.includes('/learn/');
           <!-- Ecosystem -->
           <div class="flex flex-col gap-1">
             <span class="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest px-2 mb-1 font-mono">Ecosystem</span>
-            <a href="/" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === '/' ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-              <span>🏠</span>
+            <a href="/" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === '/' ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+              <span aria-hidden="true">🏠</span>
               <span>Home Overview</span>
             </a>
-            <a href="/challenge" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/challenge') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-              <span>🏆</span>
-              <span>Benchmarks Challenge</span>
+            <a href="/benchmarks" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/benchmarks') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+              <span aria-hidden="true">📊</span>
+              <span>Population Benchmarks</span>
             </a>
-            <a href="/dashboard" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/dashboard') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-              <span>📊</span>
+            <a href="/dashboard" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/dashboard') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+              <span aria-hidden="true">📊</span>
               <span>Performance HQ</span>
             </a>
-            <a href="/gauntlet" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/gauntlet') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-              <span>🏰</span>
+            <a href="/gauntlet" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/gauntlet') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+              <span aria-hidden="true">🏰</span>
               <span>The Gauntlet</span>
               <span class="text-[8px] font-mono uppercase text-accent ml-auto">Flagship</span>
             </a>
@@ -142,7 +147,7 @@ const isScienceOpen = pathname.includes('/learn/');
           <details class="group" open={isReactionOpen}>
             <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
               <div class="flex items-center gap-1.5">
-                <span>⚡</span>
+                <span aria-hidden="true">⚡</span>
                 <span>Reaction & Reflexes</span>
               </div>
               <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -150,24 +155,24 @@ const isScienceOpen = pathname.includes('/learn/');
               </svg>
             </summary>
             <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-              <a href="/tests/reaction-time" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/reaction-time') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>⚡</span>
+              <a href="/tests/reaction-time" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/reaction-time') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">⚡</span>
                 <span>Visual Reaction</span>
               </a>
-              <a href="/tests/sound-reaction" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/sound-reaction') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🔊</span>
+              <a href="/tests/sound-reaction" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/sound-reaction') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🔊</span>
                 <span>Auditory Reflex</span>
               </a>
-              <a href="/tests/f1-lights" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/f1-lights') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🏎️</span>
+              <a href="/tests/f1-lights" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/f1-lights') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🏎️</span>
                 <span>F1 Start Lights</span>
               </a>
-              <a href="/tests/choice-reaction" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/choice-reaction') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🔢</span>
+              <a href="/tests/choice-reaction" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/choice-reaction') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🔢</span>
                 <span>Choice Reaction</span>
               </a>
-              <a href="/tests/go-no-go" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/go-no-go') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🛡️</span>
+              <a href="/tests/go-no-go" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/go-no-go') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🛡️</span>
                 <span>Color Go/No-Go</span>
               </a>
             </div>
@@ -177,7 +182,7 @@ const isScienceOpen = pathname.includes('/learn/');
           <details class="group" open={isMemoryOpen}>
             <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
               <div class="flex items-center gap-1.5">
-                <span>🧠</span>
+                <span aria-hidden="true">🧠</span>
                 <span>Memory</span>
               </div>
               <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -185,24 +190,24 @@ const isScienceOpen = pathname.includes('/learn/');
               </svg>
             </summary>
             <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-              <a href="/tests/sequence-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/sequence-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🗂️</span>
+              <a href="/tests/sequence-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/sequence-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🗂️</span>
                 <span>Sequence Memory</span>
               </a>
-              <a href="/tests/number-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/number-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🔢</span>
+              <a href="/tests/number-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/number-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🔢</span>
                 <span>Number Memory</span>
               </a>
-              <a href="/tests/visual-pattern" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/visual-pattern') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🧩</span>
+              <a href="/tests/visual-pattern" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/visual-pattern') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🧩</span>
                 <span>Visual Pattern</span>
               </a>
-              <a href="/tests/dual-n-back" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/dual-n-back') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🧠</span>
+              <a href="/tests/dual-n-back" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/dual-n-back') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🧠</span>
                 <span>Dual N-Back</span>
               </a>
-              <a href="/tests/verbal-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/verbal-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>📝</span>
+              <a href="/tests/verbal-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/verbal-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">📝</span>
                 <span>Verbal Memory</span>
               </a>
             </div>
@@ -212,7 +217,7 @@ const isScienceOpen = pathname.includes('/learn/');
           <details class="group" open={isReasoningOpen}>
             <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
               <div class="flex items-center gap-1.5">
-                <span>🧩</span>
+                <span aria-hidden="true">🧩</span>
                 <span>Reasoning</span>
               </div>
               <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -220,24 +225,24 @@ const isScienceOpen = pathname.includes('/learn/');
               </svg>
             </summary>
             <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-              <a href="/tests/pattern-reasoning?format=pattern" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+              <a href="/tests/pattern-reasoning?format=pattern" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                 <span>Pattern Recognition</span>
                 <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
               </a>
-              <a href="/tests/pattern-reasoning?format=matrix" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+              <a href="/tests/pattern-reasoning?format=matrix" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                 <span>Matrix Reasoning</span>
                 <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
               </a>
-              <a href="/tests/pattern-reasoning?format=sequence" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+              <a href="/tests/pattern-reasoning?format=sequence" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                 <span>Sequence Logic</span>
                 <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
               </a>
-              <a href="/tests/pattern-reasoning?format=analogy" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+              <a href="/tests/pattern-reasoning?format=analogy" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                 <span>Shape Analogies</span>
                 <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
               </a>
-              <a href="/tests/spatial-orientation" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/spatial-orientation') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🔄</span>
+              <a href="/tests/spatial-orientation" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/spatial-orientation') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🔄</span>
                 <span>Spatial Orientation</span>
               </a>
             </div>
@@ -247,7 +252,7 @@ const isScienceOpen = pathname.includes('/learn/');
           <details class="group" open={isFocusOpen}>
             <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
               <div class="flex items-center gap-1.5">
-                <span>🎯</span>
+                <span aria-hidden="true">🎯</span>
                 <span>Focus & Attention</span>
               </div>
               <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -255,16 +260,16 @@ const isScienceOpen = pathname.includes('/learn/');
               </svg>
             </summary>
             <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-              <a href="/tests/stroop" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/stroop') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🎨</span>
+              <a href="/tests/stroop" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/stroop') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🎨</span>
                 <span>Stroop Test</span>
               </a>
-              <a href="/tests/trail-making" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/trail-making') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🧭</span>
+              <a href="/tests/trail-making" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/trail-making') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🧭</span>
                 <span>Trail Making</span>
               </a>
-              <a href="/tests/focus-challenge" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/focus-challenge') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🎯</span>
+              <a href="/tests/focus-challenge" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/focus-challenge') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🎯</span>
                 <span>Focus Challenge</span>
               </a>
             </div>
@@ -282,20 +287,20 @@ const isScienceOpen = pathname.includes('/learn/');
               </svg>
             </summary>
             <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-              <a href="/tests/click-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/click-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🖱️</span>
+              <a href="/tests/click-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/click-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🖱️</span>
                 <span>CPS Test</span>
               </a>
-              <a href="/tests/aim-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/aim-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🎯</span>
+              <a href="/tests/aim-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/aim-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🎯</span>
                 <span>Aim Precision</span>
               </a>
-              <a href="/tests/mouse-accuracy" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/mouse-accuracy') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🎯</span>
+              <a href="/tests/mouse-accuracy" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/mouse-accuracy') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🎯</span>
                 <span>Mouse Accuracy</span>
               </a>
-              <a href="/tests/flick-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/flick-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>⚡</span>
+              <a href="/tests/flick-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/flick-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">⚡</span>
                 <span>Flick Trainer</span>
               </a>
             </div>
@@ -305,7 +310,7 @@ const isScienceOpen = pathname.includes('/learn/');
           <details class="group" open={isExecutiveOpen}>
             <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
               <div class="flex items-center gap-1.5">
-                <span>🧭</span>
+                <span aria-hidden="true">🧭</span>
                 <span>Executive Function</span>
               </div>
               <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -313,21 +318,48 @@ const isScienceOpen = pathname.includes('/learn/');
               </svg>
             </summary>
             <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-              <a href="/tests/decision-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/decision-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>⚡</span>
+              <a href="/tests/decision-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/decision-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">⚡</span>
                 <span>Decision Speed</span>
               </a>
-              <a href="/tests/planning" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/planning') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>♟️</span>
+              <a href="/tests/planning" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/planning') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">♟️</span>
                 <span>Planning</span>
               </a>
-              <a href="/tests/prioritization" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/prioritization') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>📊</span>
+              <a href="/tests/prioritization" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/prioritization') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">📊</span>
                 <span>Prioritization</span>
               </a>
-              <a href="/tests/trail-making" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+              <a href="/tests/trail-making" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                 <span>Cognitive Flexibility</span>
                 <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
+              </a>
+            </div>
+          </details>
+
+          <!-- Quizzes Accordion -->
+          <details class="group">
+            <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
+              <div class="flex items-center gap-1.5">
+                <span aria-hidden="true">🎯</span>
+                <span>Quizzes</span>
+              </div>
+              <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+              </svg>
+            </summary>
+            <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
+              <a href="/quiz" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/quiz') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">📋</span>
+                <span>All Quizzes</span>
+              </a>
+              <a href="/quiz/iq-test" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/quiz/iq-test') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🧠</span>
+                <span>IQ Test</span>
+              </a>
+              <a href="/quiz/cognitive-style" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/quiz/cognitive-style') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">💭</span>
+                <span>Cognitive Style</span>
               </a>
             </div>
           </details>
@@ -336,7 +368,7 @@ const isScienceOpen = pathname.includes('/learn/');
           <details class="group" open={isScienceOpen}>
             <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
               <div class="flex items-center gap-1.5">
-                <span>📚</span>
+                <span aria-hidden="true">📚</span>
                 <span>Learning Center</span>
               </div>
               <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -344,21 +376,9 @@ const isScienceOpen = pathname.includes('/learn/');
               </svg>
             </summary>
             <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-              <a href="/learn/reaction-time" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/learn/reaction-time') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🧠</span>
-                <span>Reaction Science</span>
-              </a>
-              <a href="/learn/click-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/learn/click-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🖱️</span>
-                <span>Click Speed CPS</span>
-              </a>
-              <a href="/learn/aim-training" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/learn/aim-training') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🎯</span>
-                <span>Aim Training</span>
-              </a>
-              <a href="/learn/memory-test" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/learn/memory-test') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🗂️</span>
-                <span>Memory Systems</span>
+              <a href="/learn" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname === '/learn' ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">📖</span>
+                <span>All Guides</span>
               </a>
             </div>
           </details>
@@ -406,16 +426,20 @@ const isScienceOpen = pathname.includes('/learn/');
             <!-- Ecosystem -->
             <div class="flex flex-col gap-1">
               <span class="text-[10px] font-semibold text-zinc-500 uppercase tracking-widest px-2 mb-1 font-mono">Ecosystem</span>
-              <a href="/" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === '/' ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🏠</span>
+              <a href="/" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === '/' ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🏠</span>
                 <span>Home Overview</span>
               </a>
-              <a href="/dashboard" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/dashboard') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>📊</span>
+              <a href="/benchmarks" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/benchmarks') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">📊</span>
+                <span>Population Benchmarks</span>
+              </a>
+              <a href="/dashboard" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/dashboard') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">📊</span>
                 <span>Performance HQ</span>
               </a>
-              <a href="/gauntlet" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/gauntlet') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                <span>🏰</span>
+              <a href="/gauntlet" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/gauntlet') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">🏰</span>
                 <span>The Gauntlet</span>
                 <span class="text-[8px] font-mono uppercase text-accent ml-auto">Flagship</span>
               </a>
@@ -425,7 +449,7 @@ const isScienceOpen = pathname.includes('/learn/');
             <details class="group" open={isReactionOpen}>
               <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
                 <div class="flex items-center gap-1.5">
-                  <span>⚡</span>
+                  <span aria-hidden="true">⚡</span>
                   <span>Reaction & Reflexes</span>
                 </div>
                 <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -433,24 +457,24 @@ const isScienceOpen = pathname.includes('/learn/');
                 </svg>
               </summary>
               <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-                <a href="/tests/reaction-time" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/reaction-time') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>⚡</span>
+                <a href="/tests/reaction-time" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/reaction-time') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">⚡</span>
                   <span>Visual Reaction</span>
                 </a>
-                <a href="/tests/sound-reaction" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/sound-reaction') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🔊</span>
+                <a href="/tests/sound-reaction" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/sound-reaction') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🔊</span>
                   <span>Auditory Reflex</span>
                 </a>
-                <a href="/tests/f1-lights" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/f1-lights') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🏎️</span>
+                <a href="/tests/f1-lights" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/f1-lights') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🏎️</span>
                   <span>F1 Start Lights</span>
                 </a>
-                <a href="/tests/choice-reaction" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/choice-reaction') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🔢</span>
+                <a href="/tests/choice-reaction" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/choice-reaction') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🔢</span>
                   <span>Choice Reaction</span>
                 </a>
-                <a href="/tests/go-no-go" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/go-no-go') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🛡️</span>
+                <a href="/tests/go-no-go" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/go-no-go') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🛡️</span>
                   <span>Color Go/No-Go</span>
                 </a>
               </div>
@@ -460,7 +484,7 @@ const isScienceOpen = pathname.includes('/learn/');
             <details class="group" open={isMemoryOpen}>
               <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
                 <div class="flex items-center gap-1.5">
-                  <span>🧠</span>
+                  <span aria-hidden="true">🧠</span>
                   <span>Memory</span>
                 </div>
                 <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -468,24 +492,24 @@ const isScienceOpen = pathname.includes('/learn/');
                 </svg>
               </summary>
               <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-                <a href="/tests/sequence-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/sequence-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🗂️</span>
+                <a href="/tests/sequence-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/sequence-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🗂️</span>
                   <span>Sequence Memory</span>
                 </a>
-                <a href="/tests/number-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/number-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🔢</span>
+                <a href="/tests/number-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/number-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🔢</span>
                   <span>Number Memory</span>
                 </a>
-                <a href="/tests/visual-pattern" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/visual-pattern') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🧩</span>
+                <a href="/tests/visual-pattern" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/visual-pattern') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🧩</span>
                   <span>Visual Pattern</span>
                 </a>
-                <a href="/tests/dual-n-back" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/dual-n-back') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🧠</span>
+                <a href="/tests/dual-n-back" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/dual-n-back') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🧠</span>
                   <span>Dual N-Back</span>
                 </a>
-                <a href="/tests/verbal-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/verbal-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>📝</span>
+                <a href="/tests/verbal-memory" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/verbal-memory') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">📝</span>
                   <span>Verbal Memory</span>
                 </a>
               </div>
@@ -495,7 +519,7 @@ const isScienceOpen = pathname.includes('/learn/');
             <details class="group" open={isReasoningOpen}>
               <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
                 <div class="flex items-center gap-1.5">
-                  <span>🧩</span>
+                  <span aria-hidden="true">🧩</span>
                   <span>Reasoning</span>
                 </div>
                 <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -503,24 +527,24 @@ const isScienceOpen = pathname.includes('/learn/');
                 </svg>
               </summary>
               <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-                <a href="/tests/pattern-reasoning?format=pattern" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+                <a href="/tests/pattern-reasoning?format=pattern" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                   <span>Pattern Recognition</span>
                   <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
                 </a>
-                <a href="/tests/pattern-reasoning?format=matrix" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+                <a href="/tests/pattern-reasoning?format=matrix" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                   <span>Matrix Reasoning</span>
                   <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
                 </a>
-                <a href="/tests/pattern-reasoning?format=sequence" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+                <a href="/tests/pattern-reasoning?format=sequence" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                   <span>Sequence Logic</span>
                   <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
                 </a>
-                <a href="/tests/pattern-reasoning?format=analogy" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+                <a href="/tests/pattern-reasoning?format=analogy" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                   <span>Shape Analogies</span>
                   <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
                 </a>
-                <a href="/tests/spatial-orientation" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/spatial-orientation') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🔄</span>
+                <a href="/tests/spatial-orientation" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/spatial-orientation') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🔄</span>
                   <span>Spatial Orientation</span>
                 </a>
               </div>
@@ -530,7 +554,7 @@ const isScienceOpen = pathname.includes('/learn/');
             <details class="group" open={isFocusOpen}>
               <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
                 <div class="flex items-center gap-1.5">
-                  <span>🎯</span>
+                  <span aria-hidden="true">🎯</span>
                   <span>Focus & Attention</span>
                 </div>
                 <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -538,16 +562,16 @@ const isScienceOpen = pathname.includes('/learn/');
                 </svg>
               </summary>
               <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-                <a href="/tests/stroop" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/stroop') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🎨</span>
+                <a href="/tests/stroop" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/stroop') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🎨</span>
                   <span>Stroop Test</span>
                 </a>
-                <a href="/tests/trail-making" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/trail-making') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🧭</span>
+                <a href="/tests/trail-making" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/trail-making') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🧭</span>
                   <span>Trail Making</span>
                 </a>
-                <a href="/tests/focus-challenge" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/focus-challenge') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🎯</span>
+                <a href="/tests/focus-challenge" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/focus-challenge') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🎯</span>
                   <span>Focus Challenge</span>
                 </a>
               </div>
@@ -565,20 +589,20 @@ const isScienceOpen = pathname.includes('/learn/');
                 </svg>
               </summary>
               <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-                <a href="/tests/click-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/click-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🖱️</span>
+                <a href="/tests/click-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/click-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🖱️</span>
                   <span>CPS Test</span>
                 </a>
-                <a href="/tests/aim-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/aim-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🎯</span>
+                <a href="/tests/aim-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/aim-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🎯</span>
                   <span>Aim Precision</span>
                 </a>
-                <a href="/tests/mouse-accuracy" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/mouse-accuracy') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🎯</span>
+                <a href="/tests/mouse-accuracy" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/mouse-accuracy') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🎯</span>
                   <span>Mouse Accuracy</span>
                 </a>
-                <a href="/tests/flick-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/flick-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>⚡</span>
+                <a href="/tests/flick-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/flick-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">⚡</span>
                   <span>Flick Trainer</span>
                 </a>
               </div>
@@ -588,7 +612,7 @@ const isScienceOpen = pathname.includes('/learn/');
             <details class="group" open={isExecutiveOpen}>
               <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
                 <div class="flex items-center gap-1.5">
-                  <span>🧭</span>
+                  <span aria-hidden="true">🧭</span>
                   <span>Executive Function</span>
                 </div>
                 <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -596,21 +620,48 @@ const isScienceOpen = pathname.includes('/learn/');
                 </svg>
               </summary>
               <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-                <a href="/tests/decision-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/decision-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>⚡</span>
+                <a href="/tests/decision-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/decision-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">⚡</span>
                   <span>Decision Speed</span>
                 </a>
-                <a href="/tests/planning" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/planning') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>♟️</span>
+                <a href="/tests/planning" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/planning') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">♟️</span>
                   <span>Planning</span>
                 </a>
-                <a href="/tests/prioritization" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/prioritization') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>📊</span>
+                <a href="/tests/prioritization" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/prioritization') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">📊</span>
                   <span>Prioritization</span>
                 </a>
-                <a href="/tests/trail-making" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-650 dark:text-zinc-400 hover:text-foreground">
+                <a href="/tests/trail-making" class="flex items-center justify-between px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle text-zinc-500 dark:text-zinc-400 hover:text-foreground">
                   <span>Cognitive Flexibility</span>
                   <span class="text-[9px] bg-accent/10 text-accent px-1.5 rounded font-mono">Play</span>
+                </a>
+              </div>
+            </details>
+
+            <!-- Quizzes Accordion -->
+            <details class="group">
+              <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
+                <div class="flex items-center gap-1.5">
+                  <span aria-hidden="true">🎯</span>
+                  <span>Quizzes</span>
+                </div>
+                <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7" />
+                </svg>
+              </summary>
+              <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
+                <a href="/quiz" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/quiz') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">📋</span>
+                  <span>All Quizzes</span>
+                </a>
+                <a href="/quiz/iq-test" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/quiz/iq-test') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">🧠</span>
+                  <span>IQ Test</span>
+                </a>
+                <a href="/quiz/cognitive-style" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/quiz/cognitive-style') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">💭</span>
+                  <span>Cognitive Style</span>
                 </a>
               </div>
             </details>
@@ -619,7 +670,7 @@ const isScienceOpen = pathname.includes('/learn/');
             <details class="group" open={isScienceOpen}>
               <summary class="flex items-center justify-between px-2 py-1.5 rounded-md text-[10px] font-semibold text-zinc-500 hover:text-foreground uppercase tracking-widest cursor-pointer select-none list-none [&::-webkit-details-marker]:hidden font-mono">
                 <div class="flex items-center gap-1.5">
-                  <span>📚</span>
+                  <span aria-hidden="true">📚</span>
                   <span>Learning Center</span>
                 </div>
                 <svg class="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform duration-250" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
@@ -627,21 +678,9 @@ const isScienceOpen = pathname.includes('/learn/');
                 </svg>
               </summary>
               <div class="mt-1 flex flex-col gap-1 pl-2 border-l border-card-border/60">
-                <a href="/learn/reaction-time" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/learn/reaction-time') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🧠</span>
-                  <span>Reaction Science</span>
-                </a>
-                <a href="/learn/click-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/learn/click-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🖱️</span>
-                  <span>Click Speed CPS</span>
-                </a>
-                <a href="/learn/aim-training" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/learn/aim-training') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🎯</span>
-                  <span>Aim Training</span>
-                </a>
-                <a href="/learn/memory-test" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/learn/memory-test') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-650 dark:text-zinc-400 hover:text-foreground'}`}>
-                  <span>🗂️</span>
-                  <span>Memory Systems</span>
+                <a href="/learn" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname === '/learn' ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">📖</span>
+                  <span>All Guides</span>
                 </a>
               </div>
             </details>
@@ -665,7 +704,7 @@ const isScienceOpen = pathname.includes('/learn/');
       </div>
 
       <!-- Main Layout Body Content Area -->
-      <main class="flex-1 flex flex-col p-4 md:p-8 lg:p-12 pb-24 lg:pb-12 max-w-6xl mx-auto w-full overflow-hidden animate-fade-in">
+      <main id="main-content" class="flex-1 flex flex-col p-4 md:p-8 lg:p-12 pb-24 lg:pb-12 max-w-6xl mx-auto w-full overflow-hidden animate-fade-in">
         <header class="w-full flex justify-between items-center mb-6 lg:mb-8 shrink-0">
           <div class="lg:hidden flex items-center gap-2.5">
             <button id="mobile-menu-toggle" class="p-2 -ml-2 text-foreground/80 hover:text-accent transition-colors focus:outline-none focus:ring-1 focus:ring-accent rounded-md" aria-label="Toggle Navigation Menu">
@@ -687,7 +726,7 @@ const isScienceOpen = pathname.includes('/learn/');
           <CalibrationBanner client:load />
         </div>
         <slot />
-        <footer class="mt-16 pt-8 border-t border-card-border/40 text-xs text-zinc-550 dark:text-zinc-400 flex flex-col gap-6">
+        <footer class="mt-16 pt-8 border-t border-card-border/40 text-xs text-zinc-500 dark:text-zinc-400 flex flex-col gap-6">
           <div class="text-[11px] text-zinc-500 dark:text-zinc-500 max-w-4xl leading-relaxed border-b border-card-border/20 pb-6 w-full">
             <strong class="text-zinc-700 dark:text-zinc-400 font-semibold block mb-1">Disclaimer & Scope Note:</strong> 
             CogniArena is an educational, self-tracking, and cognitive training platform. All assessments (including visual/audio reaction speed, sequence memory, visual memory, clicking frequency, and target precision) and generated metrics (including percentiles, demographic ranks, and CogniArena Index / CAI score) are intended for self-tracking and entertainment purposes only. They do not constitute medical, diagnostic, clinical, psychiatric, or neuropsychological evaluations. If you have concerns about your cognitive health or attention controls, please consult a licensed healthcare professional.
@@ -716,15 +755,15 @@ const isScienceOpen = pathname.includes('/learn/');
 
     <!-- Mobile Bottom Navigation Bar -->
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-card/95 backdrop-blur border-t border-card-border flex items-center justify-around z-50 px-4">
-      <a href="/" class="flex flex-col items-center gap-1 text-[10px] text-zinc-550 dark:text-zinc-400 hover:text-accent transition-colors">
+      <a href="/" class="flex flex-col items-center gap-1 text-[10px] text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span>Home</span>
       </a>
-      <a href="/tests/reaction-time" class="flex flex-col items-center gap-1 text-[10px] text-zinc-550 dark:text-zinc-400 hover:text-accent transition-colors">
+      <a href="/tests/reaction-time" class="flex flex-col items-center gap-1 text-[10px] text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span>Reaction</span>
       </a>
-      <a href="/dashboard" class="flex flex-col items-center gap-1 text-[10px] text-zinc-550 dark:text-zinc-400 hover:text-accent transition-colors">
+      <a href="/dashboard" class="flex flex-col items-center gap-1 text-[10px] text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors">
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
         <span>Profile</span>
       </a>
@@ -741,11 +780,25 @@ const isScienceOpen = pathname.includes('/learn/');
 
         if (!toggleBtn || !sidebar || !content) return;
 
+        let lastFocusedElement = null;
+        const focusableSelector = 'a[href], button, input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+        function getFocusableElements() {
+          return Array.from(content.querySelectorAll(focusableSelector)).filter(
+            el => el.offsetParent !== null || el === document.activeElement
+          );
+        }
+
         function openMenu() {
+          lastFocusedElement = document.activeElement;
           sidebar.classList.remove('pointer-events-none', 'opacity-0');
           sidebar.classList.add('opacity-100');
           content.classList.remove('-translate-x-full');
           document.body.style.overflow = 'hidden';
+          setTimeout(() => {
+            const focusable = getFocusableElements();
+            if (focusable.length > 0) focusable[0].focus();
+          }, 300);
         }
 
         function closeMenu() {
@@ -753,13 +806,33 @@ const isScienceOpen = pathname.includes('/learn/');
           sidebar.classList.remove('opacity-100');
           content.classList.add('-translate-x-full');
           document.body.style.overflow = '';
+          if (lastFocusedElement) lastFocusedElement.focus();
+          else toggleBtn.focus();
         }
 
         toggleBtn.addEventListener('click', openMenu);
         if (closeBtn) closeBtn.addEventListener('click', closeMenu);
         if (backdrop) backdrop.addEventListener('click', closeMenu);
 
-        // Auto close when links inside the drawer are clicked
+        document.addEventListener('keydown', (e) => {
+          if (e.key === 'Escape' && !sidebar.classList.contains('pointer-events-none')) {
+            closeMenu();
+          }
+        });
+
+        content.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab' || sidebar.classList.contains('pointer-events-none')) return;
+          const focusable = getFocusableElements();
+          if (focusable.length === 0) return;
+          const first = focusable[0];
+          const last = focusable[focusable.length - 1];
+          if (e.shiftKey) {
+            if (document.activeElement === first) { e.preventDefault(); last.focus(); }
+          } else {
+            if (document.activeElement === last) { e.preventDefault(); first.focus(); }
+          }
+        });
+
         const drawerLinks = content.querySelectorAll('a');
         drawerLinks.forEach(link => {
           link.addEventListener('click', closeMenu);

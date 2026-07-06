@@ -1,0 +1,102 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Interactive Quizzes — IQ Test, Cognitive Style & Brain Health | CogniArena";
+const description = "Take free interactive quizzes including a research-backed IQ test, cognitive style assessment, and brain health check. Instant results, no sign-up required.";
+const canonicalUrl = "https://cogniarena.com/quiz";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "CogniArena Quizzes",
+  "description": "Free interactive cognitive quizzes including IQ testing, cognitive style assessment, and brain health screening.",
+  "provider": {
+    "@type": "Organization",
+    "name": "CogniArena",
+    "url": "https://cogniarena.com"
+  },
+  "about": { "@type": "Thing", "name": "Cognitive Assessment" },
+  "hasPart": [
+    { "@type": "Quiz", "name": "Free IQ Test", "url": "https://cogniarena.com/quiz/iq-test" },
+    { "@type": "Quiz", "name": "Cognitive Style Quiz", "url": "https://cogniarena.com/quiz/cognitive-style" }
+  ]
+};
+---
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-4xl mx-auto">
+    <header class="flex flex-col gap-4">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Quizzes</span>
+        <span>&middot;</span>
+        <span>Hub</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
+        Interactive Cognitive Quizzes
+      </h1>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-3xl">
+        Free, research-backed quizzes that give you insight into your cognitive abilities and thinking style.
+        All quizzes run entirely in your browser — no sign-up, no data collection.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <a href="/quiz/iq-test" class="flex flex-col gap-4 p-6 rounded-xl border border-card-border bg-subtle hover:bg-accent/5 hover:border-accent/30 transition-standard group">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">🧠</span>
+          <div class="flex flex-col">
+            <span class="text-base font-bold text-foreground group-hover:text-accent transition-colors">Free IQ Test</span>
+            <span class="text-xs text-zinc-500 dark:text-zinc-400">~15 minutes</span>
+          </div>
+        </div>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          20 questions across numerical, verbal, spatial, and logical reasoning domains.
+          Based on the ICAR cognitive ability framework. Instant browser-scored results
+          with domain breakdown and percentile ranking.
+        </p>
+        <div class="flex items-center gap-2 text-xs text-accent font-semibold mt-auto">
+          <span>Start Test</span>
+          <span class="group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+        </div>
+      </a>
+
+      <a href="/quiz/cognitive-style" class="flex flex-col gap-4 p-6 rounded-xl border border-card-border bg-subtle hover:bg-accent/5 hover:border-accent/30 transition-standard group">
+        <div class="flex items-center gap-3">
+          <span class="text-2xl">💭</span>
+          <div class="flex flex-col">
+            <span class="text-base font-bold text-foreground group-hover:text-accent transition-colors">Cognitive Style Quiz</span>
+            <span class="text-xs text-zinc-500 dark:text-zinc-400">~3 minutes</span>
+          </div>
+        </div>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          Discover how you think. This quick assessment identifies whether you lean toward
+          visual, verbal, analytical, or holistic thinking — with personalized insights
+          on how to leverage your cognitive style.
+        </p>
+        <div class="flex items-center gap-2 text-xs text-accent font-semibold mt-auto">
+          <span>Take Quiz</span>
+          <span class="group-hover:translate-x-0.5 transition-transform">&rarr;</span>
+        </div>
+      </a>
+    </div>
+
+    <section class="flex flex-col gap-4 border-t border-card-border pt-8">
+      <h2 class="text-lg font-bold text-foreground tracking-tight">About These Quizzes</h2>
+      <div class="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-3xl flex flex-col gap-3">
+        <p>
+          Our IQ test uses question formats inspired by the International Cognitive Ability Resource (ICAR),
+          an open-source framework developed at Northwestern University. ICAR items show strong correlations
+          with established measures like Raven's Progressive Matrices and WAIS subtests.
+        </p>
+        <p>
+          All scoring happens entirely in your browser. Your answers never leave your device —
+          no accounts, no data collection, no paywalls. Results are displayed instantly on screen.
+        </p>
+        <p>
+          <strong class="text-foreground">Disclaimer:</strong> These quizzes are for entertainment and
+          self-assessment purposes only. They are not clinical or diagnostic instruments and do not
+          replace a professionally administered cognitive evaluation.
+        </p>
+      </div>
+    </section>
+  </div>
+</Layout>

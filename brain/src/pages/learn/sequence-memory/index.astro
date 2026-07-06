@@ -1,0 +1,82 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Sequence Memory & Pattern Recall Science | CogniArena";
+const description = "Understand serial position effects, visuospatial pattern encoding, and the neural mechanisms of sequence learning and recall.";
+const canonicalUrl = "https://cogniarena.com/learn/sequence-memory";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Science of Sequence Memory, Serial Position Effects, and Pattern Recall",
+  "description": "Examine primacy and recency effects, visuospatial sequence encoding, and implicit sequence learning mechanisms.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Alan Vanc",
+    "jobTitle": "Neuroscience Researcher"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CogniArena"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Learning Center</span>
+        <span>&middot;</span>
+        <span>Pillar Page</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
+        Sequence Memory & Pattern Recall
+      </h1>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+        How the brain encodes, stores, and retrieves ordered patterns of visual and spatial information.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Serial Position Effects</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          The primacy effect describes superior recall for items at the beginning of a sequence, attributed to more rehearsal opportunities and deeper encoding into long-term memory. The recency effect reflects better recall for the last items, which remain active in short-term working memory. The U-shaped serial position curve is one of the most robust findings in cognitive psychology, and its shape reveals the dual memory systems (short-term and long-term) operating during sequence encoding.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Pattern Encoding Strategies</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          Effective pattern recall relies on transforming raw sequences into higher-order structures through rhythm detection, symmetry recognition, and spatial grouping. The visual system naturally parses repeating patterns and symmetrical arrangements, reducing cognitive load by storing the rule rather than individual elements. Expert memorizers exploit this by identifying functional relationships between sequence elements, converting a linear chain into a hierarchical tree structure.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Visuospatial Sequence Learning</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          The serial reaction time task has shown that sequences can be learned implicitly without conscious awareness, engaging the basal ganglia and supplementary motor area. Explicit sequence memory, by contrast, recruits the hippocampus and prefrontal cortex for deliberate encoding and recall. Visuospatial sequence tasks like the Corsi block-tapping test activate the right hippocampus and parietal cortex, revealing a specialized network for spatial order processing.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4 text-sm">
+          <div>
+            <h4 class="text-foreground font-bold mb-1">What affects sequence memory?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">Sequence length, presentation speed, item similarity, and the presence of underlying patterns all affect recall accuracy. Attention, fatigue, and baseline working memory capacity are the primary individual difference factors.</p>
+          </div>
+          <div>
+            <h4 class="text-foreground font-bold mb-1">How can I train sequence recall?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">Practice with gradually increasing sequence lengths, focus on chunking the pattern into meaningful groups, and alternate between visual and spatial modalities. Consistent training strengthens hippocampal-prefrontal circuits involved in order encoding.</p>
+          </div>
+        </div>
+      </article>
+
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed border-t border-card-border pt-6">
+        Evaluate your visuospatial sequence recall with the <a href="/tests/sequence-memory" class="text-accent hover:underline">Sequence Memory Test</a>.
+      </p>
+    </section>
+  </div>
+</Layout>

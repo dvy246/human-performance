@@ -5,16 +5,25 @@ import PlanningTest from "@/components/tests/PlanningTest";
 const title = "Planning Test – Tower of Hanoi | CogniArena";
 const description = "Test your planning and problem-solving skills with the Tower of Hanoi puzzle. Move all disks to the target peg in minimal moves.";
 const canonicalUrl = "https://cogniarena.com/tests/planning";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Planning Test – Tower of Hanoi | CogniArena",
+  "description": "Classic Tower of Hanoi puzzle with 4 disks. Solve in minimal moves to measure planning ability.",
+  "about": { "@type": "Thing", "name": "Executive Function / Planning" },
+  "educationalAlignment": { "@type": "AlignmentObject", "alignmentType": "educationalRequirement", "educationalFramework": "Cognitive Science" }
+};
 ---
-<Layout title={title} description={description} canonicalUrl={canonicalUrl}>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
   <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
     <header class="flex flex-col gap-3">
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Executive</span></div>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Planning Test</h1>
-      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">Classic Tower of Hanoi puzzle with 4 disks. Move the entire stack to the right peg in as few moves as possible — the optimal solution is 15 moves.</p>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">Classic Tower of Hanoi puzzle with 4 disks. Move the entire stack to the right peg in as few moves as possible — the optimal solution is 15 moves.</p>
     </header>
     <section class="w-full"><PlanningTest client:visible /></section>
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
       <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
     </div>
   </div>

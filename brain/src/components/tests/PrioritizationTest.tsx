@@ -60,7 +60,7 @@ export default function PrioritizationTest() {
   };
 
   const doTask = (task: Task) => {
-    if (completedRef.current.includes(task.id) || usedTime + task.effort > totalTime) return;
+    if (completedRef.current.includes(task.id) || timeRef.current + task.effort > totalTime) return;
     const newCompleted = [...completedRef.current, task.id];
     completedRef.current = newCompleted;
     setCompleted(newCompleted);

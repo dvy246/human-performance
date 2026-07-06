@@ -240,7 +240,7 @@ export default function VisualPatternTest() {
             </div>
             <div className="text-center">
               <h3 className="text-lg font-bold text-foreground mb-1">Visual Pattern Memory</h3>
-              <p className="text-zinc-550 dark:text-zinc-400 text-sm max-w-xs">
+              <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-xs">
                 Memorize the highlighted tiles on a grid, then recreate the pattern from memory. Grid size increases with each level.
               </p>
             </div>

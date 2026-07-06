@@ -21,11 +21,12 @@ export default function F1LightsTest() {
   const sequenceTimers = useRef<any[]>([]);
   const triggerTimer = useRef<any>(null);
   const clickLock = useRef<boolean>(false);
+  const submittedRef = useRef<boolean>(false);
 
   useEffect(() => {
     let mounted = true;
     // 1. Get Calibration
-    measureRefreshRate((res) => setCalibration(res));
+    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
 
     // 2. Personal Best
     dataLayer.getPersonalBest('f1-lights', 'lower').then((pb) => {
@@ -42,7 +43,7 @@ export default function F1LightsTest() {
           if (payload && payload.testId === 'f1-lights') {
             setChallengeScore(payload.score);
           }
-        });
+        }).catch(console.error);
       }
     }
 
@@ -148,16 +149,22 @@ export default function F1LightsTest() {
   };
 
   const finalizeTest = async (avgScore: number, allAttempts: number[]) => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     setGameState('result');
     const percentile = lookupPercentile(avgScore);
 
-    await dataLayer.saveSession({
-      testId: 'f1-lights',
-      category: 'reaction',
-      rawScore: avgScore,
-      percentile: percentile,
-      metadata: { attempts: allAttempts }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'f1-lights',
+        category: 'reaction',
+        rawScore: avgScore,
+        percentile: percentile,
+        metadata: { attempts: allAttempts }
+      });
+    } catch (err) {
+      console.error('Failed to save F1 Lights session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('f1-lights', 'lower');
     setPersonalBest(pb);
@@ -175,7 +182,7 @@ export default function F1LightsTest() {
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
       setTimeout(() => setCopiedChallenge(false), 2000);
-    });
+    }).catch(console.error);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -240,7 +247,7 @@ export default function F1LightsTest() {
           {gameState === 'idle' && (
             <>
               <h2 className="text-xl font-bold text-foreground tracking-tight">F1 Start Lights Test</h2>
-              <p className="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed">
+              <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed">
                 Click inside the card or press **Spacebar** to start. Wait for the five red lights to light up, and react the exact instant they turn off.
               </p>
               <span className="text-xs uppercase font-mono tracking-widest text-accent mt-2">Click to start</span>
@@ -271,7 +278,7 @@ export default function F1LightsTest() {
             <>
               <span className="text-rose-500 text-2xl">🚨</span>
               <h2 className="text-xl font-bold text-foreground">JUMP START!</h2>
-              <p className="text-zinc-550 dark:text-zinc-400 text-xs">
+              <p className="text-zinc-500 dark:text-zinc-400 text-xs">
                 You clicked before the lights went out. Sequence cancelled.
               </p>
               <span className="text-xs text-rose-500 font-mono uppercase mt-2">Click to restart</span>

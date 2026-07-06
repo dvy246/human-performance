@@ -15,6 +15,7 @@ export default function MouseAccuracyTest() {
   const [shareImage, setShareImage] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const submittedRef = useRef(false);
+  const offsetsRef = useRef<number[]>([]);
 
   const spawnTarget = (idx: number) => {
     const c = containerRef.current;
@@ -36,12 +37,12 @@ export default function MouseAccuracyTest() {
     const cx = e.clientX - rect.left;
     const cy = e.clientY - rect.top;
     const offset = Math.sqrt((cx - target.x) ** 2 + (cy - target.y) ** 2);
-    const newOffsets = [...offsets, offset];
+    offsetsRef.current = [...offsetsRef.current, offset];
     setOffsets(prev => [...prev, offset]);
     const next = trial + 1;
     if (next >= TOTAL) {
       setPhase('done');
-      finalize(newOffsets);
+      finalize(offsetsRef.current);
       return;
     }
     setTrial(prev => prev + 1);
@@ -72,6 +73,8 @@ export default function MouseAccuracyTest() {
     setPhase('playing');
     setTrial(0);
     setOffsets([]);
+    offsetsRef.current = [];
+    submittedRef.current = false;
     setTimeout(() => spawnTarget(0), 200);
   };
 

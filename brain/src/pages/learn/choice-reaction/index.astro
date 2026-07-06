@@ -1,0 +1,86 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Choice Reaction Time & Hick's Law — Science | CogniArena";
+const description = "Understand Hick's Law logarithmic scaling, stimulus-response compatibility effects, and decision tree overhead in choice reaction tasks.";
+const canonicalUrl = "https://cogniarena.com/learn/choice-reaction";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Science of Choice Reaction Time and Hick's Law",
+  "description": "Examine decision tree branching, stimulus-response compatibility, and the logarithmic relationship between choices and reaction delay.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Alan Vanc",
+    "jobTitle": "Neuroscience Researcher"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CogniArena"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Learning Center</span>
+        <span>&middot;</span>
+        <span>Pillar Page</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
+        Choice Reaction Time & Hick's Law
+      </h1>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+        An exploration of decision latency, stimulus-response mapping, and the mathematical structure of choice.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Hick's Law: Logarithmic Scaling of Decision Time</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          Hick's Law states that reaction time increases logarithmically as the number of stimulus-response alternatives grows. The formula RT = a + b log₂(N) describes how each additional binary choice adds a fixed increment of processing time. This logarithmic relationship reveals that the brain serializes decision making through a branching tree structure rather than processing all options in parallel.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Stimulus-Response Compatibility Effects</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          Stimulus-response (S-R) compatibility refers to the natural mapping between a stimulus and its required response. Compatible pairings, such as pressing a right-side button when a right-side light illuminates, produce faster reaction times than incompatible ones. Spatial S-R compatibility effects are mediated by the parietal cortex, which maps external spatial coordinates to motor coordinates. Incompatible mappings force the brain to perform an additional translation step, adding 30ms to 80ms of latency.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Decision Tree Overhead and Response Conflict</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          The brain's decision tree is not purely serial; it involves parallel evaluation of evidence across multiple cortical regions followed by a race-to-threshold mechanism. The anterior cingulate cortex monitors for response conflict when multiple possible actions are partially activated. This conflict monitoring adds overhead proportional to the similarity between competing responses, a phenomenon captured by the Eriksen flanker effect.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4 text-sm">
+          <div>
+            <h4 class="text-foreground font-bold mb-1">What is the average choice reaction time?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">Simple reaction time averages 200ms to 250ms, while four-choice reaction time averages 350ms to 500ms. The increase follows Hick's Law logarithmic scaling.</p>
+          </div>
+          <div>
+            <h4 class="text-foreground font-bold mb-1">How does Hick's Law affect test scores?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">Tests with more possible stimuli produce predictably longer reaction times. Scoring accounts for this by measuring the slope of the RT increase rather than raw speed alone.</p>
+          </div>
+          <div>
+            <h4 class="text-foreground font-bold mb-1">Can choice reaction time be trained?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">Yes. Practice reduces the intercept of the Hick's Law curve through improved stimulus-response mapping, though the logarithmic slope remains relatively stable.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed text-center border-t border-card-border pt-10">
+      Measure your choice reaction speed on the <a href="/tests/choice-reaction" class="text-accent underline underline-offset-2 hover:brightness-110 transition-all">Choice Reaction Test</a>.
+    </p>
+  </div>
+</Layout>

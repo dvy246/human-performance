@@ -1,7 +1,6 @@
 ---
 import Layout from "@/layouts/main.astro";
 import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard";
-import { Button } from "@/components/ui/button";
 
 const title = "CogniArena — Discover Your Cognitive Potential | 13 Brain Performance Assessments";
 const description = "CogniArena is a high-performance cognitive assessment suite. Measure raw reaction speed, memory, focus, and precision against global averages. 100% anonymous & local.";
@@ -47,15 +46,11 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <span>📊 Composite score + percentile</span>
         </div>
         <div class="flex gap-3 mt-1">
-          <a href="/tests/focus-challenge">
-            <button class="px-5 h-9 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
-              Accept Challenge
-            </button>
+          <a href="/tests/focus-challenge" class="inline-flex items-center justify-center px-5 h-9 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
+            Accept Challenge
           </a>
-          <a href="/tests/focus-challenge#learn">
-            <button class="px-5 h-9 rounded-lg bg-subtle border border-card-border text-zinc-300 hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
-              Learn More
-            </button>
+          <a href="/tests/focus-challenge#learn" class="inline-flex items-center justify-center px-5 h-9 rounded-lg bg-subtle border border-card-border text-zinc-300 hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
+            Learn More
           </a>
         </div>
       </div>
@@ -93,7 +88,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
       <div class="flex flex-col gap-4 flex-1">
         <span class="text-[10px] font-mono uppercase text-accent tracking-widest">Flagship Feature</span>
         <h2 class="text-xl font-bold text-foreground tracking-tight">The Cognitive Profile</h2>
-        <p class="text-zinc-500 dark:text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
           Unlock your hexagonal skill radar and track changes in cognitive speed, working memory, spatial reasoning, typing efficiency, focus retention, and target control. 
         </p>
         <p class="text-zinc-500 text-xs leading-relaxed font-mono">
@@ -108,7 +103,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
     <section class="flex flex-col gap-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">⚡ Reaction & Reflexes</h2>
-        <p class="text-zinc-550 text-xs font-mono uppercase tracking-wider">Raw speed & sensory pathways</p>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Raw speed & sensory pathways</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -117,15 +112,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-001</span>
             <h3 class="text-lg font-bold text-foreground">Visual Reaction</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Test your physical reflexes against visual triggers. Calibrate input delay, monitor refresh rate, and view population distributions.
             </p>
           </div>
-          <a href="/tests/reaction-time">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/reaction-time" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Visual Test</span>
               <span>⚡</span>
-            </Button>
           </a>
         </div>
 
@@ -134,15 +127,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-002</span>
             <h3 class="text-lg font-bold text-foreground">Auditory Reflex</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Measure your auditory response speeds to low-latency synthesized sound waves. Contrast hearing triggers against visual pathways.
             </p>
           </div>
-          <a href="/tests/sound-reaction">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/sound-reaction" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Sound Test</span>
               <span>🔊</span>
-            </Button>
           </a>
         </div>
 
@@ -151,15 +142,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-003</span>
             <h3 class="text-lg font-bold text-foreground">F1 Start Lights</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Simulate a Grand Prix start gantry. Suppress anticipatory impulse and release motor actions at the exact millisecond lights extinguish.
             </p>
           </div>
-          <a href="/tests/f1-lights">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/f1-lights" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Launch Telemetry</span>
               <span>🏎️</span>
-            </Button>
           </a>
         </div>
 
@@ -168,15 +157,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-004</span>
             <h3 class="text-lg font-bold text-foreground">Choice Reaction</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Map color changes to keys R, G, B, Y. Manage accuracy-speed trade-offs under cognitive decision load with built-in mismatch penalties.
             </p>
           </div>
-          <a href="/tests/choice-reaction">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/choice-reaction" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Choice Grid</span>
               <span>🔢</span>
-            </Button>
           </a>
         </div>
 
@@ -185,15 +172,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-005</span>
             <h3 class="text-lg font-bold text-foreground">Color Go/No-Go</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Inhibitory motor control. Click only when green flashes; suppress actions for distractors (Red, Blue, Purple).
             </p>
           </div>
-          <a href="/tests/go-no-go">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/go-no-go" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Go/No-Go Test</span>
               <span>🛡️</span>
-            </Button>
           </a>
         </div>
       </div>
@@ -203,7 +188,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
     <section class="flex flex-col gap-8 pt-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🧠 Memory</h2>
-        <p class="text-zinc-550 text-xs font-mono uppercase tracking-wider">Active working capacity & retention</p>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Active working capacity & retention</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -212,15 +197,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-001</span>
             <h3 class="text-lg font-bold text-foreground">Sequence Memory</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Remember an expanding grid flash sequence, evaluating Miller's Law bounds.
             </p>
           </div>
-          <a href="/tests/sequence-memory">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/sequence-memory" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Sequence</span>
               <span>🗂️</span>
-            </Button>
           </a>
         </div>
 
@@ -229,15 +212,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-002</span>
             <h3 class="text-lg font-bold text-foreground">Number Memory</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Recall numeric strings of growing length to evaluate active visual digit spans.
             </p>
           </div>
-          <a href="/tests/number-memory">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/number-memory" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Number Test</span>
               <span>🔢</span>
-            </Button>
           </a>
         </div>
 
@@ -246,15 +227,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-003</span>
             <h3 class="text-lg font-bold text-foreground">Visual Pattern</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Memorize illuminated pattern positions inside dynamic scale matrices.
             </p>
           </div>
-          <a href="/tests/visual-pattern">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/visual-pattern" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Pattern Grid</span>
               <span>🧩</span>
-            </Button>
           </a>
         </div>
 
@@ -263,15 +242,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-004</span>
             <h3 class="text-lg font-bold text-foreground">Dual N-Back</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Track independent auditory tone and visual positions shown N steps back.
             </p>
           </div>
-          <a href="/tests/dual-n-back">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/dual-n-back" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Dual N-Back</span>
               <span>🧠</span>
-            </Button>
           </a>
         </div>
 
@@ -280,15 +257,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-005</span>
             <h3 class="text-lg font-bold text-foreground">Verbal Memory</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Memorize growing word lists and recall them from distractor sets.
             </p>
           </div>
-          <a href="/tests/verbal-memory">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/verbal-memory" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Verbal Memory</span>
               <span>📝</span>
-            </Button>
           </a>
         </div>
       </div>
@@ -298,7 +273,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
     <section class="flex flex-col gap-8 pt-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🧩 Reasoning</h2>
-        <p class="text-zinc-550 text-xs font-mono uppercase tracking-wider">Fluid logic & non-verbal matrices</p>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Fluid logic & non-verbal matrices</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -307,15 +282,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-001</span>
             <h3 class="text-lg font-bold text-foreground">Pattern Recognition</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Identify the missing colored item completing a linear sequence block.
             </p>
           </div>
-          <a href="/tests/pattern-reasoning?format=pattern">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/pattern-reasoning?format=pattern" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Format</span>
               <span>🧩</span>
-            </Button>
           </a>
         </div>
 
@@ -324,15 +297,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-002</span>
             <h3 class="text-lg font-bold text-foreground">Matrix Reasoning</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Complete the 2x2 grid pattern matching visual nested structures.
             </p>
           </div>
-          <a href="/tests/pattern-reasoning?format=matrix">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/pattern-reasoning?format=matrix" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Matrix</span>
               <span>🖼️</span>
-            </Button>
           </a>
         </div>
 
@@ -341,15 +312,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-003</span>
             <h3 class="text-lg font-bold text-foreground">Sequence Logic</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Solve numerical growth curves and rotational arrow progressions.
             </p>
           </div>
-          <a href="/tests/pattern-reasoning?format=sequence">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/pattern-reasoning?format=sequence" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Sequence</span>
               <span>🔢</span>
-            </Button>
           </a>
         </div>
 
@@ -358,15 +327,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-004</span>
             <h3 class="text-lg font-bold text-foreground">Shape Analogies</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Deduce the morph transformation rule and apply it to target shapes.
             </p>
           </div>
-          <a href="/tests/pattern-reasoning?format=analogy">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/pattern-reasoning?format=analogy" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Play Analogy</span>
               <span>📐</span>
-            </Button>
           </a>
         </div>
 
@@ -375,15 +342,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-005</span>
             <h3 class="text-lg font-bold text-foreground">Spatial Orientation</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Mentally rotate grid patterns and match the orientation in 12 trials.
             </p>
           </div>
-          <a href="/tests/spatial-orientation">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/spatial-orientation" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Spatial Test</span>
               <span>🔄</span>
-            </Button>
           </a>
         </div>
       </div>
@@ -393,7 +358,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
     <section class="flex flex-col gap-8 pt-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🎯 Focus & Attention</h2>
-        <p class="text-zinc-550 text-xs font-mono uppercase tracking-wider">Selective attention & executive suppression</p>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Selective attention & executive suppression</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -402,15 +367,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">FOC-001</span>
             <h3 class="text-lg font-bold text-foreground">Stroop Test</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Isolate semantic interference. Match visual ink colors ignoring the text name values.
             </p>
           </div>
-          <a href="/tests/stroop">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/stroop" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Stroop</span>
               <span>🎨</span>
-            </Button>
           </a>
         </div>
 
@@ -419,15 +382,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">FOC-002</span>
             <h3 class="text-lg font-bold text-foreground">Trail Making</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Alternate sequences of numbers and letters (1-A-2-B...) to test search rate.
             </p>
           </div>
-          <a href="/tests/trail-making">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/trail-making" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Trail Test</span>
               <span>🧭</span>
-            </Button>
           </a>
         </div>
 
@@ -439,15 +400,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
               <span class="text-[10px] font-mono text-rose-400 uppercase tracking-widest px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20">Brain Rot</span>
             </div>
             <h3 class="text-lg font-bold text-foreground">Focus Challenge</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               5-stage attention gauntlet: selective focus, impulse control, task switching, sustained vigilance, working memory under distraction.
             </p>
           </div>
-          <a href="/tests/focus-challenge">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/focus-challenge" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Accept Challenge</span>
               <span>🎯</span>
-            </Button>
           </a>
         </div>
 
@@ -459,15 +418,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
               <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Flagship</span>
             </div>
             <h3 class="text-lg font-bold text-foreground">The Gauntlet</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Complete 5 cognitive stages — reaction, memory, focus, reasoning, precision — for a unified CAI score and archetype.
             </p>
           </div>
-          <a href="/gauntlet">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/gauntlet" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Enter The Gauntlet</span>
               <span>🏰</span>
-            </Button>
           </a>
         </div>
       </div>
@@ -477,7 +434,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
     <section class="flex flex-col gap-8 pt-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🎮 Motor Performance</h2>
-        <p class="text-zinc-550 text-xs font-mono uppercase tracking-wider">Spatial mouse control & clicking stamina</p>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Spatial mouse control & clicking stamina</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -486,15 +443,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MTR-001</span>
             <h3 class="text-lg font-bold text-foreground">CPS Test</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Test your clicks-per-second motor stamina over a 10s timeframe, plotting a cadence curve.
             </p>
           </div>
-          <a href="/tests/click-speed">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/click-speed" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Click Test</span>
               <span>🖱️</span>
-            </Button>
           </a>
         </div>
 
@@ -503,15 +458,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MTR-002</span>
             <h3 class="text-lg font-bold text-foreground">Aim Precision</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Acquire 30 targets on our coordinates canvas, tracking offset errors in pixels.
             </p>
           </div>
-          <a href="/tests/aim-trainer">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/aim-trainer" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Aim Test</span>
               <span>🎯</span>
-            </Button>
           </a>
         </div>
 
@@ -520,15 +473,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MTR-003</span>
             <h3 class="text-lg font-bold text-foreground">Mouse Accuracy</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Click shrinking targets from 80px to 16px. Measures fine motor precision through center offset.
             </p>
           </div>
-          <a href="/tests/mouse-accuracy">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/mouse-accuracy" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Accuracy Test</span>
               <span>🎯</span>
-            </Button>
           </a>
         </div>
 
@@ -537,15 +488,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MTR-004</span>
             <h3 class="text-lg font-bold text-foreground">Flick Trainer</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Flick to 15 random targets, measuring speed and click accuracy.
             </p>
           </div>
-          <a href="/tests/flick-trainer">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/flick-trainer" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Flick Test</span>
               <span>⚡🎯</span>
-            </Button>
           </a>
         </div>
       </div>
@@ -555,7 +504,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
     <section class="flex flex-col gap-8 pt-8 pb-12">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🧭 Executive Function</h2>
-        <p class="text-zinc-550 text-xs font-mono uppercase tracking-wider">High-level attention gating & flexibility</p>
+        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">High-level attention gating & flexibility</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -567,15 +516,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
               <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Clinical Metric</span>
             </div>
             <h3 class="text-lg font-bold text-foreground">Cognitive Flexibility</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Measures task-switching overhead, frontoparietal memory updates, and attentional set-shifting speeds utilizing Trail Making parameters.
             </p>
           </div>
-          <a href="/tests/trail-making?mode=partB">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/trail-making?mode=partB" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Assess Flexibility</span>
               <span>🧭</span>
-            </Button>
           </a>
         </div>
 
@@ -584,15 +531,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">EXEC-002</span>
             <h3 class="text-lg font-bold text-foreground">Decision Speed</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Classify 20 numbers as ≥50 or &lt;50 against a 2-second timeout. Measures raw information processing speed.
             </p>
           </div>
-          <a href="/tests/decision-speed">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/decision-speed" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Decision Test</span>
               <span>⚡</span>
-            </Button>
           </a>
         </div>
 
@@ -601,15 +546,13 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">EXEC-003</span>
             <h3 class="text-lg font-bold text-foreground">Planning</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Tower of Hanoi with 4 disks. Move the stack to the target peg — optimal solution is 15 moves.
             </p>
           </div>
-          <a href="/tests/planning">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/planning" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Planning Test</span>
               <span>♟️</span>
-            </Button>
           </a>
         </div>
 
@@ -618,18 +561,17 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">EXEC-004</span>
             <h3 class="text-lg font-bold text-foreground">Prioritization</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               5 rounds of task scheduling. Maximize points by completing high-value tasks before deadlines.
             </p>
           </div>
-          <a href="/tests/prioritization">
-            <Button variant="secondary" className="w-full justify-between group">
+          <a href="/tests/prioritization" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Prioritization Test</span>
               <span>📊</span>
-            </Button>
           </a>
         </div>
       </div>
-    </section> </div>
+    </section>
+    </section>
   </div>
 </Layout>

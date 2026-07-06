@@ -94,6 +94,16 @@
   :root.dark .card-interactive:hover {
     border-color: #1a2540 !important;
   }
+
+  :focus-visible {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  :focus:not(:focus-visible) {
+    outline: none;
+  }
 }
 
 .transition-standard {
@@ -215,5 +225,10 @@ summary {
     transition: none !important;
     opacity: 1 !important;
     transform: none !important;
+  }
+  .stagger-1, .stagger-2, .stagger-3, .stagger-4,
+  .stagger-5, .stagger-6, .stagger-7, .stagger-8 {
+    animation: none !important;
+    animation-delay: 0s !important;
   }
 }

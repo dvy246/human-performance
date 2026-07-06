@@ -1,0 +1,86 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Dual N-Back & Working Memory Training | CogniArena";
+const description = "Understand working memory updating theory, dual-task interference, and the evidence for near-transfer and far-transfer effects of n-back training.";
+const canonicalUrl = "https://cogniarena.com/learn/dual-n-back";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Science of Dual N-Back, Working Memory Updating, and Cognitive Transfer",
+  "description": "Analyze the mechanisms of simultaneous auditory-visual tracking, executive control load, and fluid intelligence transfer claims.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Alan Vanc",
+    "jobTitle": "Neuroscience Researcher"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CogniArena"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Learning Center</span>
+        <span>&middot;</span>
+        <span>Pillar Page</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
+        Dual N-Back & Working Memory
+      </h1>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+        The cognitive science behind simultaneous auditory-visual tracking, working memory updating, and the controversial transfer effects of n-back training.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Working Memory Updating Theory</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          Dual n-back requires continuous monitoring and replacement of information in working memory, engaging the updating function of the central executive. Neuroimaging studies show robust activation in the dorsolateral prefrontal cortex and bilateral parietal regions during n-back performance. The task demands simultaneous maintenance of two streams (auditory and visual), taxing both the phonological loop and visuospatial sketchpad under a single executive controller.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Dual-Task Interference</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          Performing two concurrent memory tasks produces interference that challenges the central executive's capacity for coordination. The dual-task cost in n-back arises from competition for common prefrontal resources, with a measurable decrement of 15–25 percent accuracy compared to single-modality versions. This interference is theoretically important because training under high dual-task load may generalize more broadly than single-task training.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Near-Transfer vs Far-Transfer Effects</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          Near-transfer to structurally similar working memory tasks is well-documented and reliable after n-back training. Far-transfer to fluid intelligence (measured by Raven's matrices) remains contested, with meta-analyses showing small positive effects that diminish with methodological rigor. Current evidence suggests that adaptive n-back training yields reliable improvements on untrained working memory tasks but inconsistent gains in broader cognitive abilities.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4 text-sm">
+          <div>
+            <h4 class="text-foreground font-bold mb-1">Does dual n-back improve IQ?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">Meta-analyses report small but inconsistent far-transfer effects on fluid IQ. The most robust finding is near-transfer to working memory capacity rather than general intelligence. Individual differences in baseline working memory may moderate transfer outcomes.</p>
+          </div>
+          <div>
+            <h4 class="text-foreground font-bold mb-1">What is a good n-back level?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">The average adult ceiling is around 3-4 back for dual n-back. Elite performers reach 5-7 back after extensive adaptive training. Consistent performance at n=5 with greater than 80 percent accuracy is considered expert level.</p>
+          </div>
+          <div>
+            <h4 class="text-foreground font-bold mb-1">How long should I train per session?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">Research protocols typically use 20 minutes per session, 3-5 days per week. Shorter sessions of 10-15 minutes with high focus and adaptive difficulty appear equally effective for inducing working memory gains.</p>
+          </div>
+        </div>
+      </article>
+
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed border-t border-card-border pt-6">
+        Challenge your working memory updating capacity with the <a href="/tests/dual-n-back" class="text-accent hover:underline">Dual N-Back Test</a>.
+      </p>
+    </section>
+  </div>
+</Layout>

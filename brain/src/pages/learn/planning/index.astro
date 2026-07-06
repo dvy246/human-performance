@@ -1,0 +1,88 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Planning & Tower of Hanoi Executive Function | CogniArena";
+const description = "Discover the prefrontal cortex role in planning, subgoal decomposition strategies, and the Tower of Hanoi problem space analysis.";
+const canonicalUrl = "https://cogniarena.com/learn/planning";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Executive Planning, Subgoal Decomposition, and Tower of Hanoi",
+  "description": "Examine prefrontal contributions to hierarchical planning, the problem space of Tower of Hanoi, and executive function assessment.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Alan Vanc",
+    "jobTitle": "Neuroscience Researcher"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CogniArena"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Learning Center</span>
+        <span>&middot;</span>
+        <span>Pillar Page</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
+        Planning & Executive Function Science
+      </h1>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+        How the prefrontal cortex constructs hierarchical action plans, manages subgoals, and navigates combinatorial problem spaces.
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Prefrontal Cortex and Hierarchical Planning</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          The dorsolateral prefrontal cortex (DLPFC) is the primary neural substrate for planning. It maintains goal representations while orchestrating subgoals in working memory, suppressing immediate rewards in favor of distal outcomes. Neuroimaging studies show DLPFC activation scaling with plan depth — the number of moves a participant looks ahead before acting. Damage to this region produces dramatic planning deficits, with patients unable to sequence multi-step tasks.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Subgoal Decomposition and Problem Space</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          Complex planning tasks require decomposing a goal into intermediate subgoals. In the Tower of Hanoi, the minimum-move solution demands recursive subgoal sequencing: move the largest disk only after clearing smaller disks to the auxiliary peg. Newell and Simon's problem space theory formalizes this as a state-space search where each move transitions between states. Expert planners use means-ends analysis to reduce the distance between current and target states by identifying the largest movable obstacle.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Tower of Hanoi as an Executive Function Assay</h2>
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          The Tower of Hanoi is a gold-standard neuropsychological test of executive planning. Scoring metrics include total moves, rule violations, and initial planning time. The 3-disk version requires 7 minimum moves, while 4 disks require 15. Performance correlates with DLPFC integrity and is impaired in frontal lobe lesions, Parkinson's disease, and ADHD. The task's strength lies in its well-defined problem space: the minimum-optimal path is known, making deviations from optimality a direct measure of planning efficiency.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4 text-sm">
+          <div>
+            <h4 class="text-foreground font-bold mb-1">What cognitive functions does the Tower of Hanoi measure?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">The Tower of Hanoi primarily measures executive planning, subgoal sequencing, working memory maintenance, and inhibition of premature moves. It is a classic indicator of dorsolateral prefrontal cortex function.</p>
+          </div>
+          <div>
+            <h4 class="text-foreground font-bold mb-1">How can I improve planning skills?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">Planning improves with deliberate practice on tasks that require look-ahead, such as puzzle games that reward minimal-move solutions. Training generalizes best when you explicitly verbalize subgoal strategies.</p>
+          </div>
+          <div>
+            <h4 class="text-foreground font-bold mb-1">What is the minimal move count for Tower of Hanoi?</h4>
+            <p class="text-zinc-500 dark:text-zinc-400">For n disks, the minimum number of moves is 2ⁿ − 1. Three disks require 7 moves, four disks require 15, and five disks require 31 moves.</p>
+          </div>
+        </div>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+          Test your executive planning ability with the <a href="/tests/planning" class="text-accent underline underline-offset-4 hover:no-underline transition-all duration-200">Planning Test</a> and compare your subgoal decomposition performance against population norms.
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

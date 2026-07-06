@@ -31,11 +31,12 @@ export default function ChoiceReactionTest() {
   const startTime = useRef<number>(0);
   const timerId = useRef<any>(null);
   const clickLock = useRef<boolean>(false);
+  const submittedRef = useRef<boolean>(false);
 
   useEffect(() => {
     let mounted = true;
     // 1. Get Calibration
-    measureRefreshRate((res) => setCalibration(res));
+    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
 
     // 2. Personal Best
     dataLayer.getPersonalBest('choice-reaction', 'lower').then((pb) => {
@@ -52,7 +53,7 @@ export default function ChoiceReactionTest() {
           if (payload && payload.testId === 'choice-reaction') {
             setChallengeScore(payload.score);
           }
-        });
+        }).catch(console.error);
       }
     }
 
@@ -106,6 +107,7 @@ export default function ChoiceReactionTest() {
     setAttempts([]);
     setCurrentScore(null);
     setShareImage(null);
+    submittedRef.current = false;
     setGameState('waiting');
     setupRandomTimer();
   };
@@ -191,16 +193,22 @@ export default function ChoiceReactionTest() {
   };
 
   const finalizeTest = async (avgScore: number, allAttempts: { score: number; penalty: boolean }[]) => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     setGameState('result');
     const percentile = lookupPercentile(avgScore);
 
-    await dataLayer.saveSession({
-      testId: 'choice-reaction',
-      category: 'reaction',
-      rawScore: avgScore,
-      percentile: percentile,
-      metadata: { attempts: allAttempts.map(a => a.score) }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'choice-reaction',
+        category: 'reaction',
+        rawScore: avgScore,
+        percentile: percentile,
+        metadata: { attempts: allAttempts.map(a => a.score) }
+      });
+    } catch (err) {
+      console.error('Failed to save Choice Reaction session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('choice-reaction', 'lower');
     setPersonalBest(pb);
@@ -218,7 +226,7 @@ export default function ChoiceReactionTest() {
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
       setTimeout(() => setCopiedChallenge(false), 2000);
-    });
+    }).catch(console.error);
   };
 
   return (
@@ -248,7 +256,7 @@ export default function ChoiceReactionTest() {
           <div className="flex flex-col items-center gap-3">
             <span className="text-2xl">🎮</span>
             <h2 className="text-lg font-bold text-foreground tracking-tight">Choice Grid Test</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
+            <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
               Press the matching color pad or press keys **R**, **G**, **B**, **Y** on your keyboard when the center box flashes. Incorrect choices carry a **+150ms penalty**!
             </p>
             <span className="text-xs uppercase font-mono tracking-widest text-accent mt-2">Click card to start</span>
@@ -287,7 +295,7 @@ export default function ChoiceReactionTest() {
           <div className="flex flex-col items-center gap-3">
             <span className="text-rose-500 text-2xl">⚠️</span>
             <h2 className="text-lg font-bold text-foreground">Too Early!</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-xs">
+            <p className="text-zinc-500 dark:text-zinc-400 text-xs">
               You triggered an input before the color loaded. Grid reset.
             </p>
             <span className="text-xs uppercase font-mono text-zinc-500 mt-2">Click card to restart</span>

@@ -1,0 +1,40 @@
+---
+import Layout from "@/layouts/main.astro";
+import CognitiveStyleQuiz from "@/components/quiz/CognitiveStyleQuiz";
+
+const title = "Cognitive Style Quiz — Visual, Verbal, Analytical or Holistic | CogniArena";
+const description = "Discover how you think with our free Cognitive Style Quiz. 8 quick questions reveal whether you are a visual, verbal, analytical, or holistic thinker. Instant results.";
+const canonicalUrl = "https://cogniarena.com/quiz/cognitive-style";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Cognitive Style Quiz",
+  "description": "An 8-question self-assessment that identifies your dominant cognitive processing style: visual, verbal, analytical, or holistic.",
+  "about": { "@type": "Thing", "name": "Cognitive Style" },
+  "educationalAlignment": {
+    "@type": "AlignmentObject",
+    "alignmentType": "educationalRequirement",
+    "educationalFramework": "Cognitive Science"
+  }
+};
+---
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-6 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Quizzes</span>
+        <span>&middot;</span>
+        <span>Cognitive Style</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Cognitive Style Quiz</h1>
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        8 quick questions to discover how you naturally process information.
+      </p>
+    </header>
+    <section class="w-full"><CognitiveStyleQuiz client:visible /></section>
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
+      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This quiz is for self-educational and entertainment purposes only. Not a clinical or diagnostic evaluation.
+    </div>
+  </div>
+</Layout>

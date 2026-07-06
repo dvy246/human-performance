@@ -78,5 +78,82 @@
     { "score": 50, "percentile": 28 }, { "score": 60, "percentile": 46 }, { "score": 65, "percentile": 56 }, { "score": 70, "percentile": 66 },
     { "score": 75, "percentile": 76 }, { "score": 80, "percentile": 84 }, { "score": 85, "percentile": 91 }, { "score": 90, "percentile": 96 },
     { "score": 95, "percentile": 99 }, { "score": 100, "percentile": 99.9 }
+  ],
+  "click-speed": [
+    { "score": 3, "percentile": 2 }, { "score": 4, "percentile": 10 }, { "score": 5, "percentile": 22 }, { "score": 5.5, "percentile": 30 },
+    { "score": 6, "percentile": 40 }, { "score": 6.5, "percentile": 50 }, { "score": 7, "percentile": 58 }, { "score": 7.2, "percentile": 65 },
+    { "score": 8, "percentile": 76 }, { "score": 8.5, "percentile": 85 }, { "score": 9, "percentile": 90 }, { "score": 10, "percentile": 95 },
+    { "score": 12, "percentile": 99 }, { "score": 14, "percentile": 99.9 }
+  ],
+  "aim-trainer": [
+    { "score": 200, "percentile": 0.1 }, { "score": 230, "percentile": 0.5 }, { "score": 250, "percentile": 2 }, { "score": 270, "percentile": 5 },
+    { "score": 300, "percentile": 8 }, { "score": 320, "percentile": 10 }, { "score": 350, "percentile": 18 }, { "score": 380, "percentile": 30 },
+    { "score": 410, "percentile": 45 }, { "score": 450, "percentile": 60 }, { "score": 490, "percentile": 72 }, { "score": 520, "percentile": 80 },
+    { "score": 570, "percentile": 90 }, { "score": 650, "percentile": 95 }, { "score": 750, "percentile": 99 }, { "score": 900, "percentile": 99.9 }
+  ],
+  "sequence-memory": [
+    { "score": 1, "percentile": 1 }, { "score": 2, "percentile": 3 }, { "score": 3, "percentile": 8 }, { "score": 4, "percentile": 15 },
+    { "score": 5, "percentile": 28 }, { "score": 6, "percentile": 40 }, { "score": 7, "percentile": 55 }, { "score": 8, "percentile": 70 },
+    { "score": 9, "percentile": 80 }, { "score": 10, "percentile": 86 }, { "score": 11, "percentile": 90 }, { "score": 12, "percentile": 94 },
+    { "score": 14, "percentile": 98 }, { "score": 17, "percentile": 99.9 }
+  ],
+  "number-memory": [
+    { "score": 3, "percentile": 2 }, { "score": 4, "percentile": 8 }, { "score": 5, "percentile": 20 }, { "score": 6, "percentile": 35 },
+    { "score": 7, "percentile": 55 }, { "score": 8, "percentile": 75 }, { "score": 9, "percentile": 85 }, { "score": 10, "percentile": 93 },
+    { "score": 11, "percentile": 97 }, { "score": 12, "percentile": 98 }, { "score": 13, "percentile": 99 }, { "score": 15, "percentile": 99.9 }
+  ],
+  "choice-reaction": [
+    { "score": 250, "percentile": 0.5 }, { "score": 280, "percentile": 2 }, { "score": 320, "percentile": 8 }, { "score": 350, "percentile": 18 },
+    { "score": 380, "percentile": 32 }, { "score": 400, "percentile": 50 }, { "score": 430, "percentile": 65 }, { "score": 460, "percentile": 78 },
+    { "score": 500, "percentile": 88 }, { "score": 550, "percentile": 94 }, { "score": 600, "percentile": 97 }, { "score": 700, "percentile": 99 },
+    { "score": 800, "percentile": 99.9 }
+  ],
+  "sound-reaction": [
+    { "score": 90, "percentile": 0.1 }, { "score": 110, "percentile": 0.5 }, { "score": 130, "percentile": 1 }, { "score": 150, "percentile": 3 },
+    { "score": 170, "percentile": 8 }, { "score": 190, "percentile": 18 }, { "score": 210, "percentile": 32 }, { "score": 230, "percentile": 50 },
+    { "score": 250, "percentile": 68 }, { "score": 270, "percentile": 82 }, { "score": 290, "percentile": 91 }, { "score": 320, "percentile": 96 },
+    { "score": 360, "percentile": 98.5 }, { "score": 420, "percentile": 99.5 }, { "score": 500, "percentile": 99.9 }
+  ],
+  "f1-lights": [
+    { "score": 150, "percentile": 0.1 }, { "score": 170, "percentile": 0.5 }, { "score": 190, "percentile": 1 }, { "score": 210, "percentile": 3 },
+    { "score": 230, "percentile": 8 }, { "score": 250, "percentile": 18 }, { "score": 270, "percentile": 32 }, { "score": 290, "percentile": 50 },
+    { "score": 310, "percentile": 68 }, { "score": 340, "percentile": 82 }, { "score": 370, "percentile": 91 }, { "score": 400, "percentile": 96 },
+    { "score": 440, "percentile": 98.5 }, { "score": 500, "percentile": 99.5 }, { "score": 600, "percentile": 99.9 }
+  ],
+  "go-no-go": [
+    { "score": 200, "percentile": 0.1 }, { "score": 230, "percentile": 0.5 }, { "score": 250, "percentile": 1 }, { "score": 280, "percentile": 3 },
+    { "score": 300, "percentile": 8 }, { "score": 320, "percentile": 18 }, { "score": 340, "percentile": 32 }, { "score": 360, "percentile": 50 },
+    { "score": 390, "percentile": 68 }, { "score": 420, "percentile": 82 }, { "score": 460, "percentile": 91 }, { "score": 500, "percentile": 96 },
+    { "score": 550, "percentile": 98.5 }, { "score": 620, "percentile": 99.5 }, { "score": 700, "percentile": 99.9 }
+  ],
+  "stroop": [
+    { "score": 300, "percentile": 0.5 }, { "score": 350, "percentile": 2 }, { "score": 400, "percentile": 6 }, { "score": 450, "percentile": 14 },
+    { "score": 500, "percentile": 28 }, { "score": 550, "percentile": 40 }, { "score": 600, "percentile": 50 }, { "score": 650, "percentile": 60 },
+    { "score": 700, "percentile": 72 }, { "score": 750, "percentile": 82 }, { "score": 800, "percentile": 89 }, { "score": 850, "percentile": 94 },
+    { "score": 900, "percentile": 97 }, { "score": 1000, "percentile": 99 }, { "score": 1200, "percentile": 99.9 }
+  ],
+  "visual-pattern": [
+    { "score": 1, "percentile": 2 }, { "score": 2, "percentile": 8 }, { "score": 3, "percentile": 20 }, { "score": 4, "percentile": 30 },
+    { "score": 5, "percentile": 42 }, { "score": 6, "percentile": 54 }, { "score": 7, "percentile": 65 }, { "score": 8, "percentile": 74 },
+    { "score": 9, "percentile": 82 }, { "score": 10, "percentile": 87 }, { "score": 11, "percentile": 92 }, { "score": 13, "percentile": 97 },
+    { "score": 15, "percentile": 99 }, { "score": 18, "percentile": 99.9 }
+  ],
+  "pattern-reasoning": [
+    { "score": 250, "percentile": 5 }, { "score": 500, "percentile": 10 }, { "score": 750, "percentile": 15 }, { "score": 1000, "percentile": 20 },
+    { "score": 1250, "percentile": 25 }, { "score": 1500, "percentile": 30 }, { "score": 1750, "percentile": 35 }, { "score": 2000, "percentile": 40 },
+    { "score": 2250, "percentile": 45 }, { "score": 2500, "percentile": 50 }, { "score": 3000, "percentile": 60 }, { "score": 3500, "percentile": 70 },
+    { "score": 4000, "percentile": 80 }, { "score": 4500, "percentile": 90 }, { "score": 5000, "percentile": 99.9 }
+  ],
+  "trail-making": [
+    { "score": 15000, "percentile": 0.5 }, { "score": 18000, "percentile": 2 }, { "score": 22000, "percentile": 6 }, { "score": 26000, "percentile": 14 },
+    { "score": 30000, "percentile": 28 }, { "score": 33000, "percentile": 40 }, { "score": 35000, "percentile": 50 }, { "score": 38000, "percentile": 60 },
+    { "score": 42000, "percentile": 72 }, { "score": 46000, "percentile": 82 }, { "score": 50000, "percentile": 89 }, { "score": 55000, "percentile": 94 },
+    { "score": 60000, "percentile": 97 }, { "score": 70000, "percentile": 99 }, { "score": 90000, "percentile": 99.9 }
+  ],
+  "dual-n-back": [
+    { "score": 500, "percentile": 5 }, { "score": 1000, "percentile": 10 }, { "score": 1500, "percentile": 15 }, { "score": 2000, "percentile": 20 },
+    { "score": 2500, "percentile": 25 }, { "score": 3000, "percentile": 30 }, { "score": 3500, "percentile": 35 }, { "score": 4000, "percentile": 40 },
+    { "score": 4500, "percentile": 45 }, { "score": 5000, "percentile": 50 }, { "score": 6000, "percentile": 60 }, { "score": 7000, "percentile": 70 },
+    { "score": 8000, "percentile": 80 }, { "score": 9000, "percentile": 90 }, { "score": 10000, "percentile": 99.9 }
   ]
 }

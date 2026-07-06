@@ -30,7 +30,7 @@ const schemaJson = {
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
         Aim Precision Trainer
       </h1>
-      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
         Test your hand-eye coordination latency and motor control. Click 30 randomized targets as fast and accurately as possible. Review your acquisition speed and average pinpoint coordinate error.
       </p>
     </header>
@@ -43,14 +43,14 @@ const schemaJson = {
     <!-- Below the fold SEO and Methodology Content -->
 
       <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
         <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       
       {/* Scientific Methodology link */}
-      <div class="flex items-center gap-3 text-xs text-zinc-550 dark:text-zinc-400">
+      <div class="flex items-center gap-3 text-xs text-zinc-500 dark:text-zinc-400">
         <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
         <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
       </div>
@@ -58,10 +58,10 @@ const schemaJson = {
       <!-- What is it -->
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-semibold text-foreground tracking-tight">What is the Aim Precision Test?</h2>
-        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
           The Aim Precision test is designed to measure your hand-eye motor pathways. Unlike simple click challenges, this assessment tests target acquisition—demanding that your eyes track a target, your brain maps its spatial coordinates, and your motor cortex commands your arm and hand to glide the mouse pointer to the exact sub-pixel boundary before clicking.
         </p>
-        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
           This test is heavily used in esports training, where spatial coordinate speed and clicking accuracy directly dictate match outcomes in FPS games.
         </p>
       </article>
@@ -69,13 +69,13 @@ const schemaJson = {
       <!-- Fitts's Law -->
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-semibold text-foreground tracking-tight">Fitts's Law: The Physics of Aim</h2>
-        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
           Human movement acquisition is governed by **Fitts's Law**, a scientific model predicting that the time required to rapidly move to a target is a function of the ratio between the distance to the target ($D$) and the width of the target ($W$). The model is formulated as:
         </p>
         <div class="bg-subtle border border-card-border p-4 rounded-lg flex items-center justify-center my-2">
           <code class="text-foreground font-mono text-sm">MT = a + b &middot; log₂(2D / W)</code>
         </div>
-        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
           Where **MT** is the movement time. Fitts's Law demonstrates that as targets shrink or travel further across the canvas, target acquisition speed decays logarithmically. In competitive training, improving your coefficient **b** (motor skill efficiency) is what allows you to snap to small targets without slowing down.
         </p>
       </article>
@@ -83,10 +83,10 @@ const schemaJson = {
       <!-- Pinpoint Error Offset -->
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-semibold text-foreground tracking-tight">Understanding Pinpoint Error (Offset)</h2>
-        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
           Typical aim games only track hits and misses. CogniArena goes deeper by tracking **Pinpoint Error (Offset)**—measuring the exact Euclidean distance (in pixels) between your click coordinate and the absolute center of the target.
         </p>
-        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
           Analyzing your offset average tells you whether your mouse sensitivity is properly configured. If your average offset is high but you are hitting targets, you are likely clicking the margins of targets, indicating minor overshoot or undershoot. This is a clear indicator that you should adjust your mouse DPI or physical seat alignment.
         </p>
       </article>
@@ -98,13 +98,13 @@ const schemaJson = {
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
             <h3 class="text-sm font-medium text-foreground">How does DPI affect my aim test results?</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               DPI (Dots Per Inch) is the hardware sensitivity of your mouse sensor. High DPI (e.g. 3200+) means minor hand jitters translate to large screen movements, increasing offset errors. Low DPI (e.g. 400 - 800) paired with a large mousepad allows you to use your forearm instead of wrist joints, providing significantly higher accuracy and precision control.
             </p>
           </div>
           <div class="flex flex-col gap-1.5">
             <h3 class="text-sm font-medium text-foreground">Can I improve my aim with a higher refresh rate monitor?</h3>
-            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
               Yes. High refresh rates (144Hz, 240Hz, 360Hz) decrease frame spacing lag and display stutter. This lets your eye track the moving target's position with higher clarity, helping your motor system predict target acquisition coordinates with less visual delay.
             </p>
           </div>

@@ -20,11 +20,12 @@ export default function SoundReactionTest() {
   const timerId = useRef<any>(null);
   const clickLock = useRef<boolean>(false);
   const audioCtx = useRef<AudioContext | null>(null);
+  const submittedRef = useRef<boolean>(false);
 
   useEffect(() => {
     let mounted = true;
     // 1. Get Calibration
-    measureRefreshRate((res) => setCalibration(res));
+    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
 
     // 2. Personal Best
     dataLayer.getPersonalBest('sound-reaction', 'lower').then((pb) => {
@@ -41,7 +42,7 @@ export default function SoundReactionTest() {
           if (payload && payload.testId === 'sound-reaction') {
             setChallengeScore(payload.score);
           }
-        });
+        }).catch(console.error);
       }
     }
 
@@ -103,6 +104,7 @@ export default function SoundReactionTest() {
     setAttempts([]);
     setCurrentScore(null);
     setShareImage(null);
+    submittedRef.current = false;
     setGameState('waiting');
     setupRandomTimer();
   };
@@ -163,16 +165,22 @@ export default function SoundReactionTest() {
   };
 
   const finalizeTest = async (avgScore: number, allAttempts: number[]) => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     setGameState('result');
     const percentile = lookupPercentile(avgScore);
 
-    await dataLayer.saveSession({
-      testId: 'sound-reaction',
-      category: 'reaction',
-      rawScore: avgScore,
-      percentile: percentile,
-      metadata: { attempts: allAttempts }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'sound-reaction',
+        category: 'reaction',
+        rawScore: avgScore,
+        percentile: percentile,
+        metadata: { attempts: allAttempts }
+      });
+    } catch (err) {
+      console.error('Failed to save Sound Reaction session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('sound-reaction', 'lower');
     setPersonalBest(pb);
@@ -190,7 +198,7 @@ export default function SoundReactionTest() {
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
       setTimeout(() => setCopiedChallenge(false), 2000);
-    });
+    }).catch(console.error);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -230,7 +238,7 @@ export default function SoundReactionTest() {
             </div>
             <div>
               <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Sound Reaction Test</h2>
-              <p className="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed max-w-sm mb-4">
+              <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-sm mb-4">
                 Click inside the card to begin. Wait for the audio beep, and react the exact instant you hear the tone.
               </p>
             </div>
@@ -268,7 +276,7 @@ export default function SoundReactionTest() {
           <div className="flex flex-col items-center gap-4">
             <span className="text-zinc-500 text-xs font-mono uppercase">Attempt {attempts.length} Finished</span>
             <div className="text-4xl font-mono font-bold text-foreground">{currentScore} ms</div>
-            <p className="text-zinc-550 dark:text-zinc-400 text-xs mb-4">
+            <p className="text-zinc-500 dark:text-zinc-400 text-xs mb-4">
               Click anywhere to proceed to attempt {attempts.length + 1} of 5.
             </p>
           </div>
@@ -278,7 +286,7 @@ export default function SoundReactionTest() {
           <div className="flex flex-col items-center gap-4">
             <span className="text-rose-500 text-2xl">⚠️</span>
             <h2 className="text-lg font-bold text-foreground">Too Early!</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-xs">
+            <p className="text-zinc-500 dark:text-zinc-400 text-xs">
               You clicked before the audio tone beeped. Attempts reset.
             </p>
             <span className="text-xs uppercase font-mono text-zinc-500 mt-2">Click to restart</span>

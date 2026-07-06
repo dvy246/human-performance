@@ -17,6 +17,7 @@ export default function StageSequenceMemory({ onComplete }: StageProps) {
   const seqRef = useRef<number[]>([]);
   const userRef = useRef<number[]>([]);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const completedRef = useRef(false);
 
   const ct = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
   const st = useCallback((fn: () => void, ms: number) => {
@@ -61,6 +62,8 @@ export default function StageSequenceMemory({ onComplete }: StageProps) {
       ct();
       const MAX_LEVEL = 10;
       const score = Math.max(0, Math.min(100, Math.round((correctCount / MAX_LEVEL) * 70 + 30)));
+      if (completedRef.current) return;
+      completedRef.current = true;
       setPhase('done');
       onComplete({
         stageIndex: 1, stageName: 'Sequence Memory', score, rawScore: correctCount,
@@ -73,6 +76,8 @@ export default function StageSequenceMemory({ onComplete }: StageProps) {
       setCorrectCount(level);
       const next = level + 1;
       if (next > 10) {
+        if (completedRef.current) return;
+        completedRef.current = true;
         setPhase('done');
         onComplete({
           stageIndex: 1, stageName: 'Sequence Memory', score: 100, rawScore: 10,
@@ -85,7 +90,7 @@ export default function StageSequenceMemory({ onComplete }: StageProps) {
     }
   };
 
-  const startGame = () => { setLevel(1); setCorrectCount(0); startLevel(1); };
+  const startGame = () => { setLevel(1); setCorrectCount(0); completedRef.current = false; startLevel(1); };
   useEffect(() => { return ct; }, [ct]);
 
   if (phase === 'intro') {

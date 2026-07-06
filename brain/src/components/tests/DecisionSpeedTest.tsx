@@ -24,8 +24,11 @@ export default function DecisionSpeedTest() {
     respondedRef.current = false;
     timeoutRef.current = setTimeout(() => {
       if (!respondedRef.current) {
-        setResults(prev => [...prev, { correct: false, rt: TIMEOUT_MS }]);
-        advance([...results, { correct: false, rt: TIMEOUT_MS }]);
+        setResults(prev => {
+          const next = [...prev, { correct: false, rt: TIMEOUT_MS }];
+          advance(next);
+          return next;
+        });
       }
     }, TIMEOUT_MS);
   };
@@ -36,8 +39,11 @@ export default function DecisionSpeedTest() {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     const rt = Math.round(performance.now() - startRef.current);
     const correct = (answer === 'high' && number >= 50) || (answer === 'low' && number < 50);
-    setResults(prev => [...prev, { correct, rt }]);
-    advance([...results, { correct, rt }]);
+    setResults(prev => {
+      const next = [...prev, { correct, rt }];
+      advance(next);
+      return next;
+    });
   };
 
   const advance = (r: { correct: boolean; rt: number }[]) => {

@@ -179,7 +179,7 @@ export default function StroopTest() {
           </div>
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">Stroop Attention Test</h2>
-            <p className="text-zinc-550 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
+            <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
               Test your brain's selective attention and processing conflict resolution. 
               A word will appear in colored ink. Select the button matching the **ink color** of the word, NOT what the word itself reads.
             </p>
@@ -248,7 +248,7 @@ export default function StroopTest() {
             ✓
           </div>
           <div>
-            <span className="text-zinc-550 text-xs font-mono uppercase tracking-widest">Assessment Final Score</span>
+            <span className="text-zinc-500 text-xs font-mono uppercase tracking-widest">Assessment Final Score</span>
             <h2 className="text-4xl font-extrabold tracking-tight text-foreground mt-1">
               {getAvg(congruentScores) + getAvg(incongruentScores) + (20 - correctCount) * 150} ms
             </h2>
