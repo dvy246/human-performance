@@ -2,9 +2,9 @@
 import Layout from "@/layouts/main.astro";
 import ChoiceReactionTest from "@/components/tests/ChoiceReactionTest";
 
-const title = "Choice Reaction Time Test — Hick's Law Grid | BrainBenchmarks";
+const title = "Choice Reaction Time Test — Hick's Law Grid | CogniArena";
 const description = "Test your cognitive processing latency with our choice reaction grid. Map visual colors to keyboard hotkeys, manage decision accuracy, and beat Hick's Law.";
-const canonicalUrl = "https://brainbenchmarks.com/tests/choice-reaction";
+const canonicalUrl = "https://cogniarena.com/tests/choice-reaction";
 
 const schemaJson = {
   "@context": "https://schema.org",
@@ -27,10 +27,10 @@ const schemaJson = {
         <span>&middot;</span>
         <span>Reaction Suite</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
         Choice Reaction Test
       </h1>
-      <p class="text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
         Assess your visual recognition latency and cognitive choice selection. Press keyboard hotkeys **R**, **G**, **B**, or **Y** as colors appear. Precision is critical: incorrect selections add a **+150ms penalty**.
       </p>
     </header>
@@ -41,64 +41,70 @@ const schemaJson = {
     </section>
 
     <!-- Below the fold SEO and Methodology Content -->
+
+      <!-- Medical/Scientific Disclaimer Notice -->
+      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
+      </div>
+
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       
       {/* Scientific Methodology link */}
-      <div class="flex items-center gap-3 text-xs text-zinc-400">
+      <div class="flex items-center gap-3 text-xs text-zinc-550 dark:text-zinc-400">
         <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
         <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
       </div>
 
       <!-- What is it -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-white tracking-tight">What is the Choice Reaction Test?</h2>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is the Choice Reaction Test?</h2>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
           Unlike simple reaction tests where you react to any stimulus change, a **choice reaction test** introduces multiple distinct stimuli, each requiring a unique response. This test introduces four colored targets (Red, Green, Blue, Yellow), demanding that you identify the color, select the appropriate response key or pad, and execute the motor trigger.
         </p>
       </article>
 
       <!-- Hick's Law -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-white tracking-tight">Hick's Law: How Choice Retards Reflex Speed</h2>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Hick's Law: How Choice Retards Reflex Speed</h2>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
           In cognitive psychology, **Hick's Law** states that the time it takes to make a decision increases logarithmically with the number of options ($n$) available. The mathematical model is expressed as:
         </p>
-        <div class="bg-zinc-950/60 border border-card-border p-4 rounded-lg flex items-center justify-center my-2">
-          <code class="text-white font-mono text-sm">RT = a + b &middot; log₂(n)</code>
+        <div class="bg-subtle border border-card-border p-4 rounded-lg flex items-center justify-center my-2">
+          <code class="text-foreground font-mono text-sm">RT = a + b &middot; log₂(n)</code>
         </div>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
           Where **RT** is the reaction time, **a** is the total non-decision latency (such as optical transmission speed), **b** is an empirical constant, and **n** is the number of options. 
         </p>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
           By expanding the test from a single stimulus (simple reaction) to four choices ($n = 4$), your brain must engage executive sorting centers in the prefrontal cortex. This decision processing loop typically adds **150 to 220 milliseconds** of cognitive lag, pushing normal averages up to **380ms to 480ms**.
         </p>
       </article>
 
       <!-- Speed-Accuracy Tradeoff -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-white tracking-tight">Measuring the Speed-Accuracy Trade-off</h2>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Measuring the Speed-Accuracy Trade-off</h2>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
           When people try to react as fast as possible, their error rates naturally spike. This is known as the **speed-accuracy trade-off**. 
         </p>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
           To prevent users from gaming the test by randomly spamming keys, our assessment implements a **+150ms penalty** for every incorrect choice. This forces your brain to balance rapid motor release with visual verification, providing a much truer assessment of executive function than speed alone.
         </p>
       </article>
 
       <!-- FAQ Section -->
       <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold text-white tracking-tight">Frequently Asked Questions</h2>
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
         
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-white">How does this test apply to real-world tasks?</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">
+            <h3 class="text-sm font-medium text-foreground">How does this test apply to real-world tasks?</h3>
+            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
               Choice reaction is the baseline for almost all real-world activities. In driving, a simple reaction is slamming the brakes when a red light appears. A choice reaction is deciding whether to swerve left, swerve right, or brake when an obstacle appears in your lane.
             </p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-white">Why are keys mapped to R, G, B, Y?</h3>
-            <p class="text-zinc-400 text-sm leading-relaxed">
+            <h3 class="text-sm font-medium text-foreground">Why are keys mapped to R, G, B, Y?</h3>
+            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
               We map inputs to the first letter of each color: **R**ed, **G**reen, **B**lue, and **Y**ellow. This semantic mapping creates a minor cognitive association pathway that you must master to achieve elite reaction scores.
             </p>
           </div>

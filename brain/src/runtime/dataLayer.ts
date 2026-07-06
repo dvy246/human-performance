@@ -16,10 +16,10 @@ export interface UserSettings {
   lastActiveDate: string; // YYYY-MM-DD
 }
 
-const DB_NAME = 'BrainBenchmarksDB';
+const DB_NAME = 'CogniArenaDB';
 const DB_VERSION = 1;
 const STORE_NAME = 'sessions';
-const SYNC_API_URL = 'https://brainbenchmarks-sync.divyyadav.workers.dev';
+const SYNC_API_URL = 'https://cogniarena-sync.divyyadav.workers.dev';
 
 // Helper to initialize IndexedDB
 function initDB(): Promise<IDBDatabase> {
@@ -243,9 +243,12 @@ export const dataLayer = {
     let mergeCount = 0;
 
     for (const item of body.attempts) {
-      const metadataObj = typeof item.metadata === 'string'
-        ? JSON.parse(item.metadata)
-        : (item.metadata || {});
+      let metadataObj: Record<string, unknown> = {};
+      if (typeof item.metadata === 'string') {
+        try { metadataObj = JSON.parse(item.metadata); } catch { metadataObj = {}; }
+      } else {
+        metadataObj = item.metadata || {};
+      }
 
       const mergedRecord: SessionRecord = {
         id: item.id,

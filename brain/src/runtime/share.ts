@@ -55,9 +55,9 @@ export function generateShareCard(
     ctx.fillStyle = '#030303';
     ctx.fillRect(0, 0, 1200, 630);
 
-    // 2. Draw Ambient Glow (Subtle gold/amber radial glow from center)
+    // 2. Draw Ambient Glow (Subtle blue radial glow from center)
     const gradient = ctx.createRadialGradient(600, 315, 50, 600, 315, 600);
-    gradient.addColorStop(0, 'rgba(217, 119, 6, 0.12)'); // Amber-600 low opacity
+    gradient.addColorStop(0, 'rgba(59, 130, 246, 0.10)'); // Blue-500 low opacity
     gradient.addColorStop(1, 'rgba(3, 3, 3, 0)');
     ctx.fillStyle = gradient;
     ctx.fillRect(0, 0, 1200, 630);
@@ -85,34 +85,46 @@ export function generateShareCard(
     ctx.lineWidth = 20;
     ctx.strokeRect(0, 0, 1200, 630);
 
-    ctx.strokeStyle = 'rgba(217, 119, 6, 0.3)'; // Amber accent border highlight
+    ctx.strokeStyle = 'rgba(59, 130, 246, 0.25)'; // Blue accent border highlight
     ctx.lineWidth = 2;
     ctx.strokeRect(10, 10, 1180, 610);
 
     // Wait for fonts to load or fallback gracefully
     ctx.textBaseline = 'middle';
 
-    // 5. Draw Header Logo Block (BrainBenchmarks)
-    ctx.fillStyle = '#d97706'; // Accent color
-    ctx.fillRect(100, 95, 36, 36);
-    
-    ctx.fillStyle = '#ffffff';
-    ctx.font = 'bold 20px sans-serif';
+    // 5. Draw Header Logo Block (CogniArena)
+    // Hexagon shield background
+    ctx.fillStyle = 'rgba(59, 130, 246, 0.15)';
+    const cx = 118, cy = 113, r = 20;
+    ctx.beginPath();
+    for (let i = 0; i < 6; i++) {
+      const angle = Math.PI / 3 * i - Math.PI / 6;
+      const x = cx + r * Math.cos(angle);
+      const y = cy + r * Math.sin(angle);
+      i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle = 'rgba(59, 130, 246, 0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.fillStyle = '#3b82f6';
+    ctx.font = 'bold 18px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('B', 118, 113);
+    ctx.fillText('CA', cx, cy + 2);
 
     ctx.fillStyle = '#fafafa';
-    ctx.font = 'semibold 24px sans-serif';
+    ctx.font = '600 24px sans-serif';
     ctx.textAlign = 'left';
-    ctx.fillText('BrainBenchmarks', 152, 113);
+    ctx.fillText('CogniArena', 152, 113);
 
     ctx.fillStyle = 'rgba(250, 250, 250, 0.4)';
-    ctx.font = '14px monospace';
-    ctx.fillText('MEASURE. UNDERSTAND. IMPROVE.', 360, 113);
+    ctx.font = '500 14px monospace';
+    ctx.fillText('DISCOVER YOUR COGNITIVE POTENTIAL', 360, 113);
 
     // 6. Draw Category/Test Subtitle
     ctx.fillStyle = 'rgba(250, 250, 250, 0.5)';
-    ctx.font = '20px monospace';
+    ctx.font = '500 20px monospace';
     ctx.fillText(testName.toUpperCase(), 100, 230);
 
     // 7. Draw The Score (Bold numerical statement)
@@ -121,9 +133,9 @@ export function generateShareCard(
     ctx.fillText(scoreLabel, 100, 310);
 
     // 8. Draw Percentile Statement
-    ctx.fillStyle = '#d97706'; // Gold Accent
-    ctx.font = 'medium 28px sans-serif';
-    ctx.fillText(`Top ${percentile}% of the global population`, 100, 390);
+    ctx.fillStyle = '#3b82f6'; // Blue Accent
+    ctx.font = '500 28px sans-serif';
+    ctx.fillText(`Top ${100 - percentile}% of the global population`, 100, 390);
 
     // 9. Draw CTA / Challenge invitation
     ctx.fillStyle = '#ffffff';
@@ -134,7 +146,7 @@ export function generateShareCard(
     ctx.fillStyle = 'rgba(250, 250, 250, 0.3)';
     ctx.font = '16px monospace';
     ctx.textAlign = 'right';
-    ctx.fillText('Scan to challenge or visit: brainbenchmarks.com', 1100, 520);
+    ctx.fillText('Scan to challenge or visit: cogniarena.com', 1100, 520);
 
     // Resolve as dataURL image
     resolve(canvas.toDataURL('image/png'));

@@ -36,12 +36,14 @@ export default function GoNoGoTest() {
   const timerId = useRef<any>(null);
   const targetTimeoutId = useRef<any>(null);
   const clickLock = useRef<boolean>(false);
+  const submittedRef = useRef(false);
 
   useEffect(() => {
-    measureRefreshRate((res) => setCalibration(res));
+    let mounted = true;
+    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
     dataLayer.getPersonalBest('go-no-go', 'lower').then((pb) => {
-      setPersonalBest(pb);
-    });
+      if (mounted) setPersonalBest(pb);
+    }).catch(console.error);
 
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
@@ -50,13 +52,14 @@ export default function GoNoGoTest() {
         import('../../runtime/share').then(({ decodeChallenge }) => {
           const payload = decodeChallenge(challengeToken);
           if (payload && payload.testId === 'go-no-go') {
-            setChallengeScore(payload.score);
+            if (mounted) setChallengeScore(payload.score);
           }
-        });
+        }).catch(console.error)
       }
     }
 
     return () => {
+      mounted = false;
       clearTimers();
     };
   }, []);
@@ -193,6 +196,8 @@ export default function GoNoGoTest() {
   };
 
   const finalizeTest = async (avgScore: number, roundsCount: number) => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     setGameState('result');
     
     // Penalize score for False Alarms: add +250ms per false alarm to the final average
@@ -223,7 +228,7 @@ export default function GoNoGoTest() {
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
       setTimeout(() => setCopiedChallenge(false), 2000);
-    });
+    }).catch(console.error);
   };
 
   return (
@@ -313,7 +318,7 @@ export default function GoNoGoTest() {
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {lookupPercentile(Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250))}% globally
+                Top {100 - lookupPercentile(Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250))}% globally
               </span>
             </div>
 
@@ -342,7 +347,7 @@ export default function GoNoGoTest() {
           {shareImage && (
             <a
               href={shareImage}
-              download="brainbenchmarks-go-no-go.png"
+              download="cogniarena-go-no-go.png"
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>

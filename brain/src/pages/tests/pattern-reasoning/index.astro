@@ -1,0 +1,64 @@
+---
+import Layout from "@/layouts/main.astro";
+import PatternReasoningTest from "@/components/tests/PatternReasoningTest";
+
+const title = "Pattern Reasoning Test — Fluid Intelligence Assessment | CogniArena";
+const description = "Evaluate your visual pattern recognition, logical reasoning, and fluid intelligence. Complete geometric progressions and matrix puzzles with millisecond precision.";
+const canonicalUrl = "https://cogniarena.com/tests/pattern-reasoning";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Pattern Reasoning Test",
+  "description": "Assess fluid visual reasoning and logical pattern completions.",
+  "about": {
+    "@type": "Thing",
+    "name": "Fluid Intelligence & Logic"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Assessment Suite</span>
+        <span>&middot;</span>
+        <span>Fluid Logic Suite</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+        Pattern Reasoning Test
+      </h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        Benchmark your fluid intelligence. Identify the logical symbol that completes each pattern sequence. Respond quickly and accurately to maximize your score.
+      </p>
+    </header>
+
+    <section class="w-full">
+      <PatternReasoningTest client:load />
+    </section>
+
+    <!-- Below the fold SEO and Methodology Content -->
+
+      <!-- Medical/Scientific Disclaimer Notice -->
+      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
+      </div>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">Fluid Reasoning & Visual Pattern Recognition</h2>
+        <p class="text-zinc-450 text-sm leading-relaxed">
+          Fluid intelligence represents your capacity to think logically and solve problems in novel situations, independent of acquired knowledge. Non-verbal matrix reasoning tests are widely recognized in cognitive neuroscience as strong indicators of fluid reasoning efficiency, requiring structural pattern matching and rule extraction.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">Methodology and Scoring</h2>
+        <p class="text-zinc-450 text-sm leading-relaxed">
+          The Pattern Reasoning test consists of 10 progressive sequence puzzles. Your score represents a composite of accuracy (number of correct completions) and speed (response latency per question). Answering quickly with high accuracy yields the highest performance index, indicating fast processing and accurate inductive reasoning.
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

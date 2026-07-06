@@ -2,9 +2,9 @@
 import Layout from "@/layouts/main.astro";
 import VisualPatternTest from "@/components/tests/VisualPatternTest";
 
-const title = "Visual Pattern Memory Test — Spatial Assessment | BrainBenchmarks";
+const title = "Visual Pattern Memory Test — Spatial Assessment | CogniArena";
 const description = "Benchmark your visuospatial working memory. Recall grid patterns under millisecond-accurate display intervals.";
-const canonicalUrl = "https://brainbenchmarks.com/tests/visual-pattern";
+const canonicalUrl = "https://cogniarena.com/tests/visual-pattern";
 
 const schemaJson = {
   "@context": "https://schema.org",
@@ -26,10 +26,10 @@ const schemaJson = {
         <span>&middot;</span>
         <span>Memory Suite</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-white">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
         Visual Pattern Memory Test
       </h1>
-      <p class="text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
         Test your visual pattern memory boundaries. Memorize the illuminated grid locations and recall them correctly.
       </p>
     </header>
@@ -39,16 +39,22 @@ const schemaJson = {
     </section>
 
     <!-- Below the fold SEO and Methodology Content -->
+
+      <!-- Medical/Scientific Disclaimer Notice -->
+      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
+      </div>
+
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-white tracking-tight">How the Visual Pattern Memory Test Works</h2>
+        <h2 class="text-xl font-bold text-foreground tracking-tight">How the Visual Pattern Memory Test Works</h2>
         <p class="text-zinc-450 text-sm leading-relaxed">
           At the start of each level, a grid displays a pattern of highlighted tiles. Memorize their coordinates. When they disappear, click all cells that were part of the pattern, then submit.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-white tracking-tight">Visuospatial Processing Efficiency</h2>
+        <h2 class="text-xl font-bold text-foreground tracking-tight">Visuospatial Processing Efficiency</h2>
         <p class="text-zinc-450 text-sm leading-relaxed">
           The parietal lobe and prefrontal cortex play central roles in processing spatial positions. Visual chunking strategies allow high-level performers to group adjacent tiles into single vector shapes, optimizing visual cache recall.
         </p>

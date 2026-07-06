@@ -23,11 +23,13 @@ export default function VisualPatternTest() {
   const [showTimer, setShowTimer] = useState(100);
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const submittedRef = useRef(false);
 
   useEffect(() => {
+    let mounted = true;
     dataLayer.getPersonalBest('visual-pattern', 'higher').then(pb => {
-      setPersonalBest(pb);
-    });
+      if (mounted) setPersonalBest(pb);
+    }).catch(console.error);
 
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
@@ -36,11 +38,13 @@ export default function VisualPatternTest() {
         import('../../runtime/share').then(({ decodeChallenge }) => {
           const payload = decodeChallenge(decodeURIComponent(token));
           if (payload && payload.testId === 'visual-pattern') {
-            setChallengeScore(payload.score);
+            if (mounted) setChallengeScore(payload.score);
           }
-        });
+        }).catch(console.error)
       }
     }
+
+    return () => { mounted = false; };
   }, []);
 
   const generatePattern = (size: number, tileCount: number): Set<number> => {
@@ -138,6 +142,8 @@ export default function VisualPatternTest() {
   }, [phase, userSelected, pattern, level]);
 
   const finishTest = async () => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     const finalScore = level - 1;
     setPhase('result');
 
@@ -183,7 +189,7 @@ export default function VisualPatternTest() {
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
       setTimeout(() => setCopiedChallenge(false), 2000);
-    });
+    }).catch(console.error);
   };
 
   const finalScore = level - 1;
@@ -321,7 +327,7 @@ export default function VisualPatternTest() {
                 Level {finalScore}
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {lookupPercentile(finalScore)}% of population
+                Top {100 - lookupPercentile(finalScore)}% of population
               </span>
             </div>
 
@@ -375,7 +381,7 @@ export default function VisualPatternTest() {
           {shareImage && (
             <a
               href={shareImage}
-              download="brainbenchmarks-visual-pattern.png"
+              download="cogniarena-visual-pattern.png"
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard w-full"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>

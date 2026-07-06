@@ -1,0 +1,21 @@
+---
+import Layout from "@/layouts/main.astro";
+import DecisionSpeedTest from "@/components/tests/DecisionSpeedTest";
+
+const title = "Decision Speed Test – Binary Choice | CogniArena";
+const description = "Measure your decision-making speed. Rapidly classify numbers as ≥50 or <50 in this cognitive processing speed test.";
+const canonicalUrl = "https://cogniarena.com/tests/decision-speed";
+---
+<Layout title={title} description={description} canonicalUrl={canonicalUrl}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Cognition</span></div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Decision Speed Test</h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">How fast can you decide? Classify 20 numbers as ≥50 or &lt;50 against a 2-second timeout. Measures raw information processing speed.</p>
+    </header>
+    <section class="w-full"><DecisionSpeedTest client:visible /></section>
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
+    </div>
+  </div>
+</Layout>

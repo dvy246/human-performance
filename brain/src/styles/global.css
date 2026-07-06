@@ -1,62 +1,60 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #fafafa;
-  --text-primary: #18181b;
-  --text-secondary: #3f3f46;
-  --text-muted: #71717a;
+  --bg-primary: #f8fafc;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
   --bg-card: #ffffff;
-  --border-primary: #e4e4e7;
-  --bg-subtle: #f4f4f5;
-  --bg-panel: #e4e4e7;
-  --bg-hover: #f0f0f2;
+  --border-primary: #e2e8f0;
+  --bg-subtle: #f1f5f9;
+  --bg-panel: #e2e8f0;
+  --bg-hover: #e9eef3;
   --bg-input: #ffffff;
   --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
-  /* Button variants for light mode */
-  --btn-secondary-bg: #f4f4f5;
-  --btn-secondary-border: #d4d4d8;
-  --btn-secondary-text: #27272a;
-  --btn-secondary-hover-bg: #e4e4e7;
-  --btn-ghost-text: #52525b;
-  --btn-ghost-hover-bg: #f4f4f5;
+  --btn-secondary-bg: #f1f5f9;
+  --btn-secondary-border: #cbd5e1;
+  --btn-secondary-text: #1e293b;
+  --btn-secondary-hover-bg: #e2e8f0;
+  --btn-ghost-text: #64748b;
+  --btn-ghost-hover-bg: #f1f5f9;
 }
 
 :root.dark {
-  --bg-primary: #030303;
+  --bg-primary: #000000;
   --text-primary: #fafafa;
-  --text-secondary: #a1a1aa;
-  --text-muted: #71717a;
-  --bg-card: #09090b;
-  --border-primary: #1c1c1f;
-  --bg-subtle: #141416;
-  --bg-panel: #0d0d0e;
-  --bg-hover: #1a1a1e;
-  --bg-input: #0d0d0e;
-  --shadow-card: 0 1px 3px rgba(0,0,0,0.3), 0 1px 2px rgba(0,0,0,0.2);
-  --shadow-card-hover: 0 8px 25px rgba(0,0,0,0.4), 0 3px 8px rgba(0,0,0,0.3);
-  /* Button variants for dark mode */
-  --btn-secondary-bg: #18181b;
-  --btn-secondary-border: #27272a;
-  --btn-secondary-text: #d4d4d8;
-  --btn-secondary-hover-bg: #27272a;
-  --btn-ghost-text: #a1a1aa;
-  --btn-ghost-hover-bg: rgba(39,39,42,0.5);
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+  --bg-card: #080c18;
+  --border-primary: #1a2540;
+  --bg-subtle: #0c1428;
+  --bg-panel: #060a16;
+  --bg-hover: #101c34;
+  --bg-input: #0c1428;
+  --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
+  --shadow-card-hover: 0 8px 25px rgba(59,130,246,0.1), 0 3px 8px rgba(0,0,0,0.4);
+  --btn-secondary-bg: #0c1428;
+  --btn-secondary-border: #1a2540;
+  --btn-secondary-text: #cbd5e1;
+  --btn-secondary-hover-bg: #1a2540;
+  --btn-ghost-text: #94a3b8;
+  --btn-ghost-hover-bg: rgba(59,130,246,0.08);
 }
 
 @theme {
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
   --font-mono: 'JetBrains Mono', monospace;
-  
+
   --color-background: var(--bg-primary);
   --color-foreground: var(--text-primary);
   --color-secondary: var(--text-secondary);
   --color-muted: var(--text-muted);
   --color-card: var(--bg-card);
   --color-card-border: var(--border-primary);
-  --color-accent: #d97706;
-  --color-accent-hover: #b45309;
+  --color-accent: #3b82f6;
+  --color-accent-hover: #2563eb;
   --color-subtle: var(--bg-subtle);
   --color-panel: var(--bg-panel);
   --color-hover: var(--bg-hover);
@@ -71,7 +69,6 @@
     overflow-x: hidden;
   }
 
-  /* Custom scrollbar to match theme colors */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -87,63 +84,34 @@
     background: #52525b;
   }
 
-  /* Theme styling overrides for light mode */
-  :root:not(.dark) h1,
-  :root:not(.dark) h2,
-  :root:not(.dark) h3,
-  :root:not(.dark) h4,
-  :root:not(.dark) h5,
-  :root:not(.dark) h6,
-  :root:not(.dark) strong,
-  :root:not(.dark) th,
-  :root:not(.dark) td {
-    color: #18181b !important;
-  }
-
-  :root:not(.dark) p,
-  :root:not(.dark) li {
-    color: #3f3f46 !important;
-  }
-
-  :root:not(.dark) code {
-    background-color: #f4f4f5 !important;
-    color: #18181b !important;
-    border-color: #e4e4e7 !important;
-  }
-
-  /* Force accent-colored text to stay accent in both modes */
   .text-accent {
     color: var(--color-accent) !important;
   }
 
-  /* Card hover borders should adapt to mode */
   :root:not(.dark) .card-interactive:hover {
     border-color: #a1a1aa !important;
   }
   :root.dark .card-interactive:hover {
-    border-color: #3f3f46 !important;
+    border-color: #1a2540 !important;
   }
 }
 
-/* Custom interactive animation transitions */
 .transition-standard {
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.glow-amber {
-  box-shadow: 0 0 20px -5px rgba(217, 119, 6, 0.15);
+.glow-blue {
+  box-shadow: 0 0 20px -5px rgba(59, 130, 246, 0.15);
 }
 
 .glow-emerald {
   box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.2);
 }
 
-/* Custom utility for tabular numbers in stats & timers */
 .tabular-nums {
   font-variant-numeric: tabular-nums;
 }
 
-/* Hide default details marker */
 summary::-webkit-details-marker {
   display: none;
 }
@@ -151,9 +119,6 @@ summary {
   list-style: none;
 }
 
-/* ======== MICRO-INTERACTION ANIMATIONS ======== */
-
-/* Fade-in on load / visibility */
 @keyframes fadeInUp {
   from { opacity: 0; transform: translateY(12px); }
   to { opacity: 1; transform: translateY(0); }
@@ -175,8 +140,8 @@ summary {
 }
 
 @keyframes pulse-glow {
-  0%, 100% { box-shadow: 0 0 0 0 rgba(217, 119, 6, 0.4); }
-  50% { box-shadow: 0 0 20px 4px rgba(217, 119, 6, 0.15); }
+  0%, 100% { box-shadow: 0 0 0 0 rgba(59, 130, 246, 0.4); }
+  50% { box-shadow: 0 0 20px 4px rgba(59, 130, 246, 0.15); }
 }
 
 @keyframes shimmer {
@@ -208,7 +173,6 @@ summary {
   animation: pulse-glow 2s infinite;
 }
 
-/* Stagger delays for child elements */
 .stagger-1 { animation-delay: 0.05s; }
 .stagger-2 { animation-delay: 0.1s; }
 .stagger-3 { animation-delay: 0.15s; }
@@ -218,7 +182,6 @@ summary {
 .stagger-7 { animation-delay: 0.35s; }
 .stagger-8 { animation-delay: 0.4s; }
 
-/* Interactive card hover effect */
 .card-interactive {
   transition: all 200ms cubic-bezier(0.22, 1, 0.36, 1);
   box-shadow: var(--shadow-card);
@@ -228,22 +191,19 @@ summary {
   box-shadow: var(--shadow-card-hover);
 }
 
-/* Gradient text utility */
-.text-gradient-amber {
-  background: linear-gradient(135deg, #d97706, #f59e0b);
+.text-gradient-accent {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-/* Mobile sidebar overlay backdrop */
 .mobile-sidebar-backdrop {
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(4px);
   -webkit-backdrop-filter: blur(4px);
 }
 
-/* Reduced motion preference */
 @media (prefers-reduced-motion: reduce) {
   .animate-fade-in-up,
   .animate-fade-in,

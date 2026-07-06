@@ -1,8 +1,8 @@
-name = "brainbenchmarks-sync"
+name = "cogniarena-sync"
 main = "index.ts"
 compatibility_date = "2026-07-05"
 
 [[d1_databases]]
 binding = "DB"
-database_name = "brainbenchmarks_db"
+database_name = "cogniarena_db"
 database_id = "d1-database-id-uuid-placeholder"

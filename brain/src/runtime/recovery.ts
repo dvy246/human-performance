@@ -6,13 +6,17 @@ const WORD_LIST = [
   'visual', 'sound', 'memory', 'aim', 'grid', 'pulse', 'wave', 'light',
   'trigger', 'driver', 'pilot', 'athlete', 'gamer', 'cadence', 'tempo', 'clock',
   'span', 'digit', 'score', 'percent', 'neural', 'cortex', 'synapse', 'neuron',
-  'signal', 'route', 'vector', 'factor', 'latency', 'calibration', 'frequency', 'interval',
-  'paint', 'frame', 'refresh', 'buffer', 'jitter', 'delay', 'decay', 'streak',
-  'daily', 'weekly', 'monthly', 'history', 'badge', 'profile', 'radar', 'hex',
-  'axis', 'logic', 'cognitive', 'mental', 'cranial', 'lobe', 'retina', 'cochlear',
-  'nerve', 'impulse', 'command', 'action', 'trigger', 'clicker', 'tracker', 'endurance',
-  'precision', 'target', 'bullet', 'acquire', 'precision', 'flicks', 'track', 'shrunk',
-  'simon', 'matrix', 'visual', 'sketch', 'pattern', 'repeat', 'sequence', 'chunks'
+  'signal', 'route', 'vector', 'factor', 'calibration', 'frequency', 'interval', 'paint',
+  'frame', 'refresh', 'buffer', 'jitter', 'delay', 'decay', 'streak', 'daily',
+  'weekly', 'monthly', 'history', 'badge', 'profile', 'hex', 'axis', 'logic',
+  'cognitive', 'mental', 'cranial', 'lobe', 'retina', 'cochlear', 'nerve', 'impulse',
+  'command', 'action', 'clicker', 'tracker', 'endurance', 'target', 'bullet', 'acquire',
+  'flicks', 'track', 'shrunk', 'simon', 'matrix', 'sketch', 'pattern', 'repeat',
+  'sequence', 'chunks', 'quantum', 'cipher', 'network', 'pixel', 'sensor', 'orbit',
+  'pivot', 'static', 'dynamic', 'active', 'passive', 'stable', 'vortex', 'binary',
+  'analog', 'digital', 'optical', 'beacon', 'tether', 'bridge', 'socket', 'thread',
+  'stream', 'packet', 'portal', 'vertex', 'scalar', 'tensor', 'radius', 'aspect',
+  'symbol', 'token', 'crypt', 'vault', 'guard', 'shield', 'secure', 'node'
 ];
 
 export function generateRecoveryCode(): string {

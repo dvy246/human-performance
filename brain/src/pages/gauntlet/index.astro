@@ -1,0 +1,79 @@
+---
+import Layout from "@/layouts/main.astro";
+import GauntletTest from "@/components/tests/GauntletTest";
+
+const title = "The Gauntlet – 5-Stage Cognitive Assessment | CogniArena";
+const description = "The ultimate 5-minute cognitive gauntlet: reaction speed, sequence memory, Stroop interference, matrix reasoning, and aim precision. Get your CAI score and performance archetype.";
+const canonicalUrl = "https://cogniarena.com/gauntlet";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "The Gauntlet — CogniArena Flaghsip Assessment",
+  "description": "A five-stage sequential cognitive assessment measuring reaction, memory, focus, reasoning, and precision.",
+  "about": { "@type": "Thing", "name": "Multi-Domain Cognitive Performance" },
+  "timeRequired": "PT4M",
+  "assesses": ["Reaction Speed", "Sequence Memory", "Stroop Interference", "Matrix Reasoning", "Aim Precision"]
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Flagship</span>
+        <span>&middot;</span>
+        <span>Multi-Domain Assessment</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">The Gauntlet</h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        A <strong>5-stage cognitive gauntlet</strong>: reaction → memory → focus → logic → precision. Takes ~4 minutes and outputs a unified CogniArena Index score and performance archetype.
+      </p>
+    </header>
+    <section class="w-full"><GauntletTest client:visible /></section>
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking, educational, and cognitive training purposes only. Not a clinical, medical, or diagnostic evaluation.
+    </div>
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is The Gauntlet?</h2>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+          The Gauntlet is CogniArena' flagship multi-domain cognitive assessment. Unlike single-metric tests, it challenges <strong>five different cognitive dimensions</strong> in one continuous session, producing a unified CogniArena Index (CAI) score and a personalized performance archetype.
+        </p>
+      </article>
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">The 5 Stages</h2>
+        <div class="grid gap-3">
+          <div class="p-3 rounded-lg bg-card border border-card-border flex items-center gap-3">
+            <span class="text-lg">⚡</span><div><h3 class="text-sm font-bold text-foreground">1. Visual Reaction</h3><p class="text-xs text-zinc-400">Raw sensorimotor reflex speed — 5 trials of click-on-green</p></div>
+          </div>
+          <div class="p-3 rounded-lg bg-card border border-card-border flex items-center gap-3">
+            <span class="text-lg">🗂️</span><div><h3 class="text-sm font-bold text-foreground">2. Sequence Memory</h3><p class="text-xs text-zinc-400">Grid pattern recall with increasing length — tests working memory capacity</p></div>
+          </div>
+          <div class="p-3 rounded-lg bg-card border border-card-border flex items-center gap-3">
+            <span class="text-lg">🎨</span><div><h3 class="text-sm font-bold text-foreground">3. Stroop Test</h3><p class="text-xs text-zinc-400">Color-word interference — measures cognitive inhibition and selective attention</p></div>
+          </div>
+          <div class="p-3 rounded-lg bg-card border border-card-border flex items-center gap-3">
+            <span class="text-lg">🧩</span><div><h3 class="text-sm font-bold text-foreground">4. Matrix Reasoning</h3><p class="text-xs text-zinc-400">Pattern completion — tests fluid logic and abstract reasoning</p></div>
+          </div>
+          <div class="p-3 rounded-lg bg-card border border-card-border flex items-center gap-3">
+            <span class="text-lg">🎯</span><div><h3 class="text-sm font-bold text-foreground">5. Aim Precision</h3><p class="text-xs text-zinc-400">Target clicking accuracy — measures fine motor control and hand-eye coordination</p></div>
+          </div>
+        </div>
+      </article>
+      <article class="flex flex-col gap-6">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">How is the CAI score calculated?</h3>
+            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">Each stage produces a score from 0-100 based on accuracy and speed metrics. The overall CAI is the average of all five. Your percentile compares your CAI against all other users.</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">Can I take the stages individually?</h3>
+            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">Yes! Each test is available separately in the <a href="/tests/reaction-time" class="text-accent hover:underline">Reaction</a>, <a href="/tests/sequence-memory" class="text-accent hover:underline">Memory</a>, <a href="/tests/stroop" class="text-accent hover:underline">Focus</a>, <a href="/tests/pattern-reasoning" class="text-accent hover:underline">Reasoning</a>, and <a href="/tests/aim-trainer" class="text-accent hover:underline">Precision</a> sections.</p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</Layout>

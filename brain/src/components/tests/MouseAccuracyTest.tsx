@@ -1,0 +1,137 @@
+import { useState, useRef } from 'react';
+import { dataLayer } from '../../runtime/dataLayer';
+import { generateShareCard } from '../../runtime/share';
+import SocialShare from '../ui/SocialShare';
+
+const TARGET_SIZES = [80, 60, 45, 32, 22];
+const PER_SIZE = 5;
+const TOTAL = TARGET_SIZES.length * PER_SIZE;
+
+export default function MouseAccuracyTest() {
+  const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
+  const [trial, setTrial] = useState(0);
+  const [target, setTarget] = useState({ x: 0, y: 0, size: 80 });
+  const [offsets, setOffsets] = useState<number[]>([]);
+  const [shareImage, setShareImage] = useState<string | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null);
+  const submittedRef = useRef(false);
+
+  const spawnTarget = (idx: number) => {
+    const c = containerRef.current;
+    if (!c) return;
+    const rect = c.getBoundingClientRect();
+    const sizeIdx = Math.min(Math.floor(idx / PER_SIZE), TARGET_SIZES.length - 1);
+    const size = TARGET_SIZES[sizeIdx];
+    const margin = size / 2 + 4;
+    const x = margin + Math.random() * (rect.width - margin * 2);
+    const y = margin + Math.random() * (rect.height - margin * 2);
+    setTarget({ x, y, size });
+  };
+
+  const handleClick = (e: React.MouseEvent) => {
+    if (phase !== 'playing') return;
+    const c = containerRef.current;
+    if (!c) return;
+    const rect = c.getBoundingClientRect();
+    const cx = e.clientX - rect.left;
+    const cy = e.clientY - rect.top;
+    const offset = Math.sqrt((cx - target.x) ** 2 + (cy - target.y) ** 2);
+    const newOffsets = [...offsets, offset];
+    setOffsets(prev => [...prev, offset]);
+    const next = trial + 1;
+    if (next >= TOTAL) {
+      setPhase('done');
+      finalize(newOffsets);
+      return;
+    }
+    setTrial(prev => prev + 1);
+    spawnTarget(next);
+  };
+
+  const finalize = async (allOffsets: number[]) => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
+    const avgOffset = allOffsets.reduce((a, b) => a + b, 0) / allOffsets.length;
+    const score = Math.max(0, Math.min(100, Math.round(100 - avgOffset / 2)));
+    await dataLayer.saveSession({
+      testId: 'mouse-accuracy', category: 'precision', rawScore: Math.round(avgOffset * 10) / 10, percentile: lookupPercentile(score),
+      metadata: { avgOffsetPx: Math.round(avgOffset * 10) / 10, totalTargets: TOTAL },
+    });
+    const card = await generateShareCard('Mouse Accuracy Test', `${Math.round(avgOffset * 10) / 10}px avg`, lookupPercentile(score));
+    setShareImage(card);
+  };
+
+  const lookupPercentile = (s: number): number => {
+    const ls = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
+    const ps = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
+    for (let i = ls.length - 1; i >= 0; i--) if (s >= ls[i]) return ps[i];
+    return 0.1;
+  };
+
+  const startGame = () => {
+    setPhase('playing');
+    setTrial(0);
+    setOffsets([]);
+    setTimeout(() => spawnTarget(0), 200);
+  };
+
+  if (phase === 'intro') {
+    return (
+      <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
+        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
+          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">🎯</div>
+          <div className="text-center">
+            <h2 className="text-2xl font-bold text-foreground tracking-tight">Mouse Accuracy Test</h2>
+            <p className="text-zinc-400 text-sm max-w-sm mx-auto mt-2">Click the center of each target. Targets shrink as you progress — {TOTAL} targets total.</p>
+          </div>
+          <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+        </div>
+      </div>
+    );
+  }
+
+  if (phase === 'playing') {
+    const sizeIdx = Math.min(Math.floor(trial / PER_SIZE), TARGET_SIZES.length - 1);
+    return (
+      <div className="w-full max-w-2xl mx-auto">
+        <div className="rounded-xl border border-card-border bg-card p-4">
+          <div className="text-[10px] text-zinc-500 font-mono mb-2 flex items-center justify-between">
+            <span>Target {trial + 1}/{TOTAL}</span>
+            <span>Size: {TARGET_SIZES[sizeIdx]}px</span>
+            <span>Last offset: {offsets.length > 0 ? `${Math.round(offsets[offsets.length - 1] * 10) / 10}px` : '--'}</span>
+          </div>
+          <div ref={containerRef} onClick={handleClick} className="relative w-full h-72 rounded-lg bg-subtle border border-card-border cursor-crosshair overflow-hidden">
+            <div className="absolute w-1 h-1 rounded-full bg-accent/30 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ left: target.x, top: target.y }} />
+            <div className={`absolute rounded-full bg-rose-500/40 border-2 border-rose-400 -translate-x-1/2 -translate-y-1/2`}
+              style={{ left: target.x, top: target.y, width: target.size, height: target.size }}
+            />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  const avg = offsets.length > 0 ? Math.round(offsets.reduce((a, b) => a + b, 0) / offsets.length * 10) / 10 : 0;
+  return (
+    <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
+      <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
+        <div className="text-4xl text-emerald-400">✓</div>
+        <div className="text-4xl font-bold font-mono text-foreground">{avg}px</div>
+        <div className="text-xs text-zinc-500 font-mono">average offset from center</div>
+        <div className="grid grid-cols-3 gap-4 text-xs text-center w-full max-w-xs">
+          <div><div className="text-zinc-500 font-mono text-[10px]">Best</div><div className="text-foreground font-mono">{Math.round(Math.min(...offsets) * 10) / 10}px</div></div>
+          <div><div className="text-zinc-500 font-mono text-[10px]">Worst</div><div className="text-foreground font-mono">{Math.round(Math.max(...offsets) * 10) / 10}px</div></div>
+          <div><div className="text-zinc-500 font-mono text-[10px]">Targets</div><div className="text-foreground font-mono">{TOTAL}</div></div>
+        </div>
+        {shareImage && (
+          <a href={shareImage} download="cogniarena-mouse-accuracy.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+            <span>Download Share Card</span>
+          </a>
+        )}
+        <SocialShare testId="mouse-accuracy" score={Math.round(avg * 10)} scoreLabel={`${avg}px avg`} testName="Mouse Accuracy Test" />
+        <button onClick={() => setPhase('intro')} className="px-6 h-10 rounded-lg bg-subtle border border-card-border text-foreground hover:bg-panel text-sm transition-standard active:scale-95 cursor-pointer">Try Again</button>
+      </div>
+    </div>
+  );
+}

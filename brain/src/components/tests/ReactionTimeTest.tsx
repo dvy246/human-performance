@@ -13,6 +13,7 @@ export default function ReactionTimeTest() {
   const [attempts, setAttempts] = useState<number[]>([]);
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [currentScore, setCurrentScore] = useState<number | null>(null);
+  const [finalAverage, setFinalAverage] = useState<number | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [copiedChallenge, setCopiedChallenge] = useState(false);
   const [challengeScore, setChallengeScore] = useState<number | null>(null);
@@ -23,6 +24,8 @@ export default function ReactionTimeTest() {
 
   // Load initial settings and check for a challenge token in the URL
   useEffect(() => {
+    let mounted = true;
+
     // 1. Calibration on mount
     measureRefreshRate((result) => {
       setCalibration(result);
@@ -30,8 +33,8 @@ export default function ReactionTimeTest() {
 
     // 2. Personal Best from history
     dataLayer.getPersonalBest('reaction-time', 'lower').then((pb) => {
-      setPersonalBest(pb);
-    });
+      if (mounted) setPersonalBest(pb);
+    }).catch(console.error);
 
     // 3. Challenge check
     if (typeof window !== 'undefined') {
@@ -41,11 +44,13 @@ export default function ReactionTimeTest() {
         import('../../runtime/share').then(({ decodeChallenge }) => {
           const payload = decodeChallenge(challengeToken);
           if (payload && payload.testId === 'reaction-time') {
-            setChallengeScore(payload.score);
+            if (mounted) setChallengeScore(payload.score);
           }
         });
       }
     }
+
+    return () => { mounted = false; };
   }, []);
 
   const lookupPercentile = (score: number): number => {
@@ -68,6 +73,7 @@ export default function ReactionTimeTest() {
   };
 
   const setupRandomTimer = () => {
+    clickLock.current = false;
     // Random wait between 2.0 and 5.0 seconds
     const delay = 2000 + Math.random() * 3000;
     
@@ -105,6 +111,8 @@ export default function ReactionTimeTest() {
         return;
       }
 
+      clickLock.current = true;
+
       const updatedAttempts = [...attempts, score];
       setAttempts(updatedAttempts);
       setCurrentScore(score);
@@ -128,6 +136,7 @@ export default function ReactionTimeTest() {
 
   const finalizeTest = async (avgScore: number) => {
     setGameState('result');
+    setFinalAverage(avgScore);
     const percentile = lookupPercentile(avgScore);
 
     // Save session record
@@ -240,7 +249,7 @@ export default function ReactionTimeTest() {
         <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <div className="flex items-center gap-2 text-zinc-300">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" className="text-accent"><path d="M6 12 10 16 18 8"/></svg>
-            <span>Active Challenge: Beat your friend's score of <strong className="text-white font-mono">{challengeScore} ms</strong>!</span>
+            <span>Active Challenge: Beat your friend's score of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
           </div>
           <button 
             onClick={() => setChallengeScore(null)} 
@@ -324,16 +333,16 @@ export default function ReactionTimeTest() {
             <div className="flex flex-col items-center gap-1">
               <span className="text-zinc-500 text-xs uppercase font-mono">Final Average Score</span>
               <div className="text-5xl font-mono font-extrabold text-foreground tracking-tight">
-                {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
+                {finalAverage} ms
               </div>
               <span className="text-accent text-sm font-medium">
-                Top {lookupPercentile(Math.round(attempts.reduce((a, b) => a + b, 0) / 5))}% Globally
+                Top {100 - lookupPercentile(finalAverage!)}% Globally
               </span>
             </div>
 
             {/* SVG curve overlay */}
             <div className="w-full border-t border-b border-card-border py-4 my-2">
-              {renderSVGChart(Math.round(attempts.reduce((a, b) => a + b, 0) / 5))}
+              {renderSVGChart(finalAverage!)}
             </div>
 
             {/* Micro details */}
@@ -367,7 +376,7 @@ export default function ReactionTimeTest() {
           {shareImage && (
             <a
               href={shareImage}
-              download="brainbenchmarks-reaction-time.png"
+              download="cogniarena-reaction-time.png"
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
@@ -377,8 +386,8 @@ export default function ReactionTimeTest() {
           
           <SocialShare 
             testId="reaction-time" 
-            score={average} 
-            scoreLabel={`${average} ms`} 
+            score={finalAverage!} 
+            scoreLabel={`${finalAverage} ms`} 
             testName="Visual Reaction Test" 
           />
         </div>

@@ -1,14 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { dataLayer, type SessionRecord } from '../../runtime/dataLayer';
-
-interface CognitiveAverages {
-  reaction: number; // Reaction Speed (Visual, F1, Sound)
-  memory: number;   // Memory Capacity (Sequence)
-  processing: number; // Processing Speed (Choice)
-  precision: number;  // Precision & Control (Aim)
-  focus: number;      // Focus & Attention (Go/No-go)
-  stamina: number;    // Cognitive Stamina (Click CPS)
-}
+import { 
+  computeCategoryAverages, 
+  calculateBbiScore, 
+  getRadarCoordinates,
+  type CognitiveAverages 
+} from '../../runtime/skillRadar';
+import { 
+  determinePersona, 
+  generateDailyChallengeForDay, 
+  getAdaptiveRecommendations,
+  type DailyChallenge
+} from '../../runtime/trainingEngine';
 
 interface DiagnosticInfo {
   hz: number;
@@ -16,15 +19,6 @@ interface DiagnosticInfo {
   inputMethod: 'Touch' | 'Mouse/Keyboard';
   browser: string;
   os: string;
-}
-
-interface DailyChallenge {
-  testId: string;
-  name: string;
-  metric: string;
-  target: number;
-  condition: 'higher' | 'lower';
-  desc: string;
 }
 
 const TEST_NAMES: Record<string, string> = {
@@ -37,7 +31,21 @@ const TEST_NAMES: Record<string, string> = {
   'aim-trainer': 'Aim Precision',
   'sequence-memory': 'Sequence Memory',
   'number-memory': 'Number Memory',
-  'visual-pattern': 'Visual Pattern Memory'
+  'visual-pattern': 'Visual Pattern Memory',
+  'stroop': 'Stroop Attention Test',
+  'pattern-reasoning': 'Pattern Reasoning Test',
+  'tmt-partA': 'Trail Making Test (Part A)',
+  'tmt-partB': 'Trail Making Test (Part B)',
+  'dual-n-back': 'Dual N-Back Memory',
+  'focus-challenge': 'Focus Challenge',
+  'gauntlet': 'The Gauntlet',
+  'verbal-memory': 'Verbal Memory Test',
+  'spatial-orientation': 'Spatial Orientation Test',
+  'mouse-accuracy': 'Mouse Accuracy Test',
+  'flick-trainer': 'Flick Trainer',
+  'decision-speed': 'Decision Speed Test',
+  'planning': 'Planning Test',
+  'prioritization': 'Prioritization Test'
 };
 
 const ACHIEVEMENTS_LIST = [
@@ -51,8 +59,21 @@ const ACHIEVEMENTS_LIST = [
   { id: 'memory_matrix', title: 'Memory Matrix', desc: 'Sequence Memory Level 8+ reached', badge: '🗂️' },
   { id: 'number_wizard', title: 'Number Wizard', desc: 'Recall a 10-digit sequence or higher', badge: '🔢' },
   { id: 'visual_genius', title: 'Visual Genius', desc: 'Reach Level 10 or higher in Visual Pattern Memory', badge: '🧩' },
+  { id: 'stroop_master', title: 'Stroop Master', desc: 'Stroop color clash average under 750 ms', badge: '🎨' },
+  { id: 'pattern_detective', title: 'Pattern Detective', desc: 'Achieve 7,500+ Pts in Pattern Reasoning', badge: '🔮' },
+  { id: 'trail_blazer', title: 'Trail Blazer', desc: 'Complete Trail Making Part B under 45 seconds', badge: '🧭' },
+  { id: 'quantum_memory', title: 'Quantum Memory', desc: 'Achieve 4,500+ Pts in Dual N-Back', badge: '🧠' },
   { id: 'streak_consistency', title: 'Daily Consistency', desc: 'Maintain a 3+ Day active streak', badge: '🔥' },
-  { id: 'full_spectrum', title: 'Full Spectrum', desc: 'Try at least 5 different assessments', badge: '🌈' }
+  { id: 'full_spectrum', title: 'Full Spectrum', desc: 'Try at least 5 different assessments', badge: '🌈' },
+  { id: 'focus_challenge', title: 'Brain Rot Survivor', desc: 'Complete all 5 stages of the Focus Challenge', badge: '🧠' },
+  { id: 'gauntlet_champion', title: 'The Gauntlet Champion', desc: 'Achieve CAI 80+ in The Gauntlet', badge: '🏆' },
+  { id: 'verbal_legend', title: 'Verbal Legend', desc: 'Recall 8+ words in Verbal Memory Test', badge: '📝' },
+  { id: 'spatial_master', title: 'Spatial Master', desc: 'Score 80%+ in Spatial Orientation Test', badge: '🔄' },
+  { id: 'surgical_aim', title: 'Surgical Aim', desc: 'Average offset under 10px in Mouse Accuracy', badge: '🎯' },
+  { id: 'flick_pro', title: 'Flick Pro', desc: '90%+ accuracy in Flick Trainer', badge: '⚡' },
+  { id: 'lightning_decisions', title: 'Lightning Decisions', desc: '90%+ accuracy in Decision Speed Test', badge: '⚡' },
+  { id: 'grandmaster_planner', title: 'Grandmaster Planner', desc: 'Complete Planning Test in 15 moves', badge: '♟️' },
+  { id: 'priority_ace', title: 'Priority Ace', desc: 'Score 300+ total points in Prioritization Test', badge: '📊' }
 ];
 
 export default function CognitiveProfile() {
@@ -61,7 +82,7 @@ export default function CognitiveProfile() {
   const [loading, setLoading] = useState<boolean>(true);
   const [averages, setAverages] = useState<CognitiveAverages | null>(null);
   
-  // BBI & Persona
+  // CAI & Persona
   const [bbiScore, setBbiScore] = useState<number | null>(null);
   const [persona, setPersona] = useState<{ title: string; desc: string; explanation: string } | null>(null);
   
@@ -89,7 +110,7 @@ export default function CognitiveProfile() {
   const getDemographicComparison = () => {
     if (!bbiScore) return null;
     
-    // Base percentile is derived from BBI (BBI is 0-1000, BBI / 10 is percentile from 0 to 100)
+    // Base percentile is derived from CAI (CAI is 0-1000, CAI / 10 is percentile from 0 to 100)
     const basePercentile = 100 - (bbiScore / 10);
     
     // Adjust percentile based on difficulty of group
@@ -113,35 +134,59 @@ export default function CognitiveProfile() {
 
     return {
       percentile: adjustedPercentile.toFixed(1),
-      text: `Based on US cognitive norms, you score in the Top ${adjustedPercentile.toFixed(1)}% of all ${demographicProfession}s in the ${demographicAge} age bracket residing in ${demographicState}.`,
+      text: `Illustrative Estimate: your performance adjusted ranking is approximately in the Top ${adjustedPercentile.toFixed(1)}% of all ${demographicProfession}s in the ${demographicAge} age bracket residing in ${demographicState} (extrapolated relative to standard motor-cognitive distributions).`,
     };
   };
 
   useEffect(() => {
+    let mounted = true;
     async function loadData() {
       try {
         const records = await dataLayer.getHistory();
+        if (!mounted) return;
         setHistory(records);
 
         const streakInfo = dataLayer.getStreak();
+        if (!mounted) return;
         setStreak(streakInfo.streakCount);
 
         detectDiagnostics();
-        generateDailyChallenge();
+        
+        // Determinstically set daily challenge
+        const day = new Date().getDate();
+        const challenge = generateDailyChallengeForDay(day);
+        if (!mounted) return;
+        setDailyChallenge(challenge);
 
         if (records.length > 0) {
           const computedAverages = computeCategoryAverages(records);
+          if (!mounted) return;
           setAverages(computedAverages);
-          calculateBbiAndPersona(computedAverages, records);
-          checkChallengeCompletion(records);
+          
+          // Calculate CAI and Persona
+          if (!mounted) return;
+          setBbiScore(calculateBbiScore(computedAverages));
+          if (!mounted) return;
+          setPersona(determinePersona(computedAverages));
+          
+          // Check challenge completion state
+          const startOfToday = new Date().setHours(0, 0, 0, 0);
+          const todayAttempts = records.filter(r => r.testId === challenge.testId && r.timestamp >= startOfToday);
+          const metGoal = todayAttempts.some(r => {
+            const score = challenge.testId === 'click-speed' ? r.rawScore / 10 : r.rawScore;
+            return challenge.condition === 'lower' ? score <= challenge.target : score >= challenge.target;
+          });
+          if (!mounted) return;
+          setChallengeCompleted(metGoal);
         }
       } catch (err) {
         console.error('Failed to load profile dashboard:', err);
       } finally {
-        setLoading(false);
+        if (mounted) setLoading(false);
       }
     }
     loadData();
+    return () => { mounted = false; };
   }, []);
 
   const detectDiagnostics = () => {
@@ -193,146 +238,6 @@ export default function CognitiveProfile() {
     });
   };
 
-  const generateDailyChallenge = () => {
-    // Generate deterministic challenge based on calendar day
-    const day = new Date().getDate();
-    const challengePool: DailyChallenge[] = [
-      { testId: 'reaction-time', name: 'Visual Reaction', metric: 'ms', target: 240, condition: 'lower', desc: 'Record a reaction score below 240 ms.' },
-      { testId: 'click-speed', name: 'Click Speed (CPS)', metric: 'CPS', target: 8.5, condition: 'higher', desc: 'Achieve click speed cadence of 8.5 CPS or higher.' },
-      { testId: 'aim-trainer', name: 'Aim Precision', metric: '% Accuracy', target: 92, condition: 'higher', desc: 'Complete Aim Precision with 92% accuracy or higher.' },
-      { testId: 'sequence-memory', name: 'Sequence Memory', metric: 'Level', target: 7, condition: 'higher', desc: 'Reach Level 7 or higher in Sequence Memory.' },
-      { testId: 'go-no-go', name: 'Color Go/No-Go', metric: 'ms', target: 360, condition: 'lower', desc: 'Complete Go/No-Go under 360 ms average.' },
-      { testId: 'sound-reaction', name: 'Sound Reflex', metric: 'ms', target: 200, condition: 'lower', desc: 'Record sound reaction below 200 ms.' },
-      { testId: 'choice-reaction', name: 'Choice Grid', metric: 'ms', target: 450, condition: 'lower', desc: 'Complete Choice Grid under 450 ms.' },
-      { testId: 'f1-lights', name: 'F1 Start Lights', metric: 'ms', target: 230, condition: 'lower', desc: 'Launch start lights below 230 ms.' }
-    ];
-
-    const challenge = challengePool[day % challengePool.length];
-    setDailyChallenge(challenge);
-  };
-
-  const checkChallengeCompletion = (records: SessionRecord[]) => {
-    if (!dailyChallenge) return;
-
-    const startOfToday = new Date().setHours(0, 0, 0, 0);
-    const todayAttempts = records.filter(r => r.testId === dailyChallenge.testId && r.timestamp >= startOfToday);
-
-    const metGoal = todayAttempts.some(r => {
-      const score = dailyChallenge.testId === 'click-speed' ? r.rawScore / 10 : r.rawScore;
-      if (dailyChallenge.condition === 'lower') {
-        return score <= dailyChallenge.target;
-      } else {
-        return score >= dailyChallenge.target;
-      }
-    });
-
-    setChallengeCompleted(metGoal);
-  };
-
-  const computeCategoryAverages = (records: SessionRecord[]): CognitiveAverages => {
-    const scores = {
-      reaction: [] as number[],
-      memory: [] as number[],
-      processing: [] as number[],
-      precision: [] as number[],
-      focus: [] as number[],
-      stamina: [] as number[]
-    };
-
-    records.forEach(r => {
-      if (r.testId === 'reaction-time' || r.testId === 'f1-lights' || r.testId === 'sound-reaction') {
-        scores.reaction.push(r.percentile);
-      } else if (r.testId === 'sequence-memory' || r.testId === 'number-memory' || r.testId === 'visual-pattern') {
-        scores.memory.push(r.percentile);
-      } else if (r.testId === 'choice-reaction') {
-        scores.processing.push(r.percentile);
-      } else if (r.testId === 'aim-trainer') {
-        scores.precision.push(r.percentile);
-      } else if (r.testId === 'go-no-go') {
-        scores.focus.push(r.percentile);
-      } else if (r.testId === 'click-speed') {
-        scores.stamina.push(r.percentile);
-      }
-    });
-
-    const getAvg = (arr: number[]) => (arr.length === 0 ? 0 : Math.round(arr.reduce((a, b) => a + b, 0) / arr.length));
-
-    return {
-      reaction: getAvg(scores.reaction),
-      memory: getAvg(scores.memory),
-      processing: getAvg(scores.processing),
-      precision: getAvg(scores.precision),
-      focus: getAvg(scores.focus),
-      stamina: getAvg(scores.stamina)
-    };
-  };
-
-  const calculateBbiAndPersona = (avg: CognitiveAverages, records: SessionRecord[]) => {
-    const activePercentiles = Object.values(avg).filter(v => v > 0);
-    if (activePercentiles.length === 0) return;
-
-    const averagePercentile = activePercentiles.reduce((a, b) => a + b, 0) / activePercentiles.length;
-    setBbiScore(Math.round(averagePercentile * 10));
-
-    const categories: Array<{ id: keyof CognitiveAverages; label: string }> = [
-      { id: 'reaction', label: 'Reaction Speed' },
-      { id: 'memory', label: 'Memory Capacity' },
-      { id: 'processing', label: 'Processing Speed' },
-      { id: 'precision', label: 'Precision & Control' },
-      { id: 'focus', label: 'Focus & Attention' },
-      { id: 'stamina', label: 'Cognitive Stamina' }
-    ];
-
-    let maxVal = -1;
-    let strongestCategory: keyof CognitiveAverages = 'reaction';
-
-    categories.forEach(cat => {
-      if (avg[cat.id] > maxVal) {
-        maxVal = avg[cat.id];
-        strongestCategory = cat.id;
-      }
-    });
-
-    const personas: Record<keyof CognitiveAverages, { title: string; desc: string; explanation: string }> = {
-      reaction: {
-        title: 'Rapid Reactor',
-        desc: 'Sensory Visuomotor Specialist',
-        explanation: 'You excel at rapid stimulus classification and triggering motor actions. Your reflex latency is highly optimized for fast visual and audio cues.'
-      },
-      memory: {
-        title: 'Pattern Hunter',
-        desc: 'Visuospatial Chunking Strategist',
-        explanation: 'You chunk sequence coordinates and structural matrices into spatial memory blocks, successfully bypassing short-term cognitive decay limits.'
-      },
-      processing: {
-        title: 'Analytical Strategist',
-        desc: 'Hick\'s Law Optimizer',
-        explanation: 'You maintain fast visual choice-decision paths. When faced with multiple targets or split-second alternatives, you resolve selection overhead cleanly.'
-      },
-      precision: {
-        title: 'Precision Thinker',
-        desc: 'Spatial Motor Coordinator',
-        explanation: 'Your motor cortex commands micro-pixel movements with absolute accuracy. You glide to aim boundaries with minimal coordinate offset errors.'
-      },
-      focus: {
-        title: 'Focus Guardian',
-        desc: 'Impulse Inhibition Controller',
-        explanation: 'You command excellent inhibitory prefrontal executive control. You ignore distractor stimuli, maintaining accuracy under cognitive stress.'
-      },
-      stamina: {
-        title: 'Stamina Specialist',
-        desc: 'Endurance Firing Specialist',
-        explanation: 'You maintain highly consistent click cadences. Your motor mechanics display high resilience against fatigue and speed degradation.'
-      }
-    };
-
-    setPersona(personas[strongestCategory]);
-  };
-
-  const getUnlockedAchievementsCount = (): number => {
-    return ACHIEVEMENTS_LIST.filter(ach => checkAchievement(ach.id)).length;
-  };
-
   const checkAchievement = (id: string): boolean => {
     if (history.length === 0) return false;
 
@@ -357,45 +262,57 @@ export default function CognitiveProfile() {
         return history.some(r => r.testId === 'number-memory' && r.rawScore >= 10);
       case 'visual_genius':
         return history.some(r => r.testId === 'visual-pattern' && r.rawScore >= 10);
+      case 'stroop_master':
+        return history.some(r => r.testId === 'stroop' && r.rawScore < 750);
+      case 'pattern_detective':
+        return history.some(r => r.testId === 'pattern-reasoning' && r.rawScore >= 7500);
+      case 'trail_blazer':
+        return history.some(r => r.testId === 'tmt-partB' && r.rawScore < 45000);
+      case 'quantum_memory':
+        return history.some(r => r.testId === 'dual-n-back' && r.rawScore >= 4500);
       case 'streak_consistency':
         return streak >= 3;
       case 'full_spectrum':
         const uniquePlayed = new Set(history.map(r => r.testId));
         return uniquePlayed.size >= 5;
+      case 'focus_challenge':
+        return history.some(r => r.testId === 'focus-challenge' && r.rawScore >= 60);
+      case 'gauntlet_champion':
+        return history.some(r => r.testId === 'gauntlet' && r.rawScore >= 80);
+      case 'verbal_legend':
+        return history.some(r => r.testId === 'verbal-memory' && r.rawScore >= 8);
+      case 'spatial_master':
+        return history.some(r => r.testId === 'spatial-orientation' && r.rawScore >= 80);
+      case 'surgical_aim':
+        return history.some(r => r.testId === 'mouse-accuracy' && r.metadata?.avgOffsetPx < 10);
+      case 'flick_pro':
+        return history.some(r => r.testId === 'flick-trainer' && r.metadata?.accuracy >= 90);
+      case 'lightning_decisions':
+        return history.some(r => r.testId === 'decision-speed' && r.metadata?.accuracy >= 90);
+      case 'grandmaster_planner':
+        return history.some(r =>
+          r.testId === 'planning' &&
+          r.metadata != null &&
+          typeof r.metadata.moves === 'number' &&
+          typeof r.metadata.optimalMoves === 'number' &&
+          r.metadata.moves === r.metadata.optimalMoves
+        );
+      case 'priority_ace':
+        return history.some(r => r.testId === 'prioritization' && r.metadata?.totalPoints >= 300);
       default:
         return false;
     }
   };
 
-  const getRecommendations = (): { text: string; link: string; testId: string }[] => {
-    if (!averages) return [];
-
-    const recs: { text: string; link: string; testId: string }[] = [];
-    const categories: Array<{ id: keyof CognitiveAverages; testId: string; label: string; link: string }> = [
-      { id: 'reaction', testId: 'reaction-time', label: 'Visual Reaction', link: '/tests/reaction-time' },
-      { id: 'memory', testId: 'sequence-memory', label: 'Sequence Memory', link: '/tests/sequence-memory' },
-      { id: 'processing', testId: 'choice-reaction', label: 'Choice Grid', link: '/tests/choice-reaction' },
-      { id: 'precision', testId: 'aim-trainer', label: 'Aim Precision', link: '/tests/aim-trainer' },
-      { id: 'focus', testId: 'go-no-go', label: 'Color Go/No-Go', link: '/tests/go-no-go' },
-      { id: 'stamina', testId: 'click-speed', label: 'Click Speed', link: '/tests/click-speed' }
-    ];
-
-    const sorted = [...categories].sort((a, b) => {
-      const valA = averages[a.id];
-      const valB = averages[b.id];
-      return valA - valB;
-    });
-
-    sorted.slice(0, 2).forEach(item => {
-      recs.push({
-        text: `Target Weakness: Train ${item.label} to improve your index.`,
-        link: item.link,
-        testId: item.testId
-      });
-    });
-
-    return recs;
+  const getUnlockedAchievementsCount = (): number => {
+    return ACHIEVEMENTS_LIST.filter(a => checkAchievement(a.id)).length;
   };
+
+  const getRecommendations = () => {
+    if (!averages) return [];
+    return getAdaptiveRecommendations(averages);
+  };
+
 
   const exportHistoryToCSV = () => {
     if (history.length === 0) return;
@@ -417,7 +334,7 @@ export default function CognitiveProfile() {
     const encodedUri = encodeURI(csvContent);
     const link = document.createElement("a");
     link.setAttribute("href", encodedUri);
-    link.setAttribute("download", `brainbenchmarks_profile_ledger_${Date.now()}.csv`);
+    link.setAttribute("download", `cogniarena_profile_ledger_${Date.now()}.csv`);
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -437,22 +354,7 @@ export default function CognitiveProfile() {
 
   const getPointsStr = () => {
     if (!averages) return '';
-    const vals = [
-      averages.reaction,
-      averages.memory,
-      averages.processing,
-      averages.precision,
-      averages.focus,
-      averages.stamina
-    ];
-
-    return radarAngles.map((angle, idx) => {
-      const val = Math.max(12, vals[idx]);
-      const currentRadius = (val / 100) * r;
-      const x = cx + currentRadius * Math.cos(angle);
-      const y = cy + currentRadius * Math.sin(angle);
-      return `${x},${y}`;
-    }).join(' ');
+    return getRadarCoordinates(averages, cx, r);
   };
 
   const getHexPoints = (radius: number) => {
@@ -534,9 +436,9 @@ export default function CognitiveProfile() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             
             <div className="rounded-xl border border-card-border bg-card p-5 flex flex-col justify-between shadow relative overflow-hidden">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Brain Score (BBI)</span>
+              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">CogniArena Index (CAI)</span>
               <div className="flex items-baseline gap-2 mt-2">
-                <span className="text-3xl font-bold font-mono text-foreground">{bbiScore || '--'}</span>
+                <span className="text-3xl font-bold font-mono text-foreground">{bbiScore !== null && bbiScore !== undefined ? bbiScore : '--'}</span>
                 <span className="text-xs text-zinc-500 font-mono">/ 1000</span>
               </div>
               <div className="w-full bg-subtle h-1.5 rounded-full mt-3 overflow-hidden border border-card-border/60">
@@ -579,6 +481,22 @@ export default function CognitiveProfile() {
               <span className="text-[9px] text-zinc-500 font-mono uppercase mt-3">Derived from strongest scores</span>
             </div>
 
+          </div>
+
+          {/* Visible scientific/medical disclaimer alert in same viewport */}
+          <div className="bg-subtle border border-card-border p-4 rounded-xl text-xs text-zinc-550 dark:text-zinc-400 flex items-start gap-3 leading-relaxed shadow-sm">
+            <span className="text-lg leading-none select-none">⚠️</span>
+            <div>
+              <strong className="text-foreground font-semibold">Disclaimer & Scope Note:</strong>{' '}
+              CogniArena is an educational self-tracking and cognitive training platform. All index scores (CAI), comparative percentiles, occupational rankings, and cognitive personas represent simulated performance benchmarks. They are not medical, clinical, diagnostic, or neuropsychological evaluations. If you have concerns about your cognitive function, memory, focus, or reflexes, please consult a licensed medical professional. Read our full{' '}
+              <a href="/terms" className="text-accent hover:underline font-medium">
+                Terms
+              </a>{' '}
+              and{' '}
+              <a href="/methodology" className="text-accent hover:underline font-medium">
+                Methodology
+              </a>.
+            </div>
           </div>
 
           <div className="flex border-b border-card-border/60 gap-6">
@@ -737,7 +655,7 @@ export default function CognitiveProfile() {
                     <span className="text-xs font-mono uppercase tracking-widest text-zinc-500">US Demographic Benchmark</span>
                     <h4 className="text-sm font-bold text-foreground">National Cognitive Comparison Engine</h4>
                     <p className="text-zinc-550 dark:text-zinc-400 text-xs leading-normal">
-                      Compare your composite BBI scores against US Census demographics, professional benchmarks, and state-level cognitive norms.
+                      Compare your composite CAI scores against US Census demographics, professional benchmarks, and state-level cognitive norms.
                     </p>
                   </div>
 
@@ -919,7 +837,7 @@ export default function CognitiveProfile() {
                   <div className="p-4 rounded-lg border border-card-border/60 bg-subtle flex flex-col">
                     <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mb-1">Avg Percentile</span>
                     <span className="text-xl font-bold font-mono text-accent">
-                      {avgPercentile !== null ? `Top ${avgPercentile}%` : '--'}
+                      {avgPercentile !== null ? `Top ${100 - avgPercentile}%` : '--'}
                     </span>
                   </div>
                 </div>
@@ -952,7 +870,7 @@ export default function CognitiveProfile() {
                           {formatScore(row.testId, row.rawScore)}
                         </td>
                         <td className="py-3 text-right text-accent font-bold">
-                          Top {row.percentile}%
+                          Top {100 - row.percentile}%
                         </td>
                         <td className="py-3 text-right pr-2">
                           {row.synced ? (

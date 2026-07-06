@@ -19,11 +19,48 @@ const CORS_HEADERS = {
   'Content-Type': 'application/json'
 };
 
+const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const limitWindow = 60 * 1000; // 1 minute window
+  const maxRequests = 20;
+
+  // Prune memory if map size gets large to avoid leaks
+  if (rateLimitMap.size > 5000) {
+    for (const [key, record] of rateLimitMap.entries()) {
+      if (now > record.resetTime) {
+        rateLimitMap.delete(key);
+      }
+    }
+  }
+
+  const record = rateLimitMap.get(ip);
+  if (!record || now > record.resetTime) {
+    rateLimitMap.set(ip, { count: 1, resetTime: now + limitWindow });
+    return true;
+  }
+
+  record.count++;
+  if (record.count > maxRequests) {
+    return false; // Rate limited
+  }
+  return true; // Allowed
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     // 1. Handle CORS Preflight
     if (request.method === 'OPTIONS') {
       return new Response(null, { headers: CORS_HEADERS });
+    }
+
+    const clientIP = request.headers.get('CF-Connecting-IP') || 'anonymous';
+    if (!checkRateLimit(clientIP)) {
+      return new Response(JSON.stringify({ error: 'Too Many Requests', message: 'Rate limit exceeded. Try again in 60 seconds.' }), {
+        status: 429,
+        headers: CORS_HEADERS
+      });
     }
 
     const url = new URL(request.url);

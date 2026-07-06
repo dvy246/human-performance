@@ -117,7 +117,7 @@ export default function SyncPanel() {
 
             <h3 className="text-base font-bold text-foreground tracking-tight mb-2">Cloud Telemetry Sync</h3>
             <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed mb-6">
-              BrainBenchmarks is anonymous and stores data local-first. Activate backup sync to protect your scores and streaks against browser cache wipes, or load scores onto another device.
+              CogniArena is anonymous and stores data local-first. Activate backup sync to protect your scores and streaks against browser cache wipes, or load scores onto another device.
             </p>
 
             {recoveryCode ? (

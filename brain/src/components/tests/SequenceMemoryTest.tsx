@@ -18,11 +18,13 @@ export default function SequenceMemoryTest() {
   const sequenceRef = useRef<number[]>([]);
   const userSequenceRef = useRef<number[]>([]);
   const userTurnLock = useRef<boolean>(false);
+  const submittedRef = useRef(false);
 
   useEffect(() => {
+    let mounted = true;
     dataLayer.getPersonalBest('sequence-memory', 'higher').then((pb) => {
-      setPersonalBest(pb);
-    });
+      if (mounted) setPersonalBest(pb);
+    }).catch(console.error);
 
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
@@ -31,11 +33,13 @@ export default function SequenceMemoryTest() {
         import('../../runtime/share').then(({ decodeChallenge }) => {
           const payload = decodeChallenge(decodeURIComponent(challengeToken));
           if (payload && payload.testId === 'sequence-memory') {
-            setChallengeScore(payload.score);
+            if (mounted) setChallengeScore(payload.score);
           }
-        });
+        }).catch(console.error)
       }
     }
+
+    return () => { mounted = false; };
   }, []);
 
   const lookupPercentile = (lvl: number): number => {
@@ -125,6 +129,8 @@ export default function SequenceMemoryTest() {
   };
 
   const finalizeTest = async () => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     setGameState('result');
     const finalScore = level - 1;
     const percentile = lookupPercentile(finalScore);
@@ -153,7 +159,7 @@ export default function SequenceMemoryTest() {
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
       setTimeout(() => setCopiedChallenge(false), 2000);
-    });
+    }).catch(console.error);
   };
 
   return (
@@ -198,7 +204,7 @@ export default function SequenceMemoryTest() {
               <span className="text-zinc-500 text-xs font-mono uppercase">Memory Span Capacity</span>
               <div className="text-5xl font-mono font-bold text-foreground">Level {level - 1}</div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {lookupPercentile(level - 1)}% of population
+                Top {100 - lookupPercentile(level - 1)}% of population
               </span>
             </div>
 
@@ -238,7 +244,7 @@ export default function SequenceMemoryTest() {
           {shareImage && (
             <a
               href={shareImage}
-              download="brainbenchmarks-memory-score.png"
+              download="cogniarena-memory-score.png"
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>

@@ -33,13 +33,14 @@ export default function ChoiceReactionTest() {
   const clickLock = useRef<boolean>(false);
 
   useEffect(() => {
+    let mounted = true;
     // 1. Get Calibration
     measureRefreshRate((res) => setCalibration(res));
 
     // 2. Personal Best
     dataLayer.getPersonalBest('choice-reaction', 'lower').then((pb) => {
-      setPersonalBest(pb);
-    });
+      if (mounted) setPersonalBest(pb);
+    }).catch(console.error);
 
     // 3. Challenge check
     if (typeof window !== 'undefined') {
@@ -56,6 +57,7 @@ export default function ChoiceReactionTest() {
     }
 
     return () => {
+      mounted = false;
       if (timerId.current) clearTimeout(timerId.current);
     };
   }, []);
@@ -109,6 +111,7 @@ export default function ChoiceReactionTest() {
   };
 
   const setupRandomTimer = () => {
+    clickLock.current = false;
     setActiveColor(null);
     setHasPenalty(false);
     const delay = 1200 + Math.random() * 2300;
@@ -131,6 +134,8 @@ export default function ChoiceReactionTest() {
   };
 
   const evaluateInput = (selection: ColorChoice) => {
+    if (clickLock.current) return;
+
     const triggerTime = performance.now();
     const rawElapsed = Math.round(triggerTime - startTime.current);
 
@@ -138,6 +143,8 @@ export default function ChoiceReactionTest() {
       setGameState('abort');
       return;
     }
+
+    clickLock.current = true;
 
     const isMatch = selection === activeColor;
     // Add +150ms penalty for incorrect choice
@@ -295,7 +302,7 @@ export default function ChoiceReactionTest() {
                 {Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {lookupPercentile(Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5))}% globally
+                Top {100 - lookupPercentile(Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5))}% globally
               </span>
             </div>
 
@@ -350,7 +357,7 @@ export default function ChoiceReactionTest() {
           {shareImage && (
             <a
               href={shareImage}
-              download="brainbenchmarks-choice-reflex.png"
+              download="cogniarena-choice-reflex.png"
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>

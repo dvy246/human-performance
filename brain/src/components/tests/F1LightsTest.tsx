@@ -23,13 +23,14 @@ export default function F1LightsTest() {
   const clickLock = useRef<boolean>(false);
 
   useEffect(() => {
+    let mounted = true;
     // 1. Get Calibration
     measureRefreshRate((res) => setCalibration(res));
 
     // 2. Personal Best
     dataLayer.getPersonalBest('f1-lights', 'lower').then((pb) => {
-      setPersonalBest(pb);
-    });
+      if (mounted) setPersonalBest(pb);
+    }).catch(console.error);
 
     // 3. Challenge check
     if (typeof window !== 'undefined') {
@@ -45,7 +46,7 @@ export default function F1LightsTest() {
       }
     }
 
-    return () => clearTimers();
+    return () => { mounted = false; clearTimers(); };
   }, []);
 
   const clearTimers = () => {
@@ -74,6 +75,7 @@ export default function F1LightsTest() {
   };
 
   const startSequence = () => {
+    clickLock.current = false;
     clearTimers();
     setActiveRows(0);
     setGameState('sequence');
@@ -125,6 +127,8 @@ export default function F1LightsTest() {
         setGameState('jump-start');
         return;
       }
+
+      clickLock.current = true;
 
       const updatedAttempts = [...attempts, reactionTime];
       setAttempts(updatedAttempts);
@@ -185,7 +189,7 @@ export default function F1LightsTest() {
       {/* Target Challenge */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
-          <span className="text-zinc-300">Active Challenge: Beat your friend's F1 start of <strong className="text-white font-mono">{challengeScore} ms</strong>!</span>
+          <span className="text-zinc-300">Active Challenge: Beat your friend's F1 start of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
           <button onClick={() => setChallengeScore(null)} className="text-[11px] text-zinc-500 hover:text-zinc-300 font-mono uppercase">Dismiss</button>
         </div>
       )}
@@ -281,7 +285,7 @@ export default function F1LightsTest() {
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {lookupPercentile(Math.round(attempts.reduce((a, b) => a + b, 0) / 5))}% drivers class
+                Top {100 - lookupPercentile(Math.round(attempts.reduce((a, b) => a + b, 0) / 5))}% drivers class
               </span>
             </div>
           )}
@@ -310,7 +314,7 @@ export default function F1LightsTest() {
           {shareImage && (
             <a
               href={shareImage}
-              download="brainbenchmarks-f1-reflex.png"
+              download="cogniarena-f1-reflex.png"
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>

@@ -1,0 +1,64 @@
+---
+import Layout from "@/layouts/main.astro";
+import TrailMakingTest from "@/components/tests/TrailMakingTest";
+
+const title = "Trail Making Test (TMT) — Cognitive Flexibility Assessment | CogniArena";
+const description = "Test your visual attention scanning, search rate, and task-switching speed with the online Trail Making Test (TMT-A & B). Millisecond-accurate browser performance logging.";
+const canonicalUrl = "https://cogniarena.com/tests/trail-making";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Trail Making Test",
+  "description": "Assess visual scanning speed, task switching, and cognitive flexibility.",
+  "about": {
+    "@type": "Thing",
+    "name": "Executive Function & Attention"
+  }
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Assessment Suite</span>
+        <span>&middot;</span>
+        <span>Executive Function</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+        Trail Making Test (TMT)
+      </h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        Benchmark your scanning rate and task-switching flexibility. Connect the numbered nodes in Part A, and alternate between numbers and letters in Part B.
+      </p>
+    </header>
+
+    <section class="w-full">
+      <TrailMakingTest client:load />
+    </section>
+
+    <!-- Below the fold SEO and Methodology Content -->
+
+      <!-- Medical/Scientific Disclaimer Notice -->
+      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
+      </div>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">Understanding the Trail Making Test</h2>
+        <p class="text-zinc-450 text-sm leading-relaxed">
+          The Trail Making Test (TMT) is a widely recognized cognitive assessment developed in 1944. Part A evaluates visual scanning speed, motor execution, and sequence recognition. Part B introduces cognitive load by forcing users to switch attention between two different sequences: numeric (1, 2, 3...) and alphabetic (A, B, C...).
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">How Cognitive Flexibility Matures</h2>
+        <p class="text-zinc-450 text-sm leading-relaxed">
+          The ratio or delay difference between Part A and Part B scores is a strong indicator of cognitive flexibility. A larger discrepancy represents greater task-switching overhead, which is managed by the frontoparietal networks and prefrontal cortex. Working to minimize your TMT-B delay improves spatial search efficiency under stress.
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

@@ -34,12 +34,14 @@ export default function AimTrainer() {
   const targetIndex = useRef<number>(0);
   const latenciesArr = useRef<number[]>([]);
   const offsetsArr = useRef<number[]>([]);
+  const submittedRef = useRef(false);
 
   useEffect(() => {
-    measureRefreshRate((res) => setCalibration(res));
+    let mounted = true;
+    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
     dataLayer.getPersonalBest('aim-trainer', 'lower').then((pb) => {
-      setPersonalBest(pb);
-    });
+      if (mounted) setPersonalBest(pb);
+    }).catch(console.error);
 
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
@@ -48,11 +50,13 @@ export default function AimTrainer() {
         import('../../runtime/share').then(({ decodeChallenge }) => {
           const payload = decodeChallenge(decodeURIComponent(challengeToken));
           if (payload && payload.testId === 'aim-trainer') {
-            setChallengeScore(payload.score);
+            if (mounted) setChallengeScore(payload.score);
           }
-        });
+        }).catch(console.error)
       }
     }
+
+    return () => { mounted = false; };
   }, []);
 
   // Canvas drawing loop
@@ -210,6 +214,8 @@ export default function AimTrainer() {
   };
 
   const finalizeTest = async () => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     setGameState('result');
     currentTarget.current = null;
 
@@ -244,7 +250,7 @@ export default function AimTrainer() {
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
       setTimeout(() => setCopiedChallenge(false), 2000);
-    });
+    }).catch(console.error);
   };
 
   return (
@@ -281,7 +287,7 @@ export default function AimTrainer() {
               {Math.round(latencies.reduce((a, b) => a + b, 0) / 30)} ms
             </div>
             <span className="text-accent text-xs font-mono uppercase">
-              Top {lookupPercentile(Math.round(latencies.reduce((a, b) => a + b, 0) / 30))}% aim profile
+              Top {100 - lookupPercentile(Math.round(latencies.reduce((a, b) => a + b, 0) / 30))}% aim profile
             </span>
           </div>
 
@@ -289,7 +295,7 @@ export default function AimTrainer() {
           <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-2">
             <div>
               <span className="text-zinc-500 text-[10px] font-mono uppercase">Accuracy Rate</span>
-              <div className="text-foreground font-mono text-sm">{Math.round((30 / clicks) * 100)}%</div>
+              <div className="text-foreground font-mono text-sm">{clicks > 0 ? Math.round((30 / clicks) * 100) : 0}%</div>
             </div>
             <div>
               <span className="text-zinc-500 text-[10px] font-mono uppercase">Avg Pinpoint Error</span>
@@ -335,7 +341,7 @@ export default function AimTrainer() {
           {shareImage && (
             <a
               href={shareImage}
-              download="brainbenchmarks-aim-score.png"
+              download="cogniarena-aim-score.png"
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>

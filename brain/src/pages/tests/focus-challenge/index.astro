@@ -1,0 +1,159 @@
+---
+import Layout from "@/layouts/main.astro";
+import FocusChallengeTest from "@/components/tests/FocusChallengeTest";
+
+const title = "Focus Challenge – 5-Stage Attention & Concentration Test | CogniArena";
+const description = "Benchmark your attention and focus with a 5-stage cognitive gauntlet: selective attention, impulse control, task switching, sustained attention, and memory under distraction. Free online brain performance test.";
+const canonicalUrl = "https://cogniarena.com/tests/focus-challenge";
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Quiz",
+  "name": "Focus Challenge — Attention Battery",
+  "description": "A five-stage online attention test measuring selective attention, impulse control, task switching, sustained attention, and working memory under distraction.",
+  "about": {
+    "@type": "Thing",
+    "name": "Cognitive Attention & Focus Assessment"
+  },
+  "educationalLevel": "Beginner",
+  "timeRequired": "PT4M",
+  "assesses": [
+    "Selective Attention",
+    "Impulse Control",
+    "Task Switching",
+    "Sustained Attention",
+    "Working Memory Under Distraction"
+  ]
+};
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span>Assessment Suite</span>
+        <span>&middot;</span>
+        <span>Focus &amp; Attention</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+        Focus Challenge
+      </h1>
+      <p class="text-zinc-550 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+        A <strong>5-stage attention gauntlet</strong> designed to measure your ability to concentrate, resist distractions, switch between mental tasks, and maintain vigilance over time. Each stage targets a different dimension of focus.
+      </p>
+    </header>
+
+    <section class="w-full">
+      <FocusChallengeTest client:visible />
+    </section>
+
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-550 dark:text-zinc-400 leading-relaxed shadow-sm">
+      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation. If you have concerns about your attention or cognitive health, consult a healthcare professional.
+    </div>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <div class="flex items-center gap-3 text-xs text-zinc-550 dark:text-zinc-400">
+        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
+        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+      </div>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">The 5 Stages of Focus</h2>
+        <div class="grid gap-4">
+          <div class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🎯</span>
+              <h3 class="text-sm font-bold text-foreground">1. Selective Attention</h3>
+            </div>
+            <p class="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed">
+              Find the target symbol hidden among animated visual noise. Measures your ability to filter relevant information from a distracting field — the foundation of all focused work.
+            </p>
+          </div>
+          <div class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🛡️</span>
+              <h3 class="text-sm font-bold text-foreground">2. Impulse Control</h3>
+            </div>
+            <p class="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed">
+              Fake notifications pop up before each stimulus. You must ignore the distraction and respond only to the correct signal. Tests your ability to suppress automatic reactions.
+            </p>
+          </div>
+          <div class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🔄</span>
+              <h3 class="text-sm font-bold text-foreground">3. Task Switching</h3>
+            </div>
+            <p class="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed">
+              Rapidly alternate between two different classification rules — even/odd and high/low. Measures cognitive flexibility and the efficiency of your executive control system.
+            </p>
+          </div>
+          <div class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🧘</span>
+              <h3 class="text-sm font-bold text-foreground">4. Sustained Attention</h3>
+            </div>
+            <p class="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed">
+              A 90-second vigilance test — letters flash on screen and you press Space only for X. A classic Continuous Performance Task (CPT) measuring lapses in sustained concentration.
+            </p>
+          </div>
+          <div class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5">
+            <div class="flex items-center gap-2">
+              <span class="text-lg">🧠</span>
+              <h3 class="text-sm font-bold text-foreground">5. Working Memory Under Distraction</h3>
+            </div>
+            <p class="text-zinc-550 dark:text-zinc-400 text-xs leading-relaxed">
+              Reproduce a sequence of colored dots while distracting symbols flash around the grid. Tests the resilience of your short-term memory under interference.
+            </p>
+          </div>
+        </div>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is the Focus Challenge?</h2>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+          The Focus Challenge is a <strong>5-minute online attention battery</strong> that combines five well-established cognitive paradigms into a single composite score. Unlike simple reaction tests or single-dimension games, this challenge provides a <strong>multi-dimensional picture</strong> of your attentional abilities.
+        </p>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+          Each stage is scored from 0–100, and your overall Focus Score is the average across all five. This lets you see not just <em>how focused</em> you are overall, but <em>which dimension</em> of attention needs the most work.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Why Measure Attention?</h2>
+        <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+          Attention is the gateway to all higher cognition. Your ability to focus determines how well you learn, work, and perform under pressure. Tracking your attention metrics over time helps you understand how sleep, nutrition, stress, and training affect your cognitive performance.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-6">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">How is the Focus Score calculated?</h3>
+            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+              Each of the 5 stages produces a score from 0–100 based on accuracy and reaction metrics specific to that paradigm. The overall Focus Score is the simple average of all five stage scores. Your percentile rank compares your score against all other CogniArena users.
+            </p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">What is a good Focus Score?</h3>
+            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+              75+ is considered sharp focus, 60–74 is moderate, and below 40 suggests you may be experiencing attentional lapses (which can happen from lack of sleep, stress, or multitasking). The top 10% of users typically score 85+.
+            </p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">Can I improve my score?</h3>
+            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+              Yes! Attention is trainable. Practice with the Focus Challenge regularly, try our other <a href="/tests/go-no-go" class="text-accent hover:underline">Go/No-Go</a>, <a href="/tests/stroop" class="text-accent hover:underline">Stroop</a>, and <a href="/tests/dual-n-back" class="text-accent hover:underline">Dual N-Back</a> tests, and track your progress on your <a href="/dashboard" class="text-accent hover:underline">Performance HQ</a> dashboard.
+            </p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">Is this a diagnostic tool for ADHD?</h3>
+            <p class="text-zinc-550 dark:text-zinc-400 text-sm leading-relaxed">
+              No. This is a <strong>performance-based entertainment and self-tracking tool</strong>. While it measures attention-related metrics, it is not validated for clinical diagnosis. If you suspect an attention disorder, please consult a licensed healthcare professional.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</Layout>
