@@ -1,54 +1,382 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
+import percentilesData from '../../data/percentiles.json';
+import { PASSAGE_CATEGORIES } from '../../data/passages';
 
-const PASSAGES = [
-  `The brain is a remarkable organ that adapts and rewires itself throughout life in response to experience. This quality known as neuroplasticity means that every skill you practice from playing an instrument to learning a new language physically reshapes your neural architecture. The more deliberate your practice the stronger and faster the neural pathways become.`,
-  `In the middle of difficulty lies opportunity. The human mind when stretched to a new idea never returns to its original dimensions. What we achieve inwardly will change outer reality. The only way to discover the limits of the possible is to venture a little way past them into the impossible.`,
-  `Technology advances at an accelerating pace reshaping how we work communicate and think. The most profound technologies are those that disappear weaving themselves into the fabric of everyday life until they are indistinguishable from it. Computing is not about computers anymore it is about living.`,
-  `Success in any field requires a combination of deliberate practice patience and resilience. The most accomplished individuals in any domain have spent approximately ten thousand hours engaged in purposeful practice. But raw hours alone are not enough the quality of practice matters as much as the quantity.`,
-  `The human capacity for language is one of the most remarkable features of our species. Through a complex system of symbols and rules we can express an infinite range of thoughts emotions and ideas. Every time you type a sentence you are participating in a cognitive process that involves multiple brain regions working in precise coordination.`,
-  `Science is a way of thinking much more than it is a body of knowledge. The pursuit of understanding through observation experimentation and reasoning has transformed every aspect of modern life from medicine to communication to transportation. The scientific method remains humanity's most reliable tool for distinguishing truth from falsehood.`,
-  `Focus is not about saying yes to the right things it is about saying no to the everything else. The ability to concentrate without distraction on a cognitively demanding task is becoming increasingly rare and increasingly valuable. Deep work is the superpower of the twenty-first century.`,
-  `Every great achievement was once considered impossible. The stories of human progress are stories of individuals who refused to accept the limits that others placed upon them. They saw what could be not what was and they dedicated themselves with singular purpose to making their vision real.`
-];
+type GameState = 'idle' | 'typing' | 'result';
+type TimeOption = 15 | 30 | 60 | 120;
+type WordOption = 10 | 25 | 50 | 100;
+type TestMode = 'time' | 'words';
 
-type TestState = 'idle' | 'typing' | 'result';
-type TimerOption = 15 | 30 | 60 | 120;
+interface StatsSnapshot {
+  wpm: number; rawWpm: number; acc: number; consistency: number;
+  correct: number; incorrect: number; total: number;
+  burstSpeed: number; reactionDelay: number; backspaces: number;
+  peakWpm: number; wpmSamples: { wpm: number; raw: number; acc: number; t: number }[];
+  charErrors: Record<string, { wrong: number; total: number }>;
+  wordTimings: number[];
+}
+
+class TypingEngine {
+  words: string[] = [];
+  currentWordIdx = 0;
+  typedChars = '';
+  wordResults: boolean[][] = [];
+  extraChars: string[] = [];
+  correctStrokes = 0;
+  incorrectStrokes = 0;
+  totalStrokes = 0;
+  startTime = 0;
+  timerDuration = 60;
+  timeRemaining = 60;
+  isActive = false;
+  submitted = false;
+  capsLockOn = false;
+  isWordMode = false;
+  wordCount = 25;
+  backspaceCount = 0;
+  lastKeyTime = 0;
+  keyIntervals: number[] = [];
+  wordStartTime = 0;
+  wordTimings: number[] = [];
+  reactionDelay = 0;
+  firstKeyTimes: number[] = [];
+  charErrors: Record<string, { wrong: number; total: number }> = {};
+  wpmSamples: { wpm: number; raw: number; acc: number; t: number }[] = [];
+  burstSpeed = 0;
+  onUpdate: () => void = () => {};
+  private rafId: number | null = null;
+  private lastSampleSec = -1;
+  private isComposing = false;
+  waitingForFirstKey = false;
+
+  init(words: string[], duration: number, mode: TestMode, count: number) {
+    this.words = words;
+    this.timerDuration = duration;
+    this.isWordMode = mode === 'words';
+    this.wordCount = count;
+    this.reset();
+    this.waitingForFirstKey = true;
+  }
+
+  reset() {
+    this.currentWordIdx = 0;
+    this.typedChars = '';
+    this.wordResults = [];
+    this.extraChars = [];
+    this.correctStrokes = 0;
+    this.incorrectStrokes = 0;
+    this.totalStrokes = 0;
+    this.startTime = 0;
+    this.timeRemaining = this.timerDuration;
+    this.isActive = false;
+    this.submitted = false;
+    this.capsLockOn = false;
+    this.wpmSamples = [];
+    this.lastSampleSec = -1;
+    this.backspaceCount = 0;
+    this.keyIntervals = [];
+    this.lastKeyTime = 0;
+    this.wordStartTime = 0;
+    this.wordTimings = [];
+    this.reactionDelay = 0;
+    this.firstKeyTimes = [];
+    this.charErrors = {};
+    this.burstSpeed = 0;
+    this.isComposing = false;
+    this.cancelFrame();
+  }
+
+  start(now: number) {
+    if (this.submitted) return;
+    this.isActive = true;
+    this.waitingForFirstKey = false;
+    this.startTime = now;
+    this.wordStartTime = now;
+    this.lastKeyTime = now;
+    this.timeRemaining = this.timerDuration;
+    this.lastSampleSec = -1;
+    this.scheduleFrame();
+  }
+
+  private scheduleFrame() {
+    if (this.submitted) return;
+    this.rafId = requestAnimationFrame(() => this.tick());
+  }
+
+  private cancelFrame() {
+    if (this.rafId !== null) { cancelAnimationFrame(this.rafId); this.rafId = null; }
+  }
+
+  private tick() {
+    if (this.submitted || !this.isActive) return;
+    const now = performance.now();
+    const elapsed = (now - this.startTime) / 1000;
+    this.timeRemaining = Math.max(0, this.timerDuration - elapsed);
+    if (this.timeRemaining <= 0 || (this.isWordMode && this.currentWordIdx >= this.wordCount)) {
+      this.endTest(); return;
+    }
+    const sec = Math.floor(elapsed);
+    if (sec > this.lastSampleSec && sec > 0) {
+      this.lastSampleSec = sec;
+      const mins = Math.max(elapsed / 60, 1 / 60);
+      const t = this.totalStrokes;
+      const inc = this.incorrectStrokes;
+      const net = Math.max(0, Math.round((t - inc) / 5 / mins));
+      const gross = Math.round(t / 5 / mins);
+      const acc = t > 0 ? Math.round((this.correctStrokes / t) * 100) : 100;
+      this.wpmSamples.push({ wpm: net, raw: gross, acc, t: now });
+    }
+    this.onUpdate();
+    this.scheduleFrame();
+  }
+
+  endTest() {
+    if (this.submitted) return;
+    this.submitted = true;
+    this.isActive = false;
+    this.cancelFrame();
+    const elapsed = (performance.now() - this.startTime) / 1000;
+    this.timeRemaining = Math.max(0, this.timerDuration - elapsed);
+    this.burstSpeed = this.calcBurst();
+    this.reactionDelay = this.firstKeyTimes.length > 0
+      ? Math.round(this.firstKeyTimes.reduce((a, b) => a + b, 0) / this.firstKeyTimes.length)
+      : 0;
+    this.onUpdate();
+  }
+
+  private calcBurst(): number {
+    const windowSize = 5;
+    let peak = 0;
+    for (let i = 0; i < this.wordTimings.length - windowSize; i++) {
+      const totalTime = this.wordTimings.slice(i, i + windowSize).reduce((a, b) => a + b, 0) / 1000;
+      if (totalTime > 0) {
+        const burst = Math.round((windowSize / 5) / (totalTime / 60));
+        peak = Math.max(peak, burst);
+      }
+    }
+    return peak;
+  }
+
+  setComposing(v: boolean) { this.isComposing = v; }
+
+  handleKeydown(e: KeyboardEvent): boolean {
+    if (this.isComposing && e.key !== 'Escape') return false;
+    if (e.key === 'Tab') { e.preventDefault(); this.reset(); this.onUpdate(); return true; }
+    if (e.key === 'Escape') {
+      if (this.isActive || this.submitted) { this.reset(); this.onUpdate(); return true; }
+      return false;
+    }
+    if (e.ctrlKey || e.altKey || e.metaKey) {
+      if (['a','c','v','x','z'].includes(e.key.toLowerCase())) { e.preventDefault(); return true; }
+      return false;
+    }
+    e.preventDefault();
+    this.capsLockOn = e.getModifierState('CapsLock');
+    if (e.key === 'Dead' || e.key.length !== 1 && e.key !== 'Backspace' && e.key !== 'Enter') return true;
+
+    const now = performance.now();
+    if (this.lastKeyTime > 0) this.keyIntervals.push(now - this.lastKeyTime);
+    this.lastKeyTime = now;
+
+    if (e.key === 'Backspace') {
+      if (this.typedChars.length > 0) {
+        const last = this.typedChars[this.typedChars.length - 1];
+        this.typedChars = this.typedChars.slice(0, -1);
+        if (this.extraChars.length > 0) this.extraChars.pop();
+        if (last && this.currentWordIdx < this.words.length) {
+          const w = this.words[this.currentWordIdx];
+          const idx = this.typedChars.length;
+          if (idx < w.length && last === w[idx]) {
+            this.correctStrokes = Math.max(0, this.correctStrokes - 1);
+          } else {
+            this.incorrectStrokes = Math.max(0, this.incorrectStrokes - 1);
+          }
+          this.totalStrokes = Math.max(0, this.totalStrokes - 1);
+        }
+        this.backspaceCount++;
+      }
+      this.onUpdate(); return true;
+    }
+
+    if (e.key.length !== 1) return true;
+    if (!this.isActive) {
+      this.start(now);
+      this.firstKeyTimes.push(0);
+    }
+    const word = this.words[this.currentWordIdx];
+    if (!word) return true;
+    this.totalStrokes++;
+
+    if (e.key === ' ' || e.key === 'Enter') {
+      const isCorrect = this.typedChars === word;
+      const chars = this.typedChars.split('').map((ch, i) => ch === word[i]);
+      this.wordResults[this.currentWordIdx] = chars;
+      if (!isCorrect) {
+        const typedLen = this.typedChars.length;
+        const wordLen = word.length;
+        const correctCount = chars.filter(Boolean).length;
+        this.incorrectStrokes += Math.max(0, typedLen - correctCount) + Math.max(0, wordLen - typedLen);
+      }
+      this.wordTimings.push(now - this.wordStartTime);
+      this.currentWordIdx++;
+      this.typedChars = '';
+      this.extraChars = [];
+      this.wordStartTime = now;
+      if (this.currentWordIdx >= this.words.length) { this.endTest(); return true; }
+      if (this.isWordMode && this.currentWordIdx >= this.wordCount) { this.endTest(); return true; }
+      this.onUpdate(); return true;
+    }
+
+    const typed = this.typedChars;
+    this.trackChar(word[typed.length] || '_', e.key);
+    if (typed.length < word.length) {
+      this.typedChars = typed + e.key;
+      if (e.key === word[typed.length]) this.correctStrokes++;
+      else this.incorrectStrokes++;
+    } else {
+      this.typedChars = typed + e.key;
+      this.extraChars.push(e.key);
+      this.incorrectStrokes++;
+    }
+    this.onUpdate(); return true;
+  }
+
+  private trackChar(expected: string, actual: string) {
+    if (!this.charErrors[expected]) this.charErrors[expected] = { wrong: 0, total: 0 };
+    this.charErrors[expected].total++;
+    if (expected !== actual) this.charErrors[expected].wrong++;
+  }
+
+  get stats(): StatsSnapshot {
+    const elapsed = this.isActive
+      ? (performance.now() - this.startTime) / 1000
+      : this.timerDuration - this.timeRemaining;
+    const minutes = Math.max(elapsed / 60, 1 / 60);
+    const t = this.totalStrokes;
+    const inc = this.incorrectStrokes;
+    const gross = Math.round(t / 5 / minutes);
+    const net = Math.max(0, Math.round((t - inc) / 5 / minutes));
+    const acc = t > 0 ? Math.round((this.correctStrokes / t) * 100) : 100;
+    const hist = this.wpmSamples.map(s => s.wpm);
+    const cons = hist.length > 1
+      ? Math.round(100 - (stddev(hist) / (mean(hist) || 1)) * 100)
+      : 100;
+    const peak = hist.length > 0 ? Math.max(...hist) : 0;
+    return {
+      wpm: net, rawWpm: gross, acc, consistency: Math.max(0, Math.min(100, cons)),
+      correct: this.correctStrokes, incorrect: this.incorrectStrokes, total: t,
+      burstSpeed: this.burstSpeed || peak, reactionDelay: this.reactionDelay,
+      backspaces: this.backspaceCount, peakWpm: peak,
+      wpmSamples: this.wpmSamples, charErrors: this.charErrors, wordTimings: this.wordTimings,
+    };
+  }
+}
+
+function mean(a: number[]): number { return a.length === 0 ? 0 : a.reduce((s, n) => s + n, 0) / a.length; }
+function stddev(a: number[]): number {
+  if (a.length < 2) return 0;
+  const m = mean(a);
+  return Math.sqrt(a.reduce((s, n) => s + (n - m) ** 2, 0) / a.length);
+}
+
+function interpolatePercentile(score: number): number {
+  const table = (percentilesData as Record<string, { score: number; percentile: number }[]>)['typing-speed'];
+  if (!table || table.length === 0) {
+    if (score >= 120) return 99.9; if (score >= 100) return 99;
+    if (score >= 80) return 93; if (score >= 60) return 66;
+    if (score >= 40) return 28; return 1;
+  }
+  if (score <= table[0].score) return table[0].percentile;
+  if (score >= table[table.length - 1].score) return table[table.length - 1].percentile;
+  for (let i = 0; i < table.length - 1; i++) {
+    const a = table[i], b = table[i + 1];
+    if (score >= a.score && score <= b.score) {
+      const t = (score - a.score) / (b.score - a.score);
+      return a.percentile + t * (b.percentile - a.percentile);
+    }
+  }
+  return 50;
+}
 
 export default function TypingSpeedTest() {
-  const [gameState, setGameState] = useState<TestState>('idle');
-  const [timerDuration, setTimerDuration] = useState<TimerOption>(60);
-  const [timeLeft, setTimeLeft] = useState(60);
-  const [displayWpm, setDisplayWpm] = useState(0);
-  const [displayAcc, setDisplayAcc] = useState(100);
-  const [resultWpm, setResultWpm] = useState(0);
-  const [resultRawWpm, setResultRawWpm] = useState(0);
-  const [resultAcc, setResultAcc] = useState(100);
-  const [resultCons, setResultCons] = useState(100);
-  const [resultCorrect, setResultCorrect] = useState(0);
-  const [resultTotal, setResultTotal] = useState(0);
+  const engineRef = useRef<TypingEngine>(new TypingEngine());
+  const containerRef = useRef<HTMLDivElement>(null);
+  const wordsRef = useRef<HTMLDivElement>(null);
+  const cursorRef = useRef<HTMLDivElement>(null);
+  const [gameState, setGameState] = useState<GameState>('idle');
+  const [, setRenderTick] = useState(0);
+  const [timerDuration, setTimerDuration] = useState<TimeOption>(60);
+  const [testMode, setTestMode] = useState<TestMode>('time');
+  const [wordCount, setWordCount] = useState<WordOption>(25);
+  const [categoryIdx, setCategoryIdx] = useState(0);
+  const [passageIdx, setPassageIdx] = useState(() => Math.floor(Math.random() * PASSAGE_CATEGORIES[0].passages.length));
   const [personalBest, setPersonalBest] = useState<number | null>(null);
-  const [finalPercentile, setFinalPercentile] = useState(0);
+  const [challengeScore, setChallengeScore] = useState<number | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [copiedChallenge, setCopiedChallenge] = useState(false);
-  const [challengeScore, setChallengeScore] = useState<number | null>(null);
-  const [words] = useState<string[]>(() => PASSAGES[Math.floor(Math.random() * PASSAGES.length)].split(' '));
-  const [renderTick, setRenderTick] = useState(0);
+  const [displayWpm, setDisplayWpm] = useState(0);
+  const [displayAcc, setDisplayAcc] = useState(100);
+  const [displayTime, setDisplayTime] = useState(60);
+  const [capsLockWarning, setCapsLockWarning] = useState(false);
+  const [resultStats, setResultStats] = useState<StatsSnapshot | null>(null);
+  const [finalPercentile, setFinalPercentile] = useState(0);
 
-  const typedCharsRef = useRef('');
-  const currentWordIdxRef = useRef(0);
-  const correctStrokesRef = useRef(0);
-  const incorrectStrokesRef = useRef(0);
-  const totalStrokesRef = useRef(0);
-  const wordResultsRef = useRef<boolean[][]>([]);
-  const wpmHistoryRef = useRef<number[]>([]);
-  const startTimeRef = useRef(0);
-  const submittedRef = useRef(false);
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const statsTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  const focusSentinelRef = useRef<HTMLDivElement>(null);
-  const wordsContainerRef = useRef<HTMLDivElement>(null);
+  const engine = engineRef.current;
+  const rerender = useCallback(() => setRenderTick(t => t + 1), []);
+  engine.onUpdate = rerender;
+
+  // Cursor positioning — Monkeytype-style absolute positioning
+  const updateCursor = useCallback(() => {
+    const cursor = cursorRef.current;
+    const wordsEl = wordsRef.current;
+    if (!cursor || !wordsEl || engine.submitted) { if (cursor) cursor.style.opacity = '0'; return; }
+    const wordSpans = wordsEl.querySelectorAll<HTMLElement>('[data-word-idx]');
+    const currentWordEl = wordsEl.querySelector<HTMLElement>(`[data-word-idx="${engine.currentWordIdx}"]`);
+    if (!currentWordEl) { cursor.style.opacity = '0'; return; }
+    const containerRect = wordsEl.getBoundingClientRect();
+    const charIdx = engine.typedChars.length;
+    const charSpans = currentWordEl.querySelectorAll<HTMLElement>('[data-char-idx]');
+    let targetRect: DOMRect | null = null;
+    if (charIdx < charSpans.length) {
+      targetRect = charSpans[charIdx].getBoundingClientRect();
+      cursor.style.left = `${targetRect.left - containerRect.left}px`;
+      cursor.style.top = `${targetRect.top - containerRect.top}px`;
+      cursor.style.height = `${targetRect.height}px`;
+    } else if (charSpans.length > 0) {
+      const lastChar = charSpans[charSpans.length - 1];
+      targetRect = lastChar.getBoundingClientRect();
+      cursor.style.left = `${targetRect.right - containerRect.left}px`;
+      cursor.style.top = `${targetRect.top - containerRect.top}px`;
+      cursor.style.height = `${targetRect.height}px`;
+    } else {
+      const wordRect = currentWordEl.getBoundingClientRect();
+      cursor.style.left = `${wordRect.left - containerRect.left}px`;
+      cursor.style.top = `${wordRect.top - containerRect.top}px`;
+      cursor.style.height = `${wordRect.height}px`;
+    }
+    cursor.style.opacity = '1';
+    // Suppress unused var warning
+    void wordSpans;
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Line management — auto-scroll to keep current line visible
+  const updateScroll = useCallback(() => {
+    const wordsEl = wordsRef.current;
+    if (!wordsEl) return;
+    const currentWordEl = wordsEl.querySelector<HTMLElement>(`[data-word-idx="${engine.currentWordIdx}"]`);
+    if (!currentWordEl) return;
+    const containerHeight = wordsEl.parentElement?.clientHeight || 200;
+    const lineHeight = currentWordEl.offsetHeight || 30;
+    const visibleLines = Math.max(1, Math.floor(containerHeight / lineHeight));
+    const maxScroll = Math.max(0, wordsEl.scrollHeight - containerHeight);
+    const wordTop = currentWordEl.offsetTop;
+    const targetLine = Math.floor(wordTop / lineHeight);
+    const centerOffset = Math.floor(visibleLines / 2);
+    const scrollTarget = Math.max(0, (targetLine - centerOffset) * lineHeight);
+    wordsEl.style.transform = `translateY(-${Math.min(scrollTarget, maxScroll)}px)`;
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     let mounted = true;
@@ -67,184 +395,117 @@ export default function TypingSpeedTest() {
   }, []);
 
   useEffect(() => {
-    if (wordsContainerRef.current && currentWordIdxRef.current > 0) {
-      const children = wordsContainerRef.current.children;
-      if (children[currentWordIdxRef.current]) {
-        children[currentWordIdxRef.current].scrollIntoView({ block: 'nearest', behavior: 'smooth' });
-      }
+    if (gameState === 'typing') {
+      setDisplayWpm(engine.stats.wpm);
+      setDisplayAcc(engine.stats.acc);
+      setDisplayTime(Math.ceil(engine.timeRemaining));
+      setCapsLockWarning(engine.capsLockOn);
+      requestAnimationFrame(() => { updateCursor(); updateScroll(); });
     }
-  }, [renderTick]);
+  }, [gameState, engine, updateCursor, updateScroll]);
 
-  const lookupPercentile = (wpmScore: number): number => {
-    if (wpmScore >= 120) return 99.9; if (wpmScore >= 110) return 99.5; if (wpmScore >= 100) return 99;
-    if (wpmScore >= 90) return 97; if (wpmScore >= 80) return 93; if (wpmScore >= 75) return 88;
-    if (wpmScore >= 70) return 82; if (wpmScore >= 65) return 75; if (wpmScore >= 60) return 66;
-    if (wpmScore >= 55) return 56; if (wpmScore >= 50) return 46; if (wpmScore >= 45) return 36;
-    if (wpmScore >= 40) return 28; if (wpmScore >= 35) return 20; if (wpmScore >= 30) return 12;
-    if (wpmScore >= 25) return 6; if (wpmScore >= 20) return 3; return 1;
-  };
-
-  const endTest = () => {
-    if (submittedRef.current) return;
-    submittedRef.current = true;
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (statsTimerRef.current) clearInterval(statsTimerRef.current);
-    document.removeEventListener('keydown', handleKeydown);
-
-    const elapsed = (performance.now() - startTimeRef.current) / 60000;
-    const minutes = Math.max(elapsed, 1 / 60);
-    const total = totalStrokesRef.current;
-    const incorrect = incorrectStrokesRef.current;
-    const correct = correctStrokesRef.current;
-    const grossWpm = Math.round(total / 5 / minutes);
-    const netWpm = Math.max(0, Math.round((total - incorrect) / 5 / minutes));
-    const acc = total > 0 ? Math.round((correct / total) * 100) : 0;
-    const history = wpmHistoryRef.current;
-    const cons = history.length > 1
-      ? Math.round(100 - (stddev(history) / (mean(history) || 1)) * 100)
-      : 100;
-
-    setResultWpm(netWpm);
-    setResultRawWpm(grossWpm);
-    setResultAcc(acc);
-    setResultCons(Math.max(0, Math.min(100, cons)));
-    setResultCorrect(correct);
-    setResultTotal(total);
-
-    const percentile = lookupPercentile(netWpm);
-    setFinalPercentile(percentile);
-    setGameState('result');
-
-    dataLayer.saveSession({
-      testId: 'typing-speed',
-      category: 'stamina',
-      rawScore: netWpm,
-      percentile,
-      metadata: { grossWpm, accuracy: acc, consistency: cons, characters: total, correct, incorrect, time: timerDuration }
-    }).catch(() => {});
-
-    dataLayer.getPersonalBest('typing-speed', 'higher').then(pb => setPersonalBest(pb)).catch(() => {});
-    generateShareCard('Typing Speed Test', `${netWpm} WPM`, percentile).then(card => setShareImage(card)).catch(() => {});
-  };
-
-  const handleKeydown = (e: KeyboardEvent) => {
-    if (e.key === 'Tab') {
-      e.preventDefault();
-      resetTest();
-      return;
+  // Re-position cursor on every render tick during typing
+  useEffect(() => {
+    if (gameState === 'typing') {
+      setDisplayWpm(engine.stats.wpm);
+      setDisplayAcc(engine.stats.acc);
+      setDisplayTime(Math.ceil(engine.timeRemaining));
+      setCapsLockWarning(engine.capsLockOn);
+      requestAnimationFrame(updateCursor);
     }
-    if (e.ctrlKey || e.altKey || e.metaKey) return;
-    if (e.key === 'Escape') { resetTest(); return; }
-    e.preventDefault();
+  });
 
-    if (e.key === 'Backspace') {
-      if (typedCharsRef.current.length > 0) {
-        typedCharsRef.current = typedCharsRef.current.slice(0, -1);
-        setRenderTick(t => t + 1);
-      }
-      return;
+  useEffect(() => {
+    if (engine.submitted && gameState !== 'result') {
+      const stats = engine.stats;
+      setResultStats(stats);
+      setGameState('result');
+      const percentile = interpolatePercentile(stats.wpm);
+      setFinalPercentile(percentile);
+      dataLayer.saveSession({
+        testId: 'typing-speed', category: 'stamina', rawScore: stats.wpm, percentile,
+        metadata: {
+          rawWpm: stats.rawWpm, accuracy: stats.acc, consistency: stats.consistency,
+          characters: stats.total, correct: stats.correct, incorrect: stats.incorrect,
+          time: timerDuration, mode: testMode,
+          wordCount: testMode === 'words' ? wordCount : undefined,
+          burstSpeed: stats.burstSpeed, reactionDelay: stats.reactionDelay,
+          backspaces: stats.backspaces,
+        },
+      }).catch(() => {});
+      dataLayer.getPersonalBest('typing-speed', 'higher').then(pb => setPersonalBest(pb)).catch(() => {});
+      generateShareCard('Typing Speed Test', `${stats.wpm} WPM`, percentile).then(card => setShareImage(card)).catch(() => {});
     }
-    if (e.key.length !== 1) return;
+  }, [engine.submitted]); // eslint-disable-line react-hooks/exhaustive-deps
 
-    const idx = currentWordIdxRef.current;
-    const word = words[idx];
-    if (!word) return;
-
-    totalStrokesRef.current += 1;
-
-    if (e.key === ' ' || e.key === 'Enter') {
-      const correct = typedCharsRef.current === word;
-      const chars = typedCharsRef.current.split('').map((ch, i) => ch === word[i]);
-      wordResultsRef.current[idx] = chars;
-      if (!correct) {
-        incorrectStrokesRef.current += word.length - chars.filter(Boolean).length;
+  // Keyboard event handling with IME/composition guards
+  useEffect(() => {
+    if (gameState !== 'typing') return;
+    const handler = (e: KeyboardEvent) => { engine.handleKeydown(e); };
+    const compositionStart = () => { engine.setComposing(true); };
+    const compositionEnd = () => { engine.setComposing(false); };
+    const paste = (e: ClipboardEvent) => { e.preventDefault(); };
+    const copy = (e: ClipboardEvent) => { e.preventDefault(); };
+    document.addEventListener('keydown', handler);
+    document.addEventListener('compositionstart', compositionStart);
+    document.addEventListener('compositionend', compositionEnd);
+    document.addEventListener('paste', paste);
+    document.addEventListener('copy', copy);
+    // Visibility change for timing correction
+    const visChange = () => {
+      if (document.hidden && engine.isActive) {
+        // Timer continues via performance.now() — no action needed
       }
-      currentWordIdxRef.current = idx + 1;
-      typedCharsRef.current = '';
+    };
+    document.addEventListener('visibilitychange', visChange);
+    return () => {
+      document.removeEventListener('keydown', handler);
+      document.removeEventListener('compositionstart', compositionStart);
+      document.removeEventListener('compositionend', compositionEnd);
+      document.removeEventListener('paste', paste);
+      document.removeEventListener('copy', copy);
+      document.removeEventListener('visibilitychange', visChange);
+    };
+  }, [gameState]); // eslint-disable-line react-hooks/exhaustive-deps
 
-      if (currentWordIdxRef.current >= words.length) {
-        endTest();
-        return;
-      }
-      setRenderTick(t => t + 1);
-      return;
-    }
-
-    const typed = typedCharsRef.current;
-    if (typed.length < word.length) {
-      typedCharsRef.current = typed + e.key;
-      if (e.key === word[typed.length]) {
-        correctStrokesRef.current += 1;
-      } else {
-        incorrectStrokesRef.current += 1;
-      }
-      setRenderTick(t => t + 1);
-    }
-  };
+  const pickRandomPassage = useCallback((catIdx: number, excludeIdx?: number) => {
+    const cat = PASSAGE_CATEGORIES[catIdx];
+    if (!cat) return 0;
+    const len = cat.passages.length;
+    if (len <= 1) return 0;
+    let idx: number;
+    do { idx = Math.floor(Math.random() * len); } while (idx === excludeIdx);
+    return idx;
+  }, []);
 
   const startTest = () => {
-    if (submittedRef.current) return;
+    engine.reset();
+    const newPassageIdx = pickRandomPassage(categoryIdx, passageIdx);
+    setPassageIdx(newPassageIdx);
+    const cat = PASSAGE_CATEGORIES[categoryIdx];
+    const passageText = cat ? cat.passages[newPassageIdx % cat.passages.length].text : PASSAGE_CATEGORIES[0].passages[0].text;
+    const words = passageText.split(/\s+/).filter(Boolean);
+    engine.init(words, timerDuration, testMode, wordCount);
+    setDisplayWpm(0); setDisplayAcc(100); setDisplayTime(timerDuration);
+    setCapsLockWarning(false); setShareImage(null); setResultStats(null);
     setGameState('typing');
-    typedCharsRef.current = '';
-    currentWordIdxRef.current = 0;
-    correctStrokesRef.current = 0;
-    incorrectStrokesRef.current = 0;
-    totalStrokesRef.current = 0;
-    wordResultsRef.current = [];
-    wpmHistoryRef.current = [];
-    submittedRef.current = false;
-    setTimeLeft(timerDuration);
-    setDisplayWpm(0);
-    setDisplayAcc(100);
-    startTimeRef.current = performance.now();
-    setRenderTick(0);
-
-    document.addEventListener('keydown', handleKeydown);
-
-    timerRef.current = setInterval(() => {
-      const elapsed = (performance.now() - startTimeRef.current) / 1000;
-      const remaining = Math.max(0, timerDuration - elapsed);
-      if (remaining <= 0) {
-        if (timerRef.current) clearInterval(timerRef.current);
-        endTest();
-        return;
-      }
-      const mins = Math.max(elapsed / 60, 1 / 60);
-      const total = totalStrokesRef.current;
-      const incorrect = incorrectStrokesRef.current;
-      const net = Math.max(0, Math.round((total - incorrect) / 5 / mins));
-      wpmHistoryRef.current.push(net);
-      setDisplayWpm(net);
-      setTimeLeft(remaining);
-    }, 250);
-
-    setTimeout(() => {
-      if (focusSentinelRef.current) focusSentinelRef.current.focus();
-    }, 50);
+    requestAnimationFrame(() => {
+      if (wordsRef.current) wordsRef.current.style.transform = 'translateY(0)';
+      updateCursor();
+    });
   };
 
   const resetTest = () => {
-    if (timerRef.current) clearInterval(timerRef.current);
-    if (statsTimerRef.current) clearInterval(statsTimerRef.current);
-    document.removeEventListener('keydown', handleKeydown);
-    submittedRef.current = false;
-    typedCharsRef.current = '';
-    currentWordIdxRef.current = 0;
-    correctStrokesRef.current = 0;
-    incorrectStrokesRef.current = 0;
-    totalStrokesRef.current = 0;
-    wordResultsRef.current = [];
-    wpmHistoryRef.current = [];
+    engine.reset();
+    setPassageIdx(pickRandomPassage(categoryIdx, passageIdx));
     setGameState('idle');
-    setTimeLeft(timerDuration);
-    setDisplayWpm(0);
-    setDisplayAcc(100);
-    setShareImage(null);
+    setDisplayWpm(0); setDisplayAcc(100); setDisplayTime(timerDuration);
+    setCapsLockWarning(false); setShareImage(null); setResultStats(null);
   };
 
   const copyChallengeLink = () => {
-    if (typeof window === 'undefined') return;
-    const token = encodeChallenge({ testId: 'typing-speed', score: resultWpm });
+    if (!resultStats) return;
+    const token = encodeChallenge({ testId: 'typing-speed', score: resultStats.wpm });
     const url = `${window.location.origin}/tests/typing-speed/?challenge=${token}`;
     navigator.clipboard.writeText(url).then(() => {
       setCopiedChallenge(true);
@@ -252,159 +513,196 @@ export default function TypingSpeedTest() {
     }).catch(() => {});
   };
 
-  const renderWord = (word: string, wordIdx: number) => {
-    const isPast = wordIdx < currentWordIdxRef.current;
-    const isCurrent = wordIdx === currentWordIdxRef.current;
+  const switchCategory = (idx: number) => { setCategoryIdx(idx); setPassageIdx(pickRandomPassage(idx)); };
 
+  // Detect engine reset (Tab/Esc pressed during typing) and return to idle with new passage
+  useEffect(() => {
+    if (engine.waitingForFirstKey) return;
+    if (gameState === 'typing' && !engine.isActive && !engine.submitted && engine.currentWordIdx === 0) {
+      setPassageIdx(pickRandomPassage(categoryIdx, passageIdx));
+      setGameState('idle');
+      setDisplayWpm(0); setDisplayAcc(100); setDisplayTime(timerDuration);
+      setCapsLockWarning(false);
+    }
+  }); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const words = engine.words;
+  const currentWordIdx = engine.currentWordIdx;
+  const typedChars = engine.typedChars;
+  const wordResults = engine.wordResults;
+
+  // Render a single word with per-character spans for cursor tracking
+  const renderWord = (word: string, wordIdx: number) => {
+    const isPast = wordIdx < currentWordIdx;
+    const isCurrent = wordIdx === currentWordIdx;
     if (isPast) {
-      const result = wordResultsRef.current[wordIdx];
+      const result = wordResults[wordIdx];
       const allCorrect = result && result.every(Boolean);
       return (
-        <span key={wordIdx} className="word" style={{
-          color: allCorrect ? '#7a6a3a' : '#6a3030',
-          opacity: allCorrect ? 0.8 : 0.6,
-          textDecoration: allCorrect ? 'none' : 'line-through',
-        }}>
-          {word}
+        <span key={wordIdx} data-word-idx={wordIdx} className="tts-word tts-word-past"
+          style={{ color: allCorrect ? '#7a6a3a' : '#6a3030', opacity: allCorrect ? 0.8 : 0.6, textDecoration: allCorrect ? 'none' : 'line-through' }}>
+          {word.split('').map((ch, ci) => (
+            <span key={ci} data-char-idx={ci} className="tts-char">{ch}</span>
+          ))}
         </span>
       );
     }
-
     if (isCurrent) {
-      const typed = typedCharsRef.current;
+      const typed = typedChars;
+      const extra = engine.extraChars;
       return (
-        <span key={wordIdx} className="word word-current" ref={wordIdx === currentWordIdxRef.current ? (el) => { if (el) el.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); } : undefined}>
+        <span key={wordIdx} data-word-idx={wordIdx} className="tts-word tts-word-current">
           {word.split('').map((char, ci) => {
             if (ci < typed.length) {
               const correct = typed[ci] === char;
               return (
-                <span key={ci} className="char" style={{
-                  color: correct ? '#d6993a' : '#c44040',
-                  background: correct ? 'transparent' : 'rgba(196,64,64,0.12)',
-                  borderRadius: '2px',
-                }}>
+                <span key={ci} data-char-idx={ci} className="tts-char"
+                  style={{ color: correct ? '#d6993a' : '#c44040', background: correct ? 'transparent' : 'rgba(196,64,64,0.12)', borderRadius: '2px' }}>
                   {char}
                 </span>
               );
             }
             if (ci === typed.length) {
               return (
-                <span key={ci} className="char" style={{ color: '#5a5245' }}>
+                <span key={ci} data-char-idx={ci} className="tts-char tts-char-active" style={{ color: '#5a5245' }}>
                   {char}
                 </span>
               );
             }
             return (
-              <span key={ci} className="char" style={{ color: '#3a3530' }}>
+              <span key={ci} data-char-idx={ci} className="tts-char" style={{ color: '#3a3530' }}>
                 {char}
               </span>
             );
           })}
-          <span className="cursor" />
+          {extra.map((ch, ei) => (
+            <span key={`e${ei}`} data-char-idx={word.length + ei} className="tts-char"
+              style={{ color: '#c44040', background: 'rgba(196,64,64,0.12)', borderRadius: '2px' }}>
+              {ch}
+            </span>
+          ))}
         </span>
       );
     }
-
     return (
-      <span key={wordIdx} className="word" style={{ color: '#3a3530' }}>
-        {word}
+      <span key={wordIdx} data-word-idx={wordIdx} className="tts-word tts-word-future" style={{ color: '#3a3530' }}>
+        {word.split('').map((ch, ci) => (
+          <span key={ci} data-char-idx={ci} className="tts-char">{ch}</span>
+        ))}
       </span>
     );
   };
 
-  if (gameState === 'result') {
+  // ===== RESULT SCREEN =====
+  if (gameState === 'result' && resultStats) {
     const hasPb = personalBest !== null;
-    const isPb = hasPb && resultWpm >= personalBest;
+    const isPb = hasPb && resultStats.wpm >= personalBest;
+    const rs = resultStats;
+    const maxWpm = Math.max(...rs.wpmSamples.map(s => s.wpm), rs.wpm, 60);
 
     return (
-      <div className="w-full" style={{
-        background: '#0c0c0c',
-        border: '1px solid #1a1a1a',
-        borderRadius: '12px',
-        padding: 'clamp(2rem, 5vw, 3.5rem)',
-      }}>
+      <div className="w-full tts-panel" style={{ padding: 'clamp(2rem, 5vw, 3.5rem)' }}>
         <div className="flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-2">
-            <span className="text-[10px] uppercase tracking-[0.15em]" style={{ color: '#7a7368', fontFamily: "'JetBrains Mono', monospace" }}>
-              Words Per Minute
-            </span>
-            <div className="flex items-baseline gap-2" style={{ fontFamily: "'Epilogue', sans-serif" }}>
-              <span className="text-7xl md:text-8xl font-extrabold tracking-tight" style={{ color: '#e6dfd0', lineHeight: 1 }}>
-                {resultWpm}
-              </span>
+            <span className="tts-label">Words Per Minute</span>
+            <div className="flex items-baseline gap-2">
+              <span className="text-7xl md:text-8xl font-extrabold tracking-tight" style={{ color: '#e6dfd0', lineHeight: 1 }}>{rs.wpm}</span>
               <span className="text-2xl font-normal" style={{ color: '#7a7368' }}>wpm</span>
             </div>
             <span className="text-xs font-mono uppercase tracking-wider" style={{ color: '#d6993a' }}>
-              Top {100 - Math.round(finalPercentile)}% of typists
+              Top {Math.round(100 - finalPercentile)}% of typists
             </span>
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 w-full max-w-lg text-center" style={{ borderTop: '1px solid #1a1a1a', paddingTop: '1.5rem' }}>
             {[
-              { label: 'Accuracy', value: `${resultAcc}%` },
-              { label: 'Raw WPM', value: String(resultRawWpm) },
-              { label: 'Consistency', value: `${resultCons}%` },
-              { label: 'Characters', value: `${resultCorrect}/${resultTotal}` },
+              { label: 'Accuracy', value: `${rs.acc}%` },
+              { label: 'Raw WPM', value: String(rs.rawWpm) },
+              { label: 'Consistency', value: `${rs.consistency}%` },
+              { label: 'Characters', value: `${rs.correct}/${rs.total}` },
+              { label: 'Burst Speed', value: `${rs.burstSpeed} wpm` },
+              { label: 'Reaction', value: `${rs.reactionDelay}ms` },
+              { label: 'Backspaces', value: String(rs.backspaces) },
+              { label: 'Peak WPM', value: String(rs.peakWpm) },
             ].map(s => (
               <div key={s.label}>
-                <span className="text-[10px] uppercase tracking-[0.15em]" style={{ color: '#7a7368', fontFamily: "'JetBrains Mono', monospace" }}>{s.label}</span>
+                <span className="tts-label">{s.label}</span>
                 <div className="text-xl font-bold font-mono mt-0.5" style={{ color: '#e6dfd0' }}>{s.value}</div>
               </div>
             ))}
           </div>
 
           <div className="flex items-center gap-4 text-xs" style={{ color: '#7a7368', fontFamily: "'JetBrains Mono', monospace" }}>
-            <span>
-              Personal Best:{' '}
-              <strong style={{ color: isPb ? '#d6993a' : '#e6dfd0' }}>
-                {hasPb ? `${personalBest} WPM` : '--'}
-              </strong>
-            </span>
-            {isPb && (
-              <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider" style={{ background: 'rgba(214,153,58,0.2)', color: '#d6993a' }}>
-                New PB!
-              </span>
-            )}
+            <span>Personal Best: <strong style={{ color: isPb ? '#d6993a' : '#e6dfd0' }}>{hasPb ? `${personalBest} WPM` : '--'}</strong></span>
+            {isPb && <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider" style={{ background: 'rgba(214,153,58,0.2)', color: '#d6993a' }}>New PB!</span>}
           </div>
 
-          {wpmHistoryRef.current.length > 1 && (
-            <div className="w-full max-w-sm">
-              <span className="text-[10px] uppercase tracking-[0.15em] block mb-2" style={{ color: '#7a7368', fontFamily: "'JetBrains Mono', monospace" }}>
-                WPM Timeline
-              </span>
+          {/* WPM + Accuracy Chart */}
+          {rs.wpmSamples.length > 1 && (
+            <div className="w-full max-w-md">
+              <span className="tts-label block mb-2">Performance Timeline</span>
               <div style={{ background: '#0c0c0c', border: '1px solid #1a1a1a', borderRadius: '8px', padding: '0.75rem' }}>
-                <svg width="100%" height="60" viewBox="0 0 300 60" style={{ stroke: '#d6993a', fill: 'none' }}>
-                  <line x1="0" y1="30" x2="300" y2="30" stroke="#1a1a1a" strokeDasharray="2,2" />
+                <svg width="100%" height="80" viewBox="0 0 300 80" preserveAspectRatio="none">
+                  <line x1="0" y1="40" x2="300" y2="40" stroke="#1a1a1a" strokeDasharray="2,2" />
+                  {/* WPM line */}
                   <path d={(() => {
-                    const v = wpmHistoryRef.current;
+                    const v = rs.wpmSamples.map(s => s.wpm);
                     if (v.length < 2) return '';
-                    const mx = Math.max(...v, 60), mn = Math.min(...v, 0), r = mx - mn || 1;
-                    return v.map((val, i) => `${i === 0 ? 'M' : 'L'} ${(i / (v.length - 1)) * 300} ${60 - ((val - mn) / r) * 60}`).join(' ');
-                  })()} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                    return v.map((val, i) => `${i === 0 ? 'M' : 'L'} ${(i / (v.length - 1)) * 300} ${80 - (val / maxWpm) * 75}`).join(' ');
+                  })()} strokeWidth="2" stroke="#d6993a" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  {/* Accuracy line */}
+                  <path d={(() => {
+                    const v = rs.wpmSamples.map(s => s.acc);
+                    if (v.length < 2) return '';
+                    return v.map((val, i) => `${i === 0 ? 'M' : 'L'} ${(i / (v.length - 1)) * 300} ${80 - (val / 100) * 75}`).join(' ');
+                  })()} strokeWidth="1.5" stroke="#3b82f6" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
                 </svg>
+                <div className="flex justify-between text-[9px] font-mono mt-1" style={{ color: '#5a5245' }}>
+                  <span style={{ color: '#d6993a' }}>WPM</span>
+                  <span style={{ color: '#3b82f6' }}>Accuracy</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Character Error Heatmap */}
+          {Object.keys(rs.charErrors).length > 0 && (
+            <div className="w-full max-w-md">
+              <span className="tts-label block mb-2">Error Heatmap</span>
+              <div className="flex flex-wrap gap-1">
+                {Object.entries(rs.charErrors)
+                  .filter(([, v]) => v.wrong > 0)
+                  .sort((a, b) => b[1].wrong - a[1].wrong)
+                  .slice(0, 20)
+                  .map(([char, data]) => {
+                    const intensity = Math.min(1, data.wrong / Math.max(1, data.total) * 3);
+                    return (
+                      <span key={char} className="inline-flex items-center justify-center w-7 h-7 rounded text-xs font-mono"
+                        style={{ background: `rgba(196,64,64,${0.1 + intensity * 0.4})`, color: '#e6dfd0', border: '1px solid rgba(196,64,64,0.3)' }}>
+                        {char === ' ' ? '␣' : char}
+                      </span>
+                    );
+                  })}
               </div>
             </div>
           )}
 
           <div className="flex flex-wrap items-center justify-center gap-3">
-            <button onClick={resetTest} className="btn-primary">
+            <button onClick={startTest} className="tts-btn-primary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="23 4 23 10 17 10" />
-                <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
+                <polyline points="23 4 23 10 17 10" /><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
               </svg>
               Try Again
             </button>
             {shareImage && (
-              <a href={shareImage} download="cogniarena-typing-score.png" className="btn-secondary">
+              <a href={shareImage} download="cogniarena-typing-score.png" className="tts-btn-secondary">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-                  <polyline points="7 10 12 15 17 10" />
-                  <line x1="12" x2="12" y1="15" y2="3" />
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" x2="12" y1="15" y2="3" />
                 </svg>
                 Download Score
               </a>
             )}
-            <button onClick={copyChallengeLink} className="btn-secondary">
+            <button onClick={copyChallengeLink} className="tts-btn-secondary">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
@@ -412,7 +710,6 @@ export default function TypingSpeedTest() {
               {copiedChallenge ? 'Copied!' : 'Challenge a Friend'}
             </button>
           </div>
-
           <div className="text-[10px] font-mono" style={{ color: '#4a4540' }}>
             Press <kbd style={{ color: '#7a7368', border: '1px solid #1a1a1a', padding: '0 6px', borderRadius: '4px' }}>Tab</kbd> to retry
           </div>
@@ -421,81 +718,93 @@ export default function TypingSpeedTest() {
     );
   }
 
+  // ===== IDLE + TYPING SCREENS =====
   return (
-    <div className="w-full" style={{
-      background: '#0c0c0c',
-      border: '1px solid #1a1a1a',
-      borderRadius: '12px',
-      padding: 'clamp(1.5rem, 4vw, 3rem)',
-    }}>
+    <div className="w-full tts-panel" style={{ padding: 'clamp(1.5rem, 4vw, 3rem)' }}>
       {gameState === 'idle' ? (
         <div className="flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-1">
-            <span className="text-3xl">⌨️</span>
-            <h2 className="text-xl font-bold tracking-tight" style={{ color: '#e6dfd0', fontFamily: "'Epilogue', sans-serif" }}>
-              Typing Speed Test
-            </h2>
+            <h2 className="text-xl font-bold tracking-tight" style={{ color: '#e6dfd0' }}>Typing Speed Test</h2>
           </div>
-
-          <div className="flex items-center gap-2" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-            {([15, 30, 60, 120] as TimerOption[]).map(t => (
-              <button
-                key={t}
-                onClick={() => { setTimerDuration(t); setTimeLeft(t); }}
-                className="px-4 py-1.5 rounded text-xs font-mono transition-all cursor-pointer select-none"
-                style={{
-                  background: timerDuration === t ? 'rgba(214,153,58,0.15)' : 'transparent',
-                  color: timerDuration === t ? '#d6993a' : '#7a7368',
-                  border: `1px solid ${timerDuration === t ? 'rgba(214,153,58,0.3)' : '#1a1a1a'}`,
-                }}
-              >
-                {t}s
+          <div className="flex items-center gap-2 font-mono">
+            <button onClick={() => setTestMode('time')} className="tts-opt" style={{ background: testMode === 'time' ? 'rgba(214,153,58,0.15)' : 'transparent', color: testMode === 'time' ? '#d6993a' : '#7a7368', borderColor: testMode === 'time' ? 'rgba(214,153,58,0.3)' : '#1a1a1a' }}>Time</button>
+            <button onClick={() => setTestMode('words')} className="tts-opt" style={{ background: testMode === 'words' ? 'rgba(214,153,58,0.15)' : 'transparent', color: testMode === 'words' ? '#d6993a' : '#7a7368', borderColor: testMode === 'words' ? 'rgba(214,153,58,0.3)' : '#1a1a1a' }}>Words</button>
+          </div>
+          <div className="flex items-center gap-2 font-mono">
+            {(testMode === 'time' ? [15, 30, 60, 120] : [10, 25, 50, 100]).map(v => (
+              <button key={v} onClick={() => testMode === 'time' ? setTimerDuration(v as TimeOption) : setWordCount(v as WordOption)}
+                className="tts-opt"
+                style={{ background: (testMode === 'time' ? timerDuration === v : wordCount === v) ? 'rgba(214,153,58,0.15)' : 'transparent', color: (testMode === 'time' ? timerDuration === v : wordCount === v) ? '#d6993a' : '#7a7368', borderColor: (testMode === 'time' ? timerDuration === v : wordCount === v) ? 'rgba(214,153,58,0.3)' : '#1a1a1a' }}>
+                {testMode === 'time' ? `${v}s` : v}
               </button>
             ))}
           </div>
-
+          <div className="flex flex-col items-center gap-3 w-full max-w-md">
+            <span className="tts-label">Passage Category</span>
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {PASSAGE_CATEGORIES.map((cat, idx) => (
+                <button key={cat.id} onClick={() => switchCategory(idx)} className="tts-opt"
+                  style={{ background: categoryIdx === idx ? 'rgba(214,153,58,0.15)' : 'transparent', color: categoryIdx === idx ? '#d6993a' : '#7a7368', borderColor: categoryIdx === idx ? 'rgba(214,153,58,0.3)' : '#1a1a1a' }}>
+                  {cat.label}
+                </button>
+              ))}
+            </div>
+            <span className="text-[10px] font-mono" style={{ color: '#5a5245' }}>
+              Passage {passageIdx + 1} of {PASSAGE_CATEGORIES[categoryIdx].passages.length} &mdash; randomizes on each attempt
+            </span>
+          </div>
           <div className="w-full max-w-2xl" style={{ opacity: 0.3, lineHeight: '2', maxHeight: '100px', overflow: 'hidden', maskImage: 'linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%)', WebkitMaskImage: 'linear-gradient(to bottom, transparent 0%, black 30%, black 70%, transparent 100%)' }}>
-            <div style={{ fontFamily: "'JetBrains Mono', monospace", fontSize: 'clamp(0.9rem, 2.5vw, 1.2rem)', color: '#7a7368', letterSpacing: '0.03em' }}>
-              {words.map((w, i) => (
-                <span key={i} className="inline mr-3">{w}</span>
+            <div className="tts-words-preview">
+              {PASSAGE_CATEGORIES[categoryIdx].passages[passageIdx].text.split(/\s+/).filter(Boolean).map((w, i) => (
+                <span key={i} className="tts-word" style={{ marginRight: '0.35em' }}>{w}</span>
               ))}
             </div>
           </div>
-
-          <button onClick={startTest} className="btn-primary">
+          <button onClick={startTest} className="tts-btn-primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="5 3 19 12 5 21 5 3" />
             </svg>
             Start Typing Test
           </button>
-
           <p className="text-xs font-mono" style={{ color: '#5a5245' }}>
-            Press any key or click to begin &middot; <kbd style={{ border: '1px solid #1a1a1a', padding: '0 5px', borderRadius: '3px' }}>Tab</kbd> to restart
+            Press any key to begin &middot; <kbd style={{ border: '1px solid #1a1a1a', padding: '0 5px', borderRadius: '3px' }}>Tab</kbd> to restart
           </p>
         </div>
       ) : (
         <div className="flex flex-col gap-6">
+          {/* Live Stats Bar */}
           <div className="flex items-center justify-center gap-10 md:gap-16">
             {[
               { label: 'WPM', value: String(displayWpm), color: '#d6993a' },
               { label: 'ACC', value: `${displayAcc}%`, color: '#e6dfd0' },
-              { label: 'TIME', value: `${Math.ceil(timeLeft)}s`, color: timeLeft <= 5 ? '#c44040' : '#e6dfd0' },
+              { label: testMode === 'time' ? 'TIME' : 'WORDS', value: testMode === 'time' ? `${displayTime}s` : `${currentWordIdx}/${wordCount}`, color: testMode === 'time' && displayTime <= 5 ? '#c44040' : '#e6dfd0' },
             ].map(s => (
-              <div key={s.label} className="flex flex-col items-center gap-0.5" style={{ fontFamily: "'JetBrains Mono', monospace" }}>
-                <span className="text-[10px] uppercase tracking-[0.15em]" style={{ color: '#7a7368' }}>{s.label}</span>
+              <div key={s.label} className="flex flex-col items-center gap-0.5 font-mono">
+                <span className="tts-label">{s.label}</span>
                 <span className="text-xl font-bold transition-all duration-150" style={{ color: s.color }}>{s.value}</span>
               </div>
             ))}
           </div>
 
-          <div ref={wordsContainerRef} className="w-full max-w-3xl mx-auto select-none outline-none" style={{
-            fontFamily: "'JetBrains Mono', monospace",
-            fontSize: 'clamp(1rem, 2.5vw, 1.35rem)',
-            lineHeight: '2',
-            letterSpacing: '0.03em',
-            minHeight: '200px',
-          }}>
-            {words.map((word, i) => renderWord(word, i))}
+          {capsLockWarning && (
+            <div className="flex items-center justify-center gap-2 text-xs font-mono" style={{ color: '#d6993a' }}>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
+              Caps Lock is on
+            </div>
+          )}
+
+          {/* Words Container with cursor and line management */}
+          <div className="tts-words-outer" style={{ height: 'calc(1.8em * 3 + 0.5rem)', overflow: 'hidden', position: 'relative' }}>
+            <div ref={wordsRef} id="typing-words-container" tabIndex={-1}
+              className="tts-words-inner"
+              style={{ position: 'relative', transition: 'transform 0.15s ease', outline: 'none' }}>
+              {/* Absolute-positioned cursor */}
+              <div ref={cursorRef} className="tts-cursor" />
+              {words.slice(Math.max(0, currentWordIdx - 30), Math.min(words.length, currentWordIdx + 120)).map((word, i) => {
+                const actualIdx = Math.max(0, currentWordIdx - 30) + i;
+                return renderWord(word, actualIdx);
+              })}
+            </div>
           </div>
 
           <div className="flex items-center justify-center gap-4 text-[10px] font-mono" style={{ color: '#4a4540' }}>
@@ -506,72 +815,27 @@ export default function TypingSpeedTest() {
         </div>
       )}
 
-      <div ref={focusSentinelRef} tabIndex={-1} style={{ position: 'absolute', opacity: 0, pointerEvents: 'none' }} />
-
       <style>{`
-        .word { display: inline; margin-right: 0.75rem; white-space: pre; }
-        .word-current { color: #e6dfd0; position: relative; }
-        .cursor {
-          display: inline-block;
-          width: 2px;
-          height: 1.2em;
-          background: #d6993a;
-          margin-left: 1px;
-          vertical-align: text-bottom;
-          animation: cursorPulse 1s ease-in-out infinite;
-          box-shadow: 0 0 8px rgba(214,153,58,0.5);
+        .tts-panel { background: #0c0c0c; border: 1px solid #1a1a1a; border-radius: 12px; }
+        .tts-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #7a7368; font-family: 'JetBrains Mono', monospace; }
+        .tts-opt { padding: 0.375rem 1rem; border-radius: 6px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; border: 1px solid; transition: all 0.15s ease; cursor: pointer; user-select: none; }
+        .tts-btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; background: #d6993a; color: #0c0c0c; border: none; cursor: pointer; transition: all 0.15s ease; }
+        .tts-btn-primary:hover { box-shadow: 0 0 24px rgba(214,153,58,0.25); transform: scale(1.02); }
+        .tts-btn-primary:active { transform: scale(0.98); }
+        .tts-btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; background: #1a1a1a; color: #e6dfd0; border: 1px solid #1a1a1a; cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
+        .tts-btn-secondary:hover { border-color: #d6993a; color: #d6993a; }
+        .tts-words-preview { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.9rem, 2.5vw, 1.2rem); color: #7a7368; letter-spacing: 0.03em; display: flex; flex-wrap: wrap; }
+        .tts-words-inner { font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 2.5vw, 1.35rem); line-height: 1.8; letter-spacing: 0.03em; display: flex; flex-wrap: wrap; align-items: flex-start; align-content: flex-start; min-height: 100%; }
+        .tts-word { margin-right: 0.35em; white-space: nowrap; contain: layout style; }
+        .tts-char { display: inline; transition: color 0.05s ease; }
+        .tts-cursor { position: absolute; width: 2px; background: #d6993a; border-radius: 1px; z-index: 10; pointer-events: none; opacity: 0; transition: left 0.08s ease, top 0.08s ease, opacity 0.1s ease; box-shadow: 0 0 8px rgba(214,153,58,0.5); animation: ttsBlink 1s ease-in-out infinite; }
+        @keyframes ttsBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+        .tts-word-current { position: relative; }
+        @media (prefers-reduced-motion: reduce) {
+          .tts-cursor { animation: none; opacity: 1 !important; transition: none; }
+          .tts-words-inner { transition: none !important; }
         }
-        @keyframes cursorPulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.2; }
-        }
-        .btn-primary {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.65rem 1.5rem;
-          border-radius: 8px;
-          font-size: 0.875rem;
-          font-weight: 600;
-          font-family: 'Epilogue', sans-serif;
-          background: #d6993a;
-          color: #0c0c0c;
-          border: none;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-        .btn-primary:hover {
-          box-shadow: 0 0 24px rgba(214,153,58,0.25);
-          transform: scale(1.02);
-        }
-        .btn-primary:active { transform: scale(0.98); }
-        .btn-secondary {
-          display: inline-flex;
-          align-items: center;
-          gap: 0.5rem;
-          padding: 0.65rem 1.5rem;
-          border-radius: 8px;
-          font-size: 0.875rem;
-          font-weight: 600;
-          font-family: 'Epilogue', sans-serif;
-          background: #1a1a1a;
-          color: #e6dfd0;
-          border: 1px solid #1a1a1a;
-          cursor: pointer;
-          transition: all 0.15s ease;
-          text-decoration: none;
-        }
-        .btn-secondary:hover { border-color: #d6993a; color: #d6993a; }
-        .char { transition: color 0.05s ease; }
       `}</style>
     </div>
   );
-}
-
-function mean(arr: number[]): number {
-  return arr.reduce((a, b) => a + b, 0) / arr.length;
-}
-function stddev(arr: number[]): number {
-  const m = mean(arr);
-  return Math.sqrt(arr.reduce((sq, n) => sq + (n - m) ** 2, 0) / arr.length);
 }

@@ -2,26 +2,62 @@
 import Layout from "@/layouts/main.astro";
 import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard";
 
-const title = "CogniArena — Discover Your Cognitive Potential | 13 Brain Performance Assessments";
-const description = "CogniArena is a high-performance cognitive assessment suite. Measure raw reaction speed, memory, focus, and precision against global averages. 100% anonymous & local.";
+const title = "CogniArena — Measure Your Cognitive Performance | 13 Brain Assessments";
+const description = "Discover how your brain performs under pressure. 13 cognitive assessments measuring reaction, memory, reasoning, and focus. 100% anonymous, runs in your browser.";
 ---
 
 <Layout title={title} description={description}>
   <div class="flex flex-col gap-16 py-4">
-    <!-- Brain Score Dashboard Hero -->
-    <section class="w-full max-w-4xl mx-auto flex flex-col items-center gap-4 animate-fade-in-up">
-      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/15 text-[11px] font-mono uppercase text-accent tracking-wider">
+    <!-- ===== HERO: The Challenge ===== -->
+    <section class="w-full max-w-4xl mx-auto flex flex-col items-center text-center px-4 animate-fade-in-up hero-glow">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/5 border border-accent/15 text-[11px] font-mono uppercase text-accent tracking-wider mb-8">
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        <span>13 Cognitive Benchmarks &mdash; Discover Your Potential</span>
+        <span>13 Cognitive Benchmarks</span>
       </div>
-      <BrainScoreDashboard client:visible />
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-foreground tracking-tight leading-[1.1] mb-5">
+        How powerful<br class="hidden sm:block" /> is your mind?
+      </h1>
+
+      <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-7">
+        <div class="flex flex-col items-center">
+          <span class="text-2xl sm:text-3xl font-bold text-accent font-mono tabular-nums">250ms</span>
+          <span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-0.5">Avg Reaction</span>
+        </div>
+        <span class="hidden sm:block w-px h-8 bg-card-border" />
+        <div class="flex flex-col items-center">
+          <span class="text-2xl sm:text-3xl font-bold text-foreground/60 font-mono tabular-nums">7&plusmn;2</span>
+          <span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-0.5">Memory Span</span>
+        </div>
+        <span class="hidden sm:block w-px h-8 bg-card-border" />
+        <div class="flex flex-col items-center">
+          <span class="text-2xl sm:text-3xl font-bold text-accent/70 font-mono tabular-nums">60s</span>
+          <span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-0.5">Focus Challenge</span>
+        </div>
+      </div>
+
+      <p class="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-xl mb-10">
+        13 assessments measuring reaction speed, working memory, reasoning, and cognitive flexibility. No sign-up. Everything runs locally in your browser.
+      </p>
+
+      <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
+        <a href="/gauntlet" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold h-12 px-8 text-sm transition-standard active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer animate-pulse-glow">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+          </svg>
+          Take the Brain Challenge
+        </a>
+        <a href="#suite" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-subtle border border-card-border text-zinc-300 hover:text-foreground font-medium h-12 px-6 text-sm transition-standard active:scale-[0.98] cursor-pointer">
+          Explore Assessments
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
     </section>
 
-    <!-- Brain Rot Challenge / Focus Challenge CTA -->
+    <!-- ===== BRAIN ROT CHALLENGE ===== -->
     <section class="w-full max-w-4xl mx-auto p-6 md:p-8 rounded-xl bg-gradient-to-br from-amber-950/20 via-card to-rose-950/20 border border-accent/20 flex flex-col md:flex-row gap-8 items-center relative overflow-hidden card-interactive animate-fade-in-up stagger-1 group">
       <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-amber-500/5 blur-3xl pointer-events-none" />
       <div class="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-rose-500/5 blur-3xl pointer-events-none" />
-
       <div class="w-full md:w-1/3 flex justify-center shrink-0">
         <div class="relative">
           <div class="w-28 h-28 rounded-2xl bg-gradient-to-br from-amber-500/20 to-rose-500/20 border border-accent/30 flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-500">
@@ -30,7 +66,6 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <span class="absolute -top-1 -right-1 text-xs animate-pulse">🔥</span>
         </div>
       </div>
-
       <div class="flex flex-col gap-4 flex-1">
         <div class="flex items-center gap-2">
           <span class="text-[10px] font-mono uppercase text-amber-400 tracking-widest">New Challenge</span>
@@ -46,58 +81,46 @@ const description = "CogniArena is a high-performance cognitive assessment suite
           <span>📊 Composite score + percentile</span>
         </div>
         <div class="flex gap-3 mt-1">
-          <a href="/tests/focus-challenge" class="inline-flex items-center justify-center px-5 h-9 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
-            Accept Challenge
+          <a href="/tests/focus-challenge">
+            <button class="px-5 h-9 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
+              Accept Challenge
+            </button>
           </a>
-          <a href="/tests/focus-challenge#learn" class="inline-flex items-center justify-center px-5 h-9 rounded-lg bg-subtle border border-card-border text-zinc-300 hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
-            Learn More
+          <a href="/tests/focus-challenge#learn">
+            <button class="px-5 h-9 rounded-lg bg-subtle border border-card-border text-zinc-300 hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
+              Learn More
+            </button>
           </a>
         </div>
       </div>
     </section>
 
-    <!-- Cognitive Profile Showcase Lock Panel -->
-    <section class="w-full max-w-4xl mx-auto p-6 md:p-8 rounded-xl bg-card border border-card-border flex flex-col md:flex-row gap-8 items-center relative overflow-hidden card-interactive animate-fade-in-up stagger-1">
-      {/* Background Glow */}
-      <div class="absolute -right-20 -bottom-20 w-80 h-80 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
-
-      {/* Profile Hexagon Mockup */}
-      <div class="w-full md:w-1/2 flex justify-center shrink-0 relative py-4">
-        <svg viewBox="0 0 200 200" class="w-48 h-48 opacity-25">
-          {/* Hexagon axes */}
-          <polygon points="100,20 180,66 180,154 100,180 20,154 20,66" fill="none" stroke="#27272a" stroke-width="2" />
-          <polygon points="100,50 160,84 160,136 100,150 40,136 40,84" fill="none" stroke="#27272a" stroke-width="1.5" stroke-dasharray="2,2" />
-          
-          {/* Axis Labels */}
-          <text x="100" y="12" fill="#71717a" font-size="8" font-family="monospace" text-anchor="middle">REACTION</text>
-          <text x="190" y="66" fill="#71717a" font-size="8" font-family="monospace" text-anchor="start">MEMORY</text>
-          <text x="190" y="158" fill="#71717a" font-size="8" font-family="monospace" text-anchor="start">PRECISION</text>
-          <text x="100" y="194" fill="#71717a" font-size="8" font-family="monospace" text-anchor="middle">TYPING</text>
-          <text x="10" y="158" fill="#71717a" font-size="8" font-family="monospace" text-anchor="end">FOCUS</text>
-          <text x="10" y="66" fill="#71717a" font-size="8" font-family="monospace" text-anchor="end">REASONING</text>
-        </svg>
-        
-        {/* Lock Overlay */}
-        <div class="absolute inset-0 flex flex-col items-center justify-center gap-2">
-          <span class="text-2xl">🔒</span>
-          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Profile Locked</span>
+    <!-- ===== STATS BAR ===== -->
+    <section class="w-full max-w-2xl mx-auto animate-fade-in-up stagger-2">
+      <div class="flex items-center justify-center gap-6 sm:gap-10 text-center">
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums">13</span>
+          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Assessments</span>
         </div>
-      </div>
-
-      {/* Info Block */}
-      <div class="flex flex-col gap-4 flex-1">
-        <span class="text-[10px] font-mono uppercase text-accent tracking-widest">Flagship Feature</span>
-        <h2 class="text-xl font-bold text-foreground tracking-tight">The Cognitive Profile</h2>
-        <p class="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
-          Unlock your hexagonal skill radar and track changes in cognitive speed, working memory, spatial reasoning, typing efficiency, focus retention, and target control. 
-        </p>
-        <p class="text-zinc-500 text-xs leading-relaxed font-mono">
-          *Requires completing at least one assessment. All calculations are executed securely inside your browser local-first.
-        </p>
+        <span class="w-px h-8 bg-card-border" />
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums">100%</span>
+          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Anonymous</span>
+        </div>
+        <span class="w-px h-8 bg-card-border" />
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums">&lt;1ms</span>
+          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Timer Precision</span>
+        </div>
       </div>
     </section>
 
-    <!-- Assessment Suite Grid -->
+    <!-- ===== BRAIN SCORE DASHBOARD ===== -->
+    <section class="w-full max-w-4xl mx-auto flex flex-col items-center gap-4 animate-fade-in-up stagger-5">
+      <BrainScoreDashboard client:visible />
+    </section>
+
+    <!-- ===== ASSESSMENT SUITE ===== -->
     <section id="suite" class="flex flex-col gap-8">
     <!-- Category 1: Reaction & Reflexes -->
     <section class="flex flex-col gap-8">
@@ -108,7 +131,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Visual Reaction -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-001</span>
             <h3 class="text-lg font-bold text-foreground">Visual Reaction</h3>
@@ -123,7 +146,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Auditory Reflex -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-002</span>
             <h3 class="text-lg font-bold text-foreground">Auditory Reflex</h3>
@@ -138,7 +161,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- F1 Start Lights -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-003</span>
             <h3 class="text-lg font-bold text-foreground">F1 Start Lights</h3>
@@ -153,7 +176,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Choice Reaction -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-004</span>
             <h3 class="text-lg font-bold text-foreground">Choice Reaction</h3>
@@ -168,7 +191,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Color Go/No-Go -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">RT-005</span>
             <h3 class="text-lg font-bold text-foreground">Color Go/No-Go</h3>
@@ -193,7 +216,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Sequence Memory -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-001</span>
             <h3 class="text-lg font-bold text-foreground">Sequence Memory</h3>
@@ -208,7 +231,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Number Memory -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-002</span>
             <h3 class="text-lg font-bold text-foreground">Number Memory</h3>
@@ -223,7 +246,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Visual Pattern -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-003</span>
             <h3 class="text-lg font-bold text-foreground">Visual Pattern</h3>
@@ -238,7 +261,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Dual N-Back -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-004</span>
             <h3 class="text-lg font-bold text-foreground">Dual N-Back</h3>
@@ -253,7 +276,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Verbal Memory -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MEM-005</span>
             <h3 class="text-lg font-bold text-foreground">Verbal Memory</h3>
@@ -278,7 +301,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Pattern Recognition -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-001</span>
             <h3 class="text-lg font-bold text-foreground">Pattern Recognition</h3>
@@ -293,7 +316,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Matrix Reasoning -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-002</span>
             <h3 class="text-lg font-bold text-foreground">Matrix Reasoning</h3>
@@ -308,7 +331,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Sequence Logic -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-003</span>
             <h3 class="text-lg font-bold text-foreground">Sequence Logic</h3>
@@ -323,7 +346,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Shape Analogies -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-004</span>
             <h3 class="text-lg font-bold text-foreground">Shape Analogies</h3>
@@ -338,7 +361,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Spatial Orientation -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">REAS-005</span>
             <h3 class="text-lg font-bold text-foreground">Spatial Orientation</h3>
@@ -363,7 +386,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Stroop Test -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-cyan">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">FOC-001</span>
             <h3 class="text-lg font-bold text-foreground">Stroop Test</h3>
@@ -378,7 +401,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Trail Making -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-cyan">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">FOC-002</span>
             <h3 class="text-lg font-bold text-foreground">Trail Making</h3>
@@ -393,7 +416,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Focus Challenge -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-cyan">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
               <span class="text-xs font-mono text-zinc-500">FOC-003</span>
@@ -411,7 +434,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- The Gauntlet -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-cyan">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
               <span class="text-xs font-mono text-zinc-500">FOC-004</span>
@@ -439,7 +462,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- CPS Test -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-orange">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MTR-001</span>
             <h3 class="text-lg font-bold text-foreground">CPS Test</h3>
@@ -454,7 +477,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Aim Precision -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-orange">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MTR-002</span>
             <h3 class="text-lg font-bold text-foreground">Aim Precision</h3>
@@ -469,7 +492,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Mouse Accuracy -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-orange">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MTR-003</span>
             <h3 class="text-lg font-bold text-foreground">Mouse Accuracy</h3>
@@ -484,7 +507,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Flick Trainer -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-orange">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">MTR-004</span>
             <h3 class="text-lg font-bold text-foreground">Flick Trainer</h3>
@@ -509,15 +532,15 @@ const description = "CogniArena is a high-performance cognitive assessment suite
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Cognitive Flexibility -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-red">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
               <span class="text-xs font-mono text-zinc-500">EXEC-001</span>
-              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Clinical Metric</span>
+              <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Core Metric</span>
             </div>
             <h3 class="text-lg font-bold text-foreground">Cognitive Flexibility</h3>
             <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
-              Measures task-switching overhead, frontoparietal memory updates, and attentional set-shifting speeds utilizing Trail Making parameters.
+              Measures task-switching overhead, working memory updates, and attentional set-shifting speeds using Trail Making parameters.
             </p>
           </div>
           <a href="/tests/trail-making?mode=partB" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
@@ -527,7 +550,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Decision Speed -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-red">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">EXEC-002</span>
             <h3 class="text-lg font-bold text-foreground">Decision Speed</h3>
@@ -542,7 +565,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Planning -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-red">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">EXEC-003</span>
             <h3 class="text-lg font-bold text-foreground">Planning</h3>
@@ -557,7 +580,7 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
 
         <!-- Prioritization -->
-        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-amber">
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-red">
           <div class="flex flex-col gap-3">
             <span class="text-xs font-mono text-zinc-500">EXEC-004</span>
             <h3 class="text-lg font-bold text-foreground">Prioritization</h3>
@@ -572,6 +595,122 @@ const description = "CogniArena is a high-performance cognitive assessment suite
         </div>
       </div>
     </section>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="w-full max-w-4xl mx-auto px-4 animate-fade-in-up">
+      <h2 class="text-xl font-bold text-foreground tracking-tight text-center mb-6">How It Works</h2>
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
+          <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-3">
+            <span class="text-lg font-bold font-mono text-amber-400">1</span>
+          </div>
+          <h3 class="text-sm font-bold text-foreground mb-1">Pick an Assessment</h3>
+          <p class="text-zinc-500 text-xs leading-relaxed">Choose from 13 tests across reaction, memory, reasoning, focus, motor, and executive function.</p>
+        </div>
+        <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
+          <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-3">
+            <span class="text-lg font-bold font-mono text-accent">2</span>
+          </div>
+          <h3 class="text-sm font-bold text-foreground mb-1">Perform Under Pressure</h3>
+          <p class="text-zinc-500 text-xs leading-relaxed">Each test runs locally with sub-millisecond precision. No uploads, no accounts, no distractions.</p>
+        </div>
+        <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
+          <div class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-3">
+            <span class="text-lg font-bold font-mono text-emerald-400">3</span>
+          </div>
+          <h3 class="text-sm font-bold text-foreground mb-1">Track Your Growth</h3>
+          <p class="text-zinc-500 text-xs leading-relaxed">See your scores, percentiles, and improvement over time. Build your cognitive profile across all dimensions.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== COGNITIVE PROFILE TEASER ===== -->
+    <section class="w-full max-w-4xl mx-auto px-4 animate-fade-in-up">
+      <div class="p-6 rounded-xl bg-card/50 border border-card-border flex flex-col sm:flex-row items-center gap-5 card-interactive relative overflow-hidden">
+        <div class="absolute -right-20 -bottom-20 w-64 h-64 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
+        <div class="w-14 h-14 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <polygon points="18,4 30,12 30,24 18,32 6,24 6,12" stroke="#1a1a1a" stroke-width="0.5" fill="none"/>
+            <polygon points="18,9 26,14 26,22 18,27 10,22 10,14" stroke="#1a1a1a" stroke-width="0.5" fill="none"/>
+            <polygon points="18,14 22,16 22,20 18,22 14,20 14,16" stroke="#1a1a1a" stroke-width="0.5" fill="none"/>
+            <polygon points="18,7 27,13 25,23 18,28 11,21 9,13" stroke="#d6993a" stroke-width="1.5" fill="rgba(214,153,58,0.15)" stroke-linejoin="round"/>
+            <circle cx="18" cy="7" r="2" fill="#eab308"/><circle cx="27" cy="13" r="2" fill="#a855f7"/><circle cx="25" cy="23" r="2" fill="#22c55e"/><circle cx="18" cy="28" r="2" fill="#06b6d4"/><circle cx="11" cy="21" r="2" fill="#f97316"/><circle cx="9" cy="13" r="2" fill="#ef4444"/>
+          </svg>
+        </div>
+        <div class="flex-1 text-center sm:text-left">
+          <h2 class="text-base font-bold text-foreground tracking-tight mb-1">Your Brain Profile</h2>
+          <p class="text-zinc-500 text-sm leading-relaxed">Complete assessments to build your hexagonal cognitive radar across 6 dimensions — Reaction, Memory, Reasoning, Focus, Motor, Executive — with a composite CAI score.</p>
+        </div>
+        <a href="/gauntlet" class="shrink-0 inline-flex items-center justify-center px-5 h-9 rounded-lg bg-accent/10 border border-accent/20 text-accent hover:bg-accent/20 text-xs font-medium transition-standard active:scale-95 cursor-pointer">
+          Start Challenge
+        </a>
+      </div>
+    </section>
+
+    <!-- ===== LEARNING CENTER ===== -->
+    <section class="w-full max-w-4xl mx-auto px-4 animate-fade-in-up">
+      <div class="flex items-center justify-between mb-4">
+        <h2 class="text-xl font-bold text-foreground tracking-tight">From the Learning Center</h2>
+        <a href="/learn" class="text-xs text-accent hover:text-accent-hover font-medium transition-standard cursor-pointer">View all guides &rarr;</a>
+      </div>
+      <a href="/learn/reaction-time" class="block p-6 rounded-xl bg-card border border-card-border card-interactive group">
+        <div class="flex items-start gap-4">
+          <div class="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center shrink-0 text-xl">⚡</div>
+          <div class="flex-1 min-w-0">
+            <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Featured Guide</span>
+            <h3 class="text-base font-bold text-foreground group-hover:text-accent transition-colors mt-1">Why Monitor Refresh Rate Affects Reaction Time</h3>
+            <p class="text-zinc-500 text-sm leading-relaxed mt-1">Understand how 60Hz vs 144Hz displays change your physical response latency, the neuroscience of visual processing pipelines, and how to calibrate for your setup.</p>
+            <div class="flex items-center gap-4 mt-3 text-[10px] text-zinc-500 font-mono">
+              <span>📖 8 min read</span>
+              <span>🔬 Evidence-based</span>
+              <span>⚡ Reaction Science</span>
+            </div>
+          </div>
+        </div>
+      </a>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up pb-8">
+      <h2 class="text-xl font-bold text-foreground tracking-tight text-center mb-6">Frequently Asked Questions</h2>
+      <div class="flex flex-col gap-3">
+        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+            What is CogniArena?
+            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <p class="text-zinc-500 text-sm leading-relaxed mt-3">CogniArena is a free cognitive performance platform with 13 browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.</p>
+        </details>
+        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+            Is my data stored or sent anywhere?
+            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <p class="text-zinc-500 text-sm leading-relaxed mt-3">No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device.</p>
+        </details>
+        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+            How accurate are the measurements?
+            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <p class="text-zinc-500 text-sm leading-relaxed mt-3">We use requestAnimationFrame timing with sub-millisecond precision. Our calibration system accounts for monitor refresh rate and browser input latency to give you the most accurate physical reaction measurements possible.</p>
+        </details>
+        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+            What is the Brain Challenge (Gauntlet)?
+            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <p class="text-zinc-500 text-sm leading-relaxed mt-3">The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.</p>
+        </details>
+        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
+          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+            Can I improve my scores over time?
+            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </summary>
+          <p class="text-zinc-500 text-sm leading-relaxed mt-3">Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement.</p>
+        </details>
+      </div>
     </section>
   </div>
 </Layout>

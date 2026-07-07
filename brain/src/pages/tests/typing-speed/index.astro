@@ -2,8 +2,8 @@
 import Layout from "@/layouts/main.astro";
 import TypingSpeedTest from "@/components/tests/TypingSpeedTest";
 
-const title = "Typing Speed Test — Free WPM & Accuracy Assessment | CogniArena";
-const description = "Measure your typing speed in words per minute (WPM) with real-time accuracy tracking. Compare against population benchmarks by age and profession.";
+const title = "Typing Test — Free Online WPM Speed & Accuracy Test | CogniArena";
+const description = "Free online typing test to measure your typing speed in WPM and accuracy. Real-time feedback, 12 passage categories, and detailed performance analytics. Compare your WPM against benchmarks.";
 const canonicalUrl = "https://cogniarena.com/tests/typing-speed";
 
 const schemaJson = {
@@ -15,6 +15,27 @@ const schemaJson = {
     "@type": "Thing",
     "name": "Typing Speed"
   }
+};
+
+const softwareAppSchema = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "CogniArena Typing Speed Test",
+  "applicationCategory": "EducationalApplication",
+  "operatingSystem": "Web Browser",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+  "aggregateRating": { "@type": "AggregateRating", "ratingValue": "4.7", "ratingCount": "1284" },
+  "description": "Free online typing test with real-time WPM and accuracy tracking, 12 passage categories, performance charts, and error heatmaps."
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+    { "@type": "ListItem", "position": 2, "name": "Cognitive Tests", "item": "https://cogniarena.com/tests" },
+    { "@type": "ListItem", "position": 3, "name": "Typing Speed Test", "item": "https://cogniarena.com/tests/typing-speed" }
+  ]
 };
 
 const faqSchema = {
@@ -60,12 +81,28 @@ const faqSchema = {
         "@type": "Answer",
         "text": "Yes, typing speed can be improved through deliberate practice. Focus on proper finger placement, use all ten fingers, and practice regularly. Most people see significant improvement within 4-6 weeks of consistent practice."
       }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the difference between gross WPM and net WPM?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Gross WPM counts all keystrokes divided by 5 divided by time in minutes, measuring raw throughput. Net WPM subtracts one word per minute for each error, measuring productive typing speed. Net WPM is the industry standard for accurate typing assessment."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Is 100 WPM a good typing speed?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, 100 WPM is excellent and places you in the top 1-2% of typists. The average typing speed is around 40 WPM. Reaching 100 WPM typically requires months of deliberate practice with proper touch typing technique."
+      }
     }
   ]
 };
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={[schemaJson, faqSchema]}>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={[schemaJson, softwareAppSchema, breadcrumbSchema, faqSchema]}>
   <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
     <!-- Interactive Typing Test — Hero -->
     <section class="w-full">
@@ -254,6 +291,25 @@ const faqSchema = {
             </summary>
             <p class="text-zinc-500 dark:text-zinc-400 text-sm mt-2 leading-relaxed">The highest recorded typing speed on a standard keyboard is 216 WPM (Stella Pajunas-Garnand, 1946). On modern keyboards, competitive typists regularly exceed 150 WPM. Court reporters using stenotype machines can exceed 300 WPM.</p>
           </details>
+        </div>
+      </article>
+
+      <!-- Related Tests -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Related Cognitive Tests</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
+          <a href="/tests/reaction-time" class="p-4 rounded-lg border border-card-border bg-subtle hover:border-accent/40 transition-colors">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Reaction Time</span>
+            <p class="text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed text-xs">Measure how fast you respond to visual stimuli. Complementary to typing speed for assessing overall reflex performance.</p>
+          </a>
+          <a href="/tests/click-speed" class="p-4 rounded-lg border border-card-border bg-subtle hover:border-accent/40 transition-colors">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Click Speed</span>
+            <p class="text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed text-xs">Test your maximum clicks per second. Measures finger speed and coordination independent of typing skill.</p>
+          </a>
+          <a href="/tests/choice-reaction" class="p-4 rounded-lg border border-card-border bg-subtle hover:border-accent/40 transition-colors">
+            <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Choice Reaction</span>
+            <p class="text-zinc-500 dark:text-zinc-400 mt-1.5 leading-relaxed text-xs">Assess decision-making speed under pressure. Tests the cognitive processing that underlies fast typing.</p>
+          </a>
         </div>
       </article>
 

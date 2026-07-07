@@ -114,8 +114,43 @@
   box-shadow: 0 0 20px -5px rgba(59, 130, 246, 0.15);
 }
 
+.hero-glow {
+  position: relative;
+}
+.hero-glow::before {
+  content: '';
+  position: absolute;
+  inset: -40%;
+  background: radial-gradient(ellipse at center, rgba(59, 130, 246, 0.06) 0%, transparent 70%);
+  pointer-events: none;
+  animation: heroGlow 4s ease-in-out infinite;
+}
+@keyframes heroGlow {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
 .glow-emerald {
   box-shadow: 0 0 30px -5px rgba(16, 185, 129, 0.2);
+}
+
+.glow-yellow {
+  box-shadow: 0 0 20px -5px rgba(234, 179, 8, 0.18);
+}
+.glow-purple {
+  box-shadow: 0 0 20px -5px rgba(168, 85, 247, 0.18);
+}
+.glow-green {
+  box-shadow: 0 0 20px -5px rgba(34, 197, 94, 0.18);
+}
+.glow-cyan {
+  box-shadow: 0 0 20px -5px rgba(6, 182, 212, 0.18);
+}
+.glow-orange {
+  box-shadow: 0 0 20px -5px rgba(249, 115, 22, 0.18);
+}
+.glow-red {
+  box-shadow: 0 0 20px -5px rgba(239, 68, 68, 0.18);
 }
 
 .tabular-nums {
