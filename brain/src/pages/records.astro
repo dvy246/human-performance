@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/main.astro";
+import PersonalRecords from "@/components/dashboard/PersonalRecords";
+
+const title = "Personal Records - CogniArena";
+const description = "View your personal best scores across all tests and track your cognitive performance achievements.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-2xl font-bold text-foreground mb-2">Personal Records</h1>
+      <p class="text-sm text-muted">Your best scores across all tests. Keep improving to set new records!</p>
+    </div>
+    
+    <PersonalRecords client:load />
+  </div>
+</Layout>

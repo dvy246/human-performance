@@ -1,0 +1,168 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Free IQ Test Online - Measure Your Intelligence | CogniArena";
+const description = "Take a free online IQ test and measure your intelligence. Get your IQ score instantly with our scientifically-designed cognitive assessment.";
+const keywords = "IQ test, free IQ test, online IQ test, intelligence test, IQ score, cognitive test, brain test, mental ability test";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Free IQ Test Online - Measure Your Intelligence",
+  "description": "Take a free online IQ test and measure your intelligence with our scientifically-designed cognitive assessment.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Alan Vanc"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CogniArena"
+  },
+  "datePublished": new Date().toISOString().split('T')[0],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cogniarena.com/learn/iq-test/"
+  }
+};
+---
+
+<Layout title={title} description={description} schemaJson={schema}>
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <div class="flex items-center gap-2 text-xs text-muted mb-3 font-mono uppercase tracking-wider">
+        <span>Cognitive Assessment</span>
+        <span>&middot;</span>
+        <span>10 min read</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+        Free IQ Test Online: Measure Your Intelligence
+      </h1>
+      <p class="text-lg text-secondary leading-relaxed">
+        Discover your IQ score with our free online intelligence test. Learn what IQ means, how it's measured, and how to improve your cognitive abilities.
+      </p>
+    </header>
+
+    <div class="prose prose-sm max-w-none space-y-6 text-secondary leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">What is an IQ Test?</h2>
+        <p>
+          An IQ (Intelligence Quotient) test is a standardized assessment designed to measure human intelligence and cognitive abilities. IQ tests evaluate various mental faculties including logical reasoning, pattern recognition, working memory, and processing speed.
+        </p>
+        <p>
+          The average IQ score is 100, with a standard deviation of 15. This means about 68% of people score between 85 and 115, and 95% score between 70 and 130.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">How is IQ Measured?</h2>
+        <p>IQ is measured through standardized tests that assess multiple cognitive domains:</p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li><strong>Verbal Comprehension:</strong> Vocabulary, verbal reasoning, and language skills</li>
+          <li><strong>Perceptual Reasoning:</strong> Non-verbal problem-solving and spatial abilities</li>
+          <li><strong>Working Memory:</strong> Ability to hold and manipulate information mentally</li>
+          <li><strong>Processing Speed:</strong> How quickly you can process and respond to information</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">IQ Score Ranges</h2>
+        <div class="border border-card-border rounded-lg p-4 bg-card">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-card-border">
+                <th class="text-left py-2 font-semibold text-foreground">IQ Range</th>
+                <th class="text-left py-2 font-semibold text-foreground">Classification</th>
+                <th class="text-left py-2 font-semibold text-foreground">Percentage</th>
+              </tr>
+            </thead>
+            <tbody class="text-muted">
+              <tr class="border-b border-card-border/40">
+                <td class="py-2">130+</td>
+                <td class="py-2">Very Superior</td>
+                <td class="py-2">2.2%</td>
+              </tr>
+              <tr class="border-b border-card-border/40">
+                <td class="py-2">120-129</td>
+                <td class="py-2">Superior</td>
+                <td class="py-2">6.7%</td>
+              </tr>
+              <tr class="border-b border-card-border/40">
+                <td class="py-2">110-119</td>
+                <td class="py-2">High Average</td>
+                <td class="py-2">16.1%</td>
+              </tr>
+              <tr class="border-b border-card-border/40">
+                <td class="py-2">90-109</td>
+                <td class="py-2">Average</td>
+                <td class="py-2">50.0%</td>
+              </tr>
+              <tr class="border-b border-card-border/40">
+                <td class="py-2">80-89</td>
+                <td class="py-2">Low Average</td>
+                <td class="py-2">16.1%</td>
+              </tr>
+              <tr class="border-b border-card-border/40">
+                <td class="py-2">70-79</td>
+                <td class="py-2">Borderline</td>
+                <td class="py-2">6.7%</td>
+              </tr>
+              <tr>
+                <td class="py-2">Below 70</td>
+                <td class="py-2">Extremely Low</td>
+                <td class="py-2">2.2%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">Can You Improve Your IQ?</h2>
+        <p>
+          While IQ has a genetic component, research shows that cognitive abilities can be improved through targeted training and practice. Activities that challenge your brain can help improve:
+        </p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li><strong>Working Memory Training:</strong> Dual N-Back exercises and memory games</li>
+          <li><strong>Problem Solving:</strong> Puzzles, logic games, and pattern recognition tasks</li>
+          <li><strong>Learning New Skills:</strong> Languages, musical instruments, or complex hobbies</li>
+          <li><strong>Physical Exercise:</strong> Regular aerobic exercise improves brain function</li>
+          <li><strong>Adequate Sleep:</strong> 7-9 hours of quality sleep per night</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">Take CogniArena's IQ Test</h2>
+        <p>
+          CogniArena offers a comprehensive cognitive assessment that measures multiple aspects of intelligence. Our IQ test combines pattern recognition, logical reasoning, memory, and processing speed to give you a complete picture of your cognitive abilities.
+        </p>
+        <p>
+          <a href="/quiz/iq-test" class="text-accent hover:underline font-medium">
+            Take the IQ Test now →
+          </a>
+        </p>
+      </section>
+
+      <section class="border-t border-card-border pt-6">
+        <h2 class="text-xl font-bold text-foreground mb-4">Related Topics</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <a href="/learn/reaction-time/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
+            <p class="text-sm font-medium text-foreground">Reaction Time Test</p>
+            <p class="text-xs text-muted">Measure your processing speed</p>
+          </a>
+          <a href="/learn/memory-test/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
+            <p class="text-sm font-medium text-foreground">Memory Tests</p>
+            <p class="text-xs text-muted">Assess your working memory</p>
+          </a>
+          <a href="/learn/dual-n-back/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
+            <p class="text-sm font-medium text-foreground">Dual N-Back Training</p>
+            <p class="text-xs text-muted">Improve fluid intelligence</p>
+          </a>
+          <a href="/learn/planning/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
+            <p class="text-sm font-medium text-foreground">Planning & Strategy</p>
+            <p class="text-xs text-muted">Test executive function</p>
+          </a>
+        </div>
+      </section>
+    </div>
+  </article>
+</Layout>

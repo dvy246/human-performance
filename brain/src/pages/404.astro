@@ -1,30 +1,57 @@
 ---
-import Layout from "@/layouts/main.astro";
-import { Button } from "@/components/ui/button";
-
-const title = "404: Page Not Found | CogniArena";
-const description = "The requested page was not found on CogniArena. Return home to benchmark your reaction, memory, and precision.";
+import "@/styles/global.css";
 ---
 
-<Layout title={title} description={description}>
-  <div class="flex flex-col items-center justify-center text-center py-16 px-4 max-w-md mx-auto gap-6">
-    <div class="w-20 h-20 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-4xl animate-bounce">
-      🧩
-    </div>
-    <div class="flex flex-col gap-2">
-      <span class="text-xs font-mono uppercase tracking-widest text-muted">Error 404</span>
-      <h1 class="text-3xl font-extrabold tracking-tight text-foreground">Page Not Found</h1>
-      <p class="text-secondary text-sm leading-relaxed">
-        The benchmark route you are trying to access does not exist, has been removed, or is undergoing calibration.
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <title>Page Not Found - CogniArena</title>
+    <meta name="robots" content="noindex, nofollow" />
+  </head>
+  <body class="bg-background text-foreground min-h-screen flex items-center justify-center p-4">
+    <div class="max-w-md w-full text-center space-y-6">
+      <div class="text-6xl font-bold text-accent">404</div>
+      <h1 class="text-2xl font-bold text-foreground">Page Not Found</h1>
+      <p class="text-muted text-sm">
+        The page you're looking for doesn't exist or has been moved.
       </p>
+      
+      <div class="flex flex-col gap-3 pt-4">
+        <a
+          href="/"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md bg-accent text-white font-medium hover:opacity-90 transition-opacity"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+            <polyline points="9 22 9 12 15 12 15 22"/>
+          </svg>
+          Go Home
+        </a>
+        
+        <a
+          href="/tests/reaction-time"
+          class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-md border border-card-border text-muted hover:text-foreground hover:bg-subtle font-medium transition-colors"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polyline points="12 6 12 12 16 14"/>
+          </svg>
+          Take a Test
+        </a>
+      </div>
+
+      <div class="pt-8 border-t border-card-border/40">
+        <p class="text-xs text-muted">
+          Looking for something specific? Try our{' '}
+          <a href="/learn" class="text-accent hover:underline">Learning Center</a>{' '}
+          or{' '}
+          <a href="/benchmarks" class="text-accent hover:underline">Benchmarks</a>
+        </p>
+      </div>
     </div>
-    <div class="flex flex-col sm:flex-row gap-3 w-full mt-2">
-      <a href="/" class="w-full">
-        <Button variant="primary" className="w-full">Return Home</Button>
-      </a>
-      <a href="/dashboard" class="w-full">
-        <Button variant="secondary" className="w-full">View Dashboard</Button>
-      </a>
-    </div>
-  </div>
-</Layout>
+  </body>
+</html>

@@ -1,0 +1,182 @@
+---
+import Layout from "@/layouts/main.astro";
+
+const title = "Brain Training Exercises - Improve Cognitive Performance | CogniArena";
+const description = "Discover scientifically-backed brain training exercises to improve memory, focus, and cognitive performance. Start your brain training journey today.";
+const keywords = "brain training, cognitive training, brain exercises, memory training, focus exercises, mental fitness, brain workout";
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "Brain Training Exercises - Improve Cognitive Performance",
+  "description": "Discover scientifically-backed brain training exercises to improve memory, focus, and cognitive performance.",
+  "author": {
+    "@type": "Person",
+    "name": "Dr. Alan Vanc"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "CogniArena"
+  },
+  "datePublished": new Date().toISOString().split('T')[0],
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https://cogniarena.com/learn/brain-training/"
+  }
+};
+---
+
+<Layout title={title} description={description} schemaJson={schema}>
+  <article class="max-w-3xl mx-auto">
+    <header class="mb-8">
+      <div class="flex items-center gap-2 text-xs text-muted mb-3 font-mono uppercase tracking-wider">
+        <span>Brain Training</span>
+        <span>&middot;</span>
+        <span>12 min read</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
+        Brain Training Exercises: Improve Your Cognitive Performance
+      </h1>
+      <p class="text-lg text-secondary leading-relaxed">
+        Learn about scientifically-backed brain training exercises that can help improve memory, focus, processing speed, and overall cognitive performance.
+      </p>
+    </header>
+
+    <div class="prose prose-sm max-w-none space-y-6 text-secondary leading-relaxed">
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">What is Brain Training?</h2>
+        <p>
+          Brain training refers to structured cognitive exercises designed to improve mental abilities such as memory, attention, processing speed, and executive function. Unlike passive activities like reading or watching TV, brain training involves active, targeted exercises that challenge specific cognitive domains.
+        </p>
+        <p>
+          Research shows that consistent brain training can lead to measurable improvements in cognitive performance, with benefits extending to everyday tasks and activities.
+        </p>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">Top 5 Brain Training Exercises</h2>
+        
+        <div class="space-y-4">
+          <div class="border border-card-border rounded-lg p-4 bg-card">
+            <h3 class="text-lg font-bold text-foreground mb-2">1. Dual N-Back Training</h3>
+            <p class="text-sm mb-2">
+              Dual N-Back is one of the most researched brain training exercises. It involves remembering a sequence of visual and auditory stimuli simultaneously.
+            </p>
+            <p class="text-xs text-muted">
+              <strong>Benefits:</strong> Improves working memory and fluid intelligence<br>
+              <strong>Time:</strong> 15-20 minutes daily<br>
+              <a href="/tests/dual-n-back/" class="text-accent hover:underline">Try Dual N-Back →</a>
+            </p>
+          </div>
+
+          <div class="border border-card-border rounded-lg p-4 bg-card">
+            <h3 class="text-lg font-bold text-foreground mb-2">2. Reaction Time Training</h3>
+            <p class="text-sm mb-2">
+              Reaction time exercises measure and improve how quickly you can respond to stimuli. These tests train your brain to process information faster.
+            </p>
+            <p class="text-xs text-muted">
+              <strong>Benefits:</strong> Enhances processing speed and alertness<br>
+              <strong>Time:</strong> 5-10 minutes daily<br>
+              <a href="/tests/reaction-time/" class="text-accent hover:underline">Try Reaction Time →</a>
+            </p>
+          </div>
+
+          <div class="border border-card-border rounded-lg p-4 bg-card">
+            <h3 class="text-lg font-bold text-foreground mb-2">3. Memory Sequence Training</h3>
+            <p class="text-sm mb-2">
+              Sequence memory exercises challenge you to remember and reproduce increasingly complex patterns. This strengthens short-term and working memory.
+            </p>
+            <p class="text-xs text-muted">
+              <strong>Benefits:</strong> Improves memory capacity and recall<br>
+              <strong>Time:</strong> 10-15 minutes daily<br>
+              <a href="/tests/sequence-memory/" class="text-accent hover:underline">Try Sequence Memory →</a>
+            </p>
+          </div>
+
+          <div class="border border-card-border rounded-lg p-4 bg-card">
+            <h3 class="text-lg font-bold text-foreground mb-2">4. Attention & Focus Training</h3>
+            <p class="text-sm mb-2">
+              Stroop tests and trail-making exercises train your ability to focus attention and ignore distractions. These are excellent for improving concentration.
+            </p>
+            <p class="text-xs text-muted">
+              <strong>Benefits:</strong> Enhances attention control and cognitive flexibility<br>
+              <strong>Time:</strong> 10-15 minutes daily<br>
+              <a href="/tests/stroop/" class="text-accent hover:underline">Try Stroop Test →</a>
+            </p>
+          </div>
+
+          <div class="border border-card-border rounded-lg p-4 bg-card">
+            <h3 class="text-lg font-bold text-foreground mb-2">5. Click Speed & Motor Training</h3>
+            <p class="text-sm mb-2">
+              Click speed tests (CPS) and aim trainers improve hand-eye coordination and fine motor control while training rapid decision-making.
+            </p>
+            <p class="text-xs text-muted">
+              <strong>Benefits:</strong> Improves motor speed and coordination<br>
+              <strong>Time:</strong> 5-10 minutes daily<br>
+              <a href="/tests/click-speed/" class="text-accent hover:underline">Try Click Speed →</a>
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">How to Create a Brain Training Routine</h2>
+        <p>For optimal results, follow these guidelines:</p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li><strong>Consistency:</strong> Train daily for 15-30 minutes</li>
+          <li><strong>Variety:</strong> Rotate between different types of exercises</li>
+          <li><strong>Progressive Difficulty:</strong> Gradually increase challenge level</li>
+          <li><strong>Track Progress:</strong> Monitor your scores over time</li>
+          <li><strong>Rest:</strong> Allow adequate sleep for memory consolidation</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">Scientific Evidence for Brain Training</h2>
+        <p>
+          Multiple peer-reviewed studies have demonstrated the effectiveness of cognitive training:
+        </p>
+        <ul class="list-disc list-inside space-y-2 ml-4">
+          <li>A 2017 meta-analysis found that cognitive training improves cognitive function in older adults</li>
+          <li>Research shows Dual N-Back training can increase fluid intelligence</li>
+          <li>Studies demonstrate that reaction time training improves processing speed</li>
+          <li>Memory training has been shown to increase working memory capacity</li>
+        </ul>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-foreground mb-4">Start Your Brain Training Today</h2>
+        <p>
+          CogniArena offers 24+ scientifically-designed brain training exercises covering all major cognitive domains. Track your progress, set personal records, and challenge yourself to improve.
+        </p>
+        <p>
+          <a href="/tests/reaction-time/" class="text-accent hover:underline font-medium">
+            Start training now →
+          </a>
+        </p>
+      </section>
+
+      <section class="border-t border-card-border pt-6">
+        <h2 class="text-xl font-bold text-foreground mb-4">Related Topics</h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <a href="/learn/iq-test/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
+            <p class="text-sm font-medium text-foreground">IQ Test Guide</p>
+            <p class="text-xs text-muted">Measure your intelligence</p>
+          </a>
+          <a href="/learn/reaction-time/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
+            <p class="text-sm font-medium text-foreground">Reaction Time Science</p>
+            <p class="text-xs text-muted">Understanding processing speed</p>
+          </a>
+          <a href="/learn/memory-test/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
+            <p class="text-sm font-medium text-foreground">Memory Training</p>
+            <p class="text-xs text-muted">Improve your memory</p>
+          </a>
+          <a href="/learn/dual-n-back/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
+            <p class="text-sm font-medium text-foreground">Dual N-Back Training</p>
+            <p class="text-xs text-muted">Boost fluid intelligence</p>
+          </a>
+        </div>
+      </section>
+    </div>
+  </article>
+</Layout>

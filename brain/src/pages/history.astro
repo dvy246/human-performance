@@ -1,0 +1,18 @@
+---
+import Layout from "@/layouts/main.astro";
+import HistoryDashboard from "@/components/dashboard/HistoryDashboard";
+
+const title = "Test History - CogniArena";
+const description = "View your complete test history, track progress, and analyze performance trends over time.";
+---
+
+<Layout title={title} description={description}>
+  <div class="space-y-6">
+    <div>
+      <h1 class="text-2xl font-bold text-foreground mb-2">Test History</h1>
+      <p class="text-sm text-muted">View all your past test attempts and track your progress over time.</p>
+    </div>
+    
+    <HistoryDashboard client:load />
+  </div>
+</Layout>
