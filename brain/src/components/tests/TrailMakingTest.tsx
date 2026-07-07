@@ -153,16 +153,20 @@ export default function TrailMakingTest() {
     const percentile = Math.round(Math.max(1, Math.min(99, 100 - (1 / (1 + Math.exp(-1.6 * z)) * 100))));
     setResultPercentile(percentile);
 
-    await dataLayer.saveSession({
-      testId,
-      category: 'focus',
-      rawScore: totalScore,
-      percentile,
-      metadata: {
-        rawTime: elapsedTime,
-        penaltiesCount: penalties / 2000
-      }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId,
+        category: 'focus',
+        rawScore: totalScore,
+        percentile,
+        metadata: {
+          rawTime: elapsedTime,
+          penaltiesCount: penalties / 2000
+        }
+      });
+    } catch (err) {
+      console.error('Failed to save Trail Making session:', err);
+    }
 
     if (mode === 'partA') {
       dataLayer.getPersonalBest('tmt-partA', 'lower').then(pb => setPersonalBestA(pb)).catch(console.error);

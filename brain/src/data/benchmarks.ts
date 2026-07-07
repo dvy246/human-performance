@@ -135,10 +135,13 @@ const profReaction = [
 ];
 
 const profMotor = [
-  { profession: 'Pro Esports (Valorant/CS)', value: 95, label: '95/100' },
-  { profession: 'Competitive FPS Players', value: 88, label: '88/100' },
-  { profession: 'Casual Gamers', value: 72, label: '72/100' },
-  { profession: 'General Population', value: 55, label: '55/100' },
+  { profession: 'Court Reporters', value: 99, label: '200+ WPM' },
+  { profession: 'Professional Transcriptionists', value: 90, label: '80-100 WPM' },
+  { profession: 'Pro Esports (Valorant/CS)', value: 85, label: '85/100' },
+  { profession: 'Programmers', value: 78, label: '65-80 WPM' },
+  { profession: 'Competitive FPS Players', value: 75, label: '75/100' },
+  { profession: 'Casual Gamers', value: 65, label: '65/100' },
+  { profession: 'General Population', value: 50, label: '40 WPM' },
 ];
 
 const profMemory = [
@@ -254,7 +257,7 @@ export const categoryConfigs: CategoryBenchmarkConfig[] = [
     lowerIsBetter: false,
     color: '#ef4444',
     primaryTestId: 'mouse-accuracy',
-    testIds: ['aim-trainer', 'click-speed', 'mouse-accuracy', 'flick-trainer'],
+    testIds: ['aim-trainer', 'click-speed', 'mouse-accuracy', 'flick-trainer', 'typing-speed'],
     distribution: getDist('mouse-accuracy'),
     professionData: profMotor,
     factors: [

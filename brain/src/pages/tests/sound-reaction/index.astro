@@ -6,16 +6,34 @@ const title = "Sound Reaction Time Test — Auditory Reflexes | CogniArena";
 const description = "Benchmark your auditory reaction speed. Measure your response time to a low-latency synthesized tone and compare visual vs. sound reflexes.";
 const canonicalUrl = "https://cogniarena.com/tests/sound-reaction";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Sound Reaction Test",
-  "description": "An auditory cognitive reflex test using low-latency Web Audio API synthesizers to measure hearing-to-motor response speeds.",
-  "about": {
-    "@type": "Thing",
-    "name": "Auditory Reaction"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Sound Reaction Test",
+    "description": "An auditory cognitive reflex test using low-latency Web Audio API synthesizers to measure hearing-to-motor response speeds.",
+    "about": {
+      "@type": "Thing",
+      "name": "Auditory Reaction"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does CogniArena achieve audio accuracy?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Standard sites load static audio files (.mp3 or .wav), which require browser media players to buffer and spin up decoding threads. We utilize the native browser Web Audio API to synthesize a raw 750Hz sine wave directly on the main thread, reducing buffer latency to nearly 0ms." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good auditory reaction score?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Anything below 150ms is elite. 150ms to 180ms is excellent and typical of esports athletes and musicians. 180ms to 220ms is average, and above 250ms indicates attention fatigue or hardware lag." }
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>

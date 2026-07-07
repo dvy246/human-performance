@@ -55,10 +55,14 @@ export default function FlickTrainerTest() {
     const avgRt = Math.round(r.reduce((s, x) => s + x.rt, 0) / r.length);
     const speedScore = Math.max(0, Math.min(100, Math.round(100 - (avgRt - 200) / 8)));
     const score = Math.round(hitPct * 50 + speedScore * 0.5);
-    await dataLayer.saveSession({
-      testId: 'flick-trainer', category: 'precision', rawScore: Math.round(hitPct * 100), percentile: lookupPercentile(score),
-      metadata: { accuracy: Math.round(hitPct * 100), avgReactionMs: avgRt },
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'flick-trainer', category: 'precision', rawScore: Math.round(hitPct * 100), percentile: lookupPercentile(score),
+        metadata: { accuracy: Math.round(hitPct * 100), avgReactionMs: avgRt },
+      });
+    } catch (err) {
+      console.error('Failed to save Flick Trainer session:', err);
+    }
     const card = await generateShareCard('Flick Trainer', `${Math.round(hitPct * 100)}% accuracy`, lookupPercentile(score));
     setShareImage(card);
   };

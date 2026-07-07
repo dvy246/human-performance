@@ -6,21 +6,44 @@ const title = "Reaction Time Test — Measure Your Reflexes | CogniArena";
 const description = "Benchmark your raw physical reflexes with our millisecond-accurate reaction time test. Calibrate your monitor latency, view population percentile curves, and challenge friends.";
 const canonicalUrl = "https://cogniarena.com/tests/reaction-time";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Reaction Time Test",
-  "description": "A millisecond-accurate cognitive assessment to measure raw visual reaction speed.",
-  "about": {
-    "@type": "Thing",
-    "name": "Reaction Time"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Reaction Time Test",
+    "description": "A millisecond-accurate cognitive assessment to measure raw visual reaction speed.",
+    "about": {
+      "@type": "Thing",
+      "name": "Reaction Time"
+    },
+    "educationalAlignment": {
+      "@type": "AlignmentObject",
+      "alignmentType": "educationalRequirement",
+      "educationalFramework": "Cognitive Science"
+    }
   },
-  "educationalAlignment": {
-    "@type": "AlignmentObject",
-    "alignmentType": "educationalRequirement",
-    "educationalFramework": "Cognitive Science"
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Can I train to react faster?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. While genetics set a baseline, deliberate motor pathway training and focus exercises can trim your reaction time by 20-50 milliseconds." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why are my scores slower on mobile?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Mobile touch digitizers read finger touch grids, adding 15-40ms of latency compared to physical microswitch mouse buttons." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this a medical diagnostic tool?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>

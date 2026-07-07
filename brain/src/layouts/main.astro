@@ -8,7 +8,7 @@ interface Props {
   title?: string;
   description?: string;
   canonicalUrl?: string;
-  schemaJson?: Record<string, any>;
+  schemaJson?: Record<string, any> | Record<string, any>[];
 }
 
 const {
@@ -33,7 +33,7 @@ const defaultSchema = {
   }
 };
 
-const finalSchema = schemaJson || defaultSchema;
+const finalSchemas = Array.isArray(schemaJson) ? schemaJson : [schemaJson || defaultSchema];
 
 const { pathname } = Astro.url;
 
@@ -42,7 +42,7 @@ const isReactionOpen = pathname.includes('/tests/reaction-time') || pathname.inc
 const isMemoryOpen = pathname.includes('/tests/sequence-memory') || pathname.includes('/tests/number-memory') || pathname.includes('/tests/visual-pattern') || pathname.includes('/tests/dual-n-back') || pathname.includes('/tests/verbal-memory');
 const isReasoningOpen = pathname.includes('/tests/pattern-reasoning') || pathname.includes('/tests/spatial-orientation');
 const isFocusOpen = pathname.includes('/tests/stroop') || pathname.includes('/tests/trail-making') || pathname.includes('/tests/focus-challenge') || pathname.includes('/gauntlet');
-const isMotorOpen = pathname.includes('/tests/click-speed') || pathname.includes('/tests/aim-trainer') || pathname.includes('/tests/mouse-accuracy') || pathname.includes('/tests/flick-trainer');
+const isMotorOpen = pathname.includes('/tests/click-speed') || pathname.includes('/tests/aim-trainer') || pathname.includes('/tests/mouse-accuracy') || pathname.includes('/tests/flick-trainer') || pathname.includes('/tests/typing-speed');
 const isExecutiveOpen = pathname.includes('/tests/trail-making') || pathname.includes('/tests/decision-speed') || pathname.includes('/tests/planning') || pathname.includes('/tests/prioritization'); // Keep default closed unless clicked
 const isScienceOpen = pathname.includes('/learn/');
 ---
@@ -91,7 +91,10 @@ const isScienceOpen = pathname.includes('/learn/');
     <meta name="theme-color" content="#f8fafc" media="(prefers-color-scheme: light)" />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={JSON.stringify(finalSchema)} />
+    <script type="application/ld+json" set:html={JSON.stringify(finalSchemas[0])} />
+      {finalSchemas.length > 1 && finalSchemas.slice(1).map((s: any) => (
+        <script type="application/ld+json" set:html={JSON.stringify(s)} />
+      ))}
 
     <!-- Google AdSense script placeholder (lazy loaded below fold / CLS-safe) -->
     <script is:inline>
@@ -302,6 +305,10 @@ const isScienceOpen = pathname.includes('/learn/');
               <a href="/tests/flick-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/flick-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
                 <span aria-hidden="true">⚡</span>
                 <span>Flick Trainer</span>
+              </a>
+              <a href="/tests/typing-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/typing-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                <span aria-hidden="true">⌨️</span>
+                <span>Typing Speed</span>
               </a>
             </div>
           </details>
@@ -604,6 +611,10 @@ const isScienceOpen = pathname.includes('/learn/');
                 <a href="/tests/flick-trainer" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/flick-trainer') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
                   <span aria-hidden="true">⚡</span>
                   <span>Flick Trainer</span>
+                </a>
+                <a href="/tests/typing-speed" class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes('/tests/typing-speed') ? 'text-accent font-semibold bg-accent/5' : 'text-zinc-500 dark:text-zinc-400 hover:text-foreground'}`}>
+                  <span aria-hidden="true">⌨️</span>
+                  <span>Typing Speed</span>
                 </a>
               </div>
             </details>

@@ -34,7 +34,7 @@ export function computeCategoryAverages(records: SessionRecord[]): CognitiveAver
       scores.precision.push(r.percentile);
     } else if (r.testId === 'go-no-go' || r.testId === 'stroop' || r.testId === 'tmt-partA' || r.testId === 'tmt-partB' || r.testId === 'focus-challenge') {
       scores.focus.push(r.percentile);
-    } else if (r.testId === 'click-speed') {
+    } else if (r.testId === 'click-speed' || r.testId === 'typing-speed') {
       scores.stamina.push(r.percentile);
     }
   });

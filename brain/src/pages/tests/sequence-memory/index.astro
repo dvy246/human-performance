@@ -6,16 +6,34 @@ const title = "Sequence Memory Test — Spatial Pattern Memory Benchmark | Cogni
 const description = "Benchmark your short-term spatial working memory capacity. Learn about Miller's Law and spatial chunking techniques to improve sequence retention.";
 const canonicalUrl = "https://cogniarena.com/tests/sequence-memory";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Sequence Memory Test",
-  "description": "An online visuospatial working memory test utilizing an expanding 3x3 pattern sequence matrix.",
-  "about": {
-    "@type": "Thing",
-    "name": "Working Memory"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Sequence Memory Test",
+    "description": "An online visuospatial working memory test utilizing an expanding 3x3 pattern sequence matrix.",
+    "about": {
+      "@type": "Thing",
+      "name": "Working Memory"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is a normal sequence memory level?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The average score is Level 7. Scoring Level 8 to 11 is above average, and anything level 14 or above indicates exceptional spatial memory and trained visual chunking capability." }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my sequence memory?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Do not try to remember individual grid numbers. Instead, visualize the sequence as a single drawing path (e.g. an L-shape followed by a triangle). This technique encodes multiple coordinates as a single cognitive chunk, dramatically extending your memory buffer." }
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>

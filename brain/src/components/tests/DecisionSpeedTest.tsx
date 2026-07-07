@@ -67,10 +67,14 @@ export default function DecisionSpeedTest() {
     const avgRt = Math.round(r.reduce((s, x) => s + x.rt, 0) / r.length);
     const speedScore = Math.max(0, Math.min(100, Math.round(100 - (avgRt - 300) / 15)));
     const score = Math.round(acc * 60 + speedScore * 0.4);
-    await dataLayer.saveSession({
-      testId: 'decision-speed', category: 'processing', rawScore: Math.round(acc * 100), percentile: lookupPercentile(score),
-      metadata: { accuracy: Math.round(acc * 100), avgReactionMs: avgRt },
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'decision-speed', category: 'processing', rawScore: Math.round(acc * 100), percentile: lookupPercentile(score),
+        metadata: { accuracy: Math.round(acc * 100), avgReactionMs: avgRt },
+      });
+    } catch (err) {
+      console.error('Failed to save Decision Speed session:', err);
+    }
     const card = await generateShareCard('Decision Speed Test', `${Math.round(acc * 100)}%`, lookupPercentile(score));
     setShareImage(card);
   };

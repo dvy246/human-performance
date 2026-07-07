@@ -75,7 +75,8 @@ export const CHALLENGE_POOL: DailyChallenge[] = [
   { testId: 'pattern-reasoning', name: 'Pattern Reasoning', metric: 'Pts', target: 6000, condition: 'higher', desc: 'Achieve 6,000 Points or higher in Pattern Reasoning.' },
   { testId: 'tmt-partA', name: 'Trail Making A', metric: 'ms', target: 30000, condition: 'lower', desc: 'Complete Trail Making Part A under 30.0 seconds.' },
   { testId: 'tmt-partB', name: 'Trail Making B', metric: 'ms', target: 55000, condition: 'lower', desc: 'Complete Trail Making Part B under 55.0 seconds.' },
-  { testId: 'dual-n-back', name: 'Dual N-Back Memory', metric: 'Pts', target: 3000, condition: 'higher', desc: 'Achieve 3,000 Points or higher in Dual N-Back.' }
+  { testId: 'dual-n-back', name: 'Dual N-Back Memory', metric: 'Pts', target: 3000, condition: 'higher', desc: 'Achieve 3,000 Points or higher in Dual N-Back.' },
+  { testId: 'typing-speed', name: 'Typing Speed', metric: 'WPM', target: 60, condition: 'higher', desc: 'Type 60 WPM or higher in the Typing Speed Test.' }
 ];
 
 /**

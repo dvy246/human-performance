@@ -6,25 +6,53 @@ const title = "Focus Challenge – 5-Stage Attention & Concentration Test | Cogn
 const description = "Benchmark your attention and focus with a 5-stage cognitive gauntlet: selective attention, impulse control, task switching, sustained attention, and memory under distraction. Free online brain performance test.";
 const canonicalUrl = "https://cogniarena.com/tests/focus-challenge";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Focus Challenge — Attention Battery",
-  "description": "A five-stage online attention test measuring selective attention, impulse control, task switching, sustained attention, and working memory under distraction.",
-  "about": {
-    "@type": "Thing",
-    "name": "Cognitive Attention & Focus Assessment"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Focus Challenge — Attention Battery",
+    "description": "A five-stage online attention test measuring selective attention, impulse control, task switching, sustained attention, and working memory under distraction.",
+    "about": {
+      "@type": "Thing",
+      "name": "Cognitive Attention & Focus Assessment"
+    },
+    "educationalLevel": "Beginner",
+    "timeRequired": "PT4M",
+    "assesses": [
+      "Selective Attention",
+      "Impulse Control",
+      "Task Switching",
+      "Sustained Attention",
+      "Working Memory Under Distraction"
+    ]
   },
-  "educationalLevel": "Beginner",
-  "timeRequired": "PT4M",
-  "assesses": [
-    "Selective Attention",
-    "Impulse Control",
-    "Task Switching",
-    "Sustained Attention",
-    "Working Memory Under Distraction"
-  ]
-};
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How is the Focus Score calculated?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Each of the 5 stages produces a score from 0–100 based on accuracy and reaction metrics specific to that paradigm. The overall Focus Score is the simple average of all five stage scores. Your percentile rank compares your score against all other CogniArena users." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good Focus Score?",
+        "acceptedAnswer": { "@type": "Answer", "text": "75+ is considered sharp focus, 60–74 is moderate, and below 40 suggests you may be experiencing attentional lapses (which can happen from lack of sleep, stress, or multitasking). The top 10% of users typically score 85+." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I improve my score?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes! Attention is trainable. Practice with the Focus Challenge regularly, try our other Go/No-Go, Stroop, and Dual N-Back tests, and track your progress on your Performance HQ dashboard." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this a diagnostic tool for ADHD?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. This is a performance-based entertainment and self-tracking tool. While it measures attention-related metrics, it is not validated for clinical diagnosis. If you suspect an attention disorder, please consult a licensed healthcare professional." }
+      }
+    ]
+  }
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>

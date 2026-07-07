@@ -9,15 +9,16 @@ export default function StageReaction({ onComplete }: StageProps) {
   const [results, setResults] = useState<number[]>([]);
   const startTimeRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const rafIdRef = useRef<number>(0);
 
-  const cleanup = () => { if (timerRef.current) clearTimeout(timerRef.current); };
+  const cleanup = () => { if (timerRef.current) clearTimeout(timerRef.current); if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current); };
 
   const startTrial = useCallback(() => {
     setPhase('waiting');
     const delay = 1500 + Math.random() * 2500;
     timerRef.current = setTimeout(() => {
       setPhase('ready');
-      requestAnimationFrame(() => {
+      rafIdRef.current = requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           startTimeRef.current = performance.now();
         });

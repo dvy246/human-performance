@@ -110,13 +110,17 @@ export default function ClickSpeedTest() {
     const cps = Number((finalClicks / 10.0).toFixed(1));
     const percentile = lookupPercentile(cps);
 
-    await dataLayer.saveSession({
-      testId: 'click-speed',
-      category: 'speed',
-      rawScore: cps,
-      percentile: percentile,
-      metadata: { clicks: finalClicks }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'click-speed',
+        category: 'speed',
+        rawScore: cps,
+        percentile: percentile,
+        metadata: { clicks: finalClicks }
+      });
+    } catch (err) {
+      console.error('Failed to save Click Speed session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('click-speed', 'higher');
     setPersonalBest(pb);

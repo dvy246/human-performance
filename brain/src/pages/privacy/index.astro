@@ -3,9 +3,10 @@ import Layout from "@/layouts/main.astro";
 
 const title = "Privacy Policy | CogniArena local-first Privacy";
 const description = "CogniArena Privacy Policy. We use browser local storage (IndexedDB) for local-first tracking without collecting personal identifiers.";
+const canonicalUrl = "https://cogniarena.com/privacy";
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl}>
   <div class="flex flex-col gap-10 w-full max-w-3xl mx-auto py-4">
     <header class="flex flex-col gap-3">
       <span class="text-xs font-mono uppercase tracking-widest text-accent">Legal Documentation</span>

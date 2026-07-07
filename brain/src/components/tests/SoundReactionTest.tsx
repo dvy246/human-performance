@@ -18,6 +18,7 @@ export default function SoundReactionTest() {
 
   const startTime = useRef<number>(0);
   const timerId = useRef<any>(null);
+  const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const audioCtx = useRef<AudioContext | null>(null);
   const submittedRef = useRef<boolean>(false);
@@ -49,6 +50,7 @@ export default function SoundReactionTest() {
     return () => {
       mounted = false;
       if (timerId.current) clearTimeout(timerId.current);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
       if (audioCtx.current) {
         audioCtx.current.close();
       }
@@ -118,7 +120,7 @@ export default function SoundReactionTest() {
     timerId.current = setTimeout(() => {
       setGameState('ready');
       playBeep();
-      requestAnimationFrame(() => {
+      rafId.current = requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           startTime.current = performance.now();
         });

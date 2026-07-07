@@ -123,13 +123,17 @@ export default function NumberMemoryTest() {
 
     const percentile = lookupPercentile(finalScore);
 
-    await dataLayer.saveSession({
-      testId: 'number-memory',
-      category: 'memory',
-      rawScore: finalScore,
-      percentile,
-      metadata: { maxDigits: finalScore }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'number-memory',
+        category: 'memory',
+        rawScore: finalScore,
+        percentile,
+        metadata: { maxDigits: finalScore }
+      });
+    } catch (err) {
+      console.error('Failed to save Number Memory session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('number-memory', 'higher');
     setPersonalBest(pb);

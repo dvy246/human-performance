@@ -150,6 +150,13 @@
     { "score": 42000, "percentile": 72 }, { "score": 46000, "percentile": 82 }, { "score": 50000, "percentile": 89 }, { "score": 55000, "percentile": 94 },
     { "score": 60000, "percentile": 97 }, { "score": 70000, "percentile": 99 }, { "score": 90000, "percentile": 99.9 }
   ],
+  "typing-speed": [
+    { "score": 15, "percentile": 1 }, { "score": 20, "percentile": 3 }, { "score": 25, "percentile": 6 }, { "score": 30, "percentile": 12 },
+    { "score": 35, "percentile": 20 }, { "score": 40, "percentile": 28 }, { "score": 45, "percentile": 36 }, { "score": 50, "percentile": 46 },
+    { "score": 55, "percentile": 56 }, { "score": 60, "percentile": 66 }, { "score": 65, "percentile": 75 }, { "score": 70, "percentile": 82 },
+    { "score": 75, "percentile": 88 }, { "score": 80, "percentile": 93 }, { "score": 90, "percentile": 97 }, { "score": 100, "percentile": 99 },
+    { "score": 120, "percentile": 99.9 }
+  ],
   "dual-n-back": [
     { "score": 500, "percentile": 5 }, { "score": 1000, "percentile": 10 }, { "score": 1500, "percentile": 15 }, { "score": 2000, "percentile": 20 },
     { "score": 2500, "percentile": 25 }, { "score": 3000, "percentile": 30 }, { "score": 3500, "percentile": 35 }, { "score": 4000, "percentile": 40 },

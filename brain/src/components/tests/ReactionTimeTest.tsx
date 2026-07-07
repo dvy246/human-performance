@@ -20,7 +20,9 @@ export default function ReactionTimeTest() {
 
   const startTime = useRef<number>(0);
   const timerId = useRef<any>(null);
+  const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
+  const submittedRef = useRef<boolean>(false);
 
   // Load initial settings and check for a challenge token in the URL
   useEffect(() => {
@@ -50,7 +52,7 @@ export default function ReactionTimeTest() {
       }
     }
 
-    return () => { mounted = false; };
+    return () => { mounted = false; if (timerId.current) clearTimeout(timerId.current); if (rafId.current) cancelAnimationFrame(rafId.current); };
   }, []);
 
   const lookupPercentile = (score: number): number => {
@@ -68,6 +70,7 @@ export default function ReactionTimeTest() {
     setAttempts([]);
     setCurrentScore(null);
     setShareImage(null);
+    submittedRef.current = false;
     setGameState('waiting');
     setupRandomTimer();
   };
@@ -82,7 +85,7 @@ export default function ReactionTimeTest() {
     timerId.current = setTimeout(() => {
       // Paint-synchronized transition
       setGameState('ready');
-      requestAnimationFrame(() => {
+      rafId.current = requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           startTime.current = performance.now();
         });
@@ -135,18 +138,24 @@ export default function ReactionTimeTest() {
   };
 
   const finalizeTest = async (avgScore: number) => {
+    if (submittedRef.current) return;
+    submittedRef.current = true;
     setGameState('result');
     setFinalAverage(avgScore);
     const percentile = lookupPercentile(avgScore);
 
     // Save session record
-    await dataLayer.saveSession({
-      testId: 'reaction-time',
-      category: 'reaction',
-      rawScore: avgScore,
-      percentile: percentile,
-      metadata: { attempts }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'reaction-time',
+        category: 'reaction',
+        rawScore: avgScore,
+        percentile: percentile,
+        metadata: { attempts }
+      });
+    } catch (err) {
+      console.error('Failed to save Reaction Time session:', err);
+    }
 
     // Check if new PB
     const existingPb = await dataLayer.getPersonalBest('reaction-time', 'lower');

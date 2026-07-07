@@ -30,6 +30,7 @@ export default function ChoiceReactionTest() {
 
   const startTime = useRef<number>(0);
   const timerId = useRef<any>(null);
+  const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const submittedRef = useRef<boolean>(false);
 
@@ -60,6 +61,7 @@ export default function ChoiceReactionTest() {
     return () => {
       mounted = false;
       if (timerId.current) clearTimeout(timerId.current);
+      if (rafId.current) cancelAnimationFrame(rafId.current);
     };
   }, []);
 
@@ -127,7 +129,7 @@ export default function ChoiceReactionTest() {
       
       setActiveColor(pick);
       setGameState('ready');
-      requestAnimationFrame(() => {
+      rafId.current = requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           startTime.current = performance.now();
         });

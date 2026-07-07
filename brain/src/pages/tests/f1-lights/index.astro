@@ -6,16 +6,34 @@ const title = "F1 Starting Lights Reaction Test — Measure Reflexes | CogniAren
 const description = "Simulate a Formula 1 race start and measure your reaction time to the gantry extinguishment. Compare your split speed against professional F1 drivers.";
 const canonicalUrl = "https://cogniarena.com/tests/f1-lights";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "F1 Start Reaction Test",
-  "description": "A simulation of the Formula 1 starting light sequence designed to test anticipatory motor reactions.",
-  "about": {
-    "@type": "Thing",
-    "name": "Reaction Time"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "F1 Start Reaction Test",
+    "description": "A simulation of the Formula 1 starting light sequence designed to test anticipatory motor reactions.",
+    "about": {
+      "@type": "Thing",
+      "name": "Reaction Time"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How do F1 drivers know when the lights will go out?",
+        "acceptedAnswer": { "@type": "Answer", "text": "They don't. The delay between the 5th red light turning on and all lights extinguishing is randomized (typically between 0.8 and 3 seconds) to prevent drivers from predicting the release." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why are F1 reaction times faster than general reaction times?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Grid starts are anticipatory. Drivers are already prepared to execute a specific, pre-loaded motor command (releasing the clutch paddle). This cognitive pre-loading removes the decision-making overhead, resulting in scores 40-70ms faster than normal choice tests." }
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>

@@ -6,16 +6,34 @@ const title = "Choice Reaction Time Test — Hick's Law Grid | CogniArena";
 const description = "Test your cognitive processing latency with our choice reaction grid. Map visual colors to keyboard hotkeys, manage decision accuracy, and beat Hick's Law.";
 const canonicalUrl = "https://cogniarena.com/tests/choice-reaction";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Choice Reaction Test",
-  "description": "A choice reaction cognitive assessment mapping multiple color stimuli to keyboard inputs, measuring the accuracy-speed trade-off.",
-  "about": {
-    "@type": "Thing",
-    "name": "Hick's Law"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Choice Reaction Test",
+    "description": "A choice reaction cognitive assessment mapping multiple color stimuli to keyboard inputs, measuring the accuracy-speed trade-off.",
+    "about": {
+      "@type": "Thing",
+      "name": "Hick's Law"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does this test apply to real-world tasks?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Choice reaction is the baseline for almost all real-world activities. In driving, a simple reaction is slamming the brakes when a red light appears. A choice reaction is deciding whether to swerve left, swerve right, or brake when an obstacle appears in your lane." }
+      },
+      {
+        "@type": "Question",
+        "name": "Why are keys mapped to R, G, B, Y?",
+        "acceptedAnswer": { "@type": "Answer", "text": "We map inputs to the first letter of each color: Red, Green, Blue, and Yellow. This semantic mapping creates a minor cognitive association pathway that you must master to achieve elite reaction scores." }
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>

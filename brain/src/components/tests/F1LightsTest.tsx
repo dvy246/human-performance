@@ -20,6 +20,7 @@ export default function F1LightsTest() {
   const startTime = useRef<number>(0);
   const sequenceTimers = useRef<any[]>([]);
   const triggerTimer = useRef<any>(null);
+  const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const submittedRef = useRef<boolean>(false);
 
@@ -54,6 +55,7 @@ export default function F1LightsTest() {
     sequenceTimers.current.forEach(t => clearTimeout(t));
     sequenceTimers.current = [];
     if (triggerTimer.current) clearTimeout(triggerTimer.current);
+    if (rafId.current) cancelAnimationFrame(rafId.current);
   };
 
   const lookupPercentile = (score: number): number => {
@@ -72,6 +74,7 @@ export default function F1LightsTest() {
     setAttempts([]);
     setCurrentScore(null);
     setShareImage(null);
+    submittedRef.current = false;
     startSequence();
   };
 
@@ -102,7 +105,7 @@ export default function F1LightsTest() {
     triggerTimer.current = setTimeout(() => {
       setActiveRows(0);
       setGameState('ready');
-      requestAnimationFrame(() => {
+      rafId.current = requestAnimationFrame(() => {
         requestAnimationFrame(() => {
           startTime.current = performance.now();
         });

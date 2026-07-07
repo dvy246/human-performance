@@ -35,6 +35,7 @@ export default function GoNoGoTest() {
   const startTime = useRef<number>(0);
   const timerId = useRef<any>(null);
   const targetTimeoutId = useRef<any>(null);
+  const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const submittedRef = useRef(false);
 
@@ -67,6 +68,7 @@ export default function GoNoGoTest() {
   const clearTimers = () => {
     if (timerId.current) clearTimeout(timerId.current);
     if (targetTimeoutId.current) clearTimeout(targetTimeoutId.current);
+    if (rafId.current) cancelAnimationFrame(rafId.current);
   };
 
   const lookupPercentile = (score: number): number => {
@@ -114,7 +116,7 @@ export default function GoNoGoTest() {
 
       if (selected.isTarget) {
         // Start reaction timer
-        requestAnimationFrame(() => {
+        rafId.current = requestAnimationFrame(() => {
           requestAnimationFrame(() => {
             startTime.current = performance.now();
           });
@@ -204,13 +206,17 @@ export default function GoNoGoTest() {
     const finalAverage = avgScore + (falseAlarms * 250);
     const percentile = lookupPercentile(finalAverage);
 
-    await dataLayer.saveSession({
-      testId: 'go-no-go',
-      category: 'reaction',
-      rawScore: finalAverage,
-      percentile: percentile,
-      metadata: { falseAlarms, attempts }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'go-no-go',
+        category: 'reaction',
+        rawScore: finalAverage,
+        percentile: percentile,
+        metadata: { falseAlarms, attempts }
+      });
+    } catch (err) {
+      console.error('Failed to save Go/No-Go session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('go-no-go', 'lower');
     setPersonalBest(pb);

@@ -66,10 +66,14 @@ export default function VerbalMemoryTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     const score = Math.max(0, Math.min(100, Math.round((correct / Math.min(3 + level, 12)) * 100)));
-    await dataLayer.saveSession({
-      testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile(score),
-      metadata: { level, maxListLength: Math.min(3 + level, 12) },
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile(score),
+        metadata: { level, maxListLength: Math.min(3 + level, 12) },
+      });
+    } catch (err) {
+      console.error('Failed to save Verbal Memory session:', err);
+    }
     const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile(score));
     setShareImage(card);
   };

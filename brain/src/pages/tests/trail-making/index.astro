@@ -6,16 +6,39 @@ const title = "Trail Making Test (TMT) — Cognitive Flexibility Assessment | Co
 const description = "Test your visual attention scanning, search rate, and task-switching speed with the online Trail Making Test (TMT-A & B). Millisecond-accurate browser performance logging.";
 const canonicalUrl = "https://cogniarena.com/tests/trail-making";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Trail Making Test",
-  "description": "Assess visual scanning speed, task switching, and cognitive flexibility.",
-  "about": {
-    "@type": "Thing",
-    "name": "Executive Function & Attention"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Trail Making Test",
+    "description": "Assess visual scanning speed, task switching, and cognitive flexibility.",
+    "about": {
+      "@type": "Thing",
+      "name": "Executive Function & Attention"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between Trail Making Part A and Part B?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Part A tests visual scanning speed and motor execution by connecting numbered nodes in sequence (1→2→3). Part B adds cognitive load by requiring task switching — alternating between numbers and letters (1→A→2→B→3→C). The difference between Part A and Part B scores measures cognitive flexibility." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good Trail Making Test score?",
+        "acceptedAnswer": { "@type": "Answer", "text": "For Part A, adults under 35 typically complete in 20-30 seconds. For Part B, 60-90 seconds is average. The key metric is the A/B ratio — a ratio under 2.5 indicates good cognitive flexibility, while ratios above 3.0 suggest significant task-switching overhead." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this a medical diagnostic tool?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
@@ -60,5 +83,45 @@ const schemaJson = {
         </p>
       </article>
     </section>
+
+    <!-- What Affects Your Score -->
+    <article class="flex flex-col gap-4">
+      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Trail Making Score</h2>
+      <ul class="flex flex-col gap-2 text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed list-disc list-inside">
+        <li><strong class="text-foreground">Visual scanning speed</strong> — how quickly your eyes can locate the next target in the field</li>
+        <li><strong class="text-foreground">Cognitive flexibility</strong> — the efficiency of switching between different rule sets (numbers vs. letters)</li>
+        <li><strong class="text-foreground">Motor execution</strong> — click precision and movement speed between targets</li>
+        <li><strong class="text-foreground">Display latency</strong> — slower monitors add minor overhead to target recognition</li>
+      </ul>
+    </article>
+
+    <!-- Related Tests -->
+    <article class="flex flex-col gap-3">
+      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
+      <div class="flex flex-wrap gap-2">
+        <a href="/tests/decision-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Decision Speed →</a>
+        <a href="/tests/stroop" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Stroop Test →</a>
+        <a href="/tests/planning" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Planning →</a>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <article class="flex flex-col gap-6">
+      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">What is the difference between Trail Making Part A and Part B?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Part A tests visual scanning speed and motor execution by connecting numbered nodes in sequence (1→2→3). Part B adds cognitive load by requiring task switching — alternating between numbers and letters (1→A→2→B→3→C). The difference between Part A and Part B scores measures cognitive flexibility.</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">What is a good Trail Making Test score?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">For Part A, adults under 35 typically complete in 20-30 seconds. For Part B, 60-90 seconds is average. The key metric is the A/B ratio — a ratio under 2.5 indicates good cognitive flexibility, while ratios above 3.0 suggest significant task-switching overhead.</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+        </div>
+      </div>
+    </article>
   </div>
 </Layout>

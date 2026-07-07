@@ -54,10 +54,14 @@ export default function MouseAccuracyTest() {
     submittedRef.current = true;
     const avgOffset = allOffsets.reduce((a, b) => a + b, 0) / allOffsets.length;
     const score = Math.max(0, Math.min(100, Math.round(100 - avgOffset / 2)));
-    await dataLayer.saveSession({
-      testId: 'mouse-accuracy', category: 'precision', rawScore: Math.round(avgOffset * 10) / 10, percentile: lookupPercentile(score),
-      metadata: { avgOffsetPx: Math.round(avgOffset * 10) / 10, totalTargets: TOTAL },
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'mouse-accuracy', category: 'precision', rawScore: Math.round(avgOffset * 10) / 10, percentile: lookupPercentile(score),
+        metadata: { avgOffsetPx: Math.round(avgOffset * 10) / 10, totalTargets: TOTAL },
+      });
+    } catch (err) {
+      console.error('Failed to save Mouse Accuracy session:', err);
+    }
     const card = await generateShareCard('Mouse Accuracy Test', `${Math.round(avgOffset * 10) / 10}px avg`, lookupPercentile(score));
     setShareImage(card);
   };

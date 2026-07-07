@@ -226,13 +226,17 @@ export default function AimTrainer() {
     setLatencies(latenciesArr.current);
     setOffsets(offsetsArr.current);
 
-    await dataLayer.saveSession({
-      testId: 'aim-trainer',
-      category: 'precision',
-      rawScore: averageLatency,
-      percentile: lookupPercentile(averageLatency),
-      metadata: { accuracy, offset: averageOffset }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'aim-trainer',
+        category: 'precision',
+        rawScore: averageLatency,
+        percentile: lookupPercentile(averageLatency),
+        metadata: { accuracy, offset: averageOffset }
+      });
+    } catch (err) {
+      console.error('Failed to save Aim Trainer session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('aim-trainer', 'lower');
     setPersonalBest(pb);

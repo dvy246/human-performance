@@ -5,8 +5,17 @@ import VerbalMemoryTest from "@/components/tests/VerbalMemoryTest";
 const title = "Verbal Memory Test – Word Recall | CogniArena";
 const description = "Test your verbal working memory capacity. Memorize growing word lists and recall them from a set of distractors. Free online cognitive assessment.";
 const canonicalUrl = "https://cogniarena.com/tests/verbal-memory";
+
+const schemaJson = [
+  { "@context": "https://schema.org", "@type": "Quiz", "name": "Verbal Memory Test", "description": "Verbal working memory assessment measuring word recall from growing lists with distractors.", "about": { "@type": "Thing", "name": "Working Memory" } },
+  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
+    { "@type": "Question", "name": "What is a good word count score?", "acceptedAnswer": { "@type": "Answer", "text": "The average score is around 8-10 words. Scoring 12-15 words is above average, and 18+ words indicates exceptional verbal working memory. Most people can hold about 7 items in working memory, but chunking strategies can extend this." } },
+    { "@type": "Question", "name": "How does this relate to real-world memory?", "acceptedAnswer": { "@type": "Answer", "text": "Verbal working memory is used whenever you remember a phone number, follow spoken instructions, or recall a shopping list. Strong verbal memory correlates with better reading comprehension and language learning ability." } },
+    { "@type": "Question", "name": "Is this a medical diagnostic tool?", "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." } }
+  ] }
+];
 ---
-<Layout title={title} description={description} canonicalUrl={canonicalUrl}>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
   <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
     <header class="flex flex-col gap-3">
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Memory</span></div>
@@ -14,6 +23,47 @@ const canonicalUrl = "https://cogniarena.com/tests/verbal-memory";
       <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">Measure your verbal working memory capacity by memorizing lists of words and recalling them from a larger set. Difficulty increases with each round.</p>
     </header>
     <section class="w-full"><VerbalMemoryTest client:visible /></section>
+
+    <!-- What Affects Your Score -->
+    <article class="flex flex-col gap-4">
+      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Verbal Memory Score</h2>
+      <ul class="flex flex-col gap-2 text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed list-disc list-inside">
+        <li><strong class="text-foreground">Working memory capacity</strong> — the number of items you can actively hold and manipulate</li>
+        <li><strong class="text-foreground">Chunking ability</strong> — grouping words into meaningful phrases extends effective memory span</li>
+        <li><strong class="text-foreground">Vocabulary familiarity</strong> — common words are easier to retain than unusual or abstract terms</li>
+        <li><strong class="text-foreground">Focus and attention</strong> — distraction during the presentation phase directly reduces recall accuracy</li>
+      </ul>
+    </article>
+
+    <!-- Related Tests -->
+    <article class="flex flex-col gap-3">
+      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
+      <div class="flex flex-wrap gap-2">
+        <a href="/tests/number-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Number Memory →</a>
+        <a href="/tests/sequence-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Sequence Memory →</a>
+        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <article class="flex flex-col gap-6">
+      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">What is a good word count score?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">The average score is around 8-10 words. Scoring 12-15 words is above average, and 18+ words indicates exceptional verbal working memory. Most people can hold about 7 items in working memory, but chunking strategies can extend this.</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">How does this relate to real-world memory?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Verbal working memory is used whenever you remember a phone number, follow spoken instructions, or recall a shopping list. Strong verbal memory correlates with better reading comprehension and language learning ability.</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+        </div>
+      </div>
+    </article>
+
     <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
       <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
     </div>

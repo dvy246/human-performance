@@ -51,10 +51,14 @@ export default function PlanningTest() {
     const optimal = Math.pow(2, DISKS) - 1;
     const ratio = moves / optimal;
     const score = Math.max(0, Math.min(100, Math.round(100 - (ratio - 1) * 30 - elapsed / 5)));
-    await dataLayer.saveSession({
-      testId: 'planning', category: 'executive', rawScore: score, percentile: lookupPercentile(score),
-      metadata: { moves, optimalMoves: optimal, timeSeconds: elapsed },
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'planning', category: 'executive', rawScore: score, percentile: lookupPercentile(score),
+        metadata: { moves, optimalMoves: optimal, timeSeconds: elapsed },
+      });
+    } catch (err) {
+      console.error('Failed to save Planning session:', err);
+    }
     const card = await generateShareCard('Planning Test', `${moves} moves (optimal: ${optimal})`, lookupPercentile(score));
     setShareImage(card);
     setPhase('done');

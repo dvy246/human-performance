@@ -135,13 +135,17 @@ export default function SequenceMemoryTest() {
     const finalScore = level - 1;
     const percentile = lookupPercentile(finalScore);
 
-    await dataLayer.saveSession({
-      testId: 'sequence-memory',
-      category: 'memory',
-      rawScore: finalScore,
-      percentile: percentile,
-      metadata: {}
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'sequence-memory',
+        category: 'memory',
+        rawScore: finalScore,
+        percentile: percentile,
+        metadata: {}
+      });
+    } catch (err) {
+      console.error('Failed to save Sequence Memory session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('sequence-memory', 'higher');
     setPersonalBest(pb);

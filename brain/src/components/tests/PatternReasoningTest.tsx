@@ -318,18 +318,22 @@ export default function PatternReasoningTest() {
     // Save test performance index (max score is 5000 points)
     const percentile = Math.max(1, Math.min(99, Math.round((finalScore / 5000) * 100)));
 
-    await dataLayer.saveSession({
-      testId: 'pattern-reasoning',
-      category: 'processing',
-      rawScore: finalScore,
-      percentile,
-      metadata: {
-        mode: currentMode,
-        accuracy,
-        correctAnswers: correctCount,
-        totalQuestions: 5
-      }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'pattern-reasoning',
+        category: 'processing',
+        rawScore: finalScore,
+        percentile,
+        metadata: {
+          mode: currentMode,
+          accuracy,
+          correctAnswers: correctCount,
+          totalQuestions: 5
+        }
+      });
+    } catch (err) {
+      console.error('Failed to save Pattern Reasoning session:', err);
+    }
 
     dataLayer.getPersonalBest('pattern-reasoning', 'higher').then(pb => setPersonalBest(pb)).catch(console.error);
 

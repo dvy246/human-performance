@@ -6,16 +6,34 @@ const title = "Aim Trainer Online — Reflex & Hand-Eye Coordination | CogniAren
 const description = "Benchmark your target acquisition latency and mouse coordinate precision. Learn about Fitts's Law and optimize your mouse DPI and sensitivity.";
 const canonicalUrl = "https://cogniarena.com/tests/aim-trainer";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Aim Precision Trainer",
-  "description": "An online 2D canvas assessment targeting hand-eye coordination speed, pinpoint accuracy rates, and distance offsets.",
-  "about": {
-    "@type": "Thing",
-    "name": "Motor Coordination"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Aim Precision Trainer",
+    "description": "An online 2D canvas assessment targeting hand-eye coordination speed, pinpoint accuracy rates, and distance offsets.",
+    "about": {
+      "@type": "Thing",
+      "name": "Motor Coordination"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "How does DPI affect my aim test results?",
+        "acceptedAnswer": { "@type": "Answer", "text": "DPI (Dots Per Inch) is the hardware sensitivity of your mouse sensor. High DPI (e.g. 3200+) means minor hand jitters translate to large screen movements, increasing offset errors. Low DPI (e.g. 400 - 800) paired with a large mousepad allows you to use your forearm instead of wrist joints, providing significantly higher accuracy and precision control." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I improve my aim with a higher refresh rate monitor?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. High refresh rates (144Hz, 240Hz, 360Hz) decrease frame spacing lag and display stutter. This lets your eye track the moving target's position with higher clarity, helping your motor system predict target acquisition coordinates with less visual delay." }
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>

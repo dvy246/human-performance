@@ -149,13 +149,17 @@ export default function VisualPatternTest() {
 
     const percentile = lookupPercentile(finalScore);
 
-    await dataLayer.saveSession({
-      testId: 'visual-pattern',
-      category: 'memory',
-      rawScore: finalScore,
-      percentile,
-      metadata: { maxLevel: finalScore }
-    });
+    try {
+      await dataLayer.saveSession({
+        testId: 'visual-pattern',
+        category: 'memory',
+        rawScore: finalScore,
+        percentile,
+        metadata: { maxLevel: finalScore }
+      });
+    } catch (err) {
+      console.error('Failed to save Visual Pattern session:', err);
+    }
 
     const pb = await dataLayer.getPersonalBest('visual-pattern', 'higher');
     setPersonalBest(pb);

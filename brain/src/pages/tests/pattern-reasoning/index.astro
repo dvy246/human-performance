@@ -6,16 +6,39 @@ const title = "Pattern Reasoning Test — Fluid Intelligence Assessment | CogniA
 const description = "Evaluate your visual pattern recognition, logical reasoning, and fluid intelligence. Complete geometric progressions and matrix puzzles with millisecond precision.";
 const canonicalUrl = "https://cogniarena.com/tests/pattern-reasoning";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Pattern Reasoning Test",
-  "description": "Assess fluid visual reasoning and logical pattern completions.",
-  "about": {
-    "@type": "Thing",
-    "name": "Fluid Intelligence & Logic"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Pattern Reasoning Test",
+    "description": "Assess fluid visual reasoning and logical pattern completions.",
+    "about": {
+      "@type": "Thing",
+      "name": "Fluid Intelligence & Logic"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does the pattern reasoning test measure?",
+        "acceptedAnswer": { "@type": "Answer", "text": "It measures fluid intelligence — your ability to think logically and solve problems in novel situations, independent of acquired knowledge. Specifically, it tests inductive reasoning, pattern recognition, and the ability to extract rules from complex visual sequences." }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my pattern reasoning score?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Practice identifying common pattern types (rotation, progression, XOR logic). Break complex patterns into simpler components. Work through puzzles and matrix reasoning exercises regularly. Speed improves with familiarity — the more pattern types you recognize, the faster you'll respond." }
+      },
+      {
+        "@type": "Question",
+        "name": "Is this a medical diagnostic tool?",
+        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
@@ -60,5 +83,45 @@ const schemaJson = {
         </p>
       </article>
     </section>
+
+    <!-- What Affects Your Score -->
+    <article class="flex flex-col gap-4">
+      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Pattern Reasoning Score</h2>
+      <ul class="flex flex-col gap-2 text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed list-disc list-inside">
+        <li><strong class="text-foreground">Inductive reasoning ability</strong> — extracting underlying rules from visual sequences and applying them to novel patterns</li>
+        <li><strong class="text-foreground">Pattern vocabulary</strong> — familiarity with common pattern types (rotation, progression, XOR, reflection)</li>
+        <li><strong class="text-foreground">Processing speed</strong> — how quickly you can analyze and compare visual elements</li>
+        <li><strong class="text-foreground">Display latency</strong> — slower monitors add minor overhead to pattern recognition</li>
+      </ul>
+    </article>
+
+    <!-- Related Tests -->
+    <article class="flex flex-col gap-3">
+      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
+      <div class="flex flex-wrap gap-2">
+        <a href="/tests/decision-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Decision Speed →</a>
+        <a href="/tests/trail-making" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Trail Making →</a>
+        <a href="/tests/planning" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Planning →</a>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+    <article class="flex flex-col gap-6">
+      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <div class="flex flex-col gap-4">
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">What does the pattern reasoning test measure?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">It measures fluid intelligence — your ability to think logically and solve problems in novel situations, independent of acquired knowledge. Specifically, it tests inductive reasoning, pattern recognition, and the ability to extract rules from complex visual sequences.</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">How can I improve my pattern reasoning score?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Practice identifying common pattern types (rotation, progression, XOR logic). Break complex patterns into simpler components. Work through puzzles and matrix reasoning exercises regularly. Speed improves with familiarity — the more pattern types you recognize, the faster you'll respond.</p>
+        </div>
+        <div class="flex flex-col gap-1.5">
+          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
+          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+        </div>
+      </div>
+    </article>
   </div>
 </Layout>

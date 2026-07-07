@@ -6,16 +6,21 @@ const title = "Click Speed Test (CPS) — Online Clicks Per Second Counter | Cog
 const description = "Test your clicks per second (CPS) over 10 seconds. Learn advanced gaming clicking techniques like Jitter, Butterfly, and Drag clicking.";
 const canonicalUrl = "https://cogniarena.com/tests/click-speed";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "Click Speed Test",
-  "description": "An online click endurance test that calculates clicks per second (CPS) over a sustained 10-second window.",
-  "about": {
-    "@type": "Thing",
-    "name": "Motor Speed"
+const schemaJson = [
+  {
+    "@context": "https://schema.org", "@type": "Quiz", "name": "Click Speed Test",
+    "description": "An online click endurance test that calculates clicks per second (CPS) over a sustained 10-second window.",
+    "about": { "@type": "Thing", "name": "Motor Speed" }
+  },
+  {
+    "@context": "https://schema.org", "@type": "FAQPage",
+    "mainEntity": [
+      { "@type": "Question", "name": "What is a good clicks-per-second score?", "acceptedAnswer": { "@type": "Answer", "text": "Average is around 6-7 CPS. Scoring 8-9 CPS is above average, 10+ CPS is excellent, and 12+ CPS is elite. Professional gamers and musicians tend to score in the top percentile." } },
+      { "@type": "Question", "name": "Does mouse type affect click speed?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Gaming mice with lighter switches and lower actuation force can add 0.5-1 CPS. Mouse weight, switch type (optical vs mechanical), and button travel distance all influence maximum click rate." } },
+      { "@type": "Question", "name": "Is this a medical diagnostic tool?", "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." } }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
@@ -128,6 +133,25 @@ const schemaJson = {
         <p class="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed">
           Repetitive jitter clicking causes significant tension in the tendons of the hand and wrist. Sustained practices without rest can lead to Carpal Tunnel Syndrome or Repetitive Strain Injury (RSI). If you feel numbness, tingling, or joint soreness, stop clicking immediately and rest your wrist.
         </p>
+      </article>
+
+      <!-- FAQ Section -->
+      <article class="flex flex-col gap-6">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">What is a good clicks-per-second score?</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Average is around 6-7 CPS. Scoring 8-9 CPS is above average, 10+ CPS is excellent, and 12+ CPS is elite. Professional gamers and musicians tend to score in the top percentile.</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">Does mouse type affect click speed?</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Yes. Gaming mice with lighter switches and lower actuation force can add 0.5-1 CPS. Mouse weight, switch type (optical vs mechanical), and button travel distance all influence maximum click rate.</p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
+            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          </div>
+        </div>
       </article>
       
     </section>
