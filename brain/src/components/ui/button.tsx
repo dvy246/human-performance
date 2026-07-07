@@ -11,11 +11,11 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     
     let variantStyles = "";
     if (variant === "primary") {
-      variantStyles = "bg-accent hover:bg-accent-hover text-black font-semibold shadow-sm focus-visible:ring-accent";
+      variantStyles = "bg-accent hover:bg-accent-hover text-white font-semibold shadow-sm focus-visible:ring-accent";
     } else if (variant === "secondary") {
       variantStyles = "bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] focus-visible:ring-accent";
     } else if (variant === "danger") {
-      variantStyles = "bg-red-600 hover:bg-red-700 text-white font-semibold shadow-sm focus-visible:ring-red-500";
+      variantStyles = "bg-error hover:bg-red-600 text-white font-semibold shadow-sm focus-visible:ring-error";
     } else if (variant === "ghost") {
       variantStyles = "text-[var(--btn-ghost-text)] hover:bg-[var(--btn-ghost-hover-bg)] text-foreground/80 hover:text-foreground focus-visible:ring-accent";
     }

@@ -237,7 +237,7 @@ export default function ChoiceReactionTest() {
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <span className="text-foreground">Active Challenge: Beat your friend's choice reflex score of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-zinc-500 hover:text-foreground font-mono uppercase">Dismiss</button>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">Dismiss</button>
         </div>
       )}
 
@@ -258,7 +258,7 @@ export default function ChoiceReactionTest() {
           <div className="flex flex-col items-center gap-3">
             <span className="text-2xl">🎮</span>
             <h2 className="text-lg font-bold text-foreground tracking-tight">Choice Grid Test</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
+            <p className="text-muted text-xs leading-relaxed max-w-sm">
               Press the matching color pad or press keys **R**, **G**, **B**, **Y** on your keyboard when the center box flashes. Incorrect choices carry a **+150ms penalty**!
             </p>
             <span className="text-xs uppercase font-mono tracking-widest text-accent mt-2">Click card to start</span>
@@ -267,8 +267,8 @@ export default function ChoiceReactionTest() {
 
         {gameState === 'waiting' && (
           <div className="flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded bg-subtle border border-card-border animate-pulse flex items-center justify-center text-zinc-500 dark:text-zinc-600 font-mono text-xs">READY</div>
-            <p className="text-zinc-500 font-mono text-xs uppercase mt-3">Attempt {attempts.length + 1} of 5 &middot; Wait for color flash</p>
+            <div className="w-16 h-16 rounded bg-subtle border border-card-border animate-pulse flex items-center justify-center text-muted dark:text-muted font-mono text-xs">READY</div>
+            <p className="text-muted font-mono text-xs uppercase mt-3">Attempt {attempts.length + 1} of 5 &middot; Wait for color flash</p>
           </div>
         )}
 
@@ -286,28 +286,28 @@ export default function ChoiceReactionTest() {
 
         {gameState === 'attempt-result' && (
           <div className="flex flex-col items-center gap-3">
-            <span className="text-zinc-500 text-xs font-mono uppercase">Attempt {attempts.length} score</span>
+            <span className="text-muted text-xs font-mono uppercase">Attempt {attempts.length} score</span>
             <div className="text-4xl font-mono font-bold text-foreground">{currentScore} ms</div>
-            {hasPenalty && <span className="text-xs text-rose-500 font-mono uppercase font-semibold">⚠️ +150ms Mismatch Penalty</span>}
-            <span className="text-xs text-zinc-400 font-mono uppercase mt-2">Click card to load next color</span>
+            {hasPenalty && <span className="text-xs text-error font-mono uppercase font-semibold">⚠️ +150ms Mismatch Penalty</span>}
+            <span className="text-xs text-secondary font-mono uppercase mt-2">Click card to load next color</span>
           </div>
         )}
 
         {gameState === 'abort' && (
           <div className="flex flex-col items-center gap-3">
-            <span className="text-rose-500 text-2xl">⚠️</span>
+            <span className="text-error text-2xl">⚠️</span>
             <h2 className="text-lg font-bold text-foreground">Too Early!</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-xs">
+            <p className="text-muted text-xs">
               You triggered an input before the color loaded. Grid reset.
             </p>
-            <span className="text-xs uppercase font-mono text-zinc-500 mt-2">Click card to restart</span>
+            <span className="text-xs uppercase font-mono text-muted mt-2">Click card to restart</span>
           </div>
         )}
 
         {gameState === 'result' && (
           <div className="flex flex-col items-center gap-4">
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-zinc-500 text-xs font-mono uppercase">Final Choice Average</span>
+              <span className="text-muted text-xs font-mono uppercase">Final Choice Average</span>
               <div className="text-4xl font-mono font-bold text-foreground">
                 {Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5)} ms
               </div>
@@ -318,20 +318,20 @@ export default function ChoiceReactionTest() {
 
             <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-3">
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Personal Best</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
                 <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
               </div>
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Calibration</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Calibration</span>
                 <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
               </div>
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Mismatches</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Mismatches</span>
                 <div className="text-foreground font-mono text-sm">{attempts.filter(a => a.penalty).length} / 5</div>
               </div>
             </div>
 
-            <span className="text-xs uppercase font-mono text-zinc-600 mt-2">Click card to try again</span>
+            <span className="text-xs uppercase font-mono text-muted mt-2">Click card to try again</span>
           </div>
         )}
       </div>
@@ -345,7 +345,7 @@ export default function ChoiceReactionTest() {
             <button
               key={col}
               onClick={(e) => handlePadClick(col, e)}
-              className={`p-4 rounded-lg border text-center transition-all cursor-pointer select-none active:scale-95 flex flex-col items-center gap-1 hover:border-zinc-700 ${
+              className={`p-4 rounded-lg border text-center transition-all cursor-pointer select-none active:scale-95 flex flex-col items-center gap-1 hover:border-card-border ${
                 isPressed ? color.activeClass : color.bgClass
               }`}
             >
@@ -368,7 +368,7 @@ export default function ChoiceReactionTest() {
             <a
               href={shareImage}
               download="cogniarena-choice-reflex.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Choice Profile</span>

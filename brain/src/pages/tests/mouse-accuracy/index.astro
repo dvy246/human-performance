@@ -20,14 +20,14 @@ const schemaJson = [
     <header class="flex flex-col gap-3">
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Motor</span></div>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Mouse Accuracy Test</h1>
-      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">Click the center of each target as they shrink from 80px to 16px. Your average offset in pixels measures your fine motor precision.</p>
+      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">Click the center of each target as they shrink from 80px to 16px. Your average offset in pixels measures your fine motor precision.</p>
     </header>
     <section class="w-full"><MouseAccuracyTest client:visible /></section>
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Accuracy Score</h2>
-      <ul class="flex flex-col gap-2 text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed list-disc list-inside">
+      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
         <li><strong class="text-foreground">Mouse DPI settings</strong> — lower DPI (400-800) reduces hand tremor amplification for tighter clicks</li>
         <li><strong class="text-foreground">Hand steadiness</strong> — caffeine, fatigue, and temperature affect fine motor tremor</li>
         <li><strong class="text-foreground">Visual acuity</strong> — sharper displays make target centers easier to identify precisely</li>
@@ -39,9 +39,9 @@ const schemaJson = [
     <article class="flex flex-col gap-3">
       <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
       <div class="flex flex-wrap gap-2">
-        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
-        <a href="/tests/flick-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Flick Trainer →</a>
-        <a href="/tests/click-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Click Speed →</a>
+        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
+        <a href="/tests/flick-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Flick Trainer →</a>
+        <a href="/tests/click-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Click Speed →</a>
       </div>
     </article>
 
@@ -51,20 +51,20 @@ const schemaJson = [
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">How is offset measured?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Each click records the pixel distance between where you clicked and the exact center of the target. Your final score is the average offset across all targets — lower is better.</p>
+          <p class="text-muted text-sm leading-relaxed">Each click records the pixel distance between where you clicked and the exact center of the target. Your final score is the average offset across all targets — lower is better.</p>
         </div>
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">What DPI should I use?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Lower DPI (400-800) generally produces better accuracy because it forces you to use arm movements instead of wrist jitter. Higher DPI amplifies small hand tremors, increasing offset errors.</p>
+          <p class="text-muted text-sm leading-relaxed">Lower DPI (400-800) generally produces better accuracy because it forces you to use arm movements instead of wrist jitter. Higher DPI amplifies small hand tremors, increasing offset errors.</p>
         </div>
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
         </div>
       </div>
     </article>
 
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
       <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
     </div>
   </div>

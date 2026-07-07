@@ -15,6 +15,7 @@ export default function SoundReactionTest() {
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [copiedChallenge, setCopiedChallenge] = useState(false);
   const [challengeScore, setChallengeScore] = useState<number | null>(null);
+  const [audioError, setAudioError] = useState<boolean>(false);
 
   const startTime = useRef<number>(0);
   const timerId = useRef<any>(null);
@@ -72,37 +73,58 @@ export default function SoundReactionTest() {
   };
 
   const initAudio = () => {
-    if (typeof window === 'undefined') return;
-    if (!audioCtx.current) {
-      audioCtx.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-    }
-    if (audioCtx.current.state === 'suspended') {
-      audioCtx.current.resume();
+    if (typeof window === 'undefined') return false;
+    try {
+      if (!audioCtx.current) {
+        audioCtx.current = new (window.AudioContext || (window as any).webkitAudioContext)();
+      }
+      if (audioCtx.current.state === 'suspended') {
+        audioCtx.current.resume();
+      }
+      setAudioError(false);
+      return true;
+    } catch (err) {
+      console.error('Failed to initialize AudioContext:', err);
+      setAudioError(true);
+      return false;
     }
   };
 
   const playBeep = () => {
-    if (!audioCtx.current) return;
-    const ctx = audioCtx.current;
-    
-    const osc = ctx.createOscillator();
-    const gainNode = ctx.createGain();
-    
-    osc.type = 'sine';
-    osc.frequency.setValueAtTime(750, ctx.currentTime); // Crisp 750Hz sine tone
-    
-    gainNode.gain.setValueAtTime(0.08, ctx.currentTime); // Safe visual loudness
-    gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
-    
-    osc.connect(gainNode);
-    gainNode.connect(ctx.destination);
-    
-    osc.start();
-    osc.stop(ctx.currentTime + 0.25);
+    if (!audioCtx.current) {
+      setAudioError(true);
+      return;
+    }
+    try {
+      const ctx = audioCtx.current;
+      
+      const osc = ctx.createOscillator();
+      const gainNode = ctx.createGain();
+      
+      osc.type = 'sine';
+      osc.frequency.setValueAtTime(750, ctx.currentTime); // Crisp 750Hz sine tone
+      
+      gainNode.gain.setValueAtTime(0.08, ctx.currentTime); // Safe visual loudness
+      gainNode.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
+      
+      osc.connect(gainNode);
+      gainNode.connect(ctx.destination);
+      
+      osc.start();
+      osc.stop(ctx.currentTime + 0.25);
+      setAudioError(false);
+    } catch (err) {
+      console.error('Failed to play beep:', err);
+      setAudioError(true);
+    }
   };
 
   const startTest = () => {
-    initAudio();
+    const audioInitialized = initAudio();
+    if (!audioInitialized) {
+      // Continue anyway but show warning
+      console.warn('Audio initialization failed - test will continue with visual feedback only');
+    }
     setAttempts([]);
     setCurrentScore(null);
     setShareImage(null);
@@ -215,7 +237,7 @@ export default function SoundReactionTest() {
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <span className="text-foreground">Active Challenge: Beat your friend's sound response of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-zinc-500 hover:text-foreground font-mono uppercase">Dismiss</button>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">Dismiss</button>
         </div>
       )}
 
@@ -230,7 +252,7 @@ export default function SoundReactionTest() {
             ? 'bg-subtle border-accent/60 shadow-2xl'
             : gameState === 'abort'
             ? 'bg-rose-950/30 border-rose-900/50 text-rose-200'
-            : 'bg-card hover:border-zinc-400 dark:hover:border-zinc-800'
+            : 'bg-card hover:border-muted'
         }`}
       >
         {gameState === 'idle' && (
@@ -240,7 +262,7 @@ export default function SoundReactionTest() {
             </div>
             <div>
               <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Sound Reaction Test</h2>
-              <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-sm mb-4">
+              <p className="text-muted text-xs leading-relaxed max-w-sm mb-4">
                 Click inside the card to begin. Wait for the audio beep, and react the exact instant you hear the tone.
               </p>
             </div>
@@ -252,18 +274,23 @@ export default function SoundReactionTest() {
 
         {gameState === 'waiting' && (
           <div className="flex flex-col items-center gap-6">
-            <span className="text-zinc-500 text-xs font-mono uppercase">Attempt {attempts.length + 1} of 5</span>
+            <span className="text-muted text-xs font-mono uppercase">Attempt {attempts.length + 1} of 5</span>
             {/* Flat Waveform (Waiting) */}
-            <svg viewBox="0 0 100 20" className="w-48 h-8 stroke-zinc-800" strokeWidth="2" fill="none">
+            <svg viewBox="0 0 100 20" className="w-48 h-8 stroke-[var(--border-primary)]" strokeWidth="2" fill="none">
               <line x1="0" y1="10" x2="100" y2="10" />
             </svg>
             <h2 className="text-lg text-foreground font-medium">Listen closely...</h2>
+            {audioError && (
+              <p className="text-warning text-xs font-mono text-center max-w-xs">
+                ⚠️ Audio unavailable. Using visual feedback only.
+              </p>
+            )}
           </div>
         )}
 
         {gameState === 'ready' && (
           <div className="flex flex-col items-center gap-6">
-            <span className="text-zinc-400 text-xs font-mono uppercase">Attempt {attempts.length + 1} of 5</span>
+            <span className="text-secondary text-xs font-mono uppercase">Attempt {attempts.length + 1} of 5</span>
             {/* Active pulsing Soundwave (Beeping) */}
             <svg viewBox="0 0 100 20" className="w-48 h-8 stroke-accent fill-none animate-pulse" strokeWidth="2" strokeLinecap="round">
               <path d="M 0,10 Q 12.5,0 25,10 T 50,10 T 75,10 T 100,10 M 12.5,10 Q 25,20 37.5,10 T 62.5,10 T 87.5,10" />
@@ -276,9 +303,9 @@ export default function SoundReactionTest() {
 
         {gameState === 'attempt-result' && (
           <div className="flex flex-col items-center gap-4">
-            <span className="text-zinc-500 text-xs font-mono uppercase">Attempt {attempts.length} Finished</span>
+            <span className="text-muted text-xs font-mono uppercase">Attempt {attempts.length} Finished</span>
             <div className="text-4xl font-mono font-bold text-foreground">{currentScore} ms</div>
-            <p className="text-zinc-500 dark:text-zinc-400 text-xs mb-4">
+            <p className="text-muted text-xs mb-4">
               Click anywhere to proceed to attempt {attempts.length + 1} of 5.
             </p>
           </div>
@@ -286,19 +313,19 @@ export default function SoundReactionTest() {
 
         {gameState === 'abort' && (
           <div className="flex flex-col items-center gap-4">
-            <span className="text-rose-500 text-2xl">⚠️</span>
+            <span className="text-error text-2xl">⚠️</span>
             <h2 className="text-lg font-bold text-foreground">Too Early!</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-xs">
+            <p className="text-muted text-xs">
               You clicked before the audio tone beeped. Attempts reset.
             </p>
-            <span className="text-xs uppercase font-mono text-zinc-500 mt-2">Click to restart</span>
+            <span className="text-xs uppercase font-mono text-muted mt-2">Click to restart</span>
           </div>
         )}
 
         {gameState === 'result' && (
           <div className="flex flex-col items-center gap-6">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-zinc-500 text-xs font-mono uppercase">Average Auditory Response</span>
+              <span className="text-muted text-xs font-mono uppercase">Average Auditory Response</span>
               <div className="text-4xl font-mono font-bold text-foreground">
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
               </div>
@@ -310,20 +337,20 @@ export default function SoundReactionTest() {
             {/* Telemetry rows */}
             <div className="grid grid-cols-3 gap-8 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-4">
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Personal Best</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
                 <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
               </div>
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Calibrated Hz</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Calibrated Hz</span>
                 <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
               </div>
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Avg Tone Latency</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Avg Tone Latency</span>
                 <div className="text-foreground font-mono text-sm">~1.2 ms</div>
               </div>
             </div>
 
-            <span className="text-xs uppercase font-mono text-zinc-600 mt-2">Click anywhere outside buttons to restart</span>
+            <span className="text-xs uppercase font-mono text-muted mt-2">Click anywhere outside buttons to restart</span>
           </div>
         )}
       </div>
@@ -335,7 +362,7 @@ export default function SoundReactionTest() {
             <a
               href={shareImage}
               download="cogniarena-sound-reflex.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Reflex Card</span>

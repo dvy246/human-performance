@@ -86,9 +86,9 @@ export default function PlanningTest() {
           <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">🧩</div>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-foreground tracking-tight">Planning Test</h2>
-            <p className="text-zinc-400 text-sm max-w-sm mx-auto mt-2">Tower of Hanoi — move all {DISKS} disks from left peg to right peg. You can only place a disk on a larger disk. Minimum moves: {Math.pow(2, DISKS) - 1}.</p>
+            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Tower of Hanoi — move all {DISKS} disks from left peg to right peg. You can only place a disk on a larger disk. Minimum moves: {Math.pow(2, DISKS) - 1}.</p>
           </div>
-          <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+          <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
         </div>
       </div>
     );
@@ -99,9 +99,9 @@ export default function PlanningTest() {
     return (
       <div className="w-full max-w-2xl mx-auto">
         <div className="rounded-xl border border-card-border bg-card p-6">
-          <div className="text-[10px] text-zinc-500 font-mono mb-3 flex items-center justify-between">
+          <div className="text-[10px] text-muted font-mono mb-3 flex items-center justify-between">
             <span>Moves: {moves} / Optimal: {optimal}</span>
-            <span className={won ? 'text-emerald-400' : ''}>{won ? 'Solved!' : 'Select a peg, then click destination'}</span>
+            <span className={won ? 'text-success' : ''}>{won ? 'Solved!' : 'Select a peg, then click destination'}</span>
           </div>
           <div className="flex gap-4 items-end justify-center h-48">
             {rods.map((rod, peg) => (
@@ -110,15 +110,15 @@ export default function PlanningTest() {
                   selected === peg
                     ? 'border-accent bg-accent/10'
                     : rod.length > 0 || selected !== null
-                      ? 'border-card-border bg-subtle hover:border-zinc-500'
+                      ? 'border-card-border bg-subtle hover:border-muted'
                       : 'border-card-border bg-subtle'
                 }`}
               >
-                <div className="absolute bottom-0 w-1 h-full bg-zinc-700 rounded-full" />
+                <div className="absolute bottom-0 w-1 h-full bg-subtle rounded-full" />
                 {rod.map((disk) => {
                   const widths = [80, 64, 48, 32, 20];
                   return (
-                    <div key={disk} className="relative z-10 h-5 rounded border border-zinc-500/40"
+                    <div key={disk} className="relative z-10 h-5 rounded border border-muted/40"
                       style={{ width: widths[DISKS - disk], backgroundColor: `hsl(${disk * 40 + 180}, 50%, 40%)` }}
                     />
                   );
@@ -135,11 +135,11 @@ export default function PlanningTest() {
   return (
     <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
       <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
-        <div className="text-4xl text-emerald-400">✓</div>
+        <div className="text-4xl text-success">✓</div>
         <div className="text-4xl font-bold font-mono text-foreground">{moves}</div>
-        <div className="text-xs text-zinc-500 font-mono">moves (optimal: {optimal})</div>
+        <div className="text-xs text-muted font-mono">moves (optimal: {optimal})</div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-planning.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-planning.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>

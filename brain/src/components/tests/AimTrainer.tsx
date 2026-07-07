@@ -263,14 +263,14 @@ export default function AimTrainer() {
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <span className="text-foreground">Active Challenge: Beat your friend's average aim speed of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-zinc-500 hover:text-foreground font-mono uppercase">Dismiss</button>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">Dismiss</button>
         </div>
       )}
 
       {/* Screen Canvas Area */}
       {gameState === 'playing' ? (
         <div className="flex flex-col gap-3">
-          <div className="flex justify-between items-center text-xs font-mono text-zinc-500">
+          <div className="flex justify-between items-center text-xs font-mono text-muted">
             <span>Targets: <strong className="text-foreground">{currentTargetIndex} / 30</strong></span>
             <span>Accuracy: <strong className="text-accent">{clicks > 0 ? Math.round((hits / clicks) * 100) : 100}%</strong></span>
           </div>
@@ -286,7 +286,7 @@ export default function AimTrainer() {
         /* Result Dashboard */
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
           <div className="flex flex-col items-center gap-1">
-            <span className="text-zinc-500 text-xs font-mono uppercase">Average Target Acquisition Latency</span>
+            <span className="text-muted text-xs font-mono uppercase">Average Target Acquisition Latency</span>
             <div className="text-5xl font-mono font-bold text-foreground">
               {Math.round(latencies.reduce((a, b) => a + b, 0) / 30)} ms
             </div>
@@ -298,22 +298,22 @@ export default function AimTrainer() {
           {/* Stats grid */}
           <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-2">
             <div>
-              <span className="text-zinc-500 text-[10px] font-mono uppercase">Accuracy Rate</span>
+              <span className="text-muted text-[10px] font-mono uppercase">Accuracy Rate</span>
               <div className="text-foreground font-mono text-sm">{clicks > 0 ? Math.round((30 / clicks) * 100) : 0}%</div>
             </div>
             <div>
-              <span className="text-zinc-500 text-[10px] font-mono uppercase">Avg Pinpoint Error</span>
+              <span className="text-muted text-[10px] font-mono uppercase">Avg Pinpoint Error</span>
               <div className="text-foreground font-mono text-sm">{(offsets.reduce((a, b) => a + b, 0) / 30).toFixed(1)} px</div>
             </div>
             <div>
-              <span className="text-zinc-500 text-[10px] font-mono uppercase">Personal Best</span>
+              <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
               <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
             </div>
           </div>
 
           <button
             onClick={startTest}
-            className="mt-2 text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400 hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
+            className="mt-2 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
           >
             Restart Assessment
           </button>
@@ -325,7 +325,7 @@ export default function AimTrainer() {
             <span className="text-3xl">🎯</span>
             <div>
               <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Aim Precision Trainer</h2>
-              <p className="text-zinc-400 text-xs leading-relaxed max-w-sm">
+              <p className="text-secondary text-xs leading-relaxed max-w-sm">
                 Click 30 random glowing targets as fast and accurately as possible. We measure raw response speed, accuracy, and pixel offset precision.
               </p>
             </div>
@@ -346,7 +346,7 @@ export default function AimTrainer() {
             <a
               href={shareImage}
               download="cogniarena-aim-score.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Aim Profile</span>

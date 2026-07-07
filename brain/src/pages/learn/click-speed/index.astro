@@ -33,7 +33,7 @@ const schemaJson = {
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
         Click Speed (CPS) Science & Dynamics
       </h1>
-      <p class="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed">
         Investigating clicks-per-second, finger flexing muscular fatigue curves, and hardware input polling rates.
       </p>
     </header>
@@ -41,14 +41,14 @@ const schemaJson = {
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">1. Muscle Activation Jitter and Clicking Techniques</h2>
-        <p class="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-muted dark:text-muted text-sm leading-relaxed">
           High-frequency clicking (above 9 CPS) requires activating either muscular tension oscillation (jitter clicking) or tactile rebound slide movements (drag clicking). During jitter clicking, antagonists and agonist forearm muscles are co-contracted, producing micro-tremors that click the switch.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">2. Polling Rates and Mechanical Switch Latency</h2>
-        <p class="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-muted dark:text-muted text-sm leading-relaxed">
           The physical button on a mouse contains metallic leaf springs that vibrate when pressed (bounce). Mechanical switches introduce a debounce delay (typically 2ms to 8ms) to prevent double clicks. Mouse USB polling rates determine how frequently the operating system checks for click packets, with 1000Hz (1ms) being the baseline benchmark.
         </p>
       </article>
@@ -58,11 +58,11 @@ const schemaJson = {
         <div class="flex flex-col gap-4 text-sm">
           <div>
             <h4 class="text-foreground font-bold mb-1">What is a good CPS score?</h4>
-            <p class="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">An average user records a click speed between 6.0 and 7.2 CPS. Competitive gamers utilizing muscular jittering frequently surpass 12 CPS.</p>
+            <p class="text-muted dark:text-muted">An average user records a click speed between 6.0 and 7.2 CPS. Competitive gamers utilizing muscular jittering frequently surpass 12 CPS.</p>
           </div>
           <div>
             <h4 class="text-foreground font-bold mb-1">Are optical switches faster than mechanical ones?</h4>
-            <p class="text-zinc-500 dark:text-zinc-500 dark:text-zinc-400">Yes. Optical mouse switches use a light beam interruption to register clicks, eliminating physical contact debounce delays entirely and reducing latency to sub-0.5ms ranges.</p>
+            <p class="text-muted dark:text-muted">Yes. Optical mouse switches use a light beam interruption to register clicks, eliminating physical contact debounce delays entirely and reducing latency to sub-0.5ms ranges.</p>
           </div>
         </div>
       </article>

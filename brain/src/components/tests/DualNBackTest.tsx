@@ -15,11 +15,17 @@ const TOTAL_TRIALS = 20;
 
 export default function DualNBackTest() {
   const [gameState, setGameState] = useState<GameState>('idle');
-  const [n, setN] = useState<number>(2); // Default N=2
+  const [n, setN] = useState<number>(2);
+  const [maxN, setMaxN] = useState<number>(2);
   const [trialList, setTrialList] = useState<Stimulus[]>([]);
   const [currentIdx, setCurrentIdx] = useState(-1);
   const [activePosition, setActivePosition] = useState<number | null>(null);
   const [activeLetter, setActiveLetter] = useState<string | null>(null);
+
+  // Staircasing state
+  const consecutiveCorrect = useRef<number>(0);
+  const currentNRef = useRef<number>(2);
+  const maxNRef = useRef<number>(2);
 
   // User input responses
   const [posMatches, setPosMatches] = useState<boolean[]>([]);
@@ -94,7 +100,12 @@ export default function DualNBackTest() {
   };
 
   const startTest = () => {
-    const sequence = generateSequence(n);
+    currentNRef.current = 2;
+    maxNRef.current = 2;
+    consecutiveCorrect.current = 0;
+    setN(2);
+    setMaxN(2);
+    const sequence = generateSequence(2);
     setTrialList(sequence);
     setCurrentIdx(-1);
     setActivePosition(null);
@@ -161,12 +172,11 @@ export default function DualNBackTest() {
   }, [gameState, currentIdx, n]);
 
   const evaluateTrialResponse = (idx: number, list: Stimulus[]) => {
-    if (idx < n) return; // First N trials cannot have matches
+    if (idx < currentNRef.current) return; // First N trials cannot have matches
 
-    const targetPosMatch = list[idx].position === list[idx - n].position;
-    const targetLetterMatch = list[idx].letter === list[idx - n].letter;
+    const targetPosMatch = list[idx].position === list[idx - currentNRef.current].position;
+    const targetLetterMatch = list[idx].letter === list[idx - currentNRef.current].letter;
 
-    // Compare user action with target state
     const posCorrect = userMatchPos.current === targetPosMatch;
     const letterCorrect = userMatchLetter.current === targetLetterMatch;
 
@@ -174,6 +184,26 @@ export default function DualNBackTest() {
     letterMatchesRef.current = [...letterMatchesRef.current, letterCorrect];
     setPosMatches(posMatchesRef.current);
     setLetterMatches(letterMatchesRef.current);
+
+    // 3-up-1-down staircasing
+    if (posCorrect && letterCorrect) {
+      consecutiveCorrect.current += 1;
+      if (consecutiveCorrect.current >= 3 && currentNRef.current < 7) {
+        // Level up!
+        currentNRef.current += 1;
+        maxNRef.current = Math.max(maxNRef.current, currentNRef.current);
+        consecutiveCorrect.current = 0;
+        setN(currentNRef.current);
+        setMaxN(maxNRef.current);
+      }
+    } else {
+      // Any error resets the streak and drops level
+      consecutiveCorrect.current = 0;
+      if (currentNRef.current > 1) {
+        currentNRef.current -= 1;
+        setN(currentNRef.current);
+      }
+    }
   };
 
   const evaluateResult = async (list: Stimulus[]) => {
@@ -192,8 +222,9 @@ export default function DualNBackTest() {
 
     setAccuracy(finalAccuracy);
 
-    // Calculate final composite score
-    const finalScore = Math.round((n * 1000) + (finalAccuracy * 50));
+    // Calculate final composite score using max N achieved
+    const achievedN = maxNRef.current;
+    const finalScore = Math.round((achievedN * 1000) + (finalAccuracy * 50));
     setScore(finalScore);
 
     const percentile = Math.max(1, Math.min(99, Math.round((finalScore / 10000) * 100)));
@@ -205,7 +236,8 @@ export default function DualNBackTest() {
         rawScore: finalScore,
         percentile,
         metadata: {
-          nLevel: n,
+          nLevel: achievedN,
+          maxN: achievedN,
           accuracy: finalAccuracy,
           posCorrect: posCorrectCount,
           letterCorrect: letterCorrectCount
@@ -219,7 +251,7 @@ export default function DualNBackTest() {
       setPersonalBest(pb);
     }).catch(console.error);
 
-    const card = await generateShareCard('Dual N-Back Test', `N=${n} (${finalAccuracy}%)`, percentile).catch(() => '');
+    const card = await generateShareCard('Dual N-Back Test', `Max N=${achievedN} (${finalAccuracy}%)`, percentile).catch(() => '');
     setShareImage(card);
   };
 
@@ -246,7 +278,7 @@ export default function DualNBackTest() {
           </div>
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">Dual N-Back Memory</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
+            <p className="text-muted text-sm mt-3 leading-relaxed">
               The gold standard for visual-auditory working memory training.
               Compare the **current grid position** and **spoken letter** to those shown **N steps back**.
             </p>
@@ -254,7 +286,7 @@ export default function DualNBackTest() {
 
           {/* N Level Selector */}
           <div className="flex flex-col gap-2 items-center">
-            <span className="text-xs text-zinc-500 font-mono">CHOOSE DIFFICULTY LEVEL (N):</span>
+            <span className="text-xs text-muted font-mono">CHOOSE DIFFICULTY LEVEL (N):</span>
             <div className="flex gap-2">
               {[1, 2, 3, 4].map(val => (
                 <button
@@ -274,12 +306,12 @@ export default function DualNBackTest() {
 
           <button
             onClick={startTest}
-            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-black font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
+            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
           >
             Start Assessment
           </button>
           {personalBest && (
-            <span className="text-[10px] text-zinc-500 font-mono uppercase">
+            <span className="text-[10px] text-muted font-mono uppercase">
               Personal Best: {personalBest} Pts
             </span>
           )}
@@ -289,7 +321,7 @@ export default function DualNBackTest() {
       {gameState === 'running' && (
         <div className="rounded-xl border border-card-border bg-card p-6 flex flex-col items-center justify-between min-h-[440px] shadow-lg relative overflow-hidden">
           {/* Header Status */}
-          <div className="w-full flex justify-between items-center text-xs font-mono text-zinc-500 mb-6">
+          <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6">
             <span>TRIAL {currentIdx + 1} / 20</span>
             <span>LEVEL: DUAL {n}-BACK</span>
           </div>
@@ -314,9 +346,9 @@ export default function DualNBackTest() {
           {/* Audio Indicator Backup (Visual Assist) */}
           <div className="h-6 flex items-center justify-center mb-6">
             {activeLetter ? (
-              <span className="text-zinc-500 font-mono text-xs">Audio backup: [ {activeLetter} ]</span>
+              <span className="text-muted font-mono text-xs">Audio backup: [ {activeLetter} ]</span>
             ) : (
-              <span className="text-zinc-500 font-mono text-xs opacity-0">Wait</span>
+              <span className="text-muted font-mono text-xs opacity-0">Wait</span>
             )}
           </div>
 
@@ -327,14 +359,14 @@ export default function DualNBackTest() {
               className="h-12 rounded border border-card-border hover:bg-subtle text-foreground text-sm font-semibold tracking-wide transition-standard active:scale-97 flex flex-col items-center justify-center"
             >
               <span>Match Position</span>
-              <span className="text-[9px] text-zinc-500 font-mono mt-0.5">Key [A] or [←]</span>
+              <span className="text-[9px] text-muted font-mono mt-0.5">Key [A] or [←]</span>
             </button>
             <button
               onClick={handleMatchLetter}
               className="h-12 rounded border border-card-border hover:bg-subtle text-foreground text-sm font-semibold tracking-wide transition-standard active:scale-97 flex flex-col items-center justify-center"
             >
               <span>Match Audio</span>
-              <span className="text-[9px] text-zinc-500 font-mono mt-0.5">Key [L] or [→]</span>
+              <span className="text-[9px] text-muted font-mono mt-0.5">Key [L] or [→]</span>
             </button>
           </div>
         </div>
@@ -342,48 +374,48 @@ export default function DualNBackTest() {
 
       {gameState === 'result' && (
         <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6 shadow-lg text-center">
-          <div className="w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-500 text-xl font-bold">
+          <div className="w-12 h-12 rounded-full bg-[var(--success-bg)] border border-[var(--success-border)] flex items-center justify-center text-success text-xl font-bold">
             ✓
           </div>
           <div>
-            <span className="text-zinc-500 text-xs font-mono uppercase tracking-widest">
-              Dual {n}-Back Result
+            <span className="text-muted text-xs font-mono uppercase tracking-widest">
+              Dual N-Back Result
             </span>
             <h2 className="text-4xl font-extrabold tracking-tight text-foreground mt-1">
               {score} Pts
             </h2>
             <span className="text-accent text-xs font-mono uppercase mt-1 block">
-              Top {100 - accuracy}% memory performance
+              Max Level: N={maxN} · Top {100 - accuracy}% memory performance
             </span>
           </div>
 
           {/* Stats Breakdown */}
           <div className="grid grid-cols-2 gap-4 w-full max-w-sm border-t border-b border-card-border/50 py-4 my-2 text-left">
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Accuracy</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Accuracy</span>
               <span className="text-sm font-bold text-foreground">{accuracy}%</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Position Correct</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Position Correct</span>
               <span className="text-sm font-bold text-foreground">
                 {posMatches.filter(Boolean).length} / {TOTAL_TRIALS - n}
               </span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Audio Correct</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Audio Correct</span>
               <span className="text-sm font-bold text-foreground">
                 {letterMatches.filter(Boolean).length} / {TOTAL_TRIALS - n}
               </span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">N-Back Level</span>
-              <span className="text-sm font-bold text-foreground">{n}</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Max N-Level</span>
+              <span className="text-sm font-bold text-foreground">{maxN}</span>
             </div>
           </div>
 
           <button
             onClick={startTest}
-            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-black font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
+            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
           >
             Train Again
           </button>

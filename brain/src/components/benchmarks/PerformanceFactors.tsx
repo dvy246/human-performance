@@ -13,7 +13,7 @@ export default function PerformanceFactors({ factors }: Props) {
             <span className="text-base mt-0.5 shrink-0">{f.icon}</span>
             <div className="flex flex-col gap-1 min-w-0">
               <span className="text-xs font-semibold text-foreground">{f.title}</span>
-              <span className="text-[11px] text-zinc-500 leading-relaxed">{f.body}</span>
+              <span className="text-[11px] text-muted leading-relaxed">{f.body}</span>
             </div>
           </div>
         ))}

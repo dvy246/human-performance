@@ -32,7 +32,7 @@ const schemaJson = {
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
         Cognitive Performance Benchmarks
       </h1>
-      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-3xl">
+      <p class="text-muted text-sm md:text-base leading-relaxed max-w-3xl">
         Population distribution charts, age group comparisons, and professional benchmarks across
         7 cognitive domains. Select a category to see how you stack up against the general population and elite performers.
       </p>
@@ -47,14 +47,14 @@ const schemaJson = {
           <span class="text-2xl mt-0.5 shrink-0">{cat.icon}</span>
           <div class="flex flex-col gap-1 min-w-0 flex-1">
             <span class="text-sm font-semibold text-foreground group-hover:text-accent transition-colors truncate">{cat.title}</span>
-            <span class="text-xs text-zinc-500 leading-relaxed line-clamp-2">{cat.description}</span>
+            <span class="text-xs text-muted leading-relaxed line-clamp-2">{cat.description}</span>
             <div class="flex flex-wrap gap-1 mt-1">
               {cat.testIds.map(id => (
-                <span class="text-[9px] font-mono text-zinc-500 bg-card px-1.5 py-0.5 rounded-full">{id.replace(/-/g, ' ')}</span>
+                <span class="text-[9px] font-mono text-muted bg-card px-1.5 py-0.5 rounded-full">{id.replace(/-/g, ' ')}</span>
               ))}
             </div>
           </div>
-          <svg class="w-4 h-4 text-zinc-500 group-hover:text-accent shrink-0 self-center transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+          <svg class="w-4 h-4 text-muted group-hover:text-accent shrink-0 self-center transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
             <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
           </svg>
         </a>

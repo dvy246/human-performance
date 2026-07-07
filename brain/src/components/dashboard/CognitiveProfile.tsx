@@ -419,13 +419,13 @@ export default function CognitiveProfile() {
           <div className="w-12 h-12 rounded-full bg-accent/5 border border-accent/15 flex items-center justify-center text-xl">🔒</div>
           <div>
             <h2 className="text-xl font-bold text-foreground tracking-tight mb-2">Cognitive Profile Locked</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed max-w-sm">
+            <p className="text-muted text-sm leading-relaxed max-w-sm">
               Complete at least one assessment test to unlock your Cognitive Profile, Daily Streaks, and Skill Radar metrics.
             </p>
           </div>
           <a
             href="/tests/reaction-time"
-            className="px-6 h-10 rounded bg-accent hover:bg-accent-hover text-black font-semibold text-xs font-mono uppercase flex items-center active:scale-98 transition-standard shadow"
+            className="px-6 h-10 rounded bg-accent hover:bg-accent-hover text-white font-semibold text-xs font-mono uppercase flex items-center active:scale-98 transition-standard shadow"
           >
             Launch First Assessment
           </a>
@@ -436,55 +436,55 @@ export default function CognitiveProfile() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
             
             <div className="rounded-xl border border-card-border bg-card p-5 flex flex-col justify-between shadow relative overflow-hidden">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">CogniArena Index (CAI)</span>
+              <span className="text-[10px] font-mono text-muted uppercase tracking-widest">CogniArena Index (CAI)</span>
               <div className="flex items-baseline gap-2 mt-2">
                 <span className="text-3xl font-bold font-mono text-foreground">{bbiScore !== null && bbiScore !== undefined ? bbiScore : '--'}</span>
-                <span className="text-xs text-zinc-500 font-mono">/ 1000</span>
+                <span className="text-xs text-muted font-mono">/ 1000</span>
               </div>
               <div className="w-full bg-subtle h-1.5 rounded-full mt-3 overflow-hidden border border-card-border/60">
                 <div className="bg-accent h-full rounded-full transition-all duration-500" style={{ width: `${(bbiScore || 0) / 10}%` }}></div>
               </div>
-              <span className="text-[9px] text-zinc-500 font-mono uppercase mt-2">Aggregated percentile indicator</span>
+              <span className="text-[9px] text-muted font-mono uppercase mt-2">Aggregated percentile indicator</span>
             </div>
 
             <div className="rounded-xl border border-card-border bg-card p-5 flex flex-col justify-between shadow">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Active Streak</span>
+              <span className="text-[10px] font-mono text-muted uppercase tracking-widest">Active Streak</span>
               <div className="flex items-baseline gap-1 mt-2">
                 <span className="text-3xl font-bold font-mono text-foreground">{streak}</span>
-                <span className="text-xs text-zinc-500 font-mono">Days</span>
+                <span className="text-xs text-muted font-mono">Days</span>
               </div>
-              <div className="text-[10px] text-zinc-500 dark:text-zinc-400 mt-3 flex items-center gap-1.5">
-                <span className="text-amber-500 animate-pulse">🔥</span>
+              <div className="text-[10px] text-muted mt-3 flex items-center gap-1.5">
+                <span className="text-warning animate-pulse">🔥</span>
                 <span>Complete 1 test daily to maintain</span>
               </div>
             </div>
 
             <div className="rounded-xl border border-card-border bg-card p-5 flex flex-col justify-between shadow">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Completed Runs</span>
+              <span className="text-[10px] font-mono text-muted uppercase tracking-widest">Completed Runs</span>
               <div className="flex items-baseline mt-2">
                 <span className="text-3xl font-bold font-mono text-accent">{history.length}</span>
               </div>
               <button 
                 onClick={exportHistoryToCSV}
-                className="text-[10px] text-zinc-500 dark:text-zinc-400 hover:text-accent font-mono mt-3 flex items-center gap-1 cursor-pointer transition-colors active:scale-95 bg-transparent border-0 outline-none"
+                className="text-[10px] text-muted hover:text-accent font-mono mt-3 flex items-center gap-1 cursor-pointer transition-colors active:scale-95 bg-transparent border-0 outline-none"
               >
                 <span>📥 Export Profile ledger (CSV)</span>
               </button>
             </div>
 
             <div className="rounded-xl border border-card-border bg-card p-5 flex flex-col justify-between shadow">
-              <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Cognitive Persona</span>
+              <span className="text-[10px] font-mono text-muted uppercase tracking-widest">Cognitive Persona</span>
               <div className="mt-2 flex flex-col gap-0.5">
                 <span className="text-lg font-bold text-foreground leading-snug">{persona?.title || 'Adaptive Learner'}</span>
-                <span className="text-[10px] text-zinc-500 dark:text-zinc-400 italic">{persona?.desc || 'Balanced Cognitive Profile'}</span>
+                <span className="text-[10px] text-muted italic">{persona?.desc || 'Balanced Cognitive Profile'}</span>
               </div>
-              <span className="text-[9px] text-zinc-500 font-mono uppercase mt-3">Derived from strongest scores</span>
+              <span className="text-[9px] text-muted font-mono uppercase mt-3">Derived from strongest scores</span>
             </div>
 
           </div>
 
           {/* Visible scientific/medical disclaimer alert in same viewport */}
-          <div className="bg-subtle border border-card-border p-4 rounded-xl text-xs text-zinc-500 dark:text-zinc-400 flex items-start gap-3 leading-relaxed shadow-sm">
+          <div className="bg-subtle border border-card-border p-4 rounded-xl text-xs text-muted flex items-start gap-3 leading-relaxed shadow-sm">
             <span className="text-lg leading-none select-none">⚠️</span>
             <div>
               <strong className="text-foreground font-semibold">Disclaimer & Scope Note:</strong>{' '}
@@ -503,7 +503,7 @@ export default function CognitiveProfile() {
             <button
               onClick={() => setActiveTab('profile')}
               className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none ${
-                activeTab === 'profile' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
+                activeTab === 'profile' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
               }`}
             >
               Cognitive Profile
@@ -511,7 +511,7 @@ export default function CognitiveProfile() {
             <button
               onClick={() => setActiveTab('history')}
               className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none ${
-                activeTab === 'history' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
+                activeTab === 'history' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
               }`}
             >
               Historical Ledger
@@ -519,7 +519,7 @@ export default function CognitiveProfile() {
             <button
               onClick={() => setActiveTab('achievements')}
               className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none ${
-                activeTab === 'achievements' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
+                activeTab === 'achievements' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
               }`}
             >
               Achievements ({getUnlockedAchievementsCount()}/{ACHIEVEMENTS_LIST.length})
@@ -527,7 +527,7 @@ export default function CognitiveProfile() {
             <button
               onClick={() => setActiveTab('diagnostics')}
               className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none ${
-                activeTab === 'diagnostics' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-200'
+                activeTab === 'diagnostics' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
               }`}
             >
               Environment Diagnostics
@@ -538,7 +538,7 @@ export default function CognitiveProfile() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
               
               <div className="lg:col-span-5 rounded-xl border border-card-border bg-card p-6 flex flex-col items-center shadow-lg relative overflow-hidden">
-                <span className="absolute top-4 left-4 text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+                <span className="absolute top-4 left-4 text-[10px] font-mono text-muted uppercase tracking-widest">
                   Skill radar
                 </span>
 
@@ -558,8 +558,8 @@ export default function CognitiveProfile() {
                     {averages && (
                       <polygon
                         points={getPointsStr()}
-                        fill="rgba(217, 119, 6, 0.15)"
-                        stroke="#d97706"
+                        fill="var(--chart-accent-light)"
+                        stroke="var(--chart-accent)"
                         strokeWidth="2"
                       />
                     )}
@@ -585,7 +585,7 @@ export default function CognitiveProfile() {
                       { label: 'Cognitive Stamina', score: averages.stamina }
                     ].map((item, idx) => (
                       <div key={idx} className="flex flex-col gap-1 text-[11px]">
-                        <div className="flex justify-between font-mono text-zinc-500 dark:text-zinc-400">
+                        <div className="flex justify-between font-mono text-muted">
                           <span>{item.label}</span>
                           <span className="text-foreground font-bold">{item.score}%ile</span>
                         </div>
@@ -598,7 +598,7 @@ export default function CognitiveProfile() {
                 )}
 
                 {persona && (
-                  <p className="text-[11px] text-zinc-500 dark:text-zinc-400 text-center leading-relaxed mt-4 pt-4 border-t border-card-border/60">
+                  <p className="text-[11px] text-muted text-center leading-relaxed mt-4 pt-4 border-t border-card-border/60">
                     <strong>Persona Detail:</strong> {persona.explanation}
                   </p>
                 )}
@@ -609,23 +609,23 @@ export default function CognitiveProfile() {
                 {dailyChallenge && (
                   <div className={`rounded-xl border p-5 flex flex-col md:flex-row justify-between items-start md:items-center gap-4 shadow ${
                     challengeCompleted 
-                      ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-600 dark:text-emerald-400' 
+                      ? 'bg-[var(--success-bg)] border-[var(--success-border)] text-success' 
                       : 'bg-card border-card-border'
                   }`}>
                     <div className="flex flex-col gap-1">
                       <div className="flex items-center gap-2">
-                        <span className="text-xs font-mono uppercase tracking-widest text-zinc-500">Daily Challenge</span>
+                        <span className="text-xs font-mono uppercase tracking-widest text-muted">Daily Challenge</span>
                         {challengeCompleted && (
-                          <span className="text-[10px] font-mono bg-emerald-500/10 border border-emerald-500/20 text-emerald-600 dark:text-emerald-400 px-1.5 py-0.5 rounded">✓ COMPLETED</span>
+                          <span className="text-[10px] font-mono bg-[var(--success-bg)] border border-[var(--success-border)] text-success px-1.5 py-0.5 rounded">✓ COMPLETED</span>
                         )}
                       </div>
                       <h4 className="text-sm font-bold text-foreground">{dailyChallenge.name} Challenge</h4>
-                      <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-normal">{dailyChallenge.desc}</p>
+                      <p className="text-muted text-xs leading-normal">{dailyChallenge.desc}</p>
                     </div>
                     {!challengeCompleted && (
                       <a
                         href={`/tests/${dailyChallenge.testId}`}
-                        className="px-4 py-2 rounded bg-accent hover:bg-accent-hover text-black font-semibold text-xs font-mono uppercase shrink-0 transition-standard"
+                        className="px-4 py-2 rounded bg-accent hover:bg-accent-hover text-white font-semibold text-xs font-mono uppercase shrink-0 transition-standard"
                       >
                         Play Challenge
                       </a>
@@ -634,11 +634,11 @@ export default function CognitiveProfile() {
                 )}
 
                 <div className="rounded-xl border border-card-border bg-card p-5 flex flex-col gap-3 shadow">
-                  <span className="text-xs font-mono uppercase tracking-widest text-zinc-500">Adaptive Recommendations</span>
+                  <span className="text-xs font-mono uppercase tracking-widest text-muted">Adaptive Recommendations</span>
                   <div className="flex flex-col gap-3">
                     {getRecommendations().map((rec, i) => (
                       <div key={i} className="flex justify-between items-center text-xs py-2 border-b border-card-border/40 last:border-0">
-                        <span className="text-zinc-500 dark:text-zinc-300">{rec.text}</span>
+                        <span className="text-muted dark:text-muted">{rec.text}</span>
                         <a 
                           href={rec.link}
                           className="text-accent hover:underline font-mono uppercase text-[10px] shrink-0 ml-3"
@@ -652,16 +652,16 @@ export default function CognitiveProfile() {
 
                 <div className="rounded-xl border border-card-border bg-card p-5 flex flex-col gap-4 shadow">
                   <div className="flex flex-col gap-1">
-                    <span className="text-xs font-mono uppercase tracking-widest text-zinc-500">US Demographic Benchmark</span>
+                    <span className="text-xs font-mono uppercase tracking-widest text-muted">US Demographic Benchmark</span>
                     <h4 className="text-sm font-bold text-foreground">National Cognitive Comparison Engine</h4>
-                    <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-normal">
+                    <p className="text-muted text-xs leading-normal">
                       Compare your composite CAI scores against US Census demographics, professional benchmarks, and state-level cognitive norms.
                     </p>
                   </div>
 
                   <div className="grid grid-cols-3 gap-2.5">
                     <div className="flex flex-col gap-1">
-                      <label className="text-[9px] font-mono text-zinc-500 uppercase">Age Bracket</label>
+                      <label className="text-[9px] font-mono text-muted uppercase">Age Bracket</label>
                       <select
                         value={demographicAge}
                         onChange={(e) => setDemographicAge(e.target.value)}
@@ -677,7 +677,7 @@ export default function CognitiveProfile() {
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <label className="text-[9px] font-mono text-zinc-500 uppercase">Profession</label>
+                      <label className="text-[9px] font-mono text-muted uppercase">Profession</label>
                       <select
                         value={demographicProfession}
                         onChange={(e) => setDemographicProfession(e.target.value)}
@@ -693,7 +693,7 @@ export default function CognitiveProfile() {
                     </div>
 
                     <div className="flex flex-col gap-1">
-                      <label className="text-[9px] font-mono text-zinc-500 uppercase">US State</label>
+                      <label className="text-[9px] font-mono text-muted uppercase">US State</label>
                       <select
                         value={demographicState}
                         onChange={(e) => setDemographicState(e.target.value)}
@@ -713,13 +713,13 @@ export default function CognitiveProfile() {
                   {getDemographicComparison() && (
                     <div className="p-3.5 bg-accent/5 border border-accent/20 rounded-lg flex flex-col gap-2 mt-1">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-mono text-zinc-500 dark:text-zinc-400">Demographic Rank:</span>
+                        <span className="text-xs font-mono text-muted">Demographic Rank:</span>
                         <span className="text-sm font-bold text-accent">Top {getDemographicComparison()?.percentile}%</span>
                       </div>
                       <p className="text-[11px] leading-relaxed text-foreground font-mono">
                         {getDemographicComparison()?.text}
                       </p>
-                      <div className="text-[10px] text-zinc-500 flex items-center justify-between border-t border-card-border/50 pt-2 mt-1">
+                      <div className="text-[10px] text-muted flex items-center justify-between border-t border-card-border/50 pt-2 mt-1">
                         <span>Database: <strong>US-COGNITIVE-2026</strong></span>
                         <span className="text-accent">Calibrated</span>
                       </div>
@@ -729,7 +729,7 @@ export default function CognitiveProfile() {
 
                 <div className="rounded-xl border border-card-border bg-card p-5 flex flex-col gap-4 shadow">
                   <div className="flex justify-between items-center flex-wrap gap-2">
-                    <span className="text-xs font-mono uppercase tracking-widest text-zinc-500">Performance Timeline</span>
+                    <span className="text-xs font-mono uppercase tracking-widest text-muted">Performance Timeline</span>
                     <select
                       value={graphTestId}
                       onChange={(e) => setGraphTestId(e.target.value)}
@@ -751,7 +751,7 @@ export default function CognitiveProfile() {
                         <path
                           d={`M ${trendPoints.map(p => `${p.x} ${p.y}`).join(' L ')}`}
                           fill="none"
-                          stroke="#d97706"
+                          stroke="var(--chart-accent)"
                           strokeWidth="2"
                         />
 
@@ -761,21 +761,21 @@ export default function CognitiveProfile() {
                               cx={pt.x}
                               cy={pt.y}
                               r="3.5"
-                              fill="#09090b"
-                              stroke="#d97706"
+                              fill="var(--bg-card)"
+                              stroke="var(--chart-accent)"
                               strokeWidth="1.5"
                             />
                             <title>{`${pt.val} (${pt.date})`}</title>
                           </g>
                         ))}
                       </svg>
-                      <div className="flex justify-between items-center text-[10px] text-zinc-500 font-mono mt-2 px-3">
+                      <div className="flex justify-between items-center text-[10px] text-muted font-mono mt-2 px-3">
                         <span>First recorded</span>
                         <span>Latest attempt</span>
                       </div>
                     </div>
                   ) : (
-                    <div className="w-full h-28 flex items-center justify-center border border-dashed border-card-border/60 rounded text-[11px] text-zinc-500 font-mono">
+                    <div className="w-full h-28 flex items-center justify-center border border-dashed border-card-border/60 rounded text-[11px] text-muted font-mono">
                       Need at least 2 attempts of this test to draw trendline.
                     </div>
                   )}
@@ -807,7 +807,7 @@ export default function CognitiveProfile() {
                 <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
                   <div>
                     <h3 className="text-sm font-bold text-foreground uppercase font-mono tracking-wider">Assessment Ledger</h3>
-                    <p className="text-zinc-400 text-xs mt-0.5">Filter and analyze your historical performance trendlines.</p>
+                    <p className="text-secondary text-xs mt-0.5">Filter and analyze your historical performance trendlines.</p>
                   </div>
                   
                   {/* Period Filter Buttons */}
@@ -818,8 +818,8 @@ export default function CognitiveProfile() {
                         onClick={() => setHistoryPeriod(period)}
                         className={`px-3 py-1 text-[10px] font-mono uppercase tracking-wider rounded cursor-pointer transition-colors ${
                           historyPeriod === period 
-                            ? 'bg-accent text-black font-semibold shadow' 
-                            : 'text-zinc-500 hover:text-foreground dark:text-zinc-400 dark:hover:text-zinc-200'
+                            ? 'bg-accent text-white font-semibold shadow' 
+                            : 'text-muted hover:text-foreground dark:text-secondary dark:hover:text-foreground'
                         }`}
                       >
                         {period === 'all' ? 'Lifetime' : period}
@@ -831,11 +831,11 @@ export default function CognitiveProfile() {
                 {/* Period Summary Stats Cards */}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="p-4 rounded-lg border border-card-border/60 bg-subtle flex flex-col">
-                    <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mb-1">Period Attempts</span>
+                    <span className="text-[9px] font-mono text-muted uppercase tracking-widest mb-1">Period Attempts</span>
                     <span className="text-xl font-bold font-mono text-foreground">{filteredHistory.length}</span>
                   </div>
                   <div className="p-4 rounded-lg border border-card-border/60 bg-subtle flex flex-col">
-                    <span className="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mb-1">Avg Percentile</span>
+                    <span className="text-[9px] font-mono text-muted uppercase tracking-widest mb-1">Avg Percentile</span>
                     <span className="text-xl font-bold font-mono text-accent">
                       {avgPercentile !== null ? `Top ${100 - avgPercentile}%` : '--'}
                     </span>
@@ -845,7 +845,7 @@ export default function CognitiveProfile() {
                 <div className="w-full overflow-x-auto">
                   <table className="w-full text-left text-xs border-collapse">
                     <thead>
-                      <tr className="border-b border-card-border text-zinc-500 font-mono">
+                      <tr className="border-b border-card-border text-muted font-mono">
                         <th className="py-2.5 font-medium">Test Dimension</th>
                         <th className="py-2.5 font-medium">Recorded Score</th>
                         <th className="py-2.5 font-medium text-right">Percentile</th>
@@ -854,10 +854,10 @@ export default function CognitiveProfile() {
                     </thead>
                     <tbody className="divide-y divide-card-border/40 font-mono">
                       {filteredHistory.map((row) => (
-                        <tr key={row.id} className="hover:bg-subtle/50 text-foreground dark:text-zinc-300">
+                        <tr key={row.id} className="hover:bg-subtle/50 text-foreground dark:text-muted">
                           <td className="py-3 font-sans text-foreground font-medium flex flex-col">
                             <span>{TEST_NAMES[row.testId] || row.testId}</span>
-                          <span className="text-[10px] font-mono text-zinc-500">
+                          <span className="text-[10px] font-mono text-muted">
                             {new Date(row.timestamp).toLocaleDateString(undefined, {
                               month: 'short',
                               day: 'numeric',
@@ -874,9 +874,9 @@ export default function CognitiveProfile() {
                         </td>
                         <td className="py-3 text-right pr-2">
                           {row.synced ? (
-                            <span className="text-emerald-400" title="Edge Backup Active">✓</span>
+                            <span className="text-success" title="Edge Backup Active">✓</span>
                           ) : (
-                            <span className="text-zinc-500" title="Local Cache Only">◷</span>
+                            <span className="text-muted" title="Local Cache Only">◷</span>
                           )}
                         </td>
                       </tr>
@@ -892,7 +892,7 @@ export default function CognitiveProfile() {
             <div className="rounded-xl border border-card-border bg-card p-6 shadow-lg flex flex-col gap-6">
               <div>
                 <h3 className="text-sm font-bold text-foreground uppercase font-mono tracking-wider">Achievements Trophy Room</h3>
-                <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-1">Unlock professional badges by hitting cognitive milestones.</p>
+                <p className="text-muted text-xs mt-1">Unlock professional badges by hitting cognitive milestones.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -911,8 +911,8 @@ export default function CognitiveProfile() {
                         {ach.badge}
                       </div>
                       <div className="flex flex-col gap-0.5">
-                        <span className={`text-sm font-bold ${unlocked ? 'text-foreground font-semibold' : 'text-zinc-500 dark:text-zinc-400'}`}>{ach.title}</span>
-                        <span className="text-[11px] text-zinc-500 dark:text-zinc-400">{ach.desc}</span>
+                        <span className={`text-sm font-bold ${unlocked ? 'text-foreground font-semibold' : 'text-muted'}`}>{ach.title}</span>
+                        <span className="text-[11px] text-muted">{ach.desc}</span>
                       </div>
                     </div>
                   );
@@ -925,30 +925,30 @@ export default function CognitiveProfile() {
             <div className="rounded-xl border border-card-border bg-card p-6 shadow-lg flex flex-col gap-6">
               <div>
                 <h3 className="text-sm font-bold text-foreground uppercase font-mono tracking-wider">Hardware & Browser Diagnostics</h3>
-                <p className="text-zinc-500 dark:text-zinc-400 text-xs mt-1">Telemetry parameters measuring measurement fidelity.</p>
+                <p className="text-muted text-xs mt-1">Telemetry parameters measuring measurement fidelity.</p>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 font-mono text-xs">
                 
                 <div className="flex flex-col gap-4 border-r border-card-border/40 pr-6">
                   <div className="flex justify-between border-b border-card-border/30 pb-2">
-                    <span className="text-zinc-500">Monitor Refresh Rate</span>
+                    <span className="text-muted">Monitor Refresh Rate</span>
                     <span className="text-foreground font-bold">{diagnostics?.hz ? `${diagnostics.hz}Hz` : 'Detecting...'}</span>
                   </div>
                   <div className="flex justify-between border-b border-card-border/30 pb-2">
-                    <span className="text-zinc-500">Device Platform</span>
+                    <span className="text-muted">Device Platform</span>
                     <span className="text-foreground font-bold">{diagnostics?.deviceType || 'Detecting...'}</span>
                   </div>
                   <div className="flex justify-between border-b border-card-border/30 pb-2">
-                    <span className="text-zinc-500">Input Mode Interface</span>
+                    <span className="text-muted">Input Mode Interface</span>
                     <span className="text-foreground font-bold">{diagnostics?.inputMethod || 'Detecting...'}</span>
                   </div>
                   <div className="flex justify-between border-b border-card-border/30 pb-2">
-                    <span className="text-zinc-500">Browser Agent</span>
+                    <span className="text-muted">Browser Agent</span>
                     <span className="text-foreground font-bold">{diagnostics?.browser || 'Detecting...'}</span>
                   </div>
                   <div className="flex justify-between border-b border-card-border/30 pb-2">
-                    <span className="text-zinc-500">Operating System</span>
+                    <span className="text-muted">Operating System</span>
                     <span className="text-foreground font-bold">{diagnostics?.os || 'Detecting...'}</span>
                   </div>
                 </div>
@@ -956,17 +956,17 @@ export default function CognitiveProfile() {
                 <div className="flex flex-col gap-3 justify-center">
                   <h4 className="text-xs font-bold text-foreground uppercase tracking-wider mb-1">Calibration Alert Ledger</h4>
                   {diagnostics?.hz && diagnostics.hz < 60 && (
-                    <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded text-zinc-700 dark:text-zinc-350 leading-normal text-[11px]">
+                    <div className="p-3 bg-warning-bg border border-warning-border rounded text-secondary leading-normal text-[11px]">
                       ⚠️ <strong>Refresh Rate Alert:</strong> Under 60Hz screen refresh detected. Browser paint sync lag may introduce an artificial +16.7ms delay to visually clocked assessments.
                     </div>
                   )}
                   {diagnostics?.inputMethod === 'Touch' && (
-                    <div className="p-3 bg-amber-500/10 border border-amber-500/30 rounded text-zinc-700 dark:text-zinc-350 leading-normal text-[11px]">
+                    <div className="p-3 bg-warning-bg border border-warning-border rounded text-secondary leading-normal text-[11px]">
                       ⚠️ <strong>Touch Latency Warning:</strong> Touch digitizers add between 20ms and 50ms of physical processing delay. For optimal scores, execute reaction tests with a physical mouse or keyboard.
                     </div>
                   )}
                   {diagnostics?.hz && diagnostics.hz >= 60 && diagnostics.inputMethod !== 'Touch' && (
-                    <div className="p-3 bg-emerald-500/10 border border-emerald-500/30 rounded text-zinc-700 dark:text-zinc-350 leading-normal text-[11px]">
+                    <div className="p-3 bg-success-bg border border-success-border rounded text-secondary leading-normal text-[11px]">
                       ✓ <strong>Telemetry Calibrated:</strong> Hardware refresh and mouse input methods are optimal. Visual and mechanical click delays are minimized.
                     </div>
                   )}

@@ -540,7 +540,7 @@ export default function TypingSpeedTest() {
       const allCorrect = result && result.every(Boolean);
       return (
         <span key={wordIdx} data-word-idx={wordIdx} className="tts-word tts-word-past"
-          style={{ color: allCorrect ? '#7a6a3a' : '#6a3030', opacity: allCorrect ? 0.8 : 0.6, textDecoration: allCorrect ? 'none' : 'line-through' }}>
+          style={{ color: allCorrect ? 'var(--tts-past-correct)' : 'var(--tts-past-incorrect)', opacity: allCorrect ? 0.8 : 0.6, textDecoration: allCorrect ? 'none' : 'line-through' }}>
           {word.split('').map((ch, ci) => (
             <span key={ci} data-char-idx={ci} className="tts-char">{ch}</span>
           ))}
@@ -557,27 +557,27 @@ export default function TypingSpeedTest() {
               const correct = typed[ci] === char;
               return (
                 <span key={ci} data-char-idx={ci} className="tts-char"
-                  style={{ color: correct ? '#d6993a' : '#c44040', background: correct ? 'transparent' : 'rgba(196,64,64,0.12)', borderRadius: '2px' }}>
+                  style={{ color: correct ? 'var(--tts-correct)' : 'var(--tts-incorrect)', background: correct ? 'transparent' : 'var(--tts-incorrect-bg)', borderRadius: '2px' }}>
                   {char}
                 </span>
               );
             }
             if (ci === typed.length) {
               return (
-                <span key={ci} data-char-idx={ci} className="tts-char tts-char-active" style={{ color: '#5a5245' }}>
+                <span key={ci} data-char-idx={ci} className="tts-char tts-char-active" style={{ color: 'var(--tts-faint)' }}>
                   {char}
                 </span>
               );
             }
             return (
-              <span key={ci} data-char-idx={ci} className="tts-char" style={{ color: '#3a3530' }}>
+              <span key={ci} data-char-idx={ci} className="tts-char" style={{ color: 'var(--tts-dim)' }}>
                 {char}
               </span>
             );
           })}
           {extra.map((ch, ei) => (
             <span key={`e${ei}`} data-char-idx={word.length + ei} className="tts-char"
-              style={{ color: '#c44040', background: 'rgba(196,64,64,0.12)', borderRadius: '2px' }}>
+              style={{ color: 'var(--tts-incorrect)', background: 'var(--tts-incorrect-bg)', borderRadius: '2px' }}>
               {ch}
             </span>
           ))}
@@ -585,7 +585,7 @@ export default function TypingSpeedTest() {
       );
     }
     return (
-      <span key={wordIdx} data-word-idx={wordIdx} className="tts-word tts-word-future" style={{ color: '#3a3530' }}>
+      <span key={wordIdx} data-word-idx={wordIdx} className="tts-word tts-word-future" style={{ color: 'var(--tts-dim)' }}>
         {word.split('').map((ch, ci) => (
           <span key={ci} data-char-idx={ci} className="tts-char">{ch}</span>
         ))}
@@ -606,15 +606,15 @@ export default function TypingSpeedTest() {
           <div className="flex flex-col items-center gap-2">
             <span className="tts-label">Words Per Minute</span>
             <div className="flex items-baseline gap-2">
-              <span className="text-7xl md:text-8xl font-extrabold tracking-tight" style={{ color: '#e6dfd0', lineHeight: 1 }}>{rs.wpm}</span>
-              <span className="text-2xl font-normal" style={{ color: '#7a7368' }}>wpm</span>
+              <span className="text-7xl md:text-8xl font-extrabold tracking-tight" style={{ color: 'var(--tts-text)', lineHeight: 1 }}>{rs.wpm}</span>
+              <span className="text-2xl font-normal" style={{ color: 'var(--tts-muted)' }}>wpm</span>
             </div>
-            <span className="text-xs font-mono uppercase tracking-wider" style={{ color: '#d6993a' }}>
+            <span className="text-xs font-mono uppercase tracking-wider" style={{ color: 'var(--tts-accent)' }}>
               Top {Math.round(100 - finalPercentile)}% of typists
             </span>
           </div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 w-full max-w-lg text-center" style={{ borderTop: '1px solid #1a1a1a', paddingTop: '1.5rem' }}>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-x-8 gap-y-4 w-full max-w-lg text-center" style={{ borderTop: '1px solid var(--tts-border)', paddingTop: '1.5rem' }}>
             {[
               { label: 'Accuracy', value: `${rs.acc}%` },
               { label: 'Raw WPM', value: String(rs.rawWpm) },
@@ -627,39 +627,39 @@ export default function TypingSpeedTest() {
             ].map(s => (
               <div key={s.label}>
                 <span className="tts-label">{s.label}</span>
-                <div className="text-xl font-bold font-mono mt-0.5" style={{ color: '#e6dfd0' }}>{s.value}</div>
+                <div className="text-xl font-bold font-mono mt-0.5" style={{ color: 'var(--tts-text)' }}>{s.value}</div>
               </div>
             ))}
           </div>
 
-          <div className="flex items-center gap-4 text-xs" style={{ color: '#7a7368', fontFamily: "'JetBrains Mono', monospace" }}>
-            <span>Personal Best: <strong style={{ color: isPb ? '#d6993a' : '#e6dfd0' }}>{hasPb ? `${personalBest} WPM` : '--'}</strong></span>
-            {isPb && <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider" style={{ background: 'rgba(214,153,58,0.2)', color: '#d6993a' }}>New PB!</span>}
+          <div className="flex items-center gap-4 text-xs" style={{ color: 'var(--tts-muted)', fontFamily: "'JetBrains Mono', monospace" }}>
+            <span>Personal Best: <strong style={{ color: isPb ? 'var(--tts-accent)' : 'var(--tts-text)' }}>{hasPb ? `${personalBest} WPM` : '--'}</strong></span>
+            {isPb && <span className="px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider" style={{ background: 'var(--tts-accent-bg)', color: 'var(--tts-accent)' }}>New PB!</span>}
           </div>
 
           {/* WPM + Accuracy Chart */}
           {rs.wpmSamples.length > 1 && (
             <div className="w-full max-w-md">
               <span className="tts-label block mb-2">Performance Timeline</span>
-              <div style={{ background: '#0c0c0c', border: '1px solid #1a1a1a', borderRadius: '8px', padding: '0.75rem' }}>
+              <div style={{ background: 'var(--tts-bg)', border: '1px solid var(--tts-border)', borderRadius: '8px', padding: '0.75rem' }}>
                 <svg width="100%" height="80" viewBox="0 0 300 80" preserveAspectRatio="none">
-                  <line x1="0" y1="40" x2="300" y2="40" stroke="#1a1a1a" strokeDasharray="2,2" />
+                  <line x1="0" y1="40" x2="300" y2="40" stroke="var(--tts-border)" strokeDasharray="2,2" />
                   {/* WPM line */}
                   <path d={(() => {
                     const v = rs.wpmSamples.map(s => s.wpm);
                     if (v.length < 2) return '';
                     return v.map((val, i) => `${i === 0 ? 'M' : 'L'} ${(i / (v.length - 1)) * 300} ${80 - (val / maxWpm) * 75}`).join(' ');
-                  })()} strokeWidth="2" stroke="#d6993a" fill="none" strokeLinecap="round" strokeLinejoin="round" />
+                  })()} strokeWidth="2" stroke="var(--tts-accent)" fill="none" strokeLinecap="round" strokeLinejoin="round" />
                   {/* Accuracy line */}
                   <path d={(() => {
                     const v = rs.wpmSamples.map(s => s.acc);
                     if (v.length < 2) return '';
                     return v.map((val, i) => `${i === 0 ? 'M' : 'L'} ${(i / (v.length - 1)) * 300} ${80 - (val / 100) * 75}`).join(' ');
-                  })()} strokeWidth="1.5" stroke="#3b82f6" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
+                  })()} strokeWidth="1.5" stroke="var(--accent)" fill="none" strokeLinecap="round" strokeLinejoin="round" opacity="0.6" />
                 </svg>
-                <div className="flex justify-between text-[9px] font-mono mt-1" style={{ color: '#5a5245' }}>
-                  <span style={{ color: '#d6993a' }}>WPM</span>
-                  <span style={{ color: '#3b82f6' }}>Accuracy</span>
+                <div className="flex justify-between text-[9px] font-mono mt-1" style={{ color: 'var(--tts-faint)' }}>
+                  <span style={{ color: 'var(--tts-accent)' }}>WPM</span>
+                  <span style={{ color: 'var(--accent)' }}>Accuracy</span>
                 </div>
               </div>
             </div>
@@ -678,7 +678,7 @@ export default function TypingSpeedTest() {
                     const intensity = Math.min(1, data.wrong / Math.max(1, data.total) * 3);
                     return (
                       <span key={char} className="inline-flex items-center justify-center w-7 h-7 rounded text-xs font-mono"
-                        style={{ background: `rgba(196,64,64,${0.1 + intensity * 0.4})`, color: '#e6dfd0', border: '1px solid rgba(196,64,64,0.3)' }}>
+                        style={{ background: `rgba(196,64,64,${0.1 + intensity * 0.4})`, color: 'var(--tts-text)', border: '1px solid rgba(196,64,64,0.3)' }}>
                         {char === ' ' ? '␣' : char}
                       </span>
                     );
@@ -710,8 +710,8 @@ export default function TypingSpeedTest() {
               {copiedChallenge ? 'Copied!' : 'Challenge a Friend'}
             </button>
           </div>
-          <div className="text-[10px] font-mono" style={{ color: '#4a4540' }}>
-            Press <kbd style={{ color: '#7a7368', border: '1px solid #1a1a1a', padding: '0 6px', borderRadius: '4px' }}>Tab</kbd> to retry
+          <div className="text-[10px] font-mono" style={{ color: 'var(--tts-faint)' }}>
+            Press <kbd style={{ color: 'var(--tts-muted)', border: '1px solid var(--tts-border)', padding: '0 6px', borderRadius: '4px' }}>Tab</kbd> to retry
           </div>
         </div>
       </div>
@@ -724,17 +724,17 @@ export default function TypingSpeedTest() {
       {gameState === 'idle' ? (
         <div className="flex flex-col items-center gap-8">
           <div className="flex flex-col items-center gap-1">
-            <h2 className="text-xl font-bold tracking-tight" style={{ color: '#e6dfd0' }}>Typing Speed Test</h2>
+            <h2 className="text-xl font-bold tracking-tight" style={{ color: 'var(--tts-text)' }}>Typing Speed Test</h2>
           </div>
           <div className="flex items-center gap-2 font-mono">
-            <button onClick={() => setTestMode('time')} className="tts-opt" style={{ background: testMode === 'time' ? 'rgba(214,153,58,0.15)' : 'transparent', color: testMode === 'time' ? '#d6993a' : '#7a7368', borderColor: testMode === 'time' ? 'rgba(214,153,58,0.3)' : '#1a1a1a' }}>Time</button>
-            <button onClick={() => setTestMode('words')} className="tts-opt" style={{ background: testMode === 'words' ? 'rgba(214,153,58,0.15)' : 'transparent', color: testMode === 'words' ? '#d6993a' : '#7a7368', borderColor: testMode === 'words' ? 'rgba(214,153,58,0.3)' : '#1a1a1a' }}>Words</button>
+            <button onClick={() => setTestMode('time')} className="tts-opt" style={{ background: testMode === 'time' ? 'var(--tts-accent-bg)' : 'transparent', color: testMode === 'time' ? 'var(--tts-accent)' : 'var(--tts-muted)', borderColor: testMode === 'time' ? 'var(--tts-accent-border)' : 'var(--tts-border)' }}>Time</button>
+            <button onClick={() => setTestMode('words')} className="tts-opt" style={{ background: testMode === 'words' ? 'var(--tts-accent-bg)' : 'transparent', color: testMode === 'words' ? 'var(--tts-accent)' : 'var(--tts-muted)', borderColor: testMode === 'words' ? 'var(--tts-accent-border)' : 'var(--tts-border)' }}>Words</button>
           </div>
           <div className="flex items-center gap-2 font-mono">
             {(testMode === 'time' ? [15, 30, 60, 120] : [10, 25, 50, 100]).map(v => (
               <button key={v} onClick={() => testMode === 'time' ? setTimerDuration(v as TimeOption) : setWordCount(v as WordOption)}
                 className="tts-opt"
-                style={{ background: (testMode === 'time' ? timerDuration === v : wordCount === v) ? 'rgba(214,153,58,0.15)' : 'transparent', color: (testMode === 'time' ? timerDuration === v : wordCount === v) ? '#d6993a' : '#7a7368', borderColor: (testMode === 'time' ? timerDuration === v : wordCount === v) ? 'rgba(214,153,58,0.3)' : '#1a1a1a' }}>
+                style={{ background: (testMode === 'time' ? timerDuration === v : wordCount === v) ? 'var(--tts-accent-bg)' : 'transparent', color: (testMode === 'time' ? timerDuration === v : wordCount === v) ? 'var(--tts-accent)' : 'var(--tts-muted)', borderColor: (testMode === 'time' ? timerDuration === v : wordCount === v) ? 'var(--tts-accent-border)' : 'var(--tts-border)' }}>
                 {testMode === 'time' ? `${v}s` : v}
               </button>
             ))}
@@ -744,12 +744,12 @@ export default function TypingSpeedTest() {
             <div className="flex flex-wrap items-center justify-center gap-2">
               {PASSAGE_CATEGORIES.map((cat, idx) => (
                 <button key={cat.id} onClick={() => switchCategory(idx)} className="tts-opt"
-                  style={{ background: categoryIdx === idx ? 'rgba(214,153,58,0.15)' : 'transparent', color: categoryIdx === idx ? '#d6993a' : '#7a7368', borderColor: categoryIdx === idx ? 'rgba(214,153,58,0.3)' : '#1a1a1a' }}>
+                  style={{ background: categoryIdx === idx ? 'var(--tts-accent-bg)' : 'transparent', color: categoryIdx === idx ? 'var(--tts-accent)' : 'var(--tts-muted)', borderColor: categoryIdx === idx ? 'var(--tts-accent-border)' : 'var(--tts-border)' }}>
                   {cat.label}
                 </button>
               ))}
             </div>
-            <span className="text-[10px] font-mono" style={{ color: '#5a5245' }}>
+            <span className="text-[10px] font-mono" style={{ color: 'var(--tts-faint)' }}>
               Passage {passageIdx + 1} of {PASSAGE_CATEGORIES[categoryIdx].passages.length} &mdash; randomizes on each attempt
             </span>
           </div>
@@ -766,8 +766,8 @@ export default function TypingSpeedTest() {
             </svg>
             Start Typing Test
           </button>
-          <p className="text-xs font-mono" style={{ color: '#5a5245' }}>
-            Press any key to begin &middot; <kbd style={{ border: '1px solid #1a1a1a', padding: '0 5px', borderRadius: '3px' }}>Tab</kbd> to restart
+          <p className="text-xs font-mono" style={{ color: 'var(--tts-faint)' }}>
+            Press any key to begin &middot; <kbd style={{ border: '1px solid var(--tts-border)', padding: '0 5px', borderRadius: '3px' }}>Tab</kbd> to restart
           </p>
         </div>
       ) : (
@@ -775,9 +775,9 @@ export default function TypingSpeedTest() {
           {/* Live Stats Bar */}
           <div className="flex items-center justify-center gap-10 md:gap-16">
             {[
-              { label: 'WPM', value: String(displayWpm), color: '#d6993a' },
-              { label: 'ACC', value: `${displayAcc}%`, color: '#e6dfd0' },
-              { label: testMode === 'time' ? 'TIME' : 'WORDS', value: testMode === 'time' ? `${displayTime}s` : `${currentWordIdx}/${wordCount}`, color: testMode === 'time' && displayTime <= 5 ? '#c44040' : '#e6dfd0' },
+              { label: 'WPM', value: String(displayWpm), color: 'var(--tts-accent)' },
+              { label: 'ACC', value: `${displayAcc}%`, color: 'var(--tts-text)' },
+              { label: testMode === 'time' ? 'TIME' : 'WORDS', value: testMode === 'time' ? `${displayTime}s` : `${currentWordIdx}/${wordCount}`, color: testMode === 'time' && displayTime <= 5 ? 'var(--tts-incorrect)' : 'var(--tts-text)' },
             ].map(s => (
               <div key={s.label} className="flex flex-col items-center gap-0.5 font-mono">
                 <span className="tts-label">{s.label}</span>
@@ -787,7 +787,7 @@ export default function TypingSpeedTest() {
           </div>
 
           {capsLockWarning && (
-            <div className="flex items-center justify-center gap-2 text-xs font-mono" style={{ color: '#d6993a' }}>
+            <div className="flex items-center justify-center gap-2 text-xs font-mono" style={{ color: 'var(--tts-accent)' }}>
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></svg>
               Caps Lock is on
             </div>
@@ -807,28 +807,28 @@ export default function TypingSpeedTest() {
             </div>
           </div>
 
-          <div className="flex items-center justify-center gap-4 text-[10px] font-mono" style={{ color: '#4a4540' }}>
+          <div className="flex items-center justify-center gap-4 text-[10px] font-mono" style={{ color: 'var(--tts-faint)' }}>
             <span>Type the words shown above</span>
             <span>&middot;</span>
-            <span><kbd style={{ border: '1px solid #1a1a1a', padding: '0 5px', borderRadius: '3px' }}>Esc</kbd> or <kbd style={{ border: '1px solid #1a1a1a', padding: '0 5px', borderRadius: '3px' }}>Tab</kbd> to restart</span>
+            <span><kbd style={{ border: '1px solid var(--tts-border)', padding: '0 5px', borderRadius: '3px' }}>Esc</kbd> or <kbd style={{ border: '1px solid var(--tts-border)', padding: '0 5px', borderRadius: '3px' }}>Tab</kbd> to restart</span>
           </div>
         </div>
       )}
 
       <style>{`
-        .tts-panel { background: #0c0c0c; border: 1px solid #1a1a1a; border-radius: 12px; }
-        .tts-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: #7a7368; font-family: 'JetBrains Mono', monospace; }
+        .tts-panel { background: var(--tts-bg); border: 1px solid var(--tts-border); border-radius: 12px; }
+        .tts-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em; color: var(--tts-muted); font-family: 'JetBrains Mono', monospace; }
         .tts-opt { padding: 0.375rem 1rem; border-radius: 6px; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; border: 1px solid; transition: all 0.15s ease; cursor: pointer; user-select: none; }
-        .tts-btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; background: #d6993a; color: #0c0c0c; border: none; cursor: pointer; transition: all 0.15s ease; }
+        .tts-btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; background: var(--tts-accent); color: var(--tts-bg); border: none; cursor: pointer; transition: all 0.15s ease; }
         .tts-btn-primary:hover { box-shadow: 0 0 24px rgba(214,153,58,0.25); transform: scale(1.02); }
         .tts-btn-primary:active { transform: scale(0.98); }
-        .tts-btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; background: #1a1a1a; color: #e6dfd0; border: 1px solid #1a1a1a; cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
-        .tts-btn-secondary:hover { border-color: #d6993a; color: #d6993a; }
-        .tts-words-preview { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.9rem, 2.5vw, 1.2rem); color: #7a7368; letter-spacing: 0.03em; display: flex; flex-wrap: wrap; }
+        .tts-btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.65rem 1.5rem; border-radius: 8px; font-size: 0.875rem; font-weight: 600; background: var(--tts-border); color: var(--tts-text); border: 1px solid var(--tts-border); cursor: pointer; transition: all 0.15s ease; text-decoration: none; }
+        .tts-btn-secondary:hover { border-color: var(--tts-accent); color: var(--tts-accent); }
+        .tts-words-preview { font-family: 'JetBrains Mono', monospace; font-size: clamp(0.9rem, 2.5vw, 1.2rem); color: var(--tts-muted); letter-spacing: 0.03em; display: flex; flex-wrap: wrap; }
         .tts-words-inner { font-family: 'JetBrains Mono', monospace; font-size: clamp(1rem, 2.5vw, 1.35rem); line-height: 1.8; letter-spacing: 0.03em; display: flex; flex-wrap: wrap; align-items: flex-start; align-content: flex-start; min-height: 100%; }
         .tts-word { margin-right: 0.35em; white-space: nowrap; contain: layout style; }
         .tts-char { display: inline; transition: color 0.05s ease; }
-        .tts-cursor { position: absolute; width: 2px; background: #d6993a; border-radius: 1px; z-index: 10; pointer-events: none; opacity: 0; transition: left 0.08s ease, top 0.08s ease, opacity 0.1s ease; box-shadow: 0 0 8px rgba(214,153,58,0.5); animation: ttsBlink 1s ease-in-out infinite; }
+        .tts-cursor { position: absolute; width: 2px; background: var(--tts-accent); border-radius: 1px; z-index: 10; pointer-events: none; opacity: 0; transition: left 0.08s ease, top 0.08s ease, opacity 0.1s ease; box-shadow: 0 0 8px rgba(214,153,58,0.5); animation: ttsBlink 1s ease-in-out infinite; }
         @keyframes ttsBlink { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
         .tts-word-current { position: relative; }
         @media (prefers-reduced-motion: reduce) {

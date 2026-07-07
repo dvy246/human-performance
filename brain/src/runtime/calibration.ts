@@ -1,11 +1,12 @@
 export interface CalibrationResult {
   hz: number;
+  measuredHz: number;
   expectedLagMs: number;
 }
 
 export function measureRefreshRate(onComplete: (result: CalibrationResult) => void) {
   if (typeof window === 'undefined' || !window.requestAnimationFrame) {
-    onComplete({ hz: 60, expectedLagMs: 16.7 });
+    onComplete({ hz: 60, measuredHz: 60, expectedLagMs: 16.7 });
     return;
   }
 
@@ -30,19 +31,19 @@ export function measureRefreshRate(onComplete: (result: CalibrationResult) => vo
     } else {
       const avgDuration = frameTimes.reduce((sum, val) => sum + val, 0) / frameTimes.length;
       
-      // Calculate refresh rate (Hz) and round to standard values (e.g. 60, 75, 120, 144, 240, 360)
-      const measuredHz = 1000 / avgDuration;
+      // Calculate refresh rate (Hz)
+      const measuredHz = Number((1000 / avgDuration).toFixed(1));
       let hz = Math.round(measuredHz);
 
-      // Snap to common standard values to make it look professional
+      // Snap to common standard values (tighter 2Hz tolerance for accuracy)
       const standards = [60, 75, 90, 120, 144, 165, 240, 280, 360];
-      const snapped = standards.find(s => Math.abs(s - hz) <= 4);
+      const snapped = standards.find(s => Math.abs(s - hz) <= 2);
       if (snapped) hz = snapped;
 
       // Expected display latency is half of one frame interval
       const expectedLagMs = Number((1000 / hz / 2).toFixed(1));
 
-      onComplete({ hz, expectedLagMs });
+      onComplete({ hz, measuredHz, expectedLagMs });
     }
   }
 

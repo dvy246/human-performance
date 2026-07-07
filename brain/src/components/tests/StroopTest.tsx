@@ -179,19 +179,19 @@ export default function StroopTest() {
           </div>
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">Stroop Attention Test</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
+            <p className="text-muted text-sm mt-3 leading-relaxed">
               Test your brain's selective attention and processing conflict resolution. 
               A word will appear in colored ink. Select the button matching the **ink color** of the word, NOT what the word itself reads.
             </p>
           </div>
           <button
             onClick={startTest}
-            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-black font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
+            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
           >
             Start Assessment
           </button>
           {personalBest && (
-            <span className="text-[10px] text-zinc-500 font-mono uppercase">
+            <span className="text-[10px] text-muted font-mono uppercase">
               Personal Best: {personalBest} ms
             </span>
           )}
@@ -201,7 +201,7 @@ export default function StroopTest() {
       {gameState === 'running' && trials.length > 0 && (
         <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-between min-h-[350px] shadow-lg relative overflow-hidden">
           {/* Header Progress */}
-          <div className="w-full flex justify-between items-center text-xs font-mono text-zinc-500 mb-6">
+          <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6">
             <span>TRIAL {currentTrialIdx + 1} / 20</span>
             <span>CORRECT: {correctCount}</span>
           </div>
@@ -222,9 +222,9 @@ export default function StroopTest() {
 
           {/* Feedback indicators */}
           <div className="h-6 flex items-center justify-center mb-6">
-            {lastFeedback === 'correct' && <span className="text-green-500 font-bold font-mono text-xs">✓ CORRECT</span>}
-            {lastFeedback === 'wrong' && <span className="text-red-500 font-bold font-mono text-xs">✗ INCORRECT</span>}
-            {lastFeedback === 'timeout' && <span className="text-amber-500 font-bold font-mono text-xs">⏰ TIMEOUT</span>}
+            {lastFeedback === 'correct' && <span className="text-success font-bold font-mono text-xs">✓ CORRECT</span>}
+            {lastFeedback === 'wrong' && <span className="text-error font-bold font-mono text-xs">✗ INCORRECT</span>}
+            {lastFeedback === 'timeout' && <span className="text-warning font-bold font-mono text-xs">⏰ TIMEOUT</span>}
           </div>
 
           {/* Multiple choice inputs */}
@@ -244,11 +244,11 @@ export default function StroopTest() {
 
       {gameState === 'result' && (
         <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6 shadow-lg text-center">
-          <div className="w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-500 text-xl font-bold">
+          <div className="w-12 h-12 rounded-full bg-[var(--success-bg)] border border-[var(--success-border)] flex items-center justify-center text-success text-xl font-bold">
             ✓
           </div>
           <div>
-            <span className="text-zinc-500 text-xs font-mono uppercase tracking-widest">Assessment Final Score</span>
+            <span className="text-muted text-xs font-mono uppercase tracking-widest">Assessment Final Score</span>
             <h2 className="text-4xl font-extrabold tracking-tight text-foreground mt-1">
               {getAvg(congruentScores) + getAvg(incongruentScores) + (20 - correctCount) * 150} ms
             </h2>
@@ -260,19 +260,19 @@ export default function StroopTest() {
           {/* Details breakdown grid */}
           <div className="grid grid-cols-2 gap-4 w-full max-w-sm border-t border-b border-card-border/50 py-4 my-2 text-left">
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Accuracy</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Accuracy</span>
               <span className="text-sm font-bold text-foreground">{accuracy}%</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Congruent RT</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Congruent RT</span>
               <span className="text-sm font-bold text-foreground">{getAvg(congruentScores) || '--'} ms</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Incongruent RT</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Incongruent RT</span>
               <span className="text-sm font-bold text-foreground">{getAvg(incongruentScores) || '--'} ms</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Stroop Delay</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Stroop Delay</span>
               <span className="text-sm font-bold text-foreground">
                 {Math.max(0, getAvg(incongruentScores) - getAvg(congruentScores))} ms
               </span>
@@ -281,7 +281,7 @@ export default function StroopTest() {
 
           <button
             onClick={startTest}
-            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-black font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
+            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
           >
             Train Again
           </button>

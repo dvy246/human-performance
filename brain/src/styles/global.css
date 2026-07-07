@@ -2,45 +2,143 @@
 @import "tailwindcss";
 
 :root {
+  /* Background hierarchy */
   --bg-primary: #f8fafc;
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
   --bg-card: #ffffff;
-  --border-primary: #e2e8f0;
   --bg-subtle: #f1f5f9;
   --bg-panel: #e2e8f0;
   --bg-hover: #e9eef3;
   --bg-input: #ffffff;
+
+  /* Text hierarchy */
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+
+  /* Border hierarchy */
+  --border-primary: #e2e8f0;
+  --border-muted: #f1f5f9;
+  --border-hover: #a1a1aa;
+
+  /* Accent (same in both themes for brand consistency) */
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-light: rgba(59, 130, 246, 0.1);
+  --accent-border: rgba(59, 130, 246, 0.2);
+
+  /* Status colors */
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.08);
+  --success-border: rgba(34, 197, 94, 0.2);
+  --warning: #eab308;
+  --warning-bg: rgba(234, 179, 8, 0.08);
+  --warning-border: rgba(234, 179, 8, 0.2);
+  --error: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.08);
+  --error-border: rgba(239, 68, 68, 0.2);
+  --info: #06b6d4;
+
+  /* Shadows */
   --shadow-card: 0 1px 3px rgba(0,0,0,0.06), 0 1px 2px rgba(0,0,0,0.04);
   --shadow-card-hover: 0 4px 12px rgba(0,0,0,0.08), 0 2px 4px rgba(0,0,0,0.04);
+
+  /* Button tokens */
+  --btn-primary-text: #ffffff;
   --btn-secondary-bg: #f1f5f9;
   --btn-secondary-border: #cbd5e1;
   --btn-secondary-text: #1e293b;
   --btn-secondary-hover-bg: #e2e8f0;
   --btn-ghost-text: #64748b;
   --btn-ghost-hover-bg: #f1f5f9;
+
+  /* Scrollbar */
+  --scrollbar-thumb: var(--border-primary);
+  --scrollbar-thumb-hover: #cbd5e1;
+
+  /* Focus */
+  --focus-ring: var(--accent);
+
+  /* Chart accent (amber for data viz) */
+  --chart-accent: #d97706;
+  --chart-accent-light: rgba(217, 119, 6, 0.15);
+
+  /* Typing test — sepia theme (intentionally dark, consistent across modes) */
+  --tts-bg: #0c0c0c;
+  --tts-border: #1a1a1a;
+  --tts-text: #e6dfd0;
+  --tts-muted: #7a7368;
+  --tts-faint: #5a5245;
+  --tts-dim: #3a3530;
+  --tts-accent: #d6993a;
+  --tts-accent-bg: rgba(214, 153, 58, 0.15);
+  --tts-accent-border: rgba(214, 153, 58, 0.3);
+  --tts-correct: #d6993a;
+  --tts-incorrect: #c44040;
+  --tts-incorrect-bg: rgba(196, 64, 64, 0.12);
+  --tts-past-correct: #7a6a3a;
+  --tts-past-incorrect: #6a3030;
 }
 
 :root.dark {
+  /* Background hierarchy */
   --bg-primary: #000000;
-  --text-primary: #fafafa;
-  --text-secondary: #94a3b8;
-  --text-muted: #64748b;
   --bg-card: #080c18;
-  --border-primary: #1a2540;
   --bg-subtle: #0c1428;
   --bg-panel: #060a16;
   --bg-hover: #101c34;
   --bg-input: #0c1428;
+
+  /* Text hierarchy */
+  --text-primary: #fafafa;
+  --text-secondary: #94a3b8;
+  --text-muted: #64748b;
+
+  /* Border hierarchy */
+  --border-primary: #1a2540;
+  --border-muted: #0f1a30;
+  --border-hover: #2a3a5c;
+
+  /* Accent (same in both themes for brand consistency) */
+  --accent: #3b82f6;
+  --accent-hover: #2563eb;
+  --accent-light: rgba(59, 130, 246, 0.08);
+  --accent-border: rgba(59, 130, 246, 0.15);
+
+  /* Status colors */
+  --success: #22c55e;
+  --success-bg: rgba(34, 197, 94, 0.1);
+  --success-border: rgba(34, 197, 94, 0.25);
+  --warning: #eab308;
+  --warning-bg: rgba(234, 179, 8, 0.1);
+  --warning-border: rgba(234, 179, 8, 0.25);
+  --error: #ef4444;
+  --error-bg: rgba(239, 68, 68, 0.1);
+  --error-border: rgba(239, 68, 68, 0.25);
+  --info: #06b6d4;
+
+  /* Shadows */
   --shadow-card: 0 1px 3px rgba(0,0,0,0.4), 0 1px 2px rgba(0,0,0,0.3);
   --shadow-card-hover: 0 8px 25px rgba(59,130,246,0.1), 0 3px 8px rgba(0,0,0,0.4);
+
+  /* Button tokens */
+  --btn-primary-text: #ffffff;
   --btn-secondary-bg: #0c1428;
   --btn-secondary-border: #1a2540;
   --btn-secondary-text: #cbd5e1;
   --btn-secondary-hover-bg: #1a2540;
   --btn-ghost-text: #94a3b8;
   --btn-ghost-hover-bg: rgba(59,130,246,0.08);
+
+  /* Scrollbar */
+  --scrollbar-thumb: var(--border-primary);
+  --scrollbar-thumb-hover: #2a3a5c;
+
+  /* Focus */
+  --focus-ring: var(--accent);
+
+  /* Chart accent (amber for data viz) */
+  --chart-accent: #d97706;
+  --chart-accent-light: rgba(217, 119, 6, 0.15);
 }
 
 @theme {
@@ -53,8 +151,11 @@
   --color-muted: var(--text-muted);
   --color-card: var(--bg-card);
   --color-card-border: var(--border-primary);
-  --color-accent: #3b82f6;
-  --color-accent-hover: #2563eb;
+  --color-accent: var(--accent);
+  --color-accent-hover: var(--accent-hover);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-error: var(--error);
   --color-subtle: var(--bg-subtle);
   --color-panel: var(--bg-panel);
   --color-hover: var(--bg-hover);
@@ -81,7 +182,7 @@
     border-radius: 3px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background: #52525b;
+    background: var(--scrollbar-thumb-hover);
   }
 
   .text-accent {
@@ -89,14 +190,14 @@
   }
 
   :root:not(.dark) .card-interactive:hover {
-    border-color: #a1a1aa !important;
+    border-color: var(--border-hover) !important;
   }
   :root.dark .card-interactive:hover {
-    border-color: #1a2540 !important;
+    border-color: var(--border-hover) !important;
   }
 
   :focus-visible {
-    outline: 2px solid #3b82f6;
+    outline: 2px solid var(--focus-ring);
     outline-offset: 2px;
     border-radius: 2px;
   }
@@ -237,7 +338,7 @@ summary {
 }
 
 .text-gradient-accent {
-  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  background: linear-gradient(135deg, var(--accent), var(--accent-hover));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -250,6 +351,7 @@ summary {
 }
 
 @media (prefers-reduced-motion: reduce) {
+  /* Custom animations */
   .animate-fade-in-up,
   .animate-fade-in,
   .animate-slide-in-left,
@@ -265,5 +367,24 @@ summary {
   .stagger-5, .stagger-6, .stagger-7, .stagger-8 {
     animation: none !important;
     animation-delay: 0s !important;
+  }
+
+  /* Tailwind utility animations — preserve functional ones (spin for loaders) */
+  .animate-pulse,
+  .animate-ping,
+  .animate-bounce,
+  .animate-shake,
+  .animate-in,
+  .animate-out {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  /* Smooth transitions on interactive elements */
+  .transition-standard,
+  .transition-colors,
+  .transition-all,
+  .transition-transform {
+    transition-duration: 0.01ms !important;
   }
 }

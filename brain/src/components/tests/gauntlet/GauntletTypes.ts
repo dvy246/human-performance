@@ -43,8 +43,8 @@ export function getArchetype(results: GauntletStageResult[]): { title: string; d
 }
 
 export function getPerformanceColor(score: number): string {
-  if (score >= 85) return 'text-emerald-400';
+  if (score >= 85) return 'text-success';
   if (score >= 70) return 'text-accent';
-  if (score >= 50) return 'text-amber-400';
-  return 'text-rose-400';
+  if (score >= 50) return 'text-warning';
+  return 'text-error';
 }

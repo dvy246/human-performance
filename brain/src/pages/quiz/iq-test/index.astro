@@ -2,16 +2,16 @@
 import Layout from "@/layouts/main.astro";
 import IQTest from "@/components/quiz/IQTest";
 
-const title = "Free IQ Test — 20 Questions, 4 Domains | CogniArena";
-const description = "Take our free research-backed IQ test. 20 questions across numerical, verbal, spatial, and logical reasoning. Instant browser-scored results with domain breakdown and percentile ranking.";
+const title = "Free Cognitive Reasoning Quiz — 20 Questions, 4 Domains | CogniArena";
+const description = "Take our free research-backed cognitive reasoning quiz. 20 questions across numerical, verbal, spatial, and logical reasoning. Instant browser-scored results with domain breakdown and percentile ranking.";
 const canonicalUrl = "https://cogniarena.com/quiz/iq-test";
 
 const schemaJson = {
   "@context": "https://schema.org",
   "@type": "Quiz",
-  "name": "CogniArena Free IQ Test",
+  "name": "CogniArena Free Cognitive Reasoning Quiz",
   "description": "A 20-question cognitive ability assessment covering numerical, verbal, spatial, and logical reasoning domains, inspired by the ICAR framework.",
-  "about": { "@type": "Thing", "name": "Intelligence Quotient" },
+  "about": { "@type": "Thing", "name": "Cognitive Reasoning" },
   "educationalAlignment": {
     "@type": "AlignmentObject",
     "alignmentType": "educationalRequirement",
@@ -25,16 +25,16 @@ const schemaJson = {
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
         <span>Quizzes</span>
         <span>&middot;</span>
-        <span>IQ Test</span>
+        <span>Cognitive Reasoning Quiz</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Free IQ Test</h1>
-      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Free Cognitive Reasoning Quiz</h1>
+      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
         Assess your cognitive abilities across four domains. 20 questions, no time limit, instant results.
       </p>
     </header>
     <section class="w-full"><IQTest client:visible /></section>
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
-      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This quiz is for self-educational and entertainment purposes only. Not a clinical or diagnostic evaluation. IQ scores are estimates based on a 20-question sample.
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
+      <strong class="text-foreground font-semibold">Entertainment Disclaimer:</strong> This quiz is for entertainment and self-educational purposes only. It is not a clinically validated IQ assessment, nor a clinical or diagnostic evaluation. Scores are estimates based on a 20-question sample and should not be treated as a professionally administered cognitive evaluation. For a comprehensive assessment, consult a licensed psychologist.
     </div>
   </div>
 </Layout>

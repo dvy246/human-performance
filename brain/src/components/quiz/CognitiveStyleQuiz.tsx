@@ -141,7 +141,7 @@ export default function CognitiveStyleQuiz() {
       <div className="flex flex-col items-center gap-6 py-8 text-center max-w-lg mx-auto">
         <span className="text-5xl">💭</span>
         <h2 className="text-2xl font-bold text-foreground tracking-tight">Cognitive Style Quiz</h2>
-        <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed max-w-md">
+        <p className="text-sm text-muted leading-relaxed max-w-md">
           8 quick questions to discover how you naturally process information.
           Are you a visual, verbal, analytical, or holistic thinker?
         </p>
@@ -166,7 +166,7 @@ export default function CognitiveStyleQuiz() {
         </div>
 
         <div className="flex flex-col gap-3 p-5 rounded-xl border border-card-border bg-subtle">
-          <p className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed">{data.desc}</p>
+          <p className="text-sm text-muted leading-relaxed">{data.desc}</p>
           <div className="flex flex-wrap gap-2 mt-1">
             {data.strengths.map(s => (
               <span key={s} className="px-2 py-1 text-xs rounded-md bg-accent/10 text-accent font-medium">{s}</span>
@@ -182,11 +182,11 @@ export default function CognitiveStyleQuiz() {
               const isPrimary = style === primary;
               return (
                 <div key={style} className="flex items-center gap-3">
-                  <span className="w-20 text-xs font-medium text-zinc-500 shrink-0">{styleData[style].icon} {styleData[style].label.split(' ')[0]}</span>
+                  <span className="w-20 text-xs font-medium text-muted shrink-0">{styleData[style].icon} {styleData[style].label.split(' ')[0]}</span>
                   <div className="flex-1 h-3 rounded-full bg-card-border overflow-hidden">
                     <div className={`h-full rounded-full transition-all ${isPrimary ? 'bg-accent' : 'bg-accent/30'}`} style={{ width: `${pct}%` }} />
                   </div>
-                  <span className="text-xs text-zinc-500 font-mono w-8 text-right">{score}/{questions.length}</span>
+                  <span className="text-xs text-muted font-mono w-8 text-right">{score}/{questions.length}</span>
                 </div>
               );
             })}
@@ -194,7 +194,7 @@ export default function CognitiveStyleQuiz() {
         </div>
 
         {secondary && (
-          <div className="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
+          <div className="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed">
             <strong className="text-foreground">Secondary style:</strong> {styleData[secondary].label} &mdash; {styleData[secondary].desc.split('.')[0]}.
           </div>
         )}
@@ -212,7 +212,7 @@ export default function CognitiveStyleQuiz() {
 
   return (
     <div className="flex flex-col gap-6 py-6 max-w-xl mx-auto w-full">
-      <div className="flex items-center justify-between text-xs text-zinc-500">
+      <div className="flex items-center justify-between text-xs text-muted">
         <span className="font-mono">Question {current + 1} / {questions.length}</span>
         <span>Cognitive Style</span>
       </div>
@@ -231,7 +231,7 @@ export default function CognitiveStyleQuiz() {
               onClick={() => handleSelect(choice.style)}
               className="flex items-center gap-3 p-3 rounded-lg border border-card-border text-sm text-left hover:border-accent/30 hover:bg-accent/5 transition-standard cursor-pointer"
             >
-              <span className="w-6 h-6 rounded-full border border-card-border flex items-center justify-center text-xs font-mono text-zinc-500 shrink-0">
+              <span className="w-6 h-6 rounded-full border border-card-border flex items-center justify-center text-xs font-mono text-muted shrink-0">
                 {String.fromCharCode(65 + i)}
               </span>
               <span className="text-foreground">{choice.text}</span>

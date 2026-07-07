@@ -242,7 +242,7 @@ export default function GoNoGoTest() {
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <span className="text-foreground">Active Challenge: Beat your friend's Go/No-Go score of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-zinc-500 hover:text-foreground font-mono uppercase">Dismiss</button>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">Dismiss</button>
         </div>
       )}
 
@@ -261,10 +261,10 @@ export default function GoNoGoTest() {
           <div className="flex flex-col items-center gap-3">
             <span className="text-2xl">🟢</span>
             <h2 className="text-lg font-bold text-foreground tracking-tight">Go/No-Go Color Test</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
-              Click the screen <strong className="text-emerald-400">ONLY when GREEN</strong> appears. 
+            <p className="text-muted text-xs leading-relaxed max-w-sm">
+              Click the screen <strong className="text-success">ONLY when GREEN</strong> appears. 
               If other colors flash (Red, Blue, Purple, Yellow), suppress your click and wait. 
-              False clicks or misses carry a <strong className="text-rose-400">+250ms penalty</strong>!
+              False clicks or misses carry a <strong className="text-error">+250ms penalty</strong>!
             </p>
             <span className="text-xs uppercase font-mono tracking-widest text-accent mt-2">Click card to start</span>
           </div>
@@ -272,15 +272,29 @@ export default function GoNoGoTest() {
 
         {gameState === 'waiting' && (
           <div className="flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded bg-subtle border border-card-border animate-pulse flex items-center justify-center text-zinc-500 dark:text-zinc-600 font-mono text-xs">WAIT</div>
-            <p className="text-zinc-500 font-mono text-xs uppercase mt-3">Rounds: {attempts.length} / 5 &middot; Click ONLY on GREEN</p>
+            <div className="w-16 h-16 rounded bg-subtle border border-card-border animate-pulse flex items-center justify-center text-muted dark:text-muted font-mono text-xs">WAIT</div>
+            <p className="text-muted font-mono text-xs uppercase mt-3">Rounds: {attempts.length} / 5 &middot; Click ONLY on GREEN</p>
           </div>
         )}
 
         {gameState === 'ready' && currentColor && (
           <div className="flex flex-col items-center gap-1.5">
+            {currentColor.isTarget ? (
+              <svg width="80" height="80" viewBox="0 0 80 80" className="mb-2">
+                <circle cx="40" cy="40" r="35" fill="none" stroke="white" strokeWidth="4" />
+                <circle cx="40" cy="40" r="20" fill="white" opacity="0.3" />
+              </svg>
+            ) : (
+              <svg width="80" height="80" viewBox="0 0 80 80" className="mb-2">
+                <line x1="15" y1="15" x2="65" y2="65" stroke="white" strokeWidth="4" />
+                <line x1="65" y1="15" x2="15" y2="65" stroke="white" strokeWidth="4" />
+              </svg>
+            )}
             <span className="text-black font-extrabold text-3xl tracking-wider filter drop-shadow">
               {currentColor.name}
+            </span>
+            <span className="text-black/70 text-xs font-mono uppercase">
+              {currentColor.isTarget ? 'GO — Click now!' : 'NO-GO — Do not click'}
             </span>
           </div>
         )}
@@ -289,37 +303,37 @@ export default function GoNoGoTest() {
           <div className="flex flex-col items-center gap-3">
             {currentScore !== null ? (
               <>
-                <span className="text-zinc-500 text-xs font-mono uppercase">Reaction Latency</span>
+                <span className="text-muted text-xs font-mono uppercase">Reaction Latency</span>
                 <div className="text-4xl font-mono font-bold text-foreground">{currentScore} ms</div>
               </>
             ) : (
               <>
-                <span className="text-rose-500 text-2xl">⚠️</span>
-                <div className="text-2xl font-mono font-bold text-rose-500 uppercase tracking-wide">False Alarm!</div>
-                <p className="text-zinc-400 text-xs max-w-xs leading-relaxed">
+                <span className="text-error text-2xl">⚠️</span>
+                <div className="text-2xl font-mono font-bold text-error uppercase tracking-wide">False Alarm!</div>
+                <p className="text-secondary text-xs max-w-xs leading-relaxed">
                   You clicked on a distractor color. +250ms penalty added to final average.
                 </p>
               </>
             )}
-            <span className="text-xs text-zinc-500 font-mono uppercase mt-4 animate-pulse">Click card to continue</span>
+            <span className="text-xs text-muted font-mono uppercase mt-4 animate-pulse">Click card to continue</span>
           </div>
         )}
 
         {gameState === 'abort' && (
           <div className="flex flex-col items-center gap-3">
-            <span className="text-rose-500 text-2xl">⚠️</span>
+            <span className="text-error text-2xl">⚠️</span>
             <h2 className="text-lg font-bold text-foreground">Early Click!</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-xs">
+            <p className="text-muted text-xs">
               You clicked before a color flashed.
             </p>
-            <span className="text-xs uppercase font-mono text-zinc-500 mt-2">Click card to restart</span>
+            <span className="text-xs uppercase font-mono text-muted mt-2">Click card to restart</span>
           </div>
         )}
 
         {gameState === 'result' && (
           <div className="flex flex-col items-center gap-4">
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-zinc-500 text-xs font-mono uppercase">Inhibitory Reaction Average</span>
+              <span className="text-muted text-xs font-mono uppercase">Inhibitory Reaction Average</span>
               <div className="text-4xl font-mono font-bold text-foreground">
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250)} ms
               </div>
@@ -330,20 +344,20 @@ export default function GoNoGoTest() {
 
             <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-3">
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Personal Best</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
                 <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
               </div>
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Calibration</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Calibration</span>
                 <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
               </div>
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">False Alarms</span>
+                <span className="text-muted text-[10px] font-mono uppercase">False Alarms</span>
                 <div className="text-foreground font-mono text-sm">{falseAlarms}</div>
               </div>
             </div>
 
-            <span className="text-xs uppercase font-mono text-zinc-500 mt-2">Click card to try again</span>
+            <span className="text-xs uppercase font-mono text-muted mt-2">Click card to try again</span>
           </div>
         )}
       </div>
@@ -354,7 +368,7 @@ export default function GoNoGoTest() {
             <a
               href={shareImage}
               download="cogniarena-go-no-go.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Go/No-Go Profile</span>

@@ -19,7 +19,7 @@ export default function AgeBenchmarks({ data, lowerIsBetter }: Props) {
           const barPct = lowerIsBetter ? 100 - pct : pct;
           return (
             <div key={d.group} className="flex items-center gap-3">
-              <span className="text-xs text-zinc-400 w-24 shrink-0 font-mono">{d.group}</span>
+              <span className="text-xs text-secondary w-24 shrink-0 font-mono">{d.group}</span>
               <div className="flex-1 h-5 bg-subtle rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all duration-700"
@@ -31,7 +31,7 @@ export default function AgeBenchmarks({ data, lowerIsBetter }: Props) {
           );
         })}
       </div>
-      <p className="mt-3 text-[10px] text-zinc-500 leading-relaxed">
+      <p className="mt-3 text-[10px] text-muted leading-relaxed">
         Data source: Der & Deary (2006), "Age and sex differences in reaction time in adulthood: Results from the UK Health and Lifestyle Survey."
       </p>
     </div>

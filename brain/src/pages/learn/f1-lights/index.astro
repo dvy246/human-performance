@@ -33,7 +33,7 @@ const schemaJson = {
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
         F1 Lights & Peripheral Vision Science
       </h1>
-      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+      <p class="text-muted text-sm md:text-base leading-relaxed">
         A deep dive into retinal physiology, peripheral detection latency, and the eye movement strategies used in racing light sequences.
       </p>
     </header>
@@ -41,21 +41,21 @@ const schemaJson = {
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">1. Retinal Rod and Cone Distribution</h2>
-        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-muted text-sm leading-relaxed">
           The human retina contains approximately 120 million rod cells and 6 million cone cells with dramatically non-uniform spatial distribution. The fovea is packed exclusively with cone cells optimized for high acuity and color vision, while rod density peaks at roughly 20 degrees of eccentricity, providing superior low-light sensitivity. This anatomical trade-off means peripheral stimuli are detected with lower spatial resolution but higher temporal sensitivity, making rods crucial for detecting the onset of peripheral lights.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">2. Peripheral Stimulus Discrimination</h2>
-        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-muted text-sm leading-relaxed">
           Peripheral vision exhibits decreased acuity due to the convergence of rod cells onto fewer retinal ganglion cells, reducing the sampling resolution sent to the visual cortex. However, peripheral rods have faster response kinetics than foveal cones, allowing quicker detection of luminance changes. The magnocellular pathway, which projects to the parietal cortex, is specialized for peripheral motion and transient detection, processing rapid changes 20ms to 30ms faster than the parvocellular foveal pathway.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">3. Saccadic Eye Movement Dynamics</h2>
-        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-muted text-sm leading-relaxed">
           Saccades are rapid eye movements that redirect the fovea to a new visual target, reaching peak angular velocities of up to 900 degrees per second. A saccade is preceded by a latency of 150ms to 250ms as the superior colliculus and frontal eye fields compute the target vector. During the saccade itself, visual perception is actively suppressed through saccadic masking, meaning information about stimulus changes during the movement is lost. Efficient F1 lights response requires minimizing reliance on saccades by using peripheral detection rather than foveating each light.
         </p>
       </article>
@@ -65,17 +65,17 @@ const schemaJson = {
         <div class="flex flex-col gap-4 text-sm">
           <div>
             <h4 class="text-foreground font-bold mb-1">Why is peripheral vision slower than foveal vision?</h4>
-            <p class="text-zinc-500 dark:text-zinc-400">Peripheral detection is actually faster for luminance changes due to rod cell kinetics, but discrimination of details is slower. The difference is in task demands: detecting a light is faster peripherally, while identifying which light is slower.</p>
+            <p class="text-muted">Peripheral detection is actually faster for luminance changes due to rod cell kinetics, but discrimination of details is slower. The difference is in task demands: detecting a light is faster peripherally, while identifying which light is slower.</p>
           </div>
           <div>
             <h4 class="text-foreground font-bold mb-1">How can I train peripheral awareness for F1 lights?</h4>
-            <p class="text-zinc-500 dark:text-zinc-400">Practice maintaining central fixation while attending to peripheral stimuli, training the magnocellular pathway. Over time, this reduces the need for saccades and improves response speed.</p>
+            <p class="text-muted">Practice maintaining central fixation while attending to peripheral stimuli, training the magnocellular pathway. Over time, this reduces the need for saccades and improves response speed.</p>
           </div>
         </div>
       </article>
     </section>
 
-    <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed text-center border-t border-card-border pt-10">
+    <p class="text-muted text-sm leading-relaxed text-center border-t border-card-border pt-10">
       Challenge your peripheral reaction speed on the <a href="/tests/f1-lights" class="text-accent underline underline-offset-2 hover:brightness-110 transition-all">F1 Lights Test</a>.
     </p>
   </div>

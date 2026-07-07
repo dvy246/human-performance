@@ -151,11 +151,11 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
         <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl">🧘</div>
         <div className="text-center">
           <h3 className="text-lg font-bold text-foreground mb-1">Stage 4: Sustained Attention</h3>
-          <p className="text-zinc-400 text-sm max-w-md">
+          <p className="text-secondary text-sm max-w-md">
             A 90-second vigilance test. Letters flash on screen — press <kbd className="px-1.5 py-0.5 rounded bg-panel text-xs font-mono text-accent border border-card-border">SPACE</kbd> only when you see <strong className="text-accent">{TARGET_LETTER}</strong>. Stay focused the whole time.
           </p>
         </div>
-        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
+        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
           Start 90s Challenge
         </button>
       </div>
@@ -165,8 +165,8 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
   if (phase === 'done') {
     return (
       <div className="flex flex-col items-center gap-4 py-6">
-        <div className="text-4xl text-emerald-400">✓</div>
-        <p className="text-zinc-400 text-sm">Sustained Attention complete!</p>
+        <div className="text-4xl text-success">✓</div>
+        <p className="text-secondary text-sm">Sustained Attention complete!</p>
       </div>
     );
   }
@@ -176,8 +176,8 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
 
   return (
     <div className="flex flex-col items-center gap-6 py-4">
-      <div className="flex items-center gap-5 text-xs text-zinc-500 font-mono">
-        <span className={`${timeRemaining < 10000 ? 'text-rose-400 animate-pulse' : ''}`}>
+      <div className="flex items-center gap-5 text-xs text-muted font-mono">
+        <span className={`${timeRemaining < 10000 ? 'text-error animate-pulse' : ''}`}>
           {minutes}:{String(seconds % 60).padStart(2, '0')}
         </span>
         <span>Hits: {hits}</span>
@@ -190,13 +190,13 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
           <span className="text-7xl font-bold text-foreground tabular-nums animate-in zoom-in-50 duration-100">{currentLetter}</span>
         ) : (
           <div className="flex flex-col items-center gap-1">
-            <span className="text-zinc-700 text-sm font-mono">+</span>
-            <span className="text-[10px] text-zinc-700 font-mono">Wait...</span>
+            <span className="text-secondary text-sm font-mono">+</span>
+            <span className="text-[10px] text-secondary font-mono">Wait...</span>
           </div>
         )}
       </div>
 
-      <div className="text-xs text-zinc-500 font-mono text-center">
+      <div className="text-xs text-muted font-mono text-center">
         Press <kbd className="px-1.5 py-0.5 rounded bg-panel text-accent border border-card-border">SPACE</kbd> on <strong className="text-accent">{TARGET_LETTER}</strong> only
       </div>
 

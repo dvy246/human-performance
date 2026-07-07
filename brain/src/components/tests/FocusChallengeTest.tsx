@@ -219,15 +219,15 @@ export default function FocusChallengeTest() {
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
         {challengeScore && (
           <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
-            <span className="text-zinc-300">Active Challenge: Beat their score of <strong className="text-foreground font-mono">{challengeScore}/100</strong>!</span>
-            <button onClick={() => setChallengeScore(null)} className="text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors uppercase font-mono">Dismiss</button>
+            <span className="text-secondary">Active Challenge: Beat their score of <strong className="text-foreground font-mono">{challengeScore}/100</strong>!</span>
+            <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-secondary transition-colors uppercase font-mono">Dismiss</button>
           </div>
         )}
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
           <div className="w-20 h-20 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center text-4xl">🎯</div>
           <div className="text-center">
             <h2 className="text-3xl font-bold text-foreground tracking-tight mb-2">Focus Challenge</h2>
-            <p className="text-zinc-400 text-sm max-w-md mx-auto">
+            <p className="text-secondary text-sm max-w-md mx-auto">
               A <strong className="text-accent">5-stage attention gauntlet</strong> measuring your ability to focus, resist impulses, switch tasks, sustain attention, and remember under distraction. Takes ~4 minutes.
             </p>
           </div>
@@ -235,15 +235,15 @@ export default function FocusChallengeTest() {
             {STAGE_CONFIGS.map(s => (
               <div key={s.index} className="flex flex-col items-center gap-1.5 p-2 rounded-lg bg-subtle border border-card-border">
                 <span className="text-xl">{s.emoji}</span>
-                <span className="text-[10px] text-zinc-500 font-mono text-center leading-tight">{s.name.split(' ')[0]}</span>
-                <span className="text-[9px] text-zinc-600 font-mono">{s.duration}</span>
+                <span className="text-[10px] text-muted font-mono text-center leading-tight">{s.name.split(' ')[0]}</span>
+                <span className="text-[9px] text-muted font-mono">{s.duration}</span>
               </div>
             ))}
           </div>
-          <div className="bg-rose-950/15 border border-rose-900/30 rounded-lg p-3 text-xs text-zinc-400 max-w-md">
-            <strong className="text-rose-400">⚠️ For educational & entertainment purposes only.</strong> Not a clinical diagnostic tool. Performance can vary based on daily factors like sleep, stress, and caffeine.
+          <div className="bg-[var(--error-bg)] border border-[var(--error-border)] rounded-lg p-3 text-xs text-secondary max-w-md">
+            <strong className="text-error">⚠️ For educational & entertainment purposes only.</strong> Not a clinical diagnostic tool. Performance can vary based on daily factors like sleep, stress, and caffeine.
           </div>
-          <button onClick={() => { setPhase('playing'); setCurrentStage(0); setStageResults([]); setPersonalBest(null); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold text-sm transition-standard active:scale-95 cursor-pointer">
+          <button onClick={() => { setPhase('playing'); setCurrentStage(0); setStageResults([]); setPersonalBest(null); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">
             Begin Focus Challenge (~4 min)
           </button>
         </div>
@@ -255,7 +255,7 @@ export default function FocusChallengeTest() {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-5">
-          <div className="flex items-center gap-2 text-xs text-zinc-500 font-mono">
+          <div className="flex items-center gap-2 text-xs text-muted font-mono">
             <span>Stage {prevStageScore.stageIndex + 1} Complete</span>
             <span>•</span>
             <span>{stageResults.length} / {STAGE_CONFIGS.length}</span>
@@ -269,19 +269,19 @@ export default function FocusChallengeTest() {
           <div className="grid grid-cols-2 gap-4 w-full max-w-xs text-center text-xs">
             {Object.entries(prevStageScore.metrics).map(([key, val]) => (
               <div key={key}>
-                <div className="text-zinc-500 font-mono uppercase">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
+                <div className="text-muted font-mono uppercase">{key.replace(/([A-Z])/g, ' $1').trim()}</div>
                 <div className="text-foreground font-mono font-medium">{val}</div>
               </div>
             ))}
           </div>
           <div className="w-full h-px bg-card-border" />
           <div className="text-center">
-            <div className="text-xs text-zinc-500 font-mono mb-1">Up Next</div>
+            <div className="text-xs text-muted font-mono mb-1">Up Next</div>
             <div className="text-xl">{nextConfig.emoji}</div>
             <h4 className="text-base font-bold text-foreground">{nextConfig.name}</h4>
-            <p className="text-zinc-400 text-xs max-w-xs">{nextConfig.description}</p>
+            <p className="text-secondary text-xs max-w-xs">{nextConfig.description}</p>
           </div>
-          <button onClick={() => setPhase('playing')} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-sm transition-standard active:scale-95 cursor-pointer">Continue</button>
+          <button onClick={() => setPhase('playing')} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">Continue</button>
         </div>
       </div>
     );
@@ -295,7 +295,7 @@ export default function FocusChallengeTest() {
     const processingSpeed = computeProcessingSpeed(stageResults);
     const weakStages = getWeakStages(stageResults);
     const plan = generatePlan(weakStages);
-    const metricColor = (v: number) => v >= 75 ? 'text-emerald-400' : v >= 60 ? 'text-accent' : v >= 40 ? 'text-amber-400' : 'text-rose-400';
+    const metricColor = (v: number) => v >= 75 ? 'text-success' : v >= 60 ? 'text-accent' : v >= 40 ? 'text-warning' : 'text-error';
 
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
@@ -306,30 +306,30 @@ export default function FocusChallengeTest() {
             <div className={`text-6xl font-bold font-mono ${getPerformanceColor(overallScore)}`}>{overallScore}</div>
             <div className="text-sm text-accent font-medium mt-1">/ 100</div>
             <div className={`text-xs font-mono uppercase mt-1 ${getPerformanceColor(overallScore)}`}>{getPerformanceLabel(overallScore)} · Top {100 - lookupPercentile(overallScore)}%</div>
-            {isNewPB && <div className="text-emerald-400 text-xs font-mono mt-1 animate-pulse">✦ New Personal Best!</div>}
-            {beatChallenge && <div className="text-emerald-400 text-xs font-mono mt-1">✓ Beat your friend's score!</div>}
+            {isNewPB && <div className="text-success text-xs font-mono mt-1 animate-pulse">✦ New Personal Best!</div>}
+            {beatChallenge && <div className="text-success text-xs font-mono mt-1">✓ Beat your friend's score!</div>}
           </div>
 
           <div className="grid grid-cols-2 gap-4 w-full max-w-md">
             <div className="p-3 rounded-lg bg-subtle border border-card-border text-center">
-              <div className="text-[9px] text-zinc-500 font-mono uppercase mb-1">Attention Stability</div>
+              <div className="text-[9px] text-muted font-mono uppercase mb-1">Attention Stability</div>
               <div className={`text-xl font-bold font-mono ${metricColor(stability)}`}>{stability}</div>
-              <div className="text-[9px] text-zinc-600 font-mono mt-0.5">{stability >= 75 ? 'Consistent' : stability >= 50 ? 'Variable' : 'Unstable'}</div>
+              <div className="text-[9px] text-muted font-mono mt-0.5">{stability >= 75 ? 'Consistent' : stability >= 50 ? 'Variable' : 'Unstable'}</div>
             </div>
             <div className="p-3 rounded-lg bg-subtle border border-card-border text-center">
-              <div className="text-[9px] text-zinc-500 font-mono uppercase mb-1">Distraction Resistance</div>
+              <div className="text-[9px] text-muted font-mono uppercase mb-1">Distraction Resistance</div>
               <div className={`text-xl font-bold font-mono ${metricColor(distractionResistance)}`}>{distractionResistance}</div>
-              <div className="text-[9px] text-zinc-600 font-mono mt-0.5">{distractionResistance >= 75 ? 'Strong shield' : distractionResistance >= 50 ? 'Moderate' : 'Easily disrupted'}</div>
+              <div className="text-[9px] text-muted font-mono mt-0.5">{distractionResistance >= 75 ? 'Strong shield' : distractionResistance >= 50 ? 'Moderate' : 'Easily disrupted'}</div>
             </div>
             <div className="p-3 rounded-lg bg-subtle border border-card-border text-center">
-              <div className="text-[9px] text-zinc-500 font-mono uppercase mb-1">Processing Speed</div>
+              <div className="text-[9px] text-muted font-mono uppercase mb-1">Processing Speed</div>
               <div className={`text-xl font-bold font-mono ${metricColor(processingSpeed)}`}>{processingSpeed}</div>
-              <div className="text-[9px] text-zinc-600 font-mono mt-0.5">{processingSpeed >= 75 ? 'Fast' : processingSpeed >= 50 ? 'Average' : 'Sluggish'}</div>
+              <div className="text-[9px] text-muted font-mono mt-0.5">{processingSpeed >= 75 ? 'Fast' : processingSpeed >= 50 ? 'Average' : 'Sluggish'}</div>
             </div>
             <div className="p-3 rounded-lg bg-subtle border border-card-border text-center">
-              <div className="text-[9px] text-zinc-500 font-mono uppercase mb-1">Overall Focus</div>
+              <div className="text-[9px] text-muted font-mono uppercase mb-1">Overall Focus</div>
               <div className={`text-xl font-bold font-mono ${getPerformanceColor(overallScore)}`}>{overallScore}</div>
-              <div className="text-[9px] text-zinc-600 font-mono mt-0.5">{getPerformanceLabel(overallScore)}</div>
+              <div className="text-[9px] text-muted font-mono mt-0.5">{getPerformanceLabel(overallScore)}</div>
             </div>
           </div>
 
@@ -339,7 +339,7 @@ export default function FocusChallengeTest() {
               return (
                 <div key={s.index} className="flex flex-col items-center gap-1 p-1.5 rounded-lg bg-subtle border border-card-border text-center">
                   <span className="text-base">{s.emoji}</span>
-                  <div className={`text-xs font-bold font-mono ${result ? getPerformanceColor(result.score) : 'text-zinc-600'}`}>{result?.score ?? '--'}</div>
+                  <div className={`text-xs font-bold font-mono ${result ? getPerformanceColor(result.score) : 'text-muted'}`}>{result?.score ?? '--'}</div>
                 </div>
               );
             })}
@@ -347,11 +347,11 @@ export default function FocusChallengeTest() {
 
           {weakStages.length > 0 && (
             <div className="w-full max-w-md">
-              <div className="text-xs text-zinc-500 font-mono uppercase tracking-widest mb-2 text-center">Recommended Tests</div>
+              <div className="text-xs text-muted font-mono uppercase tracking-widest mb-2 text-center">Recommended Tests</div>
               <div className="flex flex-col gap-2">
                 {weakStages.slice(0, 3).map(ws => (
                   <a key={ws.index} href={ws.recTest.url} className="flex items-center justify-between px-3 py-2 rounded-lg bg-subtle border border-card-border hover:border-accent/40 hover:bg-accent/5 transition-standard text-xs group">
-                    <span className="text-zinc-400">Strengthen <strong className="text-foreground">{ws.name}</strong> ({ws.score})</span>
+                    <span className="text-secondary">Strengthen <strong className="text-foreground">{ws.name}</strong> ({ws.score})</span>
                     <span className="text-accent group-hover:translate-x-0.5 transition-transform">{ws.recTest.name} →</span>
                   </a>
                 ))}
@@ -360,19 +360,19 @@ export default function FocusChallengeTest() {
           )}
 
           <div className="w-full max-w-md">
-            <div className="text-xs text-zinc-500 font-mono uppercase tracking-widest mb-3 text-center">7-Day Practice Plan</div>
+            <div className="text-xs text-muted font-mono uppercase tracking-widest mb-3 text-center">7-Day Practice Plan</div>
             <div className="flex flex-col gap-1.5">
               {plan.map(p => (
                 <details key={p.day} className="rounded-lg bg-subtle border border-card-border overflow-hidden">
-                  <summary className="flex items-center justify-between px-3 py-2 text-xs text-zinc-300 cursor-pointer hover:text-foreground transition-colors select-none font-medium">
+                  <summary className="flex items-center justify-between px-3 py-2 text-xs text-secondary cursor-pointer hover:text-foreground transition-colors select-none font-medium">
                     <span>Day {p.day}: {p.title}</span>
-                    <svg className="w-3 h-3 text-zinc-500 group-open:rotate-180 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
+                    <svg className="w-3 h-3 text-muted group-open:rotate-180 transition-transform" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5"><path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" /></svg>
                   </summary>
                   <div className="px-3 pb-2 flex flex-col gap-1">
                     {p.tasks.map((t, i) => (
-                      <a key={i} href={t.url} className="flex items-center justify-between text-[11px] text-zinc-400 hover:text-accent transition-colors py-0.5 px-1 rounded">
+                      <a key={i} href={t.url} className="flex items-center justify-between text-[11px] text-secondary hover:text-accent transition-colors py-0.5 px-1 rounded">
                         <span>{t.test}</span>
-                        <span className="text-zinc-600 font-mono">{t.sets}</span>
+                        <span className="text-muted font-mono">{t.sets}</span>
                       </a>
                     ))}
                   </div>
@@ -381,14 +381,14 @@ export default function FocusChallengeTest() {
             </div>
           </div>
 
-          <div className="bg-rose-950/15 border border-rose-900/30 rounded-lg p-3 text-xs text-zinc-400 max-w-md">
-            <strong className="text-rose-400">⚠️ Disclaimer:</strong> This is a <strong>performance-based entertainment tool</strong>, not a clinical or diagnostic assessment. Results should not be used to diagnose ADHD, anxiety, or any medical condition. If you have concerns about your attention or cognitive health, consult a healthcare professional.
+          <div className="bg-[var(--error-bg)] border border-[var(--error-border)] rounded-lg p-3 text-xs text-secondary max-w-md">
+            <strong className="text-error">⚠️ Disclaimer:</strong> This is a <strong>performance-based entertainment tool</strong>, not a clinical or diagnostic assessment. Results should not be used to diagnose ADHD, anxiety, or any medical condition. If you have concerns about your attention or cognitive health, consult a healthcare professional.
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
           {shareImage && (
-            <a href={shareImage} download="cogniarena-focus-challenge.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+            <a href={shareImage} download="cogniarena-focus-challenge.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Share Card</span>
             </a>
@@ -409,10 +409,10 @@ export default function FocusChallengeTest() {
     const StageComponent = stages[stageIndex];
     return (
       <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
-        <div className="flex items-center justify-between text-xs text-zinc-500 font-mono">
+        <div className="flex items-center justify-between text-xs text-muted font-mono">
           <span>{config.emoji} Stage {stageIndex + 1} / {STAGE_CONFIGS.length}</span>
           <span>{config.name}</span>
-          <span className="text-zinc-600">{config.duration}</span>
+          <span className="text-muted">{config.duration}</span>
         </div>
         <div className="w-full rounded-xl border border-card-border bg-card p-6 flex flex-col items-center">
           <StageComponent key={stageIndex} onComplete={handleStageComplete} calibrationHz={60} />

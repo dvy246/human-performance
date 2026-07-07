@@ -133,9 +133,9 @@ export default function PrioritizationTest() {
           <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">📊</div>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-foreground tracking-tight">Prioritization Test</h2>
-            <p className="text-zinc-400 text-sm max-w-sm mx-auto mt-2">Complete {ROUNDS} rounds of task scheduling. You have {totalTime}s per round. Maximize points by completing high-value tasks before their deadlines.</p>
+            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Complete {ROUNDS} rounds of task scheduling. You have {totalTime}s per round. Maximize points by completing high-value tasks before their deadlines.</p>
           </div>
-          <button onClick={begin} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+          <button onClick={begin} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
         </div>
       </div>
     );
@@ -145,11 +145,11 @@ export default function PrioritizationTest() {
     return (
       <div className="w-full max-w-2xl mx-auto">
         <div className="rounded-xl border border-card-border bg-card p-6">
-          <div className="flex items-center justify-between mb-3 text-[10px] text-zinc-500 font-mono">
+          <div className="flex items-center justify-between mb-3 text-[10px] text-muted font-mono">
             <span>Round {round + 1}/{ROUNDS}</span>
             <span>Time: {usedTime}s / {totalTime}s</span>
           </div>
-          <div className="w-full bg-zinc-800 rounded-full h-1 mb-4">
+          <div className="w-full bg-subtle rounded-full h-1 mb-4">
             <div className="bg-accent h-1 rounded-full transition-all duration-200" style={{ width: `${(usedTime / totalTime) * 100}%` }} />
           </div>
           <div className="flex flex-col gap-2">
@@ -160,20 +160,20 @@ export default function PrioritizationTest() {
                 <button key={task.id} onClick={() => doTask(task)}
                   className={`w-full flex items-center gap-3 px-4 py-3 rounded-lg border text-xs transition-all ${
                     done
-                      ? 'border-emerald-800/40 bg-emerald-900/10 text-zinc-500'
+                      ? 'border-[var(--success-border)] bg-[var(--success-bg)] text-muted'
                       : canDo
                         ? 'border-card-border bg-subtle hover:bg-panel cursor-pointer text-foreground'
-                        : 'border-card-border bg-subtle/50 text-zinc-600 cursor-not-allowed'
+                        : 'border-card-border bg-subtle/50 text-muted cursor-not-allowed'
                   }`}
                   disabled={!canDo}
                 >
                   <div className={`w-5 h-5 rounded border flex items-center justify-center text-[10px] ${
-                    done ? 'border-emerald-500/40 bg-emerald-500/20 text-emerald-400' : 'border-zinc-600 text-zinc-500'
+                    done ? 'border-[var(--success-border)] bg-[var(--success-bg)] text-success' : 'border-card-border text-muted'
                   }`}>{done ? '✓' : ''}</div>
                   <div className="flex-1 text-left">{task.name}</div>
-                  <div className="text-zinc-500">{task.points}pts</div>
-                  <div className="text-zinc-600">{task.effort}s</div>
-                  <div className={`${completed.length <= task.deadline ? 'text-emerald-400' : 'text-rose-400'}`}>D{task.deadline}</div>
+                  <div className="text-muted">{task.points}pts</div>
+                  <div className="text-muted">{task.effort}s</div>
+                  <div className={`${completed.length <= task.deadline ? 'text-success' : 'text-error'}`}>D{task.deadline}</div>
                 </button>
               );
             })}
@@ -187,11 +187,11 @@ export default function PrioritizationTest() {
   return (
     <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
       <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
-        <div className="text-4xl text-emerald-400">✓</div>
+        <div className="text-4xl text-success">✓</div>
         <div className="text-4xl font-bold font-mono text-foreground">{total} pts</div>
-        <div className="text-xs text-zinc-500 font-mono">{ROUNDS} rounds</div>
+        <div className="text-xs text-muted font-mono">{ROUNDS} rounds</div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-prioritization.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-prioritization.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>

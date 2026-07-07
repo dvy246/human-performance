@@ -191,12 +191,12 @@ export default function TrailMakingTest() {
           </div>
           <div>
             <h2 className="text-2xl font-bold tracking-tight text-foreground">Trail Making Test (TMT)</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm mt-3 leading-relaxed">
+            <p className="text-muted text-sm mt-3 leading-relaxed">
               Measure visual scanning, processing speed, and cognitive flexibility.
               Click the targets sequentially as fast as possible. 
               Mismatched target clicks add a **+2.0 second penalty** to your time.
             </p>
-            <div className="mt-4 flex flex-col gap-1.5 text-xs text-zinc-500 font-mono">
+            <div className="mt-4 flex flex-col gap-1.5 text-xs text-muted font-mono">
               <span>**Part A:** Connect numbers 1 to 20 sequentially (1 → 2 → 3...).</span>
               <span>**Part B:** Alternate numbers & letters sequentially (1 → A → 2 → B...).</span>
             </div>
@@ -204,7 +204,7 @@ export default function TrailMakingTest() {
           <div className="grid grid-cols-2 gap-4">
             <button
               onClick={() => startTest('partA')}
-              className="h-11 rounded bg-accent hover:bg-accent-hover text-black font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
+              className="h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
             >
               Start Part A
             </button>
@@ -215,7 +215,7 @@ export default function TrailMakingTest() {
               Start Part B
             </button>
           </div>
-          <div className="flex justify-center gap-6 text-[10px] text-zinc-500 font-mono uppercase">
+          <div className="flex justify-center gap-6 text-[10px] text-muted font-mono uppercase">
             <span>PB Part A: {personalBestA ? `${(personalBestA / 1000).toFixed(2)}s` : '--'}</span>
             <span>PB Part B: {personalBestB ? `${(personalBestB / 1000).toFixed(2)}s` : '--'}</span>
           </div>
@@ -225,7 +225,7 @@ export default function TrailMakingTest() {
       {gameState === 'running' && (
         <div className="flex flex-col gap-4">
           {/* Header Panel */}
-          <div className="rounded-xl border border-card-border bg-card p-4 flex justify-between items-center text-xs font-mono text-zinc-500 shadow">
+          <div className="rounded-xl border border-card-border bg-card p-4 flex justify-between items-center text-xs font-mono text-muted shadow">
             <span>MODE: {mode === 'partA' ? 'PART A (1-20)' : 'PART B (1-A-2-B...)'}</span>
             <span>EXPECTED: {nodes[nextExpectedIdx]?.label || '--'}</span>
             <span>TIME: {((elapsedTime + penalties) / 1000).toFixed(1)}s</span>
@@ -288,17 +288,17 @@ export default function TrailMakingTest() {
 
       {gameState === 'result' && (
         <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6 shadow-lg text-center">
-          <div className="w-12 h-12 rounded-full bg-green-500/10 border border-green-500/20 flex items-center justify-center text-green-500 text-xl font-bold">
+          <div className="w-12 h-12 rounded-full bg-[var(--success-bg)] border border-[var(--success-border)] flex items-center justify-center text-success text-xl font-bold">
             ✓
           </div>
           <div>
-            <span className="text-zinc-500 text-xs font-mono uppercase tracking-widest">
+            <span className="text-muted text-xs font-mono uppercase tracking-widest">
               TMT {mode === 'partA' ? 'Part A' : 'Part B'} Result
             </span>
             <h2 className="text-4xl font-extrabold tracking-tight text-foreground mt-1">
               {((elapsedTime + penalties) / 1000).toFixed(2)}s
             </h2>
-            <span className="text-[11px] text-zinc-500 font-mono uppercase mt-1 block">
+            <span className="text-[11px] text-muted font-mono uppercase mt-1 block">
               Accuracy-adjusted percentile: Top {100 - resultPercentile}%
             </span>
           </div>
@@ -306,19 +306,19 @@ export default function TrailMakingTest() {
           {/* Breakdown Stats */}
           <div className="grid grid-cols-2 gap-4 w-full max-w-sm border-t border-b border-card-border/50 py-4 my-2 text-left">
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Raw Latency</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Raw Latency</span>
               <span className="text-sm font-bold text-foreground">{(elapsedTime / 1000).toFixed(2)}s</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Penalties Added</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Penalties Added</span>
               <span className="text-sm font-bold text-foreground">{(penalties / 1000).toFixed(2)}s</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Mismatched Clicks</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Mismatched Clicks</span>
               <span className="text-sm font-bold text-foreground">{penalties / 2000}</span>
             </div>
             <div className="flex flex-col">
-              <span className="text-[10px] text-zinc-500 uppercase font-mono">Target Rate</span>
+              <span className="text-[10px] text-muted uppercase font-mono">Target Rate</span>
               <span className="text-sm font-bold text-foreground">
                 {(elapsedTime + penalties) > 0 ? (nodes.length / ((elapsedTime + penalties) / 1000)).toFixed(1) : '0.0'}/s
               </span>
@@ -328,7 +328,7 @@ export default function TrailMakingTest() {
           <div className="grid grid-cols-2 gap-4 w-full">
             <button
               onClick={() => startTest(mode)}
-              className="h-11 rounded bg-accent hover:bg-accent-hover text-black font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
+              className="h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
             >
               Replay {mode === 'partA' ? 'Part A' : 'Part B'}
             </button>

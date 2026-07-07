@@ -43,14 +43,14 @@ const schemaJson = [
     <header class="flex flex-col gap-3">
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Cognition</span></div>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Decision Speed Test</h1>
-      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">How fast can you decide? Classify 20 numbers as ≥50 or &lt;50 against a 2-second timeout. Measures raw information processing speed.</p>
+      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">How fast can you decide? Classify 20 numbers as ≥50 or &lt;50 against a 2-second timeout. Measures raw information processing speed.</p>
     </header>
     <section class="w-full"><DecisionSpeedTest client:visible /></section>
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Decision Speed</h2>
-      <ul class="flex flex-col gap-2 text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed list-disc list-inside">
+      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
         <li><strong class="text-foreground">Processing speed</strong> — how quickly your brain evaluates a stimulus and commits to a classification</li>
         <li><strong class="text-foreground">Attention and arousal</strong> — optimal alertness improves classification accuracy under time pressure</li>
         <li><strong class="text-foreground">Practice effects</strong> — repeated exposure to the ≥50/&lt;50 threshold builds faster mental shortcuts</li>
@@ -62,9 +62,9 @@ const schemaJson = [
     <article class="flex flex-col gap-3">
       <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
       <div class="flex flex-wrap gap-2">
-        <a href="/tests/reaction-time" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Reaction Time →</a>
-        <a href="/tests/choice-reaction" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Choice Reaction →</a>
-        <a href="/tests/stroop" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Stroop Test →</a>
+        <a href="/tests/reaction-time" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Reaction Time →</a>
+        <a href="/tests/choice-reaction" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Choice Reaction →</a>
+        <a href="/tests/stroop" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Stroop Test →</a>
       </div>
     </article>
 
@@ -74,20 +74,20 @@ const schemaJson = [
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">What is Hick's Law?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Hick's Law states that reaction time increases logarithmically with the number of possible choices. This test uses a binary decision (high or low) to isolate processing speed from complex choice overhead.</p>
+          <p class="text-muted text-sm leading-relaxed">Hick's Law states that reaction time increases logarithmically with the number of possible choices. This test uses a binary decision (high or low) to isolate processing speed from complex choice overhead.</p>
         </div>
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">How does this differ from simple reaction time?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Simple reaction time measures a single stimulus-response pair (see a light, click). Decision speed adds a cognitive classification step — you must evaluate the number and choose a response, which engages additional processing pathways.</p>
+          <p class="text-muted text-sm leading-relaxed">Simple reaction time measures a single stimulus-response pair (see a light, click). Decision speed adds a cognitive classification step — you must evaluate the number and choose a response, which engages additional processing pathways.</p>
         </div>
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
         </div>
       </div>
     </article>
 
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
       <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
     </div>
   </div>

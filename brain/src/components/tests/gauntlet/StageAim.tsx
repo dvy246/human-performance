@@ -75,13 +75,13 @@ export default function StageAim({ onComplete }: StageProps) {
   if (phase === 'intro') {
     return (
       <div className="flex flex-col items-center gap-4 py-4">
-        <div className="text-xs text-zinc-500 font-mono">Stage 5: Aim Precision</div>
-        <p className="text-[10px] text-zinc-500 max-w-xs text-center">Click the <strong className="text-foreground">red target</strong> as accurately as possible. {TOTAL_TARGETS} targets.</p>
-        <button onClick={startGame} className="px-6 h-9 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
+        <div className="text-xs text-muted font-mono">Stage 5: Aim Precision</div>
+        <p className="text-[10px] text-muted max-w-xs text-center">Click the <strong className="text-foreground">red target</strong> as accurately as possible. {TOTAL_TARGETS} targets.</p>
+        <button onClick={startGame} className="px-6 h-9 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
       </div>
     );
   }
-  if (phase === 'done') return <div className="text-xs text-emerald-400 font-mono py-4">✓ {hits}/{TOTAL_TARGETS} hits</div>;
+  if (phase === 'done') return <div className="text-xs text-success font-mono py-4">✓ {hits}/{TOTAL_TARGETS} hits</div>;
 
   const current = targets[currentIdx];
 
@@ -97,7 +97,7 @@ export default function StageAim({ onComplete }: StageProps) {
           style={{ left: current.x, top: current.y }}
         />
       )}
-      <div className="absolute bottom-2 left-2 text-[10px] text-zinc-500 font-mono">
+      <div className="absolute bottom-2 left-2 text-[10px] text-muted font-mono">
         {currentIdx}/{TOTAL_TARGETS} · Hits: {hits}
       </div>
     </div>

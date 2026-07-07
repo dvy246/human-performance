@@ -20,14 +20,14 @@ const schemaJson = [
     <header class="flex flex-col gap-3">
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Motor</span></div>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Flick Trainer</h1>
-      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">Flick your mouse to 15 targets appearing at random positions. Measures flick speed and click accuracy — the two components of precise aim.</p>
+      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">Flick your mouse to 15 targets appearing at random positions. Measures flick speed and click accuracy — the two components of precise aim.</p>
     </header>
     <section class="w-full"><FlickTrainerTest client:visible /></section>
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Flick Score</h2>
-      <ul class="flex flex-col gap-2 text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed list-disc list-inside">
+      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
         <li><strong class="text-foreground">Mouse sensitivity (DPI)</strong> — higher DPI enables faster cursor travel but reduces precision for small targets</li>
         <li><strong class="text-foreground">Hand-eye coordination</strong> — the speed at which your visual system guides motor corrections to the target</li>
         <li><strong class="text-foreground">Mousepad surface area</strong> — more space allows larger arm movements instead of wrist-only adjustments</li>
@@ -39,9 +39,9 @@ const schemaJson = [
     <article class="flex flex-col gap-3">
       <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
       <div class="flex flex-wrap gap-2">
-        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
-        <a href="/tests/mouse-accuracy" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Mouse Accuracy →</a>
-        <a href="/tests/click-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Click Speed →</a>
+        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
+        <a href="/tests/mouse-accuracy" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Mouse Accuracy →</a>
+        <a href="/tests/click-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Click Speed →</a>
       </div>
     </article>
 
@@ -51,20 +51,20 @@ const schemaJson = [
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">What is flick speed?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Flick speed measures how quickly you can move your cursor from one position to a new target and click. It combines reaction time, mouse control, and click timing into a single metric.</p>
+          <p class="text-muted text-sm leading-relaxed">Flick speed measures how quickly you can move your cursor from one position to a new target and click. It combines reaction time, mouse control, and click timing into a single metric.</p>
         </div>
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">How does this differ from the Aim Trainer?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">The Aim Trainer uses shrinking targets that reward precision over speed. Flick Trainer uses instant-appearing targets that reward fast cursor acceleration and deceleration — the two skills engage different motor control pathways.</p>
+          <p class="text-muted text-sm leading-relaxed">The Aim Trainer uses shrinking targets that reward precision over speed. Flick Trainer uses instant-appearing targets that reward fast cursor acceleration and deceleration — the two skills engage different motor control pathways.</p>
         </div>
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
         </div>
       </div>
     </article>
 
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
       <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
     </div>
   </div>

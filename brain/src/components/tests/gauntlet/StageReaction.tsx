@@ -65,7 +65,7 @@ export default function StageReaction({ onComplete }: StageProps) {
 
   return (
     <div className="flex flex-col items-center gap-4 py-4">
-      <div className="text-xs text-zinc-500 font-mono">Stage 1: Visual Reaction &middot; Trial {trial + 1}/{TOTAL_TRIALS}</div>
+      <div className="text-xs text-muted font-mono">Stage 1: Visual Reaction &middot; Trial {trial + 1}/{TOTAL_TRIALS}</div>
       <div
         onClick={handleClick}
         className={`w-64 h-40 rounded-xl flex items-center justify-center cursor-pointer select-none border transition-all duration-150 ${
@@ -74,11 +74,11 @@ export default function StageReaction({ onComplete }: StageProps) {
           'bg-card border-card-border hover:border-accent'
         }`}
       >
-        {phase === 'intro' && <span className="text-sm text-zinc-400 font-mono">Click to start</span>}
-        {phase === 'waiting' && <span className="text-sm text-rose-400 font-mono animate-pulse">Wait...</span>}
+        {phase === 'intro' && <span className="text-sm text-secondary font-mono">Click to start</span>}
+        {phase === 'waiting' && <span className="text-sm text-error font-mono animate-pulse">Wait...</span>}
         {phase === 'ready' && <span className="text-2xl font-bold text-white">CLICK!</span>}
-        {phase === 'result' && <span className="text-sm text-zinc-400 font-mono">{results[results.length - 1]}ms</span>}
-        {phase === 'done' && <span className="text-sm text-emerald-400 font-mono">✓ Done</span>}
+        {phase === 'result' && <span className="text-sm text-secondary font-mono">{results[results.length - 1]}ms</span>}
+        {phase === 'done' && <span className="text-sm text-success font-mono">✓ Done</span>}
       </div>
     </div>
   );

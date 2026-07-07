@@ -186,7 +186,7 @@ export default function NumberMemoryTest() {
           </span>
           <button
             onClick={() => setChallengeScore(null)}
-            className="text-[11px] text-zinc-500 hover:text-foreground font-mono uppercase"
+            className="text-[11px] text-muted hover:text-foreground font-mono uppercase"
           >
             Dismiss
           </button>
@@ -198,7 +198,7 @@ export default function NumberMemoryTest() {
         
         {/* Level indicator */}
         {phase !== 'idle' && phase !== 'result' && (
-          <div className="absolute top-4 right-4 flex items-center gap-2 text-xs font-mono text-zinc-500">
+          <div className="absolute top-4 right-4 flex items-center gap-2 text-xs font-mono text-muted">
             <span>Level</span>
             <span className="text-foreground font-bold text-sm">{level}</span>
           </div>
@@ -212,7 +212,7 @@ export default function NumberMemoryTest() {
             </div>
             <div className="text-center">
               <h3 className="text-lg font-bold text-foreground mb-1">Number Memory</h3>
-              <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-xs">
+              <p className="text-muted text-sm max-w-xs">
                 Remember increasingly long numbers. How many digits can you hold in working memory?
               </p>
             </div>
@@ -228,7 +228,7 @@ export default function NumberMemoryTest() {
         {/* SHOWING NUMBER */}
         {phase === 'showing' && (
           <div className="flex flex-col items-center gap-6 w-full">
-            <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">
+            <span className="text-[10px] font-mono text-muted uppercase tracking-widest">
               Memorize this number
             </span>
             <div className="text-4xl md:text-5xl font-mono font-bold text-foreground tracking-[0.15em] tabular-nums select-none">
@@ -241,7 +241,7 @@ export default function NumberMemoryTest() {
                 style={{ width: `${showTimer}%` }}
               />
             </div>
-            <span className="text-[10px] font-mono text-zinc-600">
+            <span className="text-[10px] font-mono text-muted">
               Time remaining to memorize
             </span>
           </div>
@@ -278,13 +278,13 @@ export default function NumberMemoryTest() {
         {/* CORRECT FEEDBACK */}
         {phase === 'correct' && (
           <div className="flex flex-col items-center gap-3">
-            <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-2xl">
+            <div className="w-14 h-14 rounded-full bg-[var(--success-bg)] border border-[var(--success-border)] flex items-center justify-center text-2xl">
               ✓
             </div>
-            <span className="text-emerald-400 font-mono text-sm font-bold uppercase tracking-wider">
+            <span className="text-success font-mono text-sm font-bold uppercase tracking-wider">
               Correct!
             </span>
-            <span className="text-zinc-500 text-xs font-mono">
+            <span className="text-muted text-xs font-mono">
               {currentNumber}
             </span>
           </div>
@@ -302,11 +302,11 @@ export default function NumberMemoryTest() {
               </span>
               <div className="flex flex-col gap-2 mt-2 w-full text-xs font-mono">
                 <div className="flex justify-between p-2 rounded bg-subtle border border-card-border/40">
-                  <span className="text-zinc-500">Number</span>
+                  <span className="text-muted">Number</span>
                   <span className="text-foreground font-bold">{currentNumber}</span>
                 </div>
                 <div className="flex justify-between p-2 rounded bg-subtle border border-card-border/40">
-                  <span className="text-zinc-500">Your Answer</span>
+                  <span className="text-muted">Your Answer</span>
                   <span className="text-red-400 font-bold">{userInput || '—'}</span>
                 </div>
               </div>
@@ -324,13 +324,13 @@ export default function NumberMemoryTest() {
         {phase === 'result' && (
           <div className="flex flex-col items-center gap-6 py-4 w-full">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-zinc-500 text-xs font-mono uppercase">
+              <span className="text-muted text-xs font-mono uppercase">
                 Number Memory Span
               </span>
               <div className="text-5xl font-mono font-bold text-foreground">
                 {finalScore}
               </div>
-              <span className="text-[11px] text-zinc-400 font-mono">
+              <span className="text-[11px] text-secondary font-mono">
                 digits remembered
               </span>
               <span className="text-accent text-xs font-mono uppercase mt-1">
@@ -341,7 +341,7 @@ export default function NumberMemoryTest() {
             {/* Stats grid */}
             <div className="grid grid-cols-2 gap-8 w-full max-w-xs border-t border-card-border/50 pt-4 text-center mt-2">
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">
+                <span className="text-muted text-[10px] font-mono uppercase">
                   Personal Best
                 </span>
                 <div className="text-foreground font-mono text-sm">
@@ -349,7 +349,7 @@ export default function NumberMemoryTest() {
                 </div>
               </div>
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">
+                <span className="text-muted text-[10px] font-mono uppercase">
                   Percentile
                 </span>
                 <div className="text-foreground font-mono text-sm">
@@ -362,8 +362,8 @@ export default function NumberMemoryTest() {
             {challengeScore && (
               <div className={`w-full max-w-xs p-3 rounded-lg border text-center text-sm font-mono ${
                 finalScore >= challengeScore
-                  ? 'bg-emerald-950/10 border-emerald-900/50 text-emerald-400'
-                  : 'bg-red-950/10 border-red-900/50 text-red-400'
+                  ? 'bg-[var(--success-bg)] border-[var(--success-border)] text-success'
+                  : 'bg-[var(--error-bg)] border-[var(--error-border)] text-error'
               }`}>
                 {finalScore >= challengeScore
                   ? `🏆 You beat the challenge! (${finalScore} vs ${challengeScore})`
@@ -380,7 +380,7 @@ export default function NumberMemoryTest() {
 
             <button
               onClick={startTest}
-              className="mt-4 text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400 hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
+              className="mt-4 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
             >
               Try Again
             </button>
@@ -395,7 +395,7 @@ export default function NumberMemoryTest() {
             <a
               href={shareImage}
               download="cogniarena-number-memory.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard w-full"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard w-full"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Score Card</span>

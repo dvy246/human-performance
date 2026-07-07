@@ -82,9 +82,9 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz }: 
         <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl">🎯</div>
         <div className="text-center">
           <h3 className="text-lg font-bold text-foreground mb-1">Stage 1: Selective Attention</h3>
-          <p className="text-zinc-400 text-sm max-w-md">Find and click the <strong className="text-accent">target symbol</strong> shown at the top, ignoring all distractions. {TOTAL_TRIALS} rounds.</p>
+          <p className="text-secondary text-sm max-w-md">Find and click the <strong className="text-accent">target symbol</strong> shown at the top, ignoring all distractions. {TOTAL_TRIALS} rounds.</p>
         </div>
-        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
+        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
           Start Stage
         </button>
       </div>
@@ -94,8 +94,8 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz }: 
   if (phase === 'done') {
     return (
       <div className="flex flex-col items-center gap-4 py-6">
-        <div className="text-4xl text-emerald-400">✓</div>
-        <p className="text-zinc-400 text-sm">Selective Attention complete!</p>
+        <div className="text-4xl text-success">✓</div>
+        <p className="text-secondary text-sm">Selective Attention complete!</p>
       </div>
     );
   }
@@ -107,13 +107,13 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz }: 
 
   return (
     <div className="flex flex-col items-center gap-4 py-4">
-      <div className="flex items-center gap-3 text-xs text-zinc-500 font-mono">
+      <div className="flex items-center gap-3 text-xs text-muted font-mono">
         <span>Trial {trialIndex + 1} / {TOTAL_TRIALS}</span>
         <span>•</span>
         <span>Hits: {hitCount}</span>
       </div>
       <div className="flex items-center gap-3 py-2 px-4 rounded-lg bg-subtle border border-card-border">
-        <span className="text-zinc-400 text-xs font-mono">Find this:</span>
+        <span className="text-secondary text-xs font-mono">Find this:</span>
         <span className="text-3xl text-accent">{currentTrial.targetSymbol}</span>
       </div>
       <div className="relative">
@@ -122,7 +122,7 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz }: 
             {distractors.map((d, i) => (
               <span
                 key={i}
-                className="absolute text-xs text-zinc-700 animate-pulse"
+                className="absolute text-xs text-secondary animate-pulse"
                 style={{
                   top: `${10 + (i * 17) % 80}%`,
                   left: `${5 + (i * 23) % 90}%`,
@@ -155,7 +155,7 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz }: 
         </div>
       </div>
       {phase === 'feedback' && (
-        <div className={`text-sm font-semibold ${currentTrial.correct ? 'text-emerald-400' : 'text-rose-400'}`}>
+        <div className={`text-sm font-semibold ${currentTrial.correct ? 'text-success' : 'text-error'}`}>
           {currentTrial.correct ? `✓ ${currentTrial.rt}ms` : '✗ Wrong target'}
         </div>
       )}

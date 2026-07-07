@@ -6,6 +6,11 @@ import {
   type CognitiveAverages
 } from '../../runtime/skillRadar';
 
+interface TrendData {
+  direction: 'up' | 'down' | 'stable';
+  delta: number;
+}
+
 interface CategoryConfig {
   key: keyof CognitiveAverages;
   label: string;
@@ -77,7 +82,7 @@ function Icon({ d }: { d: string }) {
 function SkeletonPulse({ className = '' }: { className?: string }) {
   return (
     <div
-      className={`rounded bg-zinc-800 animate-pulse ${className}`}
+      className={`rounded bg-subtle animate-pulse ${className}`}
       aria-hidden="true"
     />
   );
@@ -113,7 +118,7 @@ function ScoreCircle({ score, animate }: { score: number; animate: boolean }) {
           fill="none"
           stroke="currentColor"
           strokeWidth="4"
-          className="text-zinc-800"
+          className="text-subtle"
         />
         <circle
           cx="50"
@@ -142,6 +147,8 @@ export default function BrainScoreDashboard() {
   const [bbiScore, setBbiScore] = useState<number | null>(null);
   const [hasData, setHasData] = useState(false);
   const [animate, setAnimate] = useState(false);
+  const [trends, setTrends] = useState<Record<string, TrendData>>({});
+  const [streak, setStreak] = useState(0);
 
   useEffect(() => {
     let mounted = true;
@@ -154,6 +161,27 @@ export default function BrainScoreDashboard() {
           setAverages(computed);
           setBbiScore(calculateBbiScore(computed));
           setHasData(true);
+
+          // Compute trends: compare last 3 sessions to previous 3
+          const trendData: Record<string, TrendData> = {};
+          const recent = records.slice(0, 3);
+          const older = records.slice(3, 6);
+          if (older.length > 0) {
+            const recentAvg = computeCategoryAverages(recent);
+            const olderAvg = computeCategoryAverages(older);
+            for (const key of Object.keys(recentAvg) as (keyof CognitiveAverages)[]) {
+              const delta = Math.round(recentAvg[key] - olderAvg[key]);
+              trendData[key] = {
+                direction: delta > 2 ? 'up' : delta < -2 ? 'down' : 'stable',
+                delta
+              };
+            }
+          }
+          setTrends(trendData);
+
+          // Load streak
+          const streakData = dataLayer.getStreak();
+          if (mounted) setStreak(streakData.streakCount);
         }
       } catch (err) {
         console.error('Failed to load scores:', err);
@@ -189,19 +217,19 @@ export default function BrainScoreDashboard() {
     return (
       <div className="w-full max-w-xl mx-auto rounded-2xl bg-card/50 backdrop-blur border border-card-border p-8 md:p-10 text-center">
         <div className="w-16 h-16 mx-auto mb-5 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent" aria-hidden="true">
             <path d="M12 2a10 10 0 1 0 10 10" />
             <path d="M12 6v6l4 2" />
             <path d="M21 3v4h-4" />
           </svg>
         </div>
         <h2 className="text-xl font-bold text-foreground tracking-tight mb-2">Your Brain</h2>
-        <p className="text-zinc-400 text-sm leading-relaxed mb-7 max-w-xs mx-auto">
+        <p className="text-secondary text-sm leading-relaxed mb-7 max-w-xs mx-auto">
           Complete any assessment to unlock your personalized cognitive profile with skill bars and a composite index score.
         </p>
         <a
           href="/tests/reaction-time"
-          className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold h-11 px-6 text-sm transition-standard active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+          className="inline-flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold h-11 px-6 text-sm transition-standard active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
         >
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
@@ -216,13 +244,19 @@ export default function BrainScoreDashboard() {
     <div className="w-full max-w-xl mx-auto rounded-2xl bg-card/50 backdrop-blur border border-card-border p-6 md:p-8">
       <div className="flex items-center gap-3 mb-7">
         <div className="w-8 h-8 rounded-lg bg-accent/15 border border-accent/25 flex items-center justify-center">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#3b82f6" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="text-accent" aria-hidden="true">
             <path d="M12 2a10 10 0 1 0 10 10" />
             <path d="M12 6v6l4 2" />
             <path d="M21 3v4h-4" />
           </svg>
         </div>
         <h2 className="text-lg font-bold text-foreground tracking-tight">Your Brain</h2>
+        {streak > 0 && (
+          <div className="ml-auto flex items-center gap-1 px-2 py-0.5 rounded-full bg-accent/10 border border-accent/20">
+            <span className="text-xs">🔥</span>
+            <span className="text-[10px] font-mono font-bold text-accent">{streak} day{streak !== 1 ? 's' : ''}</span>
+          </div>
+        )}
       </div>
 
       <div className="flex flex-col gap-2" role="list" aria-label="Cognitive skill scores">
@@ -244,12 +278,22 @@ export default function BrainScoreDashboard() {
                   <span className="text-[13px] font-medium text-foreground/80 leading-none group-hover:text-accent transition-colors">
                     {cat.label}
                   </span>
-                  <span className="text-[12px] font-mono text-zinc-500 tabular-nums">
+                  <span className="text-[12px] font-mono text-muted tabular-nums">
                     {Math.round(val)}
                   </span>
+                  {trends[cat.key] && (
+                    <span className={`text-[10px] font-mono ml-1 ${
+                      trends[cat.key].direction === 'up' ? 'text-success' :
+                      trends[cat.key].direction === 'down' ? 'text-error' : 'text-muted'
+                    }`}>
+                      {trends[cat.key].direction === 'up' ? '↑' :
+                       trends[cat.key].direction === 'down' ? '↓' : '→'}
+                      {trends[cat.key].delta !== 0 && `${Math.abs(trends[cat.key].delta)}`}
+                    </span>
+                  )}
                 </div>
                 <div
-                  className="h-1.5 rounded-full bg-zinc-800/80 overflow-hidden"
+                  className="h-1.5 rounded-full bg-subtle overflow-hidden"
                   role="progressbar"
                   aria-valuenow={Math.round(val)}
                   aria-valuemin={0}
@@ -272,7 +316,7 @@ export default function BrainScoreDashboard() {
 
       <div className="mt-7 pt-6 border-t border-card-border/60 flex flex-col items-center gap-1">
         <ScoreCircle score={bbiScore ?? 0} animate={animate} />
-        <span className="text-[10px] font-mono text-zinc-500 uppercase tracking-[0.15em] mt-1">
+        <span className="text-[10px] font-mono text-muted uppercase tracking-[0.15em] mt-1">
           CogniArena Index
         </span>
       </div>

@@ -25,7 +25,7 @@ function GridShape({ filled, label }: { filled: [number, number][]; label?: stri
       {filled.map(([x, y]) => (
         <rect x={x * (CELL + GAP)} y={y * (CELL + GAP)} width={CELL} height={CELL} rx={3} fill="currentColor" className="text-foreground" />
       ))}
-      {label && <text x={w / 2} y={h + 16} textAnchor="middle" className="text-[11px] fill-zinc-500 font-mono">{label}</text>}
+      {label && <text x={w / 2} y={h + 16} textAnchor="middle" className="text-[11px] fill-muted font-mono">{label}</text>}
     </svg>
   );
 }
@@ -49,12 +49,12 @@ function GridOption({ filled, label }: { filled: [number, number][]; label: stri
               fill={filledIdx >= 0 ? 'currentColor' : 'none'}
               stroke="currentColor"
               strokeWidth="1.5"
-              className={filledIdx >= 0 ? 'text-foreground' : 'text-zinc-400 dark:text-zinc-600'}
+              className={filledIdx >= 0 ? 'text-foreground' : 'text-muted'}
             />
           );
         })}
       </svg>
-      <span className="text-xs font-mono text-zinc-500">{label}</span>
+      <span className="text-xs font-mono text-muted">{label}</span>
     </div>
   );
 }
@@ -75,12 +75,12 @@ function MatrixOption({ grid, label }: { grid: number[][]; label: string }) {
               fill={val ? 'currentColor' : 'none'}
               stroke="currentColor"
               strokeWidth="1.5"
-              className={val ? 'text-foreground' : 'text-zinc-400 dark:text-zinc-600'}
+              className={val ? 'text-foreground' : 'text-muted'}
             />
           ))
         )}
       </svg>
-      <span className="text-xs font-mono text-zinc-500">{label}</span>
+      <span className="text-xs font-mono text-muted">{label}</span>
     </div>
   );
 }
@@ -182,7 +182,7 @@ const questions: Question[] = [
           <GridShape filled={[[0,0],[1,0],[0,1]]} label="" />
           <GridShape filled={[[0,0],[1,0],[1,1]]} label="" />
           <GridShape filled={[[0,0],[0,1],[1,1]]} label="" />
-          <span className="w-10 h-10 flex items-center justify-center text-lg text-zinc-400">?</span>
+          <span className="w-10 h-10 flex items-center justify-center text-lg text-secondary">?</span>
         </div>
       </div>
     ),
@@ -242,7 +242,7 @@ const questions: Question[] = [
           <MatrixOption grid={[[1,1,0],[1,0,0],[0,0,1]]} label="" />
           <MatrixOption grid={[[0,1,1],[1,0,0],[1,0,0]]} label="" />
           <MatrixOption grid={[[1,0,0],[0,1,0],[0,0,1]]} label="" />
-          <span className="flex items-center justify-center text-2xl text-zinc-400">?</span>
+          <span className="flex items-center justify-center text-2xl text-secondary">?</span>
         </div>
       </div>
     ),
@@ -349,7 +349,7 @@ const iqLabels = [
   { min: 130, label: 'Very Superior', color: 'text-emerald-500' },
   { min: 120, label: 'Superior', color: 'text-blue-500' },
   { min: 110, label: 'High Average', color: 'text-amber-500' },
-  { min: 90, label: 'Average', color: 'text-zinc-500' },
+  { min: 90, label: 'Average', color: 'text-muted' },
   { min: 80, label: 'Low Average', color: 'text-orange-500' },
   { min: 0, label: 'Below Average', color: 'text-red-500' },
 ];
@@ -394,11 +394,11 @@ export default function IQTest() {
     return (
       <div className="flex flex-col items-center gap-6 py-8 text-center max-w-lg mx-auto">
         <span className="text-5xl">🧠</span>
-        <h2 className="text-2xl font-bold text-foreground tracking-tight">Free IQ Test</h2>
-        <div className="text-sm text-zinc-500 dark:text-zinc-400 leading-relaxed flex flex-col gap-2">
+        <h2 className="text-2xl font-bold text-foreground tracking-tight">Free Cognitive Reasoning Quiz</h2>
+        <div className="text-sm text-muted leading-relaxed flex flex-col gap-2">
           <p>20 questions across <strong className="text-foreground">numerical, verbal, spatial, and logical</strong> reasoning domains.</p>
           <p>No time limit. No sign-up. All scoring happens in your browser.</p>
-          <p className="text-xs text-zinc-400">Based on formats from the International Cognitive Ability Resource (ICAR).</p>
+          <p className="text-xs text-secondary">Based on formats from the International Cognitive Ability Resource (ICAR).</p>
         </div>
         <div className="flex flex-wrap gap-3 justify-center text-xs">
           {(['numerical', 'verbal', 'spatial', 'logical'] as Domain[]).map(d => (
@@ -434,8 +434,8 @@ export default function IQTest() {
         <div className="flex flex-col items-center gap-2 p-6 rounded-xl border border-card-border bg-subtle">
           <span className={`text-5xl font-extrabold tracking-tight ${label.color}`}>{iq}</span>
           <span className={`text-sm font-semibold ${label.color}`}>{label.label}</span>
-          <span className="text-xs text-zinc-500 dark:text-zinc-400">Top {percentile < 1 ? '<1' : percentile}th percentile</span>
-          <span className="text-xs text-zinc-500 mt-1">{rawScore} / {questions.length} correct</span>
+          <span className="text-xs text-muted">Top {percentile < 1 ? '<1' : percentile}th percentile</span>
+          <span className="text-xs text-muted mt-1">{rawScore} / {questions.length} correct</span>
         </div>
 
         <div className="flex flex-col gap-3">
@@ -447,14 +447,14 @@ export default function IQTest() {
                 <div className="w-full h-2 rounded-full bg-card-border overflow-hidden">
                   <div className={`h-full rounded-full transition-all ${domainColors[domain].replace('text-', 'bg-')}`} style={{ width: `${pct}%` }} />
                 </div>
-                <span className="text-xs text-zinc-500">{correct}/{total} ({pct}%)</span>
+                <span className="text-xs text-muted">{correct}/{total} ({pct}%)</span>
               </div>
             ))}
           </div>
         </div>
 
-        <div className="flex flex-col gap-3 p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">
-          <p><strong className="text-foreground">Note:</strong> This is an informal assessment for self-educational purposes. Scores are estimates based on a 20-question sample and should not be treated as a clinically administered IQ test. For a comprehensive evaluation, consult a licensed psychologist.</p>
+        <div className="flex flex-col gap-3 p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed">
+          <p><strong className="text-foreground">Note:</strong> This is an informal cognitive reasoning quiz for entertainment and self-educational purposes only. It is not a clinically validated IQ assessment. Scores are estimates based on a 20-question sample and should not be treated as a professionally administered cognitive evaluation. For a comprehensive assessment, consult a licensed psychologist.</p>
         </div>
 
         <div className="flex justify-center">
@@ -473,7 +473,7 @@ export default function IQTest() {
 
   return (
     <div className="flex flex-col gap-6 py-6 max-w-xl mx-auto w-full">
-      <div className="flex items-center justify-between text-xs text-zinc-500">
+      <div className="flex items-center justify-between text-xs text-muted">
         <span className="font-mono">Question {current + 1} / {questions.length}</span>
         <span className={`font-medium ${domainColors[q.domain]}`}>{domainLabels[q.domain]}</span>
       </div>
@@ -492,9 +492,9 @@ export default function IQTest() {
             const selected = answers[current] === i;
             const showCorrect = answered && i === q.correctIndex;
             const borderClass = showCorrect
-              ? 'border-emerald-500 bg-emerald-500/5'
+              ? 'border-[var(--success-border)] bg-[var(--success-bg)]'
               : selected && !isCorrect
-              ? 'border-red-500 bg-red-500/5'
+              ? 'border-[var(--error-border)] bg-[var(--error-bg)]'
               : 'border-card-border hover:border-accent/30 hover:bg-accent/5';
             return (
               <button
@@ -503,19 +503,19 @@ export default function IQTest() {
                 disabled={showExplanation}
                 className={`flex items-center gap-3 p-3 rounded-lg border text-sm text-left transition-standard ${borderClass} ${showExplanation ? 'cursor-default' : 'cursor-pointer'}`}
               >
-                <span className="w-6 h-6 rounded-full border border-card-border flex items-center justify-center text-xs font-mono text-zinc-500 shrink-0">
+                <span className="w-6 h-6 rounded-full border border-card-border flex items-center justify-center text-xs font-mono text-muted shrink-0">
                   {String.fromCharCode(65 + i)}
                 </span>
                 <span className="text-foreground">{opt}</span>
-                {showCorrect && <span className="ml-auto text-emerald-500 text-xs font-semibold">&check;</span>}
-                {selected && !isCorrect && <span className="ml-auto text-red-500 text-xs font-semibold">&times;</span>}
+                {showCorrect && <span className="ml-auto text-success text-xs font-semibold">&check;</span>}
+                {selected && !isCorrect && <span className="ml-auto text-error text-xs font-semibold">&times;</span>}
               </button>
             );
           })}
         </div>
 
         {showExplanation && (
-          <div className={`p-3 rounded-lg text-xs leading-relaxed ${isCorrect ? 'bg-emerald-500/5 border border-emerald-500/20 text-emerald-700 dark:text-emerald-300' : 'bg-red-500/5 border border-red-500/20 text-red-700 dark:text-red-300'}`}>
+          <div className={`p-3 rounded-lg text-xs leading-relaxed ${isCorrect ? 'bg-[var(--success-bg)] border border-[var(--success-border)] text-secondary' : 'bg-[var(--error-bg)] border border-[var(--error-border)] text-secondary'}`}>
             <span className="font-semibold">{isCorrect ? 'Correct' : 'Incorrect'}. </span>
             {q.explanation}
           </div>

@@ -95,7 +95,7 @@ export default function GauntletTest() {
           <div className="w-20 h-20 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center text-4xl">🏆</div>
           <div className="text-center">
             <h2 className="text-3xl font-bold text-foreground tracking-tight mb-2">The Gauntlet</h2>
-            <p className="text-zinc-400 text-sm max-w-md mx-auto">
+            <p className="text-secondary text-sm max-w-md mx-auto">
               A <strong className="text-accent">5-stage cognitive gauntlet</strong> testing reaction, memory, focus, logic, and precision in one session. Takes ~4 minutes.
             </p>
           </div>
@@ -103,14 +103,14 @@ export default function GauntletTest() {
             {STAGE_CONFIGS.map(s => (
               <div key={s.index} className="flex flex-col items-center gap-1 p-2 rounded-lg bg-subtle border border-card-border">
                 <span className="text-lg">{s.emoji}</span>
-                <span className="text-[9px] text-zinc-500 font-mono text-center leading-tight">{s.name.split(' ')[0]}</span>
+                <span className="text-[9px] text-muted font-mono text-center leading-tight">{s.name.split(' ')[0]}</span>
               </div>
             ))}
           </div>
-          <div className="bg-rose-950/15 border border-rose-900/30 rounded-lg p-3 text-xs text-zinc-400 max-w-md">
-            <strong className="text-rose-400">⚠️</strong> For educational & entertainment purposes only. Not a clinical diagnostic tool.
+          <div className="bg-[var(--error-bg)] border border-[var(--error-border)] rounded-lg p-3 text-xs text-secondary max-w-md">
+            <strong className="text-error">⚠️</strong> For educational & entertainment purposes only. Not a clinical diagnostic tool.
           </div>
-          <button onClick={() => { setPhase('playing'); setCurrentIdx(0); setResults([]); setPersonalBest(null); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold text-sm transition-standard active:scale-95 cursor-pointer">
+          <button onClick={() => { setPhase('playing'); setCurrentIdx(0); setResults([]); setPersonalBest(null); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">
             Begin The Gauntlet (~4 min)
           </button>
         </div>
@@ -128,16 +128,16 @@ export default function GauntletTest() {
             <h3 className="text-sm font-bold text-foreground">{prevResult.stageName}</h3>
             <div className={`text-3xl font-bold font-mono mt-1 ${getPerformanceColor(prevResult.score)}`}>{prevResult.score}</div>
           </div>
-          <div className="flex gap-4 text-[10px] text-zinc-500 font-mono">
+          <div className="flex gap-4 text-[10px] text-muted font-mono">
             {Object.entries(prevResult.metrics).map(([k, v]) => <span key={k}>{k}: {v}</span>)}
           </div>
           <div className="w-full h-px bg-card-border" />
           <div className="text-center">
-            <div className="text-[10px] text-zinc-500 font-mono mb-1">Up Next</div>
+            <div className="text-[10px] text-muted font-mono mb-1">Up Next</div>
             <div className="text-lg mb-1">{nextConfig.emoji}</div>
             <h4 className="text-sm font-bold text-foreground">{nextConfig.name}</h4>
           </div>
-          <button onClick={() => setPhase('playing')} className="px-5 h-8 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Continue</button>
+          <button onClick={() => setPhase('playing')} className="px-5 h-8 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Continue</button>
         </div>
       </div>
     );
@@ -154,14 +154,14 @@ export default function GauntletTest() {
           <div className="text-center">
             <h2 className="text-2xl font-bold text-foreground tracking-tight mb-1">Gauntlet Complete</h2>
             <div className={`text-6xl font-bold font-mono ${getPerformanceColor(overallScore)}`}>{overallScore}</div>
-            <div className="text-xs text-zinc-500 font-mono mt-1">/ 100</div>
-            {isNewPB && <div className="text-emerald-400 text-xs font-mono mt-1 animate-pulse">✦ New Personal Best!</div>}
+            <div className="text-xs text-muted font-mono mt-1">/ 100</div>
+            {isNewPB && <div className="text-success text-xs font-mono mt-1 animate-pulse">✦ New Personal Best!</div>}
           </div>
 
           <div className="px-4 py-2 rounded-lg bg-accent/10 border border-accent/20 text-center">
-            <div className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">Archetype</div>
+            <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Archetype</div>
             <div className="text-lg font-bold text-accent">{archetype.title}</div>
-            <div className="text-[11px] text-zinc-400 max-w-xs mt-1">{archetype.desc}</div>
+            <div className="text-[11px] text-secondary max-w-xs mt-1">{archetype.desc}</div>
           </div>
 
           <div className="grid grid-cols-5 gap-2 w-full max-w-md">
@@ -170,7 +170,7 @@ export default function GauntletTest() {
               return (
                 <div key={s.index} className="flex flex-col items-center gap-1 p-1.5 rounded-lg bg-subtle border border-card-border text-center">
                   <span className="text-base">{s.emoji}</span>
-                  <div className={`text-xs font-bold font-mono ${r ? getPerformanceColor(r.score) : 'text-zinc-600'}`}>{r?.score ?? '--'}</div>
+                  <div className={`text-xs font-bold font-mono ${r ? getPerformanceColor(r.score) : 'text-muted'}`}>{r?.score ?? '--'}</div>
                 </div>
               );
             })}
@@ -178,23 +178,23 @@ export default function GauntletTest() {
 
           <div className="grid grid-cols-2 gap-4 text-xs text-center w-full max-w-xs">
             <div>
-              <div className="text-zinc-500 font-mono uppercase text-[10px]">Personal Best</div>
+              <div className="text-muted font-mono uppercase text-[10px]">Personal Best</div>
               <div className="text-foreground font-mono font-medium">{personalBest !== null ? `${personalBest}/100` : '--'}</div>
             </div>
             <div>
-              <div className="text-zinc-500 font-mono uppercase text-[10px]">Stages</div>
+              <div className="text-muted font-mono uppercase text-[10px]">Stages</div>
               <div className="text-foreground font-mono font-medium">{results.length}/5</div>
             </div>
           </div>
 
-          <div className="bg-rose-950/15 border border-rose-900/30 rounded-lg p-3 text-xs text-zinc-400 max-w-md">
-            <strong className="text-rose-400">⚠️</strong> Performance-based entertainment tool. Not a clinical or diagnostic assessment.
+          <div className="bg-[var(--error-bg)] border border-[var(--error-border)] rounded-lg p-3 text-xs text-secondary max-w-md">
+            <strong className="text-error">⚠️</strong> Performance-based entertainment tool. Not a clinical or diagnostic assessment.
           </div>
         </div>
 
         <div className="flex flex-col gap-4">
           {shareImage && (
-            <a href={shareImage} download="cogniarena-gauntlet.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+            <a href={shareImage} download="cogniarena-gauntlet.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Share Card</span>
             </a>
@@ -213,7 +213,7 @@ export default function GauntletTest() {
     const StageComponent = STAGES[currentIdx];
     return (
       <div className="w-full max-w-2xl mx-auto">
-        <div className="flex items-center justify-between text-[10px] text-zinc-500 font-mono mb-2">
+        <div className="flex items-center justify-between text-[10px] text-muted font-mono mb-2">
           <span>{STAGE_CONFIGS[currentIdx].emoji} Stage {currentIdx + 1}/5</span>
           <span>{STAGE_CONFIGS[currentIdx].name}</span>
         </div>

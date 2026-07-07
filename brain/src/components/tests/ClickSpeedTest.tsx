@@ -5,11 +5,16 @@ import { encodeChallenge, generateShareCard } from '../../runtime/share';
 
 type TestState = 'idle' | 'clicking' | 'result';
 
+const DURATIONS = [5, 10, 30, 60] as const;
+type Duration = typeof DURATIONS[number];
+
 export default function ClickSpeedTest() {
   const [gameState, setGameState] = useState<TestState>('idle');
   const [clicks, setClicks] = useState<number>(0);
+  const [duration, setDuration] = useState<Duration>(10);
   const [timeLeft, setTimeLeft] = useState<number>(10.0);
   const [personalBest, setPersonalBest] = useState<number | null>(null);
+  const [recordsByDuration, setRecordsByDuration] = useState<Record<number, number>>({});
   const [calibration, setCalibration] = useState<CalibrationResult | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [copiedChallenge, setCopiedChallenge] = useState(false);
@@ -30,6 +35,13 @@ export default function ClickSpeedTest() {
     dataLayer.getPersonalBest('click-speed', 'higher').then((pb) => {
       if (mounted) setPersonalBest(pb);
     }).catch(console.error);
+
+    // Load records for each duration
+    DURATIONS.forEach(d => {
+      dataLayer.getPersonalBest('click-speed', 'higher').then((pb) => {
+        if (mounted && pb) setRecordsByDuration(prev => ({ ...prev, [d]: pb }));
+      }).catch(console.error);
+    });
 
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
@@ -75,7 +87,7 @@ export default function ClickSpeedTest() {
       setGameState('clicking');
       setClicks(1);
       clicksRef.current = 1;
-      setTimeLeft(10.0);
+      setTimeLeft(duration);
       setClickRates([]);
       startTime.current = performance.now();
       clickTimes.current = [performance.now()];
@@ -83,7 +95,7 @@ export default function ClickSpeedTest() {
       // Start precise 100ms interval timer
       timerRef.current = setInterval(() => {
         const elapsed = (performance.now() - startTime.current) / 1000;
-        const remaining = Math.max(0, 10.0 - elapsed);
+        const remaining = Math.max(0, duration - elapsed);
         setTimeLeft(remaining);
 
         // Record click rate at this interval for timeline chart
@@ -107,7 +119,7 @@ export default function ClickSpeedTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setGameState('result');
-    const cps = Number((finalClicks / 10.0).toFixed(1));
+    const cps = Number((finalClicks / duration).toFixed(1));
     const percentile = lookupPercentile(cps);
 
     try {
@@ -116,7 +128,7 @@ export default function ClickSpeedTest() {
         category: 'speed',
         rawScore: cps,
         percentile: percentile,
-        metadata: { clicks: finalClicks }
+        metadata: { clicks: finalClicks, duration }
       });
     } catch (err) {
       console.error('Failed to save Click Speed session:', err);
@@ -124,6 +136,7 @@ export default function ClickSpeedTest() {
 
     const pb = await dataLayer.getPersonalBest('click-speed', 'higher');
     setPersonalBest(pb);
+    setRecordsByDuration(prev => ({ ...prev, [duration]: pb || cps }));
 
     const card = await generateShareCard('Click Speed (CPS) Test', `${cps} CPS`, percentile);
     setShareImage(card);
@@ -144,7 +157,7 @@ export default function ClickSpeedTest() {
   const resetTest = () => {
     setGameState('idle');
     setClicks(0);
-    setTimeLeft(10.0);
+    setTimeLeft(duration);
     setClickRates([]);
   };
 
@@ -172,7 +185,7 @@ export default function ClickSpeedTest() {
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <span className="text-foreground">Active Challenge: Beat your friend's score of <strong className="text-foreground font-mono">{challengeScore} CPS</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-zinc-500 hover:text-foreground font-mono uppercase">Dismiss</button>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">Dismiss</button>
         </div>
       )}
 
@@ -183,7 +196,7 @@ export default function ClickSpeedTest() {
           tabIndex={0}
           onMouseDown={handleClick}
           className={`w-full min-h-[380px] rounded-xl border border-card-border p-8 flex flex-col items-center justify-center text-center cursor-pointer select-none transition-standard outline-none focus-visible:ring-2 focus-visible:ring-accent ${
-            gameState === 'clicking' ? 'bg-subtle border-card-border/80' : 'bg-card hover:border-zinc-400 dark:hover:border-zinc-800'
+            gameState === 'clicking' ? 'bg-subtle border-card-border/80' : 'bg-card hover:border-muted'
           }`}
         >
           {gameState === 'idle' ? (
@@ -191,22 +204,50 @@ export default function ClickSpeedTest() {
               <span className="text-3xl">🖱️</span>
               <div>
                 <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Click Speed Test (CPS)</h2>
-                <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed max-w-sm">
-                  Click inside this card as fast as you can. The 10-second timer begins on your first click.
+                <p className="text-muted text-xs leading-relaxed max-w-sm">
+                  Click inside this card as fast as you can. The timer begins on your first click.
                 </p>
               </div>
+              {/* Duration Selector */}
+              <div className="flex gap-2 mt-2">
+                {DURATIONS.map(d => (
+                  <button
+                    key={d}
+                    onClick={(e) => { e.stopPropagation(); setDuration(d); setTimeLeft(d); }}
+                    className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border transition-standard ${
+                      duration === d
+                        ? 'bg-accent text-white border-accent'
+                        : 'bg-subtle text-muted border-card-border hover:border-accent/30'
+                    }`}
+                  >
+                    {d}s
+                  </button>
+                ))}
+              </div>
+              {recordsByDuration[duration] && (
+                <span className="text-xs text-accent font-mono">Personal Best ({duration}s): {recordsByDuration[duration]} CPS</span>
+              )}
               <span className="text-xs uppercase font-mono tracking-widest text-accent px-4 py-1 bg-accent/5 border border-accent/15 rounded-full mt-2">
                 Click to Start
               </span>
             </div>
           ) : (
             <div className="flex flex-col items-center gap-4">
-              <span className="text-zinc-500 text-xs font-mono uppercase">SPAM CLICK THE CARD</span>
+              <span className="text-muted text-xs font-mono uppercase">SPAM CLICK THE CARD</span>
               <div className="text-6xl font-mono font-bold text-foreground">{clicks}</div>
               <div className="flex flex-col gap-1">
                 <span className="text-accent font-mono text-sm">{timeLeft.toFixed(1)}s remaining</span>
-                <span className="text-zinc-500 font-mono text-xs">{(clicks / Math.max(0.1, 10.0 - timeLeft)).toFixed(1)} clicks/sec</span>
+                <span className="text-muted font-mono text-xs">{(clicks / Math.max(0.1, duration - timeLeft)).toFixed(1)} clicks/sec</span>
               </div>
+              {/* Real-time CPS Chart */}
+              {clickRates.length > 1 && (
+                <div className="w-full max-w-xs mt-2">
+                  <svg width="100%" height="60" viewBox="0 0 360 60" className="stroke-accent fill-none">
+                    <line x1="0" y1="30" x2="360" y2="30" stroke="var(--border-primary)" strokeDasharray="2,2" />
+                    <path d={generateChartPath()} strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </div>
+              )}
             </div>
           )}
         </div>
@@ -214,21 +255,24 @@ export default function ClickSpeedTest() {
         /* Result Screen */
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
           <div className="flex flex-col items-center gap-1">
-            <span className="text-zinc-500 text-xs font-mono uppercase">Clicks Per Second</span>
-            <div className="text-5xl font-mono font-bold text-foreground">{(clicks / 10.0).toFixed(1)}</div>
+            <span className="text-muted text-xs font-mono uppercase">Clicks Per Second ({duration}s)</span>
+            <div className="text-5xl font-mono font-bold text-foreground">{(clicks / duration).toFixed(1)}</div>
             <span className="text-accent text-xs font-mono uppercase">
-              Top {100 - lookupPercentile(clicks / 10.0)}% clickers
+              Top {100 - lookupPercentile(clicks / duration)}% clickers
             </span>
+            {recordsByDuration[duration] && (clicks / duration) >= recordsByDuration[duration] && (
+              <span className="text-success text-xs font-mono font-bold mt-1">🏆 New Personal Best!</span>
+            )}
           </div>
 
           {/* Clicking Cadence Timeline Chart */}
           {clickRates.length > 1 && (
             <div className="flex flex-col gap-2 w-full max-w-sm pt-2">
-              <span className="text-zinc-500 text-[10px] font-mono uppercase text-left">Clicking Cadence (CPS Timeline)</span>
+              <span className="text-muted text-[10px] font-mono uppercase text-left">Clicking Cadence (CPS Timeline)</span>
               <div className="w-full bg-subtle border border-card-border/50 rounded p-4 flex items-center justify-center">
                 <svg width="100%" height="80" viewBox="0 0 360 80" className="stroke-accent fill-none">
                   {/* Grid Lines */}
-                  <line x1="0" y1="40" x2="360" y2="40" stroke="#1c1c1f" strokeDasharray="2,2" />
+                  <line x1="0" y1="40" x2="360" y2="40" stroke="var(--border-primary)" strokeDasharray="2,2" />
                   {/* Cadence Path */}
                   <path d={generateChartPath()} strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                 </svg>
@@ -239,22 +283,22 @@ export default function ClickSpeedTest() {
           {/* Stats grid */}
           <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-2">
             <div>
-              <span className="text-zinc-500 text-[10px] font-mono uppercase">Total Clicks</span>
+              <span className="text-muted text-[10px] font-mono uppercase">Total Clicks</span>
               <div className="text-foreground font-mono text-sm">{clicks}</div>
             </div>
             <div>
-              <span className="text-zinc-500 text-[10px] font-mono uppercase">Personal Best</span>
+              <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
               <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} CPS` : '--'}</div>
             </div>
             <div>
-              <span className="text-zinc-500 text-[10px] font-mono uppercase">Calibrated Hz</span>
+              <span className="text-muted text-[10px] font-mono uppercase">Calibrated Hz</span>
               <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
             </div>
           </div>
 
           <button
             onClick={resetTest}
-            className="mt-2 text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400 hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
+            className="mt-2 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
           >
             Restart Assessment
           </button>
@@ -268,7 +312,7 @@ export default function ClickSpeedTest() {
             <a
               href={shareImage}
               download="cogniarena-cps-score.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download CPS Profile</span>

@@ -4,7 +4,7 @@ import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 
 const TOTAL = 12;
-const ANGLES = [90, 180, 270];
+const ANGLES = [0, 90, 180, 270];
 const PATTERNS = [
   [[1, 0, 1], [0, 1, 0], [1, 0, 1]],
   [[1, 1, 0], [0, 1, 0], [0, 1, 1]],
@@ -43,6 +43,96 @@ function gridKey(g: number[][]): string {
 function shuffle<T>(arr: T[]): T[] {
   return [...arr].sort(() => Math.random() - 0.5);
 }
+
+// ─── Isometric 3D Block Renderer ─────────────────────────────────────────────
+const CUBE_W = 24;
+const CUBE_H = 14;
+const FILL_COLOR = 'var(--chart-accent, #d97706)';
+const TOP_COLOR = 'var(--chart-accent, #d97706)';
+const LEFT_COLOR = 'var(--chart-accent-light, rgba(217,119,6,0.6))';
+const RIGHT_COLOR = 'var(--chart-accent-light, rgba(217,119,6,0.35))';
+const GRID_EMPTY_STROKE = 'var(--border-primary)';
+
+function IsometricCube({ cx, cy }: { cx: number; cy: number }) {
+  const hw = CUBE_W / 2;
+  const hh = CUBE_H / 2;
+  return (
+    <g>
+      {/* Top face */}
+      <polygon
+        points={`${cx},${cy - CUBE_H} ${cx + hw},${cy - hh} ${cx},${cy} ${cx - hw},${cy - hh}`}
+        fill={TOP_COLOR}
+        stroke="rgba(0,0,0,0.15)"
+        strokeWidth="0.5"
+      />
+      {/* Left face */}
+      <polygon
+        points={`${cx - hw},${cy - hh} ${cx},${cy} ${cx},${cy + hh} ${cx - hw},${cy}`}
+        fill={LEFT_COLOR}
+        stroke="rgba(0,0,0,0.15)"
+        strokeWidth="0.5"
+      />
+      {/* Right face */}
+      <polygon
+        points={`${cx + hw},${cy - hh} ${cx},${cy} ${cx},${cy + hh} ${cx + hw},${cy}`}
+        fill={RIGHT_COLOR}
+        stroke="rgba(0,0,0,0.15)"
+        strokeWidth="0.5"
+      />
+    </g>
+  );
+}
+
+function IsometricGrid({ grid, cellSize = 1 }: { grid: number[][]; cellSize?: number }) {
+  const n = grid.length;
+  const isoW = CUBE_W * cellSize;
+  const isoH = CUBE_H * cellSize;
+  const totalW = n * isoW + isoW;
+  const totalH = n * isoH + isoH + CUBE_H * cellSize;
+  const offsetX = totalW / 2;
+  const offsetY = CUBE_H * cellSize;
+
+  return (
+    <svg width={totalW + 10} height={totalH + 10} viewBox={`-5 -5 ${totalW + 10} ${totalH + 10}`}>
+      {/* Render empty cell outlines first */}
+      {grid.map((row, r) =>
+        row.map((cell, c) => {
+          if (cell) return null;
+          const cx = offsetX + (c - r) * (isoW / 2);
+          const cy = offsetY + (c + r) * (isoH / 2);
+          const hw = isoW / 2;
+          const hh = isoH / 2;
+          return (
+            <polygon
+              key={`e-${r}-${c}`}
+              points={`${cx},${cy - isoH} ${cx + hw},${cy - hh} ${cx},${cy} ${cx - hw},${cy - hh}`}
+              fill="none"
+              stroke={GRID_EMPTY_STROKE}
+              strokeWidth="0.5"
+              strokeDasharray="2,2"
+              opacity="0.4"
+            />
+          );
+        })
+      )}
+      {/* Render filled cubes (back to front for proper overlap) */}
+      {grid.map((row, r) =>
+        row.map((cell, c) => {
+          if (!cell) return null;
+          const cx = offsetX + (c - r) * (isoW / 2);
+          const cy = offsetY + (c + r) * (isoH / 2);
+          return (
+            <g key={`f-${r}-${c}`} transform={`translate(${cx},${cy}) scale(${cellSize})`}>
+              <IsometricCube cx={0} cy={0} />
+            </g>
+          );
+        })
+      )}
+    </svg>
+  );
+}
+
+// ─── Main Component ──────────────────────────────────────────────────────────
 
 export default function SpatialOrientationTest() {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
@@ -108,29 +198,27 @@ export default function SpatialOrientationTest() {
     return 0.1;
   };
 
-  const renderGrid = (g: number[][], size = 10) => (
-    <svg width={size * 3 + 4} height={size * 3 + 4} viewBox={`-2 -2 ${size * 3 + 4} ${size * 3 + 4}`}>
-      {g.map((row, r) => row.map((cell, c) =>
-        cell ? <rect key={`${r}-${c}`} x={c * size} y={r * size} width={size} height={size} fill="#d97706" rx={1.5} />
-        : null
-      ))}
-      {g.map((row, r) => row.map((cell, c) =>
-        !cell ? <rect key={`e-${r}-${c}`} x={c * size} y={r * size} width={size} height={size} fill="none" stroke="#27272a" strokeWidth={0.5} rx={1.5} />
-        : null
-      ))}
-    </svg>
-  );
-
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">🧭</div>
+          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center">
+            <svg width="32" height="32" viewBox="0 0 40 40">
+              <polygon points="20,4 36,14 20,24 4,14" fill="var(--chart-accent)" opacity="0.8" />
+              <polygon points="4,14 20,24 20,36 4,26" fill="var(--chart-accent)" opacity="0.5" />
+              <polygon points="36,14 20,24 20,36 36,26" fill="var(--chart-accent)" opacity="0.3" />
+            </svg>
+          </div>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-foreground tracking-tight">Spatial Orientation</h2>
-            <p className="text-zinc-400 text-sm max-w-sm mx-auto mt-2">A pattern has been rotated. Find the <strong className="text-accent">matching rotated version</strong> from 4 choices. 12 trials.</p>
+            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">
+              A 3D block structure has been rotated. Identify the <strong className="text-accent">matching rotated version</strong> from 4 options. 12 trials.
+            </p>
+            <p className="text-xs text-muted mt-2">
+              Patterns are rendered as isometric 3D blocks. Mentally rotate the structure to find the match.
+            </p>
           </div>
-          <button onClick={() => { setPhase('playing'); setTrial(0); setCorrectCount(0); generateTrial(); }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+          <button onClick={() => { setPhase('playing'); setTrial(0); setCorrectCount(0); generateTrial(); }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
         </div>
       </div>
     );
@@ -140,18 +228,22 @@ export default function SpatialOrientationTest() {
     return (
       <div className="w-full max-w-2xl mx-auto">
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-5">
-          <div className="text-[10px] text-zinc-500 font-mono">Trial {trial + 1}/{TOTAL} · Correct: {correctCount}</div>
+          <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{TOTAL} · Correct: {correctCount}</div>
           <div className="flex flex-col items-center gap-1">
-            <div className="text-[9px] text-zinc-500 font-mono uppercase tracking-wider">Original Pattern</div>
-            <div className="p-2 rounded-lg bg-subtle border border-card-border">{renderGrid(target, 16)}</div>
+            <div className="text-[9px] text-muted font-mono uppercase tracking-wider">Original 3D Structure</div>
+            <div className="p-3 rounded-lg bg-subtle border border-card-border">
+              <IsometricGrid grid={target} cellSize={1.2} />
+            </div>
           </div>
-          <div className="text-[9px] text-zinc-500 font-mono uppercase tracking-wider mt-2">Which is the <strong className="text-accent">rotated</strong> version?</div>
-          <div className="grid grid-cols-4 gap-3">
+          <div className="text-[9px] text-muted font-mono uppercase tracking-wider mt-2">
+            Which is the <strong className="text-accent">rotated</strong> version?
+          </div>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
             {choices.map((opt, i) => (
               <button key={i} onClick={() => handlePick(opt)}
-                className="p-2 rounded-lg bg-subtle border border-card-border hover:border-accent hover:bg-accent/5 active:scale-95 transition-standard cursor-pointer flex flex-col items-center"
+                className="p-3 rounded-lg bg-subtle border border-card-border hover:border-accent hover:bg-accent/5 active:scale-95 transition-standard cursor-pointer flex items-center justify-center"
               >
-                {renderGrid(opt, 12)}
+                <IsometricGrid grid={opt} cellSize={0.8} />
               </button>
             ))}
           </div>
@@ -164,11 +256,11 @@ export default function SpatialOrientationTest() {
   return (
     <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
       <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
-        <div className="text-4xl text-emerald-400">✓</div>
+        <div className="text-4xl text-success">✓</div>
         <div className="text-4xl font-bold font-mono text-foreground">{c}/{TOTAL}</div>
-        <div className="text-xs text-zinc-500 font-mono">{Math.round((c / TOTAL) * 100)}% accuracy</div>
+        <div className="text-xs text-muted font-mono">{Math.round((c / TOTAL) * 100)}% accuracy</div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-spatial.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-spatial.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>

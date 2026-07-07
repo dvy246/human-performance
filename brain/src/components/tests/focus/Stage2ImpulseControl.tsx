@@ -116,11 +116,11 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
         <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl">🛡️</div>
         <div className="text-center">
           <h3 className="text-lg font-bold text-foreground mb-1">Stage 2: Impulse Control</h3>
-          <p className="text-zinc-400 text-sm max-w-md">
-            A notification popup briefly appears — <strong className="text-accent">ignore it</strong>. Then a symbol appears: press for <strong className="text-emerald-400">{GO_SYMBOL}</strong>, withhold for <strong className="text-rose-400">{NOGO_SYMBOL}</strong>.
+          <p className="text-secondary text-sm max-w-md">
+            A notification popup briefly appears — <strong className="text-accent">ignore it</strong>. Then a symbol appears: press for <strong className="text-success">{GO_SYMBOL}</strong>, withhold for <strong className="text-error">{NOGO_SYMBOL}</strong>.
           </p>
         </div>
-        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
+        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
           Start Stage
         </button>
       </div>
@@ -130,15 +130,15 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
   if (phase === 'done') {
     return (
       <div className="flex flex-col items-center gap-4 py-6">
-        <div className="text-4xl text-emerald-400">✓</div>
-        <p className="text-zinc-400 text-sm">Impulse Control complete!</p>
+        <div className="text-4xl text-success">✓</div>
+        <p className="text-secondary text-sm">Impulse Control complete!</p>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col items-center gap-6 py-6">
-      <div className="flex items-center gap-3 text-xs text-zinc-500 font-mono">
+      <div className="flex items-center gap-3 text-xs text-muted font-mono">
         <span>Trial {trialIndex + 1} / {TOTAL_TRIALS}</span>
         <span>•</span>
         <span>Hits: {displayHitCount}</span>
@@ -148,14 +148,14 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
 
       <div className="relative w-80 h-48 flex items-center justify-center bg-card border border-card-border rounded-xl">
         {showDistractor && (
-          <div className="absolute -top-2 right-2 w-52 bg-card border border-zinc-700 rounded-lg p-3 shadow-xl animate-in slide-in-from-top-2 duration-300 z-10">
+          <div className="absolute -top-2 right-2 w-52 bg-card border border-card-border rounded-lg p-3 shadow-xl animate-in slide-in-from-top-2 duration-300 z-10">
             <div className="flex items-center gap-2 mb-1">
               <div className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              <span className="text-[10px] text-zinc-500 font-mono uppercase tracking-wider">New</span>
+              <span className="text-[10px] text-muted font-mono uppercase tracking-wider">New</span>
             </div>
             <p className="text-sm text-foreground font-medium">{currentTrialRef.current.distractorText}</p>
             <div className="flex gap-2 mt-2">
-              <span className="px-2 py-0.5 rounded text-[10px] bg-zinc-800 text-zinc-500">Dismiss</span>
+              <span className="px-2 py-0.5 rounded text-[10px] bg-subtle text-muted">Dismiss</span>
               <span className="px-2 py-0.5 rounded text-[10px] bg-accent/20 text-accent">View</span>
             </div>
           </div>
@@ -170,11 +170,11 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
         )}
 
         {!showDistractor && !showStimulus && !feedbackMsg && (
-          <div className="text-zinc-700 text-sm font-mono">Get ready...</div>
+          <div className="text-secondary text-sm font-mono">Get ready...</div>
         )}
 
         {feedbackMsg && (
-          <div className={`text-sm font-semibold ${feedbackMsg.startsWith('✓') ? 'text-emerald-400' : 'text-rose-400'} animate-in fade-in duration-150`}>
+          <div className={`text-sm font-semibold ${feedbackMsg.startsWith('✓') ? 'text-success' : 'text-error'} animate-in fade-in duration-150`}>
             {feedbackMsg}
           </div>
         )}
@@ -182,12 +182,12 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
 
       <div className="flex gap-4">
         <button onClick={handlePress} disabled={!showStimulus}
-          className="px-8 h-12 rounded-lg bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 font-bold text-lg hover:bg-emerald-500/30 disabled:opacity-20 disabled:cursor-not-allowed active:scale-95 transition-standard cursor-pointer"
+          className="px-8 h-12 rounded-lg bg-[var(--success-bg)] border border-[var(--success-border)] text-success font-bold text-lg hover:bg-[var(--success-border)] disabled:opacity-20 disabled:cursor-not-allowed active:scale-95 transition-standard cursor-pointer"
         >
           Press
         </button>
         <button onClick={handleWithhold} disabled={!showStimulus}
-          className="px-8 h-12 rounded-lg bg-rose-500/20 border border-rose-500/40 text-rose-400 font-bold text-lg hover:bg-rose-500/30 disabled:opacity-20 disabled:cursor-not-allowed active:scale-95 transition-standard cursor-pointer"
+          className="px-8 h-12 rounded-lg bg-[var(--error-bg)] border border-[var(--error-border)] text-error font-bold text-lg hover:bg-[var(--error-border)] disabled:opacity-20 disabled:cursor-not-allowed active:scale-95 transition-standard cursor-pointer"
         >
           Withhold
         </button>

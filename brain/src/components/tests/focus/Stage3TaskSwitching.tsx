@@ -115,11 +115,11 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
         <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl">🔄</div>
         <div className="text-center">
           <h3 className="text-lg font-bold text-foreground mb-1">Stage 3: Task Switching</h3>
-          <p className="text-zinc-400 text-sm max-w-md">
-            The rule alternates each trial. Answer <strong className="text-accent">Even/Odd</strong> or <strong className="text-emerald-400">≥50 / &lt;50</strong> for each number. Switching quickly and accurately is the challenge.
+          <p className="text-secondary text-sm max-w-md">
+            The rule alternates each trial. Answer <strong className="text-accent">Even/Odd</strong> or <strong className="text-success">≥50 / &lt;50</strong> for each number. Switching quickly and accurately is the challenge.
           </p>
         </div>
-        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
+        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
           Start Stage
         </button>
       </div>
@@ -129,8 +129,8 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
   if (phase === 'done') {
     return (
       <div className="flex flex-col items-center gap-4 py-6">
-        <div className="text-4xl text-emerald-400">✓</div>
-        <p className="text-zinc-400 text-sm">Task Switching complete!</p>
+        <div className="text-4xl text-success">✓</div>
+        <p className="text-secondary text-sm">Task Switching complete!</p>
       </div>
     );
   }
@@ -140,7 +140,7 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
 
   return (
     <div className="flex flex-col items-center gap-6 py-6">
-      <div className="flex items-center gap-3 text-xs text-zinc-500 font-mono">
+      <div className="flex items-center gap-3 text-xs text-muted font-mono">
         <span>Trial {trialIndex + 1} / {TOTAL_TRIALS}</span>
         <span>•</span>
         <span>Correct: {correctCount}</span>
@@ -148,7 +148,7 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
       </div>
 
       <div className="w-full max-w-sm p-6 rounded-xl bg-card border border-card-border text-center">
-        <div className="text-xs text-zinc-500 mb-2 font-mono uppercase tracking-wider">Rule: {rule.label}</div>
+        <div className="text-xs text-muted mb-2 font-mono uppercase tracking-wider">Rule: {rule.label}</div>
         <div className="text-6xl font-bold text-foreground mb-4 tabular-nums">{currentNum}</div>
         <div className="flex justify-center gap-4">
           <button onClick={() => handleAnswer('left')} disabled={!!feedbackMsg}
@@ -157,13 +157,13 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
             {rule.left}
           </button>
           <button onClick={() => handleAnswer('right')} disabled={!!feedbackMsg}
-            className="flex-1 max-w-[120px] px-4 h-12 rounded-lg bg-amber-500/20 border border-amber-500/40 text-amber-400 font-bold text-sm hover:bg-amber-500/30 disabled:opacity-30 active:scale-95 transition-standard cursor-pointer"
+            className="flex-1 max-w-[120px] px-4 h-12 rounded-lg bg-[var(--warning-bg)] border border-[var(--warning-border)] text-warning font-bold text-sm hover:bg-[var(--warning-border)] disabled:opacity-30 active:scale-95 transition-standard cursor-pointer"
           >
             {rule.right}
           </button>
         </div>
         {feedbackMsg && (
-          <div className={`mt-4 text-2xl font-bold animate-in zoom-in-50 duration-150 ${feedbackMsg === '✓' ? 'text-emerald-400' : 'text-rose-400'}`}>
+          <div className={`mt-4 text-2xl font-bold animate-in zoom-in-50 duration-150 ${feedbackMsg === '✓' ? 'text-success' : 'text-error'}`}>
             {feedbackMsg}
           </div>
         )}

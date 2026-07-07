@@ -43,14 +43,14 @@ const schemaJson = [
     <header class="flex flex-col gap-3">
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Spatial</span></div>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Spatial Orientation Test</h1>
-      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed max-w-2xl">Mentally rotate patterns and identify the matching orientation. 12 trials with increasing rotation angles to measure your spatial reasoning.</p>
+      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">Mentally rotate patterns and identify the matching orientation. 12 trials with increasing rotation angles to measure your spatial reasoning.</p>
     </header>
     <section class="w-full"><SpatialOrientationTest client:visible /></section>
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Spatial Score</h2>
-      <ul class="flex flex-col gap-2 text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed list-disc list-inside">
+      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
         <li><strong class="text-foreground">Visual working memory</strong> — holding the reference pattern in mind while comparing rotated versions</li>
         <li><strong class="text-foreground">Mental rotation speed</strong> — how quickly your brain can simulate the pattern at different angles</li>
         <li><strong class="text-foreground">Practice with spatial tasks</strong> — regular engagement with puzzles, maps, or 3D software builds stronger spatial schemas</li>
@@ -62,9 +62,9 @@ const schemaJson = [
     <article class="flex flex-col gap-3">
       <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
       <div class="flex flex-wrap gap-2">
-        <a href="/tests/pattern-reasoning" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Pattern Reasoning →</a>
-        <a href="/tests/sequence-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Sequence Memory →</a>
-        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
+        <a href="/tests/pattern-reasoning" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Pattern Reasoning →</a>
+        <a href="/tests/sequence-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Sequence Memory →</a>
+        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
       </div>
     </article>
 
@@ -74,20 +74,20 @@ const schemaJson = [
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">What is mental rotation?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Mental rotation is the ability to mentally manipulate a 2D or 3D representation of an object to determine how it would look from different angles. It engages the same spatial processing pathways used in navigation, engineering, and sports.</p>
+          <p class="text-muted text-sm leading-relaxed">Mental rotation is the ability to mentally manipulate a 2D or 3D representation of an object to determine how it would look from different angles. It engages the same spatial processing pathways used in navigation, engineering, and sports.</p>
         </div>
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">Can spatial reasoning be improved?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">Yes. Research shows that regular practice with spatial tasks — including mental rotation, block design, and map reading — can improve spatial working memory capacity and reduce rotation response times over weeks of training.</p>
+          <p class="text-muted text-sm leading-relaxed">Yes. Research shows that regular practice with spatial tasks — including mental rotation, block design, and map reading — can improve spatial working memory capacity and reduce rotation response times over weeks of training.</p>
         </div>
         <div class="flex flex-col gap-1.5">
           <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
         </div>
       </div>
     </article>
 
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed shadow-sm">
+    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
       <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
     </div>
   </div>

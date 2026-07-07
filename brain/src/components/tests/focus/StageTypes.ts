@@ -41,8 +41,8 @@ export function getPerformanceLabel(score: number): string {
 }
 
 export function getPerformanceColor(score: number): string {
-  if (score >= 90) return 'text-emerald-400';
+  if (score >= 90) return 'text-success';
   if (score >= 75) return 'text-accent';
-  if (score >= 60) return 'text-amber-400';
-  return 'text-rose-400';
+  if (score >= 60) return 'text-warning';
+  return 'text-error';
 }

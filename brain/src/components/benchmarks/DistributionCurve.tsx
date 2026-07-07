@@ -10,7 +10,7 @@ interface Props {
   color?: string;
 }
 
-export default function DistributionCurve({ distribution = [], userScore, lowerIsBetter, metric, unit, color = '#f59e0b' }: Props) {
+export default function DistributionCurve({ distribution = [], userScore, lowerIsBetter, metric, unit, color = 'var(--chart-accent)' }: Props) {
   const { mean, std, pdfPoints } = computeFittedDistribution(distribution);
   const containerRef = useRef<HTMLDivElement>(null);
   const [dim, setDim] = useState({ w: 600, h: 300 });
@@ -95,7 +95,7 @@ export default function DistributionCurve({ distribution = [], userScore, lowerI
         <h3 className="text-sm font-semibold text-foreground">Population Distribution</h3>
         {userPercentile != null && (
           <div className="flex items-center gap-2 text-xs">
-            <span className="text-zinc-500">Your percentile:</span>
+            <span className="text-muted">Your percentile:</span>
             <span className="font-bold font-mono text-accent">{userPercentile.toFixed(1)}th</span>
           </div>
         )}
@@ -114,14 +114,14 @@ export default function DistributionCurve({ distribution = [], userScore, lowerI
           const x = toX(Math.max(minX, Math.min(maxX, p.score)));
           return (
             <g key={p.pct}>
-              <line x1={x} y1={padding.top} x2={x} y2={padding.top + plotH} stroke="currentColor" strokeWidth="1" strokeDasharray="4,4" className="text-zinc-600" />
-              <text x={x} y={padding.top - 6} textAnchor="middle" className="fill-zinc-500" fontSize="10" fontFamily="monospace">{p.pct}%</text>
+              <line x1={x} y1={padding.top} x2={x} y2={padding.top + plotH} stroke="currentColor" strokeWidth="1" strokeDasharray="4,4" className="text-muted" />
+              <text x={x} y={padding.top - 6} textAnchor="middle" className="fill-muted" fontSize="10" fontFamily="monospace">{p.pct}%</text>
             </g>
           );
         })}
 
         {medianX && (
-          <line x1={medianX} y1={padding.top} x2={medianX} y2={padding.top + plotH + 8} stroke="currentColor" strokeWidth="1.5" strokeDasharray="6,3" className="text-zinc-400" />
+          <line x1={medianX} y1={padding.top} x2={medianX} y2={padding.top + plotH + 8} stroke="currentColor" strokeWidth="1.5" strokeDasharray="6,3" className="text-secondary" />
         )}
 
         {userX != null && (
@@ -138,8 +138,8 @@ export default function DistributionCurve({ distribution = [], userScore, lowerI
           const x = toX(t.v);
           return (
             <g key={t.v}>
-              <line x1={x} y1={padding.top + plotH} x2={x} y2={padding.top + plotH + 6} stroke="currentColor" strokeWidth="1" className="text-zinc-600" />
-              <text x={x} y={padding.top + plotH + 18} textAnchor="middle" className="fill-zinc-500" fontSize="10" fontFamily="monospace">{t.label}</text>
+              <line x1={x} y1={padding.top + plotH} x2={x} y2={padding.top + plotH + 6} stroke="currentColor" strokeWidth="1" className="text-muted" />
+              <text x={x} y={padding.top + plotH + 18} textAnchor="middle" className="fill-muted" fontSize="10" fontFamily="monospace">{t.label}</text>
             </g>
           );
         })}
@@ -150,16 +150,16 @@ export default function DistributionCurve({ distribution = [], userScore, lowerI
             <text x={Math.min(userX + 20, dim.w - 150)} y={padding.top + plotH - 32} fill={color} fontSize="11" fontWeight="bold" fontFamily="system-ui">
               {metric}: {userScore}{unit}
             </text>
-            <text x={Math.min(userX + 20, dim.w - 150)} y={padding.top + plotH - 20} className="fill-zinc-400" fontSize="10" fontFamily="monospace">
+            <text x={Math.min(userX + 20, dim.w - 150)} y={padding.top + plotH - 20} className="fill-secondary" fontSize="10" fontFamily="monospace">
               {lowerIsBetter ? 'Faster than' : 'Better than'} {(100 - userPercentile!).toFixed(1)}% of users
             </text>
           </g>
         )}
 
-        <text x={padding.left + plotW / 2} y={dim.h - 4} textAnchor="middle" className="fill-zinc-500" fontSize="10" fontFamily="system-ui">
+        <text x={padding.left + plotW / 2} y={dim.h - 4} textAnchor="middle" className="fill-muted" fontSize="10" fontFamily="system-ui">
           {metric}{unit ? ` (${unit})` : ''}
         </text>
-        <text x={10} y={padding.top + plotH / 2} textAnchor="middle" className="fill-zinc-500" fontSize="10" fontFamily="system-ui" transform={`rotate(-90, 10, ${padding.top + plotH / 2})`}>
+        <text x={10} y={padding.top + plotH / 2} textAnchor="middle" className="fill-muted" fontSize="10" fontFamily="system-ui" transform={`rotate(-90, 10, ${padding.top + plotH / 2})`}>
           Frequency
         </text>
       </svg>

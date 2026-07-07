@@ -18,7 +18,7 @@ export default function ProfessionalBenchmarks({ data, lowerIsBetter }: Props) {
           const barPct = lowerIsBetter ? 100 - pct : pct;
           return (
             <div key={d.profession} className="flex items-center gap-3">
-              <span className="text-xs text-zinc-400 w-36 shrink-0">{d.profession}</span>
+              <span className="text-xs text-secondary w-36 shrink-0">{d.profession}</span>
               <div className="flex-1 h-5 bg-subtle rounded-full overflow-hidden">
                 <div
                   className="h-full rounded-full transition-all duration-700"
@@ -30,7 +30,7 @@ export default function ProfessionalBenchmarks({ data, lowerIsBetter }: Props) {
           );
         })}
       </div>
-      <p className="mt-3 text-[10px] text-zinc-500 leading-relaxed">
+      <p className="mt-3 text-[10px] text-muted leading-relaxed">
         Benchmarks compiled from published research and population studies. Individual results vary.
       </p>
     </div>

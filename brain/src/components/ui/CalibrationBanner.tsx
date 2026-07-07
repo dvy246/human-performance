@@ -14,8 +14,8 @@ export default function CalibrationBanner() {
 
   if (detecting) {
     return (
-      <div className="flex items-center justify-center gap-2 py-2 px-4 bg-amber-500/5 border border-amber-500/20 rounded-lg text-xs font-mono text-amber-600 dark:text-amber-400 animate-pulse">
-        <span className="w-1.5 h-1.5 rounded-full bg-amber-500" />
+      <div className="flex items-center justify-center gap-2 py-2 px-4 bg-warning-bg border border-warning-border rounded-lg text-xs font-mono text-warning animate-pulse">
+        <span className="w-1.5 h-1.5 rounded-full bg-warning" />
         Detecting display refresh rate...
       </div>
     );
@@ -25,17 +25,20 @@ export default function CalibrationBanner() {
 
   if (calibration.hz < 60) {
     return (
-      <div className="flex items-center justify-center gap-2 py-2 px-4 bg-amber-500/10 border border-amber-500/30 rounded-lg text-xs font-mono text-amber-600 dark:text-amber-400">
-        <span>⚠️</span>
-        <span>{calibration.hz}Hz display detected — scores may include ~{calibration.expectedLagMs}ms paint lag. Consider enabling 60Hz+.</span>
+      <div className="flex flex-col items-center gap-1 py-2 px-4 bg-warning-bg border border-warning-border rounded-lg text-xs font-mono text-warning">
+        <span>⚠️ {calibration.hz}Hz display detected — scores may include ~{calibration.expectedLagMs}ms paint lag. Consider enabling 60Hz+.</span>
+        <span className="text-[10px] opacity-70">Your monitor: ~{calibration.measuredHz}Hz (calibrated to {calibration.hz}Hz for standard timing)</span>
       </div>
     );
   }
 
   return (
-    <div className="flex items-center justify-center gap-2 py-1.5 px-4 bg-emerald-500/5 border border-emerald-500/15 rounded-lg text-xs font-mono text-emerald-600 dark:text-emerald-400">
-      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-      <span>{calibration.hz}Hz | ~{calibration.expectedLagMs}ms expected display lag</span>
+    <div className="flex flex-col items-center gap-0.5 py-1.5 px-4 bg-success-bg border border-success-border rounded-lg text-xs font-mono text-success">
+      <span className="flex items-center gap-2">
+        <span className="w-1.5 h-1.5 rounded-full bg-success" />
+        <span>{calibration.hz}Hz | ~{calibration.expectedLagMs}ms expected display lag</span>
+      </span>
+      <span className="text-[10px] opacity-70">Your monitor: ~{calibration.measuredHz}Hz (calibrated to {calibration.hz}Hz for standard timing)</span>
     </div>
   );
 }

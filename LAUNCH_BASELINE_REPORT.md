@@ -205,15 +205,18 @@
 6. **Accessibility** — WCAG 2.1 AA compliance, focus management, reduced motion (competitors lack this)
 7. **Content Quality** — Scientific methodology, percentile benchmarks, training recommendations
 
-### Gaps to Address (Post-Launch)
-1. **Leaderboards** — Competitors like Monkeytype and AimTrainer have global leaderboards
-2. **Social Sharing** — Share cards for test results (viral mechanic)
-3. **Training Plans** — Personalized daily training recommendations (PRD mentions this)
-4. **Achievement System** — Streaks, badges, gamification (PRD mentions this)
-5. **Mobile App** — Lumosity has excellent mobile app; we're web-only
-6. **Cloud Sync** — Optional account-based progress sync (currently localStorage only)
-7. **Premium Tier** — Ad-free experience, advanced analytics (monetization opportunity)
+### Verified Prerequisites — Built, Not Missing ⚠️
+The following items were previously listed as gaps but **verified as already built** in this pass:
 
+1. **Social Sharing** ✅ — `brain/src/runtime/share.ts` has `generateShareCard()` — canvas-based 1200×630 PNG generator with score/percentile/CTA. Previously listed as missing; confirmed present.
+2. **Training Plans** ✅ — `brain/src/runtime/trainingEngine.ts` has `getAdaptiveRecommendations()` (weakness-based) and `generateDailyChallengeForDay()`. Previously listed as missing; confirmed present.
+3. **Achievement System** ✅ — `brain/src/components/dashboard/CognitiveProfile.tsx` has `ACHIEVEMENTS_LIST` with 25 unique achievements with unlock logic. Previously listed as missing; confirmed present.
+4. **Cloud Sync** ✅ — `brain/sync-worker/index.ts` has `/api/sync/push` + `/api/sync/pull` endpoints; `brain/sync-worker/wrangler.toml` configures D1; `brain/src/runtime/recovery.ts` has `generateRecoveryCode()` + `hashRecoveryCode()`. Previously listed as missing; confirmed present.
+
+### Genuine Gaps (Post-Launch)
+1. **Leaderboards** — Competitors like Monkeytype and AimTrainer have global leaderboards; CogniArena does not.
+2. **Mobile App** — Lumosity has excellent mobile app; CogniArena is web-only.
+3. **Premium Tier** — Ad-free experience, advanced analytics (monetization opportunity).
 ---
 
 ## Launch Readiness Score
@@ -226,7 +229,7 @@
 | **Bug Remediation** | 100% | ✅ Complete |
 | **SEO Infrastructure** | 100% | ✅ Complete |
 | **Build Stability** | 100% | ✅ Complete |
-| **Competitive Features** | 70% | ⚠️ Post-launch roadmap |
+| **Competitive Features** | 85% | ⚠️ 3 genuine gaps remaining |
 
 **Overall Launch Readiness: 95%** ✅
 
@@ -241,16 +244,12 @@
 - ✅ Ready for deployment
 
 ### Short-Term (0-3 Months Post-Launch)
-1. **Implement Share Cards** — Auto-generated social share images for test results
-2. **Add Leaderboards** — Global and friend-based rankings for key tests
-3. **Build Training Plans** — Personalized daily routines based on weak skills
-4. **Achievement System** — Streaks, badges, gamification mechanics
+1. **Add Leaderboards** — Global and friend-based rankings for key tests
 
 ### Medium-Term (3-6 Months Post-Launch)
-1. **Cloud Sync** — Optional account-based progress backup
-2. **Premium Tier** — Ad-free experience, advanced analytics ($4.99/mo)
-3. **Mobile App** — React Native or PWA for better mobile experience
-4. **Content Marketing** — Blog posts targeting long-tail keywords
+1. **Premium Tier** — Ad-free experience, advanced analytics ($4.99/mo)
+2. **Mobile App** — React Native or PWA for better mobile experience
+3. **Content Marketing** — Blog posts targeting long-tail keywords
 
 ### Long-Term (6-12 Months Post-Launch)
 1. **API Integrations** — Allow third-party apps to pull CogniArena scores
@@ -264,7 +263,7 @@
 
 CogniArena is **launch-ready** with a solid foundation of 22 cognitive tests, comprehensive SEO optimization, WCAG 2.1 AA accessibility compliance, and a stable build pipeline. The platform differentiates itself through modern UI/UX, privacy-first architecture, and deep content that competitors lack.
 
-Post-launch priorities should focus on engagement mechanics (leaderboards, achievements, share cards) and monetization diversification (premium tier, affiliate partnerships) to build a sustainable growth engine.
+Post-launch priorities should focus on engagement mechanics (leaderboards) and monetization diversification (premium tier, affiliate partnerships) to build a sustainable growth engine.
 
 **Final Build:** 67 pages, 0 errors, 0 warnings  
 **Final Typecheck:** 129 files, 0 errors, 0 warnings  

@@ -199,8 +199,8 @@ export default function ReactionTimeTest() {
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-36 mt-4 overflow-visible">
         <defs>
           <linearGradient id="curveGradient" x1="0%" y1="0%" x2="0%" y2="100%">
-            <stop offset="0%" stopColor="#d97706" stopOpacity="0.2" />
-            <stop offset="100%" stopColor="#d97706" stopOpacity="0.0" />
+            <stop offset="0%" stopColor="var(--chart-accent)" stopOpacity="0.2" />
+            <stop offset="100%" stopColor="var(--chart-accent)" stopOpacity="0.0" />
           </linearGradient>
         </defs>
         
@@ -208,23 +208,23 @@ export default function ReactionTimeTest() {
         <path d={pathData} fill="url(#curveGradient)" />
         
         {/* Distribution Curve Line */}
-        <path d={`M 0,${height} L ${points.join(' L ')}`} fill="none" stroke="#d97706" strokeWidth="2.5" />
+        <path d={`M 0,${height} L ${points.join(' L ')}`} fill="none" stroke="var(--chart-accent)" strokeWidth="2.5" />
         
         {/* Baseline */}
-        <line x1="0" y1={height} x2={width} y2={height} stroke="#1c1c1f" strokeWidth="2" />
+        <line x1="0" y1={height} x2={width} y2={height} stroke="var(--border-primary)" strokeWidth="2" />
         
         {/* Average Marker */}
-        <line x1={((mean - minX) / (maxX - minX)) * width} y1="0" x2={((mean - minX) / (maxX - minX)) * width} y2={height} stroke="#27272a" strokeDasharray="3,3" />
-        <text x={((mean - minX) / (maxX - minX)) * width + 4} y="20" fill="#71717a" className="text-[10px] font-mono">Avg (260ms)</text>
+        <line x1={((mean - minX) / (maxX - minX)) * width} y1="0" x2={((mean - minX) / (maxX - minX)) * width} y2={height} stroke="var(--border-hover)" strokeDasharray="3,3" />
+        <text x={((mean - minX) / (maxX - minX)) * width + 4} y="20" fill="var(--text-muted)" className="text-[10px] font-mono">Avg (260ms)</text>
 
         {/* User Score Pin */}
-        <line x1={userX} y1={userY} x2={userX} y2={height} stroke="#ffffff" strokeWidth="1.5" strokeDasharray="2,2" />
-        <circle cx={userX} cy={userY} r="5" fill="#fafafa" stroke="#d97706" strokeWidth="2.5" className="animate-pulse" />
+        <line x1={userX} y1={userY} x2={userX} y2={height} stroke="var(--text-primary)" strokeWidth="1.5" strokeDasharray="2,2" />
+        <circle cx={userX} cy={userY} r="5" fill="var(--bg-primary)" stroke="var(--chart-accent)" strokeWidth="2.5" className="animate-pulse" />
         
         {/* User Marker Label */}
         <g transform={`translate(${Math.max(45, Math.min(width - 55, userX))}, ${userY - 18})`}>
-          <rect x="-40" y="-12" width="80" height="18" rx="3" fill="#fafafa" />
-          <text textAnchor="middle" fill="#030303" className="text-[10px] font-bold font-mono" y="0">YOU: {userScore}ms</text>
+          <rect x="-40" y="-12" width="80" height="18" rx="3" fill="var(--bg-card)" stroke="var(--border-primary)" strokeWidth="0.5" />
+          <text textAnchor="middle" fill="var(--text-primary)" className="text-[10px] font-bold font-mono" y="0">YOU: {userScore}ms</text>
         </g>
       </svg>
     );
@@ -256,13 +256,13 @@ export default function ReactionTimeTest() {
       {/* Target Challenge Display */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
-          <div className="flex items-center gap-2 text-zinc-300">
+          <div className="flex items-center gap-2 text-secondary">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" className="text-accent"><path d="M6 12 10 16 18 8"/></svg>
             <span>Active Challenge: Beat your friend's score of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
           </div>
           <button 
             onClick={() => setChallengeScore(null)} 
-            className="text-[11px] text-zinc-500 hover:text-zinc-300 transition-colors uppercase font-mono"
+            className="text-[11px] text-muted hover:text-secondary transition-colors uppercase font-mono"
           >
             Dismiss
           </button>
@@ -280,7 +280,7 @@ export default function ReactionTimeTest() {
             ? 'bg-emerald-600/90 text-white shadow-emerald-950/20 shadow-2xl border border-emerald-500' 
             : gameState === 'abort'
             ? 'bg-rose-950/40 text-rose-200 border border-rose-900/50'
-            : 'bg-card text-foreground/80 border border-card-border hover:border-zinc-400 dark:hover:border-zinc-800'
+            : 'bg-card text-foreground/80 border border-card-border hover:border-muted'
         }`}
       >
         {gameState === 'idle' && (
@@ -290,7 +290,7 @@ export default function ReactionTimeTest() {
             </div>
             <div>
               <h2 className="text-2xl font-bold text-foreground tracking-tight mb-2">Reaction Time Test</h2>
-              <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-sm mb-6">
+              <p className="text-muted text-sm max-w-sm mb-6">
                 When the red screen turns green, click as fast as you can.
               </p>
             </div>
@@ -302,25 +302,37 @@ export default function ReactionTimeTest() {
 
         {gameState === 'waiting' && (
           <div className="flex flex-col items-center gap-4">
-            <div className="w-4 h-4 rounded-full bg-rose-500 animate-ping mb-2" />
+            <div className="w-16 h-16 rounded-full bg-rose-500 animate-ping mb-2" />
             <h2 className="text-3xl font-extrabold text-white tracking-tight">Wait for green...</h2>
-            <p className="text-zinc-500 text-xs uppercase font-mono">Attempt {attempts.length + 1} of 5</p>
+            <div className="flex items-center gap-2 text-white/80 text-sm font-mono">
+              <svg width="20" height="20" viewBox="0 0 20 20" className="inline-block">
+                <circle cx="10" cy="10" r="8" fill="none" stroke="currentColor" strokeWidth="2" />
+                <line x1="10" y1="4" x2="10" y2="10" stroke="currentColor" strokeWidth="2" />
+              </svg>
+              <span>STOP — Wait for the green screen</span>
+            </div>
+            <p className="text-muted text-xs uppercase font-mono">Attempt {attempts.length + 1} of 5</p>
           </div>
         )}
 
         {gameState === 'ready' && (
           <div className="flex flex-col items-center gap-2">
+            <svg width="60" height="60" viewBox="0 0 60 60" className="mb-2">
+              <polygon points="30,5 55,50 5,50" fill="none" stroke="white" strokeWidth="3" />
+              <polygon points="30,20 45,45 15,45" fill="white" opacity="0.3" />
+            </svg>
             <h2 className="text-6xl font-extrabold text-white tracking-tighter drop-shadow-md select-none">
               CLICK!
             </h2>
+            <span className="text-white/80 text-sm font-mono uppercase">Green screen — Click now!</span>
           </div>
         )}
 
         {gameState === 'attempt-result' && (
           <div className="flex flex-col items-center gap-4">
-            <span className="text-zinc-500 text-xs uppercase font-mono">Attempt {attempts.length} Finished</span>
+            <span className="text-muted text-xs uppercase font-mono">Attempt {attempts.length} Finished</span>
             <div className="text-5xl font-mono font-bold text-foreground">{currentScore} ms</div>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-sm mb-4">
+            <p className="text-muted text-sm max-w-sm mb-4">
               Click anywhere to proceed to attempt {attempts.length + 1} of 5.
             </p>
           </div>
@@ -328,19 +340,19 @@ export default function ReactionTimeTest() {
 
         {gameState === 'abort' && (
           <div className="flex flex-col items-center gap-4">
-            <span className="text-rose-500 text-2xl">⚠️</span>
+            <span className="text-error text-2xl">⚠️</span>
             <h2 className="text-2xl font-bold text-foreground">Too Early!</h2>
-            <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-sm mb-4">
+            <p className="text-muted text-sm max-w-sm mb-4">
               You clicked before the screen turned green. Clicks are reset.
             </p>
-            <span className="text-xs uppercase font-mono text-zinc-500">Click to restart</span>
+            <span className="text-xs uppercase font-mono text-muted">Click to restart</span>
           </div>
         )}
 
         {gameState === 'result' && attempts.length === 5 && (
           <div className="w-full flex flex-col items-center gap-6 py-4">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-zinc-500 text-xs uppercase font-mono">Final Average Score</span>
+              <span className="text-muted text-xs uppercase font-mono">Final Average Score</span>
               <div className="text-5xl font-mono font-extrabold text-foreground tracking-tight">
                 {finalAverage} ms
               </div>
@@ -357,15 +369,15 @@ export default function ReactionTimeTest() {
             {/* Micro details */}
             <div className="grid grid-cols-3 gap-8 w-full max-w-md text-center">
               <div>
-                <div className="text-zinc-500 text-[10px] uppercase font-mono">Personal Best</div>
+                <div className="text-muted text-[10px] uppercase font-mono">Personal Best</div>
                 <div className="text-foreground font-mono font-medium">{personalBest ? `${personalBest} ms` : '--'}</div>
               </div>
               <div>
-                <div className="text-zinc-500 text-[10px] uppercase font-mono">Calibration</div>
+                <div className="text-muted text-[10px] uppercase font-mono">Calibration</div>
                 <div className="text-foreground font-mono font-medium">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
               </div>
               <div>
-                <div className="text-zinc-500 text-[10px] uppercase font-mono">Attempts</div>
+                <div className="text-muted text-[10px] uppercase font-mono">Attempts</div>
                 <div className="text-foreground font-mono text-xs gap-1 flex justify-center">
                   {attempts.map((a, idx) => (
                     <span key={idx} className="opacity-80">{a}</span>
@@ -374,7 +386,7 @@ export default function ReactionTimeTest() {
               </div>
             </div>
 
-            <span className="text-xs uppercase font-mono text-zinc-500">Click anywhere outside buttons to try again</span>
+            <span className="text-xs uppercase font-mono text-muted">Click anywhere outside buttons to try again</span>
           </div>
         )}
       </div>
@@ -386,7 +398,7 @@ export default function ReactionTimeTest() {
             <a
               href={shareImage}
               download="cogniarena-reaction-time.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Share Card</span>
@@ -404,7 +416,7 @@ export default function ReactionTimeTest() {
 
       {/* Hardware Calibration status footer */}
       {calibration && (
-        <div className="flex items-center justify-center gap-2 text-zinc-500 text-xs font-mono">
+        <div className="flex items-center justify-center gap-2 text-muted text-xs font-mono">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           <span>Monitor calibrated: {calibration.hz}Hz Refresh Rate | Expected Hardware Lag: ~{calibration.expectedLagMs}ms</span>
         </div>

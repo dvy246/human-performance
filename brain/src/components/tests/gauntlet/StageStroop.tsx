@@ -64,17 +64,17 @@ export default function StageStroop({ onComplete }: StageProps) {
   if (phase === 'intro') {
     return (
       <div className="flex flex-col items-center gap-4 py-4">
-        <div className="text-xs text-zinc-500 font-mono">Stage 3: Stroop Test</div>
-        <p className="text-[10px] text-zinc-500 max-w-xs text-center">Name the <strong className="text-foreground">ink color</strong>, ignoring the word.</p>
-        <button onClick={() => { setPhase('playing'); startRef.current = performance.now(); }} className="px-6 h-9 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
+        <div className="text-xs text-muted font-mono">Stage 3: Stroop Test</div>
+        <p className="text-[10px] text-muted max-w-xs text-center">Name the <strong className="text-foreground">ink color</strong>, ignoring the word.</p>
+        <button onClick={() => { setPhase('playing'); startRef.current = performance.now(); }} className="px-6 h-9 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
       </div>
     );
   }
-  if (phase === 'done') return <div className="text-xs text-emerald-400 font-mono py-4">✓ Done</div>;
+  if (phase === 'done') return <div className="text-xs text-success font-mono py-4">✓ Done</div>;
 
   return (
     <div className="flex flex-col items-center gap-4 py-2">
-      <div className="text-[10px] text-zinc-500 font-mono">Trial {trial + 1}/{TOTAL} · Correct: {correct}</div>
+      <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{TOTAL} · Correct: {correct}</div>
       <div className="w-48 h-24 rounded-xl bg-card border border-card-border flex items-center justify-center">
         <span className="text-3xl font-bold tracking-tight" style={{ color: current.color }}>{current.word}</span>
       </div>
@@ -86,7 +86,7 @@ export default function StageStroop({ onComplete }: StageProps) {
           </button>
         ))}
       </div>
-      {feedback && <div className={`text-sm font-bold ${feedback === '✓' ? 'text-emerald-400' : 'text-rose-400'}`}>{feedback}</div>}
+      {feedback && <div className={`text-sm font-bold ${feedback === '✓' ? 'text-success' : 'text-error'}`}>{feedback}</div>}
     </div>
   );
 }

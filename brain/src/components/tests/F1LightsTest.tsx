@@ -199,8 +199,8 @@ export default function F1LightsTest() {
       {/* Target Challenge */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
-          <span className="text-zinc-300">Active Challenge: Beat your friend's F1 start of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-zinc-500 hover:text-zinc-300 font-mono uppercase">Dismiss</button>
+          <span className="text-secondary">Active Challenge: Beat your friend's F1 start of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-secondary font-mono uppercase">Dismiss</button>
         </div>
       )}
 
@@ -212,13 +212,13 @@ export default function F1LightsTest() {
         onKeyDown={handleKeyDown}
         className={`w-full min-h-[380px] rounded-xl border border-card-border p-8 flex flex-col items-center justify-between transition-standard outline-none focus-visible:ring-2 focus-visible:ring-accent ${
           gameState === 'ready' 
-            ? 'bg-zinc-950 border-emerald-500 shadow-emerald-950/10 shadow-2xl'
+            ? 'bg-subtle border-emerald-500 shadow-emerald-950/10 shadow-2xl'
             : gameState === 'jump-start'
             ? 'bg-rose-950/30 border-rose-900/50 text-rose-200'
             : 'bg-card'
         }`}
       >
-        <span className="text-zinc-600 text-xs font-mono uppercase">
+        <span className="text-muted text-xs font-mono uppercase">
           {gameState === 'sequence' || gameState === 'waiting'
             ? `Attempt ${attempts.length + 1} of 5 &middot; WATCH GANTRY`
             : attempts.length === 5 
@@ -231,15 +231,21 @@ export default function F1LightsTest() {
           {[1, 2, 3, 4, 5].map((col) => {
             const isLit = col <= activeRows && gameState !== 'ready';
             return (
-              <div key={col} className="w-14 bg-zinc-900 border-2 border-zinc-800 rounded-md p-2 flex flex-col gap-3 items-center">
+              <div key={col} className="w-14 bg-panel border-2 border-card-border rounded-md p-2 flex flex-col gap-3 items-center">
+                {/* Light number indicator */}
+                <span className="text-[10px] font-mono text-muted absolute -top-5">{col}</span>
                 {/* Upper light pair */}
-                <div className={`w-8 h-8 rounded-full border border-black transition-all duration-75 shadow-inner ${
-                  isLit ? 'bg-red-600 shadow-red-500/50 ring-2 ring-red-500' : 'bg-zinc-950'
-                }`} />
+                <div className={`w-8 h-8 rounded-full border border-black transition-all duration-75 shadow-inner relative ${
+                  isLit ? 'bg-red-600 shadow-red-500/50 ring-2 ring-red-500' : 'bg-subtle'
+                }`}>
+                  {isLit && <span className="absolute inset-0 flex items-center justify-center text-white text-xs font-bold">●</span>}
+                </div>
                 {/* Lower light pair */}
-                <div className={`w-8 h-8 rounded-full border border-black transition-all duration-75 shadow-inner ${
-                  isLit ? 'bg-red-600 shadow-red-500/50 ring-2 ring-red-500' : 'bg-zinc-950'
-                }`} />
+                <div className={`w-8 h-8 rounded-full border border-black transition-all duration-75 shadow-inner relative ${
+                  isLit ? 'bg-red-600 shadow-red-500/50 ring-2 ring-red-500' : 'bg-subtle'
+                }`}>
+                  {isLit && <span className="absolute inset-0 flex items-center justify-center text-white text-xs font-bold">●</span>}
+                </div>
               </div>
             );
           })}
@@ -250,7 +256,7 @@ export default function F1LightsTest() {
           {gameState === 'idle' && (
             <>
               <h2 className="text-xl font-bold text-foreground tracking-tight">F1 Start Lights Test</h2>
-              <p className="text-zinc-500 dark:text-zinc-400 text-xs leading-relaxed">
+              <p className="text-muted text-xs leading-relaxed">
                 Click inside the card or press **Spacebar** to start. Wait for the five red lights to light up, and react the exact instant they turn off.
               </p>
               <span className="text-xs uppercase font-mono tracking-widest text-accent mt-2">Click to start</span>
@@ -264,33 +270,40 @@ export default function F1LightsTest() {
           )}
 
           {gameState === 'ready' && (
-            <h2 className="text-5xl font-mono font-bold text-emerald-400 tracking-widest uppercase select-none animate-pulse">
-              GO! GO! GO!
-            </h2>
+            <>
+              <svg width="80" height="80" viewBox="0 0 80 80" className="mb-2">
+                <polygon points="40,5 75,70 5,70" fill="none" stroke="var(--success)" strokeWidth="4" />
+                <polygon points="40,25 60,60 20,60" fill="var(--success)" opacity="0.3" />
+              </svg>
+              <h2 className="text-5xl font-mono font-bold text-success tracking-widest uppercase select-none animate-pulse">
+                GO! GO! GO!
+              </h2>
+              <span className="text-success/80 text-sm font-mono">Lights out — React now!</span>
+            </>
           )}
 
           {gameState === 'attempt-result' && (
             <>
-              <span className="text-zinc-500 text-xs font-mono">Attempt {attempts.length} time</span>
+              <span className="text-muted text-xs font-mono">Attempt {attempts.length} time</span>
               <div className="text-4xl font-mono font-bold text-foreground">{currentScore} ms</div>
-              <span className="text-xs text-zinc-500 dark:text-zinc-400 font-mono uppercase mt-2">Click anywhere to load next sequence</span>
+              <span className="text-xs text-muted font-mono uppercase mt-2">Click anywhere to load next sequence</span>
             </>
           )}
 
           {gameState === 'jump-start' && (
             <>
-              <span className="text-rose-500 text-2xl">🚨</span>
+              <span className="text-error text-2xl">🚨</span>
               <h2 className="text-xl font-bold text-foreground">JUMP START!</h2>
-              <p className="text-zinc-500 dark:text-zinc-400 text-xs">
+              <p className="text-muted text-xs">
                 You clicked before the lights went out. Sequence cancelled.
               </p>
-              <span className="text-xs text-rose-500 font-mono uppercase mt-2">Click to restart</span>
+              <span className="text-xs text-error font-mono uppercase mt-2">Click to restart</span>
             </>
           )}
 
           {gameState === 'result' && (
             <div className="flex flex-col items-center gap-2">
-              <span className="text-zinc-500 text-xs font-mono">Average Reaction speed</span>
+              <span className="text-muted text-xs font-mono">Average Reaction speed</span>
               <div className="text-4xl font-mono font-bold text-foreground">
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
               </div>
@@ -305,16 +318,16 @@ export default function F1LightsTest() {
         {gameState === 'result' ? (
           <div className="grid grid-cols-2 gap-8 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-4">
             <div>
-              <span className="text-zinc-500 text-[10px] font-mono uppercase">Personal Best</span>
+              <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
               <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
             </div>
             <div>
-              <span className="text-zinc-500 text-[10px] font-mono uppercase">Calibrated Hz</span>
+              <span className="text-muted text-[10px] font-mono uppercase">Calibrated Hz</span>
               <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
             </div>
           </div>
         ) : (
-          <span className="text-[10px] text-zinc-500 dark:text-zinc-600 font-mono">PRESS SPACEBAR / TOUCH TO TRIGGER</span>
+          <span className="text-[10px] text-muted dark:text-muted font-mono">PRESS SPACEBAR / TOUCH TO TRIGGER</span>
         )}
       </div>
 
@@ -325,7 +338,7 @@ export default function F1LightsTest() {
             <a
               href={shareImage}
               download="cogniarena-f1-reflex.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download F1 Telemetry</span>

@@ -215,7 +215,7 @@ export default function VisualPatternTest() {
           </span>
           <button
             onClick={() => setChallengeScore(null)}
-            className="text-[11px] text-zinc-500 hover:text-foreground font-mono uppercase"
+            className="text-[11px] text-muted hover:text-foreground font-mono uppercase"
           >
             Dismiss
           </button>
@@ -227,7 +227,7 @@ export default function VisualPatternTest() {
         
         {/* Level & status indicator */}
         {phase !== 'idle' && phase !== 'result' && (
-          <div className="flex justify-between items-center w-full max-w-sm text-xs font-mono text-zinc-500">
+          <div className="flex justify-between items-center w-full max-w-sm text-xs font-mono text-muted">
             <span>Level: <strong className="text-foreground">{level}</strong></span>
             <span>Grid: <strong className="text-accent">{gridSize}×{gridSize}</strong></span>
             <span>Status: <strong className="text-accent">
@@ -244,7 +244,7 @@ export default function VisualPatternTest() {
             </div>
             <div className="text-center">
               <h3 className="text-lg font-bold text-foreground mb-1">Visual Pattern Memory</h3>
-              <p className="text-zinc-500 dark:text-zinc-400 text-sm max-w-xs">
+              <p className="text-muted text-sm max-w-xs">
                 Memorize the highlighted tiles on a grid, then recreate the pattern from memory. Grid size increases with each level.
               </p>
             </div>
@@ -282,7 +282,7 @@ export default function VisualPatternTest() {
                 const isWrong = wrongTiles.has(idx);
                 const isMissed = phase === 'feedback' && isPatternTile && !userSelected.has(idx);
 
-                let tileClass = 'bg-zinc-200 dark:bg-zinc-950 border-zinc-300 dark:border-zinc-900';
+                let tileClass = 'bg-subtle border-card-border';
 
                 if (phase === 'showing' && isPatternTile) {
                   tileClass = 'bg-accent border-accent shadow-[0_0_15px_rgba(217,119,6,0.4)] scale-95';
@@ -300,7 +300,7 @@ export default function VisualPatternTest() {
                     onClick={() => handleTileClick(idx)}
                     disabled={phase !== 'input'}
                     className={`${cellSize} rounded-lg border transition-all duration-100 cursor-pointer outline-none select-none ${tileClass} ${
-                      phase === 'input' ? 'hover:border-zinc-700 active:scale-95' : ''
+                      phase === 'input' ? 'hover:border-card-border active:scale-95' : ''
                     }`}
                     aria-label={`Tile ${idx + 1}`}
                   />
@@ -324,7 +324,7 @@ export default function VisualPatternTest() {
         {phase === 'result' && (
           <div className="flex flex-col items-center gap-6 py-4">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-zinc-500 text-xs font-mono uppercase">
+              <span className="text-muted text-xs font-mono uppercase">
                 Visual Pattern Memory
               </span>
               <div className="text-5xl font-mono font-bold text-foreground">
@@ -337,13 +337,13 @@ export default function VisualPatternTest() {
 
             <div className="grid grid-cols-2 gap-8 w-full max-w-xs border-t border-card-border/50 pt-4 text-center mt-2">
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Personal Best</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
                 <div className="text-foreground font-mono text-sm">
                   {personalBest ? `Level ${personalBest}` : '--'}
                 </div>
               </div>
               <div>
-                <span className="text-zinc-500 text-[10px] font-mono uppercase">Percentile</span>
+                <span className="text-muted text-[10px] font-mono uppercase">Percentile</span>
                 <div className="text-foreground font-mono text-sm">
                   ~{Math.round(100 - lookupPercentile(finalScore))}%ile
                 </div>
@@ -353,8 +353,8 @@ export default function VisualPatternTest() {
             {challengeScore && (
               <div className={`w-full max-w-xs p-3 rounded-lg border text-center text-sm font-mono ${
                 finalScore >= challengeScore
-                  ? 'bg-emerald-950/10 border-emerald-900/50 text-emerald-400'
-                  : 'bg-red-950/10 border-red-900/50 text-red-400'
+                  ? 'bg-[var(--success-bg)] border-[var(--success-border)] text-success'
+                  : 'bg-[var(--error-bg)] border-[var(--error-border)] text-error'
               }`}>
                 {finalScore >= challengeScore
                   ? `🏆 You beat Level ${challengeScore}!`
@@ -371,7 +371,7 @@ export default function VisualPatternTest() {
 
             <button
               onClick={startTest}
-              className="mt-4 text-xs font-mono uppercase tracking-widest text-zinc-500 dark:text-zinc-400 hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
+              className="mt-4 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
             >
               Try Again
             </button>
@@ -386,7 +386,7 @@ export default function VisualPatternTest() {
             <a
               href={shareImage}
               download="cogniarena-visual-pattern.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard w-full"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard w-full"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Score Card</span>

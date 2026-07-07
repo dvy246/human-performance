@@ -22,32 +22,32 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
       <div class="flex flex-wrap items-center justify-center gap-x-6 gap-y-3 mb-7">
         <div class="flex flex-col items-center">
           <span class="text-2xl sm:text-3xl font-bold text-accent font-mono tabular-nums">250ms</span>
-          <span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-0.5">Avg Reaction</span>
+          <span class="text-[9px] font-mono text-muted uppercase tracking-widest mt-0.5">Avg Reaction</span>
         </div>
         <span class="hidden sm:block w-px h-8 bg-card-border" />
         <div class="flex flex-col items-center">
           <span class="text-2xl sm:text-3xl font-bold text-foreground/60 font-mono tabular-nums">7&plusmn;2</span>
-          <span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-0.5">Memory Span</span>
+          <span class="text-[9px] font-mono text-muted uppercase tracking-widest mt-0.5">Memory Span</span>
         </div>
         <span class="hidden sm:block w-px h-8 bg-card-border" />
         <div class="flex flex-col items-center">
           <span class="text-2xl sm:text-3xl font-bold text-accent/70 font-mono tabular-nums">60s</span>
-          <span class="text-[9px] font-mono text-zinc-500 uppercase tracking-widest mt-0.5">Focus Challenge</span>
+          <span class="text-[9px] font-mono text-muted uppercase tracking-widest mt-0.5">Focus Challenge</span>
         </div>
       </div>
 
-      <p class="text-zinc-400 text-base sm:text-lg leading-relaxed max-w-xl mb-10">
+      <p class="text-secondary text-base sm:text-lg leading-relaxed max-w-xl mb-10">
         13 assessments measuring reaction speed, working memory, reasoning, and cognitive flexibility. No sign-up. Everything runs locally in your browser.
       </p>
 
       <div class="flex flex-col sm:flex-row items-center gap-3 w-full sm:w-auto">
-        <a href="/gauntlet" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold h-12 px-8 text-sm transition-standard active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer animate-pulse-glow">
+        <a href="/gauntlet" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold h-12 px-8 text-sm transition-standard active:scale-[0.98] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent cursor-pointer animate-pulse-glow">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
           </svg>
           Take the Brain Challenge
         </a>
-        <a href="#suite" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-subtle border border-card-border text-zinc-300 hover:text-foreground font-medium h-12 px-6 text-sm transition-standard active:scale-[0.98] cursor-pointer">
+        <a href="#suite" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-lg bg-subtle border border-card-border text-secondary hover:text-foreground font-medium h-12 px-6 text-sm transition-standard active:scale-[0.98] cursor-pointer">
           Explore Assessments
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
@@ -68,26 +68,26 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
       </div>
       <div class="flex flex-col gap-4 flex-1">
         <div class="flex items-center gap-2">
-          <span class="text-[10px] font-mono uppercase text-amber-400 tracking-widest">New Challenge</span>
-          <span class="text-[9px] px-1.5 py-0.5 rounded bg-rose-500/15 text-rose-400 font-mono uppercase tracking-wider">Brain Rot Edition</span>
+          <span class="text-[10px] font-mono uppercase text-warning tracking-widest">New Challenge</span>
+          <span class="text-[9px] px-1.5 py-0.5 rounded bg-[var(--error-bg)] text-error font-mono uppercase tracking-wider">Brain Rot Edition</span>
         </div>
         <h2 class="text-xl font-bold text-foreground tracking-tight">Can You Survive the Brain Rot Challenge?</h2>
-        <p class="text-zinc-400 text-sm leading-relaxed">
+        <p class="text-secondary text-sm leading-relaxed">
           A <strong class="text-accent">5-stage attention gauntlet</strong> — selective focus, impulse control, task switching, sustained vigilance, and working memory under distraction. Most people score below 60 on their first attempt.
         </p>
-        <div class="flex items-center gap-6 text-xs text-zinc-500 font-mono">
+        <div class="flex items-center gap-6 text-xs text-muted font-mono">
           <span>🎯 5 stages</span>
           <span>⏱️ ~4 minutes</span>
           <span>📊 Composite score + percentile</span>
         </div>
         <div class="flex gap-3 mt-1">
           <a href="/tests/focus-challenge">
-            <button class="px-5 h-9 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
+            <button class="px-5 h-9 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
               Accept Challenge
             </button>
           </a>
           <a href="/tests/focus-challenge#learn">
-            <button class="px-5 h-9 rounded-lg bg-subtle border border-card-border text-zinc-300 hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
+            <button class="px-5 h-9 rounded-lg bg-subtle border border-card-border text-secondary hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
               Learn More
             </button>
           </a>
@@ -100,17 +100,17 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
       <div class="flex items-center justify-center gap-6 sm:gap-10 text-center">
         <div>
           <span class="block text-xl font-bold text-foreground tabular-nums">13</span>
-          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Assessments</span>
+          <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Assessments</span>
         </div>
         <span class="w-px h-8 bg-card-border" />
         <div>
           <span class="block text-xl font-bold text-foreground tabular-nums">100%</span>
-          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Anonymous</span>
+          <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Anonymous</span>
         </div>
         <span class="w-px h-8 bg-card-border" />
         <div>
           <span class="block text-xl font-bold text-foreground tabular-nums">&lt;1ms</span>
-          <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Timer Precision</span>
+          <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Timer Precision</span>
         </div>
       </div>
     </section>
@@ -126,16 +126,16 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
     <section class="flex flex-col gap-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">⚡ Reaction & Reflexes</h2>
-        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Raw speed & sensory pathways</p>
+        <p class="text-muted text-xs font-mono uppercase tracking-wider">Raw speed & sensory pathways</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <!-- Visual Reaction -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">RT-001</span>
+            <span class="text-xs font-mono text-muted">RT-001</span>
             <h3 class="text-lg font-bold text-foreground">Visual Reaction</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Test your physical reflexes against visual triggers. Calibrate input delay, monitor refresh rate, and view population distributions.
             </p>
           </div>
@@ -148,9 +148,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Auditory Reflex -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">RT-002</span>
+            <span class="text-xs font-mono text-muted">RT-002</span>
             <h3 class="text-lg font-bold text-foreground">Auditory Reflex</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Measure your auditory response speeds to low-latency synthesized sound waves. Contrast hearing triggers against visual pathways.
             </p>
           </div>
@@ -163,9 +163,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- F1 Start Lights -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">RT-003</span>
+            <span class="text-xs font-mono text-muted">RT-003</span>
             <h3 class="text-lg font-bold text-foreground">F1 Start Lights</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Simulate a Grand Prix start gantry. Suppress anticipatory impulse and release motor actions at the exact millisecond lights extinguish.
             </p>
           </div>
@@ -178,9 +178,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Choice Reaction -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">RT-004</span>
+            <span class="text-xs font-mono text-muted">RT-004</span>
             <h3 class="text-lg font-bold text-foreground">Choice Reaction</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Map color changes to keys R, G, B, Y. Manage accuracy-speed trade-offs under cognitive decision load with built-in mismatch penalties.
             </p>
           </div>
@@ -193,9 +193,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Color Go/No-Go -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">RT-005</span>
+            <span class="text-xs font-mono text-muted">RT-005</span>
             <h3 class="text-lg font-bold text-foreground">Color Go/No-Go</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Inhibitory motor control. Click only when green flashes; suppress actions for distractors (Red, Blue, Purple).
             </p>
           </div>
@@ -211,16 +211,16 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
     <section class="flex flex-col gap-8 pt-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🧠 Memory</h2>
-        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Active working capacity & retention</p>
+        <p class="text-muted text-xs font-mono uppercase tracking-wider">Active working capacity & retention</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Sequence Memory -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MEM-001</span>
+            <span class="text-xs font-mono text-muted">MEM-001</span>
             <h3 class="text-lg font-bold text-foreground">Sequence Memory</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Remember an expanding grid flash sequence, evaluating Miller's Law bounds.
             </p>
           </div>
@@ -233,9 +233,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Number Memory -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MEM-002</span>
+            <span class="text-xs font-mono text-muted">MEM-002</span>
             <h3 class="text-lg font-bold text-foreground">Number Memory</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Recall numeric strings of growing length to evaluate active visual digit spans.
             </p>
           </div>
@@ -248,9 +248,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Visual Pattern -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MEM-003</span>
+            <span class="text-xs font-mono text-muted">MEM-003</span>
             <h3 class="text-lg font-bold text-foreground">Visual Pattern</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Memorize illuminated pattern positions inside dynamic scale matrices.
             </p>
           </div>
@@ -263,9 +263,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Dual N-Back -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MEM-004</span>
+            <span class="text-xs font-mono text-muted">MEM-004</span>
             <h3 class="text-lg font-bold text-foreground">Dual N-Back</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Track independent auditory tone and visual positions shown N steps back.
             </p>
           </div>
@@ -278,9 +278,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Verbal Memory -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-purple">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MEM-005</span>
+            <span class="text-xs font-mono text-muted">MEM-005</span>
             <h3 class="text-lg font-bold text-foreground">Verbal Memory</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Memorize growing word lists and recall them from distractor sets.
             </p>
           </div>
@@ -296,16 +296,16 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
     <section class="flex flex-col gap-8 pt-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🧩 Reasoning</h2>
-        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Fluid logic & non-verbal matrices</p>
+        <p class="text-muted text-xs font-mono uppercase tracking-wider">Fluid logic & non-verbal matrices</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- Pattern Recognition -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">REAS-001</span>
+            <span class="text-xs font-mono text-muted">REAS-001</span>
             <h3 class="text-lg font-bold text-foreground">Pattern Recognition</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Identify the missing colored item completing a linear sequence block.
             </p>
           </div>
@@ -318,9 +318,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Matrix Reasoning -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">REAS-002</span>
+            <span class="text-xs font-mono text-muted">REAS-002</span>
             <h3 class="text-lg font-bold text-foreground">Matrix Reasoning</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Complete the 2x2 grid pattern matching visual nested structures.
             </p>
           </div>
@@ -333,9 +333,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Sequence Logic -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">REAS-003</span>
+            <span class="text-xs font-mono text-muted">REAS-003</span>
             <h3 class="text-lg font-bold text-foreground">Sequence Logic</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Solve numerical growth curves and rotational arrow progressions.
             </p>
           </div>
@@ -348,9 +348,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Shape Analogies -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">REAS-004</span>
+            <span class="text-xs font-mono text-muted">REAS-004</span>
             <h3 class="text-lg font-bold text-foreground">Shape Analogies</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Deduce the morph transformation rule and apply it to target shapes.
             </p>
           </div>
@@ -363,9 +363,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Spatial Orientation -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-green">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">REAS-005</span>
+            <span class="text-xs font-mono text-muted">REAS-005</span>
             <h3 class="text-lg font-bold text-foreground">Spatial Orientation</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Mentally rotate grid patterns and match the orientation in 12 trials.
             </p>
           </div>
@@ -381,16 +381,16 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
     <section class="flex flex-col gap-8 pt-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🎯 Focus & Attention</h2>
-        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Selective attention & executive suppression</p>
+        <p class="text-muted text-xs font-mono uppercase tracking-wider">Selective attention & executive suppression</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         <!-- Stroop Test -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-cyan">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">FOC-001</span>
+            <span class="text-xs font-mono text-muted">FOC-001</span>
             <h3 class="text-lg font-bold text-foreground">Stroop Test</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Isolate semantic interference. Match visual ink colors ignoring the text name values.
             </p>
           </div>
@@ -403,9 +403,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Trail Making -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-cyan">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">FOC-002</span>
+            <span class="text-xs font-mono text-muted">FOC-002</span>
             <h3 class="text-lg font-bold text-foreground">Trail Making</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Alternate sequences of numbers and letters (1-A-2-B...) to test search rate.
             </p>
           </div>
@@ -419,11 +419,11 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-cyan">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
-              <span class="text-xs font-mono text-zinc-500">FOC-003</span>
-              <span class="text-[10px] font-mono text-rose-400 uppercase tracking-widest px-2 py-0.5 rounded bg-rose-500/10 border border-rose-500/20">Brain Rot</span>
+              <span class="text-xs font-mono text-muted">FOC-003</span>
+              <span class="text-[10px] font-mono text-error uppercase tracking-widest px-2 py-0.5 rounded bg-[var(--error-bg)] border border-[var(--error-border)]">Brain Rot</span>
             </div>
             <h3 class="text-lg font-bold text-foreground">Focus Challenge</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               5-stage attention gauntlet: selective focus, impulse control, task switching, sustained vigilance, working memory under distraction.
             </p>
           </div>
@@ -437,11 +437,11 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-cyan">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
-              <span class="text-xs font-mono text-zinc-500">FOC-004</span>
+              <span class="text-xs font-mono text-muted">FOC-004</span>
               <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Flagship</span>
             </div>
             <h3 class="text-lg font-bold text-foreground">The Gauntlet</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Complete 5 cognitive stages — reaction, memory, focus, reasoning, precision — for a unified CAI score and archetype.
             </p>
           </div>
@@ -457,16 +457,16 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
     <section class="flex flex-col gap-8 pt-8">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🎮 Motor Performance</h2>
-        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">Spatial mouse control & clicking stamina</p>
+        <p class="text-muted text-xs font-mono uppercase tracking-wider">Spatial mouse control & clicking stamina</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <!-- CPS Test -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-orange">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MTR-001</span>
+            <span class="text-xs font-mono text-muted">MTR-001</span>
             <h3 class="text-lg font-bold text-foreground">CPS Test</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Test your clicks-per-second motor stamina over a 10s timeframe, plotting a cadence curve.
             </p>
           </div>
@@ -479,9 +479,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Aim Precision -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-orange">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MTR-002</span>
+            <span class="text-xs font-mono text-muted">MTR-002</span>
             <h3 class="text-lg font-bold text-foreground">Aim Precision</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Acquire 30 targets on our coordinates canvas, tracking offset errors in pixels.
             </p>
           </div>
@@ -494,9 +494,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Mouse Accuracy -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-orange">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MTR-003</span>
+            <span class="text-xs font-mono text-muted">MTR-003</span>
             <h3 class="text-lg font-bold text-foreground">Mouse Accuracy</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Click shrinking targets from 80px to 16px. Measures fine motor precision through center offset.
             </p>
           </div>
@@ -509,9 +509,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Flick Trainer -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-orange">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">MTR-004</span>
+            <span class="text-xs font-mono text-muted">MTR-004</span>
             <h3 class="text-lg font-bold text-foreground">Flick Trainer</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Flick to 15 random targets, measuring speed and click accuracy.
             </p>
           </div>
@@ -527,7 +527,7 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
     <section class="flex flex-col gap-8 pt-8 pb-12">
       <div class="flex flex-col gap-2">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">🧭 Executive Function</h2>
-        <p class="text-zinc-500 text-xs font-mono uppercase tracking-wider">High-level attention gating & flexibility</p>
+        <p class="text-muted text-xs font-mono uppercase tracking-wider">High-level attention gating & flexibility</p>
       </div>
 
       <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -535,11 +535,11 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-red">
           <div class="flex flex-col gap-3">
             <div class="flex justify-between items-start">
-              <span class="text-xs font-mono text-zinc-500">EXEC-001</span>
+              <span class="text-xs font-mono text-muted">EXEC-001</span>
               <span class="text-[10px] font-mono text-accent uppercase tracking-widest px-2 py-0.5 rounded bg-accent/5 border border-accent/15">Core Metric</span>
             </div>
             <h3 class="text-lg font-bold text-foreground">Cognitive Flexibility</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Measures task-switching overhead, working memory updates, and attentional set-shifting speeds using Trail Making parameters.
             </p>
           </div>
@@ -552,9 +552,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Decision Speed -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-red">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">EXEC-002</span>
+            <span class="text-xs font-mono text-muted">EXEC-002</span>
             <h3 class="text-lg font-bold text-foreground">Decision Speed</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Classify 20 numbers as ≥50 or &lt;50 against a 2-second timeout. Measures raw information processing speed.
             </p>
           </div>
@@ -567,9 +567,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Planning -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-red">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">EXEC-003</span>
+            <span class="text-xs font-mono text-muted">EXEC-003</span>
             <h3 class="text-lg font-bold text-foreground">Planning</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               Tower of Hanoi with 4 disks. Move the stack to the target peg — optimal solution is 15 moves.
             </p>
           </div>
@@ -582,9 +582,9 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <!-- Prioritization -->
         <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-red">
           <div class="flex flex-col gap-3">
-            <span class="text-xs font-mono text-zinc-500">EXEC-004</span>
+            <span class="text-xs font-mono text-muted">EXEC-004</span>
             <h3 class="text-lg font-bold text-foreground">Prioritization</h3>
-            <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+            <p class="text-muted text-sm leading-relaxed">
               5 rounds of task scheduling. Maximize points by completing high-value tasks before deadlines.
             </p>
           </div>
@@ -602,25 +602,25 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
       <h2 class="text-xl font-bold text-foreground tracking-tight text-center mb-6">How It Works</h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
-          <div class="w-10 h-10 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center mx-auto mb-3">
-            <span class="text-lg font-bold font-mono text-amber-400">1</span>
+          <div class="w-10 h-10 rounded-full bg-[var(--warning-bg)] border border-[var(--warning-border)] flex items-center justify-center mx-auto mb-3">
+            <span class="text-lg font-bold font-mono text-warning">1</span>
           </div>
           <h3 class="text-sm font-bold text-foreground mb-1">Pick an Assessment</h3>
-          <p class="text-zinc-500 text-xs leading-relaxed">Choose from 13 tests across reaction, memory, reasoning, focus, motor, and executive function.</p>
+          <p class="text-muted text-xs leading-relaxed">Choose from 13 tests across reaction, memory, reasoning, focus, motor, and executive function.</p>
         </div>
         <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
           <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-3">
             <span class="text-lg font-bold font-mono text-accent">2</span>
           </div>
           <h3 class="text-sm font-bold text-foreground mb-1">Perform Under Pressure</h3>
-          <p class="text-zinc-500 text-xs leading-relaxed">Each test runs locally with sub-millisecond precision. No uploads, no accounts, no distractions.</p>
+          <p class="text-muted text-xs leading-relaxed">Each test runs locally with sub-millisecond precision. No uploads, no accounts, no distractions.</p>
         </div>
         <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
-          <div class="w-10 h-10 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center mx-auto mb-3">
-            <span class="text-lg font-bold font-mono text-emerald-400">3</span>
+          <div class="w-10 h-10 rounded-full bg-[var(--success-bg)] border border-[var(--success-border)] flex items-center justify-center mx-auto mb-3">
+            <span class="text-lg font-bold font-mono text-success">3</span>
           </div>
           <h3 class="text-sm font-bold text-foreground mb-1">Track Your Growth</h3>
-          <p class="text-zinc-500 text-xs leading-relaxed">See your scores, percentiles, and improvement over time. Build your cognitive profile across all dimensions.</p>
+          <p class="text-muted text-xs leading-relaxed">See your scores, percentiles, and improvement over time. Build your cognitive profile across all dimensions.</p>
         </div>
       </div>
     </section>
@@ -631,16 +631,16 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <div class="absolute -right-20 -bottom-20 w-64 h-64 rounded-full bg-accent/5 blur-3xl pointer-events-none" />
         <div class="w-14 h-14 rounded-xl bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0">
           <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-            <polygon points="18,4 30,12 30,24 18,32 6,24 6,12" stroke="#1a1a1a" stroke-width="0.5" fill="none"/>
-            <polygon points="18,9 26,14 26,22 18,27 10,22 10,14" stroke="#1a1a1a" stroke-width="0.5" fill="none"/>
-            <polygon points="18,14 22,16 22,20 18,22 14,20 14,16" stroke="#1a1a1a" stroke-width="0.5" fill="none"/>
-            <polygon points="18,7 27,13 25,23 18,28 11,21 9,13" stroke="#d6993a" stroke-width="1.5" fill="rgba(214,153,58,0.15)" stroke-linejoin="round"/>
-            <circle cx="18" cy="7" r="2" fill="#eab308"/><circle cx="27" cy="13" r="2" fill="#a855f7"/><circle cx="25" cy="23" r="2" fill="#22c55e"/><circle cx="18" cy="28" r="2" fill="#06b6d4"/><circle cx="11" cy="21" r="2" fill="#f97316"/><circle cx="9" cy="13" r="2" fill="#ef4444"/>
+            <polygon points="18,4 30,12 30,24 18,32 6,24 6,12" stroke="var(--border-primary)" stroke-width="0.5" fill="none"/>
+            <polygon points="18,9 26,14 26,22 18,27 10,22 10,14" stroke="var(--border-primary)" stroke-width="0.5" fill="none"/>
+            <polygon points="18,14 22,16 22,20 18,22 14,20 14,16" stroke="var(--border-primary)" stroke-width="0.5" fill="none"/>
+            <polygon points="18,7 27,13 25,23 18,28 11,21 9,13" stroke="var(--chart-accent)" stroke-width="1.5" fill="var(--chart-accent-light)" stroke-linejoin="round"/>
+            <circle cx="18" cy="7" r="2" fill="var(--warning)"/><circle cx="27" cy="13" r="2" fill="#a855f7"/><circle cx="25" cy="23" r="2" fill="var(--success)"/><circle cx="18" cy="28" r="2" fill="var(--info)"/><circle cx="11" cy="21" r="2" fill="#f97316"/><circle cx="9" cy="13" r="2" fill="var(--error)"/>
           </svg>
         </div>
         <div class="flex-1 text-center sm:text-left">
           <h2 class="text-base font-bold text-foreground tracking-tight mb-1">Your Brain Profile</h2>
-          <p class="text-zinc-500 text-sm leading-relaxed">Complete assessments to build your hexagonal cognitive radar across 6 dimensions — Reaction, Memory, Reasoning, Focus, Motor, Executive — with a composite CAI score.</p>
+          <p class="text-muted text-sm leading-relaxed">Complete assessments to build your hexagonal cognitive radar across 6 dimensions — Reaction, Memory, Reasoning, Focus, Motor, Executive — with a composite CAI score.</p>
         </div>
         <a href="/gauntlet" class="shrink-0 inline-flex items-center justify-center px-5 h-9 rounded-lg bg-accent/10 border border-accent/20 text-accent hover:bg-accent/20 text-xs font-medium transition-standard active:scale-95 cursor-pointer">
           Start Challenge
@@ -658,10 +658,10 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <div class="flex items-start gap-4">
           <div class="w-12 h-12 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center justify-center shrink-0 text-xl">⚡</div>
           <div class="flex-1 min-w-0">
-            <span class="text-[10px] font-mono text-zinc-500 uppercase tracking-widest">Featured Guide</span>
+            <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Featured Guide</span>
             <h3 class="text-base font-bold text-foreground group-hover:text-accent transition-colors mt-1">Why Monitor Refresh Rate Affects Reaction Time</h3>
-            <p class="text-zinc-500 text-sm leading-relaxed mt-1">Understand how 60Hz vs 144Hz displays change your physical response latency, the neuroscience of visual processing pipelines, and how to calibrate for your setup.</p>
-            <div class="flex items-center gap-4 mt-3 text-[10px] text-zinc-500 font-mono">
+            <p class="text-muted text-sm leading-relaxed mt-1">Understand how 60Hz vs 144Hz displays change your physical response latency, the neuroscience of visual processing pipelines, and how to calibrate for your setup.</p>
+            <div class="flex items-center gap-4 mt-3 text-[10px] text-muted font-mono">
               <span>📖 8 min read</span>
               <span>🔬 Evidence-based</span>
               <span>⚡ Reaction Science</span>
@@ -678,37 +678,37 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
         <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
           <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
             What is CogniArena?
-            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
-          <p class="text-zinc-500 text-sm leading-relaxed mt-3">CogniArena is a free cognitive performance platform with 13 browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.</p>
+          <p class="text-muted text-sm leading-relaxed mt-3">CogniArena is a free cognitive performance platform with 13 browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.</p>
         </details>
         <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
           <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
             Is my data stored or sent anywhere?
-            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
-          <p class="text-zinc-500 text-sm leading-relaxed mt-3">No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device.</p>
+          <p class="text-muted text-sm leading-relaxed mt-3">No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device.</p>
         </details>
         <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
           <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
             How accurate are the measurements?
-            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
-          <p class="text-zinc-500 text-sm leading-relaxed mt-3">We use requestAnimationFrame timing with sub-millisecond precision. Our calibration system accounts for monitor refresh rate and browser input latency to give you the most accurate physical reaction measurements possible.</p>
+          <p class="text-muted text-sm leading-relaxed mt-3">We use requestAnimationFrame timing with sub-millisecond precision. Our calibration system accounts for monitor refresh rate and browser input latency to give you the most accurate physical reaction measurements possible.</p>
         </details>
         <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
           <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
             What is the Brain Challenge (Gauntlet)?
-            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
-          <p class="text-zinc-500 text-sm leading-relaxed mt-3">The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.</p>
+          <p class="text-muted text-sm leading-relaxed mt-3">The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.</p>
         </details>
         <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
           <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
             Can I improve my scores over time?
-            <svg class="w-4 h-4 text-zinc-500 transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
-          <p class="text-zinc-500 text-sm leading-relaxed mt-3">Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement.</p>
+          <p class="text-muted text-sm leading-relaxed mt-3">Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement.</p>
         </details>
       </div>
     </section>

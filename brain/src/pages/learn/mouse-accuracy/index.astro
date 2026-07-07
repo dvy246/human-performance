@@ -33,7 +33,7 @@ const schemaJson = {
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
         Mouse Accuracy & Fine Motor Control Science
       </h1>
-      <p class="text-zinc-500 dark:text-zinc-400 text-sm md:text-base leading-relaxed">
+      <p class="text-muted text-sm md:text-base leading-relaxed">
         A scientific examination of motor unit recruitment, Fitts's Law difficulty indices, and the biomechanics of precision cursor control.
       </p>
     </header>
@@ -41,21 +41,21 @@ const schemaJson = {
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">1. Motor Unit Recruitment and Graded Control</h2>
-        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-muted text-sm leading-relaxed">
           Fine motor control of the hand and fingers relies on small motor units innervating as few as 10 to 100 muscle fibers per neuron. The smallest motor units, located in the intrinsic hand muscles, are recruited first according to Henneman's size principle, allowing graded force output from 0.1g to 500g. The ratio of motor unit recruitment threshold to maximum force determines the precision ceiling: smaller units allow finer gradation, which is why finger movements achieve higher accuracy than wrist or arm movements.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">2. Fitts's Law Index of Difficulty</h2>
-        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-muted text-sm leading-relaxed">
           The index of difficulty in Fitts's Law is computed as ID = log₂(D/W + 1), where D is movement distance and W is target width. Doubling the distance increases ID by approximately 1 bit, while halving the target width also increases ID by 1 bit. For mouse accuracy tasks, small targets with ID values above 5 bits begin to exceed the comfortable control range for most users, requiring corrective submovements and revealing the stochastic nature of neuromuscular noise. The Shannon formulation has been shown to account for more variance in pointing performance than the original Welford formulation.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">3. Sub-Pixel Coordinate Targeting</h2>
-        <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed">
+        <p class="text-muted text-sm leading-relaxed">
           Modern mice report cursor coordinates at resolutions of 800 to 3200 CPI, yet the operating system ultimately snaps to integer pixel coordinates. Sub-pixel targeting involves the brain and motor cortex predicting cursor trajectories with fractional precision, then executing corrective micro-adjustments to land within a one-pixel target window. The visual system can detect positional offsets as small as 0.1 arcminutes, but transforming this sensory information into sub-pixel motor commands requires extensive calibration between visual error signals and motor output gain.
         </p>
       </article>
@@ -65,17 +65,17 @@ const schemaJson = {
         <div class="flex flex-col gap-4 text-sm">
           <div>
             <h4 class="text-foreground font-bold mb-1">What factors affect mouse accuracy the most?</h4>
-            <p class="text-zinc-500 dark:text-zinc-400">Mouse CPI setting, monitor resolution, target size, and movement distance all interact through Fitts's Law. Neuromuscular noise and hand tremor add stochastic variance that sets a floor on achievable accuracy.</p>
+            <p class="text-muted">Mouse CPI setting, monitor resolution, target size, and movement distance all interact through Fitts's Law. Neuromuscular noise and hand tremor add stochastic variance that sets a floor on achievable accuracy.</p>
           </div>
           <div>
             <h4 class="text-foreground font-bold mb-1">How can I improve my clicking precision?</h4>
-            <p class="text-zinc-500 dark:text-zinc-400">Use a consistent CPI setting, optimize target size-to-distance ratios, and practice aiming tasks that require absolute accuracy. Training reduces endpoint variability through motor cortex refinement.</p>
+            <p class="text-muted">Use a consistent CPI setting, optimize target size-to-distance ratios, and practice aiming tasks that require absolute accuracy. Training reduces endpoint variability through motor cortex refinement.</p>
           </div>
         </div>
       </article>
     </section>
 
-    <p class="text-zinc-500 dark:text-zinc-400 text-sm leading-relaxed text-center border-t border-card-border pt-10">
+    <p class="text-muted text-sm leading-relaxed text-center border-t border-card-border pt-10">
       Measure your aiming precision on the <a href="/tests/mouse-accuracy" class="text-accent underline underline-offset-2 hover:brightness-110 transition-all">Mouse Accuracy Test</a>.
     </p>
   </div>

@@ -98,9 +98,9 @@ export default function FlickTrainerTest() {
           <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">⚡🎯</div>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-foreground tracking-tight">Flick Trainer</h2>
-            <p className="text-zinc-400 text-sm max-w-sm mx-auto mt-2">Flick your mouse to the target and click as fast and accurately as possible. {TOTAL} targets.</p>
+            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Flick your mouse to the target and click as fast and accurately as possible. {TOTAL} targets.</p>
           </div>
-          <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-black font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+          <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
         </div>
       </div>
     );
@@ -110,12 +110,12 @@ export default function FlickTrainerTest() {
     return (
       <div className="w-full max-w-2xl mx-auto">
         <div className="rounded-xl border border-card-border bg-card p-4">
-          <div className="text-[10px] text-zinc-500 font-mono mb-2 flex items-center justify-between">
+          <div className="text-[10px] text-muted font-mono mb-2 flex items-center justify-between">
             <span>Target {trial + 1}/{TOTAL}</span>
             <span>Hits: {results.filter(r => r.hit).length}</span>
           </div>
           <div ref={containerRef} onClick={handleClick} className="relative w-full h-72 rounded-lg bg-subtle border border-card-border cursor-crosshair overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 w-3 h-3 rounded-full bg-zinc-700 -translate-x-1/2 -translate-y-1/2 border border-zinc-600" />
+            <div className="absolute top-1/2 left-1/2 w-3 h-3 rounded-full bg-subtle -translate-x-1/2 -translate-y-1/2 border border-card-border" />
             {renderCrosshair()}
           </div>
         </div>
@@ -128,16 +128,16 @@ export default function FlickTrainerTest() {
   return (
     <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
       <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
-        <div className="text-4xl text-emerald-400">✓</div>
+        <div className="text-4xl text-success">✓</div>
         <div className="text-4xl font-bold font-mono text-foreground">{Math.round(hitPct * 100)}%</div>
-        <div className="text-xs text-zinc-500 font-mono">accuracy · {avgRt}ms avg flick time</div>
+        <div className="text-xs text-muted font-mono">accuracy · {avgRt}ms avg flick time</div>
         <div className="grid grid-cols-3 gap-4 text-xs text-center w-full max-w-xs">
-          <div><div className="text-zinc-500 font-mono text-[10px]">Hits</div><div className="text-foreground font-mono">{results.filter(r => r.hit).length}/{TOTAL}</div></div>
-          <div><div className="text-zinc-500 font-mono text-[10px]">Fastest</div><div className="text-foreground font-mono">{results.length > 0 ? Math.min(...results.map(r => r.rt)) : 0}ms</div></div>
-          <div><div className="text-zinc-500 font-mono text-[10px]">Avg RT</div><div className="text-foreground font-mono">{avgRt}ms</div></div>
+          <div><div className="text-muted font-mono text-[10px]">Hits</div><div className="text-foreground font-mono">{results.filter(r => r.hit).length}/{TOTAL}</div></div>
+          <div><div className="text-muted font-mono text-[10px]">Fastest</div><div className="text-foreground font-mono">{results.length > 0 ? Math.min(...results.map(r => r.rt)) : 0}ms</div></div>
+          <div><div className="text-muted font-mono text-[10px]">Avg RT</div><div className="text-foreground font-mono">{avgRt}ms</div></div>
         </div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-flick-trainer.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-black font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-flick-trainer.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>

@@ -251,7 +251,7 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
             }`}
           >
             {distractor ? (
-              <span className="text-zinc-600 text-sm animate-pulse">{distractor.symbol}</span>
+              <span className="text-muted text-sm animate-pulse">{distractor.symbol}</span>
             ) : isActive ? (
               <span className="text-2xl" style={{ color: sequence[seqIdx]?.color || '#fff' }}>●</span>
             ) : null}
@@ -267,11 +267,11 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
         <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl">🧠</div>
         <div className="text-center">
           <h3 className="text-lg font-bold text-foreground mb-1">Stage 5: Working Memory Under Distraction</h3>
-          <p className="text-zinc-400 text-sm max-w-md">
+          <p className="text-secondary text-sm max-w-md">
             Watch the pattern of colored dots, then <strong className="text-accent">reproduce it</strong> from memory. Distracting symbols flash around the grid during encoding. {MAX_LEVEL} levels, increasing difficulty.
           </p>
         </div>
-        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-black font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
+        <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
           Start Stage
         </button>
       </div>
@@ -281,32 +281,32 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
   if (phase === 'done') {
     return (
       <div className="flex flex-col items-center gap-4 py-6">
-        <div className="text-4xl text-emerald-400">✓</div>
-        <p className="text-zinc-400 text-sm">Working Memory complete! Level {maxLevelReached}/{MAX_LEVEL}</p>
+        <div className="text-4xl text-success">✓</div>
+        <p className="text-secondary text-sm">Working Memory complete! Level {maxLevelReached}/{MAX_LEVEL}</p>
       </div>
     );
   }
 
   return (
     <div className="flex flex-col items-center gap-5 py-4">
-      <div className="flex items-center gap-3 text-xs text-zinc-500 font-mono">
+      <div className="flex items-center gap-3 text-xs text-muted font-mono">
         <span>Level {level}/{MAX_LEVEL}</span>
         <span>•</span>
         <span>Seq: {Math.min(3 + level, 9)}</span>
         {phase === 'recall' && <span className="text-accent">🎯 Recall</span>}
-        {phase === 'encoding' && <span className="text-amber-400 animate-pulse">👀 Watch</span>}
+        {phase === 'encoding' && <span className="text-warning animate-pulse">👀 Watch</span>}
       </div>
 
       {renderGrid(phase === 'encoding', phase === 'encoding')}
 
       {feedbackMsg && (
-        <div className={`text-sm font-semibold ${feedbackMsg.startsWith('✓') ? 'text-emerald-400' : 'text-rose-400'} animate-in fade-in duration-150`}>
+        <div className={`text-sm font-semibold ${feedbackMsg.startsWith('✓') ? 'text-success' : 'text-error'} animate-in fade-in duration-150`}>
           {feedbackMsg}
         </div>
       )}
 
       {phase === 'recall' && (
-        <p className="text-xs text-zinc-500 font-mono">
+        <p className="text-xs text-muted font-mono">
           Click cells in order ({userSequence.length}/{sequence.length})
         </p>
       )}
