@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 const WORD_POOL = [
   'apple', 'bridge', 'cloud', 'dragon', 'eagle', 'forest', 'garden', 'hammer', 'island', 'jewel',
@@ -34,7 +35,7 @@ function fisherYatesShuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-function VerbalMemoryTest() {
+const VerbalMemoryTest = () => {
   const [phase, setPhase] = useState<'intro' | 'encoding' | 'recall' | 'done'>('intro');
   const [level, setLevel] = useState(1);
   const [wordList, setWordList] = useState<string[]>([]);
@@ -44,11 +45,17 @@ function VerbalMemoryTest() {
   const [shareImage, setShareImage] = useState<string | null>(null);
   const submittedRef = useRef(false);
   const encodingTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const levelTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const lastConfig = useRef<GameConfig | null>(null);
   const startListSize = useRef<number>(3);
   const maxLevel = useRef<number>(12);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'done');
+  useVisibilityGuard(() => {
+    if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current);
+    if (levelTimerRef.current) clearTimeout(levelTimerRef.current);
+    setPhase('intro');
+  }, phase === 'encoding' || phase === 'recall');
 
   const generateList = (len: number) => {
     return fisherYatesShuffle(WORD_POOL).slice(0, len);
@@ -82,7 +89,8 @@ function VerbalMemoryTest() {
     if (correctCount === wordList.length && level < maxLevel.current) {
       const next = level + 1;
       setLevel(next);
-      setTimeout(() => startLevel(next), 400);
+      if (levelTimerRef.current) clearTimeout(levelTimerRef.current);
+      levelTimerRef.current = setTimeout(() => startLevel(next), 400);
     } else {
       setPhase('done');
       finalize(correctCount);
@@ -92,7 +100,6 @@ function VerbalMemoryTest() {
   const finalize = async (correct: number) => {
     if (submittedRef.current) return;
     submittedRef.current = true;
-    const score = Math.max(0, Math.min(100, Math.round((correct / Math.min(3 + level, 12)) * 100)));
     try {
       await dataLayer.saveSession({
         testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile('verbal-memory', correct),
@@ -101,12 +108,17 @@ function VerbalMemoryTest() {
     } catch (err) {
       console.error('Failed to save Verbal Memory session:', err);
     }
-    const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile('verbal-memory', correct));
-    setShareImage(card);
+    
+    try {
+      const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile('verbal-memory', correct));
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'verbal-memory', testName: 'Verbal Memory', attempts: [correct], unit: 'words',
-      percentile: lookupPercentile('verbal-memory', score), personalBest: null, category: 'memory', average: correct,
+      percentile: lookupPercentile('verbal-memory', correct), personalBest: null, category: 'memory', average: correct,
     });
   };
 
@@ -115,6 +127,7 @@ function VerbalMemoryTest() {
   useEffect(() => {
     return () => {
       if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current);
+      if (levelTimerRef.current) clearTimeout(levelTimerRef.current);
     };
   }, []);
 

@@ -4,15 +4,16 @@ export interface CalibrationResult {
   expectedLagMs: number;
 }
 
-export function measureRefreshRate(onComplete: (result: CalibrationResult) => void) {
+export function measureRefreshRate(onComplete: (result: CalibrationResult) => void): () => void {
   if (typeof window === 'undefined' || !window.requestAnimationFrame) {
     onComplete({ hz: 60, measuredHz: 60, expectedLagMs: 16.7 });
-    return;
+    return () => {};
   }
 
   const frameTimes: number[] = [];
   let lastTime = performance.now();
   let frameCount = 0;
+  let rafId: number | null = null;
   const targetFrameCount = 30; // Measure over 30 frames for stability
 
   function step(now: number) {
@@ -27,7 +28,7 @@ export function measureRefreshRate(onComplete: (result: CalibrationResult) => vo
     frameCount++;
 
     if (frameCount < targetFrameCount) {
-      requestAnimationFrame(step);
+      rafId = requestAnimationFrame(step);
     } else {
       const avgDuration = frameTimes.reduce((sum, val) => sum + val, 0) / frameTimes.length;
       
@@ -47,5 +48,11 @@ export function measureRefreshRate(onComplete: (result: CalibrationResult) => vo
     }
   }
 
-  requestAnimationFrame(step);
+  rafId = requestAnimationFrame(step);
+  
+  return () => {
+    if (rafId !== null) {
+      cancelAnimationFrame(rafId);
+    }
+  };
 }

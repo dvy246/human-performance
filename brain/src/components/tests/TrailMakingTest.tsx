@@ -188,12 +188,16 @@ function TrailMakingTest() {
       dataLayer.getPersonalBest('tmt-partB', 'lower').then(pb => setPersonalBestB(pb)).catch(console.error);
     }
 
-    const card = await generateShareCard(
-      `Trail Making Test (${mode === 'partA' ? 'Part A' : 'Part B'})`,
-      `${(totalScore / 1000).toFixed(2)}s`,
-      percentile
-    );
-    setShareImage(card);
+    try {
+      const card = await generateShareCard(
+        `Trail Making Test (${mode === 'partA' ? 'Part A' : 'Part B'})`,
+        `${(totalScore / 1000).toFixed(2)}s`,
+        percentile
+      );
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: testId, testName: `Trail Making (${mode === 'partA' ? 'A' : 'B'})`, attempts: [totalScore], unit: 'ms',

@@ -420,29 +420,44 @@ function TypingSpeedTest() {
 
   useEffect(() => {
     if (engine.submitted && gameState !== 'result') {
-      const stats = engine.stats;
-      setResultStats(stats);
-      setGameState('result');
-      const percentile = interpolatePercentile(stats.wpm);
-      setFinalPercentile(percentile);
-      dataLayer.saveSession({
-        testId: 'typing-speed', category: 'stamina', rawScore: stats.wpm, percentile,
-        metadata: {
-          rawWpm: stats.rawWpm, accuracy: stats.acc, consistency: stats.consistency,
-          characters: stats.total, correct: stats.correct, incorrect: stats.incorrect,
-          time: timerDuration, mode: testMode,
-          wordCount: testMode === 'words' ? wordCount : undefined,
-          burstSpeed: stats.burstSpeed, reactionDelay: stats.reactionDelay,
-          backspaces: stats.backspaces,
-        },
-      }).catch(() => {});
-      dataLayer.getPersonalBest('typing-speed', 'higher').then(pb => setPersonalBest(pb)).catch(() => {});
-      generateShareCard('Typing Speed Test', `${stats.wpm} WPM`, percentile).then(card => setShareImage(card)).catch(() => {});
+      const finalize = async () => {
+        const stats = engine.stats;
+        setResultStats(stats);
+        setGameState('result');
+        const percentile = interpolatePercentile(stats.wpm);
+        setFinalPercentile(percentile);
+        try {
+          await dataLayer.saveSession({
+            testId: 'typing-speed', category: 'stamina', rawScore: stats.wpm, percentile,
+            metadata: {
+              rawWpm: stats.rawWpm, accuracy: stats.acc, consistency: stats.consistency,
+              characters: stats.total, correct: stats.correct, incorrect: stats.incorrect,
+              time: timerDuration, mode: testMode,
+              wordCount: testMode === 'words' ? wordCount : undefined,
+              burstSpeed: stats.burstSpeed, reactionDelay: stats.reactionDelay,
+              backspaces: stats.backspaces,
+            },
+          });
+        } catch (err) {
+          console.error('Failed to save session:', err);
+        }
+        
+        dataLayer.getPersonalBest('typing-speed', 'higher').then(pb => setPersonalBest(pb)).catch(() => {});
+        
+        try {
+          const card = await generateShareCard('Typing Speed Test', `${stats.wpm} WPM`, percentile);
+          setShareImage(card);
+        } catch (err) {
+          console.error('Failed to generate share card:', err);
+        }
 
-      redirectToResults({
-        testId: 'typing-speed', testName: 'Typing Speed', attempts: stats.wpmSamples.length > 0 ? stats.wpmSamples.map(s => s.wpm) : [stats.wpm], unit: 'WPM',
-        percentile, personalBest: null, category: 'stamina', average: stats.wpm,
-      });
+        redirectToResults({
+          testId: 'typing-speed', testName: 'Typing Speed', attempts: stats.wpmSamples.length > 0 ? stats.wpmSamples.map(s => s.wpm) : [stats.wpm], unit: 'WPM',
+          percentile, personalBest: null, category: 'stamina', average: stats.wpm,
+        });
+      };
+      
+      finalize();
     }
   }, [engine.submitted]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -608,7 +623,7 @@ function TypingSpeedTest() {
     const hasPb = personalBest !== null;
     const isPb = hasPb && resultStats.wpm >= personalBest;
     const rs = resultStats;
-    const maxWpm = Math.max(...rs.wpmSamples.map(s => s.wpm), rs.wpm, 60);
+    const maxWpm = rs.wpmSamples.reduce((max, s) => Math.max(max, s.wpm), Math.max(rs.wpm, 60));
 
     return (
       <div className="w-full tts-panel" style={{ padding: 'clamp(2rem, 5vw, 3.5rem)' }}>

@@ -211,8 +211,13 @@ function FocusChallengeTest() {
     dataLayer.getPersonalBest('focus-challenge', 'higher').then(pb => {
       setPersonalBest(pb);
     }).catch(console.error);
-    const card = await generateShareCard('Focus Challenge', `${totalScore}/100`, percentile).catch(() => '');
-    setShareImage(card);
+    
+    try {
+      const card = await generateShareCard('Focus Challenge', `${totalScore}/100`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'focus-challenge', testName: 'Focus Challenge', attempts: results.map(r => r.score), unit: 'pts',

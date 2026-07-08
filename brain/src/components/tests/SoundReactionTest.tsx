@@ -36,7 +36,7 @@ function SoundReactionTest() {
   useEffect(() => {
     let mounted = true;
     // 1. Get Calibration
-    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
+    const cleanupCalibration = measureRefreshRate((res) => { if (mounted) setCalibration(res); });
 
     // 2. Personal Best
     dataLayer.getPersonalBest('sound-reaction', 'lower').then((pb) => {
@@ -61,6 +61,7 @@ function SoundReactionTest() {
       mounted = false;
       if (timerId.current) clearTimeout(timerId.current);
       if (rafId.current) cancelAnimationFrame(rafId.current);
+      cleanupCalibration();
       if (audioCtx.current) {
         audioCtx.current.close();
       }
@@ -218,8 +219,12 @@ function SoundReactionTest() {
     const pb = await dataLayer.getPersonalBest('sound-reaction', 'lower');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('Auditory Reaction Test', `${avgScore} ms`, percentile);
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Auditory Reaction Test', `${avgScore} ms`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'sound-reaction', testName: 'Sound Reaction', attempts: allAttempts, unit: 'ms',

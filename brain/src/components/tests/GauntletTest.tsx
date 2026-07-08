@@ -82,8 +82,13 @@ function GauntletTest() {
     dataLayer.getPersonalBest('gauntlet', 'higher').then(pb => {
       setPersonalBest(pb);
     }).catch(console.error);
-    const card = await generateShareCard('The Gauntlet', `${totalScore}/100`, percentile).catch(() => '');
-    setShareImage(card);
+    
+    try {
+      const card = await generateShareCard('The Gauntlet', `${totalScore}/100`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'gauntlet', testName: 'The Gauntlet', attempts: r.map(s => s.score), unit: 'pts',

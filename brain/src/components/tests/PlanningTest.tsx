@@ -72,8 +72,14 @@ function PlanningTest() {
     } catch (err) {
       console.error('Failed to save Planning session:', err);
     }
-    const card = await generateShareCard('Planning Test', `${moves} moves (optimal: ${optimal})`, lookupPercentile('planning', score));
-    setShareImage(card);
+
+    try {
+      const card = await generateShareCard('Planning Test', `${moves} moves (optimal: ${optimal})`, lookupPercentile('planning', score));
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
+
     setPhase('done');
 
     redirectToResults({

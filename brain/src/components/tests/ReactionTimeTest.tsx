@@ -42,7 +42,7 @@ function ReactionTimeTest() {
     let mounted = true;
 
     // 1. Calibration on mount
-    measureRefreshRate((result) => {
+    const cleanupCalibration = measureRefreshRate((result) => {
       if (mounted) setCalibration(result);
     });
 
@@ -65,7 +65,12 @@ function ReactionTimeTest() {
       }
     }
 
-    return () => { mounted = false; if (timerId.current) clearTimeout(timerId.current); if (rafId.current) cancelAnimationFrame(rafId.current); };
+    return () => { 
+      mounted = false; 
+      if (timerId.current) clearTimeout(timerId.current); 
+      if (rafId.current) cancelAnimationFrame(rafId.current); 
+      cleanupCalibration();
+    };
   }, []);
 
 
@@ -135,17 +140,19 @@ function ReactionTimeTest() {
 
       clickLock.current = true;
 
-      const updatedAttempts = [...attempts, score];
-      setAttempts(updatedAttempts);
+      setAttempts(prev => {
+        const updated = [...prev, score];
+        
+        if (updated.length < totalAttempts.current) {
+          setGameState('attempt-result');
+        } else {
+          // Compute average score
+          const average = Math.round(updated.reduce((a, b) => a + b, 0) / updated.length);
+          finalizeTest(average, updated);
+        }
+        return updated;
+      });
       setCurrentScore(score);
-
-      if (updatedAttempts.length < totalAttempts.current) {
-        setGameState('attempt-result');
-      } else {
-        // Compute average score
-        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length);
-        finalizeTest(average, updatedAttempts);
-      }
     } else if (gameState === 'attempt-result') {
       // Proceed to next attempt
       setGameState('waiting');
@@ -181,8 +188,12 @@ function ReactionTimeTest() {
     setPersonalBest(existingPb);
 
     // Pre-generate Share Card Image in background
-    const cardDataUrl = await generateShareCard('Reaction Time Test', `${avgScore} ms`, percentile);
-    setShareImage(cardDataUrl);
+    try {
+      const cardDataUrl = await generateShareCard('Reaction Time Test', `${avgScore} ms`, percentile);
+      setShareImage(cardDataUrl);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'reaction-time', testName: 'Reaction Time', attempts: allAttempts, unit: 'ms',

@@ -11,10 +11,11 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestState = 'idle' | 'sequence' | 'waiting' | 'ready' | 'attempt-result' | 'jump-start' | 'result';
 
-function F1LightsTest() {
+const F1LightsTest = () => {
   const { playTone, playClick, playError } = useSound();
   const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
@@ -159,8 +160,8 @@ function F1LightsTest() {
       if (updatedAttempts.length < totalAttempts.current) {
         setGameState('attempt-result');
       } else {
-        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length);
-        finalizeTest(average, updatedAttempts);
+        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / Math.max(1, updatedAttempts.length));
+      finalizeTest(average, updatedAttempts);
       }
     } else if (gameState === 'attempt-result') {
       startSequence();
@@ -190,8 +191,12 @@ function F1LightsTest() {
     const pb = await dataLayer.getPersonalBest('f1-lights', 'lower');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('F1 Start Lights Test', `${avgScore} ms`, percentile);
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('F1 Start Lights Test', `${avgScore} ms`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'f1-lights', testName: 'F1 Start Lights', attempts: allAttempts, unit: 'ms',
@@ -218,6 +223,10 @@ function F1LightsTest() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    clearTimers();
+    setGameState('jump-start');
+  }, gameState === 'sequence' || gameState === 'waiting' || gameState === 'ready');
 
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
@@ -338,7 +347,7 @@ function F1LightsTest() {
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / Math.max(1, attempts.length))} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('f1-lights', Math.round(attempts.reduce((a, b) => a + b, 0) / 5), true))}% {t('f1.drivers_class')}
+                {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('f1-lights', Math.round(attempts.reduce((a, b) => a + b, 0) / Math.max(1, attempts.length)), true))}% {t('f1.drivers_class')}
               </span>
             </div>
           )}

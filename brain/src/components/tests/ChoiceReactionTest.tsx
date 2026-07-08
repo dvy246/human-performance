@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -21,7 +22,7 @@ const COLOR_MAP: Record<ColorChoice, { hex: string; key: string; label: string; 
   yellow: { hex: '#eab308', key: 'y', label: 'Yellow (Y)', textClass: 'text-yellow-400', bgClass: 'bg-yellow-950/20 border-yellow-900/50', activeClass: 'bg-yellow-500 border-yellow-400 ring-4 ring-yellow-500/20' }
 };
 
-function ChoiceReactionTest() {
+const ChoiceReactionTest = () => {
   const [gameState, setGameState] = useState<TestState>('idle');
   const [activeColor, setActiveColor] = useState<ColorChoice | null>(null);
   const [pressedKey, setPressedKey] = useState<string | null>(null);
@@ -39,6 +40,7 @@ function ChoiceReactionTest() {
   const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const submittedRef = useRef<boolean>(false);
+  const pressedKeyTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const totalAttempts = useRef<number>(5);
   const waitRange = useRef<{ min: number; max: number }>({ min: 1200, max: 3500 });
   const lastConfig = useRef<GameConfig | null>(null);
@@ -72,6 +74,7 @@ function ChoiceReactionTest() {
       mounted = false;
       if (timerId.current) clearTimeout(timerId.current);
       if (rafId.current) cancelAnimationFrame(rafId.current);
+      if (pressedKeyTimerRef.current) clearTimeout(pressedKeyTimerRef.current);
     };
   }, []);
 
@@ -80,10 +83,12 @@ function ChoiceReactionTest() {
     if (gameState !== 'ready') return;
 
     const handleKeyDown = (e: KeyboardEvent) => {
+      if (gameState !== 'ready') return;
       const key = e.key.toLowerCase();
       if (['r', 'g', 'b', 'y'].includes(key)) {
         setPressedKey(key);
-        setTimeout(() => setPressedKey(null), 150);
+        if (pressedKeyTimerRef.current) clearTimeout(pressedKeyTimerRef.current);
+        pressedKeyTimerRef.current = setTimeout(() => setPressedKey(null), 150);
         
         let selectedColor: ColorChoice | null = null;
         if (key === 'r') selectedColor = 'red';
@@ -144,7 +149,7 @@ function ChoiceReactionTest() {
   };
 
   const evaluateInput = (selection: ColorChoice) => {
-    if (clickLock.current) return;
+    if (clickLock.current || gameState !== 'ready') return;
 
     const triggerTime = performance.now();
     const rawElapsed = Math.round(triggerTime - startTime.current);
@@ -219,8 +224,12 @@ function ChoiceReactionTest() {
     const pb = await dataLayer.getPersonalBest('choice-reaction', 'lower');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('Choice Reaction Test', `${avgScore} ms`, percentile);
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Choice Reaction Test', `${avgScore} ms`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'choice-reaction', testName: 'Choice Reaction', attempts: allAttempts.map(a => a.score), unit: 'ms',
@@ -229,6 +238,10 @@ function ChoiceReactionTest() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    if (timerId.current) clearTimeout(timerId.current);
+    setGameState('abort');
+  }, gameState === 'waiting' || gameState === 'ready');
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;

@@ -9,10 +9,11 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type Phase = 'idle' | 'showing' | 'input' | 'correct' | 'wrong' | 'result';
 
-function NumberMemoryTest() {
+const NumberMemoryTest = () => {
   const [phase, setPhase] = useState<Phase>('idle');
   const [level, setLevel] = useState(1);
   const [currentNumber, setCurrentNumber] = useState('');
@@ -52,7 +53,10 @@ function NumberMemoryTest() {
       }
     }
 
-    return () => { mounted = false; };
+    return () => { 
+      mounted = false;
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, []);
 
   const generateNumber = (digits: number): string => {
@@ -116,7 +120,7 @@ function NumberMemoryTest() {
 
     if (userInput === currentNumber) {
       const nextLevel = level + 1;
-      setHighestLevel(Math.max(highestLevel, level));
+      setHighestLevel(prev => Math.max(prev, level));
       setPhase('correct');
       
       setTimeout(() => {
@@ -124,7 +128,7 @@ function NumberMemoryTest() {
         showNumber(nextLevel);
       }, 800);
     } else {
-      setHighestLevel(Math.max(highestLevel, level - 1));
+      setHighestLevel(prev => Math.max(prev, level - 1));
       setPhase('wrong');
     }
   }, [phase, userInput, currentNumber, level, highestLevel]);
@@ -158,12 +162,16 @@ function NumberMemoryTest() {
     const pb = await dataLayer.getPersonalBest('number-memory', 'higher');
     setPersonalBest(pb);
 
-    const card = await generateShareCard(
-      'Number Memory Test',
-      `${finalScore} Digits`,
-      percentile
-    );
-    setShareImage(card);
+    try {
+      const card = await generateShareCard(
+        'Number Memory Test',
+        `${finalScore} Digits`,
+        percentile
+      );
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'number-memory', testName: 'Number Memory', attempts: [finalScore], unit: 'digits',
@@ -187,6 +195,10 @@ function NumberMemoryTest() {
   const finalScore = Math.max(highestLevel, level - 1);
 
   useBeforeUnload(phase !== 'idle' && phase !== 'result');
+  useVisibilityGuard(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setPhase('idle');
+  }, phase === 'showing' || phase === 'input');
 
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">

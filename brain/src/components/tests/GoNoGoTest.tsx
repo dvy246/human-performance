@@ -242,8 +242,12 @@ function GoNoGoTest() {
     const pb = await dataLayer.getPersonalBest('go-no-go', 'lower');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('Go/No-Go Color Test', `${finalAverage} ms`, percentile);
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Go/No-Go Color Test', `${finalAverage} ms`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'go-no-go', testName: 'Go/No-Go', attempts: allAttempts, unit: 'ms',

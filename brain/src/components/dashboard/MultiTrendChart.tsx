@@ -61,14 +61,14 @@ export default function MultiTrendChart() {
     if (selectedRecords.length === 0) return [];
 
     const allTimestamps = selectedRecords.map(r => r.timestamp);
-    const minTime = Math.min(...allTimestamps);
-    const maxTime = Math.max(...allTimestamps);
+    const minTime = allTimestamps.reduce((a, b) => Math.min(a, b), allTimestamps[0]);
+    const maxTime = allTimestamps.reduce((a, b) => Math.max(a, b), allTimestamps[0]);
     const timeRange = maxTime - minTime || 1;
 
     // Find global score range
     const allScores = selectedRecords.map(r => r.rawScore);
-    const minScore = Math.min(...allScores);
-    const maxScore = Math.max(...allScores);
+    const minScore = allScores.reduce((a, b) => Math.min(a, b), allScores[0]);
+    const maxScore = allScores.reduce((a, b) => Math.max(a, b), allScores[0]);
     const scoreRange = maxScore - minScore || 1;
 
     let colorIdx = 0;

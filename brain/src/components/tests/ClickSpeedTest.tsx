@@ -11,13 +11,14 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestState = 'idle' | 'clicking' | 'result';
 
 const DURATIONS = [5, 10, 30, 60] as const;
 type Duration = typeof DURATIONS[number];
 
-function ClickSpeedTest() {
+const ClickSpeedTest = () => {
   const { playClick } = useSound();
   const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
@@ -44,7 +45,7 @@ function ClickSpeedTest() {
 
   useEffect(() => {
     let mounted = true;
-    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
+    const cleanupCalibration = measureRefreshRate((res) => { if (mounted) setCalibration(res); });
     dataLayer.getPersonalBest('click-speed', 'higher').then((pb) => {
       if (mounted) setPersonalBest(pb);
     }).catch(console.error);
@@ -65,6 +66,7 @@ function ClickSpeedTest() {
     return () => {
       mounted = false;
       if (timerRef.current) clearInterval(timerRef.current);
+      cleanupCalibration();
     };
   }, []);
 
@@ -72,7 +74,7 @@ function ClickSpeedTest() {
 
   const startTest = (config?: GameConfig) => {
     if (config) lastConfig.current = config;
-    handleClick({ preventDefault: () => {} } as React.MouseEvent);
+    resetTest();
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -116,7 +118,10 @@ function ClickSpeedTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setGameState('result');
-    const cps = Number((finalClicks / duration).toFixed(1));
+    
+    // Precise CPS calculation using actual elapsed time
+    const actualElapsed = (performance.now() - startTime.current) / 1000;
+    const cps = Number((finalClicks / Math.max(0.1, actualElapsed)).toFixed(1));
     const percentile = lookupPercentile('click-speed', cps);
 
     try {
@@ -134,8 +139,12 @@ function ClickSpeedTest() {
     const pb = await dataLayer.getPersonalBest('click-speed', 'higher');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('Click Speed (CPS) Test', `${cps} CPS`, percentile);
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Click Speed (CPS) Test', `${cps} CPS`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'click-speed', testName: 'Click Speed', attempts: [cps], unit: 'CPS',
@@ -166,23 +175,33 @@ function ClickSpeedTest() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => resetTest(), gameState === 'clicking');
 
   // SVG Cadence Path Generator
+  const lastChartPath = useRef<string>('');
+  const lastClickRatesLen = useRef<number>(0);
+
   const generateChartPath = () => {
     if (clickRates.length < 2) return '';
-    const maxVal = Math.max(...clickRates, 15);
-    const minVal = Math.min(...clickRates, 0);
+    if (clickRates.length === lastClickRatesLen.current) return lastChartPath.current;
+
+    const maxVal = clickRates.reduce((a, b) => Math.max(a, b), 15);
+    const minVal = clickRates.reduce((a, b) => Math.min(a, b), 0);
     const range = maxVal - minVal || 1;
     const width = 360;
     const height = 80;
 
-    return clickRates
+    const path = clickRates
       .map((val, idx) => {
         const x = (idx / (clickRates.length - 1)) * width;
         const y = height - ((val - minVal) / range) * height;
         return `${idx === 0 ? 'M' : 'L'} ${x.toFixed(1)} ${y.toFixed(1)}`;
       })
       .join(' ');
+
+    lastChartPath.current = path;
+    lastClickRatesLen.current = clickRates.length;
+    return path;
   };
 
   return (

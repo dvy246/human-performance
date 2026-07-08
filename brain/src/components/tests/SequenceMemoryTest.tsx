@@ -162,8 +162,12 @@ function SequenceMemoryTest() {
     const pb = await dataLayer.getPersonalBest('sequence-memory', 'higher');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('Sequence Memory Test', `Level ${finalScore}`, percentile);
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Sequence Memory Test', `Level ${finalScore}`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'sequence-memory', testName: 'Sequence Memory', attempts: [finalScore], unit: 'levels',

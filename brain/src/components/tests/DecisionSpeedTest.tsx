@@ -87,8 +87,13 @@ function DecisionSpeedTest() {
     } catch (err) {
       console.error('Failed to save Decision Speed session:', err);
     }
-    const card = await generateShareCard('Decision Speed Test', `${Math.round(acc * 100)}%`, lookupPercentile('decision-speed', score));
-    setShareImage(card);
+
+    try {
+      const card = await generateShareCard('Decision Speed Test', `${Math.round(acc * 100)}%`, lookupPercentile('decision-speed', score));
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'decision-speed', testName: 'Decision Speed', attempts: r.map(x => x.rt), unit: 'ms',

@@ -74,7 +74,7 @@ function MouseAccuracyTest() {
     } catch (err) {
       console.error('Failed to save Mouse Accuracy session:', err);
     }
-    const card = await generateShareCard('Mouse Accuracy Test', `${Math.round(avgOffset * 10) / 10}px avg`, lookupPercentile('mouse-accuracy', score));
+    const card = await generateShareCard('Mouse Accuracy Test', `${Math.round(avgOffset * 10) / 10}px avg`, lookupPercentile('mouse-accuracy', score)).catch(() => '');
     setShareImage(card);
 
     redirectToResults({
@@ -145,8 +145,8 @@ function MouseAccuracyTest() {
         <div className="text-4xl font-bold font-mono text-foreground">{avg}px</div>
         <div className="text-xs text-muted font-mono">average offset from center</div>
         <div className="grid grid-cols-3 gap-4 text-xs text-center w-full max-w-xs">
-          <div><div className="text-muted font-mono text-[10px]">Best</div><div className="text-foreground font-mono">{Math.round(Math.min(...offsets) * 10) / 10}px</div></div>
-          <div><div className="text-muted font-mono text-[10px]">Worst</div><div className="text-foreground font-mono">{Math.round(Math.max(...offsets) * 10) / 10}px</div></div>
+          <div><div className="text-muted font-mono text-[10px]">Best</div><div className="text-foreground font-mono">{Math.round(offsets.reduce((a, b) => Math.min(a, b), offsets[0]) * 10) / 10}px</div></div>
+          <div><div className="text-muted font-mono text-[10px]">Worst</div><div className="text-foreground font-mono">{Math.round(offsets.reduce((a, b) => Math.max(a, b), offsets[0]) * 10) / 10}px</div></div>
           <div><div className="text-muted font-mono text-[10px]">Targets</div><div className="text-foreground font-mono">{targetCount.current}</div></div>
         </div>
         {shareImage && (

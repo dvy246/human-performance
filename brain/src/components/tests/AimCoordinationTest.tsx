@@ -47,7 +47,7 @@ function AimCoordinationTest() {
 
   useEffect(() => {
     let mounted = true;
-    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
+    const cleanupCalibration = measureRefreshRate((res) => { if (mounted) setCalibration(res); });
     dataLayer.getPersonalBest('aim-coordination', 'lower').then((pb) => {
       if (mounted) setPersonalBest(pb);
     }).catch(console.error);
@@ -65,7 +65,10 @@ function AimCoordinationTest() {
       }
     }
 
-    return () => { mounted = false; };
+    return () => { 
+      mounted = false; 
+      cleanupCalibration();
+    };
   }, []);
 
   // Canvas drawing loop
@@ -239,8 +242,12 @@ function AimCoordinationTest() {
     const pb = await dataLayer.getPersonalBest('aim-coordination', 'lower');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('Aim Coordination Test', `${averageLatency} ms avg`, lookupPercentile('aim-coordination', averageLatency, true));
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Aim Coordination Test', `${averageLatency} ms avg`, lookupPercentile('aim-coordination', averageLatency, true));
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'aim-coordination', testName: 'Aim Coordination', attempts: latenciesArr.current, unit: 'ms',

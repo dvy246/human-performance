@@ -185,12 +185,16 @@ function VisualPatternTest() {
     const pb = await dataLayer.getPersonalBest('visual-pattern', 'higher');
     setPersonalBest(pb);
 
-    const card = await generateShareCard(
-      'Visual Pattern Memory',
-      `Level ${finalScore}`,
-      percentile
-    );
-    setShareImage(card);
+    try {
+      const card = await generateShareCard(
+        'Visual Pattern Memory',
+        `Level ${finalScore}`,
+        percentile
+      );
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'visual-pattern', testName: 'Visual Pattern', attempts: [finalScore], unit: 'levels',

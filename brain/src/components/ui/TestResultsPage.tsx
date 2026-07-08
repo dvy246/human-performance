@@ -111,14 +111,14 @@ export default function TestResultsPage() {
 
   const msg = getPersonalizedMessage(data);
   const { attempts, unit, percentile, personalBest, average } = data;
-  const min = Math.min(...attempts);
-  const max = Math.max(...attempts);
+  const min = attempts.reduce((a, b) => Math.min(a, b), attempts[0]);
+  const max = attempts.reduce((a, b) => Math.max(a, b), attempts[0]);
   const stdDev = Math.round(computeStdDev(attempts, average) * 10) / 10;
   const related = RELATED_TESTS[data.testId] || [];
 
   // Bar chart calculations
-  const bestVal = Math.min(...attempts);
-  const worstVal = Math.max(...attempts);
+  const bestVal = attempts.reduce((a, b) => Math.min(a, b), attempts[0]);
+  const worstVal = attempts.reduce((a, b) => Math.max(a, b), attempts[0]);
   const range = worstVal - bestVal || 1;
 
   const formatScore = (val: number) => {
@@ -180,8 +180,8 @@ export default function TestResultsPage() {
               const w = 300 - pad * 2;
               const h = 80 - pad;
               const vals = attempts;
-              const minV = Math.min(...vals);
-              const maxV = Math.max(...vals);
+              const minV = vals.reduce((a, b) => Math.min(a, b), vals[0]);
+              const maxV = vals.reduce((a, b) => Math.max(a, b), vals[0]);
               const rng = maxV - minV || 1;
               const points = vals.map((v, i) => {
                 const x = pad + (i / (vals.length - 1)) * w;

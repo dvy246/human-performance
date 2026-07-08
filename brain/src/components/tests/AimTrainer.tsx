@@ -54,7 +54,7 @@ function AimTrainer() {
 
   useEffect(() => {
     let mounted = true;
-    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
+    const cleanupCalibration = measureRefreshRate((res) => { if (mounted) setCalibration(res); });
     dataLayer.getPersonalBest('aim-trainer', 'lower').then((pb) => {
       if (mounted) setPersonalBest(pb);
     }).catch(console.error);
@@ -72,7 +72,10 @@ function AimTrainer() {
       }
     }
 
-    return () => { mounted = false; };
+    return () => { 
+      mounted = false; 
+      cleanupCalibration();
+    };
   }, []);
 
   // Canvas drawing loop
@@ -254,8 +257,12 @@ function AimTrainer() {
     const pb = await dataLayer.getPersonalBest('aim-trainer', 'lower');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('Aim Precision Trainer', `${averageLatency} ms avg`, lookupPercentile('aim-trainer', averageLatency, true));
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Aim Precision Trainer', `${averageLatency} ms avg`, lookupPercentile('aim-trainer', averageLatency, true));
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'aim-trainer', testName: 'Aim Trainer', attempts: latenciesArr.current, unit: 'ms',

@@ -265,8 +265,12 @@ function DualNBackTest() {
       setPersonalBest(pb);
     }).catch(console.error);
 
-    const card = await generateShareCard('Dual N-Back Test', `Max N=${achievedN} (${finalAccuracy}%)`, percentile).catch(() => '');
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Dual N-Back Test', `Max N=${achievedN} (${finalAccuracy}%)`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'dual-n-back', testName: 'Dual N-Back', attempts: [finalScore], unit: 'pts',

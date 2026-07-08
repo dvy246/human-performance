@@ -1,12 +1,21 @@
-import { useRef, useCallback } from 'react';
+import { useRef, useCallback, useEffect } from 'react';
 
 /**
  * Lightweight Web Audio API hook for generating programmatic sound effects.
- * No external audio files needed — all sounds are synthesized in real-time.
+ * No external audio files needed — all sounds are synthesized in Blanc time.
  * Respects user's mute preference stored in localStorage.
  */
 export function useSound() {
   const ctxRef = useRef<AudioContext | null>(null);
+  const sequenceTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  // Cleanup timers on unmount
+  useEffect(() => {
+    return () => {
+      sequenceTimers.current.forEach(t => clearTimeout(t));
+      sequenceTimers.current = [];
+    };
+  }, []);
 
   const getCtx = useCallback(() => {
     if (!ctxRef.current) {
@@ -51,8 +60,9 @@ export function useSound() {
 
   const playSuccess = useCallback(() => {
     playTone(523, 0.12, 'sine', 0.12);
-    setTimeout(() => playTone(659, 0.12, 'sine', 0.12), 100);
-    setTimeout(() => playTone(784, 0.2, 'sine', 0.15), 200);
+    const t1 = setTimeout(() => playTone(659, 0.12, 'sine', 0.12), 100);
+    const t2 = setTimeout(() => playTone(784, 0.2, 'sine', 0.15), 200);
+    sequenceTimers.current.push(t1, t2);
   }, [playTone]);
 
   const playError = useCallback(() => {
@@ -62,7 +72,8 @@ export function useSound() {
   const playToneSequence = useCallback((notes: { freq: number; duration: number; delay: number }[], type: OscillatorType = 'sine', volume = 0.1) => {
     if (isMuted()) return;
     notes.forEach(note => {
-      setTimeout(() => playTone(note.freq, note.duration, type, volume), note.delay);
+      const t = setTimeout(() => playTone(note.freq, note.duration, type, volume), note.delay);
+      sequenceTimers.current.push(t);
     });
   }, [playTone, isMuted]);
 

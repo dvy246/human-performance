@@ -6,10 +6,11 @@ export default function CalibrationBanner() {
   const [detecting, setDetecting] = useState(true);
 
   useEffect(() => {
-    measureRefreshRate((result) => {
+    const cleanupCalibration = measureRefreshRate((result) => {
       setCalibration(result);
       setDetecting(false);
     });
+    return () => cleanupCalibration();
   }, []);
 
   if (detecting) {

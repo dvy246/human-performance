@@ -21,8 +21,13 @@ const DB_VERSION = 1;
 const STORE_NAME = 'sessions';
 const SYNC_API_URL = 'https://cogniarena-sync.divyyadav.workers.dev';
 
+// Persistent connection pool caching
+let dbCache: IDBDatabase | null = null;
+
 // Helper to initialize IndexedDB
 function initDB(): Promise<IDBDatabase> {
+  if (dbCache) return Promise.resolve(dbCache);
+
   return new Promise((resolve, reject) => {
     if (typeof window === 'undefined') {
       reject(new Error('IndexedDB is only available in the browser'));
@@ -32,7 +37,10 @@ function initDB(): Promise<IDBDatabase> {
     const request = indexedDB.open(DB_NAME, DB_VERSION);
 
     request.onerror = () => reject(request.error);
-    request.onsuccess = () => resolve(request.result);
+    request.onsuccess = () => {
+      dbCache = request.result;
+      resolve(dbCache);
+    };
 
     request.onupgradeneeded = (event) => {
       const db = request.result;
@@ -112,9 +120,9 @@ export const dataLayer = {
 
     const scores = history.map(h => h.rawScore);
     if (criteria === 'lower') {
-      return Math.min(...scores);
+      return scores.reduce((min, p) => p < min ? p : min, scores[0]);
     } else {
-      return Math.max(...scores);
+      return scores.reduce((max, p) => p > max ? p : max, scores[0]);
     }
   },
 

@@ -506,8 +506,13 @@ function PatternReasoningTest() {
     }
 
     dataLayer.getPersonalBest('pattern-reasoning', 'higher').then(pb => setPersonalBest(pb)).catch(console.error);
-    const card = await generateShareCard(`Reasoning: ${MODE_TITLES[currentMode]}`, `${finalScore} Pts`, percentile);
-    setShareImage(card);
+
+    try {
+      const card = await generateShareCard(`Reasoning: ${MODE_TITLES[currentMode]}`, `${finalScore} Pts`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'pattern-reasoning', testName: 'Pattern Reasoning', attempts: [finalScore], unit: 'pts',

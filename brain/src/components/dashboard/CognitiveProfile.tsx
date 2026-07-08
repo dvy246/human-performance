@@ -381,8 +381,8 @@ export default function CognitiveProfile() {
     const scores = testRecords.map(r => {
       return r.testId === 'click-speed' ? r.rawScore / 10 : r.rawScore;
     });
-    const maxScore = Math.max(...scores, 1);
-    const minScore = Math.min(...scores, 0);
+    const maxScore = scores.reduce((a, b) => Math.max(a, b), 1);
+    const minScore = scores.reduce((a, b) => Math.min(a, b), 0);
     const range = maxScore - minScore || 1;
 
     const width = 240;

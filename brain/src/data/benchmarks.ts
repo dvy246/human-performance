@@ -320,8 +320,8 @@ export function computeFittedDistribution(points?: DistributionPoint[]): { mean:
   }
   const { mean, std } = fitNormalFromPercentiles(points);
   const scores = points.map(p => p.score);
-  const min = Math.min(...scores);
-  const max = Math.max(...scores);
+  const min = scores.reduce((a, b) => Math.min(a, b), scores[0]);
+  const max = scores.reduce((a, b) => Math.max(a, b), scores[0]);
   const padding = (max - min) * 0.15;
   const step = (max - min + padding * 2) / 150;
   const pdfPoints: { x: number; y: number }[] = [];

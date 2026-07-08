@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
-import { encodeChallenge, generateShareCard } from '../../runtime/share';
+import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TrialState = 'idle' | 'running' | 'result';
 interface Trial {
@@ -24,7 +25,7 @@ const COLORS = [
   { name: 'YELLOW', hex: '#eab308', class: 'text-yellow-500' }
 ];
 
-function StroopTest() {
+const StroopTest = () => {
   const [gameState, setGameState] = useState<TrialState>('idle');
   const [trials, setTrials] = useState<Trial[]>([]);
   const [currentTrialIdx, setCurrentTrialIdx] = useState(0);
@@ -40,6 +41,10 @@ function StroopTest() {
 
   const trialStartTime = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const feedbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const correctCountRef = useRef(0);
+  const congruentScoresRef = useRef<number[]>([]);
+  const incongruentScoresRef = useRef<number[]>([]);
   const lockedRef = useRef(false);
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
@@ -52,7 +57,11 @@ function StroopTest() {
     dataLayer.getPersonalBest('stroop', 'lower').then(pb => {
       if (mounted) setPersonalBest(pb);
     }).catch(console.error);
-    return () => { mounted = false; };
+    return () => { 
+      mounted = false;
+      if (timerRef.current) clearTimeout(timerRef.current);
+      if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
+    };
   }, []);
 
   const generateTrials = (): Trial[] => {
@@ -84,13 +93,17 @@ function StroopTest() {
     trialTimeoutMs.current = (diff.trialTimeoutMs as number) || 4000;
 
     if (timerRef.current) clearTimeout(timerRef.current);
+    if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
     submittedRef.current = false;
     const list = generateTrials();
     setTrials(list);
     setCurrentTrialIdx(0);
     setCongruentScores([]);
     setIncongruentScores([]);
+    congruentScoresRef.current = [];
+    incongruentScoresRef.current = [];
     setCorrectCount(0);
+    correctCountRef.current = 0;
     setAccuracy(0);
     setLastFeedback(null);
     setShareImage(null);
@@ -122,13 +135,25 @@ function StroopTest() {
     const current = trials[currentTrialIdx];
 
     if (selectedColor === current.color) {
-      setCorrectCount(prev => prev + 1);
+      setCorrectCount(prev => {
+        const next = prev + 1;
+        correctCountRef.current = next;
+        return next;
+      });
       
       // Save scores separately to calculate interference
       if (current.isCongruent) {
-        setCongruentScores(prev => [...prev, elapsed]);
+        setCongruentScores(prev => {
+          const next = [...prev, elapsed];
+          congruentScoresRef.current = next;
+          return next;
+        });
       } else {
-        setIncongruentScores(prev => [...prev, elapsed]);
+        setIncongruentScores(prev => {
+          const next = [...prev, elapsed];
+          incongruentScoresRef.current = next;
+          return next;
+        });
       }
       setLastFeedback('correct');
     } else if (selectedColor === null) {
@@ -138,7 +163,8 @@ function StroopTest() {
     }
 
     // Delay slightly to show feedback green/red dot, then next trial
-    setTimeout(() => {
+    if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
+    feedbackTimerRef.current = setTimeout(() => {
       nextTrial(currentTrialIdx + 1, trials);
     }, 500);
   };
@@ -148,8 +174,13 @@ function StroopTest() {
     submittedRef.current = true;
     setGameState('result');
     if (timerRef.current) clearTimeout(timerRef.current);
+    if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
 
-    const totalAccuracy = Math.round((correctCount / trialCount.current) * 100);
+    const correctCount = correctCountRef.current;
+    const congruentScores = congruentScoresRef.current;
+    const incongruentScores = incongruentScoresRef.current;
+
+    const totalAccuracy = Math.round((correctCount / Math.max(1, trialCount.current)) * 100);
     setAccuracy(totalAccuracy);
 
     const getAvg = (arr: number[]) => arr.length === 0 ? 0 : Math.round(arr.reduce((a,b)=>a+b,0) / arr.length);
@@ -180,20 +211,24 @@ function StroopTest() {
       console.error('Failed to save Stroop session:', err);
     }
 
-    dataLayer.getPersonalBest('stroop', 'lower').then(pb => {
-      setPersonalBest(pb);
-    }).catch(console.error);
+    const pb = await dataLayer.getPersonalBest('stroop', 'lower');
+    setPersonalBest(pb);
 
-    const card = await generateShareCard('Stroop Attention Test', `${finalScore} ms`, percentile).catch(() => '');
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Stroop Attention Test', `${finalScore} ms`, percentile);
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'stroop', testName: 'Stroop Attention', attempts: [...congruentScores, ...incongruentScores], unit: 'ms',
-      percentile, personalBest: null, category: 'focus', average: finalScore,
+      percentile, personalBest: pb, category: 'focus', average: finalScore,
     });
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => setGameState('idle'), gameState === 'running');
 
   const getAvg = (arr: number[]) => arr.length === 0 ? 0 : Math.round(arr.reduce((a,b)=>a+b,0) / arr.length);
 

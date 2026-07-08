@@ -5,11 +5,13 @@ export interface ChallengePayload {
   score: number;
 }
 
-// URL-safe Base64 encoding
+// Modern Data Encoding Protocols
 export function encodeChallenge(payload: ChallengePayload): string {
   try {
     const json = JSON.stringify(payload);
-    const base64 = btoa(unescape(encodeURIComponent(json)))
+    const uint8 = new TextEncoder().encode(json);
+    const binString = Array.from(uint8, (byte) => String.fromCharCode(byte)).join('');
+    const base64 = btoa(binString)
       .replace(/\+/g, '-')
       .replace(/\//g, '_')
       .replace(/=+$/, '');
@@ -27,7 +29,12 @@ export function decodeChallenge(hash: string): ChallengePayload | null {
     while (base64.length % 4) {
       base64 += '=';
     }
-    const json = decodeURIComponent(escape(atob(base64)));
+    const binString = atob(base64);
+    const uint8 = new Uint8Array(binString.length);
+    for (let i = 0; i < binString.length; i++) {
+      uint8[i] = binString.charCodeAt(i);
+    }
+    const json = new TextDecoder().decode(uint8);
     return JSON.parse(json);
   } catch (e) {
     console.error('Error decoding challenge:', e);
@@ -41,7 +48,12 @@ export function generateShareCard(
   scoreLabel: string,
   percentile: number
 ): Promise<string> {
-  return new Promise((resolve) => {
+  return new Promise(async (resolve) => {
+    // Ensure asset fonts display flawlessly
+    if (typeof document !== 'undefined' && 'fonts' in document) {
+      await document.fonts.ready;
+    }
+
     // Create an offscreen canvas
     const canvas = document.createElement('canvas');
     canvas.width = 1200;

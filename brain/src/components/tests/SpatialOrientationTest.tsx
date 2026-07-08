@@ -231,8 +231,12 @@ function SpatialOrientationTest() {
     } catch (err) {
       console.error('Failed to save Spatial Orientation session:', err);
     }
-    const card = await generateShareCard('Spatial Orientation', `${c}/${TOTAL}`, lookupPercentile('spatial-orientation', score)).catch(() => '');
-    setShareImage(card);
+    try {
+      const card = await generateShareCard('Spatial Orientation', `${c}/${TOTAL}`, lookupPercentile('spatial-orientation', score));
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'spatial-orientation', testName: 'Spatial Orientation', attempts: [score], unit: '%',

@@ -104,7 +104,7 @@ export default function PersonalRecords() {
         <div className="border border-card-border rounded-lg p-4 bg-card">
           <p className="text-xs text-muted mb-1">Top Percentile</p>
           <p className="text-2xl font-bold text-accent">
-            {Math.max(...records.map(r => r.percentile))}
+            {records.reduce((max, r) => Math.max(max, r.percentile), 0)}
           </p>
         </div>
       </div>

@@ -74,7 +74,7 @@ function FlickTrainerTest() {
     } catch (err) {
       console.error('Failed to save Flick Trainer session:', err);
     }
-    const card = await generateShareCard('Flick Trainer', `${Math.round(hitPct * 100)}% accuracy`, lookupPercentile('flick-trainer', score));
+    const card = await generateShareCard('Flick Trainer', `${Math.round(hitPct * 100)}% accuracy`, lookupPercentile('flick-trainer', score)).catch(() => '');
     setShareImage(card);
 
     redirectToResults({
@@ -149,7 +149,7 @@ function FlickTrainerTest() {
         <div className="text-xs text-muted font-mono">accuracy · {avgRt}ms avg flick time</div>
         <div className="grid grid-cols-3 gap-4 text-xs text-center w-full max-w-xs">
           <div><div className="text-muted font-mono text-[10px]">Hits</div><div className="text-foreground font-mono">{results.filter(r => r.hit).length}/{targetCount.current}</div></div>
-          <div><div className="text-muted font-mono text-[10px]">Fastest</div><div className="text-foreground font-mono">{results.length > 0 ? Math.min(...results.map(r => r.rt)) : 0}ms</div></div>
+          <div><div className="text-muted font-mono text-[10px]">Fastest</div><div className="text-foreground font-mono">{results.length > 0 ? results.reduce((min, r) => Math.min(min, r.rt), results[0].rt) : 0}ms</div></div>
           <div><div className="text-muted font-mono text-[10px]">Avg RT</div><div className="text-foreground font-mono">{avgRt}ms</div></div>
         </div>
         {shareImage && (

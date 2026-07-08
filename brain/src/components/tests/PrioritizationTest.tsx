@@ -129,8 +129,13 @@ function PrioritizationTest() {
     } catch (err) {
       console.error('Failed to save Prioritization session:', err);
     }
-    const card = await generateShareCard('Prioritization Test', `${total} pts`, lookupPercentile('prioritization', score)).catch(() => '');
-    setShareImage(card);
+
+    try {
+      const card = await generateShareCard('Prioritization Test', `${total} pts`, lookupPercentile('prioritization', score));
+      setShareImage(card);
+    } catch (err) {
+      console.error('Failed to generate share card:', err);
+    }
 
     redirectToResults({
       testId: 'prioritization', testName: 'Prioritization', attempts: r.map(x => x.points), unit: 'pts',
