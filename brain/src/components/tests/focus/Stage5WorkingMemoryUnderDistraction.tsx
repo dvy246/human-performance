@@ -17,7 +17,7 @@ function pickRandom<T>(arr: T[]): T {
 
 type GridCell = { row: number; col: number; color: string };
 
-export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibrationHz }: StageProps) {
+export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibrationHz, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'encoding' | 'recall' | 'feedback' | 'done'>('intro');
   const [level, setLevel] = useState(1);
   const [sequence, setSequence] = useState<GridCell[]>([]);
@@ -35,6 +35,26 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
   const distractorsRef = useRef<{ id: number; symbol: string; row: number; col: number }[]>([]);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const distractorIntervalRef = useRef<ReturnType<typeof setInterval> | undefined>(undefined);
+  const displayMsRef = useRef(500);
+  if (difficulty === 'Easy') displayMsRef.current = 600;
+  else if (difficulty === 'Hard') displayMsRef.current = 350;
+  else displayMsRef.current = 500;
+
+  const gapMsRef = useRef(250);
+  if (difficulty === 'Easy') gapMsRef.current = 350;
+  else if (difficulty === 'Hard') gapMsRef.current = 150;
+  else gapMsRef.current = 250;
+
+  const distractorSpawnMsRef = useRef(500);
+  if (difficulty === 'Easy') distractorSpawnMsRef.current = 700;
+  else if (difficulty === 'Hard') distractorSpawnMsRef.current = 350;
+  else distractorSpawnMsRef.current = 500;
+
+  const distractorDurationRef = useRef(400);
+  if (difficulty === 'Easy') distractorDurationRef.current = 500;
+  else if (difficulty === 'Hard') distractorDurationRef.current = 300;
+  else distractorDurationRef.current = 400;
+
   const isErrorRef = useRef(false);
   const completedRef = useRef(false);
 
@@ -79,8 +99,8 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
       st(() => {
         distractorsRef.current = distractorsRef.current.filter(d2 => d2.id !== d.id);
         setDistractors([...distractorsRef.current]);
-      }, 400);
-    }, 500);
+      }, distractorDurationRef.current);
+    }, distractorSpawnMsRef.current);
   }, [st]);
 
   const playSequence = useCallback((seq: GridCell[], idx: number = 0) => {
@@ -106,8 +126,8 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
     setActiveCell({ row: cell.row, col: cell.col });
     st(() => {
       setActiveCell(null);
-      st(() => playSequence(seq, idx + 1), 250);
-    }, 500);
+      st(() => playSequence(seq, idx + 1), gapMsRef.current);
+    }, displayMsRef.current);
   }, [st]);
 
   const startLevel = useCallback((lvl: number) => {

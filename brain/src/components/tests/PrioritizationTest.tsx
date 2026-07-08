@@ -1,9 +1,14 @@
 import { useState, useRef, useEffect } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 interface Task {
   id: number; name: string; deadline: number; points: number; effort: number;
@@ -38,7 +43,7 @@ function generateTasks(): Task[] {
   }));
 }
 
-export default function PrioritizationTest() {
+function PrioritizationTest() {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [round, setRound] = useState(0);
   const [tasks, setTasks] = useState<Task[]>([]);
@@ -51,8 +56,13 @@ export default function PrioritizationTest() {
   const completedRef = useRef<number[]>([]);
   const tasksRef = useRef<Task[]>([]);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const roundCount = useRef<number>(ROUNDS);
+  const roundTime = useRef<number>(10);
 
-  const totalTime = 10;
+  useBeforeUnload(phase !== 'intro' && phase !== 'done');
+
+  const totalTime = roundTime.current;
 
   const startRound = () => {
     const t = generateTasks();
@@ -130,7 +140,13 @@ export default function PrioritizationTest() {
 
   
 
-  const begin = () => {
+  const begin = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : ROUNDS;
+    roundCount.current = attemptCount;
+    const diff = getDifficultyParams('prioritization', (cfg.difficulty as string) || 'Medium');
+    roundTime.current = (diff.roundTime as number) || 10;
     if (timerRef.current) clearInterval(timerRef.current);
     submittedRef.current = false;
     setRound(0);
@@ -142,13 +158,14 @@ export default function PrioritizationTest() {
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">📊</div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground tracking-tight">Prioritization Test</h2>
-            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Complete {ROUNDS} rounds of task scheduling. You have {totalTime}s per round. Maximize points by completing high-value tasks before their deadlines.</p>
-          </div>
-          <button onClick={begin} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="prioritization"
+            icon="📊"
+            title="Prioritization Test"
+            description="Complete rounds of task scheduling. Maximize points by completing high-value tasks before their deadlines."
+            onStart={(config: GameConfig) => begin(config)}
+          />
         </div>
       </div>
     );
@@ -215,3 +232,5 @@ export default function PrioritizationTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(PrioritizationTest);

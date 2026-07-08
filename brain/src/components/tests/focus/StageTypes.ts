@@ -8,6 +8,7 @@ export interface StageResult {
 export interface StageProps {
   onComplete: (result: StageResult) => void;
   calibrationHz: number;
+  difficulty?: 'Easy' | 'Medium' | 'Hard';
 }
 
 export interface StageConfig {

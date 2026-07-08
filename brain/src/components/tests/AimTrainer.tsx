@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { useSound } from '../../runtime/useSound';
 import { useI18n } from '../../runtime/useI18n';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestState = 'idle' | 'playing' | 'result';
 
@@ -18,7 +21,7 @@ interface Target {
   spawnTime: number;
 }
 
-export default function AimTrainer() {
+function AimTrainer() {
   const { playClick, playError } = useSound();
   const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
@@ -43,6 +46,11 @@ export default function AimTrainer() {
   const latenciesArr = useRef<number[]>([]);
   const offsetsArr = useRef<number[]>([]);
   const submittedRef = useRef(false);
+  const totalAttempts = useRef<number>(5);
+  const waitRange = useRef<{ min: number; max: number }>({ min: 1000, max: 3000 });
+  const lastConfig = useRef<GameConfig | null>(null);
+  const totalTargets = useRef<number>(30);
+  const sizeMultiplier = useRef<number>(1);
 
   useEffect(() => {
     let mounted = true;
@@ -135,7 +143,7 @@ export default function AimTrainer() {
   const spawnTarget = () => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
-    const r = 24; // target radius
+    const r = Math.round(24 * sizeMultiplier.current);
     const padding = 40;
 
     const x = padding + Math.random() * (canvas.width - padding * 2);
@@ -149,7 +157,12 @@ export default function AimTrainer() {
     };
   };
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    totalTargets.current = (cfg.targets as number) || 30;
+    const diff = getDifficultyParams('aim-trainer', (cfg.difficulty as string) || 'Medium');
+    sizeMultiplier.current = (diff.sizeMultiplier as number) || 1;
     activeHits.current = 0;
     activeClicks.current = 0;
     targetIndex.current = 0;
@@ -200,7 +213,7 @@ export default function AimTrainer() {
       targetIndex.current += 1;
       setCurrentTargetIndex(targetIndex.current);
 
-      if (targetIndex.current >= 30) {
+      if (targetIndex.current >= totalTargets.current) {
         finalizeTest();
       } else {
         spawnTarget();
@@ -219,9 +232,9 @@ export default function AimTrainer() {
     setGameState('result');
     currentTarget.current = null;
 
-    const averageLatency = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / 30);
-    const averageOffset = Number((offsetsArr.current.reduce((a, b) => a + b, 0) / 30).toFixed(1));
-    const accuracy = Math.round((30 / activeClicks.current) * 100);
+    const averageLatency = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / totalTargets.current);
+    const averageOffset = Number((offsetsArr.current.reduce((a, b) => a + b, 0) / totalTargets.current).toFixed(1));
+    const accuracy = Math.round((totalTargets.current / activeClicks.current) * 100);
 
     setLatencies(latenciesArr.current);
     setOffsets(offsetsArr.current);
@@ -250,9 +263,11 @@ export default function AimTrainer() {
     });
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const average = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / 30);
+    const average = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / totalTargets.current);
     const token = encodeChallenge({ testId: 'aim-trainer', score: average });
     const url = `${window.location.origin}/tests/aim-trainer/?challenge=${token}`;
     
@@ -276,7 +291,7 @@ export default function AimTrainer() {
       {gameState === 'playing' ? (
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-center text-xs font-mono text-muted">
-            <span>{t('aim.targets')} <strong className="text-foreground">{currentTargetIndex} / 30</strong></span>
+            <span>{t('aim.targets')} <strong className="text-foreground">{currentTargetIndex} / {totalTargets.current}</strong></span>
             <span>{t('aim.accuracy')} <strong className="text-accent">{clicks > 0 ? Math.round((hits / clicks) * 100) : 100}%</strong></span>
           </div>
           <canvas
@@ -293,10 +308,10 @@ export default function AimTrainer() {
           <div className="flex flex-col items-center gap-1">
             <span className="text-muted text-xs font-mono uppercase">{t('aim.avg_latency')}</span>
             <div className="text-5xl font-mono font-bold text-foreground">
-              {Math.round(latencies.reduce((a, b) => a + b, 0) / 30)} ms
+              {Math.round(latencies.reduce((a, b) => a + b, 0) / totalTargets.current)} ms
             </div>
             <span className="text-accent text-xs font-mono uppercase">
-              {t('rt.top_globally')} {100 - lookupPercentile('aim-trainer', Math.round(latencies.reduce((a, b) => a + b, 0) / 30), true)}% {t('aim.aim_profile')}
+              {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('aim-trainer', Math.round(latencies.reduce((a, b) => a + b, 0) / totalTargets.current), true))}% {t('aim.aim_profile')}
             </span>
           </div>
 
@@ -304,11 +319,11 @@ export default function AimTrainer() {
           <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-2">
             <div>
               <span className="text-muted text-[10px] font-mono uppercase">{t('aim.accuracy_rate')}</span>
-              <div className="text-foreground font-mono text-sm">{clicks > 0 ? Math.round((30 / clicks) * 100) : 0}%</div>
+              <div className="text-foreground font-mono text-sm">{clicks > 0 ? Math.round((totalTargets.current / clicks) * 100) : 0}%</div>
             </div>
             <div>
               <span className="text-muted text-[10px] font-mono uppercase">{t('aim.pinpoint_error')}</span>
-              <div className="text-foreground font-mono text-sm">{(offsets.reduce((a, b) => a + b, 0) / 30).toFixed(1)} px</div>
+              <div className="text-foreground font-mono text-sm">{(offsets.reduce((a, b) => a + b, 0) / totalTargets.current).toFixed(1)} px</div>
             </div>
             <div>
               <span className="text-muted text-[10px] font-mono uppercase">{t('test.personal_best')}</span>
@@ -317,7 +332,7 @@ export default function AimTrainer() {
           </div>
 
           <button
-            onClick={startTest}
+            onClick={() => startTest()}
             className="mt-2 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
           >
               {t('test.restart')}
@@ -334,7 +349,7 @@ export default function AimTrainer() {
             personalBest={personalBest}
             personalBestLabel="ms"
             startLabel="Start Aim Assessment"
-            onStart={(_config: GameConfig) => startTest()}
+            onStart={(config: GameConfig) => startTest(config)}
           />
         </div>
       )}
@@ -364,3 +379,5 @@ export default function AimTrainer() {
     </div>
   );
 }
+
+export default withErrorBoundary(AimTrainer);

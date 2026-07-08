@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type Phase = 'idle' | 'showing' | 'input' | 'correct' | 'wrong' | 'result';
 
-export default function NumberMemoryTest() {
+function NumberMemoryTest() {
   const [phase, setPhase] = useState<Phase>('idle');
   const [level, setLevel] = useState(1);
   const [currentNumber, setCurrentNumber] = useState('');
@@ -23,6 +28,10 @@ export default function NumberMemoryTest() {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const displayDuration = useRef(0);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const startLen = useRef<number>(5);
+  const displayBase = useRef<number>(2000);
+  const displayPerLevel = useRef<number>(500);
 
   useEffect(() => {
     let mounted = true;
@@ -56,14 +65,21 @@ export default function NumberMemoryTest() {
     return num;
   };
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('number-memory', (cfg.difficulty as string) || 'Medium');
+    startLen.current = (diff.startLen as number) || 5;
+    displayBase.current = (diff.displayBase as number) || 2000;
+    displayPerLevel.current = (diff.displayPerLevel as number) || 500;
+
     if (timerRef.current) clearInterval(timerRef.current);
     submittedRef.current = false;
-    setLevel(1);
+    setLevel(startLen.current);
     setHighestLevel(0);
     setShareImage(null);
     setUserInput('');
-    showNumber(1);
+    showNumber(startLen.current);
   };
 
   const showNumber = (lvl: number) => {
@@ -72,9 +88,9 @@ export default function NumberMemoryTest() {
     setPhase('showing');
     setUserInput('');
 
-    // Display duration: starts at 2s, increases with level
-    const duration = Math.min(2000 + (lvl - 1) * 500, 8000);
-    displayDuration.current = duration;
+    const base = startLen.current;
+    const duration = Math.min(displayBase.current + (lvl - base) * displayPerLevel.current, 8000);
+    displayDuration.current = Math.max(1000, duration);
 
     // Countdown timer for visual feedback
     const startTime = performance.now();
@@ -170,6 +186,8 @@ export default function NumberMemoryTest() {
 
   const finalScore = Math.max(highestLevel, level - 1);
 
+  useBeforeUnload(phase !== 'idle' && phase !== 'result');
+
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
       {/* Challenge Banner */}
@@ -201,22 +219,16 @@ export default function NumberMemoryTest() {
 
         {/* IDLE STATE */}
         {phase === 'idle' && (
-          <div className="flex flex-col items-center gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-2xl">
-              🔢
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-bold text-foreground mb-1">Number Memory</h3>
-              <p className="text-muted text-sm max-w-xs">
-                Remember increasingly long numbers. How many digits can you hold in working memory?
-              </p>
-            </div>
-            <button
-              onClick={startTest}
-              className="text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-8 py-2.5 rounded transition-standard active:scale-[0.98]"
-            >
-              Start Test
-            </button>
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <GameConfigPanel
+              testId="number-memory"
+              icon="🔢"
+              title="Number Memory"
+              description="Remember increasingly long numbers. How many digits can you hold in working memory?"
+              personalBest={personalBest}
+              personalBestLabel="digits"
+              onStart={(config: GameConfig) => startTest(config)}
+            />
           </div>
         )}
 
@@ -329,7 +341,7 @@ export default function NumberMemoryTest() {
                 digits remembered
               </span>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {100 - lookupPercentile('number-memory', finalScore)}% of population
+                Top {formatTopPercentile(lookupPercentile('number-memory', finalScore))}% of population
               </span>
             </div>
 
@@ -374,7 +386,7 @@ export default function NumberMemoryTest() {
             />
 
             <button
-              onClick={startTest}
+              onClick={() => startTest()}
               className="mt-4 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
             >
               Try Again
@@ -401,3 +413,5 @@ export default function NumberMemoryTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(NumberMemoryTest);

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
 import type { StageProps, GauntletStageResult } from './GauntletTypes';
 
-const TOTAL = 5;
 const SHAPES = ['◆', '●', '■', '▲', '★', '✦'];
 
 function genMatrix(): { grid: string[]; options: string[]; correct: number } {
@@ -29,13 +28,21 @@ function genMatrix(): { grid: string[]; options: string[]; correct: number } {
   return { grid, options: opts, correct: correctIdx };
 }
 
-export default function StageMatrix({ onComplete }: StageProps) {
+export default function StageMatrix({ onComplete, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [trial, setTrial] = useState(0);
   const [puzzle, setPuzzle] = useState(genMatrix());
   const [correct, setCorrect] = useState(0);
   const [feedback, setFeedback] = useState('');
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const difficultyRef = useRef(difficulty);
+  difficultyRef.current = difficulty;
+  const trialCountRef = useRef(5);
+
+  if (difficulty === 'Easy') trialCountRef.current = 4;
+  else if (difficulty === 'Hard') trialCountRef.current = 6;
+  else trialCountRef.current = 5;
+
   const ct = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
   const st = useCallback((fn: () => void, ms: number) => {
     const id = setTimeout(fn, ms);
@@ -49,14 +56,14 @@ export default function StageMatrix({ onComplete }: StageProps) {
     if (isCorrect) setCorrect(c => c + 1);
     setFeedback(isCorrect ? '✓' : '✗');
     const next = trial + 1;
-    if (next >= TOTAL) {
+    if (next >= trialCountRef.current) {
       ct();
       setPhase('done');
-      const acc = (correct + (isCorrect ? 1 : 0)) / TOTAL;
+      const acc = (correct + (isCorrect ? 1 : 0)) / trialCountRef.current;
       const score = Math.round(acc * 100);
       onComplete({
         stageIndex: 3, stageName: 'Matrix Reasoning', score, rawScore: Math.round(acc * 100),
-        category: 'processing', metrics: { accuracy: Math.round(acc * 100), totalPuzzles: TOTAL },
+          category: 'processing', metrics: { accuracy: Math.round(acc * 100), totalPuzzles: trialCountRef.current },
       });
       return;
     }
@@ -73,11 +80,11 @@ export default function StageMatrix({ onComplete }: StageProps) {
       </div>
     );
   }
-  if (phase === 'done') return <div className="text-xs text-success font-mono py-4">✓ {correct}/{TOTAL} correct</div>;
+  if (phase === 'done') return <div className="text-xs text-success font-mono py-4">✓ {correct}/{trialCountRef.current} correct</div>;
 
   return (
     <div className="flex flex-col items-center gap-3 py-2">
-      <div className="text-[10px] text-muted font-mono">Puzzle {trial + 1}/{TOTAL} · {correct} correct</div>
+      <div className="text-[10px] text-muted font-mono">Puzzle {trial + 1}/{trialCountRef.current} · {correct} correct</div>
       <div className="grid grid-cols-2 gap-1.5 w-32">
         {puzzle.grid.map((cell, i) => (
           <div key={i} className={`w-14 h-14 rounded-lg flex items-center justify-center text-lg border ${

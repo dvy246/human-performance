@@ -7,7 +7,7 @@ const GRID = [
   [2, 0], [2, 1], [2, 2],
 ];
 
-export default function StageSequenceMemory({ onComplete }: StageProps) {
+export default function StageSequenceMemory({ onComplete, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'watching' | 'recall' | 'done'>('intro');
   const [level, setLevel] = useState(1);
   const [seq, setSeq] = useState<number[]>([]);
@@ -18,6 +18,14 @@ export default function StageSequenceMemory({ onComplete }: StageProps) {
   const userRef = useRef<number[]>([]);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const completedRef = useRef(false);
+  const difficultyRef = useRef(difficulty);
+  difficultyRef.current = difficulty;
+  const flashMsRef = useRef(400);
+  const gapMsRef = useRef(200);
+
+  if (difficulty === 'Easy') { flashMsRef.current = 500; gapMsRef.current = 300; }
+  else if (difficulty === 'Hard') { flashMsRef.current = 300; gapMsRef.current = 120; }
+  else { flashMsRef.current = 400; gapMsRef.current = 200; }
 
   const ct = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
   const st = useCallback((fn: () => void, ms: number) => {
@@ -28,14 +36,14 @@ export default function StageSequenceMemory({ onComplete }: StageProps) {
   const playSeq = useCallback((s: number[], idx = 0) => {
     if (idx >= s.length) {
       setActiveIdx(null);
-      st(() => { ct(); setPhase('recall'); setUserSeq([]); userRef.current = []; }, 400);
+      st(() => { ct(); setPhase('recall'); setUserSeq([]); userRef.current = []; }, flashMsRef.current);
       return;
     }
     setActiveIdx(s[idx]);
     st(() => {
       setActiveIdx(null);
-      st(() => playSeq(s, idx + 1), 200);
-    }, 400);
+      st(() => playSeq(s, idx + 1), gapMsRef.current);
+    }, flashMsRef.current);
   }, [st, ct]);
 
   const startLevel = useCallback((lvl: number) => {
@@ -47,7 +55,7 @@ export default function StageSequenceMemory({ onComplete }: StageProps) {
     userRef.current = [];
     setUserSeq([]);
     setPhase('watching');
-    st(() => playSeq(s, 0), 400);
+    st(() => playSeq(s, 0), flashMsRef.current);
   }, [st, playSeq]);
 
   const handleCellClick = (cellIdx: number) => {

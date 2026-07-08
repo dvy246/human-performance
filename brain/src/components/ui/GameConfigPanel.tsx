@@ -135,6 +135,8 @@ export default function GameConfigPanel({
         >
           {startLabel}
         </button>
+
+        <span className="text-[10px] font-mono text-muted/50 mt-2">Press ? for shortcuts</span>
       </div>
     </div>
   );

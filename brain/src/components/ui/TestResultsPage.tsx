@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useI18n } from '../../runtime/useI18n';
+import { formatTopPercentile } from '../../runtime/percentileLookup';
 
 interface ResultData {
   testId: string;
@@ -56,22 +57,22 @@ function getPersonalizedMessage(data: ResultData): { emoji: string; title: strin
   }
 
   if (isNewPB && percentile >= 80) {
-    return { emoji: '🏆', title: 'New Personal Best!', subtitle: `Outstanding! You're in the top ${100 - percentile}% globally. A truly elite performance.` };
+    return { emoji: '🏆', title: 'New Personal Best!', subtitle: `Outstanding! You're in the top ${formatTopPercentile(percentile)}% globally. A truly elite performance.` };
   }
   if (isNewPB) {
     return { emoji: '🎉', title: 'New Personal Best!', subtitle: `You beat your previous record! Keep pushing to climb the rankings.` };
   }
   if (percentile >= 90) {
-    return { emoji: '⚡', title: 'Elite Performance!', subtitle: `You're in the top ${100 - percentile}% — among the best. Can you reach #1?` };
+    return { emoji: '⚡', title: 'Elite Performance!', subtitle: `You're in the top ${formatTopPercentile(percentile)}% — among the best. Can you reach #1?` };
   }
   if (percentile >= 70) {
-    return { emoji: '🔥', title: 'Strong Showing!', subtitle: `Top ${100 - percentile}% — you're well above average. A few more drills and you'll be elite.` };
+    return { emoji: '🔥', title: 'Strong Showing!', subtitle: `Top ${formatTopPercentile(percentile)}% — you're well above average. A few more drills and you'll be elite.` };
   }
   if (improving) {
     return { emoji: '📈', title: 'Trending Upward!', subtitle: `Your attempts got progressively better. Keep practicing to see bigger gains!` };
   }
   if (percentile >= 40) {
-    return { emoji: '💪', title: 'Solid Effort!', subtitle: `You're in the top ${100 - percentile}%. Consistent practice will push you higher.` };
+    return { emoji: '💪', title: 'Solid Effort!', subtitle: `You're in the top ${formatTopPercentile(percentile)}%. Consistent practice will push you higher.` };
   }
   return { emoji: '🌱', title: 'Room to Grow!', subtitle: `Every expert was once a beginner. Try again to improve your score!` };
 }
@@ -136,7 +137,7 @@ export default function TestResultsPage() {
         <p className="text-muted text-sm max-w-md leading-relaxed">{msg.subtitle}</p>
         <div className="flex items-baseline gap-2 mt-2">
           <span className="text-5xl font-mono font-extrabold text-foreground">{formatScore(average)}</span>
-          <span className="text-accent text-sm font-medium">Top {100 - percentile}%</span>
+          <span className="text-accent text-sm font-medium">Top {formatTopPercentile(percentile)}%</span>
         </div>
       </div>
 
@@ -210,7 +211,7 @@ export default function TestResultsPage() {
           { label: t('results.max'), value: formatScore(max) },
           { label: t('results.avg'), value: formatScore(average) },
           { label: t('results.std_dev'), value: `${stdDev} ${unit}` },
-          { label: t('results.percentile'), value: `Top ${100 - percentile}%` },
+          { label: t('results.percentile'), value: `Top ${formatTopPercentile(percentile)}%` },
         ].map((stat, i) => (
           <div key={i} className="rounded-lg border border-card-border bg-card p-3 flex flex-col items-center text-center">
             <span className="text-[9px] font-mono text-muted uppercase tracking-widest">{stat.label}</span>

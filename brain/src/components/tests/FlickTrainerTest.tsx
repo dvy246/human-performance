@@ -1,14 +1,19 @@
 import { useState, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 const TOTAL = 15;
 const TARGET_RADIUS = 22;
 
-export default function FlickTrainerTest() {
+function FlickTrainerTest() {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [trial, setTrial] = useState(0);
   const [target, setTarget] = useState({ x: 0, y: 0 });
@@ -18,6 +23,10 @@ export default function FlickTrainerTest() {
   const startTimeRef = useRef(0);
   const submittedRef = useRef(false);
   const resultsRef = useRef<{ rt: number; hit: boolean }[]>([]);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const targetCount = useRef<number>(TOTAL);
+
+  useBeforeUnload(phase !== 'intro' && phase !== 'done');
 
   const spawnTarget = (container: HTMLDivElement) => {
     const rect = container.getBoundingClientRect();
@@ -41,7 +50,7 @@ export default function FlickTrainerTest() {
     resultsRef.current = [...resultsRef.current, { rt, hit }];
     setResults(prev => [...prev, { rt, hit }]);
     const next = trial + 1;
-    if (next >= TOTAL) {
+    if (next >= targetCount.current) {
       setPhase('done');
       finalize(resultsRef.current);
       return;
@@ -53,7 +62,7 @@ export default function FlickTrainerTest() {
   const finalize = async (r: { rt: number; hit: boolean }[]) => {
     if (submittedRef.current) return;
     submittedRef.current = true;
-    const hitPct = r.filter(x => x.hit).length / TOTAL;
+    const hitPct = r.filter(x => x.hit).length / r.length;
     const avgRt = Math.round(r.reduce((s, x) => s + x.rt, 0) / r.length);
     const speedScore = Math.max(0, Math.min(100, Math.round(100 - (avgRt - 200) / 8)));
     const score = Math.round(hitPct * 50 + speedScore * 0.5);
@@ -76,7 +85,11 @@ export default function FlickTrainerTest() {
 
   
 
-  const startGame = () => {
+  const startGame = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : TOTAL;
+    targetCount.current = attemptCount;
     setPhase('playing');
     setTrial(0);
     setResults([]);
@@ -96,13 +109,14 @@ export default function FlickTrainerTest() {
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">⚡🎯</div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground tracking-tight">Flick Trainer</h2>
-            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Flick your mouse to the target and click as fast and accurately as possible. {TOTAL} targets.</p>
-          </div>
-          <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="flick-trainer"
+            icon="⚡🎯"
+            title="Flick Trainer"
+            description={`Flick your mouse to the target and click as fast and accurately as possible.`}
+            onStart={(config: GameConfig) => startGame(config)}
+          />
         </div>
       </div>
     );
@@ -113,7 +127,7 @@ export default function FlickTrainerTest() {
       <div className="w-full max-w-2xl mx-auto">
         <div className="rounded-xl border border-card-border bg-card p-4">
           <div className="text-[10px] text-muted font-mono mb-2 flex items-center justify-between">
-            <span>Target {trial + 1}/{TOTAL}</span>
+            <span>Target {trial + 1}/{targetCount.current}</span>
             <span>Hits: {results.filter(r => r.hit).length}</span>
           </div>
           <div ref={containerRef} onClick={handleClick} className="relative w-full h-72 rounded-lg bg-subtle border border-card-border cursor-crosshair overflow-hidden">
@@ -125,7 +139,7 @@ export default function FlickTrainerTest() {
     );
   }
 
-  const hitPct = results.filter(r => r.hit).length / TOTAL;
+  const hitPct = results.filter(r => r.hit).length / targetCount.current;
   const avgRt = results.length > 0 ? Math.round(results.reduce((s, r) => s + r.rt, 0) / results.length) : 0;
   return (
     <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
@@ -134,7 +148,7 @@ export default function FlickTrainerTest() {
         <div className="text-4xl font-bold font-mono text-foreground">{Math.round(hitPct * 100)}%</div>
         <div className="text-xs text-muted font-mono">accuracy · {avgRt}ms avg flick time</div>
         <div className="grid grid-cols-3 gap-4 text-xs text-center w-full max-w-xs">
-          <div><div className="text-muted font-mono text-[10px]">Hits</div><div className="text-foreground font-mono">{results.filter(r => r.hit).length}/{TOTAL}</div></div>
+          <div><div className="text-muted font-mono text-[10px]">Hits</div><div className="text-foreground font-mono">{results.filter(r => r.hit).length}/{targetCount.current}</div></div>
           <div><div className="text-muted font-mono text-[10px]">Fastest</div><div className="text-foreground font-mono">{results.length > 0 ? Math.min(...results.map(r => r.rt)) : 0}ms</div></div>
           <div><div className="text-muted font-mono text-[10px]">Avg RT</div><div className="text-foreground font-mono">{avgRt}ms</div></div>
         </div>
@@ -150,3 +164,5 @@ export default function FlickTrainerTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(FlickTrainerTest);

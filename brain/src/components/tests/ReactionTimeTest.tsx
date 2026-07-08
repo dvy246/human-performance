@@ -1,18 +1,21 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer, type SessionRecord } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
 import SocialShare from '../ui/SocialShare';
 import { useSound } from '../../runtime/useSound';
 import { useI18n } from '../../runtime/useI18n';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type GameState = 'idle' | 'calibration' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
-export default function ReactionTimeTest() {
+function ReactionTimeTest() {
   const { playTone, playClick, playError } = useSound();
   const { t } = useI18n();
   const [gameState, setGameState] = useState<GameState>('idle');
@@ -30,6 +33,9 @@ export default function ReactionTimeTest() {
   const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const submittedRef = useRef<boolean>(false);
+  const totalAttempts = useRef<number>(5);
+  const waitRange = useRef<{ min: number; max: number }>({ min: 2000, max: 5000 });
+  const lastConfig = useRef<GameConfig | null>(null);
 
   // Load initial settings and check for a challenge token in the URL
   useEffect(() => {
@@ -64,20 +70,25 @@ export default function ReactionTimeTest() {
 
 
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
     if (clickLock.current) return;
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptsCount = typeof cfg.attempts === 'number' ? cfg.attempts : 5;
+    totalAttempts.current = attemptsCount;
+    const diff = getDifficultyParams('reaction-time', (cfg.difficulty as string) || 'Medium');
+    waitRange.current = { min: (diff.waitMin as number) || 2000, max: (diff.waitMax as number) || 5000 };
     setAttempts([]);
     setCurrentScore(null);
     setShareImage(null);
     submittedRef.current = false;
     setGameState('waiting');
-    setupRandomTimer();
+    setupRandomTimer(diff.waitMin as number, diff.waitMax as number);
   };
 
-  const setupRandomTimer = () => {
+  const setupRandomTimer = (waitMin = 2000, waitMax = 5000) => {
     clickLock.current = false;
-    // Random wait between 2.0 and 5.0 seconds
-    const delay = 2000 + Math.random() * 3000;
+    const delay = waitMin + Math.random() * (waitMax - waitMin);
     
     if (timerId.current) clearTimeout(timerId.current);
     
@@ -128,17 +139,17 @@ export default function ReactionTimeTest() {
       setAttempts(updatedAttempts);
       setCurrentScore(score);
 
-      if (updatedAttempts.length < 5) {
+      if (updatedAttempts.length < totalAttempts.current) {
         setGameState('attempt-result');
       } else {
         // Compute average score
-        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / 5);
+        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length);
         finalizeTest(average, updatedAttempts);
       }
     } else if (gameState === 'attempt-result') {
       // Proceed to next attempt
       setGameState('waiting');
-      setupRandomTimer();
+      setupRandomTimer(waitRange.current.min, waitRange.current.max);
     } else if (gameState === 'abort' || gameState === 'result') {
       // Retry
       startTest();
@@ -257,6 +268,8 @@ export default function ReactionTimeTest() {
     }).catch(console.error);
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   // Keyboard navigation support: Spacebar/Enter triggers clicks
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.code === 'Space' || e.code === 'Enter') {
@@ -286,6 +299,8 @@ export default function ReactionTimeTest() {
       <div
         role="button"
         tabIndex={0}
+        aria-live="polite"
+        aria-atomic="true"
         onClick={handleTestClick}
         onKeyDown={handleKeyDown}
         className={`w-full min-h-[380px] rounded-xl flex flex-col items-center justify-center p-8 text-center select-none outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-4 focus-visible:ring-offset-background transition-standard ${
@@ -308,13 +323,14 @@ export default function ReactionTimeTest() {
               personalBest={personalBest}
               personalBestLabel="ms"
               startLabel="Start Test"
-              onStart={(_config: GameConfig) => startTest()}
+              onStart={(config: GameConfig) => startTest(config)}
             />
           </div>
         )}
 
         {gameState === 'waiting' && (
-          <div className="flex flex-col items-center gap-4">
+          <div className="flex flex-col items-center gap-4 relative">
+            <span className="absolute top-2 right-2 px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-white/10 text-white/70">WAITING</span>
             <h2 className="text-4xl font-extrabold text-white tracking-tight">{t('rt.waiting')}</h2>
             <div className="flex items-center gap-2 text-white/80 text-sm font-mono">
               <svg width="20" height="20" viewBox="0 0 20 20" className="inline-block">
@@ -323,12 +339,13 @@ export default function ReactionTimeTest() {
               </svg>
               <span>{t('rt.stop')}</span>
             </div>
-            <p className="text-white/60 text-xs uppercase font-mono">{t('test.attempts')} {attempts.length + 1} / 5</p>
+            <p className="text-white/60 text-xs uppercase font-mono">{t('test.attempts')} {attempts.length + 1} / {totalAttempts.current}</p>
           </div>
         )}
 
         {gameState === 'ready' && (
-          <div className="flex flex-col items-center gap-2">
+          <div className="flex flex-col items-center gap-2 relative">
+            <span className="absolute top-2 right-2 px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-white/10 text-white/70">GO!</span>
             <svg width="60" height="60" viewBox="0 0 60 60" className="mb-2">
               <polygon points="30,5 55,50 5,50" fill="none" stroke="white" strokeWidth="3" />
               <polygon points="30,20 45,45 15,45" fill="white" opacity="0.3" />
@@ -345,7 +362,7 @@ export default function ReactionTimeTest() {
             <span className="text-muted text-xs uppercase font-mono">{t('test.attempts')} {attempts.length} {t('rt.finished')}</span>
             <div className="text-5xl font-mono font-bold text-foreground">{currentScore} ms</div>
             <p className="text-muted text-sm max-w-sm mb-4">
-              {t('rt.proceed')} {attempts.length + 1} / 5.
+              {t('rt.proceed')} {attempts.length + 1} / {totalAttempts.current}.
             </p>
           </div>
         )}
@@ -361,7 +378,7 @@ export default function ReactionTimeTest() {
           </div>
         )}
 
-        {gameState === 'result' && attempts.length === 5 && (
+        {gameState === 'result' && attempts.length >= totalAttempts.current && (
           <div className="w-full flex flex-col items-center gap-6 py-4">
             <div className="flex flex-col items-center gap-1">
               <span className="text-muted text-xs uppercase font-mono">{t('rt.final_avg')}</span>
@@ -369,7 +386,7 @@ export default function ReactionTimeTest() {
                 {finalAverage} ms
               </div>
               <span className="text-accent text-sm font-medium">
-                {t('rt.top_globally')} {100 - lookupPercentile('reaction-time', finalAverage!, true)}% {t('rt.globally')}
+                {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('reaction-time', finalAverage!, true))}% {t('rt.globally')}
               </span>
             </div>
 
@@ -436,3 +453,5 @@ export default function ReactionTimeTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(ReactionTimeTest);

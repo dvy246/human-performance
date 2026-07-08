@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type Phase = 'idle' | 'showing' | 'input' | 'feedback' | 'result';
 
 const GRID_SIZES = [3, 3, 4, 4, 4, 5, 5, 5, 5, 6, 6, 6, 6, 7, 7, 7, 8, 8, 8, 9];
 const TILE_COUNTS = [3, 4, 4, 5, 6, 6, 7, 8, 9, 8, 9, 10, 11, 10, 12, 14, 14, 16, 18, 20];
 
-export default function VisualPatternTest() {
+function VisualPatternTest() {
   const [phase, setPhase] = useState<Phase>('idle');
   const [level, setLevel] = useState(1);
   const [gridSize, setGridSize] = useState(3);
@@ -26,6 +31,11 @@ export default function VisualPatternTest() {
 
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const startGrid = useRef<number>(3);
+  const startTiles = useRef<number>(4);
+  const displayBase = useRef<number>(1500);
+  const displayPerLevel = useRef<number>(200);
 
   useEffect(() => {
     let mounted = true;
@@ -58,7 +68,15 @@ export default function VisualPatternTest() {
     return indices;
   };
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('visual-pattern', (cfg.difficulty as string) || 'Medium');
+    startGrid.current = (diff.startGrid as number) || 3;
+    startTiles.current = (diff.startTiles as number) || 4;
+    displayBase.current = (diff.displayBase as number) || 1500;
+    displayPerLevel.current = (diff.displayPerLevel as number) || 200;
+
     if (timerRef.current) clearInterval(timerRef.current);
     submittedRef.current = false;
     setLevel(1);
@@ -68,8 +86,8 @@ export default function VisualPatternTest() {
 
   const startLevel = (lvl: number) => {
     const idx = Math.min(lvl - 1, GRID_SIZES.length - 1);
-    const size = GRID_SIZES[idx];
-    const tiles = TILE_COUNTS[idx];
+    const size = GRID_SIZES[Math.min(idx + startGrid.current - 3, GRID_SIZES.length - 1)];
+    const tiles = TILE_COUNTS[Math.min(idx + startTiles.current - 3, TILE_COUNTS.length - 1)];
     
     setGridSize(size);
     const newPattern = generatePattern(size, tiles);
@@ -80,8 +98,7 @@ export default function VisualPatternTest() {
     setPhase('showing');
     setShowTimer(100);
 
-    // Show pattern for a calculated duration
-    const duration = 1500 + lvl * 200;
+    const duration = Math.min(displayBase.current + (lvl - 1) * displayPerLevel.current, 8000);
     const startTime = performance.now();
 
     timerRef.current = setInterval(() => {
@@ -197,6 +214,9 @@ export default function VisualPatternTest() {
   const finalScore = level - 1;
   const totalCells = gridSize * gridSize;
 
+  useBeforeUnload(phase !== 'idle' && phase !== 'result');
+
+
   // Dynamic grid cell size
   const cellSize = gridSize <= 4 ? 'w-14 h-14 md:w-16 md:h-16' : 
                    gridSize <= 6 ? 'w-10 h-10 md:w-12 md:h-12' : 
@@ -236,22 +256,16 @@ export default function VisualPatternTest() {
 
         {/* IDLE STATE */}
         {phase === 'idle' && (
-          <div className="flex flex-col items-center gap-5">
-            <div className="w-16 h-16 rounded-2xl bg-accent/10 border border-accent/20 flex items-center justify-center text-2xl">
-              🧩
-            </div>
-            <div className="text-center">
-              <h3 className="text-lg font-bold text-foreground mb-1">Visual Pattern Memory</h3>
-              <p className="text-muted text-sm max-w-xs">
-                Memorize the highlighted tiles on a grid, then recreate the pattern from memory. Grid size increases with each level.
-              </p>
-            </div>
-            <button
-              onClick={startTest}
-              className="text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-8 py-2.5 rounded transition-standard active:scale-[0.98]"
-            >
-              Start Test
-            </button>
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <GameConfigPanel
+              testId="visual-pattern"
+              icon="🧩"
+              title="Visual Pattern Memory"
+              description="Memorize the highlighted tiles on a grid, then recreate the pattern from memory. Grid size increases with each level."
+              personalBest={personalBest}
+              personalBestLabel="levels"
+              onStart={(config: GameConfig) => startTest(config)}
+            />
           </div>
         )}
 
@@ -329,7 +343,7 @@ export default function VisualPatternTest() {
                 Level {finalScore}
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {100 - lookupPercentile('visual-pattern', finalScore)}% of population
+                Top {formatTopPercentile(lookupPercentile('visual-pattern', finalScore))}% of population
               </span>
             </div>
 
@@ -368,7 +382,7 @@ export default function VisualPatternTest() {
             />
 
             <button
-              onClick={startTest}
+              onClick={() => startTest()}
               className="mt-4 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
             >
               Try Again
@@ -395,3 +409,5 @@ export default function VisualPatternTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(VisualPatternTest);

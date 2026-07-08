@@ -1,9 +1,11 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import percentilesData from '../../data/percentiles.json';
 import { PASSAGE_CATEGORIES } from '../../data/passages';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type GameState = 'idle' | 'typing' | 'result';
 type TimeOption = 15 | 30 | 60 | 120;
@@ -301,7 +303,7 @@ function interpolatePercentile(score: number): number {
   return 50;
 }
 
-export default function TypingSpeedTest() {
+function TypingSpeedTest() {
   const engineRef = useRef<TypingEngine>(new TypingEngine());
   const containerRef = useRef<HTMLDivElement>(null);
   const wordsRef = useRef<HTMLDivElement>(null);
@@ -520,6 +522,8 @@ export default function TypingSpeedTest() {
   };
 
   const switchCategory = (idx: number) => { setCategoryIdx(idx); setPassageIdx(pickRandomPassage(idx)); };
+
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
 
   // Detect engine reset (Tab/Esc pressed during typing) and return to idle with new passage
   useEffect(() => {
@@ -845,3 +849,5 @@ export default function TypingSpeedTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(TypingSpeedTest);

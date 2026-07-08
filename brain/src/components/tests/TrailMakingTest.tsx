@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestMode = 'partA' | 'partB';
 type TrialState = 'idle' | 'running' | 'result';
@@ -15,7 +20,7 @@ interface TMTNode {
   y: number; // percentage
 }
 
-export default function TrailMakingTest() {
+function TrailMakingTest() {
   const [gameState, setGameState] = useState<TrialState>('idle');
   const [mode, setMode] = useState<TestMode>('partA');
   const [nodes, setNodes] = useState<TMTNode[]>([]);
@@ -31,6 +36,11 @@ export default function TrailMakingTest() {
   const startTimeRef = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const nodeCount = useRef<number>(20);
+  const penaltyDuration = useRef<number>(2000);
+
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
 
   useEffect(() => {
     let mounted = true;
@@ -47,25 +57,26 @@ export default function TrailMakingTest() {
   const generateNodes = (testMode: TestMode): TMTNode[] => {
     const list: TMTNode[] = [];
     const labels: string[] = [];
+    const count = nodeCount.current;
 
     if (testMode === 'partA') {
-      // 1 to 20
-      for (let i = 1; i <= 20; i++) {
+      for (let i = 1; i <= count; i++) {
         labels.push(i.toString());
       }
     } else {
-      // 1-A-2-B-3-C-4-D-5-E-6-F-7-G-8-H-9-I-10-J
       const letters = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'];
-      for (let i = 1; i <= 10; i++) {
+      const halfCount = Math.ceil(count / 2);
+      for (let i = 1; i <= halfCount; i++) {
         labels.push(i.toString());
-        labels.push(letters[i - 1]);
+        if (letters[i - 1]) labels.push(letters[i - 1]);
       }
+      // Trim to exact count
+      while (labels.length > count) labels.pop();
     }
 
-    // Grid layout randomization with jitter to avoid overlaps
-    // Divide 5x4 grid positions, then random jitter
-    const gridCols = 5;
-    const gridRows = 4;
+    const totalLabels = labels.length;
+    const gridCols = Math.ceil(Math.sqrt(totalLabels));
+    const gridRows = Math.ceil(totalLabels / gridCols);
     const gridCells: { r: number; c: number }[] = [];
     for (let r = 0; r < gridRows; r++) {
       for (let c = 0; c < gridCols; c++) {
@@ -98,7 +109,13 @@ export default function TrailMakingTest() {
     return list;
   };
 
-  const startTest = (selectedMode: TestMode) => {
+  const startTest = (selectedMode: TestMode, config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('trail-making', (cfg.difficulty as string) || 'Medium');
+    nodeCount.current = (diff.nodeCount as number) || 20;
+    penaltyDuration.current = (diff.penaltyMs as number) || 2000;
+
     setMode(selectedMode);
     const generated = generateNodes(selectedMode);
     setNodes(generated);
@@ -130,8 +147,7 @@ export default function TrailMakingTest() {
         finishTest();
       }
     } else {
-      // Incorrect click -> add penalty (2000 ms)
-      setPenalties(prev => prev + 2000);
+      setPenalties(prev => prev + penaltyDuration.current);
       setWrongNodeId(node.id);
       setTimeout(() => {
         setWrongNodeId(null);
@@ -148,7 +164,7 @@ export default function TrailMakingTest() {
     const totalScore = elapsedTime + penalties;
     const testId = `tmt-${mode}`;
 
-    const percentile = Math.round(lookupPercentile(mode === 'partA' ? 'tmt-partA' : 'tmt-partB', totalScore, true));
+    const percentile = Math.round(lookupPercentile('trail-making', totalScore, true));
     setResultPercentile(percentile);
 
     try {
@@ -159,7 +175,7 @@ export default function TrailMakingTest() {
         percentile,
         metadata: {
           rawTime: elapsedTime,
-          penaltiesCount: penalties / 2000
+          penaltiesCount: penalties / penaltyDuration.current
         }
       });
     } catch (err) {
@@ -188,31 +204,26 @@ export default function TrailMakingTest() {
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 select-none">
       {gameState === 'idle' && (
-        <div className="rounded-xl border border-card-border bg-card p-8 text-center flex flex-col gap-6 shadow-lg">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl mx-auto">
-            🧭
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-foreground">Trail Making Test (TMT)</h2>
-            <p className="text-muted text-sm mt-3 leading-relaxed">
-              Measure visual scanning, processing speed, and cognitive flexibility.
-              Click the targets sequentially as fast as possible. 
-              Mismatched target clicks add a **+2.0 second penalty** to your time.
-            </p>
-            <div className="mt-4 flex flex-col gap-1.5 text-xs text-muted font-mono">
-              <span>**Part A:** Connect numbers 1 to 20 sequentially (1 → 2 → 3...).</span>
-              <span>**Part B:** Alternate numbers & letters sequentially (1 → A → 2 → B...).</span>
-            </div>
+        <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col gap-6 shadow-lg">
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <GameConfigPanel
+              testId="trail-making"
+              icon="🧭"
+              title="Trail Making Test (TMT)"
+              description="Measure visual scanning, processing speed, and cognitive flexibility. Click the targets sequentially as fast as possible. Mismatched target clicks add a 2.0 second penalty."
+              startLabel="Configure"
+              onStart={(config: GameConfig) => lastConfig.current = config}
+            />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <button
-              onClick={() => startTest('partA')}
+              onClick={() => startTest('partA', lastConfig.current || undefined)}
               className="h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
             >
               Start Part A
             </button>
             <button
-              onClick={() => startTest('partB')}
+              onClick={() => startTest('partB', lastConfig.current || undefined)}
               className="h-11 rounded border border-card-border hover:bg-subtle text-foreground font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
             >
               Start Part B
@@ -302,7 +313,7 @@ export default function TrailMakingTest() {
               {((elapsedTime + penalties) / 1000).toFixed(2)}s
             </h2>
             <span className="text-[11px] text-muted font-mono uppercase mt-1 block">
-              Accuracy-adjusted percentile: Top {100 - resultPercentile}%
+              Accuracy-adjusted percentile: Top {formatTopPercentile(resultPercentile)}%
             </span>
           </div>
 
@@ -356,3 +367,5 @@ export default function TrailMakingTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(TrailMakingTest);

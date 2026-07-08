@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
@@ -7,10 +8,12 @@ import { useI18n } from '../../runtime/useI18n';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestState = 'idle' | 'showing' | 'playing' | 'result';
 
-export default function SequenceMemoryTest() {
+function SequenceMemoryTest() {
   const { playTone, playClick, playSuccess, playError } = useSound();
   const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
@@ -27,6 +30,11 @@ export default function SequenceMemoryTest() {
   const userSequenceRef = useRef<number[]>([]);
   const userTurnLock = useRef<boolean>(false);
   const submittedRef = useRef(false);
+  const totalAttempts = useRef<number>(5);
+  const waitRange = useRef<{ min: number; max: number }>({ min: 1000, max: 3000 });
+  const lastConfig = useRef<GameConfig | null>(null);
+  const flashOnMs = useRef<number>(450);
+  const flashOffMs = useRef<number>(200);
 
   useEffect(() => {
     let mounted = true;
@@ -52,7 +60,12 @@ export default function SequenceMemoryTest() {
 
 
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('sequence-memory', (cfg.difficulty as string) || 'Medium');
+    flashOnMs.current = (diff.flashOn as number) || 450;
+    flashOffMs.current = (diff.flashOff as number) || 200;
     sequenceRef.current = [];
     userSequenceRef.current = [];
     setSequence([]);
@@ -88,10 +101,9 @@ export default function SequenceMemoryTest() {
       // Flash ON
       setActiveTile(tile);
       playTone(300 + tile * 60, 0.18, 'sine', 0.12); // rising tone per tile
-      await delay(450);
-      // Flash OFF
+      await delay(flashOnMs.current);
       setActiveTile(null);
-      await delay(200);
+      await delay(flashOffMs.current);
     }
     setGameState('playing');
     userTurnLock.current = false;
@@ -158,6 +170,8 @@ export default function SequenceMemoryTest() {
       percentile, personalBest: pb, category: 'memory', average: finalScore,
     });
   };
+
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
@@ -229,7 +243,7 @@ export default function SequenceMemoryTest() {
             </div>
 
             <button
-              onClick={startTest}
+              onClick={() => startTest()}
               className="mt-2 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
             >
               {t('test.restart')}
@@ -246,7 +260,7 @@ export default function SequenceMemoryTest() {
             personalBest={personalBest}
             personalBestLabel="levels"
             startLabel="Start Memory Test"
-            onStart={(_config: GameConfig) => startTest()}
+            onStart={(config: GameConfig) => startTest(config)}
           />
         )}
       </div>
@@ -276,3 +290,5 @@ export default function SequenceMemoryTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(SequenceMemoryTest);

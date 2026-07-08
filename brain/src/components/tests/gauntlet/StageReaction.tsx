@@ -3,19 +3,27 @@ import type { StageProps, GauntletStageResult } from './GauntletTypes';
 
 const TOTAL_TRIALS = 5;
 
-export default function StageReaction({ onComplete }: StageProps) {
+export default function StageReaction({ onComplete, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'waiting' | 'ready' | 'result' | 'done'>('intro');
   const [trial, setTrial] = useState(0);
   const [results, setResults] = useState<number[]>([]);
   const startTimeRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const rafIdRef = useRef<number>(0);
+  const difficultyRef = useRef(difficulty);
+  difficultyRef.current = difficulty;
+  const delayMinRef = useRef(1500);
+  const delayMaxRef = useRef(2500);
+
+  if (difficulty === 'Easy') { delayMinRef.current = 2000; delayMaxRef.current = 3000; }
+  else if (difficulty === 'Hard') { delayMinRef.current = 800; delayMaxRef.current = 1500; }
+  else { delayMinRef.current = 1500; delayMaxRef.current = 2500; }
 
   const cleanup = () => { if (timerRef.current) clearTimeout(timerRef.current); if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current); };
 
   const startTrial = useCallback(() => {
     setPhase('waiting');
-    const delay = 1500 + Math.random() * 2500;
+    const delay = delayMinRef.current + Math.random() * (delayMaxRef.current - delayMinRef.current);
     timerRef.current = setTimeout(() => {
       setPhase('ready');
       rafIdRef.current = requestAnimationFrame(() => {

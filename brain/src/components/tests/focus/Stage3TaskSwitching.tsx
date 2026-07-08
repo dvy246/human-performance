@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { StageProps, StageResult } from './StageTypes';
 
-const TOTAL_TRIALS = 12;
 const RULES = [
   { id: 'even-odd', label: 'Even vs Odd', left: 'Even', right: 'Odd' },
   { id: 'high-low', label: 'High vs Low', left: '≥ 50', right: '< 50' },
@@ -10,7 +9,7 @@ const RULES = [
 function genNumber(): number { return Math.floor(Math.random() * 99) + 1; }
 function isEven(n: number): boolean { return n % 2 === 0; }
 
-export default function Stage3TaskSwitching({ onComplete, calibrationHz }: StageProps) {
+export default function Stage3TaskSwitching({ onComplete, calibrationHz, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [trialIndex, setTrialIndex] = useState(0);
   const [currentNum, setCurrentNum] = useState(42);
@@ -18,6 +17,16 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
   const [correctCount, setCorrectCount] = useState(0);
   const [displaySwitchCount, setDisplaySwitchCount] = useState(0);
   const [lastRuleId, setLastRuleId] = useState(RULES[1].id);
+
+  const trialCountRef = useRef(12);
+  if (difficulty === 'Easy') trialCountRef.current = 8;
+  else if (difficulty === 'Hard') trialCountRef.current = 16;
+  else trialCountRef.current = 12;
+
+  const preDelayRef = useRef(800);
+  if (difficulty === 'Easy') preDelayRef.current = 1000;
+  else if (difficulty === 'Hard') preDelayRef.current = 500;
+  else preDelayRef.current = 800;
 
   const trialRef = useRef(0);
   const correctRef = useRef(0);
@@ -41,10 +50,10 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
     completedRef.current = true;
     clearTimers();
     setPhase('done');
-    const acc = correctRef.current / TOTAL_TRIALS;
+    const acc = correctRef.current / trialCountRef.current;
     const switchEff = Math.max(0, Math.min(100,
       switchCountRef.current > 0
-        ? Math.round(100 - (switchCountRef.current / (TOTAL_TRIALS - 1)) * 50)
+        ? Math.round(100 - (switchCountRef.current / (trialCountRef.current - 1)) * 50)
         : 100
     ));
     const score = Math.max(0, Math.min(100, Math.round(acc * 70 + (switchEff / 100) * 30)));
@@ -81,7 +90,7 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
     }
     setFeedbackMsg(correct ? '✓' : '✗');
     const nextIdx = idx + 1;
-    if (nextIdx >= TOTAL_TRIALS) {
+    if (nextIdx >= trialCountRef.current) {
       finish();
       return;
     }
@@ -104,7 +113,7 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
     setDisplaySwitchCount(0);
     setTrialIndex(0);
     prevRuleRef.current = RULES[1].id;
-    st(runTrial, 800);
+    st(runTrial, preDelayRef.current);
   }, [st, runTrial]);
 
   useEffect(() => { return clearTimers; }, [clearTimers]);
@@ -141,7 +150,7 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz }: Stage
   return (
     <div className="flex flex-col items-center gap-6 py-6">
       <div className="flex items-center gap-3 text-xs text-muted font-mono">
-        <span>Trial {trialIndex + 1} / {TOTAL_TRIALS}</span>
+        <span>Trial {trialIndex + 1} / {trialCountRef.current}</span>
         <span>•</span>
         <span>Correct: {correctCount}</span>
         {isSwitchTrial && <span className="text-accent animate-pulse">⚡ Switch!</span>}

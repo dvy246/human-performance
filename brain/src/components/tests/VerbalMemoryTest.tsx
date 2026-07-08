@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 const WORD_POOL = [
   'apple', 'bridge', 'cloud', 'dragon', 'eagle', 'forest', 'garden', 'hammer', 'island', 'jewel',
@@ -29,7 +34,7 @@ function fisherYatesShuffle<T>(arr: T[]): T[] {
   return a;
 }
 
-export default function VerbalMemoryTest() {
+function VerbalMemoryTest() {
   const [phase, setPhase] = useState<'intro' | 'encoding' | 'recall' | 'done'>('intro');
   const [level, setLevel] = useState(1);
   const [wordList, setWordList] = useState<string[]>([]);
@@ -39,6 +44,11 @@ export default function VerbalMemoryTest() {
   const [shareImage, setShareImage] = useState<string | null>(null);
   const submittedRef = useRef(false);
   const encodingTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const startListSize = useRef<number>(3);
+  const maxLevel = useRef<number>(12);
+
+  useBeforeUnload(phase !== 'intro' && phase !== 'done');
 
   const generateList = (len: number) => {
     return fisherYatesShuffle(WORD_POOL).slice(0, len);
@@ -50,7 +60,7 @@ export default function VerbalMemoryTest() {
   };
 
   const startLevel = (lvl: number) => {
-    const len = Math.min(3 + lvl, 12);
+    const len = Math.min(startListSize.current + lvl - 1, maxLevel.current);
     const list = generateList(len);
     setWordList(list);
     setPhase('encoding');
@@ -69,7 +79,7 @@ export default function VerbalMemoryTest() {
   const submitRecall = () => {
     const correctCount = selected.filter(w => wordList.includes(w)).length;
     if (correctCount > maxCorrect) setMaxCorrect(correctCount);
-    if (correctCount === wordList.length && level < MAX_LEVEL) {
+    if (correctCount === wordList.length && level < maxLevel.current) {
       const next = level + 1;
       setLevel(next);
       setTimeout(() => startLevel(next), 400);
@@ -85,13 +95,13 @@ export default function VerbalMemoryTest() {
     const score = Math.max(0, Math.min(100, Math.round((correct / Math.min(3 + level, 12)) * 100)));
     try {
       await dataLayer.saveSession({
-        testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile('verbal-memory', score),
+        testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile('verbal-memory', correct),
         metadata: { level, maxListLength: Math.min(3 + level, 12) },
       });
     } catch (err) {
       console.error('Failed to save Verbal Memory session:', err);
     }
-    const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile('verbal-memory', score));
+    const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile('verbal-memory', correct));
     setShareImage(card);
 
     redirectToResults({
@@ -108,16 +118,29 @@ export default function VerbalMemoryTest() {
     };
   }, []);
 
+  const beginTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('verbal-memory', (cfg.difficulty as string) || 'Medium');
+    startListSize.current = (diff.startListSize as number) || 3;
+    maxLevel.current = (diff.maxLevel as number) || 12;
+    setPhase('encoding');
+    setLevel(1);
+    setMaxCorrect(0);
+    startLevel(1);
+  };
+
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">📝</div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground tracking-tight">Verbal Memory Test</h2>
-            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Words appear one at a time. Remember them, then pick them out from a larger set.</p>
-          </div>
-          <button onClick={() => { setPhase('encoding'); setLevel(1); setMaxCorrect(0); startLevel(1); }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="verbal-memory"
+            icon="📝"
+            title="Verbal Memory Test"
+            description="Words appear one at a time. Remember them, then pick them out from a larger set."
+            onStart={(config: GameConfig) => beginTest(config)}
+          />
         </div>
       </div>
     );
@@ -191,3 +214,5 @@ export default function VerbalMemoryTest() {
 
   return null;
 }
+
+export default withErrorBoundary(VerbalMemoryTest);

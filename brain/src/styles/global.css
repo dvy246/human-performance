@@ -13,7 +13,7 @@
   /* Text hierarchy */
   --text-primary: #0f172a;
   --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-muted: #64748b;
 
   /* Border hierarchy */
   --border-primary: #e2e8f0;
@@ -91,7 +91,7 @@
   /* Text hierarchy */
   --text-primary: #fafafa;
   --text-secondary: #94a3b8;
-  --text-muted: #64748b;
+  --text-muted: #8899b3;
 
   /* Border hierarchy */
   --border-primary: #1a2540;

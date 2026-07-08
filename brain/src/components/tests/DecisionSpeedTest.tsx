@@ -1,14 +1,19 @@
 import { useState, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 const TOTAL = 20;
 const TIMEOUT_MS = 2000;
 
-export default function DecisionSpeedTest() {
+function DecisionSpeedTest() {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [trial, setTrial] = useState(0);
   const [number, setNumber] = useState(50);
@@ -18,6 +23,11 @@ export default function DecisionSpeedTest() {
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const respondedRef = useRef(false);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const trialCount = useRef<number>(TOTAL);
+  const timeoutMs = useRef<number>(TIMEOUT_MS);
+
+  useBeforeUnload(phase !== 'intro' && phase !== 'done');
 
   const genNumber = () => {
     const n = Math.floor(Math.random() * 98) + 1;
@@ -27,7 +37,7 @@ export default function DecisionSpeedTest() {
     timeoutRef.current = setTimeout(() => {
       if (!respondedRef.current) {
         setResults(prev => {
-          const next = [...prev, { correct: false, rt: TIMEOUT_MS }];
+          const next = [...prev, { correct: false, rt: timeoutMs.current }];
           advance(next);
           return next;
         });
@@ -51,7 +61,7 @@ export default function DecisionSpeedTest() {
   const advance = (r: { correct: boolean; rt: number }[]) => {
     setTrial(prev => {
       const next = prev + 1;
-      if (next >= TOTAL) {
+      if (next >= trialCount.current) {
         setPhase('done');
         finalize(r);
         return prev;
@@ -65,7 +75,7 @@ export default function DecisionSpeedTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     const correctCount = r.filter(x => x.correct).length;
-    const acc = correctCount / TOTAL;
+    const acc = correctCount / trialCount.current;
     const avgRt = Math.round(r.reduce((s, x) => s + x.rt, 0) / r.length);
     const speedScore = Math.max(0, Math.min(100, Math.round(100 - (avgRt - 300) / 15)));
     const score = Math.round(acc * 60 + speedScore * 0.4);
@@ -88,7 +98,14 @@ export default function DecisionSpeedTest() {
 
   
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : TOTAL;
+    trialCount.current = attemptCount;
+    const diff = getDifficultyParams('decision-speed', (cfg.difficulty as string) || 'Medium');
+    timeoutMs.current = (diff.timeoutMs as number) || TIMEOUT_MS;
+
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     submittedRef.current = false;
     setPhase('playing');
@@ -100,13 +117,14 @@ export default function DecisionSpeedTest() {
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">⚡</div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground tracking-tight">Decision Speed Test</h2>
-            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Is the number <strong className="text-success">≥50</strong> or <strong className="text-error">&lt;50</strong>? Answer as fast as you can. {TOTAL} trials with {TIMEOUT_MS / 1000}s timeout.</p>
-          </div>
-          <button onClick={startTest} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="decision-speed"
+            icon="⚡"
+            title="Decision Speed"
+            description="Is the number greater or less than 50? Answer as quickly as possible."
+            onStart={(config: GameConfig) => startTest(config)}
+          />
         </div>
       </div>
     );
@@ -147,3 +165,5 @@ export default function DecisionSpeedTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(DecisionSpeedTest);

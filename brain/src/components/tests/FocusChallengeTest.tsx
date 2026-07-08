@@ -1,15 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import SocialShare from '../ui/SocialShare';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
 import Stage1SelectiveAttention from './focus/Stage1SelectiveAttention';
 import Stage2ImpulseControl from './focus/Stage2ImpulseControl';
 import Stage3TaskSwitching from './focus/Stage3TaskSwitching';
 import Stage4SustainedAttention from './focus/Stage4SustainedAttention';
 import Stage5WorkingMemoryUnderDistraction from './focus/Stage5WorkingMemoryUnderDistraction';
 import type { StageResult } from './focus/StageTypes';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 import {
   STAGE_CONFIGS,
   computeOverallScore,
@@ -123,7 +128,7 @@ const stages = [
   Stage5WorkingMemoryUnderDistraction,
 ];
 
-export default function FocusChallengeTest() {
+function FocusChallengeTest() {
   const [phase, setPhase] = useState<Phase>('intro');
   const [currentStage, setCurrentStage] = useState(0);
   const [stageResults, setStageResults] = useState<StageResult[]>([]);
@@ -131,10 +136,14 @@ export default function FocusChallengeTest() {
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [challengeScore, setChallengeScore] = useState<number | null>(null);
+  const [difficultyLevel, setDifficultyLevel] = useState<'Easy' | 'Medium' | 'Hard'>('Medium');
 
   const overallScoreRef = useRef(0);
   const stageCompletedRef = useRef(false);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+
+  useBeforeUnload(phase !== 'intro' && phase !== 'results');
 
   useEffect(() => {
     let mounted = true;
@@ -214,6 +223,20 @@ export default function FocusChallengeTest() {
   const prevStageScore = stageResults.length > 0 ? stageResults[stageResults.length - 1] : null;
   const nextConfig = currentStage < STAGE_CONFIGS.length ? STAGE_CONFIGS[currentStage] : null;
 
+  const beginChallenge = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    setDifficultyLevel((cfg.difficulty as 'Easy' | 'Medium' | 'Hard') || 'Medium');
+    setPhase('playing');
+    setCurrentStage(0);
+    setStageResults([]);
+    setPersonalBest(null);
+    setShareImage(null);
+    submittedRef.current = false;
+    stageCompletedRef.current = false;
+    overallScoreRef.current = 0;
+  };
+
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
@@ -223,29 +246,14 @@ export default function FocusChallengeTest() {
             <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-secondary transition-colors uppercase font-mono">Dismiss</button>
           </div>
         )}
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-20 h-20 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center text-4xl">🎯</div>
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-foreground tracking-tight mb-2">Focus Challenge</h2>
-            <p className="text-secondary text-sm max-w-md mx-auto">
-              A <strong className="text-accent">5-stage attention gauntlet</strong> measuring your ability to focus, resist impulses, switch tasks, sustain attention, and remember under distraction. Takes ~4 minutes.
-            </p>
-          </div>
-          <div className="grid grid-cols-5 gap-3 w-full max-w-lg">
-            {STAGE_CONFIGS.map(s => (
-              <div key={s.index} className="flex flex-col items-center gap-1.5 p-2 rounded-lg bg-subtle border border-card-border">
-                <span className="text-xl">{s.emoji}</span>
-                <span className="text-[10px] text-muted font-mono text-center leading-tight">{s.name.split(' ')[0]}</span>
-                <span className="text-[9px] text-muted font-mono">{s.duration}</span>
-              </div>
-            ))}
-          </div>
-          <div className="bg-[var(--error-bg)] border border-[var(--error-border)] rounded-lg p-3 text-xs text-secondary max-w-md">
-            <strong className="text-error">⚠️ For educational & entertainment purposes only.</strong> Not a clinical diagnostic tool. Performance can vary based on daily factors like sleep, stress, and caffeine.
-          </div>
-          <button onClick={() => { setPhase('playing'); setCurrentStage(0); setStageResults([]); setPersonalBest(null); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; overallScoreRef.current = 0; }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">
-            Begin Focus Challenge (~4 min)
-          </button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="focus-challenge"
+            icon="🎯"
+            title="Focus Challenge"
+            description="A 5-stage attention gauntlet measuring your ability to focus, resist impulses, switch tasks, sustain attention, and remember under distraction. Takes ~4 minutes."
+            onStart={(config: GameConfig) => beginChallenge(config)}
+          />
         </div>
       </div>
     );
@@ -305,7 +313,7 @@ export default function FocusChallengeTest() {
             <h2 className="text-2xl font-bold text-foreground tracking-tight mb-3">Focus Challenge Complete</h2>
             <div className={`text-6xl font-bold font-mono ${getPerformanceColor(overallScore)}`}>{overallScore}</div>
             <div className="text-sm text-accent font-medium mt-1">/ 100</div>
-            <div className={`text-xs font-mono uppercase mt-1 ${getPerformanceColor(overallScore)}`}>{getPerformanceLabel(overallScore)} · Top {100 - lookupPercentile('focus-challenge', overallScore)}%</div>
+            <div className={`text-xs font-mono uppercase mt-1 ${getPerformanceColor(overallScore)}`}>{getPerformanceLabel(overallScore)} · Top {formatTopPercentile(lookupPercentile('focus-challenge', overallScore))}%</div>
             {isNewPB && <div className="text-success text-xs font-mono mt-1 animate-pulse">✦ New Personal Best!</div>}
             {beatChallenge && <div className="text-success text-xs font-mono mt-1">✓ Beat your friend's score!</div>}
           </div>
@@ -415,7 +423,7 @@ export default function FocusChallengeTest() {
           <span className="text-muted">{config.duration}</span>
         </div>
         <div className="w-full rounded-xl border border-card-border bg-card p-6 flex flex-col items-center">
-          <StageComponent key={stageIndex} onComplete={handleStageComplete} calibrationHz={60} />
+          <StageComponent key={stageIndex} onComplete={handleStageComplete} calibrationHz={60} difficulty={difficultyLevel} />
         </div>
       </div>
     );
@@ -423,3 +431,5 @@ export default function FocusChallengeTest() {
 
   return null;
 }
+
+export default withErrorBoundary(FocusChallengeTest);

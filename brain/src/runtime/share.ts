@@ -1,3 +1,5 @@
+import { formatTopPercentile } from './percentileLookup';
+
 export interface ChallengePayload {
   testId: string;
   score: number;
@@ -135,7 +137,7 @@ export function generateShareCard(
     // 8. Draw Percentile Statement
     ctx.fillStyle = '#3b82f6'; // Blue Accent
     ctx.font = '500 28px sans-serif';
-    ctx.fillText(`Top ${100 - percentile}% of the global population`, 100, 390);
+    ctx.fillText(`Top ${formatTopPercentile(percentile)}% of the global population`, 100, 390);
 
     // 9. Draw CTA / Challenge invitation
     ctx.fillStyle = '#ffffff';

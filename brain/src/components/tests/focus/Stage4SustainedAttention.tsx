@@ -1,9 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { StageProps, StageResult } from './StageTypes';
 
-const DURATION_MS = 90000;
-const STIMULUS_DURATION = 300;
-const ISI_RANGE: [number, number] = [800, 1800];
 const TARGET_LETTER = 'X';
 
 const LETTERS = 'ABCDEFGHJKLMNOPQRSTUVWYZ'.split('');
@@ -17,10 +14,25 @@ function genStimulus(): { letter: string; isTarget: boolean } {
   return { letter: isTarget ? TARGET_LETTER : randomLetter(), isTarget };
 }
 
-export default function Stage4SustainedAttention({ onComplete, calibrationHz }: StageProps) {
+export default function Stage4SustainedAttention({ onComplete, calibrationHz, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [currentLetter, setCurrentLetter] = useState('');
-  const [timeRemaining, setTimeRemaining] = useState(DURATION_MS);
+  const durationRef = useRef(90000);
+  if (difficulty === 'Easy') durationRef.current = 60000;
+  else if (difficulty === 'Hard') durationRef.current = 120000;
+  else durationRef.current = 90000;
+
+  const stimDurationRef = useRef(300);
+  if (difficulty === 'Easy') stimDurationRef.current = 400;
+  else if (difficulty === 'Hard') stimDurationRef.current = 200;
+  else stimDurationRef.current = 300;
+
+  const isiRangeRef = useRef<[number, number]>([800, 1800]);
+  if (difficulty === 'Easy') isiRangeRef.current = [1000, 2200];
+  else if (difficulty === 'Hard') isiRangeRef.current = [500, 1200];
+  else isiRangeRef.current = [800, 1800];
+
+  const [timeRemaining, setTimeRemaining] = useState(durationRef.current);
   const [totalStimuli, setTotalStimuli] = useState(0);
   const [hits, setHits] = useState(0);
   const [misses, setMisses] = useState(0);
@@ -61,9 +73,9 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
       if (!isMountedRef.current) return;
       setCurrentLetter('');
       currentStimRef.current = null;
-      const isi = ISI_RANGE[0] + Math.random() * (ISI_RANGE[1] - ISI_RANGE[0]);
+      const isi = isiRangeRef.current[0] + Math.random() * (isiRangeRef.current[1] - isiRangeRef.current[0]);
       st(showStimulus, isi);
-    }, STIMULUS_DURATION);
+    }, stimDurationRef.current);
   }, [st]);
 
   const handleKeyPress = useCallback((e: KeyboardEvent) => {
@@ -114,7 +126,7 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
     if (phase !== 'playing') return;
     const interval = setInterval(() => {
       const elapsed = performance.now() - startTimeRef.current;
-      const remaining = Math.max(0, DURATION_MS - elapsed);
+      const remaining = Math.max(0, durationRef.current - elapsed);
       setTimeRemaining(remaining);
       if (remaining <= 0) {
         clearInterval(interval);
@@ -135,7 +147,7 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
     setMisses(0);
     setFalseAlarms(0);
     setTotalStimuli(0);
-    setTimeRemaining(DURATION_MS);
+    setTimeRemaining(durationRef.current);
     startTimeRef.current = performance.now();
     st(showStimulus, 1500);
   }, [st, showStimulus]);
@@ -152,11 +164,11 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
         <div className="text-center">
           <h3 className="text-lg font-bold text-foreground mb-1">Stage 4: Sustained Attention</h3>
           <p className="text-secondary text-sm max-w-md">
-            A 90-second vigilance test. Letters flash on screen — press <kbd className="px-1.5 py-0.5 rounded bg-panel text-xs font-mono text-accent border border-card-border">SPACE</kbd> only when you see <strong className="text-accent">{TARGET_LETTER}</strong>. Stay focused the whole time.
+            A {Math.round(durationRef.current / 1000)}-second vigilance test. Letters flash on screen — press <kbd className="px-1.5 py-0.5 rounded bg-panel text-xs font-mono text-accent border border-card-border">SPACE</kbd> only when you see <strong className="text-accent">{TARGET_LETTER}</strong>. Stay focused the whole time.
           </p>
         </div>
         <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
-          Start 90s Challenge
+          Start {Math.round(durationRef.current / 1000)}s Challenge
         </button>
       </div>
     );
@@ -203,7 +215,7 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
       <div className="w-full max-w-xs bg-card rounded-full h-1.5 overflow-hidden border border-card-border">
         <div
           className="h-full bg-accent transition-all duration-200 rounded-full"
-          style={{ width: `${(timeRemaining / DURATION_MS) * 100}%` }}
+          style={{ width: `${(timeRemaining / durationRef.current) * 100}%` }}
         />
       </div>
     </div>

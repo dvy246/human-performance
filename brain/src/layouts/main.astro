@@ -7,8 +7,7 @@ import OnboardingFlow from "@/components/ui/OnboardingFlow";
 import { KeyboardShortcutsHelp } from "@/components/ui/KeyboardShortcuts";
 import RecentTests from "@/components/ui/RecentTests";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
-import { translations, languages } from "@/i18n/translations";
-import type { LangCode } from "@/i18n/translations";
+import { translations } from "@/i18n/translations";
 
 interface Props {
   title?: string;
@@ -68,13 +67,6 @@ const defaultSchema = {
 const pageSchemas = Array.isArray(schemaJson) ? schemaJson : [schemaJson || defaultSchema];
 const finalSchemas = [...pageSchemas, orgSchema, webSiteSchema];
 
-// i18n hreflang mapping — each locale maps to the same path (translations handled client-side)
-const currentPath = Astro.url.pathname;
-const hreflangMap: { code: LangCode; href: string }[] = languages.map(lang => ({
-  code: lang.code,
-  href: `https://cogniarena.com${currentPath}`
-}));
-
 const { pathname } = Astro.url;
 
 // Determine active state indicators
@@ -85,6 +77,10 @@ const isFocusOpen = pathname.includes('/tests/stroop') || pathname.includes('/te
 const isMotorOpen = pathname.includes('/tests/click-speed') || pathname.includes('/tests/aim-trainer') || pathname.includes('/tests/mouse-accuracy') || pathname.includes('/tests/flick-trainer') || pathname.includes('/tests/typing-speed');
 const isExecutiveOpen = pathname.includes('/tests/trail-making') || pathname.includes('/tests/decision-speed') || pathname.includes('/tests/planning') || pathname.includes('/tests/prioritization'); // Keep default closed unless clicked
 const isScienceOpen = pathname.includes('/learn/');
+const isHomeActive = pathname === '/';
+const isTestsActive = pathname.includes('/tests/');
+const isHistoryActive = pathname === '/history';
+const isProfileActive = pathname === '/dashboard';
 ---
 
 <html lang="en">
@@ -120,7 +116,7 @@ const isScienceOpen = pathname.includes('/learn/');
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="CogniArena" />
-    <meta property="og:image" content={ogImage || "https://cogniarena.com/og-default.png"} />
+    <meta property="og:image" content={ogImage || "/og-image.svg"} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content="CogniArena — Free Reaction Time Test & Cognitive Assessments" />
@@ -129,13 +125,7 @@ const isScienceOpen = pathname.includes('/learn/');
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage || "https://cogniarena.com/og-default.png"} />
-
-    <!-- Hreflang tags for i18n -->
-    {hreflangMap.map(({ code, href }) => (
-      <link rel="alternate" hreflang={code} href={href} />
-    ))}
-    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
+    <meta name="twitter:image" content={ogImage || "/og-image.svg"} />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
@@ -829,19 +819,19 @@ const isScienceOpen = pathname.includes('/learn/');
 
     <!-- Mobile Bottom Navigation Bar -->
     <nav class="lg:hidden fixed bottom-0 left-0 right-0 h-16 bg-card/95 backdrop-blur border-t border-card-border flex items-center justify-around z-50 px-4">
-      <a href="/" class="flex flex-col items-center gap-1 text-[10px] text-muted hover:text-accent transition-colors">
+      <a href="/" class={`flex flex-col items-center gap-1 text-[10px] ${isHomeActive ? 'text-accent font-semibold' : 'text-muted'} hover:text-accent transition-colors`} aria-current={isHomeActive ? 'page' : undefined}>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
         <span data-i18n="mobile.home">Home</span>
       </a>
-      <a href="/tests/reaction-time" class="flex flex-col items-center gap-1 text-[10px] text-muted hover:text-accent transition-colors">
+      <a href="/tests/reaction-time" class={`flex flex-col items-center gap-1 text-[10px] ${isTestsActive ? 'text-accent font-semibold' : 'text-muted'} hover:text-accent transition-colors`} aria-current={isTestsActive ? 'page' : undefined}>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
         <span data-i18n="mobile.tests">Tests</span>
       </a>
-      <a href="/history" class="flex flex-col items-center gap-1 text-[10px] text-muted hover:text-accent transition-colors">
+      <a href="/history" class={`flex flex-col items-center gap-1 text-[10px] ${isHistoryActive ? 'text-accent font-semibold' : 'text-muted'} hover:text-accent transition-colors`} aria-current={isHistoryActive ? 'page' : undefined}>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v5h5"/><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"/><path d="M12 7v5l4 2"/></svg>
         <span data-i18n="mobile.history">History</span>
       </a>
-      <a href="/dashboard" class="flex flex-col items-center gap-1 text-[10px] text-muted hover:text-accent transition-colors">
+      <a href="/dashboard" class={`flex flex-col items-center gap-1 text-[10px] ${isProfileActive ? 'text-accent font-semibold' : 'text-muted'} hover:text-accent transition-colors`} aria-current={isProfileActive ? 'page' : undefined}>
         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="9" x="3" y="3" rx="1"/><rect width="7" height="5" x="14" y="3" rx="1"/><rect width="7" height="9" x="14" y="12" rx="1"/><rect width="7" height="5" x="3" y="16" rx="1"/></svg>
         <span data-i18n="mobile.profile">Profile</span>
       </a>

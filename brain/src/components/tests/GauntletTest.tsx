@@ -1,9 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
 import StageReaction from './gauntlet/StageReaction';
 import StageSequenceMemory from './gauntlet/StageSequenceMemory';
 import StageStroop from './gauntlet/StageStroop';
@@ -16,20 +19,25 @@ import {
   getPerformanceColor,
   type GauntletStageResult,
 } from './gauntlet/GauntletTypes';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type Phase = 'intro' | 'playing' | 'transition' | 'results';
 
 const STAGES = [StageReaction, StageSequenceMemory, StageStroop, StageMatrix, StageAim];
 
-export default function GauntletTest() {
+function GauntletTest() {
   const [phase, setPhase] = useState<Phase>('intro');
   const [currentIdx, setCurrentIdx] = useState(0);
   const [results, setResults] = useState<GauntletStageResult[]>([]);
   const [overallScore, setOverallScore] = useState(0);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [personalBest, setPersonalBest] = useState<number | null>(null);
+  const [difficultyLevel, setDifficultyLevel] = useState<'Easy' | 'Medium' | 'Hard'>('Medium');
   const stageCompletedRef = useRef(false);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+
+  useBeforeUnload(phase !== 'intro' && phase !== 'results');
 
   useEffect(() => {
     let mounted = true;
@@ -85,34 +93,33 @@ export default function GauntletTest() {
 
   
 
+  const beginGauntlet = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    setDifficultyLevel((cfg.difficulty as 'Easy' | 'Medium' | 'Hard') || 'Medium');
+    setPhase('playing');
+    setCurrentIdx(0);
+    setResults([]);
+    setPersonalBest(null);
+    setShareImage(null);
+    submittedRef.current = false;
+    stageCompletedRef.current = false;
+  };
+
   const prevResult = results[results.length - 1];
   const nextConfig = currentIdx < STAGE_CONFIGS.length ? STAGE_CONFIGS[currentIdx] : null;
 
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-20 h-20 rounded-full bg-accent/10 border-2 border-accent/30 flex items-center justify-center text-4xl">🏆</div>
-          <div className="text-center">
-            <h2 className="text-3xl font-bold text-foreground tracking-tight mb-2">The Gauntlet</h2>
-            <p className="text-secondary text-sm max-w-md mx-auto">
-              A <strong className="text-accent">5-stage cognitive gauntlet</strong> testing reaction, memory, focus, logic, and precision in one session. Takes ~4 minutes.
-            </p>
-          </div>
-          <div className="grid grid-cols-5 gap-2 w-full max-w-md">
-            {STAGE_CONFIGS.map(s => (
-              <div key={s.index} className="flex flex-col items-center gap-1 p-2 rounded-lg bg-subtle border border-card-border">
-                <span className="text-lg">{s.emoji}</span>
-                <span className="text-[9px] text-muted font-mono text-center leading-tight">{s.name.split(' ')[0]}</span>
-              </div>
-            ))}
-          </div>
-          <div className="bg-[var(--error-bg)] border border-[var(--error-border)] rounded-lg p-3 text-xs text-secondary max-w-md">
-            <strong className="text-error">⚠️</strong> For educational & entertainment purposes only. Not a clinical diagnostic tool.
-          </div>
-          <button onClick={() => { setPhase('playing'); setCurrentIdx(0); setResults([]); setPersonalBest(null); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">
-            Begin The Gauntlet (~4 min)
-          </button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="gauntlet"
+            icon="🏆"
+            title="The Gauntlet"
+            description="A 5-stage cognitive gauntlet testing reaction, memory, focus, logic, and precision in one session. Takes ~4 minutes."
+            onStart={(config: GameConfig) => beginGauntlet(config)}
+          />
         </div>
       </div>
     );
@@ -218,7 +225,7 @@ export default function GauntletTest() {
           <span>{STAGE_CONFIGS[currentIdx].name}</span>
         </div>
         <div className="w-full rounded-xl border border-card-border bg-card p-4 flex flex-col items-center">
-          <StageComponent key={currentIdx} onComplete={handleStageComplete} />
+          <StageComponent key={currentIdx} onComplete={handleStageComplete} difficulty={difficultyLevel} />
         </div>
       </div>
     );
@@ -226,3 +233,5 @@ export default function GauntletTest() {
 
   return null;
 }
+
+export default withErrorBoundary(GauntletTest);

@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
-export default function SoundReactionTest() {
+function SoundReactionTest() {
   const [gameState, setGameState] = useState<TestState>('idle');
   const [attempts, setAttempts] = useState<number[]>([]);
   const [currentScore, setCurrentScore] = useState<number | null>(null);
@@ -24,6 +29,9 @@ export default function SoundReactionTest() {
   const clickLock = useRef<boolean>(false);
   const audioCtx = useRef<AudioContext | null>(null);
   const submittedRef = useRef<boolean>(false);
+  const totalAttempts = useRef<number>(5);
+  const waitRange = useRef<{ min: number; max: number }>({ min: 2000, max: 5000 });
+  const lastConfig = useRef<GameConfig | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -108,10 +116,16 @@ export default function SoundReactionTest() {
     }
   };
 
-  const startTest = async () => {
+  const startTest = async (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : 5;
+    totalAttempts.current = attemptCount;
+    const diff = getDifficultyParams('sound-reaction', (cfg.difficulty as string) || 'Medium');
+    waitRange.current = { min: (diff.waitMin as number) || 2000, max: (diff.waitMax as number) || 5000 };
+
     const audioInitialized = await initAudio();
     if (!audioInitialized) {
-      // Continue anyway but show warning
       console.warn('Audio initialization failed - test will continue with visual feedback only');
     }
     setAttempts([]);
@@ -119,12 +133,12 @@ export default function SoundReactionTest() {
     setShareImage(null);
     submittedRef.current = false;
     setGameState('waiting');
-    setupRandomTimer();
+    setupRandomTimer(waitRange.current.min, waitRange.current.max);
   };
 
-  const setupRandomTimer = () => {
+  const setupRandomTimer = (waitMin = 2000, waitMax = 5000) => {
     clickLock.current = false;
-    const delay = 2000 + Math.random() * 3000;
+    const delay = waitMin + Math.random() * (waitMax - waitMin);
     
     if (timerId.current) clearTimeout(timerId.current);
     
@@ -150,7 +164,7 @@ export default function SoundReactionTest() {
     if (clickLock.current) return;
 
     if (gameState === 'idle') {
-      startTest();
+      startTest(lastConfig.current || undefined);
     } else if (gameState === 'waiting') {
       // CLICKED TOO EARLY (sound hasn't beeped yet)
       if (timerId.current) clearTimeout(timerId.current);
@@ -169,10 +183,10 @@ export default function SoundReactionTest() {
       setAttempts(updatedAttempts);
       setCurrentScore(reactionTime);
 
-      if (updatedAttempts.length < 5) {
+      if (updatedAttempts.length < totalAttempts.current) {
         setGameState('attempt-result');
       } else {
-        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / 5);
+        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / totalAttempts.current);
         finalizeTest(average, updatedAttempts);
       }
     } else if (gameState === 'attempt-result') {
@@ -231,6 +245,8 @@ export default function SoundReactionTest() {
     }
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
       {/* Target Challenge */}
@@ -256,25 +272,22 @@ export default function SoundReactionTest() {
         }`}
       >
         {gameState === 'idle' && (
-          <div className="flex flex-col items-center gap-4">
-            <div className="w-16 h-16 rounded-full bg-subtle border border-card-border flex items-center justify-center text-2xl">
-              🔊
-            </div>
-            <div>
-              <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Sound Reaction Test</h2>
-              <p className="text-muted text-xs leading-relaxed max-w-sm mb-4">
-                Click inside the card to begin. Wait for the audio beep, and react the exact instant you hear the tone.
-              </p>
-            </div>
-            <span className="text-xs uppercase font-mono tracking-widest text-accent px-4 py-1 bg-accent/5 border border-accent/15 rounded-full">
-              Click to Start
-            </span>
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <GameConfigPanel
+              testId="sound-reaction"
+              icon="🔊"
+              title="Sound Reaction Test"
+              description="Click inside the card to begin. Wait for the audio beep, and react the exact instant you hear the tone."
+              personalBest={personalBest}
+              personalBestLabel="ms"
+              onStart={(config: GameConfig) => startTest(config)}
+            />
           </div>
         )}
 
         {gameState === 'waiting' && (
           <div className="flex flex-col items-center gap-6">
-            <span className="text-muted text-xs font-mono uppercase">Attempt {attempts.length + 1} of 5</span>
+            <span className="text-muted text-xs font-mono uppercase">Attempt {attempts.length + 1} of {totalAttempts.current}</span>
             {/* Flat Waveform (Waiting) */}
             <svg viewBox="0 0 100 20" className="w-48 h-8 stroke-[var(--border-primary)]" strokeWidth="2" fill="none">
               <line x1="0" y1="10" x2="100" y2="10" />
@@ -290,7 +303,7 @@ export default function SoundReactionTest() {
 
         {gameState === 'ready' && (
           <div className="flex flex-col items-center gap-6">
-            <span className="text-secondary text-xs font-mono uppercase">Attempt {attempts.length + 1} of 5</span>
+            <span className="text-secondary text-xs font-mono uppercase">Attempt {attempts.length + 1} of {totalAttempts.current}</span>
             {/* Active pulsing Soundwave (Beeping) */}
             <svg viewBox="0 0 100 20" className="w-48 h-8 stroke-accent fill-none animate-pulse" strokeWidth="2" strokeLinecap="round">
               <path d="M 0,10 Q 12.5,0 25,10 T 50,10 T 75,10 T 100,10 M 12.5,10 Q 25,20 37.5,10 T 62.5,10 T 87.5,10" />
@@ -306,7 +319,7 @@ export default function SoundReactionTest() {
             <span className="text-muted text-xs font-mono uppercase">Attempt {attempts.length} Finished</span>
             <div className="text-4xl font-mono font-bold text-foreground">{currentScore} ms</div>
             <p className="text-muted text-xs mb-4">
-              Click anywhere to proceed to attempt {attempts.length + 1} of 5.
+              Click anywhere to proceed to attempt {attempts.length + 1} of {totalAttempts.current}.
             </p>
           </div>
         )}
@@ -327,10 +340,10 @@ export default function SoundReactionTest() {
             <div className="flex flex-col items-center gap-1">
               <span className="text-muted text-xs font-mono uppercase">Average Auditory Response</span>
               <div className="text-4xl font-mono font-bold text-foreground">
-                {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
+                {Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {100 - lookupPercentile('sound-reaction', Math.round(attempts.reduce((a, b) => a + b, 0) / 5), true)}% speed
+                Top {formatTopPercentile(lookupPercentile('sound-reaction', Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current), true))}% speed
               </span>
             </div>
 
@@ -380,3 +393,5 @@ export default function SoundReactionTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(SoundReactionTest);

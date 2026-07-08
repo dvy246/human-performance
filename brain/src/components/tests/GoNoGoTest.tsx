@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { useSound } from '../../runtime/useSound';
 import { useI18n } from '../../runtime/useI18n';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -25,7 +28,7 @@ const COLORS: ColorState[] = [
   { name: 'PURPLE', hex: '#8b5cf6', isTarget: false }
 ];
 
-export default function GoNoGoTest() {
+function GoNoGoTest() {
   const { playClick, playError } = useSound();
   const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
@@ -45,6 +48,11 @@ export default function GoNoGoTest() {
   const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const submittedRef = useRef(false);
+  const totalAttempts = useRef<number>(5);
+  const waitRange = useRef<{ min: number; max: number }>({ min: 1000, max: 3000 });
+  const lastConfig = useRef<GameConfig | null>(null);
+  const noGoRateRef = useRef<number>(0.35);
+  const omissionMsRef = useRef<number>(1500);
 
   useEffect(() => {
     let mounted = true;
@@ -80,7 +88,15 @@ export default function GoNoGoTest() {
 
 
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptsCount = typeof cfg.attempts === 'number' ? cfg.attempts : 5;
+    totalAttempts.current = attemptsCount;
+    const diff = getDifficultyParams('go-no-go', (cfg.difficulty as string) || 'Medium');
+    waitRange.current = { min: (diff.waitMin as number) || 1000, max: (diff.waitMax as number) || 3000 };
+    noGoRateRef.current = (diff.noGoRate as number) || 0.35;
+    omissionMsRef.current = (diff.omissionMs as number) || 1500;
     setAttempts([]);
     setFalseAlarms(0);
     setCurrentScore(null);
@@ -95,10 +111,10 @@ export default function GoNoGoTest() {
     clickLock.current = false;
     clearTimers();
 
-    const delay = 1000 + Math.random() * 2000;
+    const delay = waitRange.current.min + Math.random() * (waitRange.current.max - waitRange.current.min);
     timerId.current = setTimeout(() => {
       // 35% chance to spawn target, 65% chance to spawn distractor
-      const isTargetSpawn = Math.random() < 0.35;
+      const isTargetSpawn = Math.random() < noGoRateRef.current;
       let selected: ColorState;
 
       if (isTargetSpawn) {
@@ -122,7 +138,7 @@ export default function GoNoGoTest() {
         // If user fails to click the target in 1.5 seconds, trigger omission error
         targetTimeoutId.current = setTimeout(() => {
           handleOmission();
-        }, 1500);
+        }, omissionMsRef.current);
       } else {
         // Distractor stays on screen for 1 second, then disappears
         targetTimeoutId.current = setTimeout(() => {
@@ -139,12 +155,12 @@ export default function GoNoGoTest() {
     clickLock.current = true;
 
     // Missed target: add +250ms penalty attempt
-    const finalScore = 1500 + 250;
+    const finalScore = omissionMsRef.current + 250;
     const updatedAttempts = [...attempts, finalScore];
     setAttempts(updatedAttempts);
     setCurrentScore(finalScore);
 
-    if (updatedAttempts.length < 5) {
+    if (updatedAttempts.length < totalAttempts.current) {
       setGameState('attempt-result');
     } else {
       const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length);
@@ -181,10 +197,10 @@ export default function GoNoGoTest() {
         setCurrentScore(elapsed);
         playClick();
 
-        if (updatedAttempts.length < 5) {
+        if (updatedAttempts.length < totalAttempts.current) {
           setGameState('attempt-result');
         } else {
-          const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / 5);
+          const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / totalAttempts.current);
           finalizeTest(average, updatedAttempts.length, updatedAttempts);
         }
       } else {
@@ -198,7 +214,7 @@ export default function GoNoGoTest() {
       setGameState('waiting');
       queueNextSignal();
     } else if (gameState === 'abort' || gameState === 'result' || gameState === 'idle') {
-      startTest();
+      startTest(lastConfig.current || undefined);
     }
   };
 
@@ -235,9 +251,11 @@ export default function GoNoGoTest() {
     });
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const avgScore = Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250);
+    const avgScore = Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250);
     const token = encodeChallenge({ testId: 'go-no-go', score: avgScore });
     const url = `${window.location.origin}/tests/go-no-go/?challenge=${token}`;
 
@@ -259,6 +277,8 @@ export default function GoNoGoTest() {
       <div
         role="button"
         tabIndex={0}
+        aria-live="polite"
+        aria-atomic="true"
         onClick={handleScreenClick}
         className={`w-full min-h-[300px] rounded-xl border border-card-border p-8 flex flex-col items-center justify-center text-center cursor-pointer transition-standard select-none outline-none focus-visible:ring-2 focus-visible:ring-accent ${
           gameState === 'ready' && currentColor ? 'transition-none' : ''
@@ -277,7 +297,7 @@ export default function GoNoGoTest() {
               personalBest={personalBest}
               personalBestLabel="ms"
               startLabel="Start Test"
-              onStart={(_config: GameConfig) => startTest()}
+              onStart={(config: GameConfig) => startTest(config)}
             />
           </div>
         )}
@@ -285,22 +305,28 @@ export default function GoNoGoTest() {
         {gameState === 'waiting' && (
           <div className="flex flex-col items-center gap-2">
             <div className="w-16 h-16 rounded bg-subtle border border-card-border animate-pulse flex items-center justify-center text-muted dark:text-muted font-mono text-xs">{t('gng.wait')}</div>
-            <p className="text-muted font-mono text-xs uppercase mt-3">{t('gng.rounds')} {attempts.length} / 5 &middot; {t('gng.click_green')}</p>
+            <p className="text-muted font-mono text-xs uppercase mt-3">{t('gng.rounds')} {attempts.length} / {totalAttempts.current} &middot; {t('gng.click_green')}</p>
           </div>
         )}
 
         {gameState === 'ready' && currentColor && (
-          <div className="flex flex-col items-center gap-1.5">
+          <div className="flex flex-col items-center gap-1.5 relative">
             {currentColor.isTarget ? (
-              <svg width="80" height="80" viewBox="0 0 80 80" className="mb-2">
-                <circle cx="40" cy="40" r="35" fill="none" stroke="white" strokeWidth="4" />
-                <circle cx="40" cy="40" r="20" fill="white" opacity="0.3" />
-              </svg>
+              <>
+                <span className="absolute top-0 right-0 px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-white/20 text-white font-bold">GO</span>
+                <svg width="80" height="80" viewBox="0 0 80 80" className="mb-2">
+                  <circle cx="40" cy="40" r="35" fill="none" stroke="white" strokeWidth="4" />
+                  <circle cx="40" cy="40" r="20" fill="white" opacity="0.3" />
+                </svg>
+              </>
             ) : (
-              <svg width="80" height="80" viewBox="0 0 80 80" className="mb-2">
-                <line x1="15" y1="15" x2="65" y2="65" stroke="white" strokeWidth="4" />
-                <line x1="65" y1="15" x2="15" y2="65" stroke="white" strokeWidth="4" />
-              </svg>
+              <>
+                <span className="absolute top-0 right-0 px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-white/20 text-white font-bold">STOP</span>
+                <svg width="80" height="80" viewBox="0 0 80 80" className="mb-2">
+                  <line x1="15" y1="15" x2="65" y2="65" stroke="white" strokeWidth="4" />
+                  <line x1="65" y1="15" x2="15" y2="65" stroke="white" strokeWidth="4" />
+                </svg>
+              </>
             )}
             <span className="text-black font-extrabold text-3xl tracking-wider filter drop-shadow">
               {currentColor.name}
@@ -347,10 +373,10 @@ export default function GoNoGoTest() {
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-muted text-xs font-mono uppercase">{t('gng.inhibitory_avg')}</span>
               <div className="text-4xl font-mono font-bold text-foreground">
-                {Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250)} ms
+                {Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {100 - lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250), true)}% {t('rt.globally')}
+                Top {formatTopPercentile(lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250), true))}% {t('rt.globally')}
               </span>
             </div>
 
@@ -398,3 +424,5 @@ export default function GoNoGoTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(GoNoGoTest);

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { dataLayer, type SessionRecord } from '../../runtime/dataLayer';
+import { formatTopPercentile } from '../../runtime/percentileLookup';
 import { 
   computeCategoryAverages, 
   calculateBbiScore, 
@@ -895,7 +896,7 @@ export default function CognitiveProfile() {
                           {formatScore(row.testId, row.rawScore)}
                         </td>
                         <td className="py-3 text-right text-accent font-bold">
-                          Top {100 - row.percentile}%
+                          Top {formatTopPercentile(row.percentile)}%
                         </td>
                         <td className="py-3 text-right pr-2">
                           {row.synced ? (

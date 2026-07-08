@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import SocialShare from '../ui/SocialShare';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type GameState = 'idle' | 'running' | 'result';
 
@@ -15,7 +20,7 @@ interface Stimulus {
 const LETTERS = ['A', 'B', 'C', 'D', 'P', 'T', 'L'];
 const TOTAL_TRIALS = 20;
 
-export default function DualNBackTest() {
+function DualNBackTest() {
   const [gameState, setGameState] = useState<GameState>('idle');
   const [n, setN] = useState<number>(2);
   const [maxN, setMaxN] = useState<number>(2);
@@ -47,6 +52,7 @@ export default function DualNBackTest() {
   const trialTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const sequenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const initialNRef = useRef<number>(2);
+  const lastConfig = useRef<GameConfig | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -103,13 +109,17 @@ export default function DualNBackTest() {
     return list;
   };
 
-  const startTest = () => {
-    currentNRef.current = n;
-    maxNRef.current = n;
-    initialNRef.current = n;
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('dual-n-back', (cfg.difficulty as string) || 'Medium');
+    const startN = (diff.startN as number) || 2;
+    setN(startN);
+    setMaxN(startN);
+    currentNRef.current = startN;
+    maxNRef.current = startN;
+    initialNRef.current = startN;
     consecutiveCorrect.current = 0;
-    setN(n);
-    setMaxN(n);
     const sequence = generateSequence(n);
     setTrialList(sequence);
     setCurrentIdx(-1);
@@ -264,6 +274,8 @@ export default function DualNBackTest() {
     });
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   // Keyboard shortcut listeners
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -281,49 +293,16 @@ export default function DualNBackTest() {
   return (
     <div className="w-full max-w-lg mx-auto flex flex-col gap-6 select-none">
       {gameState === 'idle' && (
-        <div className="rounded-xl border border-card-border bg-card p-8 text-center flex flex-col gap-6 shadow-lg">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl mx-auto">
-            🧠
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-foreground">Dual N-Back Memory</h2>
-            <p className="text-muted text-sm mt-3 leading-relaxed">
-              The gold standard for visual-auditory working memory training.
-              Compare the **current grid position** and **spoken letter** to those shown **N steps back**.
-            </p>
-          </div>
-
-          {/* N Level Selector */}
-          <div className="flex flex-col gap-2 items-center">
-            <span className="text-xs text-muted font-mono">CHOOSE DIFFICULTY LEVEL (N):</span>
-            <div className="flex gap-2">
-              {[1, 2, 3, 4].map(val => (
-                <button
-                  key={val}
-                  onClick={() => setN(val)}
-                  className={`w-10 h-10 rounded border font-bold font-mono transition-standard ${
-                    n === val
-                      ? 'bg-accent border-accent text-black shadow-sm'
-                      : 'border-card-border hover:bg-subtle text-foreground'
-                  }`}
-                >
-                  {val}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <button
-            onClick={startTest}
-            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
-          >
-            Start Assessment
-          </button>
-          {personalBest && (
-            <span className="text-[10px] text-muted font-mono uppercase">
-              Personal Best: {personalBest} Pts
-            </span>
-          )}
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="dual-n-back"
+            icon="🧠"
+            title="Dual N-Back Memory"
+            description="The gold standard for visual-auditory working memory training. Compare the current grid position and spoken letter to those shown N steps back."
+            personalBest={personalBest}
+            personalBestLabel="Pts"
+            onStart={(config: GameConfig) => startTest(config)}
+          />
         </div>
       )}
 
@@ -394,7 +373,7 @@ export default function DualNBackTest() {
               {score} Pts
             </h2>
             <span className="text-accent text-xs font-mono uppercase mt-1 block">
-              Max Level: N={maxN} · Top {100 - accuracy}% memory performance
+              Max Level: N={maxN} · Top {formatTopPercentile(accuracy)}% memory performance
             </span>
           </div>
 
@@ -423,7 +402,7 @@ export default function DualNBackTest() {
           </div>
 
           <button
-            onClick={startTest}
+            onClick={() => startTest()}
             className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
           >
             Train Again
@@ -442,3 +421,5 @@ export default function DualNBackTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(DualNBackTest);

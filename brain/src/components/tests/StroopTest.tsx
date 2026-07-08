@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TrialState = 'idle' | 'running' | 'result';
 interface Trial {
@@ -19,7 +24,7 @@ const COLORS = [
   { name: 'YELLOW', hex: '#eab308', class: 'text-yellow-500' }
 ];
 
-export default function StroopTest() {
+function StroopTest() {
   const [gameState, setGameState] = useState<TrialState>('idle');
   const [trials, setTrials] = useState<Trial[]>([]);
   const [currentTrialIdx, setCurrentTrialIdx] = useState(0);
@@ -37,6 +42,10 @@ export default function StroopTest() {
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const lockedRef = useRef(false);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const trialCount = useRef<number>(20);
+  const incongruentRatio = useRef<number>(0.5);
+  const trialTimeoutMs = useRef<number>(4000);
 
   useEffect(() => {
     let mounted = true;
@@ -48,9 +57,8 @@ export default function StroopTest() {
 
   const generateTrials = (): Trial[] => {
     const generated: Trial[] = [];
-    for (let i = 0; i < 20; i++) {
-      // 50% congruent, 50% incongruent
-      const isCongruent = Math.random() < 0.5;
+    for (let i = 0; i < trialCount.current; i++) {
+      const isCongruent = Math.random() > incongruentRatio.current;
       const wordIdx = Math.floor(Math.random() * COLORS.length);
       let colorIdx = wordIdx;
       if (!isCongruent) {
@@ -66,7 +74,15 @@ export default function StroopTest() {
     return generated;
   };
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : 20;
+    trialCount.current = attemptCount;
+    const diff = getDifficultyParams('stroop', (cfg.difficulty as string) || 'Medium');
+    incongruentRatio.current = (diff.incongruentRatio as number) || 0.5;
+    trialTimeoutMs.current = (diff.trialTimeoutMs as number) || 4000;
+
     if (timerRef.current) clearTimeout(timerRef.current);
     submittedRef.current = false;
     const list = generateTrials();
@@ -92,11 +108,10 @@ export default function StroopTest() {
     trialStartTime.current = performance.now();
     lockedRef.current = false;
     
-    // Auto timeout after 4 seconds
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
       handleAnswer(null);
-    }, 4000);
+    }, trialTimeoutMs.current);
   };
 
   const handleAnswer = (selectedColor: string | null) => {
@@ -134,7 +149,7 @@ export default function StroopTest() {
     setGameState('result');
     if (timerRef.current) clearTimeout(timerRef.current);
 
-    const totalAccuracy = Math.round((correctCount / 20) * 100);
+    const totalAccuracy = Math.round((correctCount / trialCount.current) * 100);
     setAccuracy(totalAccuracy);
 
     const getAvg = (arr: number[]) => arr.length === 0 ? 0 : Math.round(arr.reduce((a,b)=>a+b,0) / arr.length);
@@ -142,7 +157,7 @@ export default function StroopTest() {
     const avgIncongruent = getAvg(incongruentScores);
     const avgScore = Math.round((congruentScores.reduce((a,b)=>a+b,0) + incongruentScores.reduce((a,b)=>a+b,0)) / Math.max(1, congruentScores.length + incongruentScores.length));
 
-    const penalty = (20 - correctCount) * 150;
+    const penalty = (trialCount.current - correctCount) * 150;
     const finalScore = avgScore + penalty;
     const percentile = Math.round(lookupPercentile('stroop', finalScore, true));
     setResultScore(finalScore);
@@ -178,33 +193,23 @@ export default function StroopTest() {
     });
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   const getAvg = (arr: number[]) => arr.length === 0 ? 0 : Math.round(arr.reduce((a,b)=>a+b,0) / arr.length);
 
   return (
     <div className="w-full max-w-lg mx-auto flex flex-col gap-6 select-none">
       {gameState === 'idle' && (
-        <div className="rounded-xl border border-card-border bg-card p-8 text-center flex flex-col gap-6 shadow-lg">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl mx-auto">
-            🎨
-          </div>
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-foreground">Stroop Attention Test</h2>
-            <p className="text-muted text-sm mt-3 leading-relaxed">
-              Test your brain's selective attention and processing conflict resolution. 
-              A word will appear in colored ink. Select the button matching the **ink color** of the word, NOT what the word itself reads.
-            </p>
-          </div>
-          <button
-            onClick={startTest}
-            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
-          >
-            Start Assessment
-          </button>
-          {personalBest && (
-            <span className="text-[10px] text-muted font-mono uppercase">
-              Personal Best: {personalBest} ms
-            </span>
-          )}
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="stroop"
+            icon="🎨"
+            title="Stroop Attention Test"
+            description="Test your brain's selective attention and processing conflict resolution. A word will appear in colored ink. Select the button matching the ink color of the word, NOT what the word itself reads."
+            personalBest={personalBest}
+            personalBestLabel="ms"
+            onStart={(config: GameConfig) => startTest(config)}
+          />
         </div>
       )}
 
@@ -212,7 +217,7 @@ export default function StroopTest() {
         <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-between min-h-[350px] shadow-lg relative overflow-hidden">
           {/* Header Progress */}
           <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6">
-            <span>TRIAL {currentTrialIdx + 1} / 20</span>
+            <span>TRIAL {currentTrialIdx + 1} / {trialCount.current}</span>
             <span>CORRECT: {correctCount}</span>
           </div>
 
@@ -290,7 +295,7 @@ export default function StroopTest() {
           </div>
 
           <button
-            onClick={startTest}
+            onClick={() => startTest()}
             className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
           >
             Train Again
@@ -309,3 +314,5 @@ export default function StroopTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(StroopTest);

@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type GameMode = 'pattern' | 'matrix' | 'sequence' | 'analogy';
 type GameState = 'idle' | 'running' | 'result';
@@ -381,7 +386,7 @@ function generateAnalogyQuestion(): GeneratedQuestion {
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
-export default function PatternReasoningTest() {
+function PatternReasoningTest() {
   const [gameState, setGameState] = useState<GameState>('idle');
   const [currentMode, setCurrentMode] = useState<GameMode>('pattern');
   const [questions, setQuestions] = useState<GeneratedQuestion[]>([]);
@@ -417,10 +422,17 @@ export default function PatternReasoningTest() {
     return () => { mounted = false; };
   }, []);
 
-  const startTest = (mode: GameMode) => {
+  const lastConfig = useRef<GameConfig | null>(null);
+  const questionCount = useRef<number>(5);
+
+  const startTest = (mode: GameMode, config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : 5;
+    questionCount.current = attemptCount;
     setCurrentMode(mode);
     const questionList: GeneratedQuestion[] = [];
-    for (let i = 0; i < 5; i++) {
+    for (let i = 0; i < questionCount.current; i++) {
       if (mode === 'pattern') questionList.push(generatePatternQuestion());
       else if (mode === 'matrix') questionList.push(generateMatrixQuestion());
       else if (mode === 'sequence') questionList.push(generateSequenceQuestion());
@@ -456,7 +468,7 @@ export default function PatternReasoningTest() {
 
     setTimeout(() => {
       setLastCorrect(null);
-      if (currentIdx + 1 < 5) {
+      if (currentIdx + 1 < questionCount.current) {
         setCurrentIdx(prev => prev + 1);
         questionStartTime.current = performance.now();
       } else {
@@ -472,7 +484,7 @@ export default function PatternReasoningTest() {
     submittedRef.current = true;
     setGameState('result');
     const correctCount = answers.filter(Boolean).length;
-    const accuracy = Math.round((correctCount / 5) * 100);
+    const accuracy = Math.round((correctCount / questionCount.current) * 100);
     const percentile = Math.round(lookupPercentile('pattern-reasoning', finalScore));
     setResultPercentile(percentile);
 
@@ -486,7 +498,7 @@ export default function PatternReasoningTest() {
           mode: currentMode,
           accuracy,
           correctAnswers: correctCount,
-          totalQuestions: 5
+          totalQuestions: questionCount.current
         }
       });
     } catch (err) {
@@ -510,32 +522,29 @@ export default function PatternReasoningTest() {
 
   const q = questions[currentIdx] as GeneratedQuestion | undefined;
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   return (
     <div className="w-full max-w-lg mx-auto flex flex-col gap-6 select-none">
       {gameState === 'idle' && (
-        <div className="rounded-xl border border-card-border bg-card p-8 text-center flex flex-col gap-6 shadow-lg">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto">
-            <svg width="32" height="32" viewBox="0 0 40 40">
-              <polygon points="20,2 25,15 38,15 27,24 31,37 20,29 9,37 13,24 2,15 15,15" fill="var(--accent)" />
-            </svg>
+        <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col gap-6 shadow-lg">
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <GameConfigPanel
+              testId="pattern-reasoning"
+              icon="⭐"
+              title="Pattern Recognition Suite"
+              description="Test your non-verbal intelligence with visual shape patterns. Evaluate sequences, solve matrix grids, detect rotational logic, and complete shape analogies."
+              personalBest={personalBest}
+              personalBestLabel="Pts"
+              onStart={(config: GameConfig) => { lastConfig.current = config; }}
+            />
           </div>
-          <div>
-            <h2 className="text-2xl font-bold tracking-tight text-foreground">Pattern Recognition Suite</h2>
-            <p className="text-muted text-sm mt-3 leading-relaxed">
-              Test your non-verbal intelligence with visual shape patterns. Evaluate sequences, solve matrix grids, detect rotational logic, and complete shape analogies.
-              <strong className="text-foreground"> 5 questions per session.</strong>
-            </p>
-            <p className="text-xs text-secondary mt-2">
-              All patterns use colored SVG shapes — no text or emoji dependencies.
-            </p>
-          </div>
-
           <div className="grid grid-cols-2 gap-3 text-left">
             {MODES.map(m => (
               <button
                 key={m}
-                onClick={() => startTest(m)}
-                className="p-4 rounded-xl border border-card-border/80 bg-subtle hover:border-accent hover:bg-card text-left transition-standard flex flex-col gap-1 active:scale-98 group"
+                onClick={() => startTest(m, lastConfig.current || undefined)}
+                className="p-4 rounded-xl border border-card-border/80 bg-subtle hover:border-accent hover:bg-card text-left transition-standard flex flex-col gap-1 active:scale-98 group cursor-pointer"
               >
                 <span className="text-xs font-bold text-foreground group-hover:text-accent font-mono">
                   {MODE_TITLES[m]}
@@ -546,12 +555,6 @@ export default function PatternReasoningTest() {
               </button>
             ))}
           </div>
-
-          {personalBest && (
-            <span className="text-[10px] text-muted font-mono uppercase mt-2">
-              Personal Best: {personalBest} Pts
-            </span>
-          )}
         </div>
       )}
 
@@ -663,11 +666,11 @@ export default function PatternReasoningTest() {
           <div className="grid grid-cols-2 gap-4 w-full max-w-sm border-t border-b border-card-border/50 py-4 my-2 text-left">
             <div className="flex flex-col">
               <span className="text-[10px] text-muted uppercase font-mono">Questions Correct</span>
-              <span className="text-sm font-bold text-foreground">{answers.filter(Boolean).length} / 5</span>
+              <span className="text-sm font-bold text-foreground">{answers.filter(Boolean).length} / {questionCount.current}</span>
             </div>
             <div className="flex flex-col">
               <span className="text-[10px] text-muted uppercase font-mono">Accuracy</span>
-              <span className="text-sm font-bold text-foreground">{Math.round((answers.filter(Boolean).length / 5) * 100)}%</span>
+              <span className="text-sm font-bold text-foreground">{Math.round((answers.filter(Boolean).length / questionCount.current) * 100)}%</span>
             </div>
             <div className="flex flex-col">
               <span className="text-[10px] text-muted uppercase font-mono">Total Latency</span>
@@ -675,7 +678,7 @@ export default function PatternReasoningTest() {
             </div>
             <div className="flex flex-col">
               <span className="text-[10px] text-muted uppercase font-mono">Avg Time/Q</span>
-              <span className="text-sm font-bold text-foreground">{Math.round(latencies.reduce((a,b)=>a+b,0) / 5)} ms</span>
+              <span className="text-sm font-bold text-foreground">{Math.round(latencies.reduce((a,b)=>a+b,0) / questionCount.current)} ms</span>
             </div>
           </div>
 
@@ -707,3 +710,5 @@ export default function PatternReasoningTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(PatternReasoningTest);

@@ -1,9 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 const TOTAL = 12;
 const ANGLES = [0, 90, 180, 270];
@@ -168,7 +173,7 @@ function IsometricGrid({ grid, cellSize = 1 }: { grid: number[][]; cellSize?: nu
 
 // ─── Main Component ──────────────────────────────────────────────────────────
 
-export default function SpatialOrientationTest() {
+function SpatialOrientationTest() {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [trial, setTrial] = useState(0);
   const [target, setTarget] = useState<number[][]>([]);
@@ -177,6 +182,11 @@ export default function SpatialOrientationTest() {
   const [correctCount, setCorrectCount] = useState(0);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const trialCount = useRef<number>(TOTAL);
+  const choicesPerTrial = useRef<number>(4);
+
+  useBeforeUnload(phase !== 'intro' && phase !== 'done');
 
   useEffect(() => {
     return () => { submittedRef.current = false; };
@@ -199,7 +209,7 @@ export default function SpatialOrientationTest() {
     const isCorrect = gridKey(opt) === correctKey;
     const next = trial + 1;
     const newCorrect = correctCount + (isCorrect ? 1 : 0);
-    if (next >= TOTAL) {
+    if (next >= trialCount.current) {
       setPhase('done');
       finalize(newCorrect);
       return;
@@ -212,11 +222,11 @@ export default function SpatialOrientationTest() {
   const finalize = async (c: number) => {
     if (submittedRef.current) return;
     submittedRef.current = true;
-    const score = Math.round((c / TOTAL) * 100);
+    const score = Math.round((c / trialCount.current) * 100);
     try {
       await dataLayer.saveSession({
         testId: 'spatial-orientation', category: 'processing', rawScore: c, percentile: lookupPercentile('spatial-orientation', score),
-        metadata: { accuracy: Math.round((c / TOTAL) * 100), totalTrials: TOTAL },
+        metadata: { accuracy: Math.round((c / trialCount.current) * 100), totalTrials: trialCount.current },
       });
     } catch (err) {
       console.error('Failed to save Spatial Orientation session:', err);
@@ -232,27 +242,30 @@ export default function SpatialOrientationTest() {
 
   
 
+  const beginTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : TOTAL;
+    trialCount.current = attemptCount;
+    const diff = getDifficultyParams('spatial-orientation', (cfg.difficulty as string) || 'Medium');
+    choicesPerTrial.current = (diff.choicesPerTrial as number) || 4;
+    setPhase('playing');
+    setTrial(0);
+    setCorrectCount(0);
+    generateTrial();
+  };
+
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center">
-            <svg width="32" height="32" viewBox="0 0 40 40">
-              <polygon points="20,4 36,14 20,24 4,14" fill="var(--chart-accent)" opacity="0.8" />
-              <polygon points="4,14 20,24 20,36 4,26" fill="var(--chart-accent)" opacity="0.5" />
-              <polygon points="36,14 20,24 20,36 36,26" fill="var(--chart-accent)" opacity="0.3" />
-            </svg>
-          </div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground tracking-tight">Spatial Orientation</h2>
-            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">
-              A 3D block structure has been rotated. Identify the <strong className="text-accent">matching rotated version</strong> from 4 options. 12 trials.
-            </p>
-            <p className="text-xs text-muted mt-2">
-              Patterns are rendered as isometric 3D blocks. Mentally rotate the structure to find the match.
-            </p>
-          </div>
-          <button onClick={() => { setPhase('playing'); setTrial(0); setCorrectCount(0); generateTrial(); }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="spatial-orientation"
+            icon="🧊"
+            title="Spatial Orientation"
+            description="A 3D block structure has been rotated. Identify the matching rotated version from the options."
+            onStart={(config: GameConfig) => beginTest(config)}
+          />
         </div>
       </div>
     );
@@ -291,8 +304,8 @@ export default function SpatialOrientationTest() {
     <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
       <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
         <div className="text-4xl text-success">✓</div>
-        <div className="text-4xl font-bold font-mono text-foreground">{c}/{TOTAL}</div>
-        <div className="text-xs text-muted font-mono">{Math.round((c / TOTAL) * 100)}% accuracy</div>
+        <div className="text-4xl font-bold font-mono text-foreground">{c}/{trialCount.current}</div>
+        <div className="text-xs text-muted font-mono">{Math.round((c / trialCount.current) * 100)}% accuracy</div>
         {shareImage && (
           <a href={shareImage} download="cogniarena-spatial.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
@@ -305,3 +318,5 @@ export default function SpatialOrientationTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(SpatialOrientationTest);

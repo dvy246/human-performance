@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -16,7 +21,7 @@ const COLOR_MAP: Record<ColorChoice, { hex: string; key: string; label: string; 
   yellow: { hex: '#eab308', key: 'y', label: 'Yellow (Y)', textClass: 'text-yellow-400', bgClass: 'bg-yellow-950/20 border-yellow-900/50', activeClass: 'bg-yellow-500 border-yellow-400 ring-4 ring-yellow-500/20' }
 };
 
-export default function ChoiceReactionTest() {
+function ChoiceReactionTest() {
   const [gameState, setGameState] = useState<TestState>('idle');
   const [activeColor, setActiveColor] = useState<ColorChoice | null>(null);
   const [pressedKey, setPressedKey] = useState<string | null>(null);
@@ -34,6 +39,10 @@ export default function ChoiceReactionTest() {
   const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const submittedRef = useRef<boolean>(false);
+  const totalAttempts = useRef<number>(5);
+  const waitRange = useRef<{ min: number; max: number }>({ min: 1200, max: 3500 });
+  const lastConfig = useRef<GameConfig | null>(null);
+  const penaltyMs = useRef<number>(150);
 
   useEffect(() => {
     let mounted = true;
@@ -94,20 +103,28 @@ export default function ChoiceReactionTest() {
 
 
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : 5;
+    totalAttempts.current = attemptCount;
+    const diff = getDifficultyParams('choice-reaction', (cfg.difficulty as string) || 'Medium');
+    waitRange.current = { min: (diff.waitMin as number) || 1200, max: (diff.waitMax as number) || 3500 };
+    penaltyMs.current = (diff.penaltyMs as number) || 150;
+
     setAttempts([]);
     setCurrentScore(null);
     setShareImage(null);
     submittedRef.current = false;
     setGameState('waiting');
-    setupRandomTimer();
+    setupRandomTimer(waitRange.current.min, waitRange.current.max);
   };
 
-  const setupRandomTimer = () => {
+  const setupRandomTimer = (waitMin = 1200, waitMax = 3500) => {
     clickLock.current = false;
     setActiveColor(null);
     setHasPenalty(false);
-    const delay = 1200 + Math.random() * 2300;
+    const delay = waitMin + Math.random() * (waitMax - waitMin);
     
     if (timerId.current) clearTimeout(timerId.current);
     
@@ -140,8 +157,7 @@ export default function ChoiceReactionTest() {
     clickLock.current = true;
 
     const isMatch = selection === activeColor;
-    // Add +150ms penalty for incorrect choice
-    const penaltyValue = isMatch ? 0 : 150;
+    const penaltyValue = isMatch ? 0 : penaltyMs.current;
     const finalScore = rawElapsed + penaltyValue;
 
     const currentAttempt = { score: finalScore, penalty: !isMatch };
@@ -150,10 +166,10 @@ export default function ChoiceReactionTest() {
     setCurrentScore(finalScore);
     setHasPenalty(!isMatch);
 
-    if (updatedAttempts.length < 5) {
+    if (updatedAttempts.length < totalAttempts.current) {
       setGameState('attempt-result');
     } else {
-      const average = Math.round(updatedAttempts.reduce((sum, item) => sum + item.score, 0) / 5);
+      const average = Math.round(updatedAttempts.reduce((sum, item) => sum + item.score, 0) / totalAttempts.current);
       finalizeTest(average, updatedAttempts);
     }
   };
@@ -171,7 +187,6 @@ export default function ChoiceReactionTest() {
 
   const handlePanelClick = (e: React.MouseEvent) => {
     if (gameState === 'idle') {
-      startTest();
     } else if (gameState === 'waiting') {
       if (timerId.current) clearTimeout(timerId.current);
       setGameState('abort');
@@ -213,6 +228,8 @@ export default function ChoiceReactionTest() {
     });
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
     const average = Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / Math.max(1, attempts.length));
@@ -249,20 +266,23 @@ export default function ChoiceReactionTest() {
         }`}
       >
         {gameState === 'idle' && (
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-2xl">🎮</span>
-            <h2 className="text-lg font-bold text-foreground tracking-tight">Choice Grid Test</h2>
-            <p className="text-muted text-xs leading-relaxed max-w-sm">
-              Press the matching color pad or press keys **R**, **G**, **B**, **Y** on your keyboard when the center box flashes. Incorrect choices carry a **+150ms penalty**!
-            </p>
-            <span className="text-xs uppercase font-mono tracking-widest text-accent mt-2">Click card to start</span>
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <GameConfigPanel
+              testId="choice-reaction"
+              icon="🎮"
+              title="Choice Grid Test"
+              description="Press the matching color pad or press keys R, G, B, Y on your keyboard when the center box flashes. Incorrect choices carry a +150ms penalty!"
+              personalBest={personalBest}
+              personalBestLabel="ms"
+              onStart={(config: GameConfig) => startTest(config)}
+            />
           </div>
         )}
 
         {gameState === 'waiting' && (
           <div className="flex flex-col items-center gap-2">
             <div className="w-16 h-16 rounded bg-subtle border border-card-border animate-pulse flex items-center justify-center text-muted dark:text-muted font-mono text-xs">READY</div>
-            <p className="text-muted font-mono text-xs uppercase mt-3">Attempt {attempts.length + 1} of 5 &middot; Wait for color flash</p>
+            <p className="text-muted font-mono text-xs uppercase mt-3">Attempt {attempts.length + 1} of {totalAttempts.current} &middot; Wait for color flash</p>
           </div>
         )}
 
@@ -303,10 +323,10 @@ export default function ChoiceReactionTest() {
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-muted text-xs font-mono uppercase">Final Choice Average</span>
               <div className="text-4xl font-mono font-bold text-foreground">
-                {Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5)} ms
+                {Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / totalAttempts.current)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {100 - lookupPercentile('choice-reaction', Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5), true)}% globally
+                Top {formatTopPercentile(lookupPercentile('choice-reaction', Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / totalAttempts.current), true))}% globally
               </span>
             </div>
 
@@ -321,7 +341,7 @@ export default function ChoiceReactionTest() {
               </div>
               <div>
                 <span className="text-muted text-[10px] font-mono uppercase">Mismatches</span>
-                <div className="text-foreground font-mono text-sm">{attempts.filter(a => a.penalty).length} / 5</div>
+                <div className="text-foreground font-mono text-sm">{attempts.filter(a => a.penalty).length} / {totalAttempts.current}</div>
               </div>
             </div>
 
@@ -380,3 +400,5 @@ export default function ChoiceReactionTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(ChoiceReactionTest);

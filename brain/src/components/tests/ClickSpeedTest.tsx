@@ -1,20 +1,23 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { useSound } from '../../runtime/useSound';
 import { useI18n } from '../../runtime/useI18n';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestState = 'idle' | 'clicking' | 'result';
 
 const DURATIONS = [5, 10, 30, 60] as const;
 type Duration = typeof DURATIONS[number];
 
-export default function ClickSpeedTest() {
+function ClickSpeedTest() {
   const { playClick } = useSound();
   const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
@@ -35,6 +38,9 @@ export default function ClickSpeedTest() {
   const clickTimes = useRef<number[]>([]);
   const startTime = useRef<number>(0);
   const submittedRef = useRef(false);
+  const totalAttempts = useRef<number>(5);
+  const waitRange = useRef<{ min: number; max: number }>({ min: 1000, max: 3000 });
+  const lastConfig = useRef<GameConfig | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -63,6 +69,11 @@ export default function ClickSpeedTest() {
   }, []);
 
 
+
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    handleClick({ preventDefault: () => {} } as React.MouseEvent);
+  };
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -111,7 +122,7 @@ export default function ClickSpeedTest() {
     try {
       await dataLayer.saveSession({
         testId: 'click-speed',
-        category: 'speed',
+        category: 'stamina',
         rawScore: cps,
         percentile: percentile,
         metadata: { clicks: finalClicks, duration }
@@ -153,6 +164,8 @@ export default function ClickSpeedTest() {
     setTimeLeft(duration);
     setClickRates([]);
   };
+
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
 
   // SVG Cadence Path Generator
   const generateChartPath = () => {
@@ -202,7 +215,7 @@ export default function ClickSpeedTest() {
                 personalBest={personalBest}
                 personalBestLabel="CPS"
                 startLabel="Start Test"
-                onStart={() => handleClick({ preventDefault: () => {} } as React.MouseEvent)}
+                onStart={(config: GameConfig) => startTest(config)}
               />
             </div>
           ) : (
@@ -232,7 +245,7 @@ export default function ClickSpeedTest() {
             <span className="text-muted text-xs font-mono uppercase">{t('cps.cps_duration')} ({duration}s)</span>
             <div className="text-5xl font-mono font-bold text-foreground">{(clicks / duration).toFixed(1)}</div>
             <span className="text-accent text-xs font-mono uppercase">
-              {t('rt.top_globally')} {100 - lookupPercentile('click-speed', clicks / duration)}% {t('cps.top_clickers')}
+              {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('click-speed', clicks / duration))}% {t('cps.top_clickers')}
             </span>
             {personalBest && (clicks / duration) >= personalBest && (
               <span className="text-success text-xs font-mono font-bold mt-1">{t('cps.new_pb')}</span>
@@ -304,3 +317,5 @@ export default function ClickSpeedTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(ClickSpeedTest);

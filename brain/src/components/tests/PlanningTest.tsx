@@ -1,9 +1,14 @@
 import { useState, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 const PEGS = 3;
 const DISKS = 4;
@@ -14,7 +19,7 @@ function makeState(d: number, startRod: number): number[][] {
   return rods;
 }
 
-export default function PlanningTest() {
+function PlanningTest() {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [startRod, setStartRod] = useState(0);
   const [rods, setRods] = useState<number[][]>(makeState(DISKS, 0));
@@ -23,9 +28,13 @@ export default function PlanningTest() {
   const [startTime, setStartTime] = useState(0);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const diskCount = useRef<number>(DISKS);
+
+  useBeforeUnload(phase !== 'intro' && phase !== 'done');
 
   const targetRod = (startRod + 2) % 3;
-  const won = rods[targetRod].length === DISKS;
+  const won = rods[targetRod].length === diskCount.current;
 
   const handlePegClick = (peg: number) => {
     if (won) return;
@@ -36,14 +45,14 @@ export default function PlanningTest() {
     }
     if (selected === peg) { setSelected(null); return; }
     const top = rods[selected][rods[selected].length - 1];
-    const targetTop = rods[peg].length > 0 ? rods[peg][rods[peg].length - 1] : DISKS + 1;
+    const targetTop = rods[peg].length > 0 ? rods[peg][rods[peg].length - 1] : diskCount.current + 1;
     if (top < targetTop) {
       const newRods = rods.map(r => [...r]);
       newRods[selected].pop();
       newRods[peg].push(top);
       setRods(newRods);
       setMoves(m => m + 1);
-      if (newRods[targetRod].length === DISKS) finish(newRods);
+      if (newRods[targetRod].length === diskCount.current) finish(newRods);
     }
     setSelected(null);
   };
@@ -52,7 +61,7 @@ export default function PlanningTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     const elapsed = Math.round((performance.now() - startTime) / 1000);
-    const optimal = Math.pow(2, DISKS) - 1;
+    const optimal = Math.pow(2, diskCount.current) - 1;
     const ratio = moves / optimal;
     const score = Math.max(0, Math.min(100, Math.round(100 - (ratio - 1) * 30 - elapsed / 5)));
     try {
@@ -75,10 +84,14 @@ export default function PlanningTest() {
 
   
 
-  const startGame = () => {
+  const startGame = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('planning', (cfg.difficulty as string) || 'Medium');
+    diskCount.current = (diff.diskCount as number) || DISKS;
     const sr = Math.floor(Math.random() * 3);
     setStartRod(sr);
-    setRods(makeState(DISKS, sr));
+    setRods(makeState(diskCount.current, sr));
     setSelected(null);
     setMoves(0);
     setStartTime(performance.now());
@@ -89,20 +102,21 @@ export default function PlanningTest() {
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">🧩</div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground tracking-tight">Planning Test</h2>
-            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Tower of Hanoi — move all {DISKS} disks from peg {startRod + 1} to peg {targetRod + 1}. You can only place a disk on a larger disk. Minimum moves: {Math.pow(2, DISKS) - 1}.</p>
-          </div>
-          <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="planning"
+            icon="🧩"
+            title="Planning Test"
+            description="Tower of Hanoi — move all disks from one peg to another. You can only place a disk on a larger disk."
+            onStart={(config: GameConfig) => startGame(config)}
+          />
         </div>
       </div>
     );
   }
 
   if (phase === 'playing') {
-    const optimal = Math.pow(2, DISKS) - 1;
+    const optimal = Math.pow(2, diskCount.current) - 1;
     return (
       <div className="w-full max-w-2xl mx-auto">
         <div className="rounded-xl border border-card-border bg-card p-6">
@@ -126,7 +140,7 @@ export default function PlanningTest() {
                   const widths = [80, 64, 48, 32, 20];
                   return (
                     <div key={disk} className="relative z-10 h-5 rounded border border-muted/40"
-                      style={{ width: widths[DISKS - disk], backgroundColor: `hsl(${disk * 40 + 180}, 50%, 40%)` }}
+                      style={{ width: widths[diskCount.current - disk] || 16, backgroundColor: `hsl(${disk * 40 + 180}, 50%, 40%)` }}
                     />
                   );
                 })}
@@ -138,7 +152,7 @@ export default function PlanningTest() {
     );
   }
 
-  const optimal = Math.pow(2, DISKS) - 1;
+  const optimal = Math.pow(2, diskCount.current) - 1;
   return (
     <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
       <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
@@ -157,3 +171,5 @@ export default function PlanningTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(PlanningTest);

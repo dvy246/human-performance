@@ -1,17 +1,20 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { useSound } from '../../runtime/useSound';
 import { useI18n } from '../../runtime/useI18n';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestState = 'idle' | 'sequence' | 'waiting' | 'ready' | 'attempt-result' | 'jump-start' | 'result';
 
-export default function F1LightsTest() {
+function F1LightsTest() {
   const { playTone, playClick, playError } = useSound();
   const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
@@ -30,6 +33,9 @@ export default function F1LightsTest() {
   const rafId = useRef<number>(0);
   const clickLock = useRef<boolean>(false);
   const submittedRef = useRef<boolean>(false);
+  const totalAttempts = useRef<number>(5);
+  const waitRange = useRef<{ min: number; max: number }>({ min: 800, max: 3000 });
+  const lastConfig = useRef<GameConfig | null>(null);
 
   useEffect(() => {
     let mounted = true;
@@ -67,7 +73,13 @@ export default function F1LightsTest() {
 
 
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptsCount = typeof cfg.attempts === 'number' ? cfg.attempts : 5;
+    totalAttempts.current = attemptsCount;
+    const diff = getDifficultyParams('f1-lights', (cfg.difficulty as string) || 'Medium');
+    waitRange.current = { min: (diff.waitMin as number) || 800, max: (diff.waitMax as number) || 3000 };
     setAttempts([]);
     setCurrentScore(null);
     setShareImage(null);
@@ -97,8 +109,7 @@ export default function F1LightsTest() {
   };
 
   const triggerExtinguish = () => {
-    // Random delay between 800ms and 3000ms for F1 starts
-    const delay = 800 + Math.random() * 2200;
+    const delay = waitRange.current.min + Math.random() * (waitRange.current.max - waitRange.current.min);
     
     triggerTimer.current = setTimeout(() => {
       setActiveRows(0);
@@ -145,16 +156,16 @@ export default function F1LightsTest() {
       setAttempts(updatedAttempts);
       setCurrentScore(reactionTime);
 
-      if (updatedAttempts.length < 5) {
+      if (updatedAttempts.length < totalAttempts.current) {
         setGameState('attempt-result');
       } else {
-        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / 5);
+        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length);
         finalizeTest(average, updatedAttempts);
       }
     } else if (gameState === 'attempt-result') {
       startSequence();
     } else if (gameState === 'jump-start' || gameState === 'result') {
-      startTest();
+      startTest(lastConfig.current || undefined);
     }
   };
 
@@ -206,6 +217,8 @@ export default function F1LightsTest() {
     }
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
       {/* Target Challenge */}
@@ -232,10 +245,10 @@ export default function F1LightsTest() {
       >
         <span className="text-muted text-xs font-mono uppercase">
           {gameState === 'sequence' || gameState === 'waiting'
-            ? `Attempt ${attempts.length + 1} of 5 &middot; ${t('f1.watch_gantry')}`
-            : attempts.length === 5 
+            ? `Attempt ${attempts.length + 1} of ${totalAttempts.current} · ${t('f1.watch_gantry')}`
+            : attempts.length >= totalAttempts.current 
             ? t('f1.assessment_complete')
-            : `${t('test.attempts')} ${attempts.length + 1} / 5`}
+            : `${t('test.attempts')} ${attempts.length + 1} / ${totalAttempts.current}`}
         </span>
 
         {/* Dynamic Light Rig Gantry */}
@@ -275,7 +288,7 @@ export default function F1LightsTest() {
                 personalBest={personalBest}
                 personalBestLabel="ms"
                 startLabel="Start Test"
-                onStart={(_config: GameConfig) => startTest()}
+                onStart={(config: GameConfig) => startTest(config)}
               />
             </div>
           )}
@@ -322,10 +335,10 @@ export default function F1LightsTest() {
             <div className="flex flex-col items-center gap-2">
               <span className="text-muted text-xs font-mono">{t('f1.avg_reaction')}</span>
               <div className="text-4xl font-mono font-bold text-foreground">
-                {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
+                {Math.round(attempts.reduce((a, b) => a + b, 0) / Math.max(1, attempts.length))} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                {t('rt.top_globally')} {100 - lookupPercentile('f1-lights', Math.round(attempts.reduce((a, b) => a + b, 0) / 5), true)}% {t('f1.drivers_class')}
+                {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('f1-lights', Math.round(attempts.reduce((a, b) => a + b, 0) / 5), true))}% {t('f1.drivers_class')}
               </span>
             </div>
           )}
@@ -373,3 +386,5 @@ export default function F1LightsTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(F1LightsTest);

@@ -12,6 +12,7 @@ export interface GauntletStageResult {
 
 export interface StageProps {
   onComplete: (result: GauntletStageResult) => void;
+  difficulty?: 'Easy' | 'Medium' | 'Hard';
 }
 
 export const STAGE_CONFIGS = [

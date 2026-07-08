@@ -1,15 +1,20 @@
 import { useState, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 const TARGET_SIZES = [80, 60, 45, 32, 22];
 const PER_SIZE = 5;
 const TOTAL = TARGET_SIZES.length * PER_SIZE;
 
-export default function MouseAccuracyTest() {
+function MouseAccuracyTest() {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [trial, setTrial] = useState(0);
   const [target, setTarget] = useState({ x: 0, y: 0, size: 80 });
@@ -18,6 +23,11 @@ export default function MouseAccuracyTest() {
   const containerRef = useRef<HTMLDivElement>(null);
   const submittedRef = useRef(false);
   const offsetsRef = useRef<number[]>([]);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const targetCount = useRef<number>(TOTAL);
+  const sizeMultiplier = useRef<number>(1.0);
+
+  useBeforeUnload(phase !== 'intro' && phase !== 'done');
 
   const spawnTarget = (idx: number) => {
     const c = containerRef.current;
@@ -42,7 +52,7 @@ export default function MouseAccuracyTest() {
     offsetsRef.current = [...offsetsRef.current, offset];
     setOffsets(prev => [...prev, offset]);
     const next = trial + 1;
-    if (next >= TOTAL) {
+    if (next >= targetCount.current) {
       setPhase('done');
       finalize(offsetsRef.current);
       return;
@@ -75,7 +85,13 @@ export default function MouseAccuracyTest() {
 
   
 
-  const startGame = () => {
+  const startGame = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : TOTAL;
+    targetCount.current = attemptCount;
+    const diff = getDifficultyParams('mouse-accuracy', (cfg.difficulty as string) || 'Medium');
+    sizeMultiplier.current = (diff.sizeMultiplier as number) || 1.0;
     setPhase('playing');
     setTrial(0);
     setOffsets([]);
@@ -87,13 +103,14 @@ export default function MouseAccuracyTest() {
   if (phase === 'intro') {
     return (
       <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
-        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">🎯</div>
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground tracking-tight">Mouse Accuracy Test</h2>
-            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Click the center of each target. Targets shrink as you progress — {TOTAL} targets total.</p>
-          </div>
-          <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
+        <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+          <GameConfigPanel
+            testId="mouse-accuracy"
+            icon="🎯"
+            title="Mouse Accuracy Test"
+            description="Click the center of each target. Targets shrink as you progress."
+            onStart={(config: GameConfig) => startGame(config)}
+          />
         </div>
       </div>
     );
@@ -105,7 +122,7 @@ export default function MouseAccuracyTest() {
       <div className="w-full max-w-2xl mx-auto">
         <div className="rounded-xl border border-card-border bg-card p-4">
           <div className="text-[10px] text-muted font-mono mb-2 flex items-center justify-between">
-            <span>Target {trial + 1}/{TOTAL}</span>
+            <span>Target {trial + 1}/{targetCount.current}</span>
             <span>Size: {TARGET_SIZES[sizeIdx]}px</span>
             <span>Last offset: {offsets.length > 0 ? `${Math.round(offsets[offsets.length - 1] * 10) / 10}px` : '--'}</span>
           </div>
@@ -130,7 +147,7 @@ export default function MouseAccuracyTest() {
         <div className="grid grid-cols-3 gap-4 text-xs text-center w-full max-w-xs">
           <div><div className="text-muted font-mono text-[10px]">Best</div><div className="text-foreground font-mono">{Math.round(Math.min(...offsets) * 10) / 10}px</div></div>
           <div><div className="text-muted font-mono text-[10px]">Worst</div><div className="text-foreground font-mono">{Math.round(Math.max(...offsets) * 10) / 10}px</div></div>
-          <div><div className="text-muted font-mono text-[10px]">Targets</div><div className="text-foreground font-mono">{TOTAL}</div></div>
+          <div><div className="text-muted font-mono text-[10px]">Targets</div><div className="text-foreground font-mono">{targetCount.current}</div></div>
         </div>
         {shareImage && (
           <a href={shareImage} download="cogniarena-mouse-accuracy.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
@@ -144,3 +161,5 @@ export default function MouseAccuracyTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(MouseAccuracyTest);

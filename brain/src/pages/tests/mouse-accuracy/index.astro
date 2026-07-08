@@ -7,7 +7,7 @@ const description = "Test your mouse precision by clicking shrinking targets. Me
 const canonicalUrl = "https://cogniarena.com/tests/mouse-accuracy";
 
 const schemaJson = [
-  { "@context": "https://schema.org", "@type": "Quiz", "name": "Mouse Accuracy Test", "description": "Fine motor precision assessment measuring average pixel offset from target center.", "about": { "@type": "Thing", "name": "Motor Coordination" } },
+  { "@context": "https://schema.org", "@type": "SoftwareApplication", "applicationCategory": "GameApplication", "name": "Mouse Accuracy Test", "description": "Fine motor precision assessment measuring average pixel offset from target center.", "about": { "@type": "Thing", "name": "Motor Coordination" } },
   { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
     { "@type": "Question", "name": "How is offset measured?", "acceptedAnswer": { "@type": "Answer", "text": "Each click records the pixel distance between where you clicked and the exact center of the target. Your final score is the average offset across all targets — lower is better." } },
     { "@type": "Question", "name": "What DPI should I use?", "acceptedAnswer": { "@type": "Answer", "text": "Lower DPI (400-800) generally produces better accuracy because it forces you to use arm movements instead of wrist jitter. Higher DPI amplifies small hand tremors, increasing offset errors." } },

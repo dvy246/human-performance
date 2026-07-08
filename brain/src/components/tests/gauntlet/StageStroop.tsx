@@ -3,7 +3,6 @@ import type { StageProps, GauntletStageResult } from './GauntletTypes';
 
 const WORDS = ['RED', 'GREEN', 'BLUE', 'YELLOW'];
 const COLORS = ['#ef4444', '#22c55e', '#3b82f6', '#eab308'];
-const TOTAL = 10;
 
 function genTrial(): { word: string; color: string; correct: string } {
   const colorIdx = Math.floor(Math.random() * COLORS.length);
@@ -14,7 +13,7 @@ function genTrial(): { word: string; color: string; correct: string } {
   return { word, color, correct };
 }
 
-export default function StageStroop({ onComplete }: StageProps) {
+export default function StageStroop({ onComplete, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [trial, setTrial] = useState(0);
   const [current, setCurrent] = useState(genTrial());
@@ -23,6 +22,15 @@ export default function StageStroop({ onComplete }: StageProps) {
   const [feedback, setFeedback] = useState('');
   const startRef = useRef(0);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const difficultyRef = useRef(difficulty);
+  difficultyRef.current = difficulty;
+  const trialCountRef = useRef(10);
+  const speedBaselineRef = useRef(300);
+
+  if (difficulty === 'Easy') { trialCountRef.current = 8; speedBaselineRef.current = 500; }
+  else if (difficulty === 'Hard') { trialCountRef.current = 12; speedBaselineRef.current = 200; }
+  else { trialCountRef.current = 10; speedBaselineRef.current = 300; }
+
   const ct = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
   const st = useCallback((fn: () => void, ms: number) => {
     const id = setTimeout(fn, ms);
@@ -43,12 +51,12 @@ export default function StageStroop({ onComplete }: StageProps) {
     setTotalRt(t => t + rt);
     setFeedback(isCorrect ? '✓' : '✗');
     const next = trial + 1;
-    if (next >= TOTAL) {
+    if (next >= trialCountRef.current) {
       ct();
       setPhase('done');
-      const acc = (correct + (isCorrect ? 1 : 0)) / TOTAL;
-      const avgRt = (totalRt + rt) / TOTAL;
-      const speed = Math.max(0, Math.min(100, Math.round(100 - (avgRt - 300) / 10)));
+      const acc = (correct + (isCorrect ? 1 : 0)) / trialCountRef.current;
+      const avgRt = (totalRt + rt) / trialCountRef.current;
+      const speed = Math.max(0, Math.min(100, Math.round(100 - (avgRt - speedBaselineRef.current) / 10)));
       const score = Math.round(acc * 50 + speed * 0.5);
       onComplete({
         stageIndex: 2, stageName: 'Stroop Test', score, rawScore: Math.round(avgRt),
@@ -74,7 +82,7 @@ export default function StageStroop({ onComplete }: StageProps) {
 
   return (
     <div className="flex flex-col items-center gap-4 py-2">
-      <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{TOTAL} · Correct: {correct}</div>
+      <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{trialCountRef.current} · Correct: {correct}</div>
       <div className="w-48 h-24 rounded-xl bg-card border border-card-border flex items-center justify-center">
         <span className="text-3xl font-bold tracking-tight" style={{ color: current.color }}>{current.word}</span>
       </div>

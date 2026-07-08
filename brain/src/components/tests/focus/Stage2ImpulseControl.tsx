@@ -1,16 +1,15 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import type { StageProps, StageResult } from './StageTypes';
 
-const TOTAL_TRIALS = 15;
 const GO_SYMBOL = '✓';
 const NOGO_SYMBOL = '✗';
 const DISTRACTOR_TEXTS = ['New Message', 'Notification', 'Alert', 'Reminder', 'Update', 'Friend Request', 'Comment', 'Like'];
 
-function genTrial() {
-  return { isGo: Math.random() < 0.6, distractorText: DISTRACTOR_TEXTS[Math.floor(Math.random() * DISTRACTOR_TEXTS.length)] };
+function genTrial(goRate: number) {
+  return { isGo: Math.random() < goRate, distractorText: DISTRACTOR_TEXTS[Math.floor(Math.random() * DISTRACTOR_TEXTS.length)] };
 }
 
-export default function Stage2ImpulseControl({ onComplete, calibrationHz }: StageProps) {
+export default function Stage2ImpulseControl({ onComplete, calibrationHz, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
   const [trialIndex, setTrialIndex] = useState(0);
   const [showDistractor, setShowDistractor] = useState(false);
@@ -20,10 +19,25 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
   const [displayHitCount, setDisplayHitCount] = useState(0);
   const [displayFaCount, setDisplayFaCount] = useState(0);
 
+  const trialCountRef = useRef(15);
+  if (difficulty === 'Easy') trialCountRef.current = 12;
+  else if (difficulty === 'Hard') trialCountRef.current = 18;
+  else trialCountRef.current = 15;
+
+  const goRateRef = useRef(0.6);
+  if (difficulty === 'Easy') goRateRef.current = 0.7;
+  else if (difficulty === 'Hard') goRateRef.current = 0.5;
+  else goRateRef.current = 0.6;
+
+  const distractorDelayRef = useRef(600);
+  if (difficulty === 'Easy') distractorDelayRef.current = 800;
+  else if (difficulty === 'Hard') distractorDelayRef.current = 400;
+  else distractorDelayRef.current = 600;
+
   const hitCountRef = useRef(0);
   const faCountRef = useRef(0);
   const trialIndexRef = useRef(0);
-  const currentTrialRef = useRef(genTrial());
+  const currentTrialRef = useRef(genTrial(0.6));
   const respondedRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
 
@@ -37,7 +51,7 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
   const finish = useCallback(() => {
     clearTimers();
     setPhase('done');
-    const total = TOTAL_TRIALS;
+    const total = trialCountRef.current;
     const correct = hitCountRef.current;
     const fa = faCountRef.current;
     const acc = correct / total;
@@ -59,7 +73,7 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
       setDisplayFaCount(faCountRef.current);
     }
     const nextIdx = trialIndexRef.current + 1;
-    if (nextIdx >= TOTAL_TRIALS) {
+    if (nextIdx >= trialCountRef.current) {
       finish();
       return;
     }
@@ -71,7 +85,7 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
 
   const runTrial = useCallback(() => {
     respondedRef.current = false;
-    const trial = genTrial();
+    const trial = genTrial(goRateRef.current);
     currentTrialRef.current = trial;
     setShowDistractor(true);
     setShowStimulus(false);
@@ -79,7 +93,7 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
       setShowDistractor(false);
       setStimSymbol(trial.isGo ? GO_SYMBOL : NOGO_SYMBOL);
       setShowStimulus(true);
-    }, 600);
+    }, distractorDelayRef.current);
   }, [st]);
 
   const handlePress = useCallback(() => {
@@ -139,7 +153,7 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
   return (
     <div className="flex flex-col items-center gap-6 py-6">
       <div className="flex items-center gap-3 text-xs text-muted font-mono">
-        <span>Trial {trialIndex + 1} / {TOTAL_TRIALS}</span>
+        <span>Trial {trialIndex + 1} / {trialCountRef.current}</span>
         <span>•</span>
         <span>Hits: {displayHitCount}</span>
         <span>•</span>

@@ -1,9 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
+import { getDifficultyParams } from '../../runtime/testConfig';
+import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
 type TestState = 'idle' | 'playing' | 'result';
 
@@ -14,7 +19,7 @@ interface Target {
   spawnTime: number;
 }
 
-export default function AimCoordinationTest() {
+function AimCoordinationTest() {
   const [gameState, setGameState] = useState<TestState>('idle');
   const [hits, setHits] = useState<number>(0);
   const [clicks, setClicks] = useState<number>(0);
@@ -37,6 +42,8 @@ export default function AimCoordinationTest() {
   const targetIndex = useRef<number>(0);
   const latenciesArr = useRef<number[]>([]);
   const submittedRef = useRef(false);
+  const lastConfig = useRef<GameConfig | null>(null);
+  const targetCount = useRef<number>(20);
 
   useEffect(() => {
     let mounted = true;
@@ -141,7 +148,12 @@ export default function AimCoordinationTest() {
     };
   };
 
-  const startTest = () => {
+  const startTest = (config?: GameConfig) => {
+    if (config) lastConfig.current = config;
+    const cfg = config || lastConfig.current || {};
+    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : 20;
+    targetCount.current = attemptCount;
+
     activeHits.current = 0;
     activeClicks.current = 0;
     activeMisses.current = 0;
@@ -190,7 +202,7 @@ export default function AimCoordinationTest() {
       targetIndex.current += 1;
       setCurrentTargetIndex(targetIndex.current);
 
-      if (targetIndex.current >= 20) {
+      if (targetIndex.current >= targetCount.current) {
         finalizeTest();
       } else {
         spawnTarget();
@@ -208,7 +220,7 @@ export default function AimCoordinationTest() {
     setGameState('result');
     currentTarget.current = null;
 
-    const averageLatency = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / 20);
+    const averageLatency = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / targetCount.current);
 
     setLatencies(latenciesArr.current);
 
@@ -236,6 +248,8 @@ export default function AimCoordinationTest() {
     });
   };
 
+  useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
     const average = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / 20);
@@ -262,7 +276,7 @@ export default function AimCoordinationTest() {
       {gameState === 'playing' ? (
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-center text-xs font-mono text-muted">
-            <span>Targets: <strong className="text-foreground">{currentTargetIndex} / 20</strong></span>
+            <span>Targets: <strong className="text-foreground">{currentTargetIndex} / {targetCount.current}</strong></span>
             <span>Misses: <strong className="text-error">{misses}</strong></span>
           </div>
           <canvas
@@ -279,10 +293,10 @@ export default function AimCoordinationTest() {
           <div className="flex flex-col items-center gap-1">
             <span className="text-muted text-xs font-mono uppercase">Average Coordination Latency</span>
             <div className="text-5xl font-mono font-bold text-foreground">
-              {Math.round(latencies.reduce((a, b) => a + b, 0) / 20)} ms
+              {Math.round(latencies.reduce((a, b) => a + b, 0) / targetCount.current)} ms
             </div>
             <span className="text-accent text-xs font-mono uppercase">
-              Top {100 - lookupPercentile('aim-coordination', Math.round(latencies.reduce((a, b) => a + b, 0) / 20), true)}% coordination profile
+              Top {formatTopPercentile(lookupPercentile('aim-coordination', Math.round(latencies.reduce((a, b) => a + b, 0) / targetCount.current), true))}% coordination profile
             </span>
           </div>
 
@@ -303,7 +317,7 @@ export default function AimCoordinationTest() {
           </div>
 
           <button
-            onClick={startTest}
+            onClick={() => startTest()}
             className="mt-2 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
           >
             Restart Assessment
@@ -311,21 +325,17 @@ export default function AimCoordinationTest() {
         </div>
       ) : (
         /* Idle Page */
-        <div className="w-full min-h-[360px] rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-center text-center">
-          <div className="flex flex-col items-center gap-4">
-            <span className="text-3xl">🎯</span>
-            <div>
-              <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Aim Coordination Test</h2>
-              <p className="text-secondary text-xs leading-relaxed max-w-sm">
-                Click 20 random targets as fast as they appear. We measure your visual-motor response latency and hand-eye coordination speed.
-              </p>
-            </div>
-            <button
-              onClick={startTest}
-              className="text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-6 py-2 rounded transition-standard active:scale-[0.98]"
-            >
-              Start Coordination Test
-            </button>
+        <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-center text-center">
+          <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
+            <GameConfigPanel
+              testId="aim-coordination"
+              icon="🎯"
+              title="Aim Coordination Test"
+              description="Click targets as fast as they appear. Measures your visual-motor response latency and hand-eye coordination speed."
+              personalBest={personalBest}
+              personalBestLabel="ms"
+              onStart={(config: GameConfig) => startTest(config)}
+            />
           </div>
         </div>
       )}
@@ -355,3 +365,5 @@ export default function AimCoordinationTest() {
     </div>
   );
 }
+
+export default withErrorBoundary(AimCoordinationTest);
