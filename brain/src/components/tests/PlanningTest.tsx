@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 const PEGS = 3;
 const DISKS = 4;
@@ -53,29 +54,25 @@ export default function PlanningTest() {
     const score = Math.max(0, Math.min(100, Math.round(100 - (ratio - 1) * 30 - elapsed / 5)));
     try {
       await dataLayer.saveSession({
-        testId: 'planning', category: 'executive', rawScore: score, percentile: lookupPercentile(score),
+        testId: 'planning', category: 'executive', rawScore: score, percentile: lookupPercentile('planning', score),
         metadata: { moves, optimalMoves: optimal, timeSeconds: elapsed },
       });
     } catch (err) {
       console.error('Failed to save Planning session:', err);
     }
-    const card = await generateShareCard('Planning Test', `${moves} moves (optimal: ${optimal})`, lookupPercentile(score));
+    const card = await generateShareCard('Planning Test', `${moves} moves (optimal: ${optimal})`, lookupPercentile('planning', score));
     setShareImage(card);
     setPhase('done');
   };
 
-  const lookupPercentile = (s: number): number => {
-    const ls = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
-    const ps = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
-    for (let i = ls.length - 1; i >= 0; i--) if (s >= ls[i]) return ps[i];
-    return 0.1;
-  };
+  
 
   const startGame = () => {
     setRods(makeState(DISKS));
     setSelected(null);
     setMoves(0);
     setStartTime(performance.now());
+    submittedRef.current = false;
     setPhase('playing');
   };
 

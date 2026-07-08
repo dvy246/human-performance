@@ -165,7 +165,11 @@ export const dataLayer = {
 
   setRecoveryCode(code: string) {
     if (typeof window === 'undefined') return;
-    localStorage.setItem('bb_recovery_code', code.trim().toLowerCase());
+    if (!code) {
+      localStorage.removeItem('bb_recovery_code');
+    } else {
+      localStorage.setItem('bb_recovery_code', code.trim().toLowerCase());
+    }
   },
 
   // Pushes local unsynced records to the edge D1 database

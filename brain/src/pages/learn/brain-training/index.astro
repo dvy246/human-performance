@@ -4,6 +4,7 @@ import Layout from "@/layouts/main.astro";
 const title = "Brain Training Exercises - Improve Cognitive Performance | CogniArena";
 const description = "Discover scientifically-backed brain training exercises to improve memory, focus, and cognitive performance. Start your brain training journey today.";
 const keywords = "brain training, cognitive training, brain exercises, memory training, focus exercises, mental fitness, brain workout";
+const canonicalUrl = "https://cogniarena.com/learn/brain-training";
 
 const schema = {
   "@context": "https://schema.org",
@@ -26,7 +27,7 @@ const schema = {
 };
 ---
 
-<Layout title={title} description={description} schemaJson={schema}>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schema}>
   <article class="max-w-3xl mx-auto">
     <header class="mb-8">
       <div class="flex items-center gap-2 text-xs text-muted mb-3 font-mono uppercase tracking-wider">

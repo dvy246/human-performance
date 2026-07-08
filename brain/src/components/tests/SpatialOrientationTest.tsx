@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 const TOTAL = 12;
 const ANGLES = [0, 90, 180, 270];
@@ -12,6 +13,15 @@ const PATTERNS = [
   [[1, 0, 0], [1, 0, 0], [1, 1, 1]],
   [[0, 0, 1], [0, 1, 1], [1, 0, 0]],
   [[1, 1, 1], [0, 0, 1], [0, 0, 1]],
+  [[1, 0, 1], [1, 0, 0], [1, 0, 1]],
+  [[0, 1, 1], [1, 1, 0], [1, 0, 0]],
+  [[1, 1, 0], [1, 0, 1], [0, 1, 1]],
+  [[0, 0, 1], [1, 1, 0], [1, 0, 0]],
+  [[1, 0, 0], [0, 1, 1], [1, 0, 1]],
+  [[0, 1, 0], [1, 0, 1], [0, 1, 1]],
+  [[1, 1, 1], [1, 0, 0], [1, 0, 0]],
+  [[0, 1, 1], [0, 1, 0], [1, 1, 0]],
+  [[1, 0, 1], [0, 1, 1], [1, 0, 0]],
 ];
 
 function rotateGrid(grid: number[][], angle: number): number[][] {
@@ -41,7 +51,12 @@ function gridKey(g: number[][]): string {
 }
 
 function shuffle<T>(arr: T[]): T[] {
-  return [...arr].sort(() => Math.random() - 0.5);
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
 }
 
 // ─── Isometric 3D Block Renderer ─────────────────────────────────────────────
@@ -155,7 +170,7 @@ export default function SpatialOrientationTest() {
     setTarget(p);
     const key = gridKey(rotated);
     setCorrectKey(key);
-    const others = PATTERNS.filter((_, i) => i !== PATTERNS.indexOf(p)).slice(0, 3);
+    const others = shuffle(PATTERNS.filter((_, i) => i !== PATTERNS.indexOf(p))).slice(0, 3);
     const opts: number[][][] = shuffle([rotated, ...others.map(o => rotateGrid(o, [0, 90, 180, 270][Math.floor(Math.random() * 4)]))]);
     setChoices(opts);
   };
@@ -181,22 +196,17 @@ export default function SpatialOrientationTest() {
     const score = Math.round((c / TOTAL) * 100);
     try {
       await dataLayer.saveSession({
-        testId: 'spatial-orientation', category: 'processing', rawScore: c, percentile: lookupPercentile(score),
+        testId: 'spatial-orientation', category: 'processing', rawScore: c, percentile: lookupPercentile('spatial-orientation', score),
         metadata: { accuracy: Math.round((c / TOTAL) * 100), totalTrials: TOTAL },
       });
     } catch (err) {
       console.error('Failed to save Spatial Orientation session:', err);
     }
-    const card = await generateShareCard('Spatial Orientation', `${c}/${TOTAL}`, lookupPercentile(score)).catch(() => '');
+    const card = await generateShareCard('Spatial Orientation', `${c}/${TOTAL}`, lookupPercentile('spatial-orientation', score)).catch(() => '');
     setShareImage(card);
   };
 
-  const lookupPercentile = (s: number): number => {
-    const ls = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
-    const ps = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
-    for (let i = ls.length - 1; i >= 0; i--) if (s >= ls[i]) return ps[i];
-    return 0.1;
-  };
+  
 
   if (phase === 'intro') {
     return (
@@ -266,7 +276,7 @@ export default function SpatialOrientationTest() {
           </a>
         )}
         <SocialShare testId="spatial-orientation" score={c} scoreLabel={`${c}/${TOTAL}`} testName="Spatial Orientation" />
-        <button onClick={() => setPhase('intro')} className="px-6 h-10 rounded-lg bg-subtle border border-card-border text-foreground hover:bg-panel text-sm transition-standard active:scale-95 cursor-pointer">Try Again</button>
+        <button onClick={() => { submittedRef.current = false; setPhase('intro'); }} className="px-6 h-10 rounded-lg bg-subtle border border-card-border text-foreground hover:bg-panel text-sm transition-standard active:scale-95 cursor-pointer">Try Again</button>
       </div>
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type Phase = 'idle' | 'showing' | 'input' | 'correct' | 'wrong' | 'result';
 
@@ -55,6 +56,8 @@ export default function NumberMemoryTest() {
   };
 
   const startTest = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    submittedRef.current = false;
     setLevel(1);
     setHighestLevel(0);
     setShareImage(null);
@@ -121,7 +124,7 @@ export default function NumberMemoryTest() {
     const finalScore = Math.max(highestLevel, level - 1);
     setPhase('result');
 
-    const percentile = lookupPercentile(finalScore);
+    const percentile = lookupPercentile('number-memory', finalScore);
 
     try {
       await dataLayer.saveSession({
@@ -146,21 +149,7 @@ export default function NumberMemoryTest() {
     setShareImage(card);
   };
 
-  const lookupPercentile = (digits: number): number => {
-    // Number Memory percentile distribution
-    // Based on cognitive research: average adult can recall 7±2 digits
-    if (digits >= 15) return 99.9;
-    if (digits >= 13) return 99;
-    if (digits >= 11) return 97;
-    if (digits >= 10) return 93;
-    if (digits >= 9) return 85;
-    if (digits >= 8) return 75;
-    if (digits >= 7) return 55;
-    if (digits >= 6) return 35;
-    if (digits >= 5) return 20;
-    if (digits >= 4) return 8;
-    return 2;
-  };
+
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
@@ -334,7 +323,7 @@ export default function NumberMemoryTest() {
                 digits remembered
               </span>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {100 - lookupPercentile(finalScore)}% of population
+                Top {100 - lookupPercentile('number-memory', finalScore)}% of population
               </span>
             </div>
 
@@ -353,7 +342,7 @@ export default function NumberMemoryTest() {
                   Percentile
                 </span>
                 <div className="text-foreground font-mono text-sm">
-                  ~{Math.round(100 - lookupPercentile(finalScore))}%ile
+                  ~{Math.round(100 - lookupPercentile('number-memory', finalScore))}%ile
                 </div>
               </div>
             </div>

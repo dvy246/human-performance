@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TestState = 'idle' | 'clicking' | 'result';
 
@@ -14,7 +15,6 @@ export default function ClickSpeedTest() {
   const [duration, setDuration] = useState<Duration>(10);
   const [timeLeft, setTimeLeft] = useState<number>(10.0);
   const [personalBest, setPersonalBest] = useState<number | null>(null);
-  const [recordsByDuration, setRecordsByDuration] = useState<Record<number, number>>({});
   const [calibration, setCalibration] = useState<CalibrationResult | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [copiedChallenge, setCopiedChallenge] = useState(false);
@@ -36,13 +36,6 @@ export default function ClickSpeedTest() {
       if (mounted) setPersonalBest(pb);
     }).catch(console.error);
 
-    // Load records for each duration
-    DURATIONS.forEach(d => {
-      dataLayer.getPersonalBest('click-speed', 'higher').then((pb) => {
-        if (mounted && pb) setRecordsByDuration(prev => ({ ...prev, [d]: pb }));
-      }).catch(console.error);
-    });
-
     if (typeof window !== 'undefined') {
       const params = new URLSearchParams(window.location.search);
       const challengeToken = params.get('challenge');
@@ -62,22 +55,7 @@ export default function ClickSpeedTest() {
     };
   }, []);
 
-  const lookupPercentile = (cps: number): number => {
-    // Standard CPS percentile curve
-    // Average is ~6.5 CPS (50th percentile)
-    // 8.5 CPS is ~85th percentile
-    // 10 CPS is ~95th percentile
-    // 12+ CPS is ~99th percentile
-    if (cps >= 14) return 99.9;
-    if (cps >= 12) return 99.0;
-    if (cps >= 10) return 95.0;
-    if (cps >= 8.5) return 85.0;
-    if (cps >= 7.2) return 65.0;
-    if (cps >= 6.5) return 50.0;
-    if (cps >= 5.5) return 30.0;
-    if (cps >= 4.0) return 10.0;
-    return 1.0;
-  };
+
 
   const handleClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -120,7 +98,7 @@ export default function ClickSpeedTest() {
     submittedRef.current = true;
     setGameState('result');
     const cps = Number((finalClicks / duration).toFixed(1));
-    const percentile = lookupPercentile(cps);
+    const percentile = lookupPercentile('click-speed', cps);
 
     try {
       await dataLayer.saveSession({
@@ -136,7 +114,6 @@ export default function ClickSpeedTest() {
 
     const pb = await dataLayer.getPersonalBest('click-speed', 'higher');
     setPersonalBest(pb);
-    setRecordsByDuration(prev => ({ ...prev, [duration]: pb || cps }));
 
     const card = await generateShareCard('Click Speed (CPS) Test', `${cps} CPS`, percentile);
     setShareImage(card);
@@ -144,7 +121,7 @@ export default function ClickSpeedTest() {
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const cps = Number((clicks / 10.0).toFixed(1));
+    const cps = Number((clicks / duration).toFixed(1));
     const token = encodeChallenge({ testId: 'click-speed', score: cps });
     const url = `${window.location.origin}/tests/click-speed/?challenge=${token}`;
     
@@ -155,6 +132,9 @@ export default function ClickSpeedTest() {
   };
 
   const resetTest = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    submittedRef.current = false;
+    clicksRef.current = 0;
     setGameState('idle');
     setClicks(0);
     setTimeLeft(duration);
@@ -224,8 +204,8 @@ export default function ClickSpeedTest() {
                   </button>
                 ))}
               </div>
-              {recordsByDuration[duration] && (
-                <span className="text-xs text-accent font-mono">Personal Best ({duration}s): {recordsByDuration[duration]} CPS</span>
+              {personalBest && (
+                <span className="text-xs text-accent font-mono">Personal Best: {personalBest} CPS</span>
               )}
               <span className="text-xs uppercase font-mono tracking-widest text-accent px-4 py-1 bg-accent/5 border border-accent/15 rounded-full mt-2">
                 Click to Start
@@ -258,9 +238,9 @@ export default function ClickSpeedTest() {
             <span className="text-muted text-xs font-mono uppercase">Clicks Per Second ({duration}s)</span>
             <div className="text-5xl font-mono font-bold text-foreground">{(clicks / duration).toFixed(1)}</div>
             <span className="text-accent text-xs font-mono uppercase">
-              Top {100 - lookupPercentile(clicks / duration)}% clickers
+              Top {100 - lookupPercentile('click-speed', clicks / duration)}% clickers
             </span>
-            {recordsByDuration[duration] && (clicks / duration) >= recordsByDuration[duration] && (
+            {personalBest && (clicks / duration) >= personalBest && (
               <span className="text-success text-xs font-mono font-bold mt-1">🏆 New Personal Best!</span>
             )}
           </div>

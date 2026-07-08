@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TestMode = 'partA' | 'partB';
 type TrialState = 'idle' | 'running' | 'result';
@@ -106,6 +107,7 @@ export default function TrailMakingTest() {
     setWrongNodeId(null);
     setShareImage(null);
     setResultPercentile(0);
+    submittedRef.current = false;
     setGameState('running');
 
     startTimeRef.current = performance.now();
@@ -145,12 +147,7 @@ export default function TrailMakingTest() {
     const totalScore = elapsedTime + penalties;
     const testId = `tmt-${mode}`;
 
-    // Percentile calculations (Normative: Part A median 35s/35000ms, Part B median 65s/65000ms)
-    const medianVal = mode === 'partA' ? 35000 : 65000;
-    const sigma = mode === 'partA' ? 8000 : 15000;
-    const diff = totalScore - medianVal;
-    const z = diff / sigma;
-    const percentile = Math.round(Math.max(1, Math.min(99, 100 - (1 / (1 + Math.exp(-1.6 * z)) * 100))));
+    const percentile = Math.round(lookupPercentile(mode === 'partA' ? 'tmt-partA' : 'tmt-partB', totalScore, true));
     setResultPercentile(percentile);
 
     try {

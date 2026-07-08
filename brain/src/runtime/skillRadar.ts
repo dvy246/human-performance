@@ -24,7 +24,7 @@ export function computeCategoryAverages(records: SessionRecord[]): CognitiveAver
   };
 
   records.forEach(r => {
-    if (r.testId === 'reaction-time' || r.testId === 'f1-lights' || r.testId === 'sound-reaction') {
+    if (r.testId === 'reaction-time' || r.testId === 'f1-lights' || r.testId === 'sound-reaction' || r.testId === 'aim-coordination') {
       scores.reaction.push(r.percentile);
     } else if (r.testId === 'sequence-memory' || r.testId === 'number-memory' || r.testId === 'visual-pattern' || r.testId === 'dual-n-back' || r.testId === 'verbal-memory') {
       scores.memory.push(r.percentile);

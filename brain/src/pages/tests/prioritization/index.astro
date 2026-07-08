@@ -12,13 +12,22 @@ const schemaJson = [
     { "@type": "Question", "name": "How is the score calculated?", "acceptedAnswer": { "@type": "Answer", "text": "Each round presents 5 tasks with different effort costs and point values. Your score is the total points earned across 5 rounds. The key trade-off is choosing high-value tasks that fit within the 10-second time limit versus rushing through many low-value tasks." } },
     { "@type": "Question", "name": "What cognitive skill does this measure?", "acceptedAnswer": { "@type": "Answer", "text": "Prioritization measures executive decision-making under time pressure — specifically the ability to quickly evaluate task value versus effort cost and commit to an optimal sequence without second-guessing." } },
     { "@type": "Question", "name": "Is this a medical diagnostic tool?", "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." } }
-  ] }
+  ] },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+      { "@type": "ListItem", "position": 2, "name": "Executive", "item": "https://cogniarena.com/#suite" },
+      { "@type": "ListItem", "position": 3, "name": "Prioritization Test", "item": "https://cogniarena.com/tests/prioritization" }
+    ]
+  }
 ];
 ---
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
   <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Executive</span></div>
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb"><a href="/" class="hover:underline">Home</a><span>/</span><a href="/#suite" class="hover:underline">Tests</a><span>/</span><span class="text-muted">Prioritization Test</span></nav>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Prioritization Test</h1>
       <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">5 rounds of simulated task scheduling. Each round gives you 10 seconds and 5 tasks — choose wisely to maximize points before deadlines expire.</p>
     </header>

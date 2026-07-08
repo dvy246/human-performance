@@ -11,6 +11,7 @@ export default function StageAim({ onComplete }: StageProps) {
   const [totalOffset, setTotalOffset] = useState(0);
   const [hits, setHits] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const spawnTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const spawnTarget = useCallback((idx: number) => {
     const c = containerRef.current;
@@ -67,10 +68,10 @@ export default function StageAim({ onComplete }: StageProps) {
     const initial: { x: number; y: number; hit: boolean }[] = [];
     for (let i = 0; i < TOTAL_TARGETS; i++) initial.push({ x: 100 + i * 10, y: 100, hit: false });
     setTargets(initial);
-    setTimeout(() => spawnTarget(0), 100);
+    spawnTimerRef.current = setTimeout(() => spawnTarget(0), 100);
   };
 
-  useEffect(() => { return; }, []);
+  useEffect(() => { return () => { if (spawnTimerRef.current) clearTimeout(spawnTimerRef.current); }; }, []);
 
   if (phase === 'intro') {
     return (

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import percentilesData from '../../data/percentiles.json';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -71,24 +71,14 @@ export default function GoNoGoTest() {
     if (rafId.current) cancelAnimationFrame(rafId.current);
   };
 
-  const lookupPercentile = (score: number): number => {
-    // Go/No-Go average latency is ~320ms due to decision check.
-    const visualPercentileTable = percentilesData['reaction-time'];
-    const adjustedScore = Math.max(120, score - 80);
-    
-    for (let i = 0; i < visualPercentileTable.length; i++) {
-      if (adjustedScore <= visualPercentileTable[i].score) {
-        return visualPercentileTable[i].percentile;
-      }
-    }
-    return 99.9;
-  };
+
 
   const startTest = () => {
     setAttempts([]);
     setFalseAlarms(0);
     setCurrentScore(null);
     setShareImage(null);
+    submittedRef.current = false;
     setGameState('waiting');
     queueNextSignal();
   };
@@ -150,7 +140,7 @@ export default function GoNoGoTest() {
     if (updatedAttempts.length < 5) {
       setGameState('attempt-result');
     } else {
-      const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / 5);
+      const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length);
       finalizeTest(average, updatedAttempts.length);
     }
   };
@@ -204,7 +194,7 @@ export default function GoNoGoTest() {
     
     // Penalize score for False Alarms: add +250ms per false alarm to the final average
     const finalAverage = avgScore + (falseAlarms * 250);
-    const percentile = lookupPercentile(finalAverage);
+    const percentile = lookupPercentile('go-no-go', finalAverage, true);
 
     try {
       await dataLayer.saveSession({
@@ -338,7 +328,7 @@ export default function GoNoGoTest() {
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {100 - lookupPercentile(Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250))}% globally
+                Top {100 - lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250), true)}% globally
               </span>
             </div>
 

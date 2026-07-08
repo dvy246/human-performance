@@ -111,7 +111,7 @@ export default function CognitiveProfile() {
     if (!bbiScore) return null;
     
     // Base percentile is derived from CAI (CAI is 0-1000, CAI / 10 is percentile from 0 to 100)
-    const basePercentile = 100 - (bbiScore / 10);
+    const basePercentile = bbiScore / 10;
     
     // Adjust percentile based on difficulty of group
     let groupMultiplier = 1.0;

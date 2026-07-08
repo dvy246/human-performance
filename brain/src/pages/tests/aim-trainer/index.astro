@@ -32,6 +32,15 @@ const schemaJson = [
         "acceptedAnswer": { "@type": "Answer", "text": "Yes. High refresh rates (144Hz, 240Hz, 360Hz) decrease frame spacing lag and display stutter. This lets your eye track the moving target's position with higher clarity, helping your motor system predict target acquisition coordinates with less visual delay." }
       }
     ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+      { "@type": "ListItem", "position": 2, "name": "Precision Suite", "item": "https://cogniarena.com/#suite" },
+      { "@type": "ListItem", "position": 3, "name": "Aim Trainer", "item": "https://cogniarena.com/tests/aim-trainer" }
+    ]
   }
 ];
 ---
@@ -40,11 +49,13 @@ const schemaJson = [
   <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
-        <span>Assessment Suite</span>
-        <span>&middot;</span>
-        <span>Precision Suite</span>
-      </div>
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/#suite" class="hover:underline">Tests</a>
+        <span>/</span>
+        <span class="text-muted">Aim Trainer</span>
+      </nav>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
         Aim Precision Trainer
       </h1>
@@ -109,7 +120,18 @@ const schemaJson = [
         </p>
       </article>
 
-      <!-- FAQ Section -->
+    <!-- Related Tests -->
+    <article class="flex flex-col gap-3">
+      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
+      <div class="flex flex-wrap gap-2">
+        <a href="/tests/mouse-accuracy" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Mouse Accuracy →</a>
+        <a href="/tests/flick-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Flick Trainer →</a>
+        <a href="/tests/click-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Click Speed →</a>
+        <a href="/tests/aim-coordination" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Coordination →</a>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
       <article class="flex flex-col gap-6">
         <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
         

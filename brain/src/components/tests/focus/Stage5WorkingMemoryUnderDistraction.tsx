@@ -155,7 +155,7 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
           if (completedRef.current) return;
           completedRef.current = true;
           setPhase('done');
-          const score = Math.max(0, Math.min(100, Math.round((reached / MAX_LEVEL) * 100)));
+          const score = Math.max(1, Math.min(100, Math.round((reached / MAX_LEVEL) * 100)));
           onComplete({
             stageIndex: 4,
             stageName: 'WM Under Distraction',
@@ -198,7 +198,7 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
     if (completedRef.current) return;
     completedRef.current = true;
     setPhase('done');
-    const score = Math.max(0, Math.min(100, Math.round((maxLevelRef.current / MAX_LEVEL) * 100)));
+    const score = Math.max(1, Math.min(100, Math.round((maxLevelRef.current / MAX_LEVEL) * 100)));
     onComplete({
       stageIndex: 4,
       stageName: 'WM Under Distraction',

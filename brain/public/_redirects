@@ -1,1 +1,9 @@
+# Cloudflare Pages SPA fallback + legacy redirects
 /challenge/*  /challenge/  200
+/tests/flick-trainer  /tests/flick-trainer  200
+/gauntlet  /gauntlet  200
+
+# SEO keyword-URL redirects (301)
+/reaction-time-test  /tests/reaction-time  301
+/typing-test  /tests/typing-speed  301
+/iq-test  /quiz/iq-test  301

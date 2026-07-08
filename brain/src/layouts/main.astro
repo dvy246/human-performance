@@ -7,38 +7,73 @@ import OnboardingFlow from "@/components/ui/OnboardingFlow";
 import { KeyboardShortcutsHelp } from "@/components/ui/KeyboardShortcuts";
 import RecentTests from "@/components/ui/RecentTests";
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher";
-import { translations } from "@/i18n/translations";
+import { translations, languages } from "@/i18n/translations";
+import type { LangCode } from "@/i18n/translations";
 
 interface Props {
   title?: string;
   description?: string;
   canonicalUrl?: string;
+  ogImage?: string;
   schemaJson?: Record<string, any> | Record<string, any>[];
 }
 
 const {
-  title = "CogniArena — Discover Your Cognitive Potential",
-  description = "Benchmark your reaction time, cognitive endurance, memory, and precision speed. Track improvements and challenge your friends.",
+  title = "CogniArena — Free Reaction Time Test & Cognitive Assessments",
+  description = "Take the free reaction time test and measure your reflexes in milliseconds. 23+ cognitive assessments including IQ test, typing test, memory games. 100% anonymous, runs in your browser.",
   canonicalUrl = "https://cogniarena.com",
+  ogImage,
   schemaJson,
 } = Astro.props;
 
-// Default structured data for the site
-const defaultSchema = {
+// Organization + WebSite schema — injected on every page for knowledge panel / sitelinks
+const orgSchema = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
+  "@type": "Organization",
   "name": "CogniArena",
-  "operatingSystem": "All",
-  "applicationCategory": "CognitiveAssessment",
-  "browserRequirements": "Requires HTML5, requestAnimationFrame, performance.now",
-  "offers": {
-    "@type": "Offer",
-    "price": "0",
-    "priceCurrency": "USD"
+  "url": "https://cogniarena.com",
+  "logo": "https://cogniarena.com/favicon.svg",
+  "description": "Free online cognitive assessment platform with 23+ brain tests measuring reaction time, memory, reasoning, focus, and motor skills.",
+  "foundingDate": "2025",
+  "sameAs": []
+};
+
+const webSiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "CogniArena",
+  "url": "https://cogniarena.com",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "https://cogniarena.com/?q={query}",
+    "query-input": "required name=query"
   }
 };
 
-const finalSchemas = Array.isArray(schemaJson) ? schemaJson : [schemaJson || defaultSchema];
+// Default structured data for the site (fallback when page provides no schema)
+const defaultSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": title,
+  "description": description,
+  "url": canonicalUrl,
+  "publisher": {
+    "@type": "Organization",
+    "name": "CogniArena",
+    "url": "https://cogniarena.com"
+  }
+};
+
+// Build final schema array: page schemas + global org/webSite schemas
+const pageSchemas = Array.isArray(schemaJson) ? schemaJson : [schemaJson || defaultSchema];
+const finalSchemas = [...pageSchemas, orgSchema, webSiteSchema];
+
+// i18n hreflang mapping — each locale maps to the same path (translations handled client-side)
+const currentPath = Astro.url.pathname;
+const hreflangMap: { code: LangCode; href: string }[] = languages.map(lang => ({
+  code: lang.code,
+  href: `https://cogniarena.com${currentPath}`
+}));
 
 const { pathname } = Astro.url;
 
@@ -85,13 +120,22 @@ const isScienceOpen = pathname.includes('/learn/');
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonicalUrl} />
     <meta property="og:site_name" content="CogniArena" />
-    <meta property="og:image" content="https://cogniarena.com/og-image.png" />
+    <meta property="og:image" content={ogImage || "https://cogniarena.com/og-default.png"} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="CogniArena — Free Reaction Time Test & Cognitive Assessments" />
     
     <!-- Twitter card tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content="https://cogniarena.com/og-image.png" />
+    <meta name="twitter:image" content={ogImage || "https://cogniarena.com/og-default.png"} />
+
+    <!-- Hreflang tags for i18n -->
+    {hreflangMap.map(({ code, href }) => (
+      <link rel="alternate" hreflang={code} href={href} />
+    ))}
+    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
 
     <!-- Theme Color -->
     <meta name="theme-color" content="#000000" media="(prefers-color-scheme: dark)" />
@@ -115,20 +159,10 @@ const isScienceOpen = pathname.includes('/learn/');
       gtag('config', 'G-9WHJWEWD5L');
     </script>
 
-    <!-- Google AdSense script placeholder: Replace ca-pub-XXXXXXXXXXXXXXXX with your AdSense publisher ID before deploying to production -->
-    <!-- TODO: Add production AdSense publisher ID -->
-    <script is:inline>
-      window.addEventListener('load', () => {
-        // Only load heavy ads script after page load to preserve initial metrics
-        setTimeout(() => {
-          const script = document.createElement('script');
-          script.async = true;
-          script.src = "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX"; // TODO: Replace with actual publisher ID
-          script.crossOrigin = "anonymous";
-          document.head.appendChild(script);
-        }, 1500);
-      });
-    </script>
+    <!-- Google AdSense: Uncomment and replace ca-pub-XXXXXXXXXXXXXXXX with your publisher ID before enabling ads -->
+    <!--
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-XXXXXXXXXXXXXXXX" crossorigin="anonymous"></script>
+    -->
   </head>
   <body class="bg-background text-foreground min-h-screen flex flex-col antialiased">
     <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-[100] focus:px-4 focus:py-2 focus:rounded-md focus:bg-accent focus:text-white focus:text-sm focus:font-semibold">Skip to content</a>

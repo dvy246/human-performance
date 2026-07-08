@@ -5,4 +5,6 @@ compatibility_date = "2026-07-05"
 [[d1_databases]]
 binding = "DB"
 database_name = "cogniarena_db"
-database_id = "d1-database-id-uuid-placeholder"
+# TODO: Replace with your actual D1 database UUID before deploying sync.
+# Run: npx wrangler d1 create cogniarena_db
+database_id = "REPLACE_WITH_ACTUAL_D1_UUID"

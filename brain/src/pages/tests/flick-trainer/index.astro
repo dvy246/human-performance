@@ -12,13 +12,22 @@ const schemaJson = [
     { "@type": "Question", "name": "What is flick speed?", "acceptedAnswer": { "@type": "Answer", "text": "Flick speed measures how quickly you can move your cursor from one position to a new target and click. It combines reaction time, mouse control, and click timing into a single metric." } },
     { "@type": "Question", "name": "How does this differ from the Aim Trainer?", "acceptedAnswer": { "@type": "Answer", "text": "The Aim Trainer uses shrinking targets that reward precision over speed. Flick Trainer uses instant-appearing targets that reward fast cursor acceleration and deceleration — the two skills engage different motor control pathways." } },
     { "@type": "Question", "name": "Is this a medical diagnostic tool?", "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." } }
-  ] }
+  ] },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+      { "@type": "ListItem", "position": 2, "name": "Motor", "item": "https://cogniarena.com/#suite" },
+      { "@type": "ListItem", "position": 3, "name": "Flick Trainer", "item": "https://cogniarena.com/tests/flick-trainer" }
+    ]
+  }
 ];
 ---
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
   <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent"><span>Assessment Suite</span><span>&middot;</span><span>Motor</span></div>
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb"><a href="/" class="hover:underline">Home</a><span>/</span><a href="/#suite" class="hover:underline">Tests</a><span>/</span><span class="text-muted">Flick Trainer</span></nav>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Flick Trainer</h1>
       <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">Flick your mouse to 15 targets appearing at random positions. Measures flick speed and click accuracy — the two components of precise aim.</p>
     </header>

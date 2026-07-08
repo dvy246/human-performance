@@ -84,9 +84,9 @@ export default function HistoryDashboard() {
 
       {/* History List */}
       <div className="space-y-2">
-        {filteredSessions.map((session, idx) => (
+        {filteredSessions.map((session) => (
           <div
-            key={idx}
+            key={session.id}
             className="flex items-center justify-between p-4 border border-card-border rounded-lg bg-card hover:bg-hover transition-colors"
           >
             <div className="flex items-center gap-4">
@@ -133,15 +133,19 @@ export default function HistoryDashboard() {
 
   function getTestIcon(testType: string): string {
     const icons: Record<string, string> = {
-      'Reaction Time': '⚡',
-      'Click Speed': '🖱️',
-      'Sequence Memory': '🗂️',
-      'Number Memory': '🔢',
-      'Aim Trainer': '🎯',
-      'Visual Pattern': '🧩',
-      'Stroop Test': '🎨',
-      'Trail Making': '🧭',
-      'Typing Speed': '⌨️',
+      'reaction-time': '⚡',
+      'f1-lights': '🏎️',
+      'sound-reaction': '🔊',
+      'choice-reaction': '🔢',
+      'go-no-go': '🛡️',
+      'click-speed': '🖱️',
+      'sequence-memory': '🗂️',
+      'number-memory': '🔢',
+      'aim-trainer': '🎯',
+      'visual-pattern': '🧩',
+      'stroop': '🎨',
+      'trail-making': '🧭',
+      'typing-speed': '⌨️',
     };
     return icons[testType] || '📊';
   }
@@ -158,7 +162,7 @@ export default function HistoryDashboard() {
     
     const csv = [
       headers.join(','),
-      ...rows.map(r => r.join(','))
+      ...rows.map(r => r.map(v => `"${v}"`).join(','))
     ].join('\n');
     
     const blob = new Blob([csv], { type: 'text/csv' });

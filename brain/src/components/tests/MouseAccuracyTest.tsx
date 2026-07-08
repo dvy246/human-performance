@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 const TARGET_SIZES = [80, 60, 45, 32, 22];
 const PER_SIZE = 5;
@@ -56,22 +57,17 @@ export default function MouseAccuracyTest() {
     const score = Math.max(0, Math.min(100, Math.round(100 - avgOffset / 2)));
     try {
       await dataLayer.saveSession({
-        testId: 'mouse-accuracy', category: 'precision', rawScore: Math.round(avgOffset * 10) / 10, percentile: lookupPercentile(score),
+        testId: 'mouse-accuracy', category: 'precision', rawScore: Math.round(avgOffset * 10) / 10, percentile: lookupPercentile('mouse-accuracy', score),
         metadata: { avgOffsetPx: Math.round(avgOffset * 10) / 10, totalTargets: TOTAL },
       });
     } catch (err) {
       console.error('Failed to save Mouse Accuracy session:', err);
     }
-    const card = await generateShareCard('Mouse Accuracy Test', `${Math.round(avgOffset * 10) / 10}px avg`, lookupPercentile(score));
+    const card = await generateShareCard('Mouse Accuracy Test', `${Math.round(avgOffset * 10) / 10}px avg`, lookupPercentile('mouse-accuracy', score));
     setShareImage(card);
   };
 
-  const lookupPercentile = (s: number): number => {
-    const ls = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
-    const ps = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
-    for (let i = ls.length - 1; i >= 0; i--) if (s >= ls[i]) return ps[i];
-    return 0.1;
-  };
+  
 
   const startGame = () => {
     setPhase('playing');

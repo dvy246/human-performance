@@ -162,5 +162,12 @@
     { "score": 2500, "percentile": 25 }, { "score": 3000, "percentile": 30 }, { "score": 3500, "percentile": 35 }, { "score": 4000, "percentile": 40 },
     { "score": 4500, "percentile": 45 }, { "score": 5000, "percentile": 50 }, { "score": 6000, "percentile": 60 }, { "score": 7000, "percentile": 70 },
     { "score": 8000, "percentile": 80 }, { "score": 9000, "percentile": 90 }, { "score": 10000, "percentile": 99.9 }
+  ],
+  "aim-coordination": [
+    { "score": 250, "percentile": 0.1 }, { "score": 280, "percentile": 1 }, { "score": 310, "percentile": 5 },
+    { "score": 340, "percentile": 10 }, { "score": 370, "percentile": 20 }, { "score": 400, "percentile": 35 },
+    { "score": 430, "percentile": 50 }, { "score": 470, "percentile": 65 }, { "score": 510, "percentile": 75 },
+    { "score": 560, "percentile": 85 }, { "score": 620, "percentile": 92 }, { "score": 700, "percentile": 97 },
+    { "score": 800, "percentile": 99 }, { "score": 950, "percentile": 99.9 }
   ]
 }

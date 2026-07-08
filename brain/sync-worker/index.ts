@@ -12,54 +12,90 @@ interface Attempt {
   createdAt: number;
 }
 
-const CORS_HEADERS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
-  'Content-Type': 'application/json'
-};
+// SEC-03: Restrict CORS to known origins instead of wildcard '*'
+const ALLOWED_ORIGINS = [
+  'https://cogniarena.com',
+  'https://www.cogniarena.com',
+  'https://brain-bfn.pages.dev'
+];
 
-const rateLimitMap = new Map<string, { count: number; resetTime: number }>();
+function getCorsHeaders(origin: string | null): Record<string, string> {
+  const allowed = origin && ALLOWED_ORIGINS.includes(origin)
+    ? origin
+    : ALLOWED_ORIGINS[0];
+  return {
+    'Access-Control-Allow-Origin': allowed,
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+    'Vary': 'Origin',
+    'Content-Type': 'application/json'
+  };
+}
 
-function checkRateLimit(ip: string): boolean {
+// SEC-06: Payload size limits
+const MAX_ATTEMPTS_PER_PUSH = 100;
+const MAX_BODY_SIZE = 1_048_576; // 1 MB
+
+// SEC-07: D1-backed rate limiting (persistent across cold starts)
+const RATE_LIMIT_WINDOW_MS = 60_000; // 1 minute
+const RATE_LIMIT_MAX_REQUESTS = 10;
+
+async function checkRateLimit(env: Env, ip: string): Promise<boolean> {
   const now = Date.now();
-  const limitWindow = 60 * 1000; // 1 minute window
-  const maxRequests = 20;
+  const windowStart = now - RATE_LIMIT_WINDOW_MS;
 
-  // Prune memory if map size gets large to avoid leaks
-  if (rateLimitMap.size > 5000) {
-    for (const [key, record] of rateLimitMap.entries()) {
-      if (now > record.resetTime) {
-        rateLimitMap.delete(key);
-      }
+  try {
+    // Clean expired entries (best-effort, ignore errors)
+    await env.DB.prepare(
+      'DELETE FROM rate_limits WHERE reset_time < ?'
+    ).bind(now).run();
+
+    // Check current count for this IP
+    const record = await env.DB.prepare(
+      'SELECT count, reset_time FROM rate_limits WHERE ip = ? AND reset_time > ?'
+    ).bind(ip, now).first<{ count: number; reset_time: number }>();
+
+    if (!record) {
+      await env.DB.prepare(
+        'INSERT INTO rate_limits (ip, count, reset_time) VALUES (?, 1, ?)'
+      ).bind(ip, now + RATE_LIMIT_WINDOW_MS).run();
+      return true;
     }
-  }
 
-  const record = rateLimitMap.get(ip);
-  if (!record || now > record.resetTime) {
-    rateLimitMap.set(ip, { count: 1, resetTime: now + limitWindow });
+    if (record.count >= RATE_LIMIT_MAX_REQUESTS) {
+      return false; // Rate limited
+    }
+
+    await env.DB.prepare(
+      'UPDATE rate_limits SET count = count + 1 WHERE ip = ? AND reset_time > ?'
+    ).bind(ip, now).run();
+    return true;
+  } catch {
+    // If rate limit table doesn't exist or DB is unavailable, allow the request
+    // but log the error. The table should be created during setup.
+    console.error('Rate limit check failed, allowing request:', ip);
     return true;
   }
-
-  record.count++;
-  if (record.count > maxRequests) {
-    return false; // Rate limited
-  }
-  return true; // Allowed
 }
 
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
+    const origin = request.headers.get('Origin');
+    const corsHeaders = getCorsHeaders(origin);
+
     // 1. Handle CORS Preflight
     if (request.method === 'OPTIONS') {
-      return new Response(null, { headers: CORS_HEADERS });
+      return new Response(null, { headers: corsHeaders });
     }
 
     const clientIP = request.headers.get('CF-Connecting-IP') || 'anonymous';
-    if (!checkRateLimit(clientIP)) {
-      return new Response(JSON.stringify({ error: 'Too Many Requests', message: 'Rate limit exceeded. Try again in 60 seconds.' }), {
+
+    // SEC-07: Persistent rate limiting via D1
+    const rateLimited = await checkRateLimit(env, clientIP);
+    if (!rateLimited) {
+      return new Response(JSON.stringify({ error: 'Too Many Requests' }), {
         status: 429,
-        headers: CORS_HEADERS
+        headers: corsHeaders
       });
     }
 
@@ -68,34 +104,64 @@ export default {
 
     try {
       if (path === '/api/sync/push' && request.method === 'POST') {
-        return await handlePush(request, env);
+        return await handlePush(request, env, corsHeaders);
       } 
       
       if (path === '/api/sync/pull' && request.method === 'POST') {
-        return await handlePull(request, env);
+        return await handlePull(request, env, corsHeaders);
       }
 
       return new Response(JSON.stringify({ error: 'Endpoint Not Found' }), {
         status: 404,
-        headers: CORS_HEADERS
+        headers: corsHeaders
       });
-    } catch (err: any) {
-      return new Response(JSON.stringify({ error: 'Internal Server Error', message: err.message }), {
+    } catch (err: unknown) {
+      // SEC-08: Log error details server-side, return generic message to client
+      console.error('Sync Worker error:', err);
+      return new Response(JSON.stringify({ error: 'Internal Server Error' }), {
         status: 500,
-        headers: CORS_HEADERS
+        headers: corsHeaders
       });
     }
   }
 };
 
-async function handlePush(request: Request, env: Env): Promise<Response> {
-  const body: { recoveryHash: string; attempts: Attempt[] } = await request.json();
+async function handlePush(request: Request, env: Env, corsHeaders: Record<string, string>): Promise<Response> {
+  // SEC-06: Check Content-Length header before parsing body
+  const contentLength = Number(request.headers.get('Content-Length') || '0');
+  if (contentLength > MAX_BODY_SIZE) {
+    return new Response(JSON.stringify({ error: 'Payload too large' }), {
+      status: 413,
+      headers: corsHeaders
+    });
+  }
+
+  let body: { recoveryHash: string; attempts: Attempt[] };
+  try {
+    body = await request.json();
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
+      status: 400,
+      headers: corsHeaders
+    });
+  }
+
   const { recoveryHash, attempts } = body;
 
   if (!recoveryHash || !Array.isArray(attempts)) {
     return new Response(JSON.stringify({ error: 'Invalid Payload' }), {
       status: 400,
-      headers: CORS_HEADERS
+      headers: corsHeaders
+    });
+  }
+
+  // SEC-06: Validate attempts array length and D1 batch limit (max 100 statements)
+  if (attempts.length > MAX_ATTEMPTS_PER_PUSH) {
+    return new Response(JSON.stringify({
+      error: `Too many attempts: maximum ${MAX_ATTEMPTS_PER_PUSH} per request`
+    }), {
+      status: 400,
+      headers: corsHeaders
     });
   }
 
@@ -136,18 +202,36 @@ async function handlePush(request: Request, env: Env): Promise<Response> {
   }
 
   return new Response(JSON.stringify({ success: true, count: attempts.length }), {
-    headers: CORS_HEADERS
+    headers: corsHeaders
   });
 }
 
-async function handlePull(request: Request, env: Env): Promise<Response> {
-  const body: { recoveryHash: string } = await request.json();
+async function handlePull(request: Request, env: Env, corsHeaders: Record<string, string>): Promise<Response> {
+  // SEC-06: Check Content-Length
+  const contentLength = Number(request.headers.get('Content-Length') || '0');
+  if (contentLength > MAX_BODY_SIZE) {
+    return new Response(JSON.stringify({ error: 'Payload too large' }), {
+      status: 413,
+      headers: corsHeaders
+    });
+  }
+
+  let body: { recoveryHash: string };
+  try {
+    body = await request.json();
+  } catch {
+    return new Response(JSON.stringify({ error: 'Invalid JSON' }), {
+      status: 400,
+      headers: corsHeaders
+    });
+  }
+
   const { recoveryHash } = body;
 
   if (!recoveryHash) {
     return new Response(JSON.stringify({ error: 'Invalid Recovery Hash' }), {
       status: 400,
-      headers: CORS_HEADERS
+      headers: corsHeaders
     });
   }
 
@@ -162,6 +246,6 @@ async function handlePull(request: Request, env: Env): Promise<Response> {
     .all<Attempt>();
 
   return new Response(JSON.stringify({ success: true, attempts: results }), {
-    headers: CORS_HEADERS
+    headers: corsHeaders
   });
 }

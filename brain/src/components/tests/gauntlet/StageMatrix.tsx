@@ -11,11 +11,21 @@ function genMatrix(): { grid: string[]; options: string[]; correct: number } {
     shape, fill === 'solid' ? shape : '○',
     fill === 'solid' ? '○' : shape, '?'
   ];
-  const opts: string[] = [];
-  const correctIdx = Math.floor(Math.random() * 4);
-  for (let i = 0; i < 4; i++) {
-    opts.push(i === correctIdx ? shape : SHAPES[Math.floor(Math.random() * SHAPES.length)]);
+  const opts: string[] = [shape]; // First option is always correct
+  const usedShapes = new Set([shape]);
+  while (opts.length < 4) {
+    const s = SHAPES[Math.floor(Math.random() * SHAPES.length)];
+    if (!usedShapes.has(s)) {
+      usedShapes.add(s);
+      opts.push(s);
+    }
   }
+  // Shuffle options
+  for (let i = opts.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [opts[i], opts[j]] = [opts[j], opts[i]];
+  }
+  const correctIdx = opts.indexOf(shape);
   return { grid, options: opts, correct: correctIdx };
 }
 

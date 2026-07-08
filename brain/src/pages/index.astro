@@ -2,30 +2,91 @@
 import Layout from "@/layouts/main.astro";
 import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard";
 
-const title = "CogniArena — Measure Your Cognitive Performance | 13 Brain Assessments";
-const description = "Discover how your brain performs under pressure. 13 cognitive assessments measuring reaction, memory, reasoning, and focus. 100% anonymous, runs in your browser.";
+const title = "Reaction Time Test — Free Online Reflex & Cognitive Assessment | CogniArena";
+const description = "Take the free reaction time test and measure your reflexes in milliseconds. 23+ cognitive assessments including IQ test, typing test, memory games. 100% anonymous, runs in your browser.";
+const canonicalUrl = "https://cogniarena.com";
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a reaction time test?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A reaction time test measures how quickly you respond to a visual, auditory, or physical stimulus. It records the interval between stimulus presentation and your motor response in milliseconds (ms). The average human visual reaction time is approximately 250ms." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the average human reaction time?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The average visual reaction time for adults aged 20-35 is approximately 240-260ms. Auditory reaction times are faster, averaging around 160-180ms. Reaction time peaks in the early 20s and gradually declines with age." }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I improve my reaction time?",
+      "acceptedAnswer": { "@type": "Answer", "text": "You can improve reaction time through regular practice with reaction time tests, adequate sleep (7-9 hours), physical exercise, hand-eye coordination drills, and maintaining focus during tasks. Gaming and sports also help train faster responses." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is CogniArena?",
+      "acceptedAnswer": { "@type": "Answer", "text": "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision. No sign-up required." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is my data stored or sent anywhere?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device using local-first IndexedDB storage." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the Brain Challenge (Gauntlet)?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The Gauntlet is a flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CogniArena Index (CAI) score and cognitive archetype showing your strengths across all dimensions." }
+    }
+  ]
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" }
+  ]
+};
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "name": "Reaction Time Test — Free Online Reflex & Cognitive Assessment",
+  "description": "Take the free reaction time test and measure your reflexes in milliseconds. 23+ cognitive assessments including IQ test, typing test, and memory games.",
+  "url": "https://cogniarena.com",
+  "publisher": {
+    "@type": "Organization",
+    "name": "CogniArena",
+    "url": "https://cogniarena.com"
+  }
+};
+
+const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
 ---
 
-<Layout title={title} description={description}>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
   <div class="flex flex-col gap-16 py-4">
     <!-- ===== HERO: The Challenge ===== -->
     <section class="relative w-full max-w-5xl mx-auto flex flex-col items-center text-center px-4 py-12 md:py-20 animate-fade-in-up hero-glow">
       <!-- Trust badge -->
       <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-accent/10 border border-accent/30 text-xs font-mono uppercase tracking-wider mb-8 backdrop-blur-sm" style="color: var(--accent);">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        <span class="font-semibold" data-i18n="hero.badge">13 Cognitive Benchmarks</span>
+        <span class="font-semibold" data-i18n="hero.badge">23+ Cognitive Benchmarks</span>
         <span class="w-px h-3 bg-accent/40" />
         <span class="opacity-80" data-i18n="hero.anonymous">100% Anonymous</span>
       </div>
 
       <!-- Main headline with gradient -->
       <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-6 hero-gradient-text">
-        <span data-i18n="hero.title_1">How powerful</span><br class="hidden sm:block" /><span data-i18n="hero.title_2"> is your mind?</span>
+        <span data-i18n="hero.title_1">Free Reaction Time Test</span><br class="hidden sm:block" /><span data-i18n="hero.title_2"> — Measure Your Reflexes</span>
       </h1>
 
       <!-- Subtitle -->
       <p class="text-secondary text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mb-12" data-i18n-html="hero.subtitle">
-        13 precision assessments measuring <strong class="text-foreground font-semibold">reaction speed</strong>, <strong class="text-foreground font-semibold">working memory</strong>, <strong class="text-foreground font-semibold">fluid reasoning</strong>, and <strong class="text-foreground font-semibold">cognitive flexibility</strong>. No sign-up. Sub-millisecond accuracy. Runs entirely in your browser.
+        23+ precision assessments measuring <strong class="text-foreground font-semibold">reaction speed</strong>, <strong class="text-foreground font-semibold">working memory</strong>, <strong class="text-foreground font-semibold">fluid reasoning</strong>, and <strong class="text-foreground font-semibold">cognitive flexibility</strong>. No sign-up. Sub-millisecond accuracy. Runs entirely in your browser.
       </p>
 
       <!-- Stat cards row -->
@@ -53,7 +114,7 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
           <span data-i18n="hero.cta_primary">Take the Brain Challenge</span>
         </a>
         <a href="#suite" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-subtle border border-card-border text-secondary hover:text-foreground hover:border-accent/30 font-medium h-14 px-8 text-base transition-standard active:scale-[0.97] cursor-pointer">
-          <span data-i18n="hero.cta_secondary">Explore 13 Assessments</span>
+          <span data-i18n="hero.cta_secondary">Explore 23+ Assessments</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
@@ -114,7 +175,7 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
     <section class="w-full max-w-2xl mx-auto animate-fade-in-up stagger-2">
       <div class="flex items-center justify-center gap-6 sm:gap-10 text-center">
         <div>
-          <span class="block text-xl font-bold text-foreground tabular-nums">13</span>
+          <span class="block text-xl font-bold text-foreground tabular-nums">23+</span>
           <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Assessments</span>
         </div>
         <span class="w-px h-8 bg-card-border" />
@@ -217,6 +278,19 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
           <a href="/tests/go-no-go" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
               <span>Start Go/No-Go Test</span>
               <span>🛡️</span>
+          </a>
+        </div>
+
+        <!-- Aim Coordination -->
+        <div class="p-6 rounded-xl bg-card border border-card-border card-interactive flex flex-col justify-between gap-6 glow-yellow">
+          <div class="flex flex-col gap-3">
+            <span class="text-xs font-mono text-muted">RT-006</span>
+            <h3 class="text-lg font-bold text-foreground">Aim Coordination</h3>
+            <p class="text-muted text-sm leading-relaxed">Test hand-eye coordination speed. Click targets as they appear and measure your visual-motor response latency.</p>
+          </div>
+          <a href="/tests/aim-coordination" class="w-full inline-flex items-center justify-between rounded-md text-sm font-medium transition-standard h-10 px-4 py-2 cursor-pointer active:scale-[0.98] bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] group">
+              <span>Start Coordination Test</span>
+              <span>🎯</span>
           </a>
         </div>
       </div>
@@ -621,7 +695,7 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
             <span class="text-lg font-bold font-mono text-warning">1</span>
           </div>
           <h3 class="text-sm font-bold text-foreground mb-1" data-i18n="how.step1_title">Pick an Assessment</h3>
-          <p class="text-muted text-xs leading-relaxed" data-i18n="how.step1_desc">Choose from 13 tests across reaction, memory, reasoning, focus, motor, and executive function.</p>
+          <p class="text-muted text-xs leading-relaxed" data-i18n="how.step1_desc">Choose from 23+ tests across reaction, memory, reasoning, focus, motor, and executive function.</p>
         </div>
         <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
           <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-3">
@@ -686,6 +760,70 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
       </a>
     </section>
 
+    <!-- ===== SEO CONTENT: Reaction Time Test Guide ===== -->
+    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up">
+      <div class="flex flex-col gap-6 text-secondary text-sm leading-relaxed">
+        <h2 class="text-2xl font-bold text-foreground tracking-tight">The Complete Guide to Reaction Time Testing</h2>
+
+        <p>Reaction time is one of the most fundamental measures of cognitive performance. It captures the interval between a stimulus appearing and your motor response completing — a window typically measured in milliseconds. This free <strong class="text-foreground">reaction time test</strong> uses high-precision <code>requestAnimationFrame</code> paint-sync calibration to record your responses with sub-millisecond accuracy, eliminating the browser rendering jitter that plagues most online timers.</p>
+
+        <h3 class="text-xl font-semibold text-foreground tracking-tight">What Is Reaction Time and How Is It Measured?</h3>
+        <p>Reaction time (RT) is the duration between the presentation of a sensory stimulus and the initiation of a voluntary motor response. In a typical visual reaction time test, a screen changes color — for example, from red to green — and you click or tap as quickly as possible. The timer records the gap between the pixel actually changing (paint-sync locked) and your input registering.</p>
+        <p>The measurement pipeline involves three biological stages: sensory transduction (the retina converting photons to neural signals), central processing (the brain interpreting the signal and formulating a motor command), and motor execution (the signal traveling down the spinal cord to activate muscles). Each stage adds measurable latency. The total visual reaction time for a healthy adult typically falls between 180ms and 320ms.</p>
+
+        <h3 class="text-xl font-semibold text-foreground tracking-tight">Average Human Reaction Time: What the Data Shows</h3>
+        <p>Large-scale cognitive studies consistently show that the <strong class="text-foreground">average human reaction time</strong> for simple visual stimuli is approximately 250 milliseconds. Auditory reactions are notably faster — around 160-180ms — because the cochlea-to-brainstem pathway involves fewer synaptic relays than the visual pathway. Here is how reaction time varies by age group:</p>
+        <ul class="list-disc list-inside space-y-1 ml-2">
+          <li><strong class="text-foreground">Ages 15-24:</strong> 220-240ms (peak performance window)</li>
+          <li><strong class="text-foreground">Ages 25-34:</strong> 240-260ms (still near peak)</li>
+          <li><strong class="text-foreground">Ages 35-44:</strong> 260-280ms (gradual neural decay)</li>
+          <li><strong class="text-foreground">Ages 45-54:</strong> 280-300ms (myelination changes)</li>
+          <li><strong class="text-foreground">Ages 55+:</strong> 300ms+ (cognitive aging effects)</li>
+        </ul>
+        <p>These benchmarks come from peer-reviewed normative datasets, including Der &amp; Deary (2006) and Williamson &amp; Feyer (2000). Your score on this reaction time test is compared against these population distributions to produce a percentile ranking.</p>
+
+        <h3 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Reaction Time?</h3>
+        <p>Several factors influence how quickly you respond to a stimulus. Understanding them helps you interpret your scores and optimize your performance:</p>
+        <ul class="list-disc list-inside space-y-1 ml-2">
+          <li><strong class="text-foreground">Fatigue and sleep:</strong> Sleep deprivation can slow reaction time by 20% or more. Even one night of poor sleep measurably increases response latency.</li>
+          <li><strong class="text-foreground">Hardware latency:</strong> A 60Hz monitor adds up to 16.7ms of display lag. A 144Hz screen reduces this to ~3.5ms. Wireless mice add 8-20ms of input delay compared to wired connections.</li>
+          <li><strong class="text-foreground">Age:</strong> Reaction time peaks in the early-to-mid 20s and gradually increases after age 30 due to changes in myelination and synaptic efficiency.</li>
+          <li><strong class="text-foreground">Stimulus modality:</strong> Sound reactions are 60-80ms faster than visual reactions. This is why auditory reflex tests often produce lower (faster) scores.</li>
+          <li><strong class="text-foreground">Practice and training:</strong> Repeated exposure to the same task builds neuromuscular myelin sheaths, reducing motor pathway latency over time.</li>
+        </ul>
+
+        <h3 class="text-xl font-semibold text-foreground tracking-tight">How to Improve Your Reaction Time</h3>
+        <p>While genetics set a baseline for raw neural conduction speed, you can measurably improve your reaction time through targeted practice:</p>
+        <ul class="list-disc list-inside space-y-1 ml-2">
+          <li><strong class="text-foreground">Practice with reaction time tests regularly:</strong> Even 5-10 minutes of daily practice can trim 10-20ms from your score within a few weeks.</li>
+          <li><strong class="text-foreground">Play fast-paced video games:</strong> Action games train rapid stimulus-response cycling and improve visual attention span.</li>
+          <li><strong class="text-foreground">Prioritize sleep and hydration:</strong> Seven to nine hours of quality sleep per night is essential for optimal neural processing speed.</li>
+          <li><strong class="text-foreground">Physical exercise:</strong> Aerobic activity increases blood flow to the brain and supports neuroplasticity, both of which contribute to faster responses.</li>
+          <li><strong class="text-foreground">Minimize hardware lag:</strong> Use a high-refresh-rate monitor (120Hz+) and a wired mouse with a high polling rate (1000Hz) for the most accurate measurements.</li>
+        </ul>
+
+        <h3 class="text-xl font-semibold text-foreground tracking-tight">Practical Applications of Reaction Time</h3>
+        <p>Fast reaction time isn't just a party trick — it matters in real-world scenarios:</p>
+        <ul class="list-disc list-inside space-y-1 ml-2">
+          <li><strong class="text-foreground">Gaming and esports:</strong> Competitive gamers need sub-200ms reactions to outperform opponents in FPS, fighting, and MOBA titles.</li>
+          <li><strong class="text-foreground">Driving safety:</strong> Emergency braking reactions depend on rapid visual processing. A 50ms improvement can translate to meters of additional stopping distance at highway speeds.</li>
+          <li><strong class="text-foreground">Sports performance:</strong> Athletes in tennis, boxing, and baseball rely on split-second visual-motor responses to return serves, dodge punches, or hit fastballs.</li>
+          <li><strong class="text-foreground">Cognitive health monitoring:</strong> Tracking your reaction time over time provides insight into cognitive aging, fatigue levels, and the effectiveness of brain training.</li>
+        </ul>
+
+        <h3 class="text-xl font-semibold text-foreground tracking-tight">Beyond Reaction Time: Explore More Cognitive Assessments</h3>
+        <p>CogniArena offers 23+ assessments across six cognitive domains. After testing your reflexes, explore other dimensions of your cognitive performance:</p>
+        <ul class="list-disc list-inside space-y-1 ml-2">
+          <li><a href="/quiz/iq-test" class="text-accent hover:underline font-medium">Free IQ Test</a> — Measure your intelligence across logical, numerical, verbal, and spatial reasoning domains. 20 questions, instant results.</li>
+          <li><a href="/tests/typing-speed" class="text-accent hover:underline font-medium">Typing Speed Test</a> — Benchmark your words per minute (WPM) and typing accuracy. Compare against profession-based benchmarks.</li>
+          <li><a href="/tests/sequence-memory" class="text-accent hover:underline font-medium">Sequence Memory Test</a> — Test your working memory capacity by recalling expanding grid patterns.</li>
+          <li><a href="/tests/pattern-reasoning" class="text-accent hover:underline font-medium">Pattern Reasoning Test</a> — Evaluate your fluid intelligence and logical reasoning with geometric progressions.</li>
+          <li><a href="/gauntlet" class="text-accent hover:underline font-medium">The Gauntlet</a> — Our flagship 5-stage cognitive challenge covering reaction, memory, focus, reasoning, and precision.</li>
+          <li><a href="/brain-games" class="text-accent hover:underline font-medium">Brain Games</a> — Fun, science-backed games to train your cognitive skills across all domains.</li>
+        </ul>
+      </div>
+    </section>
+
     <!-- ===== FAQ ===== -->
     <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up pb-8">
       <h2 class="text-xl font-bold text-foreground tracking-tight text-center mb-6">Frequently Asked Questions</h2>
@@ -695,7 +833,7 @@ const description = "Discover how your brain performs under pressure. 13 cogniti
             What is CogniArena?
             <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
           </summary>
-          <p class="text-muted text-sm leading-relaxed mt-3">CogniArena is a free cognitive performance platform with 13 browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.</p>
+          <p class="text-muted text-sm leading-relaxed mt-3">CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.</p>
         </details>
         <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
           <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">

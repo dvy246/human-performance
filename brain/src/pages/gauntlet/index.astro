@@ -6,25 +6,35 @@ const title = "The Gauntlet – 5-Stage Cognitive Assessment | CogniArena";
 const description = "The ultimate 5-minute cognitive gauntlet: reaction speed, sequence memory, Stroop interference, matrix reasoning, and aim precision. Get your CAI score and performance archetype.";
 const canonicalUrl = "https://cogniarena.com/gauntlet";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Quiz",
-  "name": "The Gauntlet — CogniArena Flaghsip Assessment",
-  "description": "A five-stage sequential cognitive assessment measuring reaction, memory, focus, reasoning, and precision.",
-  "about": { "@type": "Thing", "name": "Multi-Domain Cognitive Performance" },
-  "timeRequired": "PT4M",
-  "assesses": ["Reaction Speed", "Sequence Memory", "Stroop Interference", "Matrix Reasoning", "Aim Precision"]
-};
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "The Gauntlet — CogniArena Flagship Assessment",
+    "description": "A five-stage sequential cognitive assessment measuring reaction, memory, focus, reasoning, and precision.",
+    "about": { "@type": "Thing", "name": "Multi-Domain Cognitive Performance" },
+    "timeRequired": "PT4M",
+    "assesses": ["Reaction Speed", "Sequence Memory", "Stroop Interference", "Matrix Reasoning", "Aim Precision"]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+      { "@type": "ListItem", "position": 2, "name": "The Gauntlet", "item": "https://cogniarena.com/gauntlet" }
+    ]
+  }
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
   <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
-        <span>Flagship</span>
-        <span>&middot;</span>
-        <span>Multi-Domain Assessment</span>
-      </div>
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <span class="text-muted">The Gauntlet</span>
+      </nav>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">The Gauntlet</h1>
       <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
         A <strong>5-stage cognitive gauntlet</strong>: reaction → memory → focus → logic → precision. Takes ~4 minutes and outputs a unified CogniArena Index score and performance archetype.

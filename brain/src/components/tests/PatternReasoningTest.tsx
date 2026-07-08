@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type GameMode = 'pattern' | 'matrix' | 'sequence' | 'analogy';
 type GameState = 'idle' | 'running' | 'result';
@@ -107,25 +108,6 @@ const MODE_DESCS: Record<GameMode, string> = {
   analogy: 'Apply the shape transformation to complete the analogy.'
 };
 
-interface GeneratedQuestion {
-  instructions: string;
-  type: GameMode;
-  sequence?: (React.ReactNode | string)[];
-  matrix?: {
-    topLeft: React.ReactNode;
-    topRight: React.ReactNode;
-    bottomLeft: React.ReactNode;
-    bottomRight: React.ReactNode;
-  };
-  analogy?: {
-    a: React.ReactNode;
-    b: React.ReactNode;
-    c: React.ReactNode;
-  };
-  options: React.ReactNode[];
-  correctIdx: number;
-}
-
 function generatePatternQuestion(): GeneratedQuestion {
   const colorIdxs = [0, 1, 2, 3, 4, 5];
   const c1 = Math.floor(Math.random() * colorIdxs.length);
@@ -213,7 +195,10 @@ function generateMatrixQuestion(): GeneratedQuestion {
     instructions: 'Identify the rule and complete the 2×2 grid:',
     matrix: { topLeft, topRight, bottomLeft, bottomRight },
     options,
-    correctIdx: 0 // We'll find it after shuffle
+    correctIdx: options.findIndex(o => {
+      const el = o as React.ReactElement<{ color: string }>;
+      return el.props?.color === SVG_COLORS[otherColorIdx] && (el.type as Function) === Shape2;
+    })
   };
 }
 
@@ -261,18 +246,26 @@ function generateSequenceQuestion(): GeneratedQuestion {
 
 function generateAnalogyQuestion(): GeneratedQuestion {
   const transformations = [
-    { name: 'fill', a: <SvgCircle color="none" size={44} />, b: <SvgCircle color={SVG_COLORS[0]} size={44} />, c: <SvgSquare color="none" size={44} />, correct: <SvgSquare color={SVG_COLORS[0]} size={44} /> },
-    { name: 'color', a: <SvgCircle color={SVG_COLORS[0]} size={44} />, b: <SvgCircle color={SVG_COLORS[1]} size={44} />, c: <SvgDiamond color={SVG_COLORS[0]} size={44} />, correct: <SvgDiamond color={SVG_COLORS[1]} size={44} /> },
-    { name: 'shape', a: <SvgCircle color={SVG_COLORS[2]} size={44} />, b: <SvgSquare color={SVG_COLORS[2]} size={44} />, c: <SvgTriangle color={SVG_COLORS[3]} size={44} />, correct: <SvgDiamond color={SVG_COLORS[3]} size={44} /> },
-    { name: 'size', a: <SvgStar color={SVG_COLORS[4]} size={28} />, b: <SvgStar color={SVG_COLORS[4]} size={44} />, c: <SvgCross color={SVG_COLORS[5]} size={28} />, correct: <SvgCross color={SVG_COLORS[5]} size={44} /> },
+    { name: 'fill', aShapeIdx: 0, aColorIdx: -1, bShapeIdx: 0, bColorIdx: 0, cShapeIdx: 1, cColorIdx: -1, correctShapeIdx: 1, correctColorIdx: 0 },
+    { name: 'color', aShapeIdx: 0, aColorIdx: 0, bShapeIdx: 0, bColorIdx: 1, cShapeIdx: 3, cColorIdx: 0, correctShapeIdx: 3, correctColorIdx: 1 },
+    { name: 'shape', aShapeIdx: 0, aColorIdx: 2, bShapeIdx: 1, bColorIdx: 2, cShapeIdx: 2, cColorIdx: 3, correctShapeIdx: 3, correctColorIdx: 3 },
+    { name: 'size', aShapeIdx: 4, aColorIdx: 4, bShapeIdx: 4, bColorIdx: 4, cShapeIdx: 5, cColorIdx: 5, correctShapeIdx: 5, correctColorIdx: 5 },
   ];
 
   const t = transformations[Math.floor(Math.random() * transformations.length)];
-  const options: React.ReactNode[] = [t.correct];
+
+  const analogyData = {
+    a: { shapeIdx: t.aShapeIdx, colorIdx: t.aColorIdx, size: 44 },
+    b: { shapeIdx: t.bShapeIdx, colorIdx: t.bColorIdx, size: 44 },
+    c: { shapeIdx: t.cShapeIdx, colorIdx: t.cColorIdx, size: 44 },
+  };
+  const correctOption = { shapeIdx: t.correctShapeIdx, colorIdx: t.correctColorIdx, size: 44 };
+
+  const options: { shapeIdx: number; colorIdx: number; size: number }[] = [correctOption];
   const distractors = [
-    <SvgCircle color={SVG_COLORS[1]} size={44} />,
-    <SvgSquare color={SVG_COLORS[3]} size={44} />,
-    <SvgDiamond color={SVG_COLORS[5]} size={44} />,
+    { shapeIdx: 0, colorIdx: 1, size: 44 },
+    { shapeIdx: 1, colorIdx: 3, size: 44 },
+    { shapeIdx: 3, colorIdx: 5, size: 44 },
   ];
   for (const d of distractors) {
     if (options.length < 4) options.push(d);
@@ -283,12 +276,28 @@ function generateAnalogyQuestion(): GeneratedQuestion {
     [options[i], options[j]] = [options[j], options[i]];
   }
 
+  const correctIdx = options.findIndex(o => o.shapeIdx === correctOption.shapeIdx && o.colorIdx === correctOption.colorIdx);
+
+  const getColor = (idx: number) => idx < 0 ? 'none' : SVG_COLORS[idx];
+  const AShape = SHAPES[analogyData.a.shapeIdx];
+  const BShape = SHAPES[analogyData.b.shapeIdx];
+  const CShape = SHAPES[analogyData.c.shapeIdx];
+  const analogyDisplay = {
+    a: <AShape color={getColor(analogyData.a.colorIdx)} size={analogyData.a.size} />,
+    b: <BShape color={getColor(analogyData.b.colorIdx)} size={analogyData.b.size} />,
+    c: <CShape color={getColor(analogyData.c.colorIdx)} size={analogyData.c.size} />,
+  };
+  const renderedOptions = options.map((o, i) => {
+    const OptShape = SHAPES[o.shapeIdx];
+    return <OptShape key={i} color={getColor(o.colorIdx)} size={o.size} />;
+  });
+
   return {
     type: 'analogy',
     instructions: 'Complete the shape transformation analogy:',
-    analogy: { a: t.a, b: t.b, c: t.c },
-    options,
-    correctIdx: 0
+    analogy: analogyDisplay,
+    options: renderedOptions,
+    correctIdx
   };
 }
 
@@ -304,10 +313,12 @@ export default function PatternReasoningTest() {
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [lastCorrect, setLastCorrect] = useState<boolean | null>(null);
+  const [resultPercentile, setResultPercentile] = useState<number>(0);
 
   const questionStartTime = useRef<number>(0);
   const [latencies, setLatencies] = useState<number[]>([]);
   const submittedRef = useRef(false);
+  const scoreRef = useRef<number>(0);
 
   useEffect(() => {
     let mounted = true;
@@ -341,10 +352,12 @@ export default function PatternReasoningTest() {
     setQuestions(questionList);
     setCurrentIdx(0);
     setScore(0);
+    scoreRef.current = 0;
     setAnswers([]);
     setLatencies([]);
     setLastCorrect(null);
     setShareImage(null);
+    submittedRef.current = false;
     setGameState('running');
     questionStartTime.current = performance.now();
   };
@@ -359,6 +372,7 @@ export default function PatternReasoningTest() {
     if (isCorrect) {
       const pts = Math.max(200, Math.round(1000 - elapsed / 10));
       setScore(prev => prev + pts);
+      scoreRef.current += pts;
     }
     setLastCorrect(isCorrect);
 
@@ -368,9 +382,11 @@ export default function PatternReasoningTest() {
         setCurrentIdx(prev => prev + 1);
         questionStartTime.current = performance.now();
       } else {
-        finishTest(isCorrect ? score + Math.max(200, Math.round(1000 - elapsed / 10)) : score);
+        finishTest(scoreRef.current);
       }
     }, 600);
+    // Note: this timeout is intentionally untracked — it's a brief UI feedback delay
+    // that won't interfere with restart since finishTest checks submittedRef.
   };
 
   const finishTest = async (finalScore: number) => {
@@ -379,7 +395,8 @@ export default function PatternReasoningTest() {
     setGameState('result');
     const correctCount = answers.filter(Boolean).length;
     const accuracy = Math.round((correctCount / 5) * 100);
-    const percentile = Math.max(1, Math.min(99, Math.round((finalScore / 5000) * 100)));
+    const percentile = Math.round(lookupPercentile('pattern-reasoning', finalScore));
+    setResultPercentile(percentile);
 
     try {
       await dataLayer.saveSession({
@@ -556,7 +573,7 @@ export default function PatternReasoningTest() {
               {score} Pts
             </h2>
             <span className="text-accent text-xs font-mono uppercase mt-1 block">
-              Top {100 - Math.round((score / 5000) * 100)}% reasoning speed
+              Top {Math.max(1, Math.min(99, 100 - resultPercentile))}% reasoning speed
             </span>
           </div>
 

@@ -61,9 +61,9 @@ const questions: CQQuestion[] = [
   {
     prompt: 'You make decisions based primarily on:',
     choices: [
-      { text: 'What feels intuitively right after weighing options', style: 'holistic' },
+      { text: 'What feels intuitively right after weighing options', style: 'visual' },
       { text: 'A careful analysis of pros and cons', style: 'analytical' },
-      { text: 'What aligns with your values and the bigger picture', style: 'holistic' },
+      { text: 'What aligns with your values and the bigger picture', style: 'verbal' },
       { text: 'Concrete data, evidence, and observable facts', style: 'analytical' },
     ],
   },

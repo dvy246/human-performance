@@ -86,7 +86,7 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz }: Stag
     if (respondedRef.current || !showStimulus) return;
     respondedRef.current = true;
     setShowStimulus(false);
-    advance(currentTrialRef.current.isGo, true);
+    advance(currentTrialRef.current.isGo, currentTrialRef.current.isGo);
   }, [showStimulus, advance]);
 
   const handleWithhold = useCallback(() => {

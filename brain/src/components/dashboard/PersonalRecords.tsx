@@ -32,9 +32,9 @@ export default function PersonalRecords() {
 
       const personalBests: PersonalBest[] = [];
       grouped.forEach((records, testId) => {
+        const LOWER_IS_BETTER = new Set(['reaction-time', 'f1-lights', 'sound-reaction', 'choice-reaction', 'go-no-go', 'stroop', 'tmt-partA', 'tmt-partB']);
         const sorted = records.sort((a, b) => {
-          // Lower is better for reaction time, higher is better for memory
-          const isLowerBetter = testId.includes('reaction') || testId.includes('time');
+          const isLowerBetter = LOWER_IS_BETTER.has(testId);
           return isLowerBetter ? a.rawScore - b.rawScore : b.rawScore - a.rawScore;
         });
         
@@ -113,7 +113,7 @@ export default function PersonalRecords() {
       <div className="space-y-2">
         {records.map((record, idx) => (
           <div
-            key={idx}
+            key={record.testId}
             className="flex items-center justify-between p-4 border border-card-border rounded-lg bg-card hover:bg-hover transition-colors"
           >
             <div className="flex items-center gap-4">

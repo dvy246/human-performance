@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 import StageReaction from './gauntlet/StageReaction';
 import StageSequenceMemory from './gauntlet/StageSequenceMemory';
 import StageStroop from './gauntlet/StageStroop';
@@ -60,7 +61,7 @@ export default function GauntletTest() {
   const finalizeAll = async (totalScore: number, r: GauntletStageResult[]) => {
     if (submittedRef.current) return;
     submittedRef.current = true;
-    const percentile = lookupPercentile(totalScore);
+    const percentile = lookupPercentile('gauntlet', totalScore);
     try {
       await dataLayer.saveSession({
         testId: 'gauntlet', category: 'focus', rawScore: totalScore, percentile,
@@ -76,14 +77,7 @@ export default function GauntletTest() {
     setShareImage(card);
   };
 
-  const lookupPercentile = (score: number): number => {
-    const levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
-    const percentiles = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
-    for (let i = levels.length - 1; i >= 0; i--) {
-      if (score >= levels[i]) return percentiles[i];
-    }
-    return 0.1;
-  };
+  
 
   const prevResult = results[results.length - 1];
   const nextConfig = currentIdx < STAGE_CONFIGS.length ? STAGE_CONFIGS[currentIdx] : null;

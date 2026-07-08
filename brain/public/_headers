@@ -1,2 +1,27 @@
+# CogniArena — Production Security Headers
+# See SECURITY_AUDIT.md (SEC-02) for rationale
+
+# Production domain
+https://cogniarena.com/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://cogniarena-sync.divyyadav.workers.dev https://www.google-analytics.com https://analytics.google.com; frame-ancestors 'none'; base-uri 'self'
+
+# www subdomain
+https://www.cogniarena.com/*
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: camera=(), microphone=(), geolocation=()
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com https://www.clarity.ms; img-src 'self' data: https://www.google-analytics.com https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; connect-src 'self' https://cogniarena-sync.divyyadav.workers.dev https://www.google-analytics.com https://analytics.google.com; frame-ancestors 'none'; base-uri 'self'
+
+# Staging / preview deployments
 https://brain-bfn.pages.dev/*
   X-Robots-Tag: noindex
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

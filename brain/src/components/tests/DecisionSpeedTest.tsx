@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 const TOTAL = 20;
 const TIMEOUT_MS = 2000;
@@ -69,24 +70,21 @@ export default function DecisionSpeedTest() {
     const score = Math.round(acc * 60 + speedScore * 0.4);
     try {
       await dataLayer.saveSession({
-        testId: 'decision-speed', category: 'processing', rawScore: Math.round(acc * 100), percentile: lookupPercentile(score),
+        testId: 'decision-speed', category: 'processing', rawScore: Math.round(acc * 100), percentile: lookupPercentile('decision-speed', score),
         metadata: { accuracy: Math.round(acc * 100), avgReactionMs: avgRt },
       });
     } catch (err) {
       console.error('Failed to save Decision Speed session:', err);
     }
-    const card = await generateShareCard('Decision Speed Test', `${Math.round(acc * 100)}%`, lookupPercentile(score));
+    const card = await generateShareCard('Decision Speed Test', `${Math.round(acc * 100)}%`, lookupPercentile('decision-speed', score));
     setShareImage(card);
   };
 
-  const lookupPercentile = (s: number): number => {
-    const ls = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
-    const ps = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
-    for (let i = ls.length - 1; i >= 0; i--) if (s >= ls[i]) return ps[i];
-    return 0.1;
-  };
+  
 
   const startTest = () => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    submittedRef.current = false;
     setPhase('playing');
     setTrial(0);
     setResults([]);

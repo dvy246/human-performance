@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import percentilesData from '../../data/percentiles.json';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -91,19 +91,7 @@ export default function ChoiceReactionTest() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [gameState, activeColor, attempts]);
 
-  const lookupPercentile = (score: number): number => {
-    // Choice reaction speed has decision lag (Hick's Law). Average is ~400ms.
-    // Subtract 170ms to map choice scores to standard reaction bell curve percentiles.
-    const visualPercentileTable = percentilesData['reaction-time'];
-    const adjustedScore = Math.max(120, score - 170);
-    
-    for (let i = 0; i < visualPercentileTable.length; i++) {
-      if (adjustedScore <= visualPercentileTable[i].score) {
-        return visualPercentileTable[i].percentile;
-      }
-    }
-    return 99.9;
-  };
+
 
   const startTest = () => {
     setAttempts([]);
@@ -198,7 +186,7 @@ export default function ChoiceReactionTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setGameState('result');
-    const percentile = lookupPercentile(avgScore);
+    const percentile = lookupPercentile('choice-reaction', avgScore, true);
 
     try {
       await dataLayer.saveSession({
@@ -221,7 +209,7 @@ export default function ChoiceReactionTest() {
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const average = Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5);
+    const average = Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / Math.max(1, attempts.length));
     const token = encodeChallenge({ testId: 'choice-reaction', score: average });
     const url = `${window.location.origin}/tests/choice-reaction/?challenge=${token}`;
     
@@ -312,7 +300,7 @@ export default function ChoiceReactionTest() {
                 {Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {100 - lookupPercentile(Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5))}% globally
+                Top {100 - lookupPercentile('choice-reaction', Math.round(attempts.reduce((sum, item) => sum + item.score, 0) / 5), true)}% globally
               </span>
             </div>
 

@@ -1,0 +1,168 @@
+---
+import Layout from "@/layouts/main.astro";
+import AimCoordinationTest from "@/components/tests/AimCoordinationTest";
+
+const title = "Aim Coordination Test — Hand-Eye Coordination Benchmark | CogniArena";
+const description = "Test your hand-eye coordination speed. Click targets as fast as they appear and measure your visual-motor response latency. Free online coordination assessment.";
+const canonicalUrl = "https://cogniarena.com/tests/aim-coordination";
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": "Aim Coordination Test",
+    "description": "A hand-eye coordination speed assessment measuring visual-motor response latency to random target stimuli.",
+    "about": {
+      "@type": "Thing",
+      "name": "Hand-Eye Coordination"
+    }
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What does the Aim Coordination Test measure?",
+        "acceptedAnswer": { "@type": "Answer", "text": "It measures your visual-motor response latency — the time from when a target appears on screen to when you successfully click it. This captures the speed of your hand-eye coordination loop: eyes detect the stimulus, the brain processes spatial coordinates, and motor signals are sent to your hand to execute the click." }
+      },
+      {
+        "@type": "Question",
+        "name": "How is this different from the Aim Precision Trainer?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The Aim Precision Trainer uses smaller targets (24px radius) and focuses on pixel-offset accuracy and fine motor control. The Aim Coordination Test uses larger targets (30px radius) and prioritizes raw response speed — measuring how fast you can acquire and hit a target rather than how precisely you can click its center." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can I improve my hand-eye coordination speed?",
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Regular practice with aim trainers and fast-paced video games strengthens the neuromuscular pathways between your visual cortex and motor cortex. Over time, your brain builds more efficient myelin sheaths along these pathways, reducing signal transmission delay and improving coordination speed." }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+      { "@type": "ListItem", "position": 2, "name": "Reaction & Reflexes", "item": "https://cogniarena.com/#suite" },
+      { "@type": "ListItem", "position": 3, "name": "Aim Coordination Test", "item": "https://cogniarena.com/tests/aim-coordination" }
+    ]
+  }
+];
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/#suite" class="hover:underline">Tests</a>
+        <span>/</span>
+        <span class="text-muted">Aim Coordination Test</span>
+      </nav>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+        Aim Coordination Test
+      </h1>
+      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
+        Test your hand-eye coordination speed. Click targets as fast as they appear and measure your visual-motor response latency. This assessment isolates the raw speed of your sensory-motor loop.
+      </p>
+    </header>
+
+    <!-- Interactive Game Island Container -->
+    <section class="w-full">
+      <AimCoordinationTest client:visible />
+    </section>
+
+    <!-- Below the fold SEO and Methodology Content -->
+
+      <!-- Medical/Scientific Disclaimer Notice -->
+      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
+        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
+      </div>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      
+      {/* Scientific Methodology link */}
+      <div class="flex items-center gap-3 text-xs text-muted">
+        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
+        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+      </div>
+
+      <!-- What is it -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is the Aim Coordination Test?</h2>
+        <p class="text-muted text-sm leading-relaxed">
+          The Aim Coordination Test measures how quickly your brain can process a visual stimulus and execute a precise motor response. When a green target appears at a random position on the canvas, your visual cortex detects it, your brain computes the spatial coordinates, and your motor cortex sends signals to your hand to move the cursor and click — all in a fraction of a second.
+        </p>
+        <p class="text-muted text-sm leading-relaxed">
+          Unlike simple reaction time tests that measure response to a single predictable stimulus, this test adds a spatial coordination component — your brain must not only react quickly but also compute target position and guide your hand to the correct location. This makes it a more comprehensive measure of hand-eye coordination ability.
+        </p>
+      </article>
+
+      <!-- What it measures -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">What Does Hand-Eye Coordination Measure?</h2>
+        <p class="text-muted text-sm leading-relaxed">
+          Hand-eye coordination is the ability of the visual system to coordinate movements of the hands with processing of visual information. The test measures several components of this ability:
+        </p>
+        <ul class="list-disc list-inside text-muted text-sm flex flex-col gap-2 leading-relaxed">
+          <li><strong class="text-foreground">Visual Processing Speed:</strong> How quickly your eyes detect and transmit the target stimulus to the brain via the optic nerve.</li>
+          <li><strong class="text-foreground">Spatial Computation:</strong> How efficiently your parietal lobe computes the target's position relative to your cursor and plans the movement trajectory.</li>
+          <li><strong class="text-foreground">Motor Execution Speed:</strong> How fast your motor cortex sends signals through the corticospinal tract to execute the physical click.</li>
+        </ul>
+        <p class="text-muted text-sm leading-relaxed">
+          The total latency from target appearance to successful click captures the entire sensorimotor pipeline — typically ranging from 300ms to 600ms for most people.
+        </p>
+      </article>
+
+      <!-- How to improve -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">How to Improve Your Coordination Speed</h2>
+        <ul class="list-disc list-inside text-muted text-sm flex flex-col gap-2 leading-relaxed">
+          <li><strong class="text-foreground">Practice Aim Trainers Regularly:</strong> Repeated exposure to target-acquisition tasks strengthens the neural pathways between your visual and motor cortices, reducing signal transmission time.</li>
+          <li><strong class="text-foreground">Play Fast-Paced Action Games:</strong> FPS and action games demand rapid target tracking and clicking, which has been shown to improve visual attention and spatial coordination.</li>
+          <li><strong class="text-foreground">Optimize Your Hardware:</strong> A high-refresh-rate monitor (144Hz+) and a low-latency mouse reduce hardware-induced delays, letting you see and respond to targets faster.</li>
+          <li><strong class="text-foreground">Maintain Focus and Rest:</strong> Coordination speed degrades significantly with fatigue. Ensure adequate sleep and take regular breaks to maintain peak performance.</li>
+        </ul>
+      </article>
+
+    <!-- Related Tests -->
+    <article class="flex flex-col gap-3">
+      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
+      <div class="flex flex-wrap gap-2">
+        <a href="/tests/reaction-time" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Reaction Time →</a>
+        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
+        <a href="/tests/f1-lights" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">F1 Lights →</a>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
+      <article class="flex flex-col gap-6">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        
+        <div class="flex flex-col gap-4">
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">What does the Aim Coordination Test measure?</h3>
+            <p class="text-muted text-sm leading-relaxed">
+              It measures your visual-motor response latency — the time from when a target appears on screen to when you successfully click it. This captures the speed of your hand-eye coordination loop: eyes detect the stimulus, the brain processes spatial coordinates, and motor signals are sent to your hand to execute the click.
+            </p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">How is this different from the Aim Precision Trainer?</h3>
+            <p class="text-muted text-sm leading-relaxed">
+              The Aim Precision Trainer uses smaller targets (24px radius) and focuses on pixel-offset accuracy and fine motor control. The Aim Coordination Test uses larger targets (30px radius) and prioritizes raw response speed — measuring how fast you can acquire and hit a target rather than how precisely you can click its center.
+            </p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">Can I improve my hand-eye coordination speed?</h3>
+            <p class="text-muted text-sm leading-relaxed">
+              Yes. Regular practice with aim trainers and fast-paced video games strengthens the neuromuscular pathways between your visual cortex and motor cortex. Over time, your brain builds more efficient myelin sheaths along these pathways, reducing signal transmission delay and improving coordination speed.
+            </p>
+          </div>
+        </div>
+      </article>
+      
+    </section>
+  </div>
+</Layout>

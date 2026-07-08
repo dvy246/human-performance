@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
-import percentilesData from '../../data/percentiles.json';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 import SocialShare from '../ui/SocialShare';
 import Stage1SelectiveAttention from './focus/Stage1SelectiveAttention';
 import Stage2ImpulseControl from './focus/Stage2ImpulseControl';
@@ -157,13 +157,7 @@ export default function FocusChallengeTest() {
     return () => { mounted = false; };
   }, []);
 
-  const lookupPercentile = (score: number): number => {
-    const table = (percentilesData as any)['focus-challenge'] || [];
-    for (let i = 0; i < table.length; i++) {
-      if (score >= table[i].score) return table[i].percentile;
-    }
-    return 0.1;
-  };
+
 
   const handleStageComplete = (result: StageResult) => {
     if (stageCompletedRef.current) return;
@@ -190,7 +184,7 @@ export default function FocusChallengeTest() {
   const finalizeAll = async (totalScore: number, results: StageResult[]) => {
     if (submittedRef.current) return;
     submittedRef.current = true;
-    const percentile = lookupPercentile(totalScore);
+    const percentile = lookupPercentile('focus-challenge', totalScore);
     try {
       await dataLayer.saveSession({
         testId: 'focus-challenge',
@@ -305,7 +299,7 @@ export default function FocusChallengeTest() {
             <h2 className="text-2xl font-bold text-foreground tracking-tight mb-3">Focus Challenge Complete</h2>
             <div className={`text-6xl font-bold font-mono ${getPerformanceColor(overallScore)}`}>{overallScore}</div>
             <div className="text-sm text-accent font-medium mt-1">/ 100</div>
-            <div className={`text-xs font-mono uppercase mt-1 ${getPerformanceColor(overallScore)}`}>{getPerformanceLabel(overallScore)} · Top {100 - lookupPercentile(overallScore)}%</div>
+            <div className={`text-xs font-mono uppercase mt-1 ${getPerformanceColor(overallScore)}`}>{getPerformanceLabel(overallScore)} · Top {100 - lookupPercentile('focus-challenge', overallScore)}%</div>
             {isNewPB && <div className="text-success text-xs font-mono mt-1 animate-pulse">✦ New Personal Best!</div>}
             {beatChallenge && <div className="text-success text-xs font-mono mt-1">✓ Beat your friend's score!</div>}
           </div>

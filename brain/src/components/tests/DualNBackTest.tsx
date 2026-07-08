@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 import SocialShare from '../ui/SocialShare';
 
 type GameState = 'idle' | 'running' | 'result';
@@ -36,8 +37,6 @@ export default function DualNBackTest() {
   const [shareImage, setShareImage] = useState<string | null>(null);
 
   // Tracks if the user already pressed match keys in the current trial
-  const posAnswered = useRef<boolean>(false);
-  const letterAnswered = useRef<boolean>(false);
   const userMatchPos = useRef<boolean>(false);
   const userMatchLetter = useRef<boolean>(false);
   const posMatchesRef = useRef<boolean[]>([]);
@@ -46,6 +45,7 @@ export default function DualNBackTest() {
 
   const trialTimerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const sequenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const initialNRef = useRef<number>(2);
 
   useEffect(() => {
     let mounted = true;
@@ -56,6 +56,9 @@ export default function DualNBackTest() {
       mounted = false;
       if (trialTimerRef.current) clearInterval(trialTimerRef.current);
       if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
+      if (typeof window !== 'undefined' && window.speechSynthesis) {
+        window.speechSynthesis.cancel();
+      }
     };
   }, []);
 
@@ -100,12 +103,13 @@ export default function DualNBackTest() {
   };
 
   const startTest = () => {
-    currentNRef.current = 2;
-    maxNRef.current = 2;
+    currentNRef.current = n;
+    maxNRef.current = n;
+    initialNRef.current = n;
     consecutiveCorrect.current = 0;
-    setN(2);
-    setMaxN(2);
-    const sequence = generateSequence(2);
+    setN(n);
+    setMaxN(n);
+    const sequence = generateSequence(n);
     setTrialList(sequence);
     setCurrentIdx(-1);
     setActivePosition(null);
@@ -141,8 +145,6 @@ export default function DualNBackTest() {
     speakLetter(stim.letter);
 
     // Clear user match flags
-    posAnswered.current = false;
-    letterAnswered.current = false;
     userMatchPos.current = false;
     userMatchLetter.current = false;
 
@@ -216,7 +218,8 @@ export default function DualNBackTest() {
     // Calculate total matches accuracy from refs (captures last trial)
     const posCorrectCount = posMatchesRef.current.filter(Boolean).length;
     const letterCorrectCount = letterMatchesRef.current.filter(Boolean).length;
-    const totalPossible = (TOTAL_TRIALS - n) * 2;
+    const totalEvaluated = posMatchesRef.current.length;
+    const totalPossible = Math.max(1, totalEvaluated) * 2;
     const totalCorrect = posCorrectCount + letterCorrectCount;
     const finalAccuracy = Math.round((totalCorrect / Math.max(1, totalPossible)) * 100);
 
@@ -227,7 +230,7 @@ export default function DualNBackTest() {
     const finalScore = Math.round((achievedN * 1000) + (finalAccuracy * 50));
     setScore(finalScore);
 
-    const percentile = Math.max(1, Math.min(99, Math.round((finalScore / 10000) * 100)));
+    const percentile = lookupPercentile('dual-n-back', finalScore);
 
     try {
       await dataLayer.saveSession({
@@ -398,13 +401,13 @@ export default function DualNBackTest() {
             <div className="flex flex-col">
               <span className="text-[10px] text-muted uppercase font-mono">Position Correct</span>
               <span className="text-sm font-bold text-foreground">
-                {posMatches.filter(Boolean).length} / {TOTAL_TRIALS - n}
+                {posMatches.filter(Boolean).length} / {posMatches.length}
               </span>
             </div>
             <div className="flex flex-col">
               <span className="text-[10px] text-muted uppercase font-mono">Audio Correct</span>
               <span className="text-sm font-bold text-foreground">
-                {letterMatches.filter(Boolean).length} / {TOTAL_TRIALS - n}
+                {letterMatches.filter(Boolean).length} / {letterMatches.length}
               </span>
             </div>
             <div className="flex flex-col">
@@ -424,7 +427,7 @@ export default function DualNBackTest() {
             <SocialShare
               testId="dual-n-back"
               score={score}
-              scoreLabel={`N=${n} (${accuracy}%)`}
+              scoreLabel={`N=${maxN} (${accuracy}%)`}
               testName="Dual N-Back Memory Test"
             />
           )}

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 const WORD_POOL = [
   'apple', 'bridge', 'cloud', 'dragon', 'eagle', 'forest', 'garden', 'hammer', 'island', 'jewel',
@@ -9,9 +10,23 @@ const WORD_POOL = [
   'umbrella', 'valley', 'winter', 'yellow', 'arrow', 'beacon', 'candle', 'desert', 'ember', 'flame',
   'glacier', 'horizon', 'ivory', 'jungle', 'kettle', 'lantern', 'marble', 'nectar', 'orbit', 'plaza',
   'quartz', 'raven', 'summit', 'thunder', 'violet', 'willow', 'zenith', 'anchor', 'bloom', 'crystal',
+  'compass', 'dawn', 'falcon', 'granite', 'harbor', 'iron', 'jasper', 'lotus', 'maple', 'opal',
+  'pearl', 'ridge', 'sapphire', 'tide', 'urchin', 'velvet', 'walnut', 'cedar', 'dusk', 'frost',
+  'grove', 'hazel', 'jade', 'lilac', 'mosaic', 'onyx', 'prism', 'reef', 'sage', 'torch',
+  'coral', 'delta', 'flint', 'garnet', 'harvest', 'indigo', 'lagoon', 'meadow', 'oasis', 'pine',
+  'ruby', 'scarlet', 'timber', 'unity', 'vortex', 'wave', 'acorn', 'birch', 'copper', 'dune',
 ];
 
 const MAX_LEVEL = 12;
+
+function fisherYatesShuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 export default function VerbalMemoryTest() {
   const [phase, setPhase] = useState<'intro' | 'encoding' | 'recall' | 'done'>('intro');
@@ -22,15 +37,15 @@ export default function VerbalMemoryTest() {
   const [maxCorrect, setMaxCorrect] = useState(0);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const submittedRef = useRef(false);
+  const encodingTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
 
   const generateList = (len: number) => {
-    const shuffled = [...WORD_POOL].sort(() => Math.random() - 0.5);
-    return shuffled.slice(0, len);
+    return fisherYatesShuffle(WORD_POOL).slice(0, len);
   };
 
   const generateOptions = (list: string[]) => {
-    const distractors = WORD_POOL.filter(w => !list.includes(w)).sort(() => Math.random() - 0.5).slice(0, list.length);
-    return [...list, ...distractors].sort(() => Math.random() - 0.5);
+    const distractors = fisherYatesShuffle(WORD_POOL.filter(w => !list.includes(w))).slice(0, list.length);
+    return fisherYatesShuffle([...list, ...distractors]);
   };
 
   const startLevel = (lvl: number) => {
@@ -39,7 +54,8 @@ export default function VerbalMemoryTest() {
     setWordList(list);
     setPhase('encoding');
     setSelected([]);
-    setTimeout(() => {
+    if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current);
+    encodingTimerRef.current = setTimeout(() => {
       setOptions(generateOptions(list));
       setPhase('recall');
     }, Math.min(3000, len * 1200));
@@ -68,22 +84,23 @@ export default function VerbalMemoryTest() {
     const score = Math.max(0, Math.min(100, Math.round((correct / Math.min(3 + level, 12)) * 100)));
     try {
       await dataLayer.saveSession({
-        testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile(score),
+        testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile('verbal-memory', score),
         metadata: { level, maxListLength: Math.min(3 + level, 12) },
       });
     } catch (err) {
       console.error('Failed to save Verbal Memory session:', err);
     }
-    const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile(score));
+    const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile('verbal-memory', score));
     setShareImage(card);
   };
 
-  const lookupPercentile = (s: number): number => {
-    const levels = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
-    const pcts = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
-    for (let i = levels.length - 1; i >= 0; i--) if (s >= levels[i]) return pcts[i];
-    return 0.1;
-  };
+  
+
+  useEffect(() => {
+    return () => {
+      if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current);
+    };
+  }, []);
 
   if (phase === 'intro') {
     return (
@@ -157,7 +174,7 @@ export default function VerbalMemoryTest() {
             </a>
           )}
           <SocialShare testId="verbal-memory" score={finalCorrect} scoreLabel={`${finalCorrect}/${wordList.length}`} testName="Verbal Memory Test" />
-          <button onClick={() => setPhase('intro')} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
+          <button onClick={() => { if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current); submittedRef.current = false; setPhase('intro'); }} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             <span>Try Again</span>
           </button>

@@ -5,21 +5,53 @@ const title = "Reaction Time Hub — Science and Training | CogniArena";
 const description = "Scientific analysis of human reaction time, Hick's Law formulas, training systems, and population percentile curves.";
 const canonicalUrl = "https://cogniarena.com/learn/reaction-time";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Scientific Analysis of Reaction Time & Neural Latency",
-  "description": "Comprehensive guide to human reaction speed benchmarks, visual paint-sync calibration, and reflex training protocols.",
-  "author": {
-    "@type": "Person",
-    "name": "Dr. Alan Vanc",
-    "jobTitle": "Neuroscience Researcher"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Scientific Analysis of Reaction Time & Neural Latency",
+    "description": "Comprehensive guide to human reaction speed benchmarks, visual paint-sync calibration, and reflex training protocols.",
+    "author": {
+      "@type": "Person",
+      "name": "Dr. Alan Vanc",
+      "jobTitle": "Neuroscience Researcher"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    }
   },
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the average human reaction time?",
+        "acceptedAnswer": { "@type": "Answer", "text": "The average visual reaction speed is roughly 250ms for simple stimuli, while auditory triggers average around 170ms due to shorter synapse pathways." }
+      },
+      {
+        "@type": "Question",
+        "name": "How does monitor refresh rate affect reaction time scores?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A 60Hz display introduces up to 16.7ms of visual display lag. Using a 144Hz or 240Hz screen minimizes paint delay, displaying the trigger stimulus faster." }
+      },
+      {
+        "@type": "Question",
+        "name": "What is a good reaction time?",
+        "acceptedAnswer": { "@type": "Answer", "text": "A visual reaction time below 250ms is considered excellent for adults aged 20-35. Below 200ms is elite territory. Above 300ms may indicate fatigue or hardware latency." }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+      { "@type": "ListItem", "position": 2, "name": "Learning Center", "item": "https://cogniarena.com/learn" },
+      { "@type": "ListItem", "position": 3, "name": "Reaction Time", "item": "https://cogniarena.com/learn/reaction-time" }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>

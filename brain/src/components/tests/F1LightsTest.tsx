@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import percentilesData from '../../data/percentiles.json';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TestState = 'idle' | 'sequence' | 'waiting' | 'ready' | 'attempt-result' | 'jump-start' | 'result';
 
@@ -58,17 +58,7 @@ export default function F1LightsTest() {
     if (rafId.current) cancelAnimationFrame(rafId.current);
   };
 
-  const lookupPercentile = (score: number): number => {
-    // F1 starts require slightly faster trigger response (average ~220ms on F1 lights vs ~250ms visual)
-    // We adjust the percentile mapping slightly or reuse reaction-time percentiles.
-    const table = percentilesData['reaction-time'];
-    for (let i = 0; i < table.length; i++) {
-      if (score <= table[i].score) {
-        return table[i].percentile;
-      }
-    }
-    return 99.9;
-  };
+
 
   const startTest = () => {
     setAttempts([]);
@@ -155,7 +145,7 @@ export default function F1LightsTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setGameState('result');
-    const percentile = lookupPercentile(avgScore);
+    const percentile = lookupPercentile('f1-lights', avgScore, true);
 
     try {
       await dataLayer.saveSession({
@@ -178,7 +168,7 @@ export default function F1LightsTest() {
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const average = Math.round(attempts.reduce((a, b) => a + b, 0) / 5);
+    const average = Math.round(attempts.reduce((a, b) => a + b, 0) / Math.max(1, attempts.length));
     const token = encodeChallenge({ testId: 'f1-lights', score: average });
     const url = `${window.location.origin}/tests/f1-lights/?challenge=${token}`;
     
@@ -308,7 +298,7 @@ export default function F1LightsTest() {
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {100 - lookupPercentile(Math.round(attempts.reduce((a, b) => a + b, 0) / 5))}% drivers class
+                Top {100 - lookupPercentile('f1-lights', Math.round(attempts.reduce((a, b) => a + b, 0) / 5), true)}% drivers class
               </span>
             </div>
           )}

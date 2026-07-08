@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TestState = 'idle' | 'playing' | 'result';
 
@@ -122,18 +123,7 @@ export default function AimTrainer() {
     return () => cancelAnimationFrame(animId);
   }, [gameState]);
 
-  const lookupPercentile = (avgLatency: number): number => {
-    // 30 targets aim trainer average is ~380ms (50th percentile)
-    // 290ms is ~95th percentile
-    // 240ms is ~99th percentile
-    if (avgLatency <= 230) return 99.9;
-    if (avgLatency <= 270) return 98.0;
-    if (avgLatency <= 320) return 90.0;
-    if (avgLatency <= 380) return 70.0;
-    if (avgLatency <= 450) return 40.0;
-    if (avgLatency <= 520) return 20.0;
-    return 1.0;
-  };
+
 
   const spawnTarget = () => {
     if (!canvasRef.current) return;
@@ -165,6 +155,7 @@ export default function AimTrainer() {
     setLatencies([]);
     setOffsets([]);
     setShareImage(null);
+    submittedRef.current = false;
     setGameState('playing');
 
     setTimeout(() => {
@@ -231,7 +222,7 @@ export default function AimTrainer() {
         testId: 'aim-trainer',
         category: 'precision',
         rawScore: averageLatency,
-        percentile: lookupPercentile(averageLatency),
+        percentile: lookupPercentile('aim-trainer', averageLatency, true),
         metadata: { accuracy, offset: averageOffset }
       });
     } catch (err) {
@@ -241,7 +232,7 @@ export default function AimTrainer() {
     const pb = await dataLayer.getPersonalBest('aim-trainer', 'lower');
     setPersonalBest(pb);
 
-    const card = await generateShareCard('Aim Precision Trainer', `${averageLatency} ms avg`, lookupPercentile(averageLatency));
+    const card = await generateShareCard('Aim Precision Trainer', `${averageLatency} ms avg`, lookupPercentile('aim-trainer', averageLatency, true));
     setShareImage(card);
   };
 
@@ -291,7 +282,7 @@ export default function AimTrainer() {
               {Math.round(latencies.reduce((a, b) => a + b, 0) / 30)} ms
             </div>
             <span className="text-accent text-xs font-mono uppercase">
-              Top {100 - lookupPercentile(Math.round(latencies.reduce((a, b) => a + b, 0) / 30))}% aim profile
+              Top {100 - lookupPercentile('aim-trainer', Math.round(latencies.reduce((a, b) => a + b, 0) / 30), true)}% aim profile
             </span>
           </div>
 

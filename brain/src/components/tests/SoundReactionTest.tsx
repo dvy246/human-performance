@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import percentilesData from '../../data/percentiles.json';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -58,28 +58,16 @@ export default function SoundReactionTest() {
     };
   }, []);
 
-  const lookupPercentile = (score: number): number => {
-    // Auditory reaction times are generally faster than visual (average is ~150-170ms)
-    // We adjust the lookup score threshold by offsetting it to maintain realistic distribution percentiles
-    const visualPercentileTable = percentilesData['reaction-time'];
-    const adjustedScore = score + 40; // Offset auditory to match visual bell-curve distribution scale
-    
-    for (let i = 0; i < visualPercentileTable.length; i++) {
-      if (adjustedScore <= visualPercentileTable[i].score) {
-        return visualPercentileTable[i].percentile;
-      }
-    }
-    return 99.9;
-  };
 
-  const initAudio = () => {
+
+  const initAudio = async () => {
     if (typeof window === 'undefined') return false;
     try {
       if (!audioCtx.current) {
         audioCtx.current = new (window.AudioContext || (window as any).webkitAudioContext)();
       }
       if (audioCtx.current.state === 'suspended') {
-        audioCtx.current.resume();
+        await audioCtx.current.resume();
       }
       setAudioError(false);
       return true;
@@ -119,8 +107,8 @@ export default function SoundReactionTest() {
     }
   };
 
-  const startTest = () => {
-    const audioInitialized = initAudio();
+  const startTest = async () => {
+    const audioInitialized = await initAudio();
     if (!audioInitialized) {
       // Continue anyway but show warning
       console.warn('Audio initialization failed - test will continue with visual feedback only');
@@ -192,7 +180,7 @@ export default function SoundReactionTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setGameState('result');
-    const percentile = lookupPercentile(avgScore);
+    const percentile = lookupPercentile('sound-reaction', avgScore, true);
 
     try {
       await dataLayer.saveSession({
@@ -215,7 +203,7 @@ export default function SoundReactionTest() {
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const average = Math.round(attempts.reduce((a, b) => a + b, 0) / 5);
+    const average = Math.round(attempts.reduce((a, b) => a + b, 0) / Math.max(1, attempts.length));
     const token = encodeChallenge({ testId: 'sound-reaction', score: average });
     const url = `${window.location.origin}/tests/sound-reaction/?challenge=${token}`;
     
@@ -330,7 +318,7 @@ export default function SoundReactionTest() {
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {100 - lookupPercentile(Math.round(attempts.reduce((a, b) => a + b, 0) / 5))}% speed
+                Top {100 - lookupPercentile('sound-reaction', Math.round(attempts.reduce((a, b) => a + b, 0) / 5), true)}% speed
               </span>
             </div>
 

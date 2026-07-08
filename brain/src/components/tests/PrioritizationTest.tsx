@@ -2,12 +2,22 @@ import { useState, useRef, useEffect } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 interface Task {
   id: number; name: string; deadline: number; points: number; effort: number;
 }
 
 const ROUNDS = 5;
+
+function fisherYatesShuffle<T>(arr: T[]): T[] {
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
 
 function generateTasks(): Task[] {
   const pools = [
@@ -22,7 +32,7 @@ function generateTasks(): Task[] {
     { name: 'Fix CSS bug', points: 25, effort: 1 },
     { name: 'Code review', points: 30, effort: 2 },
   ];
-  return pools.sort(() => Math.random() - 0.5).slice(0, 5).map((t, i) => ({
+  return fisherYatesShuffle(pools).slice(0, 5).map((t, i) => ({
     ...t, id: i, deadline: (i + 1) * 3 + Math.floor(Math.random() * 3),
   }));
 }
@@ -102,24 +112,21 @@ export default function PrioritizationTest() {
     const score = Math.max(0, Math.min(100, Math.round(avg / 80 * 100)));
     try {
       await dataLayer.saveSession({
-        testId: 'prioritization', category: 'executive', rawScore: score, percentile: lookupPercentile(score),
+        testId: 'prioritization', category: 'executive', rawScore: score, percentile: lookupPercentile('prioritization', score),
         metadata: { totalPoints: total, rounds: ROUNDS, avgPerRound: avg },
       });
     } catch (err) {
       console.error('Failed to save Prioritization session:', err);
     }
-    const card = await generateShareCard('Prioritization Test', `${total} pts`, lookupPercentile(score)).catch(() => '');
+    const card = await generateShareCard('Prioritization Test', `${total} pts`, lookupPercentile('prioritization', score)).catch(() => '');
     setShareImage(card);
   };
 
-  const lookupPercentile = (s: number): number => {
-    const ls = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
-    const ps = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
-    for (let i = ls.length - 1; i >= 0; i--) if (s >= ls[i]) return ps[i];
-    return 0.1;
-  };
+  
 
   const begin = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    submittedRef.current = false;
     setRound(0);
     setResults([]);
     setPhase('playing');

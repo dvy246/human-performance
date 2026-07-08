@@ -111,7 +111,7 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
   }, [onComplete, clearTimers]);
 
   useEffect(() => {
-    if (phase !== 'playing' || timeRemaining <= 0) return;
+    if (phase !== 'playing') return;
     const interval = setInterval(() => {
       const elapsed = performance.now() - startTimeRef.current;
       const remaining = Math.max(0, DURATION_MS - elapsed);
@@ -122,7 +122,7 @@ export default function Stage4SustainedAttention({ onComplete, calibrationHz }: 
       }
     }, 100);
     return () => clearInterval(interval);
-  }, [phase, timeRemaining, finish]);
+  }, [phase, finish]);
 
   const startPlaying = useCallback(() => {
     isMountedRef.current = true;

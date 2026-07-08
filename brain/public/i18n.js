@@ -14,6 +14,43 @@
 (function() {
   'use strict';
 
+  // SEC-04: Allowlisted HTML tags for data-i18n-html elements.
+  // Only inline formatting tags are permitted — no event handlers or attributes.
+  var ALLOWED_HTML_TAGS = { 'strong': 1, 'em': 1, 'b': 1, 'i': 1, 'br': 1, 'span': 1 };
+
+  /**
+   * Sanitize an HTML string to only allow known-safe inline tags.
+   * Strips all attributes (including event handlers) and disallowed elements.
+   */
+  function sanitizeHtml(html) {
+    var div = document.createElement('div');
+    div.innerHTML = html;
+
+    function clean(node) {
+      var children = Array.from(node.childNodes);
+      for (var idx = 0; idx < children.length; idx++) {
+        var child = children[idx];
+        if (child.nodeType === 1) { // Element node
+          var tag = child.tagName.toLowerCase();
+          if (!ALLOWED_HTML_TAGS[tag]) {
+            // Replace disallowed element with its text content
+            node.replaceChild(document.createTextNode(child.textContent), child);
+          } else {
+            // Strip ALL attributes (removes onclick, onerror, style, href, etc.)
+            var attrs = Array.from(child.attributes);
+            for (var a = 0; a < attrs.length; a++) {
+              child.removeAttribute(attrs[a].name);
+            }
+            clean(child);
+          }
+        }
+      }
+    }
+
+    clean(div);
+    return div.innerHTML;
+  }
+
   // Will be populated by inline script in <head> with window.__i18nData
   var translations = window.__i18nData || {};
   var currentLang = localStorage.getItem('language') || 'en';
@@ -34,11 +71,12 @@
     }
 
     // HTML content replacements (for strings with <strong> etc)
+    // SEC-04: Sanitize HTML to prevent XSS if translation data is ever modified
     var htmlEls = document.querySelectorAll('[data-i18n-html]');
     for (var j = 0; j < htmlEls.length; j++) {
       var htmlKey = htmlEls[j].getAttribute('data-i18n-html');
       if (dict[htmlKey] !== undefined) {
-        htmlEls[j].innerHTML = dict[htmlKey];
+        htmlEls[j].innerHTML = sanitizeHtml(dict[htmlKey]);
       }
     }
 

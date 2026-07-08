@@ -32,6 +32,15 @@ const schemaJson = [
         "acceptedAnswer": { "@type": "Answer", "text": "Do not try to remember individual grid numbers. Instead, visualize the sequence as a single drawing path (e.g. an L-shape followed by a triangle). This technique encodes multiple coordinates as a single cognitive chunk, dramatically extending your memory buffer." }
       }
     ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+      { "@type": "ListItem", "position": 2, "name": "Memory Suite", "item": "https://cogniarena.com/#suite" },
+      { "@type": "ListItem", "position": 3, "name": "Sequence Memory Test", "item": "https://cogniarena.com/tests/sequence-memory" }
+    ]
   }
 ];
 ---
@@ -40,11 +49,13 @@ const schemaJson = [
   <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
-        <span>Assessment Suite</span>
-        <span>&middot;</span>
-        <span>Memory Suite</span>
-      </div>
+      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/#suite" class="hover:underline">Tests</a>
+        <span>/</span>
+        <span class="text-muted">Sequence Memory Test</span>
+      </nav>
       <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
         Sequence Memory Test
       </h1>
@@ -109,7 +120,17 @@ const schemaJson = [
         </p>
       </article>
 
-      <!-- FAQ Section -->
+    <!-- Related Tests -->
+    <article class="flex flex-col gap-3">
+      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
+      <div class="flex flex-wrap gap-2">
+        <a href="/tests/number-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Number Memory →</a>
+        <a href="/tests/visual-pattern" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Visual Pattern →</a>
+        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
+      </div>
+    </article>
+
+    <!-- FAQ Section -->
       <article class="flex flex-col gap-6">
         <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
         

@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TestState = 'idle' | 'showing' | 'playing' | 'result';
 
@@ -42,20 +43,7 @@ export default function SequenceMemoryTest() {
     return () => { mounted = false; };
   }, []);
 
-  const lookupPercentile = (lvl: number): number => {
-    // Sequence Memory distribution
-    // Average is level 7 (50th percentile)
-    // Level 10 is ~85th percentile
-    // Level 13 is ~95th percentile
-    // Level 16+ is ~99th percentile
-    if (lvl >= 17) return 99.9;
-    if (lvl >= 14) return 98.0;
-    if (lvl >= 11) return 90.0;
-    if (lvl >= 8) return 70.0;
-    if (lvl >= 6) return 40.0;
-    if (lvl >= 4) return 15.0;
-    return 1.0;
-  };
+
 
   const startTest = () => {
     sequenceRef.current = [];
@@ -64,6 +52,7 @@ export default function SequenceMemoryTest() {
     setUserSequence([]);
     setLevel(1);
     setShareImage(null);
+    submittedRef.current = false;
     nextRound(true);
   };
 
@@ -133,7 +122,7 @@ export default function SequenceMemoryTest() {
     submittedRef.current = true;
     setGameState('result');
     const finalScore = level - 1;
-    const percentile = lookupPercentile(finalScore);
+    const percentile = lookupPercentile('sequence-memory', finalScore);
 
     try {
       await dataLayer.saveSession({
@@ -208,7 +197,7 @@ export default function SequenceMemoryTest() {
               <span className="text-muted text-xs font-mono uppercase">Memory Span Capacity</span>
               <div className="text-5xl font-mono font-bold text-foreground">Level {level - 1}</div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {100 - lookupPercentile(level - 1)}% of population
+                Top {100 - lookupPercentile('sequence-memory', level - 1)}% of population
               </span>
             </div>
 
@@ -219,7 +208,7 @@ export default function SequenceMemoryTest() {
               </div>
               <div>
                 <span className="text-muted text-[10px] font-mono uppercase">Percentile Span</span>
-                <div className="text-foreground font-mono text-sm">~{Math.round(100 - lookupPercentile(level - 1))}%ile</div>
+                <div className="text-foreground font-mono text-sm">~{Math.round(100 - lookupPercentile('sequence-memory', level - 1))}%ile</div>
               </div>
             </div>
 

@@ -124,7 +124,7 @@ export default function SyncPanel() {
               /* ACTIVE SYNC VIEWER */
               <div className="flex flex-col gap-4">
                 <div className="bg-subtle border border-card-border p-4 rounded-lg flex flex-col gap-2">
-                  <span className="text-[10px] font-mono uppercase text-muted">Your 6-Word Recovery Code</span>
+                  <span className="text-[10px] font-mono uppercase text-muted">Your 8-Word Recovery Code</span>
                   <div className="text-foreground font-mono text-xs select-all bg-[var(--btn-secondary-bg)] px-3 py-2 rounded border border-card-border break-all text-center">
                     {recoveryCode}
                   </div>
@@ -170,12 +170,12 @@ export default function SyncPanel() {
                 <form onSubmit={handlePullSync} className="flex flex-col gap-2 p-4 rounded-lg bg-subtle border border-card-border">
                   <h4 className="text-xs font-semibold text-foreground">Sync Existing Profile</h4>
                   <p className="text-muted text-[11px] leading-normal mb-3">
-                    Paste your 6-word recovery code below to load history from the edge.
+                    Paste your 8-word recovery code below to load history from the edge.
                   </p>
                   <div className="flex gap-2">
                     <input
                       type="text"
-                      placeholder="e.g. word-word-word-word-word-word"
+                      placeholder="e.g. word-word-word-word-word-word-word-word"
                       value={inputCode}
                       onChange={(e) => setInputCode(e.target.value)}
                       className="flex-1 h-8 bg-[var(--bg-input)] border border-card-border px-3 rounded text-xs font-mono text-foreground placeholder-muted focus:outline-none focus:border-accent"

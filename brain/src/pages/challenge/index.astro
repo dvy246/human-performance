@@ -30,16 +30,30 @@ import Layout from "@/layouts/main.astro";
       return null;
     };
 
+    // Whitelist of valid test route IDs to prevent open redirect (SEC-01)
+    const VALID_TEST_IDS = new Set([
+      'reaction-time', 'sound-reaction', 'f1-lights', 'choice-reaction',
+      'go-no-go', 'sequence-memory', 'number-memory', 'visual-pattern',
+      'dual-n-back', 'verbal-memory', 'pattern-reasoning', 'spatial-orientation',
+      'stroop', 'trail-making', 'focus-challenge', 'click-speed',
+      'aim-trainer', 'mouse-accuracy', 'flick-trainer', 'typing-speed',
+      'decision-speed', 'planning', 'prioritization'
+    ]);
+
     const token = getHashToken();
     if (token) {
       const payload = decodeChallenge(token);
       if (payload && payload.testId) {
-        // Map to correct route
-        // Reaction-time is standard, check for testId naming
+        // Normalize legacy alias
         let route = payload.testId;
-        if (route === 'reaction') route = 'reaction-time'; // normalize
-        
-        window.location.href = `/tests/${route}/?challenge=${token}`;
+        if (route === 'reaction') route = 'reaction-time';
+
+        // Validate against whitelist before redirect
+        if (VALID_TEST_IDS.has(route)) {
+          window.location.href = `/tests/${route}/?challenge=${token}`;
+        } else {
+          window.location.href = "/";
+        }
       } else {
         window.location.href = "/";
       }

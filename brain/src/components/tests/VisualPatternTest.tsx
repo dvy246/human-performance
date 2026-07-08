@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type Phase = 'idle' | 'showing' | 'input' | 'feedback' | 'result';
 
@@ -57,6 +58,8 @@ export default function VisualPatternTest() {
   };
 
   const startTest = () => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    submittedRef.current = false;
     setLevel(1);
     setShareImage(null);
     startLevel(1);
@@ -147,7 +150,7 @@ export default function VisualPatternTest() {
     const finalScore = level - 1;
     setPhase('result');
 
-    const percentile = lookupPercentile(finalScore);
+    const percentile = lookupPercentile('visual-pattern', finalScore);
 
     try {
       await dataLayer.saveSession({
@@ -172,18 +175,7 @@ export default function VisualPatternTest() {
     setShareImage(card);
   };
 
-  const lookupPercentile = (lvl: number): number => {
-    if (lvl >= 18) return 99.9;
-    if (lvl >= 15) return 99;
-    if (lvl >= 13) return 97;
-    if (lvl >= 11) return 92;
-    if (lvl >= 9) return 82;
-    if (lvl >= 7) return 65;
-    if (lvl >= 5) return 42;
-    if (lvl >= 3) return 20;
-    if (lvl >= 2) return 8;
-    return 2;
-  };
+
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
@@ -331,7 +323,7 @@ export default function VisualPatternTest() {
                 Level {finalScore}
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {100 - lookupPercentile(finalScore)}% of population
+                Top {100 - lookupPercentile('visual-pattern', finalScore)}% of population
               </span>
             </div>
 
@@ -345,7 +337,7 @@ export default function VisualPatternTest() {
               <div>
                 <span className="text-muted text-[10px] font-mono uppercase">Percentile</span>
                 <div className="text-foreground font-mono text-sm">
-                  ~{Math.round(100 - lookupPercentile(finalScore))}%ile
+                  ~{Math.round(100 - lookupPercentile('visual-pattern', finalScore))}%ile
                 </div>
               </div>
             </div>

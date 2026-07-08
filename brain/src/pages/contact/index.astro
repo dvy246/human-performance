@@ -31,13 +31,13 @@ const canonicalUrl = "https://cogniarena.com/contact";
           </p>
         </article>
 
-        {/* Mock Contact Form for user friendly interface */}
+        {/* Contact Form — constructs mailto link with subject + message */}
         <div class="flex flex-col gap-4 p-5 rounded-xl border border-card-border bg-card">
           <h3 class="text-sm font-bold text-foreground uppercase font-mono tracking-wider">Send a Message</h3>
-          <div class="flex flex-col gap-3">
+          <form id="contact-form" class="flex flex-col gap-3" onsubmit="event.preventDefault(); const subj = document.getElementById('contact-subject').value; const msg = document.getElementById('contact-message').value; window.location.href = 'mailto:support@cogniarena.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(msg);">
             <div class="flex flex-col gap-1">
-              <label class="text-[10px] font-mono text-muted uppercase">Subject</label>
-              <select class="bg-subtle border border-card-border rounded px-2.5 py-1.5 text-xs text-foreground outline-none w-full">
+              <label class="text-[10px] font-mono text-muted uppercase" for="contact-subject">Subject</label>
+              <select id="contact-subject" name="subject" class="bg-subtle border border-card-border rounded px-2.5 py-1.5 text-xs text-foreground outline-none w-full">
                 <option>General Feedback</option>
                 <option>Calibration Assistance</option>
                 <option>Integration Request</option>
@@ -45,21 +45,23 @@ const canonicalUrl = "https://cogniarena.com/contact";
               </select>
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-[10px] font-mono text-muted uppercase">Message</label>
+              <label class="text-[10px] font-mono text-muted uppercase" for="contact-message">Message</label>
               <textarea 
+                id="contact-message"
+                name="message"
                 rows="3" 
+                required
                 placeholder="Type your message here..."
                 class="bg-subtle border border-card-border rounded px-2.5 py-1.5 text-xs text-foreground outline-none w-full resize-none focus:border-accent"
               ></textarea>
             </div>
             <button 
-              type="button"
-              onclick="alert('Thank you for your feedback! Since all profile data is stored locally in your browser, this mock form demonstrates interface validation. For direct support, please email support@cogniarena.com.')"
+              type="submit"
               class="w-full h-9 rounded bg-accent hover:bg-accent-hover text-white font-semibold text-xs font-mono uppercase tracking-wider transition-standard cursor-pointer"
             >
               Submit Message
             </button>
-          </div>
+          </form>
         </div>
       </div>
     </section>

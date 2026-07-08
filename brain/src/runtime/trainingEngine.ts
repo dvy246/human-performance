@@ -119,6 +119,7 @@ export function getAdaptiveRecommendations(avg: CognitiveAverages): Recommendati
   const recs: Recommendation[] = [];
   const categories: Array<{ id: keyof CognitiveAverages; testId: string; label: string; link: string }> = [
     { id: 'reaction', testId: 'reaction-time', label: 'Visual Reaction', link: '/tests/reaction-time' },
+    { id: 'reaction', testId: 'aim-coordination', label: 'Aim Coordination', link: '/tests/aim-coordination' },
     { id: 'memory', testId: 'dual-n-back', label: 'Dual N-Back Memory', link: '/tests/dual-n-back' },
     { id: 'processing', testId: 'pattern-reasoning', label: 'Pattern Reasoning', link: '/tests/pattern-reasoning' },
     { id: 'precision', testId: 'aim-trainer', label: 'Aim Precision', link: '/tests/aim-trainer' },

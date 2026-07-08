@@ -1,32 +1,59 @@
 ---
 import Layout from "@/layouts/main.astro";
 
-const title = "Free IQ Test Online - Measure Your Intelligence | CogniArena";
-const description = "Take a free online IQ test and measure your intelligence. Get your IQ score instantly with our scientifically-designed cognitive assessment.";
-const keywords = "IQ test, free IQ test, online IQ test, intelligence test, IQ score, cognitive test, brain test, mental ability test";
+const title = "Free IQ Test Online — Measure Your Intelligence | CogniArena";
+const description = "Take a free online IQ test and measure your intelligence. Get your IQ score instantly with our scientifically-designed cognitive assessment covering logical, verbal, numerical, and spatial reasoning.";
+const canonicalUrl = "https://cogniarena.com/learn/iq-test/";
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Free IQ Test Online - Measure Your Intelligence",
-  "description": "Take a free online IQ test and measure your intelligence with our scientifically-designed cognitive assessment.",
-  "author": {
-    "@type": "Person",
-    "name": "Dr. Alan Vanc"
+const schema = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Free IQ Test Online — Measure Your Intelligence",
+    "description": "Take a free online IQ test and measure your intelligence with our scientifically-designed cognitive assessment.",
+    "author": {
+      "@type": "Person",
+      "name": "Dr. Alan Vanc"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "datePublished": new Date().toISOString().split('T')[0],
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": "https://cogniarena.com/learn/iq-test/"
+    }
   },
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is an IQ test?",
+        "acceptedAnswer": { "@type": "Answer", "text": "An IQ (Intelligence Quotient) test is a standardized assessment designed to measure human intelligence and cognitive abilities. IQ tests evaluate various mental faculties including logical reasoning, pattern recognition, working memory, and processing speed." }
+      },
+      {
+        "@type": "Question",
+        "name": "Can you improve your IQ?",
+        "acceptedAnswer": { "@type": "Answer", "text": "While IQ has a genetic component, research shows that cognitive abilities can be improved through targeted training. Working memory exercises like Dual N-Back, problem-solving practice, learning new skills, physical exercise, and adequate sleep all contribute to improved cognitive performance." }
+      }
+    ]
   },
-  "datePublished": new Date().toISOString().split('T')[0],
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://cogniarena.com/learn/iq-test/"
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+      { "@type": "ListItem", "position": 2, "name": "Learning Center", "item": "https://cogniarena.com/learn" },
+      { "@type": "ListItem", "position": 3, "name": "IQ Test", "item": "https://cogniarena.com/learn/iq-test" }
+    ]
   }
-};
+];
 ---
 
-<Layout title={title} description={description} schemaJson={schema}>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schema}>
   <article class="max-w-3xl mx-auto">
     <header class="mb-8">
       <div class="flex items-center gap-2 text-xs text-muted mb-3 font-mono uppercase tracking-wider">
@@ -37,6 +64,9 @@ const schema = {
       <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
         Free IQ Test Online: Measure Your Intelligence
       </h1>
+      <p class="text-sm text-muted mb-2">
+        <a href="/quiz/iq-test" class="text-accent hover:underline font-medium">Take the IQ Test now &rarr;</a>
+      </p>
       <p class="text-lg text-secondary leading-relaxed">
         Discover your IQ score with our free online intelligence test. Learn what IQ means, how it's measured, and how to improve your cognitive abilities.
       </p>

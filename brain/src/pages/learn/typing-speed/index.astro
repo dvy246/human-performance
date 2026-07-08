@@ -18,9 +18,43 @@ const articleSchema = {
   "datePublished": "2026-07-07",
   "dateModified": "2026-07-07"
 };
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What is a typing test?",
+      "acceptedAnswer": { "@type": "Answer", "text": "A typing test measures how many words per minute (WPM) you can type accurately. It calculates your net WPM by subtracting errors from your gross typing speed over a timed interval." }
+    },
+    {
+      "@type": "Question",
+      "name": "What is a good typing speed?",
+      "acceptedAnswer": { "@type": "Answer", "text": "The average typing speed is around 40 WPM. Proficient typists reach 55-70 WPM, professionals type 70-90 WPM, and elite typists exceed 90 WPM. Accuracy matters more than raw speed — errors cost time." }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I improve my typing speed?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Master touch typing basics with proper home row position, prioritize accuracy over speed, practice with varied content daily for 15-20 minutes, and optimize your keyboard hardware. Consistent practice produces measurable improvement within weeks." }
+    }
+  ]
+};
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+    { "@type": "ListItem", "position": 2, "name": "Learning Center", "item": "https://cogniarena.com/learn" },
+    { "@type": "ListItem", "position": 3, "name": "Typing Speed", "item": "https://cogniarena.com/learn/typing-speed" }
+  ]
+};
+
+const schemaJson = [articleSchema, faqSchema, breadcrumbSchema];
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={articleSchema}>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
   <article class="flex flex-col gap-8 w-full max-w-3xl mx-auto">
     <header class="flex flex-col gap-3">
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">

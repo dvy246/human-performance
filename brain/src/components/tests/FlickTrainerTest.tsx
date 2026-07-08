@@ -2,6 +2,7 @@ import { useState, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 const TOTAL = 15;
 const TARGET_RADIUS = 22;
@@ -57,22 +58,17 @@ export default function FlickTrainerTest() {
     const score = Math.round(hitPct * 50 + speedScore * 0.5);
     try {
       await dataLayer.saveSession({
-        testId: 'flick-trainer', category: 'precision', rawScore: Math.round(hitPct * 100), percentile: lookupPercentile(score),
+        testId: 'flick-trainer', category: 'precision', rawScore: Math.round(hitPct * 100), percentile: lookupPercentile('flick-trainer', score),
         metadata: { accuracy: Math.round(hitPct * 100), avgReactionMs: avgRt },
       });
     } catch (err) {
       console.error('Failed to save Flick Trainer session:', err);
     }
-    const card = await generateShareCard('Flick Trainer', `${Math.round(hitPct * 100)}% accuracy`, lookupPercentile(score));
+    const card = await generateShareCard('Flick Trainer', `${Math.round(hitPct * 100)}% accuracy`, lookupPercentile('flick-trainer', score));
     setShareImage(card);
   };
 
-  const lookupPercentile = (s: number): number => {
-    const ls = [10, 20, 30, 40, 50, 60, 70, 80, 90, 95, 100];
-    const ps = [0.5, 2, 6, 14, 28, 46, 66, 84, 95, 99, 99.9];
-    for (let i = ls.length - 1; i >= 0; i--) if (s >= ls[i]) return ps[i];
-    return 0.1;
-  };
+  
 
   const startGame = () => {
     setPhase('playing');

@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer, type SessionRecord } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
-import percentilesData from '../../data/percentiles.json';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 import SocialShare from '../ui/SocialShare';
 
 type GameState = 'idle' | 'calibration' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
@@ -55,15 +55,7 @@ export default function ReactionTimeTest() {
     return () => { mounted = false; if (timerId.current) clearTimeout(timerId.current); if (rafId.current) cancelAnimationFrame(rafId.current); };
   }, []);
 
-  const lookupPercentile = (score: number): number => {
-    const table = percentilesData['reaction-time'];
-    for (let i = 0; i < table.length; i++) {
-      if (score <= table[i].score) {
-        return table[i].percentile;
-      }
-    }
-    return 99.9;
-  };
+
 
   const startTest = () => {
     if (clickLock.current) return;
@@ -142,7 +134,7 @@ export default function ReactionTimeTest() {
     submittedRef.current = true;
     setGameState('result');
     setFinalAverage(avgScore);
-    const percentile = lookupPercentile(avgScore);
+    const percentile = lookupPercentile('reaction-time', avgScore, true);
 
     // Save session record
     try {
@@ -357,7 +349,7 @@ export default function ReactionTimeTest() {
                 {finalAverage} ms
               </div>
               <span className="text-accent text-sm font-medium">
-                Top {100 - lookupPercentile(finalAverage!)}% Globally
+                Top {100 - lookupPercentile('reaction-time', finalAverage!, true)}% Globally
               </span>
             </div>
 

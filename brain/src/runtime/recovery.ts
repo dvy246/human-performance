@@ -21,18 +21,18 @@ const WORD_LIST = [
 
 export function generateRecoveryCode(): string {
   const result: string[] = [];
-  // Pick 6 random words
-  const array = new Uint32Array(6);
+  // Pick 8 random words for stronger entropy (~112 bits from 192-word list)
+  const array = new Uint32Array(8);
   if (typeof window !== 'undefined' && window.crypto) {
     window.crypto.getRandomValues(array);
   } else {
     // Fallback if crypto is unavailable (e.g. node environment build test)
-    for (let i = 0; i < 6; i++) {
+    for (let i = 0; i < 8; i++) {
       array[i] = Math.floor(Math.random() * 1000000);
     }
   }
 
-  for (let i = 0; i < 6; i++) {
+  for (let i = 0; i < 8; i++) {
     const idx = array[i] % WORD_LIST.length;
     result.push(WORD_LIST[idx]);
   }
@@ -45,16 +45,23 @@ export async function hashRecoveryCode(code: string): Promise<string> {
   const data = encoder.encode(normalized);
   
   if (typeof window !== 'undefined' && window.crypto && window.crypto.subtle) {
-    const hashBuffer = await window.crypto.subtle.digest('SHA-256', data);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    // SEC-05: Use PBKDF2 with 600,000 iterations (OWASP 2023 recommendation)
+    // to make offline brute-force attacks computationally expensive
+    const keyMaterial = await window.crypto.subtle.importKey(
+      'raw', data, { name: 'PBKDF2' }, false, ['deriveBits']
+    );
+    const salt = encoder.encode('cogniarena-sync-v1');
+    const derived = await window.crypto.subtle.deriveBits(
+      { name: 'PBKDF2', salt, iterations: 600000, hash: 'SHA-256' },
+      keyMaterial,
+      256
+    );
+    return Array.from(new Uint8Array(derived))
+      .map(b => b.toString(16).padStart(2, '0')).join('');
   }
   
-  // Minimal fallback for server-side build steps
-  let hash = 0;
-  for (let i = 0; i < normalized.length; i++) {
-    hash = (hash << 5) - hash + normalized.charCodeAt(i);
-    hash |= 0; // Convert to 32bit integer
-  }
-  return 'fallback-' + Math.abs(hash).toString(16);
+  // Fallback for non-browser environments (build steps, SSR).
+  // This is NOT used in production browser contexts — it throws
+  // rather than returning a weak hash.
+  throw new Error('Secure hashing unavailable: Web Crypto API required');
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
+import { lookupPercentile } from '../../runtime/percentileLookup';
 
 type TrialState = 'idle' | 'running' | 'result';
 interface Trial {
@@ -28,6 +29,8 @@ export default function StroopTest() {
   const [lastFeedback, setLastFeedback] = useState<'correct' | 'wrong' | 'timeout' | null>(null);
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
+  const [resultScore, setResultScore] = useState<number>(0);
+  const [resultPercentile, setResultPercentile] = useState<number>(0);
 
   const trialStartTime = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -63,6 +66,8 @@ export default function StroopTest() {
   };
 
   const startTest = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    submittedRef.current = false;
     const list = generateTrials();
     setTrials(list);
     setCurrentTrialIdx(0);
@@ -138,10 +143,9 @@ export default function StroopTest() {
 
     const penalty = (20 - correctCount) * 150;
     const finalScore = avgScore + penalty;
-
-    const diff = finalScore - 600;
-    const z = diff / 100;
-    const percentile = Math.round(Math.max(1, Math.min(99, 100 - (1 / (1 + Math.exp(-1.6 * z)) * 100))));
+    const percentile = Math.round(lookupPercentile('stroop', finalScore, true));
+    setResultScore(finalScore);
+    setResultPercentile(percentile);
 
     try {
       await dataLayer.saveSession({
@@ -250,10 +254,10 @@ export default function StroopTest() {
           <div>
             <span className="text-muted text-xs font-mono uppercase tracking-widest">Assessment Final Score</span>
             <h2 className="text-4xl font-extrabold tracking-tight text-foreground mt-1">
-              {getAvg(congruentScores) + getAvg(incongruentScores) + (20 - correctCount) * 150} ms
+              {resultScore} ms
             </h2>
             <span className="text-accent text-xs font-mono uppercase mt-1 block">
-              Top {Math.max(1, Math.min(99, 100 - accuracy))}% Globally
+              Top {Math.max(1, Math.min(99, 100 - resultPercentile))}% Globally
             </span>
           </div>
 
@@ -289,8 +293,8 @@ export default function StroopTest() {
           {shareImage && (
             <SocialShare
               testId="stroop"
-              score={getAvg(congruentScores) + getAvg(incongruentScores) + (20 - correctCount) * 150}
-              scoreLabel={`${getAvg(congruentScores) + getAvg(incongruentScores) + (20 - correctCount) * 150} ms`}
+              score={resultScore}
+              scoreLabel={`${resultScore} ms`}
               testName="Stroop Attention Test"
             />
           )}
