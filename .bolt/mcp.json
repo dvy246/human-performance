@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "langchainmcp": {
+      "enabled": false
+    },
+    "langsmithmcp": {
+      "enabled": false
+    }
+  }
+}
