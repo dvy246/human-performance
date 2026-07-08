@@ -3,6 +3,11 @@ import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibr
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { useSound } from '../../runtime/useSound';
+import { useI18n } from '../../runtime/useI18n';
+import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
 
 type TestState = 'idle' | 'playing' | 'result';
 
@@ -14,6 +19,8 @@ interface Target {
 }
 
 export default function AimTrainer() {
+  const { playClick, playError } = useSound();
+  const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
   const [hits, setHits] = useState<number>(0);
   const [clicks, setClicks] = useState<number>(0);
@@ -182,6 +189,7 @@ export default function AimTrainer() {
 
     if (dist <= target.r) {
       // Hit!
+      playClick();
       const timeElapsed = Math.round(performance.now() - target.spawnTime);
       latenciesArr.current.push(timeElapsed);
       offsetsArr.current.push(Number(dist.toFixed(1)));
@@ -199,6 +207,7 @@ export default function AimTrainer() {
       }
     } else {
       // Miss
+      playError();
       // We don't advance the target, player must click the target to advance.
       // This measures exact latency to target acquisition and tracks penalty clicks.
     }
@@ -234,6 +243,11 @@ export default function AimTrainer() {
 
     const card = await generateShareCard('Aim Precision Trainer', `${averageLatency} ms avg`, lookupPercentile('aim-trainer', averageLatency, true));
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'aim-trainer', testName: 'Aim Trainer', attempts: latenciesArr.current, unit: 'ms',
+      percentile: lookupPercentile('aim-trainer', averageLatency, true), personalBest: pb, category: 'precision', average: averageLatency,
+    });
   };
 
   const copyChallengeLink = () => {
@@ -253,8 +267,8 @@ export default function AimTrainer() {
       {/* Challenge Status */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
-          <span className="text-foreground">Active Challenge: Beat your friend's average aim speed of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">Dismiss</button>
+          <span className="text-foreground">{t('test.challenge_beat')} <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">{t('test.dismiss')}</button>
         </div>
       )}
 
@@ -262,8 +276,8 @@ export default function AimTrainer() {
       {gameState === 'playing' ? (
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-center text-xs font-mono text-muted">
-            <span>Targets: <strong className="text-foreground">{currentTargetIndex} / 30</strong></span>
-            <span>Accuracy: <strong className="text-accent">{clicks > 0 ? Math.round((hits / clicks) * 100) : 100}%</strong></span>
+            <span>{t('aim.targets')} <strong className="text-foreground">{currentTargetIndex} / 30</strong></span>
+            <span>{t('aim.accuracy')} <strong className="text-accent">{clicks > 0 ? Math.round((hits / clicks) * 100) : 100}%</strong></span>
           </div>
           <canvas
             ref={canvasRef}
@@ -277,27 +291,27 @@ export default function AimTrainer() {
         /* Result Dashboard */
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
           <div className="flex flex-col items-center gap-1">
-            <span className="text-muted text-xs font-mono uppercase">Average Target Acquisition Latency</span>
+            <span className="text-muted text-xs font-mono uppercase">{t('aim.avg_latency')}</span>
             <div className="text-5xl font-mono font-bold text-foreground">
               {Math.round(latencies.reduce((a, b) => a + b, 0) / 30)} ms
             </div>
             <span className="text-accent text-xs font-mono uppercase">
-              Top {100 - lookupPercentile('aim-trainer', Math.round(latencies.reduce((a, b) => a + b, 0) / 30), true)}% aim profile
+              {t('rt.top_globally')} {100 - lookupPercentile('aim-trainer', Math.round(latencies.reduce((a, b) => a + b, 0) / 30), true)}% {t('aim.aim_profile')}
             </span>
           </div>
 
           {/* Stats grid */}
           <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-2">
             <div>
-              <span className="text-muted text-[10px] font-mono uppercase">Accuracy Rate</span>
+              <span className="text-muted text-[10px] font-mono uppercase">{t('aim.accuracy_rate')}</span>
               <div className="text-foreground font-mono text-sm">{clicks > 0 ? Math.round((30 / clicks) * 100) : 0}%</div>
             </div>
             <div>
-              <span className="text-muted text-[10px] font-mono uppercase">Avg Pinpoint Error</span>
+              <span className="text-muted text-[10px] font-mono uppercase">{t('aim.pinpoint_error')}</span>
               <div className="text-foreground font-mono text-sm">{(offsets.reduce((a, b) => a + b, 0) / 30).toFixed(1)} px</div>
             </div>
             <div>
-              <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
+              <span className="text-muted text-[10px] font-mono uppercase">{t('test.personal_best')}</span>
               <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
             </div>
           </div>
@@ -306,27 +320,22 @@ export default function AimTrainer() {
             onClick={startTest}
             className="mt-2 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
           >
-            Restart Assessment
+              {t('test.restart')}
           </button>
         </div>
       ) : (
-        /* Idle Page */
+        /* Idle — Config Panel */
         <div className="w-full min-h-[360px] rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-center text-center">
-          <div className="flex flex-col items-center gap-4">
-            <span className="text-3xl">🎯</span>
-            <div>
-              <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Aim Precision Trainer</h2>
-              <p className="text-secondary text-xs leading-relaxed max-w-sm">
-                Click 30 random glowing targets as fast and accurately as possible. We measure raw response speed, accuracy, and pixel offset precision.
-              </p>
-            </div>
-            <button
-              onClick={startTest}
-              className="text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-6 py-2 rounded transition-standard active:scale-[0.98]"
-            >
-              Start Aim Assessment
-            </button>
-          </div>
+          <GameConfigPanel
+            testId="aim-trainer"
+            icon="🎯"
+            title="Aim Precision Trainer"
+            description="Click 30 random glowing targets as fast and accurately as possible. We measure raw response speed, accuracy, and pixel offset precision."
+            personalBest={personalBest}
+            personalBestLabel="ms"
+            startLabel="Start Aim Assessment"
+            onStart={(_config: GameConfig) => startTest()}
+          />
         </div>
       )}
 
@@ -340,7 +349,7 @@ export default function AimTrainer() {
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              <span>Download Aim Profile</span>
+              <span>{t('aim.download_aim')}</span>
             </a>
           )}
           <button
@@ -348,7 +357,7 @@ export default function AimTrainer() {
             className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            <span>{copiedChallenge ? 'Telemetry Copied!' : 'Challenge a Friend'}</span>
+            <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
           </button>
         </div>
       )}

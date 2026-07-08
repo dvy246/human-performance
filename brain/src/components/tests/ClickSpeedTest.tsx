@@ -3,6 +3,11 @@ import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibr
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { useSound } from '../../runtime/useSound';
+import { useI18n } from '../../runtime/useI18n';
+import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
 
 type TestState = 'idle' | 'clicking' | 'result';
 
@@ -10,6 +15,8 @@ const DURATIONS = [5, 10, 30, 60] as const;
 type Duration = typeof DURATIONS[number];
 
 export default function ClickSpeedTest() {
+  const { playClick } = useSound();
+  const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
   const [clicks, setClicks] = useState<number>(0);
   const [duration, setDuration] = useState<Duration>(10);
@@ -90,6 +97,7 @@ export default function ClickSpeedTest() {
       clicksRef.current += 1;
       setClicks(clicksRef.current);
       clickTimes.current.push(performance.now());
+      playClick();
     }
   };
 
@@ -117,6 +125,11 @@ export default function ClickSpeedTest() {
 
     const card = await generateShareCard('Click Speed (CPS) Test', `${cps} CPS`, percentile);
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'click-speed', testName: 'Click Speed', attempts: [cps], unit: 'CPS',
+      percentile, personalBest: pb, category: 'speed', average: cps,
+    });
   };
 
   const copyChallengeLink = () => {
@@ -164,8 +177,8 @@ export default function ClickSpeedTest() {
       {/* Active Challenge Alert */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
-          <span className="text-foreground">Active Challenge: Beat your friend's score of <strong className="text-foreground font-mono">{challengeScore} CPS</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">Dismiss</button>
+          <span className="text-foreground">{t('test.challenge_beat')} <strong className="text-foreground font-mono">{challengeScore} CPS</strong>!</span>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">{t('test.dismiss')}</button>
         </div>
       )}
 
@@ -180,44 +193,25 @@ export default function ClickSpeedTest() {
           }`}
         >
           {gameState === 'idle' ? (
-            <div className="flex flex-col items-center gap-4">
-              <span className="text-3xl">🖱️</span>
-              <div>
-                <h2 className="text-xl font-bold text-foreground tracking-tight mb-1">Click Speed Test (CPS)</h2>
-                <p className="text-muted text-xs leading-relaxed max-w-sm">
-                  Click inside this card as fast as you can. The timer begins on your first click.
-                </p>
-              </div>
-              {/* Duration Selector */}
-              <div className="flex gap-2 mt-2">
-                {DURATIONS.map(d => (
-                  <button
-                    key={d}
-                    onClick={(e) => { e.stopPropagation(); setDuration(d); setTimeLeft(d); }}
-                    className={`px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border transition-standard ${
-                      duration === d
-                        ? 'bg-accent text-white border-accent'
-                        : 'bg-subtle text-muted border-card-border hover:border-accent/30'
-                    }`}
-                  >
-                    {d}s
-                  </button>
-                ))}
-              </div>
-              {personalBest && (
-                <span className="text-xs text-accent font-mono">Personal Best: {personalBest} CPS</span>
-              )}
-              <span className="text-xs uppercase font-mono tracking-widest text-accent px-4 py-1 bg-accent/5 border border-accent/15 rounded-full mt-2">
-                Click to Start
-              </span>
+            <div onClick={(e) => e.stopPropagation()} onMouseDown={(e) => e.stopPropagation()}>
+              <GameConfigPanel
+                testId="click-speed"
+                icon="🖱️"
+                title="Click Speed Test (CPS)"
+                description="Click inside this card as fast as you can. The timer begins on your first click."
+                personalBest={personalBest}
+                personalBestLabel="CPS"
+                startLabel="Start Test"
+                onStart={() => handleClick({ preventDefault: () => {} } as React.MouseEvent)}
+              />
             </div>
           ) : (
             <div className="flex flex-col items-center gap-4">
-              <span className="text-muted text-xs font-mono uppercase">SPAM CLICK THE CARD</span>
+              <span className="text-muted text-xs font-mono uppercase">{t('cps.spam_click')}</span>
               <div className="text-6xl font-mono font-bold text-foreground">{clicks}</div>
               <div className="flex flex-col gap-1">
-                <span className="text-accent font-mono text-sm">{timeLeft.toFixed(1)}s remaining</span>
-                <span className="text-muted font-mono text-xs">{(clicks / Math.max(0.1, duration - timeLeft)).toFixed(1)} clicks/sec</span>
+                <span className="text-accent font-mono text-sm">{timeLeft.toFixed(1)}s {t('cps.remaining')}</span>
+                <span className="text-muted font-mono text-xs">{(clicks / Math.max(0.1, duration - timeLeft)).toFixed(1)} {t('cps.clicks_sec')}</span>
               </div>
               {/* Real-time CPS Chart */}
               {clickRates.length > 1 && (
@@ -235,20 +229,20 @@ export default function ClickSpeedTest() {
         /* Result Screen */
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
           <div className="flex flex-col items-center gap-1">
-            <span className="text-muted text-xs font-mono uppercase">Clicks Per Second ({duration}s)</span>
+            <span className="text-muted text-xs font-mono uppercase">{t('cps.cps_duration')} ({duration}s)</span>
             <div className="text-5xl font-mono font-bold text-foreground">{(clicks / duration).toFixed(1)}</div>
             <span className="text-accent text-xs font-mono uppercase">
-              Top {100 - lookupPercentile('click-speed', clicks / duration)}% clickers
+              {t('rt.top_globally')} {100 - lookupPercentile('click-speed', clicks / duration)}% {t('cps.top_clickers')}
             </span>
             {personalBest && (clicks / duration) >= personalBest && (
-              <span className="text-success text-xs font-mono font-bold mt-1">🏆 New Personal Best!</span>
+              <span className="text-success text-xs font-mono font-bold mt-1">{t('cps.new_pb')}</span>
             )}
           </div>
 
           {/* Clicking Cadence Timeline Chart */}
           {clickRates.length > 1 && (
             <div className="flex flex-col gap-2 w-full max-w-sm pt-2">
-              <span className="text-muted text-[10px] font-mono uppercase text-left">Clicking Cadence (CPS Timeline)</span>
+              <span className="text-muted text-[10px] font-mono uppercase text-left">{t('cps.cadence')}</span>
               <div className="w-full bg-subtle border border-card-border/50 rounded p-4 flex items-center justify-center">
                 <svg width="100%" height="80" viewBox="0 0 360 80" className="stroke-accent fill-none">
                   {/* Grid Lines */}
@@ -263,16 +257,16 @@ export default function ClickSpeedTest() {
           {/* Stats grid */}
           <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-2">
             <div>
-              <span className="text-muted text-[10px] font-mono uppercase">Total Clicks</span>
+              <span className="text-muted text-[10px] font-mono uppercase">{t('cps.total_clicks')}</span>
               <div className="text-foreground font-mono text-sm">{clicks}</div>
             </div>
             <div>
-              <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
+              <span className="text-muted text-[10px] font-mono uppercase">{t('test.personal_best')}</span>
               <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} CPS` : '--'}</div>
             </div>
             <div>
-              <span className="text-muted text-[10px] font-mono uppercase">Calibrated Hz</span>
-              <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
+              <span className="text-muted text-[10px] font-mono uppercase">{t('test.calibrated_hz')}</span>
+              <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : t('test.detecting')}</div>
             </div>
           </div>
 
@@ -280,7 +274,7 @@ export default function ClickSpeedTest() {
             onClick={resetTest}
             className="mt-2 text-xs font-mono uppercase tracking-widest text-muted hover:text-foreground px-4 py-1.5 rounded border border-card-border hover:border-accent/30 bg-subtle cursor-pointer"
           >
-            Restart Assessment
+            {t('test.restart')}
           </button>
         </div>
       )}
@@ -295,7 +289,7 @@ export default function ClickSpeedTest() {
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              <span>Download CPS Profile</span>
+              <span>{t('cps.download_profile')}</span>
             </a>
           )}
           <button
@@ -303,7 +297,7 @@ export default function ClickSpeedTest() {
             className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            <span>{copiedChallenge ? 'Challenge Copied!' : 'Challenge a Friend'}</span>
+            <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
           </button>
         </div>
       )}

@@ -10,8 +10,8 @@ const canonicalUrl = "https://cogniarena.com/history";
 <Layout title={title} description={description} canonicalUrl={canonicalUrl}>
   <div class="space-y-6">
     <div>
-      <h1 class="text-2xl font-bold text-foreground mb-2">Test History</h1>
-      <p class="text-sm text-muted">View all your past test attempts and track your progress over time.</p>
+      <h1 class="text-2xl font-bold text-foreground mb-2" data-i18n="history.title">Test History</h1>
+      <p class="text-sm text-muted" data-i18n="history.desc">View all your past test attempts and track your progress over time.</p>
     </div>
     
     <HistoryDashboard client:load />

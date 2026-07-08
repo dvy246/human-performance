@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 const TOTAL = 15;
 const TARGET_RADIUS = 22;
@@ -66,6 +67,11 @@ export default function FlickTrainerTest() {
     }
     const card = await generateShareCard('Flick Trainer', `${Math.round(hitPct * 100)}% accuracy`, lookupPercentile('flick-trainer', score));
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'flick-trainer', testName: 'Flick Trainer', attempts: r.map(x => x.rt), unit: 'ms',
+      percentile: lookupPercentile('flick-trainer', score), personalBest: null, category: 'precision', average: avgRt,
+    });
   };
 
   

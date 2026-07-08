@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 const TOTAL = 20;
 const TIMEOUT_MS = 2000;
@@ -78,6 +79,11 @@ export default function DecisionSpeedTest() {
     }
     const card = await generateShareCard('Decision Speed Test', `${Math.round(acc * 100)}%`, lookupPercentile('decision-speed', score));
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'decision-speed', testName: 'Decision Speed', attempts: r.map(x => x.rt), unit: 'ms',
+      percentile: lookupPercentile('decision-speed', score), personalBest: null, category: 'processing', average: avgRt,
+    });
   };
 
   

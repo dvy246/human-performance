@@ -1,0 +1,14 @@
+---
+import Layout from "@/layouts/main.astro";
+import TestResultsPage from "@/components/ui/TestResultsPage";
+
+const title = "Test Results — CogniArena";
+const description = "View your detailed cognitive test results with attempt breakdowns, performance trends, and personalized insights.";
+const canonicalUrl = "https://cogniarena.com/tests/results";
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl}>
+  <div class="flex flex-col gap-8 w-full max-w-3xl mx-auto">
+    <TestResultsPage client:load />
+  </div>
+</Layout>

@@ -10,8 +10,8 @@ const canonicalUrl = "https://cogniarena.com/records";
 <Layout title={title} description={description} canonicalUrl={canonicalUrl}>
   <div class="space-y-6">
     <div>
-      <h1 class="text-2xl font-bold text-foreground mb-2">Personal Records</h1>
-      <p class="text-sm text-muted">Your best scores across all tests. Keep improving to set new records!</p>
+      <h1 class="text-2xl font-bold text-foreground mb-2" data-i18n="records.title">Personal Records</h1>
+      <p class="text-sm text-muted" data-i18n="records.desc">Your best scores across all tests. Keep improving to set new records!</p>
     </div>
     
     <PersonalRecords client:load />

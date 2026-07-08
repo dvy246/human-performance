@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 type GameMode = 'pattern' | 'matrix' | 'sequence' | 'analogy';
 type GameState = 'idle' | 'running' | 'result';
@@ -121,6 +122,12 @@ function generatePatternQuestion(): GeneratedQuestion {
     { seq: [c1, c1, c2, c1, c1], answer: c2, rule: 'A-A-B-A-A-B' },
     { seq: [c1, c2, c3, c1, c2], answer: c3, rule: 'A-B-C-A-B-C' },
     { seq: [c1, c2, c2, c1, c2], answer: c2, rule: 'A-B-B-A-B-B' },
+    { seq: [c1, c2, c3, c3, c2], answer: c1, rule: 'A-B-C-C-B-A' },
+    { seq: [c1, c1, c2, c2, c3], answer: c3, rule: 'A-A-B-B-C-C' },
+    { seq: [c1, c2, c3, c2, c1], answer: c2, rule: 'A-B-C-B-A-B' },
+    { seq: [c1, c2, c1, c1, c2], answer: c1, rule: 'A-B-A-A-B-A' },
+    { seq: [c1, c1, c2, c3, c3], answer: c1, rule: 'A-A-B-C-C-A' },
+    { seq: [c1, c2, c3, c1, c3], answer: c2, rule: 'A-B-C-A-C-B' },
   ];
 
   const p = patterns[Math.floor(Math.random() * patterns.length)];
@@ -167,20 +174,68 @@ function generateMatrixQuestion(): GeneratedQuestion {
   const Shape1 = SHAPES[shapeIdx];
   const Shape2 = SHAPES[otherShapeIdx];
 
-  // Rule: Row 1 = Shape1 in color1, then Shape1 in color2. Row 2 = Shape2 in color1, then ?
-  // Answer: Shape2 in color2
-  const topLeft = <Shape1 color={SVG_COLORS[colorIdx]} size={44} />;
-  const topRight = <Shape1 color={SVG_COLORS[otherColorIdx]} size={44} />;
-  const bottomLeft = <Shape2 color={SVG_COLORS[colorIdx]} size={44} />;
-  const bottomRight = <SvgQuestionMark size={44} />;
+  const ruleType = Math.floor(Math.random() * 4);
+  let topLeft: React.ReactNode, topRight: React.ReactNode, bottomLeft: React.ReactNode;
+  let bottomRight: React.ReactNode;
+  let correctOption: React.ReactNode;
+  let distractors: React.ReactNode[];
 
-  const correctOption = <Shape2 color={SVG_COLORS[otherColorIdx]} size={36} />;
+  if (ruleType === 0) {
+    // Row = shape change, Col = color change
+    topLeft = <Shape1 color={SVG_COLORS[colorIdx]} size={44} />;
+    topRight = <Shape1 color={SVG_COLORS[otherColorIdx]} size={44} />;
+    bottomLeft = <Shape2 color={SVG_COLORS[colorIdx]} size={44} />;
+    bottomRight = <SvgQuestionMark size={44} />;
+    correctOption = <Shape2 color={SVG_COLORS[otherColorIdx]} size={36} />;
+    distractors = [
+      <Shape2 color={SVG_COLORS[colorIdx]} size={36} />,
+      <Shape1 color={SVG_COLORS[otherColorIdx]} size={36} />,
+      <Shape2 color={SVG_COLORS[(otherColorIdx + 1) % SVG_COLORS.length]} size={36} />,
+    ];
+  } else if (ruleType === 1) {
+    // Diagonal: same shape in each row, color shifts across columns
+    topLeft = <Shape1 color={SVG_COLORS[colorIdx]} size={44} />;
+    topRight = <Shape1 color={SVG_COLORS[otherColorIdx]} size={44} />;
+    bottomLeft = <Shape2 color={SVG_COLORS[colorIdx]} size={44} />;
+    bottomRight = <SvgQuestionMark size={44} />;
+    correctOption = <Shape2 color={SVG_COLORS[otherColorIdx]} size={36} />;
+    const thirdColor = (colorIdx + 2) % SVG_COLORS.length;
+    distractors = [
+      <Shape1 color={SVG_COLORS[otherColorIdx]} size={36} />,
+      <Shape2 color={SVG_COLORS[thirdColor]} size={36} />,
+      <Shape2 color={SVG_COLORS[colorIdx]} size={36} />,
+    ];
+  } else if (ruleType === 2) {
+    // XOR: shapes differ in both cells, colors cross
+    let thirdShapeIdx = Math.floor(Math.random() * SHAPES.length);
+    while (thirdShapeIdx === shapeIdx || thirdShapeIdx === otherShapeIdx) thirdShapeIdx = Math.floor(Math.random() * SHAPES.length);
+    const Shape3 = SHAPES[thirdShapeIdx];
+    topLeft = <Shape1 color={SVG_COLORS[colorIdx]} size={44} />;
+    topRight = <Shape2 color={SVG_COLORS[otherColorIdx]} size={44} />;
+    bottomLeft = <Shape2 color={SVG_COLORS[colorIdx]} size={44} />;
+    bottomRight = <SvgQuestionMark size={44} />;
+    correctOption = <Shape3 color={SVG_COLORS[otherColorIdx]} size={36} />;
+    distractors = [
+      <Shape1 color={SVG_COLORS[otherColorIdx]} size={36} />,
+      <Shape3 color={SVG_COLORS[colorIdx]} size={36} />,
+      <Shape2 color={SVG_COLORS[otherColorIdx]} size={36} />,
+    ];
+  } else {
+    // Shape-shift across columns, color constant in rows
+    topLeft = <Shape1 color={SVG_COLORS[colorIdx]} size={44} />;
+    topRight = <Shape2 color={SVG_COLORS[colorIdx]} size={44} />;
+    bottomLeft = <Shape2 color={SVG_COLORS[otherColorIdx]} size={44} />;
+    bottomRight = <SvgQuestionMark size={44} />;
+    correctOption = <Shape1 color={SVG_COLORS[otherColorIdx]} size={36} />;
+    const thirdColor = (otherColorIdx + 2) % SVG_COLORS.length;
+    distractors = [
+      <Shape1 color={SVG_COLORS[colorIdx]} size={36} />,
+      <Shape2 color={SVG_COLORS[thirdColor]} size={36} />,
+      <Shape1 color={SVG_COLORS[thirdColor]} size={36} />,
+    ];
+  }
+
   const options: React.ReactNode[] = [correctOption];
-  const distractors = [
-    <Shape2 color={SVG_COLORS[colorIdx]} size={36} />,
-    <Shape1 color={SVG_COLORS[otherColorIdx]} size={36} />,
-    <Shape2 color={SVG_COLORS[(otherColorIdx + 1) % SVG_COLORS.length]} size={36} />,
-  ];
   for (const d of distractors) {
     if (options.length < 4) options.push(d);
   }
@@ -197,7 +252,8 @@ function generateMatrixQuestion(): GeneratedQuestion {
     options,
     correctIdx: options.findIndex(o => {
       const el = o as React.ReactElement<{ color: string }>;
-      return el.props?.color === SVG_COLORS[otherColorIdx] && (el.type as Function) === Shape2;
+      const correctEl = correctOption as React.ReactElement<{ color: string }>;
+      return el.props?.color === correctEl.props?.color && (el.type as Function) === (correctEl.type as Function);
     })
   };
 }
@@ -208,21 +264,25 @@ function generateSequenceQuestion(): GeneratedQuestion {
   const colorIdx = Math.floor(Math.random() * SVG_COLORS.length);
 
   // Rotation sequence: 0°, 90°, 180°, 270°, ?
-  const step = Math.random() < 0.5 ? 90 : 45;
+  const steps = [30, 45, 60, 72, 90, 120];
+  const step = steps[Math.floor(Math.random() * steps.length)];
   const startAngle = Math.floor(Math.random() * 360);
   const rotations = [0, 1, 2, 3].map(i => startAngle + step * i);
   const answerRotation = startAngle + step * 4;
 
+  const seqShapeIdx = Math.floor(Math.random() * SHAPES.length);
+  const SeqShape = SHAPES[seqShapeIdx];
+
   const sequence: React.ReactNode[] = rotations.map((r, i) => (
-    <SvgTriangle key={i} color={SVG_COLORS[colorIdx]} rotation={r} size={40} />
+    <SeqShape key={i} color={SVG_COLORS[colorIdx]} rotation={r} size={40} />
   ));
   sequence.push(<SvgQuestionMark key="q" size={40} />);
 
-  const correctOption = <SvgTriangle color={SVG_COLORS[colorIdx]} rotation={answerRotation} size={32} />;
+  const correctOption = <SeqShape color={SVG_COLORS[colorIdx]} rotation={answerRotation} size={32} />;
   const options: React.ReactNode[] = [correctOption];
   const otherAngles = [answerRotation + 45, answerRotation + 90, answerRotation + 135];
   for (const a of otherAngles) {
-    options.push(<SvgTriangle color={SVG_COLORS[colorIdx]} rotation={a} size={32} />);
+    options.push(<SeqShape color={SVG_COLORS[colorIdx]} rotation={a} size={32} />);
   }
   // Shuffle
   for (let i = options.length - 1; i > 0; i--) {
@@ -245,11 +305,24 @@ function generateSequenceQuestion(): GeneratedQuestion {
 }
 
 function generateAnalogyQuestion(): GeneratedQuestion {
+  // Use dynamic color indices for variety across plays
+  const ci1 = Math.floor(Math.random() * SVG_COLORS.length);
+  let ci2 = Math.floor(Math.random() * SVG_COLORS.length);
+  while (ci2 === ci1) ci2 = Math.floor(Math.random() * SVG_COLORS.length);
+  let ci3 = Math.floor(Math.random() * SVG_COLORS.length);
+  while (ci3 === ci1 || ci3 === ci2) ci3 = Math.floor(Math.random() * SVG_COLORS.length);
+
   const transformations = [
-    { name: 'fill', aShapeIdx: 0, aColorIdx: -1, bShapeIdx: 0, bColorIdx: 0, cShapeIdx: 1, cColorIdx: -1, correctShapeIdx: 1, correctColorIdx: 0 },
-    { name: 'color', aShapeIdx: 0, aColorIdx: 0, bShapeIdx: 0, bColorIdx: 1, cShapeIdx: 3, cColorIdx: 0, correctShapeIdx: 3, correctColorIdx: 1 },
-    { name: 'shape', aShapeIdx: 0, aColorIdx: 2, bShapeIdx: 1, bColorIdx: 2, cShapeIdx: 2, cColorIdx: 3, correctShapeIdx: 3, correctColorIdx: 3 },
-    { name: 'size', aShapeIdx: 4, aColorIdx: 4, bShapeIdx: 4, bColorIdx: 4, cShapeIdx: 5, cColorIdx: 5, correctShapeIdx: 5, correctColorIdx: 5 },
+    { name: 'fill', aShapeIdx: 0, aColorIdx: -1, bShapeIdx: 0, bColorIdx: ci1, cShapeIdx: 1, cColorIdx: -1, correctShapeIdx: 1, correctColorIdx: ci1 },
+    { name: 'color', aShapeIdx: 0, aColorIdx: ci1, bShapeIdx: 0, bColorIdx: ci2, cShapeIdx: 3, cColorIdx: ci1, correctShapeIdx: 3, correctColorIdx: ci2 },
+    { name: 'shape', aShapeIdx: 0, aColorIdx: ci1, bShapeIdx: 1, bColorIdx: ci1, cShapeIdx: 2, cColorIdx: ci2, correctShapeIdx: 3, correctColorIdx: ci2 },
+    { name: 'size', aShapeIdx: 4, aColorIdx: ci1, bShapeIdx: 4, bColorIdx: ci1, cShapeIdx: 5, cColorIdx: ci2, correctShapeIdx: 5, correctColorIdx: ci2 },
+    { name: 'shape+color', aShapeIdx: 0, aColorIdx: ci1, bShapeIdx: 1, bColorIdx: ci2, cShapeIdx: 2, cColorIdx: ci1, correctShapeIdx: 3, correctColorIdx: ci2 },
+    { name: 'color+shape', aShapeIdx: 0, aColorIdx: ci1, bShapeIdx: 0, bColorIdx: ci2, cShapeIdx: 1, cColorIdx: ci2, correctShapeIdx: 1, correctColorIdx: ci1 },
+    { name: 'fill+shape', aShapeIdx: 0, aColorIdx: -1, bShapeIdx: 0, bColorIdx: ci1, cShapeIdx: 1, cColorIdx: ci1, correctShapeIdx: 1, correctColorIdx: -1 },
+    { name: 'double-shift', aShapeIdx: 0, aColorIdx: ci1, bShapeIdx: 1, bColorIdx: ci2, cShapeIdx: 2, cColorIdx: ci3, correctShapeIdx: 3, correctColorIdx: ci1 },
+    { name: 'reverse', aShapeIdx: 0, aColorIdx: ci1, bShapeIdx: 1, bColorIdx: ci2, cShapeIdx: 2, cColorIdx: ci3, correctShapeIdx: 1, correctColorIdx: ci3 },
+    { name: 'cross', aShapeIdx: 0, aColorIdx: ci1, bShapeIdx: 1, bColorIdx: ci2, cShapeIdx: 1, cColorIdx: ci1, correctShapeIdx: 0, correctColorIdx: ci2 },
   ];
 
   const t = transformations[Math.floor(Math.random() * transformations.length)];
@@ -262,10 +335,15 @@ function generateAnalogyQuestion(): GeneratedQuestion {
   const correctOption = { shapeIdx: t.correctShapeIdx, colorIdx: t.correctColorIdx, size: 44 };
 
   const options: { shapeIdx: number; colorIdx: number; size: number }[] = [correctOption];
+  // Generate dynamic distractors based on the correct answer
+  const dColor1 = (t.correctColorIdx + 1) % SVG_COLORS.length;
+  const dColor2 = (t.correctColorIdx + 3) % SVG_COLORS.length;
+  const dShape1 = (t.correctShapeIdx + 1) % SHAPES.length;
+  const dShape2 = (t.correctShapeIdx + 2) % SHAPES.length;
   const distractors = [
-    { shapeIdx: 0, colorIdx: 1, size: 44 },
-    { shapeIdx: 1, colorIdx: 3, size: 44 },
-    { shapeIdx: 3, colorIdx: 5, size: 44 },
+    { shapeIdx: t.correctShapeIdx, colorIdx: dColor1, size: 44 },
+    { shapeIdx: dShape1, colorIdx: t.correctColorIdx, size: 44 },
+    { shapeIdx: dShape2, colorIdx: dColor2, size: 44 },
   ];
   for (const d of distractors) {
     if (options.length < 4) options.push(d);
@@ -418,6 +496,11 @@ export default function PatternReasoningTest() {
     dataLayer.getPersonalBest('pattern-reasoning', 'higher').then(pb => setPersonalBest(pb)).catch(console.error);
     const card = await generateShareCard(`Reasoning: ${MODE_TITLES[currentMode]}`, `${finalScore} Pts`, percentile);
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'pattern-reasoning', testName: 'Pattern Reasoning', attempts: [finalScore], unit: 'pts',
+      percentile, personalBest: null, category: 'processing', average: finalScore,
+    });
   };
 
   const getNextMode = (): GameMode => {

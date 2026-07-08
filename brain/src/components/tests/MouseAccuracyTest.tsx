@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 const TARGET_SIZES = [80, 60, 45, 32, 22];
 const PER_SIZE = 5;
@@ -65,6 +66,11 @@ export default function MouseAccuracyTest() {
     }
     const card = await generateShareCard('Mouse Accuracy Test', `${Math.round(avgOffset * 10) / 10}px avg`, lookupPercentile('mouse-accuracy', score));
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'mouse-accuracy', testName: 'Mouse Accuracy', attempts: allOffsets, unit: 'px',
+      percentile: lookupPercentile('mouse-accuracy', score), personalBest: null, category: 'precision', average: Math.round(allOffsets.reduce((a, b) => a + b, 0) / allOffsets.length),
+    });
   };
 
   

@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 type TrialState = 'idle' | 'running' | 'result';
 interface Trial {
@@ -170,6 +171,11 @@ export default function StroopTest() {
 
     const card = await generateShareCard('Stroop Attention Test', `${finalScore} ms`, percentile).catch(() => '');
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'stroop', testName: 'Stroop Attention', attempts: [...congruentScores, ...incongruentScores], unit: 'ms',
+      percentile, personalBest: null, category: 'focus', average: finalScore,
+    });
   };
 
   const getAvg = (arr: number[]) => arr.length === 0 ? 0 : Math.round(arr.reduce((a,b)=>a+b,0) / arr.length);

@@ -9,9 +9,9 @@ const canonicalUrl = "https://cogniarena.com/contact";
 <Layout title={title} description={description} canonicalUrl={canonicalUrl}>
   <div class="flex flex-col gap-10 w-full max-w-3xl mx-auto py-4">
     <header class="flex flex-col gap-3">
-      <span class="text-xs font-mono uppercase tracking-widest text-accent">Communications</span>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Contact Platform Support</h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed">
+      <span class="text-xs font-mono uppercase tracking-widest text-accent" data-i18n="contact.badge">Communications</span>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground" data-i18n="contact.title">Contact Platform Support</h1>
+      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed" data-i18n="contact.subtitle">
         Submit feedback, feature requests, or report calibration anomalies.
       </p>
     </header>
@@ -19,24 +19,21 @@ const canonicalUrl = "https://cogniarena.com/contact";
     <section class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm text-muted dark:text-muted leading-relaxed">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
         <article class="flex flex-col gap-4">
-          <h2 class="text-lg font-bold text-foreground">Submit Platform Feedback</h2>
-          <p>
+          <h2 class="text-lg font-bold text-foreground" data-i18n="contact.feedback_title">Submit Platform Feedback</h2>
+          <p data-i18n="contact.feedback_desc">
             Since we run entirely anonymous local-first clients, we do not require account logins to receive messages. Please reach out to our team at:
           </p>
-          <div class="p-4 rounded-lg bg-subtle border border-card-border font-mono text-accent font-semibold text-center sm:text-left">
-            support@cogniarena.com
-          </div>
-          <p class="text-xs text-muted">
+          <p class="text-xs text-muted" data-i18n="contact.hardware_note">
             For hardware synchronization and display calibration queries, please attach your environment specs from the Diagnostics tab in your profile.
           </p>
         </article>
 
         {/* Contact Form — constructs mailto link with subject + message */}
         <div class="flex flex-col gap-4 p-5 rounded-xl border border-card-border bg-card">
-          <h3 class="text-sm font-bold text-foreground uppercase font-mono tracking-wider">Send a Message</h3>
+          <h3 class="text-sm font-bold text-foreground uppercase font-mono tracking-wider" data-i18n="contact.form_title">Send a Message</h3>
           <form id="contact-form" class="flex flex-col gap-3" onsubmit="event.preventDefault(); const subj = document.getElementById('contact-subject').value; const msg = document.getElementById('contact-message').value; window.location.href = 'mailto:support@cogniarena.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(msg);">
             <div class="flex flex-col gap-1">
-              <label class="text-[10px] font-mono text-muted uppercase" for="contact-subject">Subject</label>
+              <label class="text-[10px] font-mono text-muted uppercase" for="contact-subject" data-i18n="contact.subject_label">Subject</label>
               <select id="contact-subject" name="subject" class="bg-subtle border border-card-border rounded px-2.5 py-1.5 text-xs text-foreground outline-none w-full">
                 <option>General Feedback</option>
                 <option>Calibration Assistance</option>
@@ -45,18 +42,20 @@ const canonicalUrl = "https://cogniarena.com/contact";
               </select>
             </div>
             <div class="flex flex-col gap-1">
-              <label class="text-[10px] font-mono text-muted uppercase" for="contact-message">Message</label>
+              <label class="text-[10px] font-mono text-muted uppercase" for="contact-message" data-i18n="contact.message_label">Message</label>
               <textarea 
                 id="contact-message"
                 name="message"
                 rows="3" 
                 required
                 placeholder="Type your message here..."
+                data-i18n-placeholder="contact.placeholder"
                 class="bg-subtle border border-card-border rounded px-2.5 py-1.5 text-xs text-foreground outline-none w-full resize-none focus:border-accent"
               ></textarea>
             </div>
             <button 
               type="submit"
+              data-i18n="contact.submit"
               class="w-full h-9 rounded bg-accent hover:bg-accent-hover text-white font-semibold text-xs font-mono uppercase tracking-wider transition-standard cursor-pointer"
             >
               Submit Message

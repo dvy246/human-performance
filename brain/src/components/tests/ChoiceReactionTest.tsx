@@ -3,6 +3,7 @@ import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibr
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -205,6 +206,11 @@ export default function ChoiceReactionTest() {
 
     const card = await generateShareCard('Choice Reaction Test', `${avgScore} ms`, percentile);
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'choice-reaction', testName: 'Choice Reaction', attempts: allAttempts.map(a => a.score), unit: 'ms',
+      percentile, personalBest: pb, category: 'reaction', average: avgScore,
+    });
   };
 
   const copyChallengeLink = () => {

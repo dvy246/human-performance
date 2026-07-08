@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 type Phase = 'idle' | 'showing' | 'input' | 'feedback' | 'result';
 
@@ -173,6 +174,11 @@ export default function VisualPatternTest() {
       percentile
     );
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'visual-pattern', testName: 'Visual Pattern', attempts: [finalScore], unit: 'levels',
+      percentile, personalBest: pb, category: 'memory', average: finalScore,
+    });
   };
 
 

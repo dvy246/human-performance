@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 interface Task {
   id: number; name: string; deadline: number; points: number; effort: number;
@@ -120,6 +121,11 @@ export default function PrioritizationTest() {
     }
     const card = await generateShareCard('Prioritization Test', `${total} pts`, lookupPercentile('prioritization', score)).catch(() => '');
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'prioritization', testName: 'Prioritization', attempts: r.map(x => x.points), unit: 'pts',
+      percentile: lookupPercentile('prioritization', score), personalBest: null, category: 'executive', average: avg,
+    });
   };
 
   

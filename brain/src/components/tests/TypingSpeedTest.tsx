@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import percentilesData from '../../data/percentiles.json';
 import { PASSAGE_CATEGORIES } from '../../data/passages';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 type GameState = 'idle' | 'typing' | 'result';
 type TimeOption = 15 | 30 | 60 | 120;
@@ -435,6 +436,11 @@ export default function TypingSpeedTest() {
       }).catch(() => {});
       dataLayer.getPersonalBest('typing-speed', 'higher').then(pb => setPersonalBest(pb)).catch(() => {});
       generateShareCard('Typing Speed Test', `${stats.wpm} WPM`, percentile).then(card => setShareImage(card)).catch(() => {});
+
+      redirectToResults({
+        testId: 'typing-speed', testName: 'Typing Speed', attempts: stats.wpmSamples.length > 0 ? stats.wpmSamples.map(s => s.wpm) : [stats.wpm], unit: 'WPM',
+        percentile, personalBest: null, category: 'stamina', average: stats.wpm,
+      });
     }
   }, [engine.submitted]); // eslint-disable-line react-hooks/exhaustive-deps
 

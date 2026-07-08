@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 import StageReaction from './gauntlet/StageReaction';
 import StageSequenceMemory from './gauntlet/StageSequenceMemory';
 import StageStroop from './gauntlet/StageStroop';
@@ -75,6 +76,11 @@ export default function GauntletTest() {
     }).catch(console.error);
     const card = await generateShareCard('The Gauntlet', `${totalScore}/100`, percentile).catch(() => '');
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'gauntlet', testName: 'The Gauntlet', attempts: r.map(s => s.score), unit: 'pts',
+      percentile, personalBest: null, category: 'focus', average: totalScore,
+    });
   };
 
   

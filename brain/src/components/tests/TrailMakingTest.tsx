@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 type TestMode = 'partA' | 'partB';
 type TrialState = 'idle' | 'running' | 'result';
@@ -177,6 +178,11 @@ export default function TrailMakingTest() {
       percentile
     );
     setShareImage(card);
+
+    redirectToResults({
+      testId: testId, testName: `Trail Making (${mode === 'partA' ? 'A' : 'B'})`, attempts: [totalScore], unit: 'ms',
+      percentile, personalBest: null, category: 'focus', average: totalScore,
+    });
   };
 
   return (

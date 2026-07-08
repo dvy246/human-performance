@@ -12,6 +12,10 @@ import {
   getAdaptiveRecommendations,
   type DailyChallenge
 } from '../../runtime/trainingEngine';
+import TestSummaryGrid from './TestSummaryGrid';
+import CrossTestBarChart from './CrossTestBarChart';
+import MultiTrendChart from './MultiTrendChart';
+import CompletionTracker from './CompletionTracker';
 
 interface DiagnosticInfo {
   hz: number;
@@ -97,7 +101,7 @@ export default function CognitiveProfile() {
   const [challengeCompleted, setChallengeCompleted] = useState<boolean>(false);
 
   // Active Tab
-  const [activeTab, setActiveTab] = useState<'profile' | 'history' | 'achievements' | 'diagnostics'>('profile');
+  const [activeTab, setActiveTab] = useState<'profile' | 'alltests' | 'history' | 'achievements' | 'diagnostics'>('profile');
   const [historyPeriod, setHistoryPeriod] = useState<'all' | '30d' | '7d' | 'today'>('all');
 
   // US Demographic Benchmark State
@@ -499,18 +503,35 @@ export default function CognitiveProfile() {
             </div>
           </div>
 
-          <div className="flex border-b border-card-border/60 gap-6">
+          {/* Overview Charts */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <CrossTestBarChart />
+            <MultiTrendChart />
+          </div>
+
+          {/* Completion Tracker */}
+          <CompletionTracker />
+
+          <div className="flex border-b border-card-border/60 gap-6 overflow-x-auto">
             <button
               onClick={() => setActiveTab('profile')}
-              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none ${
+              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none whitespace-nowrap ${
                 activeTab === 'profile' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
               }`}
             >
               Cognitive Profile
             </button>
             <button
+              onClick={() => setActiveTab('alltests')}
+              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none whitespace-nowrap ${
+                activeTab === 'alltests' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
+              }`}
+            >
+              All Tests
+            </button>
+            <button
               onClick={() => setActiveTab('history')}
-              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none ${
+              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none whitespace-nowrap ${
                 activeTab === 'history' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
               }`}
             >
@@ -518,7 +539,7 @@ export default function CognitiveProfile() {
             </button>
             <button
               onClick={() => setActiveTab('achievements')}
-              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none ${
+              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none whitespace-nowrap ${
                 activeTab === 'achievements' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
               }`}
             >
@@ -526,11 +547,11 @@ export default function CognitiveProfile() {
             </button>
             <button
               onClick={() => setActiveTab('diagnostics')}
-              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none ${
+              className={`pb-2.5 text-xs font-mono uppercase tracking-widest cursor-pointer transition-colors relative outline-none whitespace-nowrap ${
                 activeTab === 'diagnostics' ? 'text-accent font-semibold border-b-2 border-accent' : 'text-muted hover:text-foreground'
               }`}
             >
-              Environment Diagnostics
+              Diagnostics
             </button>
           </div>
 
@@ -782,6 +803,10 @@ export default function CognitiveProfile() {
                 </div>
               </div>
             </div>
+          )}
+
+          {activeTab === 'alltests' && (
+            <TestSummaryGrid />
           )}
 
           {activeTab === 'history' && (() => {

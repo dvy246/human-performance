@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 const TOTAL = 12;
 const ANGLES = [0, 90, 180, 270];
@@ -22,6 +23,24 @@ const PATTERNS = [
   [[1, 1, 1], [1, 0, 0], [1, 0, 0]],
   [[0, 1, 1], [0, 1, 0], [1, 1, 0]],
   [[1, 0, 1], [0, 1, 1], [1, 0, 0]],
+  // Additional patterns for variety
+  [[1, 1, 0], [0, 1, 0], [0, 0, 1]],  // stair-step
+  [[0, 1, 0], [0, 1, 1], [1, 0, 0]],  // reverse stair
+  [[1, 0, 0], [1, 1, 0], [0, 1, 0]],  // S-zigzag
+  [[0, 0, 1], [0, 1, 0], [1, 1, 0]],  // Z-zigzag
+  [[1, 1, 0], [0, 1, 0], [0, 0, 0]],  // small corner
+  [[0, 0, 0], [1, 0, 1], [0, 1, 1]],  // bottom-heavy
+  [[1, 0, 0], [0, 0, 1], [1, 0, 1]],  // scattered diagonal
+  [[0, 1, 0], [1, 0, 0], [1, 1, 0]],  // hook
+  [[1, 0, 1], [0, 0, 1], [1, 0, 0]],  // reverse hook
+  [[1, 1, 0], [1, 0, 0], [1, 1, 0]],  // U-shape
+  [[0, 1, 1], [0, 1, 0], [0, 1, 1]],  // reverse U
+  [[1, 0, 0], [1, 0, 1], [0, 0, 1]],  // sparse corner
+  [[0, 1, 0], [1, 1, 0], [0, 1, 1]],  // wave
+  [[1, 0, 1], [1, 1, 0], [0, 0, 1]],  // asymmetric scatter
+  [[0, 0, 1], [1, 0, 1], [1, 1, 0]],  // reverse scatter
+  [[1, 1, 0], [0, 0, 1], [1, 0, 1]],  // diamond-offset
+  [[0, 1, 1], [1, 0, 0], [0, 1, 0]],  // tilt
 ];
 
 function rotateGrid(grid: number[][], angle: number): number[][] {
@@ -204,6 +223,11 @@ export default function SpatialOrientationTest() {
     }
     const card = await generateShareCard('Spatial Orientation', `${c}/${TOTAL}`, lookupPercentile('spatial-orientation', score)).catch(() => '');
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'spatial-orientation', testName: 'Spatial Orientation', attempts: [score], unit: '%',
+      percentile: lookupPercentile('spatial-orientation', score), personalBest: null, category: 'processing', average: score,
+    });
   };
 
   

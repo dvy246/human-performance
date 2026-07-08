@@ -3,7 +3,7 @@ import Layout from "@/layouts/main.astro";
 import CognitiveProfile from "@/components/dashboard/CognitiveProfile";
 
 const title = "Performance HQ — CogniArena | Cognitive Command Center";
-const description = "Your cognitive command center: hexagonal skill radar, CAI score, personal records, daily streaks, achievement trophies, adaptive training recommendations, and hardware diagnostics.";
+const description = "Your cognitive command center: cross-test comparison charts, score trend tracking, per-test summaries, completion overview, hexagonal skill radar, CAI score, personal records, daily streaks, achievement trophies, and adaptive training recommendations.";
 const canonicalUrl = "https://cogniarena.com/dashboard";
 
 const schemaJson = {
@@ -19,15 +19,15 @@ const schemaJson = {
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
       <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
-        <span>Command Center</span>
+        <span data-i18n="dash.badge1">Command Center</span>
         <span>&middot;</span>
-        <span>Performance HQ</span>
+        <span data-i18n="dash.badge2">Performance HQ</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground" data-i18n="dash.title">
         Performance HQ
       </h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Your cognitive command center. Track your CAI (CogniArena Index), monitor hexagonal skill growth, review personal records, unlock achievement trophies, and get adaptive training recommendations.
+      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed max-w-2xl" data-i18n="dash.subtitle">
+        Your cognitive command center. Compare scores across all tests, track improvement trends, view per-test stats with related test links, monitor completion progress, and unlock achievements.
       </p>
     </header>
 
@@ -46,8 +46,8 @@ const schemaJson = {
       </div>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Understanding Your Skill Radar Chart</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight" data-i18n="dash.radar_title">Understanding Your Skill Radar Chart</h2>
+        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="dash.radar_desc">
           The hexagonal skill radar measures your cognitive capabilities across six distinct dimensions. Your score in each category represents your **percentile rank** compared to global, calibrated averages:
         </p>
         <ul class="list-disc pl-5 flex flex-col gap-2.5 text-muted dark:text-muted text-sm">
@@ -73,11 +73,11 @@ const schemaJson = {
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Privacy & Local Ledger Integrity</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight" data-i18n="dash.privacy_title">Privacy & Local Ledger Integrity</h2>
+        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="dash.privacy_desc1">
           CogniArena is anonymous and does not collect personal identifiers. All performance records are stored locally inside your browser's IndexedDB database. 
         </p>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
+        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="dash.privacy_desc2">
           By activating **Cloud Sync**, an encrypted hash of your recovery key is saved to the Cloudflare D1 edge database to back up your achievements against cache clears. Disconnecting sync removes edge links immediately.
         </p>
       </article>

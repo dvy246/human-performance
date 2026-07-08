@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 import SocialShare from '../ui/SocialShare';
 import Stage1SelectiveAttention from './focus/Stage1SelectiveAttention';
 import Stage2ImpulseControl from './focus/Stage2ImpulseControl';
@@ -203,6 +204,11 @@ export default function FocusChallengeTest() {
     }).catch(console.error);
     const card = await generateShareCard('Focus Challenge', `${totalScore}/100`, percentile).catch(() => '');
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'focus-challenge', testName: 'Focus Challenge', attempts: results.map(r => r.score), unit: 'pts',
+      percentile, personalBest: null, category: 'focus', average: totalScore,
+    });
   };
 
   const prevStageScore = stageResults.length > 0 ? stageResults[stageResults.length - 1] : null;
@@ -237,7 +243,7 @@ export default function FocusChallengeTest() {
           <div className="bg-[var(--error-bg)] border border-[var(--error-border)] rounded-lg p-3 text-xs text-secondary max-w-md">
             <strong className="text-error">⚠️ For educational & entertainment purposes only.</strong> Not a clinical diagnostic tool. Performance can vary based on daily factors like sleep, stress, and caffeine.
           </div>
-          <button onClick={() => { setPhase('playing'); setCurrentStage(0); setStageResults([]); setPersonalBest(null); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">
+          <button onClick={() => { setPhase('playing'); setCurrentStage(0); setStageResults([]); setPersonalBest(null); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; overallScoreRef.current = 0; }} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">
             Begin Focus Challenge (~4 min)
           </button>
         </div>
@@ -388,7 +394,7 @@ export default function FocusChallengeTest() {
             </a>
           )}
           <SocialShare testId="focus-challenge" score={overallScore} scoreLabel={`${overallScore}/100`} testName="Focus Challenge" />
-          <button onClick={() => { setPhase('intro'); setCurrentStage(0); setStageResults([]); setOverallScore(0); setShareImage(null); setPersonalBest(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
+          <button onClick={() => { setPhase('intro'); setCurrentStage(0); setStageResults([]); setOverallScore(0); setShareImage(null); setPersonalBest(null); submittedRef.current = false; stageCompletedRef.current = false; overallScoreRef.current = 0; }} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             <span>Take Challenge Again</span>
           </button>

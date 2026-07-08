@@ -3,6 +3,11 @@ import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibr
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { useSound } from '../../runtime/useSound';
+import { useI18n } from '../../runtime/useI18n';
+import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -21,6 +26,8 @@ const COLORS: ColorState[] = [
 ];
 
 export default function GoNoGoTest() {
+  const { playClick, playError } = useSound();
+  const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
   const [currentColor, setCurrentColor] = useState<ColorState | null>(null);
   const [attempts, setAttempts] = useState<number[]>([]);
@@ -141,12 +148,18 @@ export default function GoNoGoTest() {
       setGameState('attempt-result');
     } else {
       const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length);
-      finalizeTest(average, updatedAttempts.length);
+      finalizeTest(average, updatedAttempts.length, updatedAttempts);
     }
   };
 
   const handleScreenClick = (e: React.MouseEvent) => {
     e.preventDefault();
+
+    // Allow proceeding from attempt-result / result / abort / idle states even if clickLock is engaged
+    if (gameState === 'attempt-result' || gameState === 'result' || gameState === 'abort' || gameState === 'idle') {
+      clickLock.current = false;
+    }
+
     if (clickLock.current) return;
 
     if (gameState === 'waiting') {
@@ -166,15 +179,17 @@ export default function GoNoGoTest() {
         const updatedAttempts = [...attempts, elapsed];
         setAttempts(updatedAttempts);
         setCurrentScore(elapsed);
+        playClick();
 
         if (updatedAttempts.length < 5) {
           setGameState('attempt-result');
         } else {
           const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / 5);
-          finalizeTest(average, updatedAttempts.length);
+          finalizeTest(average, updatedAttempts.length, updatedAttempts);
         }
       } else {
         // False Alarm click on distractor!
+        playError();
         setFalseAlarms((prev) => prev + 1);
         setGameState('attempt-result');
         setCurrentScore(null); // Displays False Alarm message
@@ -187,7 +202,7 @@ export default function GoNoGoTest() {
     }
   };
 
-  const finalizeTest = async (avgScore: number, roundsCount: number) => {
+  const finalizeTest = async (avgScore: number, roundsCount: number, allAttempts: number[]) => {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setGameState('result');
@@ -213,6 +228,11 @@ export default function GoNoGoTest() {
 
     const card = await generateShareCard('Go/No-Go Color Test', `${finalAverage} ms`, percentile);
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'go-no-go', testName: 'Go/No-Go', attempts: allAttempts, unit: 'ms',
+      percentile, personalBest: pb, category: 'reaction', average: finalAverage,
+    });
   };
 
   const copyChallengeLink = () => {
@@ -231,8 +251,8 @@ export default function GoNoGoTest() {
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
-          <span className="text-foreground">Active Challenge: Beat your friend's Go/No-Go score of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">Dismiss</button>
+          <span className="text-foreground">{t('test.challenge_beat')} <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-foreground font-mono uppercase">{t('test.dismiss')}</button>
         </div>
       )}
 
@@ -248,22 +268,24 @@ export default function GoNoGoTest() {
         }}
       >
         {gameState === 'idle' && (
-          <div className="flex flex-col items-center gap-3">
-            <span className="text-2xl">🟢</span>
-            <h2 className="text-lg font-bold text-foreground tracking-tight">Go/No-Go Color Test</h2>
-            <p className="text-muted text-xs leading-relaxed max-w-sm">
-              Click the screen <strong className="text-success">ONLY when GREEN</strong> appears. 
-              If other colors flash (Red, Blue, Purple, Yellow), suppress your click and wait. 
-              False clicks or misses carry a <strong className="text-error">+250ms penalty</strong>!
-            </p>
-            <span className="text-xs uppercase font-mono tracking-widest text-accent mt-2">Click card to start</span>
+          <div onClick={(e) => e.stopPropagation()} className="w-full">
+            <GameConfigPanel
+              testId="go-no-go"
+              icon="🟢"
+              title="Go/No-Go Color Test"
+              description="Click ONLY when GREEN appears. Suppress clicks for other colors. False clicks carry a +250ms penalty."
+              personalBest={personalBest}
+              personalBestLabel="ms"
+              startLabel="Start Test"
+              onStart={(_config: GameConfig) => startTest()}
+            />
           </div>
         )}
 
         {gameState === 'waiting' && (
           <div className="flex flex-col items-center gap-2">
-            <div className="w-16 h-16 rounded bg-subtle border border-card-border animate-pulse flex items-center justify-center text-muted dark:text-muted font-mono text-xs">WAIT</div>
-            <p className="text-muted font-mono text-xs uppercase mt-3">Rounds: {attempts.length} / 5 &middot; Click ONLY on GREEN</p>
+            <div className="w-16 h-16 rounded bg-subtle border border-card-border animate-pulse flex items-center justify-center text-muted dark:text-muted font-mono text-xs">{t('gng.wait')}</div>
+            <p className="text-muted font-mono text-xs uppercase mt-3">{t('gng.rounds')} {attempts.length} / 5 &middot; {t('gng.click_green')}</p>
           </div>
         )}
 
@@ -284,7 +306,7 @@ export default function GoNoGoTest() {
               {currentColor.name}
             </span>
             <span className="text-black/70 text-xs font-mono uppercase">
-              {currentColor.isTarget ? 'GO — Click now!' : 'NO-GO — Do not click'}
+              {currentColor.isTarget ? t('gng.go') : t('gng.no_go')}
             </span>
           </div>
         )}
@@ -293,61 +315,61 @@ export default function GoNoGoTest() {
           <div className="flex flex-col items-center gap-3">
             {currentScore !== null ? (
               <>
-                <span className="text-muted text-xs font-mono uppercase">Reaction Latency</span>
+                <span className="text-muted text-xs font-mono uppercase">{t('gng.reaction_latency')}</span>
                 <div className="text-4xl font-mono font-bold text-foreground">{currentScore} ms</div>
               </>
             ) : (
               <>
                 <span className="text-error text-2xl">⚠️</span>
-                <div className="text-2xl font-mono font-bold text-error uppercase tracking-wide">False Alarm!</div>
+                <div className="text-2xl font-mono font-bold text-error uppercase tracking-wide">{t('gng.false_alarm')}</div>
                 <p className="text-secondary text-xs max-w-xs leading-relaxed">
-                  You clicked on a distractor color. +250ms penalty added to final average.
+                  {t('gng.distractor_penalty')}
                 </p>
               </>
             )}
-            <span className="text-xs text-muted font-mono uppercase mt-4 animate-pulse">Click card to continue</span>
+            <span className="text-xs text-muted font-mono uppercase mt-4 animate-pulse">{t('gng.click_continue')}</span>
           </div>
         )}
 
         {gameState === 'abort' && (
           <div className="flex flex-col items-center gap-3">
             <span className="text-error text-2xl">⚠️</span>
-            <h2 className="text-lg font-bold text-foreground">Early Click!</h2>
+            <h2 className="text-lg font-bold text-foreground">{t('gng.early_click')}</h2>
             <p className="text-muted text-xs">
-              You clicked before a color flashed.
+              {t('gng.clicked_before_flash')}
             </p>
-            <span className="text-xs uppercase font-mono text-muted mt-2">Click card to restart</span>
+            <span className="text-xs uppercase font-mono text-muted mt-2">{t('gng.click_restart_card')}</span>
           </div>
         )}
 
         {gameState === 'result' && (
           <div className="flex flex-col items-center gap-4">
             <div className="flex flex-col items-center gap-0.5">
-              <span className="text-muted text-xs font-mono uppercase">Inhibitory Reaction Average</span>
+              <span className="text-muted text-xs font-mono uppercase">{t('gng.inhibitory_avg')}</span>
               <div className="text-4xl font-mono font-bold text-foreground">
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {100 - lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250), true)}% globally
+                Top {100 - lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / 5) + (falseAlarms * 250), true)}% {t('rt.globally')}
               </span>
             </div>
 
             <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-3">
               <div>
-                <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
+                <span className="text-muted text-[10px] font-mono uppercase">{t('test.personal_best')}</span>
                 <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
               </div>
               <div>
-                <span className="text-muted text-[10px] font-mono uppercase">Calibration</span>
-                <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
+                <span className="text-muted text-[10px] font-mono uppercase">{t('test.calibration')}</span>
+                <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : t('test.detecting')}</div>
               </div>
               <div>
-                <span className="text-muted text-[10px] font-mono uppercase">False Alarms</span>
+                <span className="text-muted text-[10px] font-mono uppercase">{t('gng.false_alarms')}</span>
                 <div className="text-foreground font-mono text-sm">{falseAlarms}</div>
               </div>
             </div>
 
-            <span className="text-xs uppercase font-mono text-muted mt-2">Click card to try again</span>
+            <span className="text-xs uppercase font-mono text-muted mt-2">{t('gng.click_try_again')}</span>
           </div>
         )}
       </div>
@@ -361,7 +383,7 @@ export default function GoNoGoTest() {
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              <span>Download Go/No-Go Profile</span>
+              <span>{t('gng.download_profile')}</span>
             </a>
           )}
           <button
@@ -369,7 +391,7 @@ export default function GoNoGoTest() {
             className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            <span>{copiedChallenge ? 'Telemetry Copied!' : 'Challenge a Friend'}</span>
+            <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
           </button>
         </div>
       )}

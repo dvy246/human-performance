@@ -3,6 +3,7 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 const WORD_POOL = [
   'apple', 'bridge', 'cloud', 'dragon', 'eagle', 'forest', 'garden', 'hammer', 'island', 'jewel',
@@ -92,6 +93,11 @@ export default function VerbalMemoryTest() {
     }
     const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile('verbal-memory', score));
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'verbal-memory', testName: 'Verbal Memory', attempts: [correct], unit: 'words',
+      percentile: lookupPercentile('verbal-memory', score), personalBest: null, category: 'memory', average: correct,
+    });
   };
 
   

@@ -3,10 +3,17 @@ import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibr
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { useSound } from '../../runtime/useSound';
+import { useI18n } from '../../runtime/useI18n';
+import { redirectToResults } from '../../runtime/redirectToResults';
+import GameConfigPanel from '../ui/GameConfigPanel';
+import type { GameConfig } from '../../runtime/testConfig';
 
 type TestState = 'idle' | 'sequence' | 'waiting' | 'ready' | 'attempt-result' | 'jump-start' | 'result';
 
 export default function F1LightsTest() {
+  const { playTone, playClick, playError } = useSound();
+  const { t } = useI18n();
   const [gameState, setGameState] = useState<TestState>('idle');
   const [activeRows, setActiveRows] = useState<number>(0);
   const [attempts, setAttempts] = useState<number[]>([]);
@@ -78,6 +85,7 @@ export default function F1LightsTest() {
     for (let i = 1; i <= 5; i++) {
       const timer = setTimeout(() => {
         setActiveRows(i);
+        playTone(220 + i * 60, 0.15, 'square', 0.1); // rising tone per light
         if (i === 5) {
           // All rows lit, begin wait for extinguish
           setGameState('waiting');
@@ -94,6 +102,7 @@ export default function F1LightsTest() {
     
     triggerTimer.current = setTimeout(() => {
       setActiveRows(0);
+      playTone(880, 0.25, 'sine', 0.2); // lights-out tone
       setGameState('ready');
       rafId.current = requestAnimationFrame(() => {
         requestAnimationFrame(() => {
@@ -105,6 +114,12 @@ export default function F1LightsTest() {
 
   const handleTrigger = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.preventDefault();
+
+    // Allow proceeding from attempt-result / result / jump-start states even if clickLock is engaged
+    if (gameState === 'attempt-result' || gameState === 'result' || gameState === 'jump-start') {
+      clickLock.current = false;
+    }
+
     if (clickLock.current) return;
 
     if (gameState === 'idle') {
@@ -113,6 +128,7 @@ export default function F1LightsTest() {
       // JUMP START (too early)
       clearTimers();
       setActiveRows(0);
+      playError(); // error buzz
       setGameState('jump-start');
     } else if (gameState === 'ready') {
       const reactionTime = Math.round(performance.now() - startTime.current);
@@ -123,6 +139,7 @@ export default function F1LightsTest() {
       }
 
       clickLock.current = true;
+      playClick(); // click feedback
 
       const updatedAttempts = [...attempts, reactionTime];
       setAttempts(updatedAttempts);
@@ -164,6 +181,11 @@ export default function F1LightsTest() {
 
     const card = await generateShareCard('F1 Start Lights Test', `${avgScore} ms`, percentile);
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'f1-lights', testName: 'F1 Start Lights', attempts: allAttempts, unit: 'ms',
+      percentile, personalBest: pb, category: 'reaction', average: avgScore,
+    });
   };
 
   const copyChallengeLink = () => {
@@ -190,7 +212,7 @@ export default function F1LightsTest() {
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <span className="text-secondary">Active Challenge: Beat your friend's F1 start of <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
-          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-secondary font-mono uppercase">Dismiss</button>
+          <button onClick={() => setChallengeScore(null)} className="text-[11px] text-muted hover:text-secondary font-mono uppercase">{t('test.dismiss')}</button>
         </div>
       )}
 
@@ -210,10 +232,10 @@ export default function F1LightsTest() {
       >
         <span className="text-muted text-xs font-mono uppercase">
           {gameState === 'sequence' || gameState === 'waiting'
-            ? `Attempt ${attempts.length + 1} of 5 &middot; WATCH GANTRY`
+            ? `Attempt ${attempts.length + 1} of 5 &middot; ${t('f1.watch_gantry')}`
             : attempts.length === 5 
-            ? 'Assessment Complete'
-            : `Attempt ${attempts.length + 1} of 5`}
+            ? t('f1.assessment_complete')
+            : `${t('test.attempts')} ${attempts.length + 1} / 5`}
         </span>
 
         {/* Dynamic Light Rig Gantry */}
@@ -244,18 +266,23 @@ export default function F1LightsTest() {
         {/* HUD Center Instructions */}
         <div className="flex flex-col items-center text-center gap-3 flex-1 justify-center max-w-md">
           {gameState === 'idle' && (
-            <>
-              <h2 className="text-xl font-bold text-foreground tracking-tight">F1 Start Lights Test</h2>
-              <p className="text-muted text-xs leading-relaxed">
-                Click inside the card or press **Spacebar** to start. Wait for the five red lights to light up, and react the exact instant they turn off.
-              </p>
-              <span className="text-xs uppercase font-mono tracking-widest text-accent mt-2">Click to start</span>
-            </>
+            <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()} className="w-full">
+              <GameConfigPanel
+                testId="f1-lights"
+                icon="🏎️"
+                title="F1 Start Lights Test"
+                description="Wait for the five red lights to activate, then react the instant they turn off."
+                personalBest={personalBest}
+                personalBestLabel="ms"
+                startLabel="Start Test"
+                onStart={(_config: GameConfig) => startTest()}
+              />
+            </div>
           )}
 
           {(gameState === 'sequence' || gameState === 'waiting') && (
             <h3 className="text-foreground dark:text-white font-mono text-sm tracking-wider uppercase">
-              {gameState === 'waiting' ? 'Lights are holding... REACT ON OUT' : 'Starting Sequence...'}
+              {gameState === 'waiting' ? t('f1.lights_holding') : t('f1.starting_seq')}
             </h3>
           )}
 
@@ -266,9 +293,9 @@ export default function F1LightsTest() {
                 <polygon points="40,25 60,60 20,60" fill="var(--success)" opacity="0.3" />
               </svg>
               <h2 className="text-5xl font-mono font-bold text-success tracking-widest uppercase select-none animate-pulse">
-                GO! GO! GO!
+              {t('f1.go')}
               </h2>
-              <span className="text-success/80 text-sm font-mono">Lights out — React now!</span>
+              <span className="text-success/80 text-sm font-mono">{t('f1.lights_out')}</span>
             </>
           )}
 
@@ -276,29 +303,29 @@ export default function F1LightsTest() {
             <>
               <span className="text-muted text-xs font-mono">Attempt {attempts.length} time</span>
               <div className="text-4xl font-mono font-bold text-foreground">{currentScore} ms</div>
-              <span className="text-xs text-muted font-mono uppercase mt-2">Click anywhere to load next sequence</span>
+              <span className="text-xs text-muted font-mono uppercase mt-2">{t('f1.next_seq')}</span>
             </>
           )}
 
           {gameState === 'jump-start' && (
             <>
               <span className="text-error text-2xl">🚨</span>
-              <h2 className="text-xl font-bold text-foreground">JUMP START!</h2>
+              <h2 className="text-xl font-bold text-foreground">{t('f1.jump_start')}</h2>
               <p className="text-muted text-xs">
-                You clicked before the lights went out. Sequence cancelled.
+                {t('f1.clicked_before')}
               </p>
-              <span className="text-xs text-error font-mono uppercase mt-2">Click to restart</span>
+              <span className="text-xs text-error font-mono uppercase mt-2">{t('f1.click_restart')}</span>
             </>
           )}
 
           {gameState === 'result' && (
             <div className="flex flex-col items-center gap-2">
-              <span className="text-muted text-xs font-mono">Average Reaction speed</span>
+              <span className="text-muted text-xs font-mono">{t('f1.avg_reaction')}</span>
               <div className="text-4xl font-mono font-bold text-foreground">
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / 5)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
-                Top {100 - lookupPercentile('f1-lights', Math.round(attempts.reduce((a, b) => a + b, 0) / 5), true)}% drivers class
+                {t('rt.top_globally')} {100 - lookupPercentile('f1-lights', Math.round(attempts.reduce((a, b) => a + b, 0) / 5), true)}% {t('f1.drivers_class')}
               </span>
             </div>
           )}
@@ -308,16 +335,16 @@ export default function F1LightsTest() {
         {gameState === 'result' ? (
           <div className="grid grid-cols-2 gap-8 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-4">
             <div>
-              <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
+              <span className="text-muted text-[10px] font-mono uppercase">{t('test.personal_best')}</span>
               <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
             </div>
             <div>
-              <span className="text-muted text-[10px] font-mono uppercase">Calibrated Hz</span>
-              <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : 'Detecting...'}</div>
+              <span className="text-muted text-[10px] font-mono uppercase">{t('test.calibrated_hz')}</span>
+              <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : t('test.detecting')}</div>
             </div>
           </div>
         ) : (
-          <span className="text-[10px] text-muted dark:text-muted font-mono">PRESS SPACEBAR / TOUCH TO TRIGGER</span>
+          <span className="text-[10px] text-muted dark:text-muted font-mono">{t('f1.press_spacebar')}</span>
         )}
       </div>
 
@@ -331,7 +358,7 @@ export default function F1LightsTest() {
               className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              <span>Download F1 Telemetry</span>
+              <span>{t('f1.download_telemetry')}</span>
             </a>
           )}
           <button
@@ -339,7 +366,7 @@ export default function F1LightsTest() {
             className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            <span>{copiedChallenge ? 'Telemetry Copied!' : 'Challenge a Friend'}</span>
+            <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
           </button>
         </div>
       )}

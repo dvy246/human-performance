@@ -9,41 +9,41 @@ const canonicalUrl = "https://cogniarena.com/about";
 <Layout title={title} description={description} canonicalUrl={canonicalUrl}>
   <div class="flex flex-col gap-10 w-full max-w-3xl mx-auto py-4">
     <header class="flex flex-col gap-3">
-      <span class="text-xs font-mono uppercase tracking-widest text-accent">About Our Platform</span>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Platform Mission & Research Integrity</h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed">
+      <span class="text-xs font-mono uppercase tracking-widest text-accent" data-i18n="about.badge">About Our Platform</span>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground" data-i18n="about.title">Platform Mission & Research Integrity</h1>
+      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed" data-i18n="about.subtitle">
         CogniArena was created to provide high-precision, accessible, and scientifically grounded cognitive assessment telemetry.
       </p>
     </header>
 
     <section class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm text-muted dark:text-muted leading-relaxed">
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground">1. Core Design Values</h2>
-        <p>
+        <h2 class="text-lg font-bold text-foreground" data-i18n="about.s1_title">1. Core Design Values</h2>
+        <p data-i18n="about.s1_desc">
           We build for local-first privacy, sub-millisecond paint sync alignment, and complete research transparency. We explicitly reject intrusive ads that trigger layout shifts (CLS) to preserve timing accuracy and provide professional-grade performance logs.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground">2. Scientific Methodological Rigor</h2>
-        <p>
+        <h2 class="text-lg font-bold text-foreground" data-i18n="about.s2_title">2. Scientific Methodological Rigor</h2>
+        <p data-i18n="about.s2_desc">
           Our cognitive measurement models map standard psychological frameworks (such as Hick's Law for choice reaction and Miller's Law for working memory span capacity). All demographic percentile curves are derived from peer-reviewed cognitive science datasets.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground">3. Local-First Architecture</h2>
-        <p>
+        <h2 class="text-lg font-bold text-foreground" data-i18n="about.s3_title">3. Local-First Architecture</h2>
+        <p data-i18n="about.s3_desc">
           We believe you own your cognitive data. Your performance logs are stored securely in your browser's local cache (IndexedDB). No personal metrics are uploaded to cloud servers unless you explicitly configure the optional edge-sync backup engine.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground">4. Team &amp; Ownership</h2>
-        <p>
+        <h2 class="text-lg font-bold text-foreground" data-i18n="about.s4_title">4. Team &amp; Ownership</h2>
+        <p data-i18n="about.s4_desc">
           CogniArena is built and maintained by a small independent team of cognitive science researchers, performance engineers, and design practitioners. Our work sits at the intersection of experimental psychology and modern web performance engineering.
         </p>
-        <p>
+        <p data-i18n="about.s4_contact">
           For inquiries, partnerships, or research collaboration, reach us at <a href="mailto:support@cogniarena.com" class="text-accent hover:underline">support@cogniarena.com</a>.
         </p>
       </article>

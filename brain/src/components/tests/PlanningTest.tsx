@@ -3,26 +3,29 @@ import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 const PEGS = 3;
 const DISKS = 4;
 
-function makeState(d: number): number[][] {
+function makeState(d: number, startRod: number): number[][] {
   const rods: number[][] = [[], [], []];
-  for (let i = d; i >= 1; i--) rods[0].push(i);
+  for (let i = d; i >= 1; i--) rods[startRod].push(i);
   return rods;
 }
 
 export default function PlanningTest() {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'done'>('intro');
-  const [rods, setRods] = useState<number[][]>(makeState(DISKS));
+  const [startRod, setStartRod] = useState(0);
+  const [rods, setRods] = useState<number[][]>(makeState(DISKS, 0));
   const [selected, setSelected] = useState<number | null>(null);
   const [moves, setMoves] = useState(0);
   const [startTime, setStartTime] = useState(0);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const submittedRef = useRef(false);
 
-  const won = rods[2].length === DISKS;
+  const targetRod = (startRod + 2) % 3;
+  const won = rods[targetRod].length === DISKS;
 
   const handlePegClick = (peg: number) => {
     if (won) return;
@@ -40,7 +43,7 @@ export default function PlanningTest() {
       newRods[peg].push(top);
       setRods(newRods);
       setMoves(m => m + 1);
-      if (newRods[2].length === DISKS) finish(newRods);
+      if (newRods[targetRod].length === DISKS) finish(newRods);
     }
     setSelected(null);
   };
@@ -63,12 +66,19 @@ export default function PlanningTest() {
     const card = await generateShareCard('Planning Test', `${moves} moves (optimal: ${optimal})`, lookupPercentile('planning', score));
     setShareImage(card);
     setPhase('done');
+
+    redirectToResults({
+      testId: 'planning', testName: 'Planning', attempts: [score], unit: 'pts',
+      percentile: lookupPercentile('planning', score), personalBest: null, category: 'executive', average: score,
+    });
   };
 
   
 
   const startGame = () => {
-    setRods(makeState(DISKS));
+    const sr = Math.floor(Math.random() * 3);
+    setStartRod(sr);
+    setRods(makeState(DISKS, sr));
     setSelected(null);
     setMoves(0);
     setStartTime(performance.now());
@@ -83,7 +93,7 @@ export default function PlanningTest() {
           <div className="w-16 h-16 rounded-full bg-accent/10 border-2 border-accent/20 flex items-center justify-center text-3xl">🧩</div>
           <div className="text-center">
             <h2 className="text-2xl font-bold text-foreground tracking-tight">Planning Test</h2>
-            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Tower of Hanoi — move all {DISKS} disks from left peg to right peg. You can only place a disk on a larger disk. Minimum moves: {Math.pow(2, DISKS) - 1}.</p>
+            <p className="text-secondary text-sm max-w-sm mx-auto mt-2">Tower of Hanoi — move all {DISKS} disks from peg {startRod + 1} to peg {targetRod + 1}. You can only place a disk on a larger disk. Minimum moves: {Math.pow(2, DISKS) - 1}.</p>
           </div>
           <button onClick={startGame} className="px-8 h-12 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold text-sm transition-standard active:scale-95 cursor-pointer">Start Test</button>
         </div>
@@ -98,7 +108,7 @@ export default function PlanningTest() {
         <div className="rounded-xl border border-card-border bg-card p-6">
           <div className="text-[10px] text-muted font-mono mb-3 flex items-center justify-between">
             <span>Moves: {moves} / Optimal: {optimal}</span>
-            <span className={won ? 'text-success' : ''}>{won ? 'Solved!' : 'Select a peg, then click destination'}</span>
+            <span className={won ? 'text-success' : ''}>{won ? 'Solved!' : `Select a peg, then click destination (target: peg ${targetRod + 1})`}</span>
           </div>
           <div className="flex gap-4 items-end justify-center h-48">
             {rods.map((rod, peg) => (

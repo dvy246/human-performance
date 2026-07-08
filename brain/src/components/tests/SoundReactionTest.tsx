@@ -3,6 +3,7 @@ import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibr
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -140,6 +141,12 @@ export default function SoundReactionTest() {
 
   const handleTrigger = (e: React.MouseEvent | React.KeyboardEvent) => {
     e.preventDefault();
+
+    // Allow proceeding from attempt-result / result / abort states even if clickLock is engaged
+    if (gameState === 'attempt-result' || gameState === 'result' || gameState === 'abort') {
+      clickLock.current = false;
+    }
+
     if (clickLock.current) return;
 
     if (gameState === 'idle') {
@@ -199,6 +206,11 @@ export default function SoundReactionTest() {
 
     const card = await generateShareCard('Auditory Reaction Test', `${avgScore} ms`, percentile);
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'sound-reaction', testName: 'Sound Reaction', attempts: allAttempts, unit: 'ms',
+      percentile, personalBest: pb, category: 'reaction', average: avgScore,
+    });
   };
 
   const copyChallengeLink = () => {

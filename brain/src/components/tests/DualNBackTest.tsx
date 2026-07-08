@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 import SocialShare from '../ui/SocialShare';
 
 type GameState = 'idle' | 'running' | 'result';
@@ -256,6 +257,11 @@ export default function DualNBackTest() {
 
     const card = await generateShareCard('Dual N-Back Test', `Max N=${achievedN} (${finalAccuracy}%)`, percentile).catch(() => '');
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'dual-n-back', testName: 'Dual N-Back', attempts: [finalScore], unit: 'pts',
+      percentile, personalBest: null, category: 'memory', average: finalScore,
+    });
   };
 
   // Keyboard shortcut listeners

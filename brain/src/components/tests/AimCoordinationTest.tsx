@@ -3,6 +3,7 @@ import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibr
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import { lookupPercentile } from '../../runtime/percentileLookup';
+import { redirectToResults } from '../../runtime/redirectToResults';
 
 type TestState = 'idle' | 'playing' | 'result';
 
@@ -228,6 +229,11 @@ export default function AimCoordinationTest() {
 
     const card = await generateShareCard('Aim Coordination Test', `${averageLatency} ms avg`, lookupPercentile('aim-coordination', averageLatency, true));
     setShareImage(card);
+
+    redirectToResults({
+      testId: 'aim-coordination', testName: 'Aim Coordination', attempts: latenciesArr.current, unit: 'ms',
+      percentile: lookupPercentile('aim-coordination', averageLatency, true), personalBest: pb, category: 'reaction', average: averageLatency,
+    });
   };
 
   const copyChallengeLink = () => {
