@@ -5,6 +5,7 @@ import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
 import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import { useSound } from '../../runtime/useSound';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
@@ -14,6 +15,7 @@ import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 type Phase = 'idle' | 'showing' | 'input' | 'correct' | 'wrong' | 'result';
 
 const NumberMemoryTest = () => {
+  const { playClick, playError } = useSound();
   const [phase, setPhase] = useState<Phase>('idle');
   const [level, setLevel] = useState(1);
   const [currentNumber, setCurrentNumber] = useState('');
@@ -119,6 +121,7 @@ const NumberMemoryTest = () => {
     if (phase !== 'input') return;
 
     if (userInput === currentNumber) {
+      playClick();
       const nextLevel = level + 1;
       setHighestLevel(prev => Math.max(prev, level));
       setPhase('correct');
@@ -128,6 +131,7 @@ const NumberMemoryTest = () => {
         showNumber(nextLevel);
       }, 800);
     } else {
+      playError();
       setHighestLevel(prev => Math.max(prev, level - 1));
       setPhase('wrong');
     }
@@ -147,6 +151,7 @@ const NumberMemoryTest = () => {
 
     const percentile = lookupPercentile('number-memory', finalScore);
 
+    if (!submittedRef.current) return;
     try {
       await dataLayer.saveSession({
         testId: 'number-memory',
@@ -159,9 +164,11 @@ const NumberMemoryTest = () => {
       console.error('Failed to save Number Memory session:', err);
     }
 
+    if (!submittedRef.current) return;
     const pb = await dataLayer.getPersonalBest('number-memory', 'higher');
     setPersonalBest(pb);
 
+    if (!submittedRef.current) return;
     try {
       const card = await generateShareCard(
         'Number Memory Test',
@@ -173,6 +180,7 @@ const NumberMemoryTest = () => {
       console.error('Failed to generate share card:', err);
     }
 
+    if (!submittedRef.current) return;
     redirectToResults({
       testId: 'number-memory', testName: 'Number Memory', attempts: [finalScore], unit: 'digits',
       percentile, personalBest: pb, category: 'memory', average: finalScore,
@@ -226,6 +234,7 @@ const NumberMemoryTest = () => {
           <div className="absolute top-4 right-4 flex items-center gap-2 text-xs font-mono text-muted">
             <span>Level</span>
             <span className="text-foreground font-bold text-sm">{level}</span>
+            <button onClick={() => setPhase('idle')} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
           </div>
         )}
 
@@ -353,7 +362,7 @@ const NumberMemoryTest = () => {
                 digits remembered
               </span>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {formatTopPercentile(lookupPercentile('number-memory', finalScore))}% of population
+                {formatTopPercentile(lookupPercentile('number-memory', finalScore))} of population
               </span>
             </div>
 

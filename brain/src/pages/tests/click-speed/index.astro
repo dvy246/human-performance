@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import ClickSpeedTest from "@/components/tests/ClickSpeedTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Click Speed Test (CPS) — Online Clicks Per Second Counter | CogniArena";
 const description = "Test your clicks per second (CPS) over 10 seconds. Learn advanced gaming clicking techniques like Jitter, Butterfly, and Drag clicking.";
@@ -64,7 +66,14 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-      
+
+      <HowItWorks
+        testName="the Click Speed Test"
+        whatItMeasures="This test measures your sustained motor clicking speed over a 10-second window. You click a button as fast as possible while the timer tracks every click, generating a real-time cadence curve."
+        howScoringWorks="Your final score is total clicks divided by 10 (CPS — Clicks Per Second). A cadence chart shows how your click rate changes across the 10 seconds, revealing fatigue onset and stamina."
+        whatAffectsResults="Mouse switch type (mechanical vs membrane), finger fatigue, clicking technique (jitter, butterfly, or drag clicking), and sustained concentration all influence your CPS score."
+      />
+
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
         <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
@@ -146,15 +155,7 @@ const schemaJson = [
         </p>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
-        <a href="/tests/mouse-accuracy" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Mouse Accuracy →</a>
-        <a href="/tests/flick-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Flick Trainer →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="click-speed" />
 
     <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

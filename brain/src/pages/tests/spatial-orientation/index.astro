@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import SpatialOrientationTest from "@/components/tests/SpatialOrientationTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Spatial Orientation Test – Mental Rotation | CogniArena";
 const description = "Test your spatial reasoning ability with mental rotation challenges. Identify rotated patterns in this free online cognitive assessment.";
@@ -57,6 +59,13 @@ const schemaJson = [
     </header>
     <section class="w-full"><SpatialOrientationTest client:visible /></section>
 
+    <HowItWorks
+      testName="the Spatial Orientation Test"
+      whatItMeasures="Measures mental rotation ability — a core component of spatial intelligence. A grid pattern is shown, then rotated. You must identify the correct rotated orientation from multiple choices."
+      howScoringWorks="Score is the number of correct rotations identified out of 12 trials, with response time tracked. Faster correct responses indicate stronger spatial visualization ability."
+      whatAffectsResults="Your mental rotation speed (Shepard & Metzler showed ~50ms per degree of rotation), visual working memory, practice with spatial tasks, and display quality all affect your score."
+    />
+
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Spatial Score</h2>
@@ -68,15 +77,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/pattern-reasoning" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Pattern Reasoning →</a>
-        <a href="/tests/sequence-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Sequence Memory →</a>
-        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="spatial-orientation" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

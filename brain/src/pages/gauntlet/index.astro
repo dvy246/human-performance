@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import GauntletTest from "@/components/tests/GauntletTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "The Gauntlet – 5-Stage Cognitive Assessment | CogniArena";
 const description = "The ultimate 5-minute cognitive gauntlet: reaction speed, sequence memory, Stroop interference, matrix reasoning, and aim precision. Get your CAI score and performance archetype.";
@@ -44,6 +46,14 @@ const schemaJson = [
     <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
       <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking, educational, and cognitive training purposes only. Not a clinical, medical, or diagnostic evaluation.
     </div>
+
+    <HowItWorks
+      testName="The Gauntlet"
+      whatItMeasures="A 5-stage composite cognitive assessment: visual reaction speed, sequence memory, Stroop interference, matrix reasoning, and aim precision. Measures your performance across five core cognitive domains in one continuous session."
+      howScoringWorks="Each stage produces a score from 0-100. The overall CogniArena Index (CAI) is the average of all five stages. Your percentile compares your CAI against the full population distribution."
+      whatAffectsResults="Your performance in your weakest domain constrains your overall score (the weakest link effect). Mental fatigue across stages, prior experience with each test type, and hardware quality all affect results."
+    />
+
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-semibold text-foreground tracking-tight" data-i18n="gaunt.what_title">What is The Gauntlet?</h2>
@@ -85,5 +95,7 @@ const schemaJson = [
         </div>
       </article>
     </section>
+
+    <ExploreTests currentSlug="gauntlet" title="Explore Individual Assessments" />
   </div>
 </Layout>

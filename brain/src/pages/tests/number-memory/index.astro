@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import NumberMemoryTest from "@/components/tests/NumberMemoryTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Number Memory Test — Working Memory Benchmark | CogniArena";
 const description = "Test your numerical memory span and benchmark your working memory recall capacity. Free, millisecond-accurate, and local-first.";
@@ -81,6 +83,14 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Number Memory Test"
+        whatItMeasures="Tests your digit span — the number of numeric digits you can hold in active working memory. A sequence of digits is shown briefly, then you must type it back from memory."
+        howScoringWorks="Each correct recall extends the sequence by one digit. Your score is the longest sequence length you can correctly recall. The average digit span is 7±2 (Miller's Law)."
+        whatAffectsResults="Your working memory capacity, ability to chunk digits into groups, focus during encoding, and practice with memory tasks all affect your digit span."
+      />
+
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">How the Number Memory Test Works</h2>
         <p class="text-secondary text-sm leading-relaxed">
@@ -107,15 +117,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
-        <a href="/tests/visual-pattern" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Visual Pattern →</a>
-        <a href="/tests/verbal-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Verbal Memory →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="number-memory" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

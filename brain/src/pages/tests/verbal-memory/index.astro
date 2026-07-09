@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import VerbalMemoryTest from "@/components/tests/VerbalMemoryTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Verbal Memory Test – Word Recall | CogniArena";
 const description = "Test your verbal working memory capacity. Memorize growing word lists and recall them from a set of distractors. Track your recall span and compare against population benchmarks.";
@@ -33,6 +35,13 @@ const schemaJson = [
     </header>
     <section class="w-full"><VerbalMemoryTest client:visible /></section>
 
+    <HowItWorks
+      testName="the Verbal Memory Test"
+      whatItMeasures="This test evaluates your verbal working memory by presenting a growing list of words to memorize. After each list, you must identify the correct words from a larger set of distractors, testing your phonological loop capacity."
+      howScoringWorks="Each round adds one more word to remember. A correct recall advances you to the next level. Your score is the maximum number of words you can reliably recall. The average score is 8-10 words."
+      whatAffectsResults="Your working memory capacity, chunking ability (grouping words into phrases), vocabulary familiarity, and focus during the presentation phase all affect your recall accuracy."
+    />
+
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Verbal Memory Score</h2>
@@ -44,15 +53,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/number-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Number Memory →</a>
-        <a href="/tests/sequence-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Sequence Memory →</a>
-        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="verbal-memory" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

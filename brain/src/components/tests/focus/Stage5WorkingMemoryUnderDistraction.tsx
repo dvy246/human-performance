@@ -19,6 +19,7 @@ type GridCell = { row: number; col: number; color: string };
 
 export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibrationHz, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'encoding' | 'recall' | 'feedback' | 'done'>('intro');
+  const [showHelp, setShowHelp] = useState(false);
   const [level, setLevel] = useState(1);
   const [sequence, setSequence] = useState<GridCell[]>([]);
   const [activeCell, setActiveCell] = useState<{ row: number; col: number } | null>(null);
@@ -287,9 +288,13 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
         <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl">🧠</div>
         <div className="text-center">
           <h3 className="text-lg font-bold text-foreground mb-1">Stage 5: Working Memory Under Distraction</h3>
-          <p className="text-secondary text-sm max-w-md">
-            Watch the pattern of colored dots, then <strong className="text-accent">reproduce it</strong> from memory. Distracting symbols flash around the grid during encoding. {MAX_LEVEL} levels, increasing difficulty.
-          </p>
+          <div className="text-secondary text-sm max-w-md text-left space-y-1">
+            <p>1. Watch the <strong className="text-accent">colored dots</strong> appear on the grid one by one.</p>
+            <p>2. <strong className="text-accent">Ignore</strong> the distracting symbols flashing around the grid.</p>
+            <p>3. When prompted, click the grid cells <strong className="text-accent">in the same order</strong> as the dots you saw.</p>
+            <p>4. Get it right to advance to the next level with longer sequences.</p>
+            <p className="text-muted text-xs mt-2">{MAX_LEVEL} levels. Each level adds one more dot to remember.</p>
+          </div>
         </div>
         <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
           Start Stage
@@ -315,7 +320,16 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
         <span>Seq: {Math.min(3 + level, 9)}</span>
         {phase === 'recall' && <span className="text-accent">🎯 Recall</span>}
         {phase === 'encoding' && <span className="text-warning animate-pulse">👀 Watch</span>}
+        <button onClick={() => setShowHelp(!showHelp)} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-accent hover:border-accent/50 text-[10px] transition-standard cursor-pointer" aria-label="How to play">?</button>
       </div>
+      {showHelp && (
+        <div className="w-full max-w-md p-3 rounded-lg bg-panel border border-card-border text-xs text-muted font-mono space-y-1 animate-in fade-in duration-150">
+          <p>1. Watch the <strong className="text-accent">colored dots</strong> appear in order.</p>
+          <p>2. <strong className="text-error">Ignore</strong> distracting symbols on the grid.</p>
+          <p>3. When prompted, click cells <strong className="text-accent">in the same order</strong> as the dots.</p>
+        </div>
+      )}
+
 
       {renderGrid(phase === 'encoding', phase === 'encoding')}
 

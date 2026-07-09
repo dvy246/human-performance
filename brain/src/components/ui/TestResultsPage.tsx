@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useI18n } from '../../runtime/useI18n';
 import { formatTopPercentile } from '../../runtime/percentileLookup';
+import QRChallengeCard from './QRChallengeCard';
 
 interface ResultData {
   testId: string;
@@ -57,22 +58,22 @@ function getPersonalizedMessage(data: ResultData): { emoji: string; title: strin
   }
 
   if (isNewPB && percentile >= 80) {
-    return { emoji: '🏆', title: 'New Personal Best!', subtitle: `Outstanding! You're in the top ${formatTopPercentile(percentile)}% globally. A truly elite performance.` };
+    return { emoji: '🏆', title: 'New Personal Best!', subtitle: `Outstanding! ${formatTopPercentile(percentile, isLowerBetter)} globally. A truly elite performance.` };
   }
   if (isNewPB) {
     return { emoji: '🎉', title: 'New Personal Best!', subtitle: `You beat your previous record! Keep pushing to climb the rankings.` };
   }
   if (percentile >= 90) {
-    return { emoji: '⚡', title: 'Elite Performance!', subtitle: `You're in the top ${formatTopPercentile(percentile)}% — among the best. Can you reach #1?` };
+    return { emoji: '⚡', title: 'Elite Performance!', subtitle: `${formatTopPercentile(percentile, isLowerBetter)} — among the best. Can you reach #1?` };
   }
   if (percentile >= 70) {
-    return { emoji: '🔥', title: 'Strong Showing!', subtitle: `Top ${formatTopPercentile(percentile)}% — you're well above average. A few more drills and you'll be elite.` };
+    return { emoji: '🔥', title: 'Strong Showing!', subtitle: `${formatTopPercentile(percentile, isLowerBetter)} — you're well above average. A few more drills and you'll be elite.` };
   }
   if (improving) {
     return { emoji: '📈', title: 'Trending Upward!', subtitle: `Your attempts got progressively better. Keep practicing to see bigger gains!` };
   }
   if (percentile >= 40) {
-    return { emoji: '💪', title: 'Solid Effort!', subtitle: `You're in the top ${formatTopPercentile(percentile)}%. Consistent practice will push you higher.` };
+    return { emoji: '💪', title: 'Solid Effort!', subtitle: `${formatTopPercentile(percentile, isLowerBetter)}. Consistent practice will push you higher.` };
   }
   return { emoji: '🌱', title: 'Room to Grow!', subtitle: `Every expert was once a beginner. Try again to improve your score!` };
 }
@@ -86,6 +87,7 @@ function computeStdDev(values: number[], mean: number): number {
 export default function TestResultsPage() {
   const { t } = useI18n();
   const [data, setData] = useState<ResultData | null>(null);
+  const [showQR, setShowQR] = useState(false);
 
   useEffect(() => {
     try {
@@ -133,11 +135,12 @@ export default function TestResultsPage() {
       {/* Trophy Header */}
       <div className="flex flex-col items-center text-center gap-3 py-6">
         <span className="text-6xl select-none">{msg.emoji}</span>
+        <span className="text-accent text-[11px] font-mono uppercase tracking-widest font-semibold">{data.testName}</span>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">{msg.title}</h1>
         <p className="text-muted text-sm max-w-md leading-relaxed">{msg.subtitle}</p>
         <div className="flex items-baseline gap-2 mt-2">
           <span className="text-5xl font-mono font-extrabold text-foreground">{formatScore(average)}</span>
-          <span className="text-accent text-sm font-medium">Top {formatTopPercentile(percentile)}%</span>
+          <span className="text-accent text-sm font-medium">{formatTopPercentile(percentile, !['click-speed', 'sequence-memory', 'number-memory', 'visual-pattern', 'pattern-reasoning', 'planning', 'prioritization'].includes(data.testId))}</span>
         </div>
       </div>
 
@@ -211,7 +214,7 @@ export default function TestResultsPage() {
           { label: t('results.max'), value: formatScore(max) },
           { label: t('results.avg'), value: formatScore(average) },
           { label: t('results.std_dev'), value: `${stdDev} ${unit}` },
-          { label: t('results.percentile'), value: `Top ${formatTopPercentile(percentile)}%` },
+          { label: t('results.percentile'), value: formatTopPercentile(percentile, !['click-speed', 'sequence-memory', 'number-memory', 'visual-pattern', 'pattern-reasoning', 'planning', 'prioritization'].includes(data.testId)) },
         ].map((stat, i) => (
           <div key={i} className="rounded-lg border border-card-border bg-card p-3 flex flex-col items-center text-center">
             <span className="text-[9px] font-mono text-muted uppercase tracking-widest">{stat.label}</span>
@@ -242,12 +245,13 @@ export default function TestResultsPage() {
         >
           {t('results.dashboard')}
         </a>
-        <a
-          href={`/tests/${data.testId}`}
-          className="flex items-center justify-center gap-2 rounded-lg bg-subtle border border-card-border text-foreground hover:bg-panel font-semibold text-xs font-mono uppercase h-10 transition-standard"
+        <button
+          onClick={() => setShowQR(true)}
+          className="flex items-center justify-center gap-2 rounded-lg bg-subtle border border-card-border text-foreground hover:bg-panel font-semibold text-xs font-mono uppercase h-10 transition-standard cursor-pointer"
         >
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
           {t('results.challenge')}
-        </a>
+        </button>
       </div>
 
       {/* Related Tests */}
@@ -267,6 +271,16 @@ export default function TestResultsPage() {
           </div>
         </div>
       )}
+
+      <QRChallengeCard
+        isOpen={showQR}
+        onClose={() => setShowQR(false)}
+        testId={data.testId}
+        score={Math.round(data.average)}
+        scoreLabel={formatScore(data.average)}
+        testName={data.testName}
+        percentile={data.percentile}
+      />
     </div>
   );
 }

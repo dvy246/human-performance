@@ -299,7 +299,10 @@ function AimTrainer() {
         <div className="flex flex-col gap-3">
           <div className="flex justify-between items-center text-xs font-mono text-muted">
             <span>{t('aim.targets')} <strong className="text-foreground">{currentTargetIndex} / {totalTargets.current}</strong></span>
-            <span>{t('aim.accuracy')} <strong className="text-accent">{clicks > 0 ? Math.round((hits / clicks) * 100) : 100}%</strong></span>
+            <span className="flex items-center gap-2">
+              <span>{t('aim.accuracy')} <strong className="text-accent">{clicks > 0 ? Math.round((hits / clicks) * 100) : 100}%</strong></span>
+              <button onClick={() => setGameState('idle')} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
+            </span>
           </div>
           <canvas
             ref={canvasRef}
@@ -318,7 +321,7 @@ function AimTrainer() {
               {Math.round(latencies.reduce((a, b) => a + b, 0) / totalTargets.current)} ms
             </div>
             <span className="text-accent text-xs font-mono uppercase">
-              {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('aim-trainer', Math.round(latencies.reduce((a, b) => a + b, 0) / totalTargets.current), true))}% {t('aim.aim_profile')}
+              {formatTopPercentile(lookupPercentile('aim-trainer', Math.round(latencies.reduce((a, b) => a + b, 0) / totalTargets.current), true), true)} {t('aim.aim_profile')}
             </span>
           </div>
 

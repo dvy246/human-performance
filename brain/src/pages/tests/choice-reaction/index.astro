@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import ChoiceReactionTest from "@/components/tests/ChoiceReactionTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Choice Reaction Time Test — Hick's Law Grid | CogniArena";
 const description = "Test your cognitive processing latency with our choice reaction grid. Map visual colors to keyboard hotkeys, manage decision accuracy, and beat Hick's Law.";
@@ -78,6 +80,13 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Choice Reaction Test"
+        whatItMeasures="Presents colored stimuli (Red, Green, Blue, Yellow) requiring you to press the matching keyboard key as fast as possible. Unlike simple reaction tests, you must first identify the color, then select the correct response — testing decision-making under cognitive load."
+        howScoringWorks="Score combines response speed and accuracy. Incorrect responses incur a time penalty. Your effective score reflects both processing speed (governed by Hick's Law) and cognitive decision efficiency."
+        whatAffectsResults="The number of choices (Hick's Law — each additional option adds ~50-70ms), your familiarity with keyboard mappings, and current cognitive processing speed all affect results."
+      />
       
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
@@ -121,15 +130,7 @@ const schemaJson = [
         </p>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/reaction-time" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Reaction Time →</a>
-        <a href="/tests/stroop" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Stroop Test →</a>
-        <a href="/tests/decision-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Decision Speed →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="choice-reaction" />
 
     <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

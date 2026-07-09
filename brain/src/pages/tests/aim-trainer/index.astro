@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import AimTrainer from "@/components/tests/AimTrainer";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Aim Trainer Online — Reflex & Hand-Eye Coordination | CogniArena";
 const description = "Benchmark your target acquisition latency and mouse coordinate precision. Learn about Fitts's Law and optimize your mouse DPI and sensitivity.";
@@ -78,6 +80,13 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Aim Precision Test"
+        whatItMeasures="Measures your target acquisition speed and mouse precision. 30 targets appear at random positions on a coordinate canvas. You must move the cursor from its current position and click each target, testing hand-eye coordination and motor control."
+        howScoringWorks="Score tracks both movement time (Fitts's Law: time to move from A to B) and click offset error (pixels from target center). Lower offset and faster acquisition times indicate better mouse control."
+        whatAffectsResults="Mouse DPI and sensitivity settings, display refresh rate, your current hand steadiness, and practice with aiming tasks all affect your precision score."
+      />
       
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
@@ -121,16 +130,7 @@ const schemaJson = [
         </p>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/mouse-accuracy" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Mouse Accuracy →</a>
-        <a href="/tests/flick-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Flick Trainer →</a>
-        <a href="/tests/click-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Click Speed →</a>
-        <a href="/tests/aim-coordination" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Coordination →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="aim-trainer" />
 
     <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

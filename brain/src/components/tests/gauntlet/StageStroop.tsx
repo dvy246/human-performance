@@ -22,6 +22,7 @@ export default function StageStroop({ onComplete, difficulty }: StageProps) {
   const [feedback, setFeedback] = useState('');
   const startRef = useRef(0);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+  const respondedRef = useRef(false);
   const difficultyRef = useRef(difficulty);
   difficultyRef.current = difficulty;
   const trialCountRef = useRef(10);
@@ -38,13 +39,15 @@ export default function StageStroop({ onComplete, difficulty }: StageProps) {
   }, []);
 
   const nextTrial = useCallback(() => {
+    respondedRef.current = false;
     setCurrent(genTrial());
     startRef.current = performance.now();
     setFeedback('');
   }, []);
 
   const handleAnswer = (answer: string) => {
-    if (phase !== 'playing' || feedback) return;
+    if (phase !== 'playing' || feedback || respondedRef.current) return;
+    respondedRef.current = true;
     const rt = Math.round(performance.now() - startRef.current);
     const isCorrect = answer === current.correct;
     if (isCorrect) setCorrect(c => c + 1);

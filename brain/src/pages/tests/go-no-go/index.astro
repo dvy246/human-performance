@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import GoNoGoTest from "@/components/tests/GoNoGoTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Go/No-Go Color Reaction Test — Inhibitory Control Benchmark | CogniArena";
 const description = "Benchmark your cognitive inhibition and motor impulse control. Click only when green flashes and suppress reactions for distractors. View percentiles.";
@@ -78,6 +80,13 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Go/No-Go Test"
+        whatItMeasures="Measures inhibitory motor control by presenting colored flashes. Click only when green (Go signal) and suppress responses to red, blue, or purple (No-Go signals). This directly tests your prefrontal cortex response inhibition circuit."
+        howScoringWorks="Score combines correct Go responses (hits) with incorrectly acted No-Go responses (false alarms). Higher scores indicate stronger impulse control and selective attention."
+        whatAffectsResults="Your ability to suppress automatic motor responses, current fatigue level, and practice with inhibition tasks all affect performance. Sleep deprivation increases false alarm rates by 30-50%."
+      />
       
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
@@ -112,15 +121,7 @@ const schemaJson = [
         </ul>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/stroop" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Stroop Test →</a>
-        <a href="/tests/focus-challenge" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Focus Challenge →</a>
-        <a href="/tests/choice-reaction" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Choice Reaction →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="go-no-go" />
 
     <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

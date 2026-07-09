@@ -10,6 +10,7 @@ export default function StageReaction({ onComplete, difficulty }: StageProps) {
   const startTimeRef = useRef(0);
   const timerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const rafIdRef = useRef<number>(0);
+  const respondedRef = useRef(false);
   const difficultyRef = useRef(difficulty);
   difficultyRef.current = difficulty;
   const delayMinRef = useRef(1500);
@@ -22,6 +23,7 @@ export default function StageReaction({ onComplete, difficulty }: StageProps) {
   const cleanup = () => { if (timerRef.current) clearTimeout(timerRef.current); if (rafIdRef.current) cancelAnimationFrame(rafIdRef.current); };
 
   const startTrial = useCallback(() => {
+    respondedRef.current = false;
     setPhase('waiting');
     const delay = delayMinRef.current + Math.random() * (delayMaxRef.current - delayMinRef.current);
     timerRef.current = setTimeout(() => {
@@ -46,6 +48,8 @@ export default function StageReaction({ onComplete, difficulty }: StageProps) {
       return;
     }
     if (phase === 'ready') {
+      if (respondedRef.current) return;
+      respondedRef.current = true;
       cleanup();
       const rt = Math.round(performance.now() - startTimeRef.current);
       const updated = [...results, rt];

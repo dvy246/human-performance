@@ -1,0 +1,86 @@
+---
+import { allTests, categories, getTestsByCategory } from "@/data/tests";
+
+export interface Props {
+  currentSlug?: string;
+  title?: string;
+}
+
+const { currentSlug, title = "Explore All Assessments" } = Astro.props;
+const grouped = getTestsByCategory();
+// Build schema.org ItemList for SEO
+const itemListElements = allTests.map((t, i) => ({
+  "@type": "ListItem",
+  position: i + 1,
+  name: t.title,
+  description: t.shortDesc,
+  url: `https://cogniarena.com${t.href}`,
+}));
+const exploreSchema = {
+  "@context": "https://schema.org",
+  "@type": "ItemList",
+  name: "CogniArena Cognitive Assessments",
+  description: "All 24+ browser-based cognitive assessments measuring reaction time, memory, reasoning, focus, motor skills, and executive function.",
+  numberOfItems: allTests.length,
+  itemListElement: itemListElements,
+};
+---
+
+<section class="flex flex-col gap-10 pt-12 border-t border-card-border">
+  <script type="application/ld+json" set:html={JSON.stringify(exploreSchema)} />
+  
+  <header class="flex flex-col gap-2">
+    <h2 class="text-2xl font-bold text-foreground tracking-tight">{title}</h2>
+    <p class="text-muted text-sm leading-relaxed">
+      Explore all {allTests.length} cognitive assessments across six domains. Each test runs locally in your browser with sub-millisecond precision.
+    </p>
+  </header>
+
+  {
+    grouped.map(({ category, tests }) => (
+      <article class="flex flex-col gap-6">
+        <div class="flex flex-col gap-1">
+          <h3 class="text-lg font-semibold text-foreground tracking-tight">
+            {category.icon} {category.name}
+          </h3>
+          <p class="text-xs text-muted font-mono uppercase tracking-wider">{category.subtitle}</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {
+            tests.map(test => {
+              const isCurrent = test.slug === currentSlug || (currentSlug === "gauntlet" && test.slug === "gauntlet");
+              return (
+                <a
+                  href={isCurrent ? undefined : test.href}
+                  class={`p-5 rounded-xl border card-interactive flex flex-col justify-between gap-4 transition-standard
+                    ${isCurrent
+                      ? "border-accent/40 bg-accent/5 cursor-default"
+                      : "border-card-border bg-card hover:border-accent/40 hover:bg-subtle"
+                    }`}
+                  aria-current={isCurrent ? "page" : undefined}
+                >
+                  <div class="flex flex-col gap-2.5">
+                    <div class="flex items-center gap-2.5">
+                      <span class="text-xl leading-none" aria-hidden="true">{test.icon}</span>
+                      <h4 class="text-sm font-bold text-foreground">{test.title}</h4>
+                      {isCurrent && <span class="text-[9px] font-mono uppercase tracking-wider text-accent px-1.5 py-0.5 rounded bg-accent/10">Current</span>}
+                    </div>
+                    <p class="text-xs text-muted leading-relaxed">
+                      {test.shortDesc}
+                    </p>
+                  </div>
+                  {!isCurrent && (
+                    <span class="text-[10px] font-mono uppercase tracking-widest text-accent group-hover:underline">
+                      Take Test &rarr;
+                    </span>
+                  )}
+                </a>
+              );
+            })
+          }
+        </div>
+      </article>
+    ))
+  }
+</section>

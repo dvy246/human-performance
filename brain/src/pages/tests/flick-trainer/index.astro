@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import FlickTrainerTest from "@/components/tests/FlickTrainerTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Flick Trainer – Speed & Accuracy | CogniArena";
 const description = "Test your flick aiming speed and accuracy. Rapidly flick to random targets and click. Track improvement in target acquisition latency and click precision over time.";
@@ -33,6 +35,13 @@ const schemaJson = [
     </header>
     <section class="w-full"><FlickTrainerTest client:visible /></section>
 
+    <HowItWorks
+      testName="the Flick Trainer"
+      whatItMeasures="Tests flick aiming — rapidly moving the cursor to a random target and clicking. Simulates the fast target acquisition movements used in competitive gaming and rapid-response scenarios."
+      howScoringWorks="Score combines movement time (speed of the flick) and click accuracy (offset from target center). A composite flick efficiency score balances speed and precision."
+      whatAffectsResults="Mouse sensitivity (DPI), hand-eye coordination, mousepad surface area, and monitor refresh rate all affect your flick performance."
+    />
+
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Flick Score</h2>
@@ -44,15 +53,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
-        <a href="/tests/mouse-accuracy" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Mouse Accuracy →</a>
-        <a href="/tests/click-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Click Speed →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="flick-trainer" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import SoundReactionTest from "@/components/tests/SoundReactionTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Sound Reaction Time Test — Auditory Reflexes | CogniArena";
 const description = "Benchmark your auditory reaction speed. Measure your response time to a low-latency synthesized tone and compare visual vs. sound reflexes.";
@@ -78,6 +80,13 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Sound Reaction Test"
+        whatItMeasures="Measures your auditory response speed to a low-latency synthesized tone. Unlike visual reaction tests, auditory signals bypass the visual processing pathway, resulting in faster typical response times due to fewer synaptic relays."
+        howScoringWorks="Your score is the average response time across multiple trials. Auditory reaction times are typically 30-50ms faster than visual ones because the auditory brainstem pathway is shorter than the visual pathway."
+        whatAffectsResults="Headphone vs speaker latency, ambient noise levels, and individual differences in auditory processing speed all affect your score."
+      />
       
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
@@ -130,15 +139,7 @@ const schemaJson = [
         </div>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/reaction-time" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Reaction Time →</a>
-        <a href="/tests/f1-lights" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">F1 Lights →</a>
-        <a href="/tests/choice-reaction" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Choice Reaction →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="sound-reaction" />
 
     <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

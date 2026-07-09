@@ -11,6 +11,7 @@ export default function StageAim({ onComplete, difficulty }: StageProps) {
   const [hits, setHits] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   const spawnTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const respondedRef = useRef(false);
   const difficultyRef = useRef(difficulty);
   difficultyRef.current = difficulty;
   const targetCountRef = useRef(20);
@@ -21,6 +22,7 @@ export default function StageAim({ onComplete, difficulty }: StageProps) {
   else { targetCountRef.current = 20; radiusRef.current = 20; }
 
   const spawnTarget = useCallback((idx: number) => {
+    respondedRef.current = false;
     const c = containerRef.current;
     if (!c) return;
     const rect = c.getBoundingClientRect();
@@ -35,7 +37,8 @@ export default function StageAim({ onComplete, difficulty }: StageProps) {
   }, []);
 
   const handleClick = (e: React.MouseEvent) => {
-    if (phase !== 'playing' || currentIdx >= targetCountRef.current) return;
+    if (phase !== 'playing' || currentIdx >= targetCountRef.current || respondedRef.current) return;
+    respondedRef.current = true;
     const c = containerRef.current;
     if (!c) return;
     const rect = c.getBoundingClientRect();

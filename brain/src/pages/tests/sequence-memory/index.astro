@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import SequenceMemoryTest from "@/components/tests/SequenceMemoryTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Sequence Memory Test — Spatial Pattern Memory Benchmark | CogniArena";
 const description = "Benchmark your short-term spatial working memory capacity. Learn about Miller's Law and spatial chunking techniques to improve sequence retention.";
@@ -78,7 +80,14 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-      
+
+      <HowItWorks
+        testName="the Sequence Memory Test"
+        whatItMeasures="This test evaluates your visuospatial working memory by presenting an expanding sequence of lit tiles on a 3x3 grid. Each round adds one more step to the sequence, and you must repeat it from memory by clicking the tiles in the correct order."
+        howScoringWorks="Each correctly recalled sequence advances you to the next level with one additional tile. Your final score is the highest level reached. Most people max out around Level 7 (Miller's Law), but chunking strategies can extend this significantly."
+        whatAffectsResults="Your ability to group individual tile flashes into visual shapes or paths (chunking), your current fatigue level, and practice with similar memory tasks all affect your score."
+      />
+
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
         <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
@@ -121,15 +130,7 @@ const schemaJson = [
         </p>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/number-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Number Memory →</a>
-        <a href="/tests/visual-pattern" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Visual Pattern →</a>
-        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="sequence-memory" />
 
     <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

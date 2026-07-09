@@ -25,6 +25,7 @@ function FlickTrainerTest() {
   const resultsRef = useRef<{ rt: number; hit: boolean }[]>([]);
   const lastConfig = useRef<GameConfig | null>(null);
   const targetCount = useRef<number>(TOTAL);
+  const sizeMultiplier = useRef<number>(1.0);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'done');
 
@@ -88,6 +89,8 @@ function FlickTrainerTest() {
   const startGame = (config?: GameConfig) => {
     if (config) lastConfig.current = config;
     const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('flick-trainer', (cfg.difficulty as string) || 'Medium');
+    sizeMultiplier.current = (diff.sizeMultiplier as number) || 1.0;
     const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : TOTAL;
     targetCount.current = attemptCount;
     setPhase('playing');
@@ -128,7 +131,10 @@ function FlickTrainerTest() {
         <div className="rounded-xl border border-card-border bg-card p-4">
           <div className="text-[10px] text-muted font-mono mb-2 flex items-center justify-between">
             <span>Target {trial + 1}/{targetCount.current}</span>
-            <span>Hits: {results.filter(r => r.hit).length}</span>
+            <span className="flex items-center gap-2">
+              <span>Hits: {results.filter(r => r.hit).length}</span>
+              <button onClick={() => setPhase('intro')} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
+            </span>
           </div>
           <div ref={containerRef} onClick={handleClick} className="relative w-full h-72 rounded-lg bg-subtle border border-card-border cursor-crosshair overflow-hidden">
             <div className="absolute top-1/2 left-1/2 w-3 h-3 rounded-full bg-subtle -translate-x-1/2 -translate-y-1/2 border border-card-border" />

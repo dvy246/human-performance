@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import TypingSpeedTest from "@/components/tests/TypingSpeedTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Typing Test — Free Online WPM Speed & Accuracy Test | CogniArena";
 const description = "Free online typing test to measure your typing speed in WPM and accuracy. Real-time feedback, 12 passage categories, and detailed performance analytics. Compare your WPM against benchmarks.";
@@ -117,6 +119,13 @@ const faqSchema = {
 
     <!-- Below the fold SEO Content -->
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Typing Speed Test"
+        whatItMeasures="This test measures your typing speed in words per minute (WPM) and accuracy. You type passages drawn from 12 categories including prose, code, and technical documentation, providing a comprehensive assessment of keyboard fluency."
+        howScoringWorks="Your score is gross WPM adjusted for accuracy (net WPM = gross WPM × accuracy %). Accuracy tracks correct versus incorrect keystrokes. Results are compared against profession-based benchmarks."
+        whatAffectsResults="Keyboard type (mechanical vs membrane), finger placement technique (touch typing vs hunt-and-peck), fatigue level, and practice frequency all significantly affect your typing speed and accuracy."
+      />
 
       <div class="flex items-center gap-3 text-xs text-muted">
         <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
@@ -295,24 +304,7 @@ const faqSchema = {
         </div>
       </article>
 
-      <!-- Related Tests -->
-      <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Related Cognitive Tests</h2>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-          <a href="/tests/reaction-time" class="p-4 rounded-lg border border-card-border bg-subtle hover:border-accent/40 transition-colors">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Reaction Time</span>
-            <p class="text-muted mt-1.5 leading-relaxed text-xs">Measure how fast you respond to visual stimuli. Complementary to typing speed for assessing overall reflex performance.</p>
-          </a>
-          <a href="/tests/click-speed" class="p-4 rounded-lg border border-card-border bg-subtle hover:border-accent/40 transition-colors">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Click Speed</span>
-            <p class="text-muted mt-1.5 leading-relaxed text-xs">Test your maximum clicks per second. Measures finger speed and coordination independent of typing skill.</p>
-          </a>
-          <a href="/tests/choice-reaction" class="p-4 rounded-lg border border-card-border bg-subtle hover:border-accent/40 transition-colors">
-            <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Choice Reaction</span>
-            <p class="text-muted mt-1.5 leading-relaxed text-xs">Assess decision-making speed under pressure. Tests the cognitive processing that underlies fast typing.</p>
-          </a>
-        </div>
-      </article>
+      <ExploreTests currentSlug="typing-speed" />
 
     </section>
   </div>

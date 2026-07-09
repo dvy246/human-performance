@@ -124,7 +124,10 @@ function MouseAccuracyTest() {
           <div className="text-[10px] text-muted font-mono mb-2 flex items-center justify-between">
             <span>Target {trial + 1}/{targetCount.current}</span>
             <span>Size: {TARGET_SIZES[sizeIdx]}px</span>
-            <span>Last offset: {offsets.length > 0 ? `${Math.round(offsets[offsets.length - 1] * 10) / 10}px` : '--'}</span>
+            <span className="flex items-center gap-2">
+              <span>Last offset: {offsets.length > 0 ? `${Math.round(offsets[offsets.length - 1] * 10) / 10}px` : '--'}</span>
+              <button onClick={() => setPhase('intro')} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
+            </span>
           </div>
           <div ref={containerRef} onClick={handleClick} className="relative w-full h-72 rounded-lg bg-subtle border border-card-border cursor-crosshair overflow-hidden">
             <div className="absolute w-1 h-1 rounded-full bg-accent/30 -translate-x-1/2 -translate-y-1/2 pointer-events-none" style={{ left: target.x, top: target.y }} />

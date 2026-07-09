@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import VisualPatternTest from "@/components/tests/VisualPatternTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Visual Pattern Memory Test — Spatial Assessment | CogniArena";
 const description = "Benchmark your visuospatial working memory. Recall grid patterns under millisecond-accurate display intervals.";
@@ -81,6 +83,14 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Visual Pattern Test"
+        whatItMeasures="Tests visual working memory by flashing a pattern of illuminated cells in a grid. After a brief delay, you must reproduce the pattern from memory by clicking the correct cells."
+        howScoringWorks="Score is based on how many cells you correctly recall. Grid size and pattern complexity increase with difficulty. Higher scores indicate stronger visuospatial working memory."
+        whatAffectsResults="Your visuospatial sketchpad capacity, ability to encode patterns as shapes rather than individual cells, display quality, and current focus level all affect performance."
+      />
+
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">How the Visual Pattern Memory Test Works</h2>
         <p class="text-secondary text-sm leading-relaxed">
@@ -107,15 +117,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/number-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Number Memory →</a>
-        <a href="/tests/dual-n-back" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Dual N-Back →</a>
-        <a href="/tests/spatial-orientation" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Spatial Orientation →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="visual-pattern" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

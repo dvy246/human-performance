@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import FocusChallengeTest from "@/components/tests/FocusChallengeTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Focus Challenge – 5-Stage Attention & Concentration Test | CogniArena";
 const description = "Benchmark your attention and focus with a 5-stage cognitive gauntlet: selective attention, impulse control, task switching, sustained attention, and memory under distraction. Free online brain performance test.";
@@ -44,7 +46,7 @@ const schemaJson = [
       {
         "@type": "Question",
         "name": "Can I improve my score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes! Attention is trainable. Practice with the Focus Challenge regularly, try our other Go/No-Go, Stroop, and Dual N-Back tests, and track your progress on your Performance HQ dashboard." }
+        "acceptedAnswer": { "@type": "Answer", "text": "Yes! Attention is trainable. Practice with the Focus Challenge regularly, try our other Go/No-Go, Stroop, and Dual N-Back tests, and track your progress on your Dashboard." }
       },
       {
         "@type": "Question",
@@ -92,12 +94,20 @@ const schemaJson = [
     </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Focus Challenge"
+        whatItMeasures="A 5-stage composite attention assessment: selective focus (Stroop), impulse control (Go/No-Go), task switching (number-letter), sustained vigilance (oddball detection), and working memory under distraction."
+        howScoringWorks="Each stage produces a score from 0-100 based on accuracy and speed. The overall Focus Score is the average of all five stages, then compared against population data for a percentile ranking."
+        whatAffectsResults="Your sustained attention capacity, impulse control, cognitive flexibility, vigilance level, and ability to maintain focus under distraction all affect your composite score."
+      />
+
       <div class="flex items-center gap-3 text-xs text-muted">
         <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
         <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
       </div>
 
-      <article class="flex flex-col gap-4">
+      <article id="learn" class="flex flex-col gap-4">
         <h2 class="text-xl font-semibold text-foreground tracking-tight">The 5 Stages of Focus</h2>
         <div class="grid gap-4">
           <div class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5">
@@ -165,16 +175,7 @@ const schemaJson = [
         </p>
       </article>
 
-      <!-- Related Tests -->
-      <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-        <div class="flex flex-wrap gap-2">
-          <a href="/tests/stroop" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Stroop Test →</a>
-          <a href="/tests/go-no-go" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Go/No-Go →</a>
-          <a href="/tests/trail-making" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Trail Making →</a>
-          <a href="/adhd-test" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">ADHD Test →</a>
-        </div>
-      </article>
+      <ExploreTests currentSlug="focus-challenge" />
 
       <article class="flex flex-col gap-6">
         <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
@@ -194,7 +195,7 @@ const schemaJson = [
           <div class="flex flex-col gap-1.5">
             <h3 class="text-sm font-medium text-foreground">Can I improve my score?</h3>
             <p class="text-muted text-sm leading-relaxed">
-              Yes! Attention is trainable. Practice with the Focus Challenge regularly, try our other <a href="/tests/go-no-go" class="text-accent hover:underline">Go/No-Go</a>, <a href="/tests/stroop" class="text-accent hover:underline">Stroop</a>, and <a href="/tests/dual-n-back" class="text-accent hover:underline">Dual N-Back</a> tests, and track your progress on your <a href="/dashboard" class="text-accent hover:underline">Performance HQ</a> dashboard.
+              Yes! Attention is trainable. Practice with the Focus Challenge regularly, try our other <a href="/tests/go-no-go" class="text-accent hover:underline">Go/No-Go</a>, <a href="/tests/stroop" class="text-accent hover:underline">Stroop</a>, and <a href="/tests/dual-n-back" class="text-accent hover:underline">Dual N-Back</a> tests, and track your progress on your <a href="/dashboard" class="text-accent hover:underline">Dashboard</a>.
             </p>
           </div>
           <div class="flex flex-col gap-1.5">

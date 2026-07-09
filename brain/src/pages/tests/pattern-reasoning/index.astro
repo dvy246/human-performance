@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import PatternReasoningTest from "@/components/tests/PatternReasoningTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Pattern Reasoning Test — Fluid Intelligence Assessment | CogniArena";
 const description = "Evaluate your visual pattern recognition, logical reasoning, and fluid intelligence. Complete geometric progressions and matrix puzzles with millisecond precision.";
@@ -81,6 +83,14 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Pattern Reasoning Test"
+        whatItMeasures="Evaluates fluid intelligence through multiple formats: pattern recognition (linear sequences), matrix reasoning (2x2 grids), sequence logic (numerical/rotational progressions), and shape analogies (morph transformations)."
+        howScoringWorks="Score is accuracy across all formats, with faster correct responses weighted higher. This measures your ability to identify rules and apply transformations — the core of fluid reasoning (Gf)."
+        whatAffectsResults="Your pattern recognition speed, experience with abstract reasoning puzzles, cognitive flexibility, and current mental fatigue all affect your reasoning score."
+      />
+
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">Fluid Reasoning & Visual Pattern Recognition</h2>
         <p class="text-secondary text-sm leading-relaxed">
@@ -107,15 +117,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/decision-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Decision Speed →</a>
-        <a href="/tests/trail-making" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Trail Making →</a>
-        <a href="/tests/planning" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Planning →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="pattern-reasoning" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

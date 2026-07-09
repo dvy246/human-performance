@@ -36,11 +36,9 @@ function DecisionSpeedTest() {
     respondedRef.current = false;
     timeoutRef.current = setTimeout(() => {
       if (!respondedRef.current) {
-        setResults(prev => {
-          const next = [...prev, { correct: false, rt: timeoutMs.current }];
-          advance(next);
-          return next;
-        });
+        const next = [...results, { correct: false, rt: timeoutMs.current }];
+        setResults(next);
+        advance(next);
       }
     }, TIMEOUT_MS);
   };
@@ -59,16 +57,14 @@ function DecisionSpeedTest() {
   };
 
   const advance = (r: { correct: boolean; rt: number }[]) => {
-    setTrial(prev => {
-      const next = prev + 1;
-      if (next >= trialCount.current) {
-        setPhase('done');
-        finalize(r);
-        return prev;
-      }
+    const next = trial + 1;
+    setTrial(next);
+    if (next >= trialCount.current) {
+      setPhase('done');
+      finalize(r);
+    } else {
       setTimeout(genNumber, 300);
-      return next;
-    });
+    }
   };
 
   const finalize = async (r: { correct: boolean; rt: number }[]) => {
@@ -137,7 +133,8 @@ function DecisionSpeedTest() {
 
   if (phase === 'playing') {
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto relative">
+        <button onClick={() => setPhase('intro')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
           <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{TOTAL} · {results.filter(r => r.correct).length} correct</div>
           <div className="text-7xl font-bold text-foreground tabular-nums animate-in zoom-in-50 duration-150">{number}</div>

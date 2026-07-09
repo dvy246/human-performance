@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import TrailMakingTest from "@/components/tests/TrailMakingTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Trail Making Test (TMT) — Cognitive Flexibility Assessment | CogniArena";
 const description = "Test your visual attention scanning, search rate, and task-switching speed with the online Trail Making Test (TMT-A & B). Millisecond-accurate browser performance logging.";
@@ -81,6 +83,14 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Trail Making Test"
+        whatItMeasures="Tests visual search speed, scanning, and cognitive flexibility. Part A connects numbered circles sequentially. Part B alternates between numbers and letters (1-A-2-B-...), requiring task-switching between two cognitive sets."
+        howScoringWorks="Score is the time to complete each part. Part B typically takes 1.5-2x longer due to cognitive switching cost. Your TMT ratio (B/A) indicates cognitive flexibility — lower ratios are better."
+        whatAffectsResults="Your visual scanning speed, ability to alternate between cognitive sets, working memory, and focus under time pressure all affect your trail-making performance."
+      />
+
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">Understanding the Trail Making Test</h2>
         <p class="text-secondary text-sm leading-relaxed">
@@ -107,15 +117,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/decision-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Decision Speed →</a>
-        <a href="/tests/stroop" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Stroop Test →</a>
-        <a href="/tests/planning" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Planning →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="trail-making" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

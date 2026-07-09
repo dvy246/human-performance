@@ -15,8 +15,7 @@ import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestState = 'idle' | 'clicking' | 'result';
 
-const DURATIONS = [5, 10, 30, 60] as const;
-type Duration = typeof DURATIONS[number];
+type Duration = 5 | 10 | 30 | 60;
 
 const ClickSpeedTest = () => {
   const { playClick } = useSound();
@@ -36,12 +35,10 @@ const ClickSpeedTest = () => {
 
   const timerRef = useRef<any>(null);
   const clicksRef = useRef<number>(0);
-  const clickTimes = useRef<number[]>([]);
+  const intervalClicksRef = useRef<number>(0);
   const startTime = useRef<number>(0);
   const submittedRef = useRef(false);
-  const totalAttempts = useRef<number>(5);
-  const waitRange = useRef<{ min: number; max: number }>({ min: 1000, max: 3000 });
-  const lastConfig = useRef<GameConfig | null>(null);
+  const finalCpsRef = useRef(0);
 
   useEffect(() => {
     let mounted = true;
@@ -72,9 +69,45 @@ const ClickSpeedTest = () => {
 
 
 
+  const beginClicking = (dur: number) => {
+    setGameState('clicking');
+    setClicks(1);
+    clicksRef.current = 1;
+    intervalClicksRef.current = 1;
+    setTimeLeft(dur);
+    setClickRates([]);
+    startTime.current = performance.now();
+
+    timerRef.current = setInterval(() => {
+      const elapsed = (performance.now() - startTime.current) / 1000;
+      const remaining = Math.max(0, dur - elapsed);
+      setTimeLeft(remaining);
+
+      const currentCps = intervalClicksRef.current / 0.1;
+      setClickRates((prev) => [...prev, Number(currentCps.toFixed(1))]);
+      intervalClicksRef.current = 0;
+
+      if (remaining <= 0) {
+        clearInterval(timerRef.current);
+        finalizeTest(clicksRef.current);
+      }
+    }, 100);
+  };
+
   const startTest = (config?: GameConfig) => {
-    if (config) lastConfig.current = config;
-    resetTest();
+    if (timerRef.current) clearInterval(timerRef.current);
+    submittedRef.current = false;
+    clicksRef.current = 0;
+    intervalClicksRef.current = 0;
+    finalCpsRef.current = 0;
+    setClicks(0);
+    setClickRates([]);
+
+    const cfg = config || {};
+    getDifficultyParams('click-speed', (cfg.difficulty as string) || 'Medium');
+    const dur = config && typeof config.duration === 'number' ? config.duration : duration;
+    setDuration(dur as Duration);
+    beginClicking(dur);
   };
 
   const handleClick = (e: React.MouseEvent) => {
@@ -82,34 +115,11 @@ const ClickSpeedTest = () => {
     if (gameState === 'result') return;
 
     if (gameState === 'idle') {
-      setGameState('clicking');
-      setClicks(1);
-      clicksRef.current = 1;
-      setTimeLeft(duration);
-      setClickRates([]);
-      startTime.current = performance.now();
-      clickTimes.current = [performance.now()];
-
-      // Start precise 100ms interval timer
-      timerRef.current = setInterval(() => {
-        const elapsed = (performance.now() - startTime.current) / 1000;
-        const remaining = Math.max(0, duration - elapsed);
-        setTimeLeft(remaining);
-
-        // Record click rate at this interval for timeline chart
-        const totalClicks = clicksRef.current;
-        const currentCps = totalClicks / elapsed;
-        setClickRates((prev) => [...prev, Number(currentCps.toFixed(1))]);
-
-        if (remaining <= 0) {
-          clearInterval(timerRef.current);
-          finalizeTest(totalClicks);
-        }
-      }, 100);
+      beginClicking(duration);
     } else if (gameState === 'clicking') {
       clicksRef.current += 1;
+      intervalClicksRef.current += 1;
       setClicks(clicksRef.current);
-      clickTimes.current.push(performance.now());
       playClick();
     }
   };
@@ -122,6 +132,7 @@ const ClickSpeedTest = () => {
     // Precise CPS calculation using actual elapsed time
     const actualElapsed = (performance.now() - startTime.current) / 1000;
     const cps = Number((finalClicks / Math.max(0.1, actualElapsed)).toFixed(1));
+    finalCpsRef.current = cps;
     const percentile = lookupPercentile('click-speed', cps);
 
     try {
@@ -136,8 +147,12 @@ const ClickSpeedTest = () => {
       console.error('Failed to save Click Speed session:', err);
     }
 
+    if (!submittedRef.current) return;
+
     const pb = await dataLayer.getPersonalBest('click-speed', 'higher');
     setPersonalBest(pb);
+
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard('Click Speed (CPS) Test', `${cps} CPS`, percentile);
@@ -146,15 +161,17 @@ const ClickSpeedTest = () => {
       console.error('Failed to generate share card:', err);
     }
 
+    if (!submittedRef.current) return;
+
     redirectToResults({
       testId: 'click-speed', testName: 'Click Speed', attempts: [cps], unit: 'CPS',
-      percentile, personalBest: pb, category: 'speed', average: cps,
+      percentile, personalBest: pb, category: 'stamina', average: cps,
     });
   };
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const cps = Number((clicks / duration).toFixed(1));
+    const cps = finalCpsRef.current || Number((clicks / duration).toFixed(1));
     const token = encodeChallenge({ testId: 'click-speed', score: cps });
     const url = `${window.location.origin}/tests/click-speed/?challenge=${token}`;
     
@@ -168,6 +185,8 @@ const ClickSpeedTest = () => {
     if (timerRef.current) clearInterval(timerRef.current);
     submittedRef.current = false;
     clicksRef.current = 0;
+    intervalClicksRef.current = 0;
+    finalCpsRef.current = 0;
     setGameState('idle');
     setClicks(0);
     setTimeLeft(duration);
@@ -205,7 +224,10 @@ const ClickSpeedTest = () => {
   };
 
   return (
-    <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
+    <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto relative">
+      {gameState !== 'idle' && gameState !== 'result' && (
+        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+      )}
       {/* Active Challenge Alert */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
@@ -262,11 +284,11 @@ const ClickSpeedTest = () => {
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
           <div className="flex flex-col items-center gap-1">
             <span className="text-muted text-xs font-mono uppercase">{t('cps.cps_duration')} ({duration}s)</span>
-            <div className="text-5xl font-mono font-bold text-foreground">{(clicks / duration).toFixed(1)}</div>
+            <div className="text-5xl font-mono font-bold text-foreground">{finalCpsRef.current.toFixed(1)}</div>
             <span className="text-accent text-xs font-mono uppercase">
-              {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('click-speed', clicks / duration))}% {t('cps.top_clickers')}
+              {formatTopPercentile(lookupPercentile('click-speed', finalCpsRef.current))} {t('cps.top_clickers')}
             </span>
-            {personalBest && (clicks / duration) >= personalBest && (
+            {personalBest && finalCpsRef.current >= personalBest && (
               <span className="text-success text-xs font-mono font-bold mt-1">{t('cps.new_pb')}</span>
             )}
           </div>

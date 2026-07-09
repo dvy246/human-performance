@@ -31,9 +31,16 @@ export function lookupPercentile(testId: string, score: number, lowerIsBetter = 
   return 0.1;
 }
 
-export function formatTopPercentile(percentile: number): string {
+export function formatTopPercentile(percentile: number, lowerIsBetter = false): string {
+  const isTop = lowerIsBetter ? percentile <= 50 : percentile >= 50;
   const top = 100 - percentile;
   const rounded = Math.round(top * 10) / 10;
-  if (rounded < 1) return rounded.toFixed(1);
-  return String(Math.round(rounded));
+
+  if (isTop) {
+    if (rounded < 1) return `Top ${rounded.toFixed(1)}%`;
+    return `Top ${Math.round(rounded)}%`;
+  }
+  const bottom = Math.round(percentile * 10) / 10;
+  if (bottom < 1) return 'Bottom <1%';
+  return `Bottom ${Math.round(bottom)}%`;
 }

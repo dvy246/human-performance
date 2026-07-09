@@ -253,6 +253,8 @@ function SpatialOrientationTest() {
     trialCount.current = attemptCount;
     const diff = getDifficultyParams('spatial-orientation', (cfg.difficulty as string) || 'Medium');
     choicesPerTrial.current = (diff.choicesPerTrial as number) || 4;
+    setShareImage(null);
+    submittedRef.current = false;
     setPhase('playing');
     setTrial(0);
     setCorrectCount(0);
@@ -277,7 +279,8 @@ function SpatialOrientationTest() {
 
   if (phase === 'playing') {
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto relative">
+        <button onClick={() => { submittedRef.current = false; setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-5">
           <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{TOTAL} · Correct: {correctCount}</div>
           <div className="flex flex-col items-center gap-1">

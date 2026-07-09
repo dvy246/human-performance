@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import PrioritizationTest from "@/components/tests/PrioritizationTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Prioritization Test – Task Scheduling | CogniArena";
 const description = "Test your task prioritization and scheduling skills. Maximize points by completing high-value tasks before deadlines across 5 rounds.";
@@ -33,6 +35,13 @@ const schemaJson = [
     </header>
     <section class="w-full"><PrioritizationTest client:visible /></section>
 
+    <HowItWorks
+      testName="the Prioritization Test"
+      whatItMeasures="Tests task scheduling and prioritization skills across 5 rounds. Each round presents multiple tasks with different point values and deadlines. You must decide which tasks to complete and in what order."
+      howScoringWorks="Score is total points accumulated across all 5 rounds. Optimal strategies prioritize high-value tasks with approaching deadlines (Eisenhower Matrix thinking)."
+      whatAffectsResults="Your value assessment speed, impulse control (resisting the first visible task), working memory (tracking completed tasks), and attention under time pressure all affect your prioritization score."
+    />
+
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Prioritization Score</h2>
@@ -44,15 +53,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/planning" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Planning →</a>
-        <a href="/tests/decision-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Decision Speed →</a>
-        <a href="/tests/trail-making" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Trail Making →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="prioritization" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

@@ -197,9 +197,9 @@ export function getDifficultyParams(testId: string, difficulty: string): Record<
   }
 
   if (testId === 'sequence-memory') {
-    if (difficulty === 'Easy') { params.flashOn = 600; params.flashOff = 350; }
-    else if (difficulty === 'Hard') { params.flashOn = 300; params.flashOff = 120; }
-    else { params.flashOn = 450; params.flashOff = 200; }
+    if (difficulty === 'Easy') { params.flashOn = 600; params.flashOff = 350; params.startLen = 2; }
+    else if (difficulty === 'Hard') { params.flashOn = 300; params.flashOff = 120; params.startLen = 4; }
+    else { params.flashOn = 450; params.flashOff = 200; params.startLen = 3; }
   }
 
   if (testId === 'visual-pattern') {
@@ -250,13 +250,6 @@ export function getDifficultyParams(testId: string, difficulty: string): Record<
     if (difficulty === 'Easy') { params.choicesPerTrial = 3; params.trialTimeoutMs = 0; }
     else if (difficulty === 'Hard') { params.choicesPerTrial = 4; params.trialTimeoutMs = 15000; }
     else { params.choicesPerTrial = 4; params.trialTimeoutMs = 0; }
-  }
-
-  // Focus Challenge / Gauntlet: overall scaling factor passed to all stages
-  if (['focus-challenge', 'gauntlet'].includes(testId)) {
-    if (difficulty === 'Easy') params.stageScale = 0.8;
-    else if (difficulty === 'Hard') params.stageScale = 1.3;
-    else params.stageScale = 1.0;
   }
 
   // ── Reasoning Tests ──

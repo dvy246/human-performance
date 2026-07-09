@@ -206,7 +206,10 @@ function TrailMakingTest() {
   };
 
   return (
-    <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 select-none">
+    <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 select-none relative">
+      {gameState === 'running' && (
+        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+      )}
       {gameState === 'idle' && (
         <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col gap-6 shadow-lg">
           <div onClick={(e) => e.stopPropagation()} onKeyDown={(e) => e.stopPropagation()}>
@@ -317,7 +320,7 @@ function TrailMakingTest() {
               {((elapsedTime + penalties) / 1000).toFixed(2)}s
             </h2>
             <span className="text-[11px] text-muted font-mono uppercase mt-1 block">
-              Accuracy-adjusted percentile: Top {formatTopPercentile(resultPercentile)}%
+              Accuracy-adjusted: {formatTopPercentile(resultPercentile, true)}
             </span>
           </div>
 
@@ -333,7 +336,7 @@ function TrailMakingTest() {
             </div>
             <div className="flex flex-col">
               <span className="text-[10px] text-muted uppercase font-mono">Mismatched Clicks</span>
-              <span className="text-sm font-bold text-foreground">{penalties / 2000}</span>
+              <span className="text-sm font-bold text-foreground">{Math.round(penalties / penaltyDuration.current)}</span>
             </div>
             <div className="flex flex-col">
               <span className="text-[10px] text-muted uppercase font-mono">Target Rate</span>

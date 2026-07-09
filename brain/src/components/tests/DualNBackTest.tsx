@@ -39,6 +39,7 @@ function DualNBackTest() {
   const [letterMatches, setLetterMatches] = useState<boolean[]>([]);
   const [score, setScore] = useState(0); // overall score points
   const [accuracy, setAccuracy] = useState(0);
+  const [resultPercentile, setResultPercentile] = useState(0);
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
 
@@ -120,7 +121,7 @@ function DualNBackTest() {
     maxNRef.current = startN;
     initialNRef.current = startN;
     consecutiveCorrect.current = 0;
-    const sequence = generateSequence(n);
+    const sequence = generateSequence(startN);
     setTrialList(sequence);
     setCurrentIdx(-1);
     setActivePosition(null);
@@ -132,6 +133,7 @@ function DualNBackTest() {
     submittedRef.current = false;
     setScore(0);
     setAccuracy(0);
+    setResultPercentile(0);
     setShareImage(null);
     setGameState('running');
 
@@ -242,6 +244,7 @@ function DualNBackTest() {
     setScore(finalScore);
 
     const percentile = lookupPercentile('dual-n-back', finalScore);
+    setResultPercentile(percentile);
 
     try {
       await dataLayer.saveSession({
@@ -312,6 +315,7 @@ function DualNBackTest() {
 
       {gameState === 'running' && (
         <div className="rounded-xl border border-card-border bg-card p-6 flex flex-col items-center justify-between min-h-[440px] shadow-lg relative overflow-hidden">
+          <button onClick={() => setGameState('idle')} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
           {/* Header Status */}
           <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6">
             <span>TRIAL {currentIdx + 1} / 20</span>
@@ -377,8 +381,8 @@ function DualNBackTest() {
               {score} Pts
             </h2>
             <span className="text-accent text-xs font-mono uppercase mt-1 block">
-              Max Level: N={maxN} · Top {formatTopPercentile(accuracy)}% memory performance
-            </span>
+                Max Level: N={maxN} · {formatTopPercentile(resultPercentile)} memory performance
+              </span>
           </div>
 
           {/* Stats Breakdown */}

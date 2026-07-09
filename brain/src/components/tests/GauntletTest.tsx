@@ -211,7 +211,7 @@ function GauntletTest() {
               <span>Download Share Card</span>
             </a>
           )}
-          <SocialShare testId="gauntlet" score={overallScore} scoreLabel={`${overallScore}/100`} testName="The Gauntlet" />
+          <SocialShare testId="gauntlet" score={overallScore} scoreLabel={`${overallScore}/100`} testName="The Gauntlet" percentile={lookupPercentile('gauntlet', overallScore)} />
           <button onClick={() => { setPhase('intro'); setCurrentIdx(0); setResults([]); setOverallScore(0); setShareImage(null); setPersonalBest(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             <span>Take Gauntlet Again</span>
@@ -224,7 +224,8 @@ function GauntletTest() {
   if (phase === 'playing' && currentIdx < STAGE_CONFIGS.length) {
     const StageComponent = STAGES[currentIdx];
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto relative">
+        <button onClick={() => { setPhase('intro'); setCurrentIdx(0); setResults([]); setOverallScore(0); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="flex items-center justify-between text-[10px] text-muted font-mono mb-2">
           <span>{STAGE_CONFIGS[currentIdx].emoji} Stage {currentIdx + 1}/5</span>
           <span>{STAGE_CONFIGS[currentIdx].name}</span>

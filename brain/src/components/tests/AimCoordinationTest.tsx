@@ -44,6 +44,7 @@ function AimCoordinationTest() {
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
   const targetCount = useRef<number>(20);
+  const sizeMultiplier = useRef<number>(1.0);
 
   useEffect(() => {
     let mounted = true;
@@ -137,7 +138,7 @@ function AimCoordinationTest() {
   const spawnTarget = () => {
     if (!canvasRef.current) return;
     const canvas = canvasRef.current;
-    const r = 30; // target radius (larger than aim-trainer)
+    const r = Math.round(30 * sizeMultiplier.current);
     const padding = 40;
 
     const x = padding + Math.random() * (canvas.width - padding * 2);
@@ -154,6 +155,8 @@ function AimCoordinationTest() {
   const startTest = (config?: GameConfig) => {
     if (config) lastConfig.current = config;
     const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('aim-coordination', (cfg.difficulty as string) || 'Medium');
+    sizeMultiplier.current = (diff.sizeMultiplier as number) || 1.0;
     const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : 20;
     targetCount.current = attemptCount;
 
@@ -270,7 +273,10 @@ function AimCoordinationTest() {
   };
 
   return (
-    <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
+    <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto relative">
+      {gameState !== 'idle' && gameState !== 'result' && (
+        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+      )}
       {/* Challenge Status */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-green-500/10 dark:bg-green-950/20 border border-green-500/30 dark:border-green-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
@@ -303,7 +309,7 @@ function AimCoordinationTest() {
               {Math.round(latencies.reduce((a, b) => a + b, 0) / targetCount.current)} ms
             </div>
             <span className="text-accent text-xs font-mono uppercase">
-              Top {formatTopPercentile(lookupPercentile('aim-coordination', Math.round(latencies.reduce((a, b) => a + b, 0) / targetCount.current), true))}% coordination profile
+              {formatTopPercentile(lookupPercentile('aim-coordination', Math.round(latencies.reduce((a, b) => a + b, 0) / targetCount.current), true), true)} coordination profile
             </span>
           </div>
 

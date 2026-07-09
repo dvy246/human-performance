@@ -41,12 +41,7 @@ const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   "name": "CogniArena",
-  "url": "https://cogniarena.com",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://cogniarena.com/?q={query}",
-    "query-input": "required name=query"
-  }
+  "url": "https://cogniarena.com"
 };
 
 // Default structured data for the site (fallback when page provides no schema)
@@ -187,7 +182,7 @@ const isProfileActive = pathname === '/dashboard';
             </a>
             <a href="/dashboard" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/dashboard') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-muted hover:text-foreground'}`}>
               <span aria-hidden="true">📊</span>
-              <span data-i18n="nav.dashboard">Performance HQ</span>
+              <span data-i18n="nav.dashboard">Dashboard</span>
             </a>
             <a href="/gauntlet" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/gauntlet') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-muted hover:text-foreground'}`}>
               <span aria-hidden="true">🏰</span>
@@ -495,7 +490,7 @@ const isProfileActive = pathname === '/dashboard';
               </a>
               <a href="/dashboard" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/dashboard') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-muted hover:text-foreground'}`}>
                 <span aria-hidden="true">📊</span>
-                <span data-i18n="nav.dashboard">Performance HQ</span>
+                <span data-i18n="nav.dashboard">Dashboard</span>
               </a>
               <a href="/gauntlet" class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes('/gauntlet') ? 'bg-accent/15 border-l-2 border-accent text-accent font-semibold' : 'text-muted hover:text-foreground'}`}>
                 <span aria-hidden="true">🏰</span>

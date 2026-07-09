@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
+import { measureRefreshRate, type CalibrationResult } from '../../runtime/calibration';
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
@@ -7,7 +8,6 @@ import { redirectToResults } from '../../runtime/redirectToResults';
 import SocialShare from '../ui/SocialShare';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
-import { getDifficultyParams } from '../../runtime/testConfig';
 import Stage1SelectiveAttention from './focus/Stage1SelectiveAttention';
 import Stage2ImpulseControl from './focus/Stage2ImpulseControl';
 import Stage3TaskSwitching from './focus/Stage3TaskSwitching';
@@ -134,6 +134,7 @@ function FocusChallengeTest() {
   const [stageResults, setStageResults] = useState<StageResult[]>([]);
   const [overallScore, setOverallScore] = useState<number>(0);
   const [personalBest, setPersonalBest] = useState<number | null>(null);
+  const [calibration, setCalibration] = useState<CalibrationResult | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [challengeScore, setChallengeScore] = useState<number | null>(null);
   const [difficultyLevel, setDifficultyLevel] = useState<'Easy' | 'Medium' | 'Hard'>('Medium');
@@ -147,6 +148,7 @@ function FocusChallengeTest() {
 
   useEffect(() => {
     let mounted = true;
+    measureRefreshRate((res) => { if (mounted) setCalibration(res); });
     dataLayer.getPersonalBest('focus-challenge', 'higher').then((pb) => {
       if (mounted) setPersonalBest(pb);
     }).catch(console.error);
@@ -208,9 +210,8 @@ function FocusChallengeTest() {
     } catch (err) {
       console.error('Failed to save Focus Challenge session:', err);
     }
-    dataLayer.getPersonalBest('focus-challenge', 'higher').then(pb => {
-      setPersonalBest(pb);
-    }).catch(console.error);
+    const pb = await dataLayer.getPersonalBest('focus-challenge', 'higher');
+    setPersonalBest(pb);
     
     try {
       const card = await generateShareCard('Focus Challenge', `${totalScore}/100`, percentile);
@@ -221,7 +222,7 @@ function FocusChallengeTest() {
 
     redirectToResults({
       testId: 'focus-challenge', testName: 'Focus Challenge', attempts: results.map(r => r.score), unit: 'pts',
-      percentile, personalBest: null, category: 'focus', average: totalScore,
+      percentile, personalBest: pb, category: 'focus', average: totalScore,
     });
   };
 
@@ -294,7 +295,10 @@ function FocusChallengeTest() {
             <h4 className="text-base font-bold text-foreground">{nextConfig.name}</h4>
             <p className="text-secondary text-xs max-w-xs">{nextConfig.description}</p>
           </div>
-          <button onClick={() => setPhase('playing')} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">Continue</button>
+          <div className="flex gap-3">
+            <button onClick={() => setPhase('playing')} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">Continue</button>
+            <button onClick={() => { const total = computeOverallScore(stageResults); overallScoreRef.current = total; setOverallScore(total); setPhase('results'); void finalizeAll(total, stageResults).catch(console.error); }} className="px-4 h-10 rounded-lg bg-subtle border border-card-border text-muted hover:text-foreground text-xs font-mono uppercase transition-standard active:scale-95 cursor-pointer">Skip to Results</button>
+          </div>
         </div>
       </div>
     );
@@ -318,7 +322,7 @@ function FocusChallengeTest() {
             <h2 className="text-2xl font-bold text-foreground tracking-tight mb-3">Focus Challenge Complete</h2>
             <div className={`text-6xl font-bold font-mono ${getPerformanceColor(overallScore)}`}>{overallScore}</div>
             <div className="text-sm text-accent font-medium mt-1">/ 100</div>
-            <div className={`text-xs font-mono uppercase mt-1 ${getPerformanceColor(overallScore)}`}>{getPerformanceLabel(overallScore)} · Top {formatTopPercentile(lookupPercentile('focus-challenge', overallScore))}%</div>
+            <div className={`text-xs font-mono uppercase mt-1 ${getPerformanceColor(overallScore)}`}>{getPerformanceLabel(overallScore)} · {formatTopPercentile(lookupPercentile('focus-challenge', overallScore))}</div>
             {isNewPB && <div className="text-success text-xs font-mono mt-1 animate-pulse">✦ New Personal Best!</div>}
             {beatChallenge && <div className="text-success text-xs font-mono mt-1">✓ Beat your friend's score!</div>}
           </div>
@@ -406,7 +410,7 @@ function FocusChallengeTest() {
               <span>Download Share Card</span>
             </a>
           )}
-          <SocialShare testId="focus-challenge" score={overallScore} scoreLabel={`${overallScore}/100`} testName="Focus Challenge" />
+          <SocialShare testId="focus-challenge" score={overallScore} scoreLabel={`${overallScore}/100`} testName="Focus Challenge" percentile={lookupPercentile('focus-challenge', overallScore)} />
           <button onClick={() => { setPhase('intro'); setCurrentStage(0); setStageResults([]); setOverallScore(0); setShareImage(null); setPersonalBest(null); submittedRef.current = false; stageCompletedRef.current = false; overallScoreRef.current = 0; }} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             <span>Take Challenge Again</span>
@@ -425,10 +429,13 @@ function FocusChallengeTest() {
         <div className="flex items-center justify-between text-xs text-muted font-mono">
           <span>{config.emoji} Stage {stageIndex + 1} / {STAGE_CONFIGS.length}</span>
           <span>{config.name}</span>
-          <span className="text-muted">{config.duration}</span>
+          <div className="flex items-center gap-3">
+            <button onClick={() => { setPhase('intro'); setCurrentStage(0); setStageResults([]); setOverallScore(0); setShareImage(null); submittedRef.current = false; stageCompletedRef.current = false; overallScoreRef.current = 0; }} className="text-muted hover:text-error transition-colors uppercase tracking-wider text-[10px]">Quit</button>
+            <span className="text-muted">{config.duration}</span>
+          </div>
         </div>
         <div className="w-full rounded-xl border border-card-border bg-card p-6 flex flex-col items-center">
-          <StageComponent key={stageIndex} onComplete={handleStageComplete} calibrationHz={60} difficulty={difficultyLevel} />
+          <StageComponent key={stageIndex} onComplete={handleStageComplete} calibrationHz={calibration?.hz || 60} difficulty={difficultyLevel} />
         </div>
       </div>
     );

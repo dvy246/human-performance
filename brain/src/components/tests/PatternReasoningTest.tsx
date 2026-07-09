@@ -3,7 +3,7 @@ import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { encodeChallenge, generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
@@ -402,6 +402,7 @@ function PatternReasoningTest() {
   const [latencies, setLatencies] = useState<number[]>([]);
   const submittedRef = useRef(false);
   const scoreRef = useRef<number>(0);
+  const answersRef = useRef<boolean[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -424,10 +425,13 @@ function PatternReasoningTest() {
 
   const lastConfig = useRef<GameConfig | null>(null);
   const questionCount = useRef<number>(5);
+  const difficultyRuleTypes = useRef<number>(4);
 
   const startTest = (mode: GameMode, config?: GameConfig) => {
     if (config) lastConfig.current = config;
     const cfg = config || lastConfig.current || {};
+    const diff = getDifficultyParams('pattern-reasoning', (cfg.difficulty as string) || 'Medium');
+    difficultyRuleTypes.current = (diff.ruleTypes as number) || 4;
     const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : 5;
     questionCount.current = attemptCount;
     setCurrentMode(mode);
@@ -443,6 +447,7 @@ function PatternReasoningTest() {
     setCurrentIdx(0);
     setScore(0);
     scoreRef.current = 0;
+    answersRef.current = [];
     setAnswers([]);
     setLatencies([]);
     setLastCorrect(null);
@@ -457,7 +462,8 @@ function PatternReasoningTest() {
     setLatencies(prev => [...prev, elapsed]);
 
     const isCorrect = idx === questions[currentIdx]!.correctIdx;
-    setAnswers(prev => [...prev, isCorrect]);
+    answersRef.current = [...answersRef.current, isCorrect];
+    setAnswers(answersRef.current);
 
     if (isCorrect) {
       const pts = Math.max(200, Math.round(1000 - elapsed / 10));
@@ -483,7 +489,7 @@ function PatternReasoningTest() {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setGameState('result');
-    const correctCount = answers.filter(Boolean).length;
+    const correctCount = answersRef.current.filter(Boolean).length;
     const accuracy = Math.round((correctCount / questionCount.current) * 100);
     const percentile = Math.round(lookupPercentile('pattern-reasoning', finalScore));
     setResultPercentile(percentile);
@@ -565,6 +571,7 @@ function PatternReasoningTest() {
 
       {gameState === 'running' && (
         <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-between min-h-[360px] shadow-lg relative overflow-hidden animate-fade-in">
+          <button onClick={() => setGameState('idle')} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
           <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6 border-b border-card-border/40 pb-3">
             <span className="text-accent uppercase tracking-wider font-semibold">{MODE_TITLES[currentMode]}</span>
             <span>Q {currentIdx + 1} / 5</span>
@@ -664,7 +671,7 @@ function PatternReasoningTest() {
               {score} Pts
             </h2>
             <span className="text-accent text-xs font-mono uppercase mt-1 block">
-              Top {Math.max(1, Math.min(99, 100 - resultPercentile))}% reasoning speed
+              {formatTopPercentile(resultPercentile)} reasoning speed
             </span>
           </div>
 

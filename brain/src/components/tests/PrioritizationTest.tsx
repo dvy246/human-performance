@@ -55,6 +55,8 @@ function PrioritizationTest() {
   const timerRef = useRef<ReturnType<typeof setInterval>>(undefined);
   const completedRef = useRef<number[]>([]);
   const tasksRef = useRef<Task[]>([]);
+  const resultsRef = useRef<{ points: number; deadline: number }[]>([]);
+  const roundRef = useRef(0);
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
   const roundCount = useRef<number>(ROUNDS);
@@ -97,14 +99,16 @@ function PrioritizationTest() {
       const t = currentTasks.find(x => x.id === id)!;
       points += done.length <= t.deadline ? t.points : Math.round(t.points * 0.5);
     });
-    const newResults = [...results, { points, deadline: done.length }];
+    const newResults = [...resultsRef.current, { points, deadline: done.length }];
+    resultsRef.current = newResults;
     setResults(newResults);
-    const next = round + 1;
-    if (next >= ROUNDS) {
+    const next = roundRef.current + 1;
+    if (next >= roundCount.current) {
       setPhase('done');
       finalize(newResults);
       return;
     }
+    roundRef.current = next;
     setRound(next);
     setTimeout(startRound, 800);
   };
@@ -154,6 +158,8 @@ function PrioritizationTest() {
     roundTime.current = (diff.roundTime as number) || 10;
     if (timerRef.current) clearInterval(timerRef.current);
     submittedRef.current = false;
+    roundRef.current = 0;
+    resultsRef.current = [];
     setRound(0);
     setResults([]);
     setPhase('playing');
@@ -178,7 +184,8 @@ function PrioritizationTest() {
 
   if (phase === 'playing') {
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto relative">
+        <button onClick={() => setPhase('intro')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="rounded-xl border border-card-border bg-card p-6">
           <div className="flex items-center justify-between mb-3 text-[10px] text-muted font-mono">
             <span>Round {round + 1}/{ROUNDS}</span>

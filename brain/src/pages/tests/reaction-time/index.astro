@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import ReactionTimeTest from "@/components/tests/ReactionTimeTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Reaction Time Test — Measure Your Reflexes | CogniArena";
 const description = "Benchmark your raw physical reflexes with our millisecond-accurate reaction time test. Calibrate your monitor latency, view population percentile curves, and challenge friends.";
@@ -88,6 +90,13 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Reaction Time Test"
+        whatItMeasures="A reaction time test measures the speed at which you respond to a visual stimulus. The screen changes from dark to green, and you click as fast as possible. Our timer uses requestAnimationFrame paint-sync calibration to record responses with sub-millisecond accuracy, eliminating browser rendering jitter."
+        howScoringWorks="Your final result is the average of 5 consecutive attempts. This methodology reduces statistical variance caused by anticipation errors, distraction, or random motor twitches. Your average is then compared against our population model to output your percentile rank."
+        whatAffectsResults="Display latency (60Hz adds 16.7ms), mouse polling rate (125Hz adds 8ms), wireless Bluetooth lag (8-20ms), and your current fatigue and focus levels all affect your measured score."
+      />
       
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
@@ -204,15 +213,7 @@ const schemaJson = [
         </ul>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/f1-lights" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">F1 Lights →</a>
-        <a href="/tests/sound-reaction" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Sound Reaction →</a>
-        <a href="/tests/aim-coordination" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Coordination →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="reaction-time" />
 
       <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

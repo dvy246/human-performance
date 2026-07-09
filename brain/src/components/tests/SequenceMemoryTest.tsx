@@ -6,6 +6,7 @@ import { lookupPercentile } from '../../runtime/percentileLookup';
 import { useSound } from '../../runtime/useSound';
 import { useI18n } from '../../runtime/useI18n';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import SocialShare from '../ui/SocialShare';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
@@ -23,6 +24,7 @@ function SequenceMemoryTest() {
   const [activeTile, setActiveTile] = useState<number | null>(null);
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [shareImage, setShareImage] = useState<string | null>(null);
+  const [resultPercentile, setResultPercentile] = useState<number>(0);
   const [copiedChallenge, setCopiedChallenge] = useState(false);
   const [challengeScore, setChallengeScore] = useState<number | null>(null);
 
@@ -35,6 +37,8 @@ function SequenceMemoryTest() {
   const lastConfig = useRef<GameConfig | null>(null);
   const flashOnMs = useRef<number>(450);
   const flashOffMs = useRef<number>(200);
+  const startLenRef = useRef<number>(3);
+  const mountedRef = useRef(true);
 
   useEffect(() => {
     let mounted = true;
@@ -55,7 +59,7 @@ function SequenceMemoryTest() {
       }
     }
 
-    return () => { mounted = false; };
+    return () => { mounted = false; mountedRef.current = false; };
   }, []);
 
 
@@ -66,6 +70,7 @@ function SequenceMemoryTest() {
     const diff = getDifficultyParams('sequence-memory', (cfg.difficulty as string) || 'Medium');
     flashOnMs.current = (diff.flashOn as number) || 450;
     flashOffMs.current = (diff.flashOff as number) || 200;
+    startLenRef.current = (diff.startLen as number) || 3;
     sequenceRef.current = [];
     userSequenceRef.current = [];
     setSequence([]);
@@ -82,29 +87,43 @@ function SequenceMemoryTest() {
     setUserSequence([]);
     userSequenceRef.current = [];
 
-    // Add new random tile (0 to 8)
-    const nextTile = Math.floor(Math.random() * 9);
-    const newSeq = [...sequenceRef.current, nextTile];
-    sequenceRef.current = newSeq;
-    setSequence(newSeq);
-    setLevel(newSeq.length);
+    if (isFirst && startLenRef.current > 1) {
+      // Seed initial sequence based on difficulty
+      const seed: number[] = [];
+      for (let i = 0; i < startLenRef.current; i++) {
+        seed.push(Math.floor(Math.random() * 9));
+      }
+      sequenceRef.current = seed;
+      setSequence(seed);
+      setLevel(seed.length);
+    } else {
+      // Add new random tile (0 to 8)
+      const nextTile = Math.floor(Math.random() * 9);
+      const newSeq = [...sequenceRef.current, nextTile];
+      sequenceRef.current = newSeq;
+      setSequence(newSeq);
+      setLevel(newSeq.length);
+    }
 
     // Run flash cycle
     setTimeout(() => {
-      playSequence(newSeq);
+      playSequence(sequenceRef.current);
     }, isFirst ? 600 : 800);
   };
 
   const playSequence = async (seq: number[]) => {
     for (let i = 0; i < seq.length; i++) {
+      if (!mountedRef.current) break;
       const tile = seq[i];
       // Flash ON
       setActiveTile(tile);
       playTone(300 + tile * 60, 0.18, 'sine', 0.12); // rising tone per tile
       await delay(flashOnMs.current);
+      if (!mountedRef.current) break;
       setActiveTile(null);
       await delay(flashOffMs.current);
     }
+    if (!mountedRef.current) return;
     setGameState('playing');
     userTurnLock.current = false;
   };
@@ -128,10 +147,10 @@ function SequenceMemoryTest() {
       setUserSequence(nextUserSeq);
 
       if (nextUserSeq.length === sequenceRef.current.length) {
-        // Complete round!
+        // Complete round with celebration pause
         userTurnLock.current = true;
         playSuccess();
-        nextRound();
+        setTimeout(() => nextRound(), 600);
       }
     } else {
       // Incorrect! Game over
@@ -146,6 +165,7 @@ function SequenceMemoryTest() {
     setGameState('result');
     const finalScore = level - 1;
     const percentile = lookupPercentile('sequence-memory', finalScore);
+    setResultPercentile(percentile);
 
     try {
       await dataLayer.saveSession({
@@ -200,7 +220,8 @@ function SequenceMemoryTest() {
       )}
 
       {/* Grid Container */}
-      <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
+      <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6 relative">
+        <button onClick={() => setGameState('idle')} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="flex justify-between items-center w-full max-w-xs text-xs font-mono text-muted">
           <span>{t('seq.level')} <strong className="text-foreground">{level}</strong></span>
           <span>{t('seq.status')} <strong className="text-accent">{gameState === 'showing' ? t('seq.watch') : gameState === 'playing' ? t('seq.repeat') : t('seq.ready')}</strong></span>
@@ -228,7 +249,8 @@ function SequenceMemoryTest() {
           /* Result Board */
           <div className="flex flex-col items-center gap-6 py-4">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted text-xs font-mono uppercase">{t('seq.memory_span')}</span>
+              <span className="text-accent text-[10px] font-mono uppercase tracking-widest font-semibold">Sequence Memory Test</span>
+              <span className="text-muted text-xs font-mono uppercase mt-1">{t('seq.memory_span')}</span>
               <div className="text-5xl font-mono font-bold text-foreground">{t('seq.level')} {level - 1}</div>
               <span className="text-accent text-xs font-mono uppercase">
                 {t('rt.top_globally')} {100 - lookupPercentile('sequence-memory', level - 1)}% {t('seq.population')}
@@ -271,7 +293,7 @@ function SequenceMemoryTest() {
 
       {/* Share Actions */}
       {gameState === 'result' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <div className="flex flex-col gap-4">
           {shareImage && (
             <a
               href={shareImage}
@@ -282,13 +304,13 @@ function SequenceMemoryTest() {
               <span>{t('seq.download_memory')}</span>
             </a>
           )}
-          <button
-            onClick={copyChallengeLink}
-            className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
-          </button>
+          <SocialShare
+            testId="sequence-memory"
+            score={level - 1}
+            scoreLabel={`${t('seq.level')} ${level - 1}`}
+            testName="Sequence Memory"
+            percentile={resultPercentile}
+          />
         </div>
       )}
     </div>

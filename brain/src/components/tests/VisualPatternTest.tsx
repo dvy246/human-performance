@@ -56,7 +56,10 @@ function VisualPatternTest() {
       }
     }
 
-    return () => { mounted = false; };
+    return () => {
+      mounted = false;
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, []);
 
   const generatePattern = (size: number, tileCount: number): Set<number> => {
@@ -252,9 +255,12 @@ function VisualPatternTest() {
           <div className="flex justify-between items-center w-full max-w-sm text-xs font-mono text-muted">
             <span>Level: <strong className="text-foreground">{level}</strong></span>
             <span>Grid: <strong className="text-accent">{gridSize}×{gridSize}</strong></span>
-            <span>Status: <strong className="text-accent">
-              {phase === 'showing' ? 'MEMORIZE' : phase === 'input' ? 'RECALL' : 'CHECKING'}
-            </strong></span>
+            <span className="flex items-center gap-2">
+              <span className="text-accent">
+                {phase === 'showing' ? 'MEMORIZE' : phase === 'input' ? 'RECALL' : 'CHECKING'}
+              </span>
+              <button onClick={() => setPhase('idle')} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
+            </span>
           </div>
         )}
 
@@ -347,7 +353,7 @@ function VisualPatternTest() {
                 Level {finalScore}
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {formatTopPercentile(lookupPercentile('visual-pattern', finalScore))}% of population
+                {formatTopPercentile(lookupPercentile('visual-pattern', finalScore))} of population
               </span>
             </div>
 

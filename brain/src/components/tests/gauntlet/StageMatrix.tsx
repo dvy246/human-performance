@@ -34,6 +34,7 @@ export default function StageMatrix({ onComplete, difficulty }: StageProps) {
   const [puzzle, setPuzzle] = useState(genMatrix());
   const [correct, setCorrect] = useState(0);
   const [feedback, setFeedback] = useState('');
+  const respondedRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
   const difficultyRef = useRef(difficulty);
   difficultyRef.current = difficulty;
@@ -51,7 +52,8 @@ export default function StageMatrix({ onComplete, difficulty }: StageProps) {
   useEffect(() => { return ct; }, [ct]);
 
   const handlePick = (idx: number) => {
-    if (phase !== 'playing' || feedback) return;
+    if (phase !== 'playing' || feedback || respondedRef.current) return;
+    respondedRef.current = true;
     const isCorrect = idx === puzzle.correct;
     if (isCorrect) setCorrect(c => c + 1);
     setFeedback(isCorrect ? '✓' : '✗');
@@ -68,7 +70,7 @@ export default function StageMatrix({ onComplete, difficulty }: StageProps) {
       return;
     }
     setTrial(next);
-    st(() => { setFeedback(''); setPuzzle(genMatrix()); }, 500);
+    st(() => { respondedRef.current = false; setFeedback(''); setPuzzle(genMatrix()); }, 500);
   };
 
   if (phase === 'intro') {

@@ -124,7 +124,8 @@ function PlanningTest() {
   if (phase === 'playing') {
     const optimal = Math.pow(2, diskCount.current) - 1;
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto relative">
+        <button onClick={() => setPhase('intro')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="rounded-xl border border-card-border bg-card p-6">
           <div className="text-[10px] text-muted font-mono mb-3 flex items-center justify-between">
             <span>Moves: {moves} / Optimal: {optimal}</span>

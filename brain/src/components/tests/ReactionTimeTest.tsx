@@ -24,6 +24,7 @@ function ReactionTimeTest() {
   const [personalBest, setPersonalBest] = useState<number | null>(null);
   const [currentScore, setCurrentScore] = useState<number | null>(null);
   const [finalAverage, setFinalAverage] = useState<number | null>(null);
+  const [resultPercentile, setResultPercentile] = useState<number>(0);
   const [shareImage, setShareImage] = useState<string | null>(null);
   const [copiedChallenge, setCopiedChallenge] = useState(false);
   const [challengeScore, setChallengeScore] = useState<number | null>(null);
@@ -157,7 +158,7 @@ function ReactionTimeTest() {
       // Proceed to next attempt
       setGameState('waiting');
       setupRandomTimer(waitRange.current.min, waitRange.current.max);
-    } else if (gameState === 'abort' || gameState === 'result') {
+    } else if (gameState === 'abort') {
       // Retry
       startTest();
     }
@@ -169,6 +170,7 @@ function ReactionTimeTest() {
     setGameState('result');
     setFinalAverage(avgScore);
     const percentile = lookupPercentile('reaction-time', avgScore, true);
+    setResultPercentile(percentile);
 
     // Save session record
     try {
@@ -177,7 +179,7 @@ function ReactionTimeTest() {
         category: 'reaction',
         rawScore: avgScore,
         percentile: percentile,
-        metadata: { attempts }
+        metadata: { attempts: allAttempts }
       });
     } catch (err) {
       console.error('Failed to save Reaction Time session:', err);
@@ -269,7 +271,7 @@ function ReactionTimeTest() {
     if (typeof window === 'undefined') return;
     
     // Average score is the last recorded attempts' average
-    const average = Math.round(attempts.reduce((a, b) => a + b, 0) / 5);
+    const average = Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current);
     const token = encodeChallenge({ testId: 'reaction-time', score: average });
     const url = `${window.location.origin}/tests/reaction-time/?challenge=${token}`;
     
@@ -289,7 +291,10 @@ function ReactionTimeTest() {
   };
 
   return (
-    <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
+    <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto relative">
+      {gameState !== 'idle' && gameState !== 'result' && (
+        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+      )}
       {/* Target Challenge Display */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
@@ -392,12 +397,13 @@ function ReactionTimeTest() {
         {gameState === 'result' && attempts.length >= totalAttempts.current && (
           <div className="w-full flex flex-col items-center gap-6 py-4">
             <div className="flex flex-col items-center gap-1">
-              <span className="text-muted text-xs uppercase font-mono">{t('rt.final_avg')}</span>
+              <span className="text-accent text-[10px] font-mono uppercase tracking-widest font-semibold">Visual Reaction Test</span>
+              <span className="text-muted text-xs uppercase font-mono mt-1">{t('rt.final_avg')}</span>
               <div className="text-5xl font-mono font-extrabold text-foreground tracking-tight">
                 {finalAverage} ms
               </div>
               <span className="text-accent text-sm font-medium">
-                {t('rt.top_globally')} {formatTopPercentile(lookupPercentile('reaction-time', finalAverage!, true))}% {t('rt.globally')}
+                {formatTopPercentile(lookupPercentile('reaction-time', finalAverage!, true), true)} {t('rt.globally')}
               </span>
             </div>
 
@@ -450,7 +456,15 @@ function ReactionTimeTest() {
             score={finalAverage!} 
             scoreLabel={`${finalAverage} ms`} 
             testName="Visual Reaction Test" 
+            percentile={resultPercentile}
           />
+          <button
+            onClick={() => startTest()}
+            className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
+          >
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span>Try Again</span>
+          </button>
         </div>
       )}
 

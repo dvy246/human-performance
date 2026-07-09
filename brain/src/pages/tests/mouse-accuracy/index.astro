@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import MouseAccuracyTest from "@/components/tests/MouseAccuracyTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Mouse Accuracy Test – Precision Clicking | CogniArena";
 const description = "Test your mouse precision by clicking shrinking targets. Measures fine motor control and hand-eye coordination. Compare your accuracy against population benchmarks.";
@@ -33,6 +35,13 @@ const schemaJson = [
     </header>
     <section class="w-full"><MouseAccuracyTest client:visible /></section>
 
+    <HowItWorks
+      testName="the Mouse Accuracy Test"
+      whatItMeasures="Measures fine motor precision by presenting targets that shrink from 80px to 16px. You must click the center of each target. Smaller targets require greater precision and steadier mouse control."
+      howScoringWorks="Score tracks click offset error (pixels from center). Smaller average offset indicates better fine motor control. Performance is governed by Fitts's Law — smaller targets naturally produce larger offset errors."
+      whatAffectsResults="Mouse DPI settings, hand steadiness, visual acuity, and mouse surface consistency all affect your accuracy score. A consistent low-friction mousepad improves control repeatability."
+    />
+
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
       <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Accuracy Score</h2>
@@ -44,15 +53,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
-        <a href="/tests/flick-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Flick Trainer →</a>
-        <a href="/tests/click-speed" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Click Speed →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="mouse-accuracy" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

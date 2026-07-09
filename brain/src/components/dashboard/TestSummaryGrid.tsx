@@ -178,7 +178,7 @@ export default function TestSummaryGrid() {
                         <span className="text-xs font-mono text-muted">{TEST_CODES[testId] || '???'}</span>
                         {attempted ? (
                           <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-accent/10 text-accent border border-accent/20">
-                            Top {formatTopPercentile(summary.lastPercentile || 0)}%
+                            {formatTopPercentile(summary.lastPercentile || 0)}
                           </span>
                         ) : (
                           <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-subtle text-muted border border-card-border/60">

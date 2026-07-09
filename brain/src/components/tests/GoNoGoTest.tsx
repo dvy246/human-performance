@@ -12,12 +12,22 @@ import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 
-type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
+type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'inhibited' | 'abort' | 'result';
 
 interface ColorState {
   name: string;
   hex: string;
   isTarget: boolean;
+}
+
+function getContrastText(hex: string): string {
+  const r = parseInt(hex.slice(1, 3), 16) / 255;
+  const g = parseInt(hex.slice(3, 5), 16) / 255;
+  const b = parseInt(hex.slice(5, 7), 16) / 255;
+  const luminance = 0.2126 * (r <= 0.03928 ? r / 12.92 : Math.pow((r + 0.055) / 1.055, 2.4))
+    + 0.7152 * (g <= 0.03928 ? g / 12.92 : Math.pow((g + 0.055) / 1.055, 2.4))
+    + 0.0722 * (b <= 0.03928 ? b / 12.92 : Math.pow((b + 0.055) / 1.055, 2.4));
+  return luminance > 0.179 ? 'text-black' : 'text-white';
 }
 
 const COLORS: ColorState[] = [
@@ -53,6 +63,8 @@ function GoNoGoTest() {
   const lastConfig = useRef<GameConfig | null>(null);
   const noGoRateRef = useRef<number>(0.35);
   const omissionMsRef = useRef<number>(1500);
+  const falseAlarmsRef = useRef<number>(0);
+  const stimulusCountRef = useRef<number>(0);
 
   useEffect(() => {
     let mounted = true;
@@ -99,6 +111,8 @@ function GoNoGoTest() {
     omissionMsRef.current = (diff.omissionMs as number) || 1500;
     setAttempts([]);
     setFalseAlarms(0);
+    falseAlarmsRef.current = 0;
+    stimulusCountRef.current = 0;
     setCurrentScore(null);
     setShareImage(null);
     submittedRef.current = false;
@@ -113,8 +127,8 @@ function GoNoGoTest() {
 
     const delay = waitRange.current.min + Math.random() * (waitRange.current.max - waitRange.current.min);
     timerId.current = setTimeout(() => {
-      // 35% chance to spawn target, 65% chance to spawn distractor
-      const isTargetSpawn = Math.random() < noGoRateRef.current;
+      // `noGoRate` controls the rate of no-go (distractor) trials
+      const isTargetSpawn = Math.random() >= noGoRateRef.current;
       let selected: ColorState;
 
       if (isTargetSpawn) {
@@ -140,12 +154,22 @@ function GoNoGoTest() {
           handleOmission();
         }, omissionMsRef.current);
       } else {
-        // Distractor stays on screen for 1 second, then disappears
+        // Distractor: short flash then show inhibition feedback
         targetTimeoutId.current = setTimeout(() => {
-          // Success: user successfully inhibited clicking
-          setGameState('waiting');
-          queueNextSignal();
-        }, 1000);
+          setGameState('inhibited');
+          targetTimeoutId.current = setTimeout(() => {
+            stimulusCountRef.current += 1;
+            if (stimulusCountRef.current < totalAttempts.current) {
+              setGameState('waiting');
+              queueNextSignal();
+            } else {
+              const avg = attempts.length > 0
+                ? Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current)
+                : 0;
+              finalizeTest(avg, attempts.length, attempts);
+            }
+          }, 500);
+        }, 600);
       }
     }, delay);
   };
@@ -153,6 +177,7 @@ function GoNoGoTest() {
   const handleOmission = () => {
     if (clickLock.current) return;
     clickLock.current = true;
+    stimulusCountRef.current += 1;
 
     // Missed target: add +250ms penalty attempt
     const finalScore = omissionMsRef.current + 250;
@@ -160,7 +185,7 @@ function GoNoGoTest() {
     setAttempts(updatedAttempts);
     setCurrentScore(finalScore);
 
-    if (updatedAttempts.length < totalAttempts.current) {
+    if (stimulusCountRef.current < totalAttempts.current) {
       setGameState('attempt-result');
     } else {
       const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length);
@@ -191,13 +216,14 @@ function GoNoGoTest() {
 
       if (currentColor.isTarget) {
         // Hit!
+        stimulusCountRef.current += 1;
         const elapsed = Math.round(performance.now() - startTime.current);
         const updatedAttempts = [...attempts, elapsed];
         setAttempts(updatedAttempts);
         setCurrentScore(elapsed);
         playClick();
 
-        if (updatedAttempts.length < totalAttempts.current) {
+        if (stimulusCountRef.current < totalAttempts.current) {
           setGameState('attempt-result');
         } else {
           const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / totalAttempts.current);
@@ -206,9 +232,19 @@ function GoNoGoTest() {
       } else {
         // False Alarm click on distractor!
         playError();
-        setFalseAlarms((prev) => prev + 1);
-        setGameState('attempt-result');
-        setCurrentScore(null); // Displays False Alarm message
+        falseAlarmsRef.current += 1;
+        setFalseAlarms(falseAlarmsRef.current);
+        stimulusCountRef.current += 1;
+
+        if (stimulusCountRef.current < totalAttempts.current) {
+          setGameState('attempt-result');
+          setCurrentScore(null);
+        } else {
+          const avg = attempts.length > 0
+            ? Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current)
+            : 0;
+          finalizeTest(avg, attempts.length, attempts);
+        }
       }
     } else if (gameState === 'attempt-result') {
       setGameState('waiting');
@@ -224,7 +260,8 @@ function GoNoGoTest() {
     setGameState('result');
     
     // Penalize score for False Alarms: add +250ms per false alarm to the final average
-    const finalAverage = avgScore + (falseAlarms * 250);
+    const fAlarms = falseAlarmsRef.current;
+    const finalAverage = avgScore + (fAlarms * 250);
     const percentile = lookupPercentile('go-no-go', finalAverage, true);
 
     try {
@@ -233,13 +270,18 @@ function GoNoGoTest() {
         category: 'reaction',
         rawScore: finalAverage,
         percentile: percentile,
-        metadata: { falseAlarms, attempts }
+        metadata: { falseAlarms: fAlarms, attempts: allAttempts }
       });
     } catch (err) {
       console.error('Failed to save Go/No-Go session:', err);
     }
 
-    const pb = await dataLayer.getPersonalBest('go-no-go', 'lower');
+    let pb: number | null = null;
+    try {
+      pb = await dataLayer.getPersonalBest('go-no-go', 'lower');
+    } catch (err) {
+      console.error('Failed to get personal best:', err);
+    }
     setPersonalBest(pb);
 
     try {
@@ -248,6 +290,8 @@ function GoNoGoTest() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'go-no-go', testName: 'Go/No-Go', attempts: allAttempts, unit: 'ms',
@@ -270,7 +314,10 @@ function GoNoGoTest() {
   };
 
   return (
-    <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto">
+    <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto relative">
+      {gameState !== 'idle' && gameState !== 'result' && (
+        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+      )}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <span className="text-foreground">{t('test.challenge_beat')} <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
@@ -332,10 +379,10 @@ function GoNoGoTest() {
                 </svg>
               </>
             )}
-            <span className="text-black font-extrabold text-3xl tracking-wider filter drop-shadow">
+            <span className={`${getContrastText(currentColor.hex)} font-extrabold text-3xl tracking-wider filter drop-shadow`}>
               {currentColor.name}
             </span>
-            <span className="text-black/70 text-xs font-mono uppercase">
+            <span className={`${getContrastText(currentColor.hex)}/70 text-xs font-mono uppercase`}>
               {currentColor.isTarget ? t('gng.go') : t('gng.no_go')}
             </span>
           </div>
@@ -355,9 +402,22 @@ function GoNoGoTest() {
                 <p className="text-secondary text-xs max-w-xs leading-relaxed">
                   {t('gng.distractor_penalty')}
                 </p>
+                <span className="text-muted text-[10px] font-mono uppercase mt-1">{t('gng.rounds')} {attempts.length} / {totalAttempts.current}</span>
               </>
             )}
             <span className="text-xs text-muted font-mono uppercase mt-4 animate-pulse">{t('gng.click_continue')}</span>
+          </div>
+        )}
+
+        {gameState === 'inhibited' && (
+          <div className="flex flex-col items-center gap-3">
+            <div className="w-14 h-14 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-2xl">
+              ✓
+            </div>
+            <span className="text-emerald-400 font-mono text-sm font-bold uppercase tracking-wider">
+              Inhibited!
+            </span>
+            <p className="text-secondary text-xs">Correctly suppressed distractor click</p>
           </div>
         )}
 
@@ -380,24 +440,29 @@ function GoNoGoTest() {
                 {Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250)} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                Top {formatTopPercentile(lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250), true))}% {t('rt.globally')}
+                {formatTopPercentile(lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250), true), true)} {t('rt.globally')}
               </span>
             </div>
 
             <div className="grid grid-cols-3 gap-6 w-full max-w-sm border-t border-card-border/50 pt-4 text-center mt-3">
               <div>
-                <span className="text-muted text-[10px] font-mono uppercase">{t('test.personal_best')}</span>
-                <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
-              </div>
-              <div>
-                <span className="text-muted text-[10px] font-mono uppercase">{t('test.calibration')}</span>
-                <div className="text-foreground font-mono text-sm">{calibration ? `${calibration.hz}Hz` : t('test.detecting')}</div>
+                <span className="text-muted text-[10px] font-mono uppercase">{t('gng.accuracy')}</span>
+                <div className="text-foreground font-mono text-sm">
+                  {attempts.length > 0
+                    ? `${Math.round((attempts.length - falseAlarms) / totalAttempts.current * 100)}%`
+                    : '--'}
+                </div>
               </div>
               <div>
                 <span className="text-muted text-[10px] font-mono uppercase">{t('gng.false_alarms')}</span>
                 <div className="text-foreground font-mono text-sm">{falseAlarms}</div>
               </div>
+              <div>
+                <span className="text-muted text-[10px] font-mono uppercase">{t('test.personal_best')}</span>
+                <div className="text-foreground font-mono text-sm">{personalBest ? `${personalBest} ms` : '--'}</div>
+              </div>
             </div>
+            <span className="text-muted text-[9px] font-mono">{t('test.calibration')} {calibration ? `${calibration.hz}Hz` : t('test.detecting')}</span>
 
             <span className="text-xs uppercase font-mono text-muted mt-2">{t('gng.click_try_again')}</span>
           </div>
@@ -405,23 +470,32 @@ function GoNoGoTest() {
       </div>
 
       {gameState === 'result' && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-          {shareImage && (
-            <a
-              href={shareImage}
-              download="cogniarena-go-no-go.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+        <div className="flex flex-col gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {shareImage && (
+              <a
+                href={shareImage}
+                download="cogniarena-go-no-go.png"
+                className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                <span>{t('gng.download_profile')}</span>
+              </a>
+            )}
+            <button
+              onClick={copyChallengeLink}
+              className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
-              <span>{t('gng.download_profile')}</span>
-            </a>
-          )}
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
+            </button>
+          </div>
           <button
-            onClick={copyChallengeLink}
-            className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
+            onClick={() => startTest(lastConfig.current ?? undefined)}
+            className="w-full flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
-            <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
+            <span>{t('test.restart')}</span>
           </button>
         </div>
       )}

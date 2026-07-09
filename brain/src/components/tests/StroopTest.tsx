@@ -3,8 +3,9 @@ import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
+import { useSound } from '../../runtime/useSound';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
@@ -21,11 +22,12 @@ interface Trial {
 const COLORS = [
   { name: 'RED', hex: '#ef4444', class: 'text-red-500' },
   { name: 'BLUE', hex: '#3b82f6', class: 'text-blue-500' },
-  { name: 'GREEN', hex: '#22c55e', class: 'text-green-500' },
+  { name: 'ORANGE', hex: '#f97316', class: 'text-orange-500' },
   { name: 'YELLOW', hex: '#eab308', class: 'text-yellow-500' }
 ];
 
 const StroopTest = () => {
+  const { playClick, playError } = useSound();
   const [gameState, setGameState] = useState<TrialState>('idle');
   const [trials, setTrials] = useState<Trial[]>([]);
   const [currentTrialIdx, setCurrentTrialIdx] = useState(0);
@@ -135,6 +137,7 @@ const StroopTest = () => {
     const current = trials[currentTrialIdx];
 
     if (selectedColor === current.color) {
+      playClick();
       setCorrectCount(prev => {
         const next = prev + 1;
         correctCountRef.current = next;
@@ -157,16 +160,18 @@ const StroopTest = () => {
       }
       setLastFeedback('correct');
     } else if (selectedColor === null) {
+      playError();
       setLastFeedback('timeout');
     } else {
+      playError();
       setLastFeedback('wrong');
     }
 
-    // Delay slightly to show feedback green/red dot, then next trial
+    // Show feedback with card background flash for 800ms, then next trial
     if (feedbackTimerRef.current) clearTimeout(feedbackTimerRef.current);
     feedbackTimerRef.current = setTimeout(() => {
       nextTrial(currentTrialIdx + 1, trials);
-    }, 500);
+    }, 800);
   };
 
   const finishTest = async () => {
@@ -249,7 +254,13 @@ const StroopTest = () => {
       )}
 
       {gameState === 'running' && trials.length > 0 && (
-        <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-between min-h-[350px] shadow-lg relative overflow-hidden">
+        <div className={`rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-between min-h-[350px] shadow-lg relative overflow-hidden transition-colors duration-300 ${
+          lastFeedback === 'correct' ? '!bg-emerald-500/10 !border-emerald-500/30' :
+          lastFeedback === 'wrong' ? '!bg-rose-500/10 !border-rose-500/30' :
+          lastFeedback === 'timeout' ? '!bg-amber-500/10 !border-amber-500/30' :
+          ''
+        }`}>
+          <button onClick={() => setGameState('idle')} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
           {/* Header Progress */}
           <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6">
             <span>TRIAL {currentTrialIdx + 1} / {trialCount.current}</span>
@@ -270,8 +281,13 @@ const StroopTest = () => {
             </h1>
           </div>
 
-          {/* Feedback indicators */}
-          <div className="h-6 flex items-center justify-center mb-6">
+          {/* Feedback indicators with card-centered flash */}
+          <div className={`h-10 flex items-center justify-center mb-4 px-4 rounded-lg font-mono text-sm font-bold transition-all duration-300 ${
+            lastFeedback === 'correct' ? 'bg-emerald-500/15 text-emerald-600 scale-100' :
+            lastFeedback === 'wrong' ? 'bg-rose-500/15 text-rose-400 scale-100' :
+            lastFeedback === 'timeout' ? 'bg-amber-500/15 text-amber-400 scale-100' :
+            'scale-95 opacity-0'
+          }`}>
             {lastFeedback === 'correct' && <span className="text-success font-bold font-mono text-xs">✓ CORRECT</span>}
             {lastFeedback === 'wrong' && <span className="text-error font-bold font-mono text-xs">✗ INCORRECT</span>}
             {lastFeedback === 'timeout' && <span className="text-warning font-bold font-mono text-xs">⏰ TIMEOUT</span>}
@@ -303,7 +319,7 @@ const StroopTest = () => {
               {resultScore} ms
             </h2>
             <span className="text-accent text-xs font-mono uppercase mt-1 block">
-              Top {Math.max(1, Math.min(99, 100 - resultPercentile))}% Globally
+              {formatTopPercentile(resultPercentile, true)} Globally
             </span>
           </div>
 

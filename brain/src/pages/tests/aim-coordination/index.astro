@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import AimCoordinationTest from "@/components/tests/AimCoordinationTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Aim Coordination Test — Hand-Eye Coordination Benchmark | CogniArena";
 const description = "Test your hand-eye coordination speed. Click targets as fast as they appear and measure your visual-motor response latency. Free online coordination assessment.";
@@ -83,6 +85,13 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Aim Coordination Test"
+        whatItMeasures="Tests hand-eye coordination by presenting clickable targets at random positions. Measures the full visual-motor response cycle: target detection, spatial localization, and motor execution."
+        howScoringWorks="Score combines reaction time (how fast you click each target) and accuracy (distance from target center). A composite score reflects your overall coordination efficiency."
+        whatAffectsResults="Your mouse DPI and sensitivity settings, display refresh rate, practice with aim-based tasks, and current focus level all affect your coordination score."
+      />
       
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
@@ -128,15 +137,7 @@ const schemaJson = [
         </ul>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/reaction-time" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Reaction Time →</a>
-        <a href="/tests/aim-trainer" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Aim Trainer →</a>
-        <a href="/tests/f1-lights" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">F1 Lights →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="aim-coordination" />
 
     <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

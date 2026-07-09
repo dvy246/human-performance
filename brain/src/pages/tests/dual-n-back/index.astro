@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import DualNBackTest from "@/components/tests/DualNBackTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Dual N-Back Memory Test — Working Memory Trainer | CogniArena";
 const description = "Test and train your visual and auditory working memory with the online Dual N-Back memory test. Track cognitive performance with millisecond-accurate browser timers.";
@@ -81,6 +83,14 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the Dual N-Back Test"
+        whatItMeasures="Simultaneously tracks two independent streams of information: auditory tones and visual grid positions. You must indicate when either the current tone or current position matches what appeared N steps earlier."
+        howScoringWorks="Score combines accuracy on both auditory and visual streams. Higher N values indicate stronger working memory capacity. The dual-task nature taxes the central executive system."
+        whatAffectsResults="Your working memory capacity, ability to divide attention between modalities, practice with N-back tasks, and current cognitive fatigue all affect your score."
+      />
+
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold text-foreground tracking-tight">The Science of Dual N-Back Training</h2>
         <p class="text-secondary text-sm leading-relaxed">
@@ -107,15 +117,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/number-memory" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Number Memory →</a>
-        <a href="/tests/visual-pattern" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Visual Pattern →</a>
-        <a href="/tests/stroop" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Stroop Test →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="dual-n-back" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

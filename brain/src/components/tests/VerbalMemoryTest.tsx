@@ -3,7 +3,7 @@ import { withErrorBoundary } from "@/components/ui/withErrorBoundary";
 import { dataLayer } from '../../runtime/dataLayer';
 import { generateShareCard } from '../../runtime/share';
 import SocialShare from '../ui/SocialShare';
-import { lookupPercentile } from '../../runtime/percentileLookup';
+import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
@@ -61,8 +61,11 @@ const VerbalMemoryTest = () => {
     return fisherYatesShuffle(WORD_POOL).slice(0, len);
   };
 
+  const distractorMultiplier = useRef<number>(2);
+
   const generateOptions = (list: string[]) => {
-    const distractors = fisherYatesShuffle(WORD_POOL.filter(w => !list.includes(w))).slice(0, list.length);
+    const distractorCount = Math.min(list.length * distractorMultiplier.current, 50);
+    const distractors = fisherYatesShuffle(WORD_POOL.filter(w => !list.includes(w))).slice(0, distractorCount);
     return fisherYatesShuffle([...list, ...distractors]);
   };
 
@@ -137,6 +140,10 @@ const VerbalMemoryTest = () => {
     const diff = getDifficultyParams('verbal-memory', (cfg.difficulty as string) || 'Medium');
     startListSize.current = (diff.startListSize as number) || 3;
     maxLevel.current = (diff.maxLevel as number) || 12;
+    distractorMultiplier.current = (cfg.difficulty as string) === 'Easy' ? 2 : (cfg.difficulty as string) === 'Hard' ? 3 : 2;
+    if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current);
+    if (levelTimerRef.current) clearTimeout(levelTimerRef.current);
+    submittedRef.current = false;
     setPhase('encoding');
     setLevel(1);
     setMaxCorrect(0);
@@ -161,9 +168,10 @@ const VerbalMemoryTest = () => {
 
   if (phase === 'encoding') {
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto relative">
+        <button onClick={() => { if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current); submittedRef.current = false; setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Level {level} · Memorize {Math.min(3 + level, 12)} words</div>
+          <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Level {level} · Memorize {Math.min(startListSize.current + level - 1, maxLevel.current)} words</div>
           <div className="flex flex-wrap justify-center gap-3 max-w-md">
             {wordList.map((w, i) => (
               <div key={i} className="animate-in fade-in slide-in-from-top-2 duration-300" style={{ animationDelay: `${i * 100}ms` }}>
@@ -178,7 +186,8 @@ const VerbalMemoryTest = () => {
 
   if (phase === 'recall') {
     return (
-      <div className="w-full max-w-2xl mx-auto">
+      <div className="w-full max-w-2xl mx-auto relative">
+        <button onClick={() => { submittedRef.current = false; setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
           <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Select the words you saw · {selected.length}/{wordList.length}</div>
           <div className="flex flex-wrap justify-center gap-2 max-w-lg">
@@ -208,6 +217,9 @@ const VerbalMemoryTest = () => {
           <div className="text-center">
             <div className="text-4xl font-bold font-mono text-foreground">{finalCorrect}/{wordList.length}</div>
             <div className="text-xs text-muted font-mono mt-1">Score: {score}/100 • Max Level: {level}</div>
+            <span className="text-accent text-xs font-mono uppercase mt-1 block">
+              {formatTopPercentile(lookupPercentile('verbal-memory', finalCorrect))}
+            </span>
           </div>
           {shareImage && (
             <a href={shareImage} download="cogniarena-verbal-memory.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">

@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import F1LightsTest from "@/components/tests/F1LightsTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "F1 Starting Lights Reaction Test — Measure Reflexes | CogniArena";
 const description = "Simulate a Formula 1 race start and measure your reaction time to the gantry extinguishment. Compare your split speed against professional F1 drivers.";
@@ -78,6 +80,13 @@ const schemaJson = [
       </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+
+      <HowItWorks
+        testName="the F1 Start Lights Test"
+        whatItMeasures="Simulates a Formula 1 race start gantry. After a random 1-5 second delay, 5 red LEDs extinguish and you click as fast as possible. Tests your ability to suppress anticipation and react precisely."
+        howScoringWorks="Your score is the average reaction time across 5 starts. Early clicks before lights extinguish are flagged as false starts (anticipation errors). Faster average times indicate better impulse control and reflex speed."
+        whatAffectsResults="Your ability to stay focused during the variable delay window, fatigue level, and display latency all affect your start reaction time."
+      />
       
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
@@ -151,15 +160,7 @@ const schemaJson = [
         </p>
       </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/reaction-time" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Reaction Time →</a>
-        <a href="/tests/sound-reaction" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Sound Reaction →</a>
-        <a href="/tests/go-no-go" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Go/No-Go →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="f1-lights" />
 
     <!-- FAQ Section -->
       <article class="flex flex-col gap-6">

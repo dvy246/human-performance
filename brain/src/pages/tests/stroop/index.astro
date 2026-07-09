@@ -1,6 +1,8 @@
 ---
 import Layout from "@/layouts/main.astro";
 import StroopTest from "@/components/tests/StroopTest";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+import HowItWorks from "@/components/ui/HowItWorks.astro";
 
 const title = "Stroop Attention Test — Cognitive Interference Assessment | CogniArena";
 const description = "Benchmark your selective attention, impulse control, and processing speed with the classic Stroop color-conflict test. Measure response latency and accuracy.";
@@ -97,8 +99,15 @@ const schemaJson = [
     </section>
 
     <!-- What Affects Your Score -->
-    <article class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Stroop Score</h2>
+      <HowItWorks
+        testName="the Stroop Test"
+        whatItMeasures="The Stroop test measures selective attention and cognitive inhibition. Color words (RED, BLUE, GREEN) are displayed in mismatched ink colors, and you must name the ink color rather than read the word. This creates measurable cognitive interference."
+        howScoringWorks="Your score is the average response time across all trials, with penalties for incorrect answers. The Stroop interference effect typically adds 200-400ms to response time compared to reading congruent text."
+        whatAffectsResults="Response inhibition ability, selective attention focus, processing speed, and display latency all affect your score. Practice reduces the Stroop interference effect over time."
+      />
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Stroop Score</h2>
       <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
         <li><strong class="text-foreground">Response inhibition</strong> — your ability to suppress the automatic tendency to read the word instead of naming the color</li>
         <li><strong class="text-foreground">Selective attention</strong> — focusing on the relevant stimulus (ink color) while ignoring the irrelevant one (word meaning)</li>
@@ -107,15 +116,7 @@ const schemaJson = [
       </ul>
     </article>
 
-    <!-- Related Tests -->
-    <article class="flex flex-col gap-3">
-      <h2 class="text-lg font-semibold text-foreground tracking-tight">Related Tests</h2>
-      <div class="flex flex-wrap gap-2">
-        <a href="/tests/go-no-go" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Go/No-Go →</a>
-        <a href="/tests/trail-making" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Trail Making →</a>
-        <a href="/tests/focus-challenge" class="px-3 py-1.5 rounded-lg border border-card-border bg-subtle text-xs text-muted hover:border-accent hover:text-foreground transition-colors">Focus Challenge →</a>
-      </div>
-    </article>
+    <ExploreTests currentSlug="stroop" />
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">

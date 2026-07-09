@@ -14,6 +14,7 @@ function shuffleArray<T>(arr: T[]): T[] {
 
 export default function Stage1SelectiveAttention({ onComplete, calibrationHz, difficulty }: StageProps) {
   const [phase, setPhase] = useState<'intro' | 'playing' | 'feedback' | 'done'>('intro');
+  const [showHelp, setShowHelp] = useState(false);
   const [trialIndex, setTrialIndex] = useState(0);
   const [trials, setTrials] = useState<{ targetSymbol: string; grid: string[]; targetIdx: number; startTime: number; correct: boolean; rt: number }[]>([]);
   const [hitCount, setHitCount] = useState(0);
@@ -40,9 +41,10 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz, di
   const generateTrial = useCallback(() => {
     const targetSymbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];
     const targetIdx = Math.floor(Math.random() * gridSizeRef.current * gridSizeRef.current);
+    const distractorPool = SYMBOLS.filter(s => s !== targetSymbol);
     const grid: string[] = [];
     for (let i = 0; i < gridSizeRef.current * gridSizeRef.current; i++) {
-      grid.push(i === targetIdx ? targetSymbol : SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)]);
+      grid.push(i === targetIdx ? targetSymbol : distractorPool[Math.floor(Math.random() * distractorPool.length)]);
     }
     startTimeRef.current = performance.now();
     return { targetSymbol, grid, targetIdx, startTime: performance.now(), correct: false, rt: 0 };
@@ -96,7 +98,13 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz, di
         <div className="w-16 h-16 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-3xl">🎯</div>
         <div className="text-center">
           <h3 className="text-lg font-bold text-foreground mb-1">Stage 1: Selective Attention</h3>
-          <p className="text-secondary text-sm max-w-md">Find and click the <strong className="text-accent">target symbol</strong> shown at the top, ignoring all distractions. {trialCountRef.current} rounds.</p>
+          <div className="text-secondary text-sm max-w-md text-left space-y-1">
+            <p>1. Look at the <strong className="text-accent">target symbol</strong> shown at the top.</p>
+            <p>2. Find the <strong className="text-accent">matching symbol</strong> in the grid below.</p>
+            <p>3. Click it as fast as you can.</p>
+            <p>4. Ignore the moving distractions around the grid.</p>
+            <p className="text-muted text-xs mt-2">{trialCountRef.current} rounds. Speed matters — faster = higher score.</p>
+          </div>
         </div>
         <button onClick={startPlaying} className="px-6 h-10 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-sm transition-standard active:scale-95 cursor-pointer">
           Start Stage
@@ -125,7 +133,16 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz, di
         <span>Trial {trialIndex + 1} / {trialCountRef.current}</span>
         <span>•</span>
         <span>Hits: {hitCount}</span>
+        <button onClick={() => setShowHelp(!showHelp)} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-accent hover:border-accent/50 text-[10px] transition-standard cursor-pointer" aria-label="How to play">?</button>
       </div>
+      {showHelp && (
+        <div className="w-full max-w-md p-3 rounded-lg bg-panel border border-card-border text-xs text-muted font-mono space-y-1 animate-in fade-in duration-150">
+          <p>1. Note the <strong className="text-accent">target symbol</strong> above.</p>
+          <p>2. Find and click the <strong className="text-accent">matching symbol</strong> in the grid.</p>
+          <p>3. Ignore moving distractions. Speed = higher score.</p>
+        </div>
+      )}
+
       <div className="flex items-center gap-3 py-2 px-4 rounded-lg bg-subtle border border-card-border">
         <span className="text-secondary text-xs font-mono">Find this:</span>
         <span className="text-3xl text-accent">{currentTrial.targetSymbol}</span>
