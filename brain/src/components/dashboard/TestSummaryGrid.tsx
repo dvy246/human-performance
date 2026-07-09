@@ -2,6 +2,12 @@ import React, { useState, useEffect } from 'react';
 import { formatTopPercentile } from '../../runtime/percentileLookup';
 import { dataLayer, type SessionRecord } from '../../runtime/dataLayer';
 
+const REACTION_TESTS = ['reaction-time', 'f1-lights', 'sound-reaction', 'choice-reaction', 'go-no-go', 'aim-coordination'];
+
+function isLowerBetter(testId: string): boolean {
+  return REACTION_TESTS.includes(testId);
+}
+
 const TEST_NAMES: Record<string, string> = {
   'reaction-time': 'Visual Reaction Test',
   'f1-lights': 'F1 Start Lights',
@@ -178,7 +184,7 @@ export default function TestSummaryGrid() {
                         <span className="text-xs font-mono text-muted">{TEST_CODES[testId] || '???'}</span>
                         {attempted ? (
                           <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-accent/10 text-accent border border-accent/20">
-                            {formatTopPercentile(summary.lastPercentile || 0)}
+                            {formatTopPercentile(summary.lastPercentile || 0, isLowerBetter(testId))}
                           </span>
                         ) : (
                           <span className="text-[9px] font-mono px-1.5 py-0.5 rounded bg-subtle text-muted border border-card-border/60">

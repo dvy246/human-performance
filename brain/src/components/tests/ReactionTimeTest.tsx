@@ -191,7 +191,7 @@ function ReactionTimeTest() {
 
     // Pre-generate Share Card Image in background
     try {
-      const cardDataUrl = await generateShareCard('Reaction Time Test', `${avgScore} ms`, percentile);
+      const cardDataUrl = await generateShareCard('Reaction Time Test', `${avgScore} ms`, percentile, true);
       setShareImage(cardDataUrl);
     } catch (err) {
       console.error('Failed to generate share card:', err);

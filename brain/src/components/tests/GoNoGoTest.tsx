@@ -285,7 +285,7 @@ function GoNoGoTest() {
     setPersonalBest(pb);
 
     try {
-      const card = await generateShareCard('Go/No-Go Color Test', `${finalAverage} ms`, percentile);
+      const card = await generateShareCard('Go/No-Go Color Test', `${finalAverage} ms`, percentile, true);
       setShareImage(card);
     } catch (err) {
       console.error('Failed to generate share card:', err);

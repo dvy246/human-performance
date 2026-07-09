@@ -3,6 +3,12 @@ import QRCodeLib from 'qrcode';
 import { encodeChallenge } from '../../runtime/share';
 import { formatTopPercentile } from '../../runtime/percentileLookup';
 
+const REACTION_TESTS = ['reaction-time', 'f1-lights', 'sound-reaction', 'choice-reaction', 'go-no-go', 'aim-coordination'];
+
+function isLowerBetter(testId: string): boolean {
+  return REACTION_TESTS.includes(testId);
+}
+
 interface QRChallengeCardProps {
   isOpen: boolean;
   onClose: () => void;
@@ -109,7 +115,7 @@ export default function QRChallengeCard({ isOpen, onClose, testId, score, scoreL
     if (percentile !== undefined) {
       ctx.fillStyle = '#3b82f6';
       ctx.font = '500 18px sans-serif';
-      ctx.fillText(`${formatTopPercentile(percentile)} globally`, 250, 152);
+      ctx.fillText(`${formatTopPercentile(percentile, isLowerBetter(testId))} globally`, 250, 152);
     }
 
     if (qrCanvasRef.current) {
@@ -185,7 +191,7 @@ export default function QRChallengeCard({ isOpen, onClose, testId, score, scoreL
           <h3 className="text-2xl font-bold text-white mt-1">{scoreLabel}</h3>
           {percentile !== undefined && (
             <p className="text-accent text-sm font-medium mt-0.5">
-              {formatTopPercentile(percentile)} globally
+              {formatTopPercentile(percentile, isLowerBetter(testId))} globally
             </p>
           )}
         </div>

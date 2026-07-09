@@ -221,7 +221,7 @@ function SoundReactionTest() {
     setPersonalBest(pb);
 
     try {
-      const card = await generateShareCard('Auditory Reaction Test', `${avgScore} ms`, percentile);
+      const card = await generateShareCard('Auditory Reaction Test', `${avgScore} ms`, percentile, true);
       setShareImage(card);
     } catch (err) {
       console.error('Failed to generate share card:', err);

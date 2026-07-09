@@ -46,7 +46,8 @@ export function decodeChallenge(hash: string): ChallengePayload | null {
 export function generateShareCard(
   testName: string,
   scoreLabel: string,
-  percentile: number
+  percentile: number,
+  lowerIsBetter: boolean = false
 ): Promise<string> {
   return new Promise(async (resolve) => {
     // Ensure asset fonts display flawlessly
@@ -149,7 +150,7 @@ export function generateShareCard(
     // 8. Draw Percentile Statement
     ctx.fillStyle = '#3b82f6'; // Blue Accent
     ctx.font = '500 28px sans-serif';
-    ctx.fillText(`Top ${formatTopPercentile(percentile)}% of the global population`, 100, 390);
+    ctx.fillText(`${formatTopPercentile(percentile, lowerIsBetter)} of the global population`, 100, 390);
 
     // 9. Draw CTA / Challenge invitation
     ctx.fillStyle = '#ffffff';

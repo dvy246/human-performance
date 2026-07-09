@@ -192,7 +192,7 @@ const F1LightsTest = () => {
     setPersonalBest(pb);
 
     try {
-      const card = await generateShareCard('F1 Start Lights Test', `${avgScore} ms`, percentile);
+      const card = await generateShareCard('F1 Start Lights Test', `${avgScore} ms`, percentile, true);
       setShareImage(card);
     } catch (err) {
       console.error('Failed to generate share card:', err);
