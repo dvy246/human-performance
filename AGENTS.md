@@ -89,7 +89,7 @@ Node >=22.12.0 required. Vite pinned to ^7.3.6 via overrides.
 - **`trainingEngine.ts`** — 6 `PERSONAS` (Rapid Reactor, Pattern Hunter, Choice Strategist, Precision Targeter, Focus Guardian, Stamina Specialist). `generateDailyChallenge()`, `getRecommendations()`
 - **`calibration.ts`** — `measureRefreshRate()` via rAF over 30 frames, snaps to standards (60/75/90/120/144/165/240/280/360), calculates expected lag
 - **`testConfig.ts`** — `TEST_CONFIGS` registry, `loadTestConfig()`, `saveTestConfig()`, `getDifficultyParams()`
-- **`recovery.ts`** — `generateRecoveryCode()` (8-word BIP-39-style mnemonic from 192-word list), `hashRecoveryCode()` via SHA-256 SubtleCrypto
+- **`recovery.ts`** — `generateRecoveryCode()` (8-word BIP-39-style mnemonic from 128-word list), `hashRecoveryCode()` via SHA-256 SubtleCrypto
 - **`share.ts`** — `encodeChallenge()`/`decodeChallenge()` (URL-safe base64), `generateShareCard()` (1200x630 canvas OG card)
 - **Hooks** — `useVisibilityGuard.ts`, `useBeforeUnload.ts`, `useSound.ts` (Web Audio oscillator), `useI18n.ts`
 - **`redirectToResults.ts`** — sessionStorage payload + redirect to `/tests/results/`

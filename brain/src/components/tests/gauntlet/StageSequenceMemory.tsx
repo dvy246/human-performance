@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useVisibilityGuard } from '../../../runtime/useVisibilityGuard';
 import type { StageProps, GauntletStageResult } from './GauntletTypes';
 
 const GRID = [
@@ -26,6 +27,12 @@ export default function StageSequenceMemory({ onComplete, difficulty }: StagePro
   if (difficulty === 'Easy') { flashMsRef.current = 500; gapMsRef.current = 300; }
   else if (difficulty === 'Hard') { flashMsRef.current = 300; gapMsRef.current = 120; }
   else { flashMsRef.current = 400; gapMsRef.current = 200; }
+
+  useVisibilityGuard(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setPhase('intro');
+  }, phase === 'watching' || phase === 'recall');
 
   const ct = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
   const st = useCallback((fn: () => void, ms: number) => {
@@ -105,7 +112,7 @@ export default function StageSequenceMemory({ onComplete, difficulty }: StagePro
     return (
       <div className="flex flex-col items-center gap-4 py-4">
         <div className="text-xs text-muted font-mono">Stage 2: Sequence Memory</div>
-        <button onClick={startGame} className="px-6 h-9 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
+        <button onClick={startGame} className="px-6 h-11 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
       </div>
     );
   }

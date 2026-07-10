@@ -6,6 +6,7 @@ import percentilesData from '../../data/percentiles.json';
 import { PASSAGE_CATEGORIES } from '../../data/passages';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type GameState = 'idle' | 'typing' | 'result';
 type TimeOption = 15 | 30 | 60 | 120;
@@ -420,6 +421,7 @@ function TypingSpeedTest() {
 
   useEffect(() => {
     if (engine.submitted && gameState !== 'result') {
+      let cancelled = false;
       const finalize = async () => {
         const stats = engine.stats;
         setResultStats(stats);
@@ -441,15 +443,19 @@ function TypingSpeedTest() {
         } catch (err) {
           console.error('Failed to save session:', err);
         }
+        if (cancelled) return;
         
-        dataLayer.getPersonalBest('typing-speed', 'higher').then(pb => setPersonalBest(pb)).catch(() => {});
+        dataLayer.getPersonalBest('typing-speed', 'higher').then(pb => { if (!cancelled) setPersonalBest(pb); }).catch(() => {});
         
+        if (cancelled) return;
+
         try {
           const card = await generateShareCard('Typing Speed Test', `${stats.wpm} WPM`, percentile);
           setShareImage(card);
         } catch (err) {
           console.error('Failed to generate share card:', err);
         }
+        if (cancelled) return;
 
         redirectToResults({
           testId: 'typing-speed', testName: 'Typing Speed', attempts: stats.wpmSamples.length > 0 ? stats.wpmSamples.map(s => s.wpm) : [stats.wpm], unit: 'WPM',
@@ -458,6 +464,8 @@ function TypingSpeedTest() {
       };
       
       finalize();
+      
+      return () => { cancelled = true; };
     }
   }, [engine.submitted]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -539,6 +547,10 @@ function TypingSpeedTest() {
   const switchCategory = (idx: number) => { setCategoryIdx(idx); setPassageIdx(pickRandomPassage(idx)); };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    engine.reset();
+    setGameState('idle');
+  }, gameState === 'typing');
 
   // Detect engine reset (Tab/Esc pressed during typing) and return to idle with new passage
   useEffect(() => {

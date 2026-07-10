@@ -11,6 +11,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestState = 'idle' | 'showing' | 'playing' | 'result';
 
@@ -31,6 +32,7 @@ function SequenceMemoryTest() {
   const sequenceRef = useRef<number[]>([]);
   const userSequenceRef = useRef<number[]>([]);
   const userTurnLock = useRef<boolean>(false);
+  const respondedRef = useRef(false);
   const submittedRef = useRef(false);
   const totalAttempts = useRef<number>(5);
   const waitRange = useRef<{ min: number; max: number }>({ min: 1000, max: 3000 });
@@ -131,11 +133,12 @@ function SequenceMemoryTest() {
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   const handleTileClick = async (tileIdx: number) => {
-    if (gameState !== 'playing' || userTurnLock.current) return;
+    if (gameState !== 'playing' || userTurnLock.current || respondedRef.current) return;
+    respondedRef.current = true;
 
     // Flash clicked tile briefly
     setActiveTile(tileIdx);
-    setTimeout(() => setActiveTile(null), 150);
+    setTimeout(() => { respondedRef.current = false; }, 200);
 
     const expectedTile = sequenceRef.current[userSequenceRef.current.length];
 
@@ -196,6 +199,9 @@ function SequenceMemoryTest() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    setGameState('idle');
+  }, gameState === 'showing' || gameState === 'playing');
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
@@ -298,9 +304,9 @@ function SequenceMemoryTest() {
             <a
               href={shareImage}
               download="cogniarena-memory-score.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>{t('seq.download_memory')}</span>
             </a>
           )}

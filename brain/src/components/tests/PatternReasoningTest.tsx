@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type GameMode = 'pattern' | 'matrix' | 'sequence' | 'analogy';
 type GameState = 'idle' | 'running' | 'result';
@@ -458,6 +459,8 @@ function PatternReasoningTest() {
   };
 
   const handleOptionClick = (idx: number) => {
+    if (respondedRef.current) return;
+    respondedRef.current = true;
     const elapsed = Math.round(performance.now() - questionStartTime.current);
     setLatencies(prev => [...prev, elapsed]);
 
@@ -474,6 +477,7 @@ function PatternReasoningTest() {
 
     setTimeout(() => {
       setLastCorrect(null);
+      respondedRef.current = false;
       if (currentIdx + 1 < questionCount.current) {
         setCurrentIdx(prev => prev + 1);
         questionStartTime.current = performance.now();
@@ -481,8 +485,6 @@ function PatternReasoningTest() {
         finishTest(scoreRef.current);
       }
     }, 600);
-    // Note: this timeout is intentionally untracked — it's a brief UI feedback delay
-    // that won't interfere with restart since finishTest checks submittedRef.
   };
 
   const finishTest = async (finalScore: number) => {
@@ -510,8 +512,11 @@ function PatternReasoningTest() {
     } catch (err) {
       console.error('Failed to save Pattern Reasoning session:', err);
     }
+    if (!submittedRef.current) return;
 
-    dataLayer.getPersonalBest('pattern-reasoning', 'higher').then(pb => setPersonalBest(pb)).catch(console.error);
+    dataLayer.getPersonalBest('pattern-reasoning', 'higher').then(pb => { if (submittedRef.current) setPersonalBest(pb); }).catch(console.error);
+
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard(`Reasoning: ${MODE_TITLES[currentMode]}`, `${finalScore} Pts`, percentile);
@@ -519,6 +524,7 @@ function PatternReasoningTest() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'pattern-reasoning', testName: 'Pattern Reasoning', attempts: [finalScore], unit: 'pts',
@@ -534,6 +540,9 @@ function PatternReasoningTest() {
   const q = questions[currentIdx] as GeneratedQuestion | undefined;
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    setGameState('idle');
+  }, gameState === 'running');
 
   return (
     <div className="w-full max-w-lg mx-auto flex flex-col gap-6 select-none">

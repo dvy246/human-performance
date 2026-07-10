@@ -20,6 +20,7 @@ import {
   type GauntletStageResult,
 } from './gauntlet/GauntletTypes';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type Phase = 'intro' | 'playing' | 'transition' | 'results';
 
@@ -38,6 +39,9 @@ function GauntletTest() {
   const lastConfig = useRef<GameConfig | null>(null);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'results');
+  useVisibilityGuard(() => {
+    setPhase('intro');
+  }, phase === 'playing' || phase === 'transition');
 
   useEffect(() => {
     let mounted = true;
@@ -73,7 +77,7 @@ function GauntletTest() {
     const percentile = lookupPercentile('gauntlet', totalScore);
     try {
       await dataLayer.saveSession({
-        testId: 'gauntlet', category: 'focus', rawScore: totalScore, percentile,
+        testId: 'gauntlet', category: 'gauntlet', rawScore: totalScore, percentile,
         metadata: { stages: r.map(s => ({ name: s.stageName, score: s.score, rawScore: s.rawScore })) },
       });
     } catch (err) {
@@ -149,7 +153,7 @@ function GauntletTest() {
             <div className="text-lg mb-1">{nextConfig.emoji}</div>
             <h4 className="text-sm font-bold text-foreground">{nextConfig.name}</h4>
           </div>
-          <button onClick={() => setPhase('playing')} className="px-5 h-8 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Continue</button>
+          <button onClick={() => setPhase('playing')} className="px-5 h-11 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Continue</button>
         </div>
       </div>
     );
@@ -206,7 +210,7 @@ function GauntletTest() {
 
         <div className="flex flex-col gap-4">
           {shareImage && (
-            <a href={shareImage} download="cogniarena-gauntlet.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+            <a href={shareImage} download="cogniarena-gauntlet.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Share Card</span>
             </a>

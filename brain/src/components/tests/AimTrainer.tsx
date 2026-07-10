@@ -11,6 +11,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestState = 'idle' | 'playing' | 'result';
 
@@ -43,6 +44,7 @@ function AimTrainer() {
   const activeHits = useRef<number>(0);
   const activeClicks = useRef<number>(0);
   const targetIndex = useRef<number>(0);
+  const respondedRef = useRef(false);
   const latenciesArr = useRef<number[]>([]);
   const offsetsArr = useRef<number[]>([]);
   const submittedRef = useRef(false);
@@ -145,6 +147,7 @@ function AimTrainer() {
 
   const spawnTarget = () => {
     if (!canvasRef.current) return;
+    respondedRef.current = false;
     const canvas = canvasRef.current;
     const r = Math.round(24 * sizeMultiplier.current);
     const padding = 40;
@@ -180,6 +183,7 @@ function AimTrainer() {
     setShareImage(null);
     submittedRef.current = false;
     setGameState('playing');
+    respondedRef.current = false;
 
     setTimeout(() => {
       spawnTarget();
@@ -189,6 +193,8 @@ function AimTrainer() {
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (gameState !== 'playing' || !canvasRef.current || !currentTarget.current) return;
+    if (respondedRef.current) return;
+    respondedRef.current = true;
 
     activeClicks.current += 1;
     setClicks(activeClicks.current);
@@ -253,9 +259,11 @@ function AimTrainer() {
     } catch (err) {
       console.error('Failed to save Aim Trainer session:', err);
     }
+    if (!submittedRef.current) return;
 
     const pb = await dataLayer.getPersonalBest('aim-trainer', 'lower');
     setPersonalBest(pb);
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard('Aim Precision Trainer', `${averageLatency} ms avg`, lookupPercentile('aim-trainer', averageLatency, true));
@@ -263,6 +271,7 @@ function AimTrainer() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'aim-trainer', testName: 'Aim Trainer', attempts: latenciesArr.current, unit: 'ms',
@@ -271,6 +280,9 @@ function AimTrainer() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    setGameState('idle');
+  }, gameState === 'playing');
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
@@ -371,9 +383,9 @@ function AimTrainer() {
             <a
               href={shareImage}
               download="cogniarena-aim-score.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>{t('aim.download_aim')}</span>
             </a>
           )}
@@ -381,7 +393,7 @@ function AimTrainer() {
             onClick={copyChallengeLink}
             className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
           </button>
         </div>

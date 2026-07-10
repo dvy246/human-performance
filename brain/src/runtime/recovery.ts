@@ -21,7 +21,7 @@ const WORD_LIST = [
 
 export function generateRecoveryCode(): string {
   const result: string[] = [];
-  // Pick 8 random words for stronger entropy (~112 bits from 192-word list)
+  // Pick 8 random words for stronger entropy (~56 bits from 128-word list)
   const array = new Uint32Array(8);
   if (typeof window !== 'undefined' && window.crypto) {
     window.crypto.getRandomValues(array);

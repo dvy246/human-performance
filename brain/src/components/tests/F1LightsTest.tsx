@@ -187,9 +187,11 @@ const F1LightsTest = () => {
     } catch (err) {
       console.error('Failed to save F1 Lights session:', err);
     }
+    if (!submittedRef.current) return;
 
     const pb = await dataLayer.getPersonalBest('f1-lights', 'lower');
     setPersonalBest(pb);
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard('F1 Start Lights Test', `${avgScore} ms`, percentile, true);
@@ -197,6 +199,7 @@ const F1LightsTest = () => {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'f1-lights', testName: 'F1 Start Lights', attempts: allAttempts, unit: 'ms',
@@ -231,7 +234,7 @@ const F1LightsTest = () => {
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto relative">
       {gameState !== 'idle' && gameState !== 'result' && (
-        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { clearTimers(); setGameState('idle'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
       )}
       {/* Target Challenge */}
       {challengeScore && gameState !== 'result' && (
@@ -381,9 +384,9 @@ const F1LightsTest = () => {
               <a
                 href={shareImage}
                 download="cogniarena-f1-reflex.png"
-                className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+                className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                 <span>{t('f1.download_telemetry')}</span>
               </a>
             )}
@@ -391,7 +394,7 @@ const F1LightsTest = () => {
               onClick={copyChallengeLink}
               className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
             </button>
           </div>

@@ -12,6 +12,7 @@ import SocialShare from '../ui/SocialShare';
 import { useSound } from '../../runtime/useSound';
 import { useI18n } from '../../runtime/useI18n';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type GameState = 'idle' | 'calibration' | 'waiting' | 'ready' | 'attempt-result' | 'abort' | 'result';
 
@@ -141,18 +142,14 @@ function ReactionTimeTest() {
 
       clickLock.current = true;
 
-      setAttempts(prev => {
-        const updated = [...prev, score];
-        
-        if (updated.length < totalAttempts.current) {
-          setGameState('attempt-result');
-        } else {
-          // Compute average score
-          const average = Math.round(updated.reduce((a, b) => a + b, 0) / updated.length);
-          finalizeTest(average, updated);
-        }
-        return updated;
-      });
+      const updated = [...attempts, score];
+      setAttempts(updated);
+      if (updated.length < totalAttempts.current) {
+        setGameState('attempt-result');
+      } else {
+        const average = Math.round(updated.reduce((a, b) => a + b, 0) / updated.length);
+        finalizeTest(average, updated);
+      }
       setCurrentScore(score);
     } else if (gameState === 'attempt-result') {
       // Proceed to next attempt
@@ -184,10 +181,12 @@ function ReactionTimeTest() {
     } catch (err) {
       console.error('Failed to save Reaction Time session:', err);
     }
+    if (!submittedRef.current) return;
 
     // Check if new PB
     const existingPb = await dataLayer.getPersonalBest('reaction-time', 'lower');
     setPersonalBest(existingPb);
+    if (!submittedRef.current) return;
 
     // Pre-generate Share Card Image in background
     try {
@@ -196,6 +195,7 @@ function ReactionTimeTest() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'reaction-time', testName: 'Reaction Time', attempts: allAttempts, unit: 'ms',
@@ -282,6 +282,11 @@ function ReactionTimeTest() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    if (timerId.current) clearTimeout(timerId.current);
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    setGameState('idle');
+  }, gameState !== 'idle' && gameState !== 'result');
 
   // Keyboard navigation support: Spacebar/Enter triggers clicks
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -293,13 +298,13 @@ function ReactionTimeTest() {
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto relative">
       {gameState !== 'idle' && gameState !== 'result' && (
-        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { if (timerId.current) clearTimeout(timerId.current); if (rafId.current) cancelAnimationFrame(rafId.current); setGameState('idle'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
       )}
       {/* Target Challenge Display */}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-950/20 border border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
           <div className="flex items-center gap-2 text-secondary">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" className="text-accent"><path d="M6 12 10 16 18 8"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="text-accent"><path d="M6 12 10 16 18 8"/></svg>
             <span>{t('test.challenge_beat')} <strong className="text-foreground font-mono">{challengeScore} ms</strong>!</span>
           </div>
           <button 
@@ -444,9 +449,9 @@ function ReactionTimeTest() {
             <a
               href={shareImage}
               download="cogniarena-reaction-time.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>{t('rt.download_share')}</span>
             </a>
           )}

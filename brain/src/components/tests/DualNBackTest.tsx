@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type GameState = 'idle' | 'running' | 'result';
 
@@ -18,7 +19,6 @@ interface Stimulus {
 }
 
 const LETTERS = ['A', 'B', 'C', 'D', 'P', 'T', 'L'];
-const TOTAL_TRIALS = 20;
 
 function DualNBackTest() {
   const [gameState, setGameState] = useState<GameState>('idle');
@@ -54,8 +54,9 @@ function DualNBackTest() {
   const sequenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const initialNRef = useRef<number>(2);
   const lastConfig = useRef<GameConfig | null>(null);
-  // Ref for the active sequence list — always up to date, even after regeneration
   const sequenceListRef = useRef<Stimulus[]>([]);
+  const totalTrialsRef = useRef<number>(20);
+  const matchRateRef = useRef<number>(0.35);
 
   useEffect(() => {
     let mounted = true;
@@ -82,10 +83,9 @@ function DualNBackTest() {
     }
   };
 
-  const generateSequence = (nVal: number): Stimulus[] => {
+  const generateSequence = (nVal: number, trials: number, matchRate: number): Stimulus[] => {
     const list: Stimulus[] = [];
-    
-    // Fill first N trials randomly
+
     for (let i = 0; i < nVal; i++) {
       list.push({
         position: Math.floor(Math.random() * 9),
@@ -93,10 +93,9 @@ function DualNBackTest() {
       });
     }
 
-    // Fill remaining trials with ~30% target matches to ensure active cognitive load
-    for (let i = nVal; i < TOTAL_TRIALS; i++) {
-      const matchPos = Math.random() < 0.35;
-      const matchLetter = Math.random() < 0.35;
+    for (let i = nVal; i < trials; i++) {
+      const matchPos = Math.random() < matchRate;
+      const matchLetter = Math.random() < matchRate;
 
       const position = matchPos 
         ? list[i - nVal].position 
@@ -112,15 +111,14 @@ function DualNBackTest() {
     return list;
   };
 
-  /** Generate a subsequence of trials for the remaining slots, using the new nVal for match offsets. */
-  const generateRemaining = (count: number, nVal: number, preceding: Stimulus[]): Stimulus[] => {
+  const generateRemaining = (count: number, nVal: number, preceding: Stimulus[], matchRate: number): Stimulus[] => {
     const list: Stimulus[] = [];
     const totalSoFar = preceding.length;
 
     for (let i = 0; i < count; i++) {
       const actualIdx = totalSoFar + i;
-      const matchPos = Math.random() < 0.35;
-      const matchLetter = Math.random() < 0.35;
+      const matchPos = Math.random() < matchRate;
+      const matchLetter = Math.random() < matchRate;
 
       const refIndex = actualIdx - nVal;
       const position = refIndex >= 0 && matchPos
@@ -151,13 +149,15 @@ function DualNBackTest() {
 
     const diff = getDifficultyParams('dual-n-back', (cfg.difficulty as string) || 'Medium');
     const startN = (diff.startN as number) || 2;
+    totalTrialsRef.current = (diff.trials as number) || 20;
+    matchRateRef.current = (diff.matchRate as number) || 0.35;
     setN(startN);
     setMaxN(startN);
     currentNRef.current = startN;
     maxNRef.current = startN;
     initialNRef.current = startN;
     consecutiveCorrect.current = 0;
-    const sequence = generateSequence(startN);
+    const sequence = generateSequence(startN, totalTrialsRef.current, matchRateRef.current);
     sequenceListRef.current = sequence;
     setTrialList(sequence);
     setCurrentIdx(-1);
@@ -268,10 +268,10 @@ function DualNBackTest() {
   /** Regenerate the remaining trials (idx+1 onward) using the current currentNRef n value. */
   const regenerateRemaining = (currentTrialIdx: number) => {
     const list = sequenceListRef.current;
-    const remainingCount = TOTAL_TRIALS - currentTrialIdx - 1;
+    const remainingCount = totalTrialsRef.current - currentTrialIdx - 1;
     if (remainingCount <= 0) return;
     const preceding = list.slice(0, currentTrialIdx + 1);
-    const replacement = generateRemaining(remainingCount, currentNRef.current, preceding);
+    const replacement = generateRemaining(remainingCount, currentNRef.current, preceding, matchRateRef.current);
     const newList = [...preceding, ...replacement];
     sequenceListRef.current = newList;
     setTrialList(newList);
@@ -319,10 +319,13 @@ function DualNBackTest() {
     } catch (err) {
       console.error('Failed to save DualN-Back session:', err);
     }
+    if (!submittedRef.current) return;
 
     dataLayer.getPersonalBest('dual-n-back', 'higher').then(pb => {
-      setPersonalBest(pb);
+      if (!submittedRef.current) setPersonalBest(pb);
     }).catch(console.error);
+
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard('Dual N-Back Test', `Max N=${achievedN} (${finalAccuracy}%)`, percentile);
@@ -330,6 +333,7 @@ function DualNBackTest() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'dual-n-back', testName: 'Dual N-Back', attempts: [finalScore], unit: 'pts',
@@ -338,6 +342,11 @@ function DualNBackTest() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    if (trialTimerRef.current) clearInterval(trialTimerRef.current);
+    if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
+    setGameState('idle');
+  }, gameState === 'running');
 
   // Keyboard shortcut listeners
   useEffect(() => {
@@ -371,10 +380,10 @@ function DualNBackTest() {
 
       {gameState === 'running' && (
         <div className="rounded-xl border border-card-border bg-card p-6 flex flex-col items-center justify-between min-h-[440px] shadow-lg relative overflow-hidden">
-          <button onClick={() => setGameState('idle')} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+          <button onClick={() => { if (trialTimerRef.current) clearInterval(trialTimerRef.current); if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current); setGameState('idle'); }} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
           {/* Header Status */}
           <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6">
-            <span>TRIAL {currentIdx + 1} / 20</span>
+            <span>TRIAL {currentIdx + 1} / {trialList.length}</span>
             <span>LEVEL: DUAL {n}-BACK</span>
           </div>
 

@@ -14,6 +14,11 @@ interface ResultData {
   average: number;
 }
 
+const TEST_SLUGS: Record<string, string> = {
+  'tmt-partA': 'trail-making',
+  'tmt-partB': 'trail-making',
+};
+
 const RELATED_TESTS: Record<string, { name: string; slug: string }[]> = {
   'reaction-time': [{ name: 'F1 Lights', slug: 'f1-lights' }, { name: 'Sound Reflex', slug: 'sound-reaction' }, { name: 'Choice Grid', slug: 'choice-reaction' }],
   'f1-lights': [{ name: 'Visual Reaction', slug: 'reaction-time' }, { name: 'Sound Reflex', slug: 'sound-reaction' }],
@@ -133,8 +138,9 @@ export default function TestResultsPage() {
   const related = RELATED_TESTS[data.testId] || [];
 
   // Bar chart calculations
-  const bestVal = attempts.reduce((a, b) => Math.min(a, b), attempts[0]);
-  const worstVal = attempts.reduce((a, b) => Math.max(a, b), attempts[0]);
+  const isLowerBetter = !['click-speed', 'sequence-memory', 'number-memory', 'visual-pattern', 'pattern-reasoning', 'planning', 'prioritization'].includes(data.testId);
+  const bestVal = isLowerBetter ? Math.min(...attempts) : Math.max(...attempts);
+  const worstVal = isLowerBetter ? Math.max(...attempts) : Math.min(...attempts);
   const range = worstVal - bestVal || 1;
 
   const formatScore = (val: number) => {
@@ -147,7 +153,7 @@ export default function TestResultsPage() {
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-8 py-4">
       {/* Trophy Header */}
-      <div className="flex flex-col items-center text-center gap-3 py-6">
+      <div className="flex flex-col items-center text-center gap-3 py-6 animate-fade-in-up">
         <span className="text-6xl select-none">{msg.emoji}</span>
         <span className="text-accent text-[11px] font-mono uppercase tracking-widest font-semibold">{data.testName}</span>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">{msg.title}</h1>
@@ -159,7 +165,7 @@ export default function TestResultsPage() {
       </div>
 
       {/* Per-Attempt Bar Chart */}
-      <div className="rounded-xl border border-card-border bg-card p-5 shadow flex flex-col gap-4">
+      <div className="rounded-xl border border-card-border bg-card p-5 shadow flex flex-col gap-4 animate-fade-in-up stagger-1">
         <span className="text-xs font-mono uppercase tracking-widest text-muted">{t('results.attempt_breakdown')}</span>
         <div className="flex items-end gap-2 h-32">
           {attempts.map((val, idx) => {
@@ -189,7 +195,7 @@ export default function TestResultsPage() {
 
       {/* Trend Line */}
       {attempts.length >= 2 && (
-        <div className="rounded-xl border border-card-border bg-card p-5 shadow flex flex-col gap-3">
+        <div className="rounded-xl border border-card-border bg-card p-5 shadow flex flex-col gap-3 animate-fade-in-up stagger-2">
           <span className="text-xs font-mono uppercase tracking-widest text-muted">{t('results.trend')}</span>
           <svg viewBox="0 0 300 80" className="w-full h-20 overflow-visible">
             {(() => {
@@ -202,7 +208,8 @@ export default function TestResultsPage() {
               const rng = maxV - minV || 1;
               const points = vals.map((v, i) => {
                 const x = pad + (i / (vals.length - 1)) * w;
-                const y = h - ((v - minV) / rng) * (h - 10) + 5;
+                const norm = (v - minV) / rng;
+                const y = isLowerBetter ? pad + norm * (h - 10) + 5 : h - norm * (h - 10) + 5;
                 return { x, y };
               });
               return (
@@ -222,7 +229,7 @@ export default function TestResultsPage() {
       )}
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3">
+      <div className="grid grid-cols-2 sm:grid-cols-5 gap-3 animate-fade-in-up stagger-3">
         {[
           { label: t('results.min'), value: formatScore(min) },
           { label: t('results.max'), value: formatScore(max) },
@@ -239,16 +246,16 @@ export default function TestResultsPage() {
 
       {/* Personal Best Comparison */}
       {personalBest !== null && (
-        <div className="p-4 rounded-lg bg-subtle border border-card-border flex items-center justify-between text-xs">
+        <div className="p-4 rounded-lg bg-subtle border border-card-border flex items-center justify-between text-xs animate-fade-in-up stagger-4">
           <span className="text-muted font-mono">{t('results.pb_all')}</span>
           <span className="text-foreground font-bold font-mono">{formatScore(personalBest)}</span>
         </div>
       )}
 
       {/* CTA Buttons */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 animate-fade-in-up stagger-5">
         <a
-          href={`/tests/${data.testId}`}
+          href={`/tests/${TEST_SLUGS[data.testId] || data.testId}`}
           className="flex items-center justify-center gap-2 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs font-mono uppercase h-10 transition-standard"
         >
           {t('results.play_again')}
@@ -270,7 +277,7 @@ export default function TestResultsPage() {
 
       {/* Related Tests */}
       {related.length > 0 && (
-        <div className="flex flex-col gap-3 pt-4 border-t border-card-border/40">
+        <div className="flex flex-col gap-3 pt-4 border-t border-card-border/40 animate-fade-in-up stagger-6">
           <span className="text-xs font-mono uppercase tracking-widest text-muted">{t('results.related')}</span>
           <div className="flex flex-wrap gap-2">
             {related.map(r => (

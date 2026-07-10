@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { formatTopPercentile } from '../../runtime/percentileLookup';
 import { dataLayer, type SessionRecord } from '../../runtime/dataLayer';
 
-const REACTION_TESTS = ['reaction-time', 'f1-lights', 'sound-reaction', 'choice-reaction', 'go-no-go', 'aim-coordination'];
+const LOWER_IS_BETTER = new Set(['reaction-time', 'f1-lights', 'sound-reaction', 'choice-reaction', 'go-no-go', 'aim-trainer', 'aim-coordination', 'mouse-accuracy', 'flick-trainer', 'stroop', 'tmt-partA', 'tmt-partB', 'planning']);
 
 function isLowerBetter(testId: string): boolean {
-  return REACTION_TESTS.includes(testId);
+  return LOWER_IS_BETTER.has(testId);
 }
 
 const TEST_NAMES: Record<string, string> = {
@@ -76,7 +76,7 @@ interface TestSummary {
 }
 
 const formatScore = (testId: string, score: number): string => {
-  if (testId === 'click-speed') return `${(score / 10).toFixed(1)} CPS`;
+  if (testId === 'click-speed') return `${score.toFixed(1)} CPS`;
   if (testId === 'sequence-memory' || testId === 'visual-pattern') return `Lvl ${score}`;
   if (testId === 'number-memory') return `${score} digits`;
   return `${score} ms`;
@@ -101,9 +101,8 @@ export default function TestSummaryGrid() {
           map.set(testId, { testId, attempts: 0, personalBest: null, lastScore: null, lastPercentile: null });
         } else {
           const sorted = [...testRecords].sort((a, b) => b.timestamp - a.timestamp);
-          const isLower = testId !== 'click-speed' && testId !== 'sequence-memory' && testId !== 'number-memory' && testId !== 'visual-pattern' && testId !== 'pattern-reasoning' && testId !== 'planning' && testId !== 'prioritization';
           const scores = testRecords.map(r => r.rawScore);
-          const pb = isLower ? Math.min(...scores) : Math.max(...scores);
+          const pb = isLowerBetter(testId) ? Math.min(...scores) : Math.max(...scores);
           map.set(testId, {
             testId,
             attempts: testRecords.length,

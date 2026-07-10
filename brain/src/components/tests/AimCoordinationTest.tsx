@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestState = 'idle' | 'playing' | 'result';
 
@@ -41,6 +42,7 @@ function AimCoordinationTest() {
   const activeMisses = useRef<number>(0);
   const targetIndex = useRef<number>(0);
   const latenciesArr = useRef<number[]>([]);
+  const respondedRef = useRef(false);
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
   const targetCount = useRef<number>(20);
@@ -137,6 +139,7 @@ function AimCoordinationTest() {
 
   const spawnTarget = () => {
     if (!canvasRef.current) return;
+    respondedRef.current = false;
     const canvas = canvasRef.current;
     const r = Math.round(30 * sizeMultiplier.current);
     const padding = 40;
@@ -174,6 +177,7 @@ function AimCoordinationTest() {
     setShareImage(null);
     submittedRef.current = false;
     setGameState('playing');
+    respondedRef.current = false;
 
     setTimeout(() => {
       spawnTarget();
@@ -183,6 +187,7 @@ function AimCoordinationTest() {
   const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
     e.preventDefault();
     if (gameState !== 'playing' || !canvasRef.current || !currentTarget.current) return;
+    if (respondedRef.current) return;
 
     activeClicks.current += 1;
     setClicks(activeClicks.current);
@@ -199,6 +204,7 @@ function AimCoordinationTest() {
 
     if (dist <= target.r) {
       // Hit!
+      respondedRef.current = true;
       const timeElapsed = Math.round(performance.now() - target.spawnTime);
       latenciesArr.current.push(timeElapsed);
       
@@ -226,7 +232,9 @@ function AimCoordinationTest() {
     setGameState('result');
     currentTarget.current = null;
 
-    const averageLatency = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / targetCount.current);
+    const averageLatency = latenciesArr.current.length > 0
+      ? Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / latenciesArr.current.length)
+      : 0;
 
     setLatencies(latenciesArr.current);
 
@@ -259,10 +267,15 @@ function AimCoordinationTest() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    setGameState('idle');
+  }, gameState === 'playing');
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const average = Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / 20);
+    const average = latenciesArr.current.length > 0
+      ? Math.round(latenciesArr.current.reduce((a, b) => a + b, 0) / latenciesArr.current.length)
+      : 0;
     const token = encodeChallenge({ testId: 'aim-coordination', score: average });
     const url = `${window.location.origin}/tests/aim-coordination/?challenge=${token}`;
     
@@ -321,7 +334,7 @@ function AimCoordinationTest() {
             </div>
             <div>
               <span className="text-muted text-[10px] font-mono uppercase">Hit Rate</span>
-              <div className="text-foreground font-mono text-sm">{clicks > 0 ? Math.round((20 / clicks) * 100) : 0}%</div>
+              <div className="text-foreground font-mono text-sm">{clicks > 0 ? Math.round((targetCount.current / clicks) * 100) : 0}%</div>
             </div>
             <div>
               <span className="text-muted text-[10px] font-mono uppercase">Personal Best</span>
@@ -360,9 +373,9 @@ function AimCoordinationTest() {
             <a
               href={shareImage}
               download="cogniarena-aim-coordination-score.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Coordination Profile</span>
             </a>
           )}
@@ -370,7 +383,7 @@ function AimCoordinationTest() {
             onClick={copyChallengeLink}
             className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
           >
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
             <span>{copiedChallenge ? 'Telemetry Copied!' : 'Challenge a Friend'}</span>
           </button>
         </div>

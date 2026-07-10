@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useVisibilityGuard } from '../../../runtime/useVisibilityGuard';
 import type { StageProps, StageResult } from './StageTypes';
 
 const MAX_LEVEL = 10;
@@ -58,6 +59,16 @@ export default function Stage5WorkingMemoryUnderDistraction({ onComplete, calibr
 
   const isErrorRef = useRef(false);
   const completedRef = useRef(false);
+
+  useVisibilityGuard(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    if (distractorIntervalRef.current) {
+      clearInterval(distractorIntervalRef.current);
+      distractorIntervalRef.current = undefined;
+    }
+    setPhase('intro');
+  }, phase === 'encoding' || phase === 'recall');
 
   const clearTimers = useCallback(() => {
     timersRef.current.forEach(clearTimeout);

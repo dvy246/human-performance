@@ -1,5 +1,6 @@
 ---
 import Layout from "@/layouts/main.astro";
+import Icon from "@/components/ui/Icon.astro";
 import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard";
 
 const title = "Reaction Time Test — Free Online Reflex & Cognitive Assessment | CogniArena";
@@ -116,9 +117,9 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
       <!-- Social proof -->
       <div class="flex items-center gap-3 mt-8 text-[11px] text-muted font-mono">
         <div class="flex -space-x-1.5">
-          <span class="w-5 h-5 rounded-full bg-accent/20 border border-card flex items-center justify-center text-[8px]">⚡</span>
-          <span class="w-5 h-5 rounded-full bg-purple-500/20 border border-card flex items-center justify-center text-[8px]">🧠</span>
-          <span class="w-5 h-5 rounded-full bg-cyan-500/20 border border-card flex items-center justify-center text-[8px]">🎯</span>
+          <span class="w-5 h-5 rounded-full bg-accent/20 border border-card flex items-center justify-center"><Icon name="zap" size={10} /></span>
+          <span class="w-5 h-5 rounded-full bg-purple-500/20 border border-card flex items-center justify-center"><Icon name="brain" size={10} /></span>
+          <span class="w-5 h-5 rounded-full bg-cyan-500/20 border border-card flex items-center justify-center"><Icon name="crosshair" size={10} /></span>
         </div>
         <span data-i18n="hero.trust">Trusted by researchers &amp; cognitive enthusiasts</span>
       </div>
@@ -146,18 +147,18 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
           A <strong class="text-accent">5-stage attention gauntlet</strong> — selective focus, impulse control, task switching, sustained vigilance, and working memory under distraction. Most people score below 60 on their first attempt.
         </p>
         <div class="flex items-center gap-6 text-xs text-muted font-mono">
-          <span>🎯 5 stages</span>
+          <span><Icon name="crosshair" size={12} /> 5 stages</span>
           <span>⏱️ ~4 minutes</span>
-          <span>📊 Composite score + percentile</span>
+          <span><Icon name="chart-bar" size={12} /> Composite score + percentile</span>
         </div>
         <div class="flex gap-3 mt-1">
           <a href="/tests/focus-challenge">
-            <button class="px-5 h-9 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
+            <button class="px-5 h-11 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
               Accept Challenge
             </button>
           </a>
           <a href="/tests/focus-challenge#learn">
-            <button class="px-5 h-9 rounded-lg bg-subtle border border-card-border text-secondary hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
+            <button class="px-5 h-11 rounded-lg bg-subtle border border-card-border text-secondary hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
               Learn More
             </button>
           </a>
@@ -191,25 +192,25 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
     </section>
 
     <!-- ===== 6 CATEGORY LINKS ===== -->
-    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up">
+    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up stagger-3">
       <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
         <a href="/tests/reaction-time" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
-          <span>⚡</span> Reaction
+          <Icon name="zap" size={16} /> Reaction
         </a>
         <a href="/tests/sequence-memory" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
-          <span>🧠</span> Memory
+          <Icon name="brain" size={16} /> Memory
         </a>
         <a href="/tests/pattern-reasoning" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
-          <span>🧩</span> Reasoning
+          <Icon name="puzzle" size={16} /> Reasoning
         </a>
         <a href="/tests/focus-challenge" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
-          <span>🎯</span> Focus
+          <Icon name="crosshair" size={16} /> Focus
         </a>
         <a href="/tests/click-speed" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
-          <span>🎮</span> Motor
+          <Icon name="gamepad" size={16} /> Motor
         </a>
         <a href="/tests/decision-speed" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
-          <span>🧭</span> Executive
+          <Icon name="compass" size={16} /> Executive
         </a>
       </div>
       <div class="text-center mt-4">
@@ -218,7 +219,7 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
     </section>
 
     <!-- ===== HOW IT WORKS ===== -->
-    <section class="w-full max-w-4xl mx-auto px-4 animate-fade-in-up">
+    <section class="w-full max-w-4xl mx-auto px-4 animate-fade-in-up stagger-4">
       <h2 class="text-xl font-bold text-foreground tracking-tight text-center mb-6" data-i18n="how.title">How It Works</h2>
       <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
@@ -246,7 +247,7 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
     </section>
 
     <!-- ===== FAQ ===== -->
-    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up pb-8">
+    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up stagger-6 pb-8">
       <h2 class="text-xl font-bold text-foreground tracking-tight text-center mb-6">Frequently Asked Questions</h2>
       <div class="flex flex-col gap-3">
         <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
@@ -288,7 +289,7 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
     </section>
 
     <!-- ===== SEO CONTENT: Reaction Time Test Guide ===== -->
-    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up">
+    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up stagger-7">
       <div class="flex flex-col gap-6 text-secondary text-sm leading-relaxed">
         <h2 class="text-2xl font-bold text-foreground tracking-tight">The Complete Guide to Reaction Time Testing</h2>
 

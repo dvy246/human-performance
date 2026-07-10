@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useVisibilityGuard } from '../../../runtime/useVisibilityGuard';
 import type { StageProps, GauntletStageResult } from './GauntletTypes';
 
 const TOTAL_TRIALS = 5;
@@ -35,6 +36,11 @@ export default function StageReaction({ onComplete, difficulty }: StageProps) {
       });
     }, delay);
   }, []);
+
+  useVisibilityGuard(() => {
+    cleanup();
+    setPhase('intro');
+  }, phase === 'waiting' || phase === 'ready');
 
   const handleClick = () => {
     if (phase === 'intro') {

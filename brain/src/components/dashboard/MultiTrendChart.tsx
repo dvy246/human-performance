@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { dataLayer, type SessionRecord } from '../../runtime/dataLayer';
 
+const LOWER_IS_BETTER = new Set(['reaction-time', 'f1-lights', 'sound-reaction', 'choice-reaction', 'go-no-go', 'aim-trainer', 'aim-coordination', 'mouse-accuracy', 'flick-trainer', 'stroop', 'tmt-partA', 'tmt-partB', 'planning', 'decision-speed']);
+
 const TEST_NAMES: Record<string, string> = {
   'reaction-time': 'Visual Reaction', 'f1-lights': 'F1 Lights', 'sound-reaction': 'Sound Reflex',
   'choice-reaction': 'Choice Grid', 'go-no-go': 'Go/No-Go', 'click-speed': 'Click Speed',
@@ -79,7 +81,10 @@ export default function MultiTrendChart() {
 
       const points = testRecords.map(rec => {
         const x = pad + ((rec.timestamp - minTime) / timeRange) * (width - pad * 2);
-        const y = height - pad - ((rec.rawScore - minScore) / scoreRange) * (height - pad * 2);
+        const norm = ((rec.rawScore - minScore) / scoreRange);
+        const y = LOWER_IS_BETTER.has(rec.testId)
+          ? pad + norm * (height - pad * 2)
+          : height - pad - norm * (height - pad * 2);
         return {
           x, y,
           val: rec.rawScore,

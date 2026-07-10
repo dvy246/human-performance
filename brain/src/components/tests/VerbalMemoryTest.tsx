@@ -43,6 +43,7 @@ const VerbalMemoryTest = () => {
   const [selected, setSelected] = useState<string[]>([]);
   const [maxCorrect, setMaxCorrect] = useState(0);
   const [shareImage, setShareImage] = useState<string | null>(null);
+  const respondedRef = useRef(false);
   const submittedRef = useRef(false);
   const encodingTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const levelTimerRef = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -87,13 +88,15 @@ const VerbalMemoryTest = () => {
   };
 
   const submitRecall = () => {
+    if (respondedRef.current) return;
+    respondedRef.current = true;
     const correctCount = selected.filter(w => wordList.includes(w)).length;
     if (correctCount > maxCorrect) setMaxCorrect(correctCount);
     if (correctCount === wordList.length && level < maxLevel.current) {
       const next = level + 1;
       setLevel(next);
       if (levelTimerRef.current) clearTimeout(levelTimerRef.current);
-      levelTimerRef.current = setTimeout(() => startLevel(next), 400);
+      levelTimerRef.current = setTimeout(() => { respondedRef.current = false; startLevel(next); }, 400);
     } else {
       setPhase('done');
       finalize(correctCount);
@@ -106,18 +109,20 @@ const VerbalMemoryTest = () => {
     try {
       await dataLayer.saveSession({
         testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile('verbal-memory', correct),
-        metadata: { level, maxListLength: Math.min(3 + level, 12) },
+        metadata: { level, maxListLength: Math.min(startListSize.current + level - 1, maxLevel.current) },
       });
     } catch (err) {
       console.error('Failed to save Verbal Memory session:', err);
     }
+    if (!submittedRef.current) return;
     
     try {
-      const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(3 + level, 12)}`, lookupPercentile('verbal-memory', correct));
+      const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(startListSize.current + level - 1, maxLevel.current)}`, lookupPercentile('verbal-memory', correct));
       setShareImage(card);
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'verbal-memory', testName: 'Verbal Memory', attempts: [correct], unit: 'words',
@@ -169,7 +174,7 @@ const VerbalMemoryTest = () => {
   if (phase === 'encoding') {
     return (
       <div className="w-full max-w-2xl mx-auto relative">
-        <button onClick={() => { if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current); submittedRef.current = false; setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current); submittedRef.current = false; respondedRef.current = false; setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
           <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Level {level} · Memorize {Math.min(startListSize.current + level - 1, maxLevel.current)} words</div>
           <div className="flex flex-wrap justify-center gap-3 max-w-md">
@@ -187,7 +192,7 @@ const VerbalMemoryTest = () => {
   if (phase === 'recall') {
     return (
       <div className="w-full max-w-2xl mx-auto relative">
-        <button onClick={() => { submittedRef.current = false; setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { submittedRef.current = false; respondedRef.current = false; setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
           <div className="text-[10px] text-muted font-mono uppercase tracking-wider">Select the words you saw · {selected.length}/{wordList.length}</div>
           <div className="flex flex-wrap justify-center gap-2 max-w-lg">
@@ -222,13 +227,13 @@ const VerbalMemoryTest = () => {
             </span>
           </div>
           {shareImage && (
-            <a href={shareImage} download="cogniarena-verbal-memory.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+            <a href={shareImage} download="cogniarena-verbal-memory.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Share Card</span>
             </a>
           )}
           <SocialShare testId="verbal-memory" score={finalCorrect} scoreLabel={`${finalCorrect}/${wordList.length}`} testName="Verbal Memory Test" />
-          <button onClick={() => { if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current); submittedRef.current = false; setPhase('intro'); }} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
+          <button onClick={() => { if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current); submittedRef.current = false; respondedRef.current = false; setPhase('intro'); }} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             <span>Try Again</span>
           </button>

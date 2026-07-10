@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 const TOTAL = 20;
 const TIMEOUT_MS = 2000;
@@ -22,12 +23,17 @@ function DecisionSpeedTest() {
   const startRef = useRef(0);
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>(undefined);
   const respondedRef = useRef(false);
+  const resultsRef = useRef<{ correct: boolean; rt: number }[]>([]);
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
   const trialCount = useRef<number>(TOTAL);
   const timeoutMs = useRef<number>(TIMEOUT_MS);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'done');
+  useVisibilityGuard(() => {
+    if (timeoutRef.current) clearTimeout(timeoutRef.current);
+    setPhase('intro');
+  }, phase === 'playing');
 
   const genNumber = () => {
     const n = Math.floor(Math.random() * 98) + 1;
@@ -36,7 +42,8 @@ function DecisionSpeedTest() {
     respondedRef.current = false;
     timeoutRef.current = setTimeout(() => {
       if (!respondedRef.current) {
-        const next = [...results, { correct: false, rt: timeoutMs.current }];
+        const next = [...resultsRef.current, { correct: false, rt: timeoutMs.current }];
+        resultsRef.current = next;
         setResults(next);
         advance(next);
       }
@@ -49,11 +56,10 @@ function DecisionSpeedTest() {
     if (timeoutRef.current) clearTimeout(timeoutRef.current);
     const rt = Math.round(performance.now() - startRef.current);
     const correct = (answer === 'high' && number >= 50) || (answer === 'low' && number < 50);
-    setResults(prev => {
-      const next = [...prev, { correct, rt }];
-      advance(next);
-      return next;
-    });
+    const next = [...resultsRef.current, { correct, rt }];
+    resultsRef.current = next;
+    setResults(next);
+    advance(next);
   };
 
   const advance = (r: { correct: boolean; rt: number }[]) => {
@@ -77,12 +83,13 @@ function DecisionSpeedTest() {
     const score = Math.round(acc * 60 + speedScore * 0.4);
     try {
       await dataLayer.saveSession({
-        testId: 'decision-speed', category: 'processing', rawScore: Math.round(acc * 100), percentile: lookupPercentile('decision-speed', score),
+        testId: 'decision-speed', category: 'processing', rawScore: score, percentile: lookupPercentile('decision-speed', score),
         metadata: { accuracy: Math.round(acc * 100), avgReactionMs: avgRt },
       });
     } catch (err) {
       console.error('Failed to save Decision Speed session:', err);
     }
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard('Decision Speed Test', `${Math.round(acc * 100)}%`, lookupPercentile('decision-speed', score));
@@ -90,6 +97,7 @@ function DecisionSpeedTest() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'decision-speed', testName: 'Decision Speed', attempts: r.map(x => x.rt), unit: 'ms',
@@ -134,9 +142,9 @@ function DecisionSpeedTest() {
   if (phase === 'playing') {
     return (
       <div className="w-full max-w-2xl mx-auto relative">
-        <button onClick={() => setPhase('intro')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { if (timeoutRef.current) clearTimeout(timeoutRef.current); setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6">
-          <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{TOTAL} · {results.filter(r => r.correct).length} correct</div>
+          <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{trialCount.current} · {results.filter(r => r.correct).length} correct</div>
           <div className="text-7xl font-bold text-foreground tabular-nums animate-in zoom-in-50 duration-150">{number}</div>
           <div className="flex gap-4">
             <button onClick={() => handleAnswer('high')} className="px-10 h-14 rounded-xl bg-[var(--success-bg)] border-2 border-[var(--success-border)] text-success font-bold text-lg hover:bg-[var(--success-border)] active:scale-95 transition-standard cursor-pointer">≥ 50</button>
@@ -153,15 +161,15 @@ function DecisionSpeedTest() {
     <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
       <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
         <div className="text-4xl text-success">✓</div>
-        <div className="text-4xl font-bold font-mono text-foreground">{c}/{TOTAL}</div>
-        <div className="text-xs text-muted font-mono">{Math.round((c / TOTAL) * 100)}% · {a}ms avg</div>
+          <div className="text-4xl font-bold font-mono text-foreground">{c}/{trialCount.current}</div>
+        <div className="text-xs text-muted font-mono">{Math.round((c / trialCount.current) * 100)}% · {a}ms avg</div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-decision-speed.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-decision-speed.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>
         )}
-        <SocialShare testId="decision-speed" score={c} scoreLabel={`${c}/${TOTAL}`} testName="Decision Speed Test" />
+        <SocialShare testId="decision-speed" score={c} scoreLabel={`${c}/${trialCount.current}`} testName="Decision Speed Test" />
         <button onClick={() => setPhase('intro')} className="px-6 h-10 rounded-lg bg-subtle border border-card-border text-foreground hover:bg-panel text-sm transition-standard active:scale-95 cursor-pointer">Try Again</button>
       </div>
     </div>

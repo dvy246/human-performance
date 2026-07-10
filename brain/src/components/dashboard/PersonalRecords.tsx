@@ -1,5 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { dataLayer, type SessionRecord } from '@/runtime/dataLayer';
+import { formatTopPercentile } from '@/runtime/percentileLookup';
+
+const LOWER_IS_BETTER = new Set(['reaction-time', 'f1-lights', 'sound-reaction', 'choice-reaction', 'go-no-go', 'aim-trainer', 'aim-coordination', 'mouse-accuracy', 'flick-trainer', 'stroop', 'tmt-partA', 'tmt-partB', 'planning']);
 
 interface PersonalBest {
   testId: string;
@@ -32,20 +35,20 @@ export default function PersonalRecords() {
 
       const personalBests: PersonalBest[] = [];
       grouped.forEach((records, testId) => {
-        const LOWER_IS_BETTER = new Set(['reaction-time', 'f1-lights', 'sound-reaction', 'choice-reaction', 'go-no-go', 'stroop', 'tmt-partA', 'tmt-partB']);
         const sorted = records.sort((a, b) => {
           const isLowerBetter = LOWER_IS_BETTER.has(testId);
           return isLowerBetter ? a.rawScore - b.rawScore : b.rawScore - a.rawScore;
         });
         
         const best = sorted[0];
+        const lastAttempt = records.reduce((latest, r) => r.timestamp > latest.timestamp ? r : latest, records[0]).timestamp;
         personalBests.push({
           testId,
           category: best.category,
           bestScore: best.rawScore,
           percentile: best.percentile,
           attempts: records.length,
-          lastAttempt: records[0].timestamp
+          lastAttempt
         });
       });
 
@@ -121,14 +124,14 @@ export default function PersonalRecords() {
                 {getMedal(idx)}
               </div>
               <div>
-                <p className="text-sm font-medium text-foreground">{record.testId}</p>
+                <p className="text-sm font-medium text-foreground">{TEST_NAMES[record.testId] || record.testId}</p>
                 <p className="text-xs text-muted">{record.category} • {record.attempts} attempts</p>
                 <p className="text-xs text-muted">Last: {formatDate(record.lastAttempt)}</p>
               </div>
             </div>
             <div className="text-right">
               <p className="text-lg font-bold text-foreground">{record.bestScore}</p>
-              <p className="text-xs text-accent font-medium">{record.percentile}th percentile</p>
+              <p className="text-xs text-accent font-medium">{formatTopPercentile(record.percentile, !LOWER_IS_BETTER.has(record.testId))}</p>
             </div>
           </div>
         ))}

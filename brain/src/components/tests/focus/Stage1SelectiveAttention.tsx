@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useVisibilityGuard } from '../../../runtime/useVisibilityGuard';
 import type { StageProps, StageResult } from './StageTypes';
 
 const SYMBOLS = ['★', '●', '■', '▲', '◆', '♥', '♦', '♣', '♠', '✿'];
@@ -37,6 +38,11 @@ export default function Stage1SelectiveAttention({ onComplete, calibrationHz, di
 
   const feedbackTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
   const startTimeRef = useRef(0);
+
+  useVisibilityGuard(() => {
+    if (feedbackTimer.current) clearTimeout(feedbackTimer.current);
+    setPhase('intro');
+  }, phase === 'playing');
 
   const generateTrial = useCallback(() => {
     const targetSymbol = SYMBOLS[Math.floor(Math.random() * SYMBOLS.length)];

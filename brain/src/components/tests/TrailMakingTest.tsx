@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestMode = 'partA' | 'partB';
 type TrialState = 'idle' | 'running' | 'result';
@@ -35,12 +36,17 @@ function TrailMakingTest() {
 
   const startTimeRef = useRef<number>(0);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const respondedRef = useRef(false);
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
   const nodeCount = useRef<number>(20);
   const penaltyDuration = useRef<number>(2000);
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setGameState('idle');
+  }, gameState === 'running');
 
   useEffect(() => {
     let mounted = true;
@@ -136,7 +142,8 @@ function TrailMakingTest() {
   };
 
   const handleNodeClick = (node: TMTNode) => {
-    if (gameState !== 'running') return;
+    if (gameState !== 'running' || respondedRef.current) return;
+    respondedRef.current = true;
 
     if (node.id === nextExpectedIdx) {
       // Correct click
@@ -145,6 +152,8 @@ function TrailMakingTest() {
 
       if (nextIdx >= nodes.length) {
         finishTest();
+      } else {
+        setTimeout(() => { respondedRef.current = false; }, 100);
       }
     } else {
       setPenalties(prev => prev + penaltyDuration.current);
@@ -208,7 +217,7 @@ function TrailMakingTest() {
   return (
     <div className="w-full max-w-2xl mx-auto flex flex-col gap-6 select-none relative">
       {gameState === 'running' && (
-        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { if (timerRef.current) clearInterval(timerRef.current); setGameState('idle'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
       )}
       {gameState === 'idle' && (
         <div className="rounded-xl border border-card-border bg-card p-8 flex flex-col gap-6 shadow-lg">

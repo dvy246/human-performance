@@ -15,6 +15,7 @@ import Stage4SustainedAttention from './focus/Stage4SustainedAttention';
 import Stage5WorkingMemoryUnderDistraction from './focus/Stage5WorkingMemoryUnderDistraction';
 import type { StageResult } from './focus/StageTypes';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 import {
   STAGE_CONFIGS,
   computeOverallScore,
@@ -145,6 +146,9 @@ function FocusChallengeTest() {
   const lastConfig = useRef<GameConfig | null>(null);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'results');
+  useVisibilityGuard(() => {
+    setPhase('intro');
+  }, phase === 'playing' || phase === 'stage-transition');
 
   useEffect(() => {
     let mounted = true;
@@ -210,8 +214,10 @@ function FocusChallengeTest() {
     } catch (err) {
       console.error('Failed to save Focus Challenge session:', err);
     }
+    if (!submittedRef.current) return;
     const pb = await dataLayer.getPersonalBest('focus-challenge', 'higher');
     setPersonalBest(pb);
+    if (!submittedRef.current) return;
     
     try {
       const card = await generateShareCard('Focus Challenge', `${totalScore}/100`, percentile);
@@ -219,6 +225,7 @@ function FocusChallengeTest() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'focus-challenge', testName: 'Focus Challenge', attempts: results.map(r => r.score), unit: 'pts',
@@ -405,7 +412,7 @@ function FocusChallengeTest() {
 
         <div className="flex flex-col gap-4">
           {shareImage && (
-            <a href={shareImage} download="cogniarena-focus-challenge.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+            <a href={shareImage} download="cogniarena-focus-challenge.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Share Card</span>
             </a>

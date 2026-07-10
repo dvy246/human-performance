@@ -138,25 +138,19 @@ const StroopTest = () => {
 
     if (selectedColor === current.color) {
       playClick();
-      setCorrectCount(prev => {
-        const next = prev + 1;
-        correctCountRef.current = next;
-        return next;
-      });
+      const nextCorrect = correctCount + 1;
+      setCorrectCount(nextCorrect);
+      correctCountRef.current = nextCorrect;
       
       // Save scores separately to calculate interference
       if (current.isCongruent) {
-        setCongruentScores(prev => {
-          const next = [...prev, elapsed];
-          congruentScoresRef.current = next;
-          return next;
-        });
+        const nextCongruent = [...congruentScores, elapsed];
+        setCongruentScores(nextCongruent);
+        congruentScoresRef.current = nextCongruent;
       } else {
-        setIncongruentScores(prev => {
-          const next = [...prev, elapsed];
-          incongruentScoresRef.current = next;
-          return next;
-        });
+        const nextIncongruent = [...incongruentScores, elapsed];
+        setIncongruentScores(nextIncongruent);
+        incongruentScoresRef.current = nextIncongruent;
       }
       setLastFeedback('correct');
     } else if (selectedColor === null) {
@@ -260,7 +254,7 @@ const StroopTest = () => {
           lastFeedback === 'timeout' ? '!bg-amber-500/10 !border-amber-500/30' :
           ''
         }`}>
-          <button onClick={() => setGameState('idle')} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+          <button onClick={() => { if (timerRef.current) clearTimeout(timerRef.current); setGameState('idle'); }} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
           {/* Header Progress */}
           <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6">
             <span>TRIAL {currentTrialIdx + 1} / {trialCount.current}</span>

@@ -126,8 +126,7 @@ export default function CognitiveProfile() {
           const startOfToday = new Date().setHours(0, 0, 0, 0);
           const todayAttempts = records.filter(r => r.testId === challenge.testId && r.timestamp >= startOfToday);
           const metGoal = todayAttempts.some(r => {
-            const score = challenge.testId === 'click-speed' ? r.rawScore / 10 : r.rawScore;
-            return challenge.condition === 'lower' ? score <= challenge.target : score >= challenge.target;
+            return challenge.condition === 'lower' ? r.rawScore <= challenge.target : r.rawScore >= challenge.target;
           });
           if (!mounted) return;
           setChallengeCompleted(metGoal);
@@ -329,7 +328,7 @@ export default function CognitiveProfile() {
     if (testRecords.length === 0) return [];
 
     const scores = testRecords.map(r => {
-      return r.testId === 'click-speed' ? r.rawScore / 10 : r.rawScore;
+      return r.rawScore;
     });
     const maxScore = scores.reduce((a, b) => Math.max(a, b), 1);
     const minScore = scores.reduce((a, b) => Math.min(a, b), 0);
@@ -340,7 +339,7 @@ export default function CognitiveProfile() {
     const padding = 15;
 
     return testRecords.map((rec, idx) => {
-      const rawVal = rec.testId === 'click-speed' ? rec.rawScore / 10 : rec.rawScore;
+      const rawVal = rec.rawScore;
       const x = padding + (idx / Math.max(1, testRecords.length - 1)) * (width - padding * 2);
       
       const isTimeMetric = rec.testId !== 'click-speed' && rec.testId !== 'sequence-memory' && rec.testId !== 'number-memory' && rec.testId !== 'visual-pattern';
@@ -359,7 +358,7 @@ export default function CognitiveProfile() {
   const trendPoints = getTrendDataPoints(graphTestId);
 
   const formatScore = (testId: string, score: number) => {
-    if (testId === 'click-speed') return `${(score / 10).toFixed(1)} CPS`;
+    if (testId === 'click-speed') return `${score.toFixed(1)} CPS`;
     if (testId === 'sequence-memory' || testId === 'visual-pattern') return `Level ${score}`;
     if (testId === 'number-memory') return `${score} Digits`;
     return `${score} ms`;
@@ -369,19 +368,29 @@ export default function CognitiveProfile() {
     return (
       <div className="w-full flex flex-col gap-10">
         <div className="w-full max-w-lg mx-auto py-16 flex flex-col items-center justify-center text-center gap-6 rounded-xl border border-card-border bg-card p-8 shadow-xl">
-          <div className="w-12 h-12 rounded-full bg-accent/5 border border-accent/15 flex items-center justify-center text-xl">🔒</div>
+          <div className="w-12 h-12 rounded-full bg-accent/5 border border-accent/15 flex items-center justify-center">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-accent"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
           <div>
             <h2 className="text-xl font-bold text-foreground tracking-tight mb-2">Cognitive Profile Locked</h2>
             <p className="text-muted text-sm leading-relaxed max-w-sm">
               Complete at least one assessment test to unlock your Dashboard, Daily Streaks, and Skill Radar metrics.
             </p>
           </div>
-          <a
-            href="/tests/reaction-time"
-            className="px-6 h-10 rounded bg-accent hover:bg-accent-hover text-white font-semibold text-xs font-mono uppercase flex items-center active:scale-98 transition-standard shadow"
-          >
-            Launch First Assessment
-          </a>
+          <div className="flex flex-col sm:flex-row gap-3">
+            <a
+              href="/tests/reaction-time"
+              className="px-6 h-11 rounded bg-accent hover:bg-accent-hover text-white font-semibold text-xs font-mono uppercase flex items-center active:scale-98 transition-standard shadow"
+            >
+              Launch First Assessment
+            </a>
+            <a
+              href="/"
+              className="px-6 h-11 rounded bg-subtle border border-card-border text-foreground hover:bg-hover font-semibold text-xs font-mono uppercase flex items-center active:scale-98 transition-standard"
+            >
+              Browse All Assessments
+            </a>
+          </div>
         </div>
       </div>
     );

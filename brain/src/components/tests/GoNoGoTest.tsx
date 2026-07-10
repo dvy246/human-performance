@@ -11,6 +11,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type TestState = 'idle' | 'waiting' | 'ready' | 'attempt-result' | 'inhibited' | 'abort' | 'result';
 
@@ -65,6 +66,7 @@ function GoNoGoTest() {
   const omissionMsRef = useRef<number>(1500);
   const falseAlarmsRef = useRef<number>(0);
   const stimulusCountRef = useRef<number>(0);
+  const correctCountRef = useRef<number>(0);
 
   useEffect(() => {
     let mounted = true;
@@ -113,6 +115,7 @@ function GoNoGoTest() {
     setFalseAlarms(0);
     falseAlarmsRef.current = 0;
     stimulusCountRef.current = 0;
+    correctCountRef.current = 0;
     setCurrentScore(null);
     setShareImage(null);
     submittedRef.current = false;
@@ -156,6 +159,7 @@ function GoNoGoTest() {
       } else {
         // Distractor: short flash then show inhibition feedback
         targetTimeoutId.current = setTimeout(() => {
+          correctCountRef.current += 1;
           setGameState('inhibited');
           targetTimeoutId.current = setTimeout(() => {
             stimulusCountRef.current += 1;
@@ -164,7 +168,7 @@ function GoNoGoTest() {
               queueNextSignal();
             } else {
               const avg = attempts.length > 0
-                ? Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current)
+                ? Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length)
                 : 0;
               finalizeTest(avg, attempts.length, attempts);
             }
@@ -217,6 +221,7 @@ function GoNoGoTest() {
       if (currentColor.isTarget) {
         // Hit!
         stimulusCountRef.current += 1;
+        correctCountRef.current += 1;
         const elapsed = Math.round(performance.now() - startTime.current);
         const updatedAttempts = [...attempts, elapsed];
         setAttempts(updatedAttempts);
@@ -226,7 +231,9 @@ function GoNoGoTest() {
         if (stimulusCountRef.current < totalAttempts.current) {
           setGameState('attempt-result');
         } else {
-          const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / totalAttempts.current);
+          const average = updatedAttempts.length > 0
+            ? Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / updatedAttempts.length)
+            : 0;
           finalizeTest(average, updatedAttempts.length, updatedAttempts);
         }
       } else {
@@ -241,7 +248,7 @@ function GoNoGoTest() {
           setCurrentScore(null);
         } else {
           const avg = attempts.length > 0
-            ? Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current)
+            ? Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length)
             : 0;
           finalizeTest(avg, attempts.length, attempts);
         }
@@ -300,10 +307,18 @@ function GoNoGoTest() {
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
+  useVisibilityGuard(() => {
+    if (timerId.current) clearTimeout(timerId.current);
+    if (targetTimeoutId.current) clearTimeout(targetTimeoutId.current);
+    if (rafId.current) cancelAnimationFrame(rafId.current);
+    setGameState('idle');
+  }, gameState !== 'idle' && gameState !== 'result');
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const avgScore = Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250);
+    const avgScore = attempts.length > 0
+      ? Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length) + (falseAlarms * 250)
+      : 0;
     const token = encodeChallenge({ testId: 'go-no-go', score: avgScore });
     const url = `${window.location.origin}/tests/go-no-go/?challenge=${token}`;
 
@@ -316,7 +331,7 @@ function GoNoGoTest() {
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto relative">
       {gameState !== 'idle' && gameState !== 'result' && (
-        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { if (timerId.current) clearTimeout(timerId.current); if (targetTimeoutId.current) clearTimeout(targetTimeoutId.current); if (rafId.current) cancelAnimationFrame(rafId.current); setGameState('idle'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
       )}
       {challengeScore && gameState !== 'result' && (
         <div className="bg-amber-500/10 dark:bg-amber-950/20 border border-amber-500/30 dark:border-amber-900/50 rounded-lg p-4 flex justify-between items-center text-sm">
@@ -437,10 +452,10 @@ function GoNoGoTest() {
             <div className="flex flex-col items-center gap-0.5">
               <span className="text-muted text-xs font-mono uppercase">{t('gng.inhibitory_avg')}</span>
               <div className="text-4xl font-mono font-bold text-foreground">
-                {Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250)} ms
+                {attempts.length > 0 ? Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length) + (falseAlarms * 250) : 0} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase mt-1">
-                {formatTopPercentile(lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current) + (falseAlarms * 250), true), true)} {t('rt.globally')}
+                {attempts.length > 0 ? formatTopPercentile(lookupPercentile('go-no-go', Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length) + (falseAlarms * 250), true), true) : ''} {t('rt.globally')}
               </span>
             </div>
 
@@ -448,8 +463,8 @@ function GoNoGoTest() {
               <div>
                 <span className="text-muted text-[10px] font-mono uppercase">{t('gng.accuracy')}</span>
                 <div className="text-foreground font-mono text-sm">
-                  {attempts.length > 0
-                    ? `${Math.round((attempts.length - falseAlarms) / totalAttempts.current * 100)}%`
+                  {totalAttempts.current > 0
+                    ? `${Math.round((correctCountRef.current / totalAttempts.current) * 100)}%`
                     : '--'}
                 </div>
               </div>
@@ -476,9 +491,9 @@ function GoNoGoTest() {
               <a
                 href={shareImage}
                 download="cogniarena-go-no-go.png"
-                className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+                className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                 <span>{t('gng.download_profile')}</span>
               </a>
             )}
@@ -486,7 +501,7 @@ function GoNoGoTest() {
               onClick={copyChallengeLink}
               className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               <span>{copiedChallenge ? t('test.challenge_copied') : t('test.challenge_friend')}</span>
             </button>
           </div>

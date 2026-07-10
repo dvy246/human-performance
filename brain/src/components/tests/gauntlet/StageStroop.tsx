@@ -1,4 +1,5 @@
 import { useState, useRef, useCallback, useEffect } from 'react';
+import { useVisibilityGuard } from '../../../runtime/useVisibilityGuard';
 import type { StageProps, GauntletStageResult } from './GauntletTypes';
 
 const WORDS = ['RED', 'GREEN', 'BLUE', 'YELLOW'];
@@ -31,6 +32,12 @@ export default function StageStroop({ onComplete, difficulty }: StageProps) {
   if (difficulty === 'Easy') { trialCountRef.current = 8; speedBaselineRef.current = 500; }
   else if (difficulty === 'Hard') { trialCountRef.current = 12; speedBaselineRef.current = 200; }
   else { trialCountRef.current = 10; speedBaselineRef.current = 300; }
+
+  useVisibilityGuard(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setPhase('intro');
+  }, phase === 'playing');
 
   const ct = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
   const st = useCallback((fn: () => void, ms: number) => {
@@ -77,7 +84,7 @@ export default function StageStroop({ onComplete, difficulty }: StageProps) {
       <div className="flex flex-col items-center gap-4 py-4">
         <div className="text-xs text-muted font-mono">Stage 3: Stroop Test</div>
         <p className="text-[10px] text-muted max-w-xs text-center">Name the <strong className="text-foreground">ink color</strong>, ignoring the word.</p>
-        <button onClick={() => { setPhase('playing'); startRef.current = performance.now(); }} className="px-6 h-9 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
+        <button onClick={() => { setPhase('playing'); startRef.current = performance.now(); }} className="px-6 h-11 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
       </div>
     );
   }
@@ -92,7 +99,7 @@ export default function StageStroop({ onComplete, difficulty }: StageProps) {
       <div className="flex gap-2">
         {WORDS.map(w => (
           <button key={w} onClick={() => handleAnswer(w)}
-            className="px-4 h-8 rounded-lg bg-subtle border border-card-border text-xs text-foreground hover:border-accent active:scale-95 transition-standard cursor-pointer">
+            className="px-4 h-11 rounded-lg bg-subtle border border-card-border text-xs text-foreground hover:border-accent active:scale-95 transition-standard cursor-pointer">
             {w}
           </button>
         ))}

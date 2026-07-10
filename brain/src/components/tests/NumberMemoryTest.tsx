@@ -234,7 +234,7 @@ const NumberMemoryTest = () => {
           <div className="absolute top-4 right-4 flex items-center gap-2 text-xs font-mono text-muted">
             <span>Level</span>
             <span className="text-foreground font-bold text-sm">{level}</span>
-            <button onClick={() => setPhase('idle')} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
+            <button onClick={() => { if (timerRef.current) clearInterval(timerRef.current); setPhase('idle'); }} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
           </div>
         )}
 
@@ -423,7 +423,7 @@ const NumberMemoryTest = () => {
             <a
               href={shareImage}
               download="cogniarena-number-memory.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard w-full"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer w-full"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Score Card</span>

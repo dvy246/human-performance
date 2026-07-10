@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 const TOTAL = 12;
 const ANGLES = [0, 90, 180, 270];
@@ -181,12 +182,16 @@ function SpatialOrientationTest() {
   const [correctKey, setCorrectKey] = useState('');
   const [correctCount, setCorrectCount] = useState(0);
   const [shareImage, setShareImage] = useState<string | null>(null);
+  const respondedRef = useRef(false);
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
   const trialCount = useRef<number>(TOTAL);
   const choicesPerTrial = useRef<number>(4);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'done');
+  useVisibilityGuard(() => {
+    setPhase('intro');
+  }, phase === 'playing');
 
   useEffect(() => {
     return () => { submittedRef.current = false; };
@@ -205,7 +210,8 @@ function SpatialOrientationTest() {
   };
 
   const handlePick = (opt: number[][]) => {
-    if (phase !== 'playing') return;
+    if (phase !== 'playing' || respondedRef.current) return;
+    respondedRef.current = true;
     const isCorrect = gridKey(opt) === correctKey;
     const next = trial + 1;
     const newCorrect = correctCount + (isCorrect ? 1 : 0);
@@ -216,7 +222,7 @@ function SpatialOrientationTest() {
     }
     setCorrectCount(newCorrect);
     setTrial(next);
-    setTimeout(generateTrial, 300);
+    setTimeout(() => { respondedRef.current = false; generateTrial(); }, 300);
   };
 
   const finalize = async (c: number) => {
@@ -225,14 +231,14 @@ function SpatialOrientationTest() {
     const score = Math.round((c / trialCount.current) * 100);
     try {
       await dataLayer.saveSession({
-        testId: 'spatial-orientation', category: 'processing', rawScore: c, percentile: lookupPercentile('spatial-orientation', score),
+        testId: 'spatial-orientation', category: 'processing', rawScore: score, percentile: lookupPercentile('spatial-orientation', score),
         metadata: { accuracy: Math.round((c / trialCount.current) * 100), totalTrials: trialCount.current },
       });
     } catch (err) {
       console.error('Failed to save Spatial Orientation session:', err);
     }
     try {
-      const card = await generateShareCard('Spatial Orientation', `${c}/${TOTAL}`, lookupPercentile('spatial-orientation', score));
+      const card = await generateShareCard('Spatial Orientation', `${c}/${trialCount.current}`, lookupPercentile('spatial-orientation', score));
       setShareImage(card);
     } catch (err) {
       console.error('Failed to generate share card:', err);
@@ -282,7 +288,7 @@ function SpatialOrientationTest() {
       <div className="w-full max-w-2xl mx-auto relative">
         <button onClick={() => { submittedRef.current = false; setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-5">
-          <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{TOTAL} · Correct: {correctCount}</div>
+          <div className="text-[10px] text-muted font-mono">Trial {trial + 1}/{trialCount.current} · Correct: {correctCount}</div>
           <div className="flex flex-col items-center gap-1">
             <div className="text-[9px] text-muted font-mono uppercase tracking-wider">Original 3D Structure</div>
             <div className="p-3 rounded-lg bg-subtle border border-card-border">
@@ -314,12 +320,12 @@ function SpatialOrientationTest() {
         <div className="text-4xl font-bold font-mono text-foreground">{c}/{trialCount.current}</div>
         <div className="text-xs text-muted font-mono">{Math.round((c / trialCount.current) * 100)}% accuracy</div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-spatial.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-spatial.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>
         )}
-        <SocialShare testId="spatial-orientation" score={c} scoreLabel={`${c}/${TOTAL}`} testName="Spatial Orientation" />
+        <SocialShare testId="spatial-orientation" score={c} scoreLabel={`${c}/${trialCount.current}`} testName="Spatial Orientation" />
         <button onClick={() => { submittedRef.current = false; setPhase('intro'); }} className="px-6 h-10 rounded-lg bg-subtle border border-card-border text-foreground hover:bg-panel text-sm transition-standard active:scale-95 cursor-pointer">Try Again</button>
       </div>
     </div>

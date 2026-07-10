@@ -146,6 +146,19 @@ export default function HistoryDashboard() {
       'stroop': '🎨',
       'trail-making': '🧭',
       'typing-speed': '⌨️',
+      'aim-coordination': '🎯',
+      'pattern-reasoning': '🧠',
+      'decision-speed': '⚖️',
+      'planning': '📋',
+      'prioritization': '📊',
+      'gauntlet': '🏆',
+      'tmt-partA': '🔵',
+      'tmt-partB': '🔴',
+      'focus-challenge': '🎯',
+      'verbal-memory': '💬',
+      'spatial-orientation': '🧭',
+      'mouse-accuracy': '🖱️',
+      'flick-trainer': '👆',
     };
     return icons[testType] || '📊';
   }

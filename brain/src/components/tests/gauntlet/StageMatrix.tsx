@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef, useCallback } from 'react';
+import { useVisibilityGuard } from '../../../runtime/useVisibilityGuard';
 import type { StageProps, GauntletStageResult } from './GauntletTypes';
 
 const SHAPES = ['◆', '●', '■', '▲', '★', '✦'];
@@ -44,6 +45,12 @@ export default function StageMatrix({ onComplete, difficulty }: StageProps) {
   else if (difficulty === 'Hard') trialCountRef.current = 6;
   else trialCountRef.current = 5;
 
+  useVisibilityGuard(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setPhase('intro');
+  }, phase === 'playing');
+
   const ct = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
   const st = useCallback((fn: () => void, ms: number) => {
     const id = setTimeout(fn, ms);
@@ -78,7 +85,7 @@ export default function StageMatrix({ onComplete, difficulty }: StageProps) {
       <div className="flex flex-col items-center gap-4 py-4">
         <div className="text-xs text-muted font-mono">Stage 4: Matrix Reasoning</div>
         <p className="text-[10px] text-muted max-w-xs text-center">Find the missing shape that <strong className="text-foreground">completes the pattern</strong>.</p>
-        <button onClick={() => { setPhase('playing'); setPuzzle(genMatrix()); }} className="px-6 h-9 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
+        <button onClick={() => { setPhase('playing'); setPuzzle(genMatrix()); }} className="px-6 h-11 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">Start</button>
       </div>
     );
   }

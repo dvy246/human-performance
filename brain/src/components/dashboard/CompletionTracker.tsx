@@ -6,7 +6,7 @@ const ALL_TESTS = [
   'sequence-memory', 'number-memory', 'visual-pattern', 'dual-n-back', 'verbal-memory',
   'pattern-reasoning', 'spatial-orientation', 'decision-speed', 'planning', 'prioritization',
   'go-no-go', 'stroop', 'tmt-partA', 'tmt-partB', 'focus-challenge',
-  'aim-trainer', 'mouse-accuracy', 'flick-trainer', 'click-speed', 'gauntlet',
+  'aim-trainer', 'aim-coordination', 'mouse-accuracy', 'flick-trainer', 'typing-speed', 'click-speed', 'gauntlet',
 ];
 
 const CATEGORIES: { key: string; label: string; color: string; tests: string[] }[] = [
@@ -14,8 +14,8 @@ const CATEGORIES: { key: string; label: string; color: string; tests: string[] }
   { key: 'memory', label: 'Memory', color: '#8b5cf6', tests: ['sequence-memory', 'number-memory', 'visual-pattern', 'dual-n-back', 'verbal-memory'] },
   { key: 'processing', label: 'Reasoning', color: '#f59e0b', tests: ['pattern-reasoning', 'spatial-orientation', 'decision-speed', 'planning', 'prioritization'] },
   { key: 'focus', label: 'Focus', color: '#3b82f6', tests: ['go-no-go', 'stroop', 'tmt-partA', 'tmt-partB', 'focus-challenge'] },
-  { key: 'precision', label: 'Motor', color: '#10b981', tests: ['aim-trainer', 'mouse-accuracy', 'flick-trainer'] },
-  { key: 'stamina', label: 'Stamina', color: '#ec4899', tests: ['click-speed'] },
+  { key: 'precision', label: 'Motor', color: '#10b981', tests: ['aim-trainer', 'aim-coordination', 'mouse-accuracy', 'flick-trainer'] },
+  { key: 'stamina', label: 'Stamina', color: '#ec4899', tests: ['click-speed', 'typing-speed', 'gauntlet'] },
 ];
 
 export default function CompletionTracker() {

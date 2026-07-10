@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 const TARGET_SIZES = [80, 60, 45, 32, 22];
 const PER_SIZE = 5;
@@ -22,12 +23,16 @@ function MouseAccuracyTest() {
   const [shareImage, setShareImage] = useState<string | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
   const submittedRef = useRef(false);
+  const respondedRef = useRef(false);
   const offsetsRef = useRef<number[]>([]);
   const lastConfig = useRef<GameConfig | null>(null);
   const targetCount = useRef<number>(TOTAL);
   const sizeMultiplier = useRef<number>(1.0);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'done');
+  useVisibilityGuard(() => {
+    setPhase('intro');
+  }, phase === 'playing');
 
   const spawnTarget = (idx: number) => {
     const c = containerRef.current;
@@ -43,6 +48,8 @@ function MouseAccuracyTest() {
 
   const handleClick = (e: React.MouseEvent) => {
     if (phase !== 'playing') return;
+    if (respondedRef.current) return;
+    respondedRef.current = true;
     const c = containerRef.current;
     if (!c) return;
     const rect = c.getBoundingClientRect();
@@ -58,6 +65,7 @@ function MouseAccuracyTest() {
       return;
     }
     setTrial(prev => prev + 1);
+    respondedRef.current = false;
     spawnTarget(next);
   };
 
@@ -68,15 +76,18 @@ function MouseAccuracyTest() {
     const score = Math.max(0, Math.min(100, Math.round(100 - avgOffset / 2)));
     try {
       await dataLayer.saveSession({
-        testId: 'mouse-accuracy', category: 'precision', rawScore: Math.round(avgOffset * 10) / 10, percentile: lookupPercentile('mouse-accuracy', score),
+        testId: 'mouse-accuracy', category: 'precision', rawScore: score, percentile: lookupPercentile('mouse-accuracy', score),
         metadata: { avgOffsetPx: Math.round(avgOffset * 10) / 10, totalTargets: TOTAL },
       });
     } catch (err) {
       console.error('Failed to save Mouse Accuracy session:', err);
     }
+    if (!submittedRef.current) return;
     const card = await generateShareCard('Mouse Accuracy Test', `${Math.round(avgOffset * 10) / 10}px avg`, lookupPercentile('mouse-accuracy', score)).catch(() => '');
+    if (!submittedRef.current) return;
     setShareImage(card);
 
+    if (!submittedRef.current) return;
     redirectToResults({
       testId: 'mouse-accuracy', testName: 'Mouse Accuracy', attempts: allOffsets, unit: 'px',
       percentile: lookupPercentile('mouse-accuracy', score), personalBest: null, category: 'precision', average: Math.round(allOffsets.reduce((a, b) => a + b, 0) / allOffsets.length),
@@ -153,7 +164,7 @@ function MouseAccuracyTest() {
           <div><div className="text-muted font-mono text-[10px]">Targets</div><div className="text-foreground font-mono">{targetCount.current}</div></div>
         </div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-mouse-accuracy.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-mouse-accuracy.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>

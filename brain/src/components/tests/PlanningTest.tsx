@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 const PEGS = 3;
 const DISKS = 4;
@@ -30,8 +31,12 @@ function PlanningTest() {
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
   const diskCount = useRef<number>(DISKS);
+  const movesRef = useRef<number>(0);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'done');
+  useVisibilityGuard(() => {
+    setPhase('intro');
+  }, phase === 'playing');
 
   const targetRod = (startRod + 2) % 3;
   const won = rods[targetRod].length === diskCount.current;
@@ -51,6 +56,7 @@ function PlanningTest() {
       newRods[selected].pop();
       newRods[peg].push(top);
       setRods(newRods);
+      movesRef.current += 1;
       setMoves(m => m + 1);
       if (newRods[targetRod].length === diskCount.current) finish(newRods);
     }
@@ -62,26 +68,30 @@ function PlanningTest() {
     submittedRef.current = true;
     const elapsed = Math.round((performance.now() - startTime) / 1000);
     const optimal = Math.pow(2, diskCount.current) - 1;
-    const ratio = moves / optimal;
+    const finalMoves = movesRef.current;
+    const ratio = finalMoves / optimal;
     const score = Math.max(0, Math.min(100, Math.round(100 - (ratio - 1) * 30 - elapsed / 5)));
     try {
       await dataLayer.saveSession({
         testId: 'planning', category: 'executive', rawScore: score, percentile: lookupPercentile('planning', score),
-        metadata: { moves, optimalMoves: optimal, timeSeconds: elapsed },
+        metadata: { moves: finalMoves, optimalMoves: optimal, timeSeconds: elapsed },
       });
     } catch (err) {
       console.error('Failed to save Planning session:', err);
     }
+    if (!submittedRef.current) return;
 
     try {
-      const card = await generateShareCard('Planning Test', `${moves} moves (optimal: ${optimal})`, lookupPercentile('planning', score));
+      const card = await generateShareCard('Planning Test', `${finalMoves} moves (optimal: ${optimal})`, lookupPercentile('planning', score));
       setShareImage(card);
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     setPhase('done');
 
+    if (!submittedRef.current) return;
     redirectToResults({
       testId: 'planning', testName: 'Planning', attempts: [score], unit: 'pts',
       percentile: lookupPercentile('planning', score), personalBest: null, category: 'executive', average: score,
@@ -100,6 +110,7 @@ function PlanningTest() {
     setRods(makeState(diskCount.current, sr));
     setSelected(null);
     setMoves(0);
+    movesRef.current = 0;
     setStartTime(performance.now());
     submittedRef.current = false;
     setPhase('playing');
@@ -167,7 +178,7 @@ function PlanningTest() {
         <div className="text-4xl font-bold font-mono text-foreground">{moves}</div>
         <div className="text-xs text-muted font-mono">moves (optimal: {optimal})</div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-planning.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-planning.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>

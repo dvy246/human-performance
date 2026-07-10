@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 type Phase = 'idle' | 'showing' | 'input' | 'feedback' | 'result';
 
@@ -222,6 +223,10 @@ function VisualPatternTest() {
   const totalCells = gridSize * gridSize;
 
   useBeforeUnload(phase !== 'idle' && phase !== 'result');
+  useVisibilityGuard(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setPhase('idle');
+  }, phase !== 'idle' && phase !== 'result');
 
 
   // Dynamic grid cell size
@@ -259,7 +264,7 @@ function VisualPatternTest() {
               <span className="text-accent">
                 {phase === 'showing' ? 'MEMORIZE' : phase === 'input' ? 'RECALL' : 'CHECKING'}
               </span>
-              <button onClick={() => setPhase('idle')} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
+              <button onClick={() => { if (timerRef.current) clearInterval(timerRef.current); setPhase('idle'); }} className="w-5 h-5 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[10px] transition-standard cursor-pointer" aria-label="Restart">✕</button>
             </span>
           </div>
         )}
@@ -408,7 +413,7 @@ function VisualPatternTest() {
             <a
               href={shareImage}
               download="cogniarena-visual-pattern.png"
-              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard w-full"
+              className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer w-full"
             >
               <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
               <span>Download Score Card</span>

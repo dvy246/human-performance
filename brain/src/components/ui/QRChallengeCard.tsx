@@ -9,6 +9,11 @@ function isLowerBetter(testId: string): boolean {
   return REACTION_TESTS.includes(testId);
 }
 
+const TEST_SLUGS: Record<string, string> = {
+  'tmt-partA': 'trail-making',
+  'tmt-partB': 'trail-making',
+};
+
 interface QRChallengeCardProps {
   isOpen: boolean;
   onClose: () => void;
@@ -33,7 +38,7 @@ export default function QRChallengeCard({ isOpen, onClose, testId, score, scoreL
   const generateQR = async () => {
     try {
       const token = encodeChallenge({ testId, score });
-      const url = `${window.location.origin}/tests/${testId}?challenge=${token}`;
+      const url = `${window.location.origin}/tests/${TEST_SLUGS[testId] || testId}?challenge=${token}`;
       setChallengeUrl(url);
 
       const canvas = document.createElement('canvas');

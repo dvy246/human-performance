@@ -188,7 +188,7 @@ function SoundReactionTest() {
       if (updatedAttempts.length < totalAttempts.current) {
         setGameState('attempt-result');
       } else {
-        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / totalAttempts.current);
+        const average = Math.round(updatedAttempts.reduce((a, b) => a + b, 0) / Math.max(1, updatedAttempts.length));
         finalizeTest(average, updatedAttempts);
       }
     } else if (gameState === 'attempt-result') {
@@ -216,9 +216,11 @@ function SoundReactionTest() {
     } catch (err) {
       console.error('Failed to save Sound Reaction session:', err);
     }
+    if (!submittedRef.current) return;
 
     const pb = await dataLayer.getPersonalBest('sound-reaction', 'lower');
     setPersonalBest(pb);
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard('Auditory Reaction Test', `${avgScore} ms`, percentile, true);
@@ -226,6 +228,7 @@ function SoundReactionTest() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'sound-reaction', testName: 'Sound Reaction', attempts: allAttempts, unit: 'ms',
@@ -260,7 +263,7 @@ function SoundReactionTest() {
   return (
     <div className="w-full flex flex-col gap-8 max-w-2xl mx-auto relative">
       {gameState !== 'idle' && gameState !== 'result' && (
-        <button onClick={() => setGameState('idle')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { if (timerId.current) clearTimeout(timerId.current); if (rafId.current) cancelAnimationFrame(rafId.current); setGameState('idle'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
       )}
       {/* Target Challenge */}
       {challengeScore && gameState !== 'result' && (
@@ -353,7 +356,7 @@ function SoundReactionTest() {
             <div className="flex flex-col items-center gap-1">
               <span className="text-muted text-xs font-mono uppercase">Average Auditory Response</span>
               <div className="text-4xl font-mono font-bold text-foreground">
-                {Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current)} ms
+                {Math.round(attempts.reduce((a, b) => a + b, 0) / Math.max(1, attempts.length))} ms
               </div>
               <span className="text-accent text-xs font-mono uppercase">
                 {formatTopPercentile(lookupPercentile('sound-reaction', Math.round(attempts.reduce((a, b) => a + b, 0) / totalAttempts.current), true), true)} speed
@@ -389,9 +392,9 @@ function SoundReactionTest() {
               <a
                 href={shareImage}
                 download="cogniarena-sound-reflex.png"
-                className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard"
+                className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
               >
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
                 <span>Download Reflex Card</span>
               </a>
             )}
@@ -399,7 +402,7 @@ function SoundReactionTest() {
               onClick={copyChallengeLink}
               className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               <span>{copiedChallenge ? 'Telemetry Copied!' : 'Challenge a Friend'}</span>
             </button>
           </div>

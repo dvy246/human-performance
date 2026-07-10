@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useVisibilityGuard } from '../../../runtime/useVisibilityGuard';
 import type { StageProps, StageResult } from './StageTypes';
 
 const RULES = [
@@ -41,6 +42,12 @@ export default function Stage3TaskSwitching({ onComplete, calibrationHz, difficu
   const respondedRef = useRef(false);
   const completedRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useVisibilityGuard(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setPhase('intro');
+  }, phase === 'playing');
 
   const clearTimers = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
   const st = useCallback((fn: () => void, ms: number) => {

@@ -109,7 +109,7 @@ export default function SyncPanel() {
           <div className="w-full max-w-md bg-card border border-card-border p-6 rounded-xl relative shadow-2xl">
             <button
               onClick={() => { setShowModal(false); setSyncStatus('idle'); }}
-              className="absolute right-4 top-4 text-muted hover:text-foreground font-mono text-lg p-1"
+              className="absolute right-2 top-2 w-11 h-11 flex items-center justify-center text-muted hover:text-foreground font-mono text-lg cursor-pointer active:scale-95 transition-standard rounded-lg"
               aria-label="Close Sync Modal"
             >
               &times;
@@ -136,13 +136,13 @@ export default function SyncPanel() {
                 <div className="flex gap-3 justify-end mt-2">
                   <button
                     onClick={handleDisconnect}
-                    className="px-3 h-8 text-[11px] font-mono uppercase border border-error-border hover:border-error bg-error-bg text-error rounded active:scale-98 transition-all cursor-pointer"
+                    className="px-3 h-11 text-[11px] font-mono uppercase border border-error-border hover:border-error bg-error-bg text-error rounded active:scale-98 transition-all cursor-pointer"
                   >
                     Disconnect
                   </button>
                   <button
                     onClick={() => { dataLayer.triggerSync(); setSyncStatus('success'); setSyncMessage('Forced sync upload complete.'); setTimeout(() => setSyncStatus('idle'), 2000); }}
-                    className="px-3 h-8 text-[11px] font-mono uppercase bg-accent text-white font-bold rounded hover:bg-accent-hover active:scale-98 transition-all cursor-pointer"
+                    className="px-3 h-11 text-[11px] font-mono uppercase bg-accent text-white font-bold rounded hover:bg-accent-hover active:scale-98 transition-all cursor-pointer"
                   >
                     Force Sync Now
                   </button>
@@ -160,7 +160,7 @@ export default function SyncPanel() {
                   <button
                     onClick={handleEnableSync}
                     disabled={syncStatus === 'syncing'}
-                    className="w-full h-8 text-[11px] font-mono uppercase bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] hover:bg-[var(--btn-secondary-hover-bg)] text-foreground rounded active:scale-98 transition-all cursor-pointer"
+                    className="w-full h-11 text-[11px] font-mono uppercase bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] hover:bg-[var(--btn-secondary-hover-bg)] text-foreground rounded active:scale-98 transition-all cursor-pointer"
                   >
                     Generate Recovery Code
                   </button>
@@ -178,12 +178,12 @@ export default function SyncPanel() {
                       placeholder="e.g. word-word-word-word-word-word-word-word"
                       value={inputCode}
                       onChange={(e) => setInputCode(e.target.value)}
-                      className="flex-1 h-8 bg-[var(--bg-input)] border border-card-border px-3 rounded text-xs font-mono text-foreground placeholder-muted focus:outline-none focus:border-accent"
+                      className="flex-1 h-11 bg-[var(--bg-input)] border border-card-border px-3 rounded text-xs font-mono text-foreground placeholder-muted focus:outline-none focus:border-accent"
                     />
                     <button
                       type="submit"
                       disabled={syncStatus === 'syncing'}
-                      className="h-8 px-4 text-[11px] font-mono uppercase bg-accent hover:bg-accent-hover text-white font-semibold rounded active:scale-98 transition-all cursor-pointer"
+                      className="h-11 px-4 text-[11px] font-mono uppercase bg-accent hover:bg-accent-hover text-white font-semibold rounded active:scale-98 transition-all cursor-pointer"
                     >
                       Import
                     </button>

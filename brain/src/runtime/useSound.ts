@@ -9,11 +9,15 @@ export function useSound() {
   const ctxRef = useRef<AudioContext | null>(null);
   const sequenceTimers = useRef<ReturnType<typeof setTimeout>[]>([]);
 
-  // Cleanup timers on unmount
+  // Cleanup timers and AudioContext on unmount
   useEffect(() => {
     return () => {
       sequenceTimers.current.forEach(t => clearTimeout(t));
       sequenceTimers.current = [];
+      if (ctxRef.current) {
+        ctxRef.current.close().catch(() => {});
+        ctxRef.current = null;
+      }
     };
   }, []);
 

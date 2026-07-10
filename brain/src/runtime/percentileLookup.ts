@@ -31,8 +31,10 @@ export function lookupPercentile(testId: string, score: number, lowerIsBetter = 
   return 0.1;
 }
 
-export function formatTopPercentile(percentile: number, lowerIsBetter = false): string {
-  const isTop = lowerIsBetter ? percentile <= 50 : percentile >= 50;
+export function formatTopPercentile(percentile: number, _lowerIsBetter = false): string {
+  // lookupPercentile already returns standardized percentile (higher=better)
+  // so lowerIsBetter is always false here — kept for backward compat
+  const isTop = percentile >= 50;
   const top = 100 - percentile;
   const rounded = Math.round(top * 10) / 10;
 

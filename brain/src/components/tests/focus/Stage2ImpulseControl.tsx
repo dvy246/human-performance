@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from 'react';
+import { useVisibilityGuard } from '../../../runtime/useVisibilityGuard';
 import type { StageProps, StageResult } from './StageTypes';
 
 const GO_SYMBOL = '✓';
@@ -65,6 +66,12 @@ export default function Stage2ImpulseControl({ onComplete, calibrationHz, diffic
   const respondedRef = useRef(false);
   const clickedDistractorRef = useRef(false);
   const timersRef = useRef<ReturnType<typeof setTimeout>[]>([]);
+
+  useVisibilityGuard(() => {
+    timersRef.current.forEach(clearTimeout);
+    timersRef.current = [];
+    setPhase('intro');
+  }, phase === 'playing');
 
   const clearTimers = useCallback(() => { timersRef.current.forEach(clearTimeout); timersRef.current = []; }, []);
 

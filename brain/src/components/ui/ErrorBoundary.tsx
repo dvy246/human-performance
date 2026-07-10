@@ -23,7 +23,7 @@ const defaultFallback = (
     </div>
     <button
       onClick={() => window.location.reload()}
-      className="px-4 h-8 rounded bg-accent hover:bg-accent-hover text-white font-medium text-xs transition-colors"
+      className="px-4 h-11 rounded bg-accent hover:bg-accent-hover text-white font-medium text-xs transition-colors"
     >
       Reload
     </button>

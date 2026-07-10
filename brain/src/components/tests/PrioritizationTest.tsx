@@ -9,6 +9,7 @@ import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
 import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
+import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
 interface Task {
   id: number; name: string; deadline: number; points: number; effort: number;
@@ -63,6 +64,10 @@ function PrioritizationTest() {
   const roundTime = useRef<number>(10);
 
   useBeforeUnload(phase !== 'intro' && phase !== 'done');
+  useVisibilityGuard(() => {
+    if (timerRef.current) clearInterval(timerRef.current);
+    setPhase('intro');
+  }, phase === 'playing');
 
   const totalTime = roundTime.current;
 
@@ -133,6 +138,7 @@ function PrioritizationTest() {
     } catch (err) {
       console.error('Failed to save Prioritization session:', err);
     }
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard('Prioritization Test', `${total} pts`, lookupPercentile('prioritization', score));
@@ -140,6 +146,7 @@ function PrioritizationTest() {
     } catch (err) {
       console.error('Failed to generate share card:', err);
     }
+    if (!submittedRef.current) return;
 
     redirectToResults({
       testId: 'prioritization', testName: 'Prioritization', attempts: r.map(x => x.points), unit: 'pts',
@@ -185,7 +192,7 @@ function PrioritizationTest() {
   if (phase === 'playing') {
     return (
       <div className="w-full max-w-2xl mx-auto relative">
-        <button onClick={() => setPhase('intro')} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        <button onClick={() => { if (timerRef.current) clearInterval(timerRef.current); setPhase('intro'); }} className="absolute top-0 right-0 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
         <div className="rounded-xl border border-card-border bg-card p-6">
           <div className="flex items-center justify-between mb-3 text-[10px] text-muted font-mono">
             <span>Round {round + 1}/{ROUNDS}</span>
@@ -233,7 +240,7 @@ function PrioritizationTest() {
         <div className="text-4xl font-bold font-mono text-foreground">{total} pts</div>
         <div className="text-xs text-muted font-mono">{ROUNDS} rounds</div>
         {shareImage && (
-          <a href={shareImage} download="cogniarena-prioritization.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard">
+          <a href={shareImage} download="cogniarena-prioritization.png" className="flex items-center justify-center gap-2 rounded-md bg-accent hover:bg-accent-hover text-white font-semibold h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
             <span>Download Share Card</span>
           </a>

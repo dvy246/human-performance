@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { dataLayer } from '@/runtime/dataLayer';
 
+const TEST_SLUGS: Record<string, string> = {
+  'tmt-partA': 'trail-making',
+  'tmt-partB': 'trail-making',
+};
+
 interface RecentTest {
   testId: string;
   timestamp: number;
@@ -56,7 +61,7 @@ export default function RecentTests() {
       {recentTests.map((test, idx) => (
         <a
           key={idx}
-          href={`/tests/${test.testId.toLowerCase().replace(/\s+/g, '-')}`}
+          href={`/tests/${TEST_SLUGS[test.testId] || test.testId}`}
           className="flex items-center justify-between px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle group"
         >
           <span className="text-muted group-hover:text-foreground truncate">

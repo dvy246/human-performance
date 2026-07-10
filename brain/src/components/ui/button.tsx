@@ -7,23 +7,12 @@ interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = "", variant = "primary", children, ...props }, ref) => {
-    let baseStyles = "inline-flex items-center justify-center rounded-md text-sm font-medium transition-standard focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 h-10 px-4 py-2 cursor-pointer active:scale-[0.98]";
-    
-    let variantStyles = "";
-    if (variant === "primary") {
-      variantStyles = "bg-accent hover:bg-accent-hover text-white font-semibold shadow-sm focus-visible:ring-accent";
-    } else if (variant === "secondary") {
-      variantStyles = "bg-[var(--btn-secondary-bg)] border border-[var(--btn-secondary-border)] text-[var(--btn-secondary-text)] hover:bg-[var(--btn-secondary-hover-bg)] focus-visible:ring-accent";
-    } else if (variant === "danger") {
-      variantStyles = "bg-error hover:bg-red-600 text-white font-semibold shadow-sm focus-visible:ring-error";
-    } else if (variant === "ghost") {
-      variantStyles = "text-[var(--btn-ghost-text)] hover:bg-[var(--btn-ghost-hover-bg)] text-foreground/80 hover:text-foreground focus-visible:ring-accent";
-    }
+    const variantClass = `btn-${variant}`;
 
     return (
       <button
         ref={ref}
-        className={`${baseStyles} ${variantStyles} ${className}`}
+        className={`btn-base ${variantClass} ${className}`}
         {...props}
       >
         {children}
