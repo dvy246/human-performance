@@ -17,5 +17,5 @@ export function redirectToResults(payload: ResultsPayload): void {
   try {
     sessionStorage.setItem('cogniarena-last-result', JSON.stringify(payload));
   } catch { /* ignore quota errors */ }
-  window.location.href = '/tests/results/';
+  window.location.href = '/tests/results/?hasResult=1';
 }

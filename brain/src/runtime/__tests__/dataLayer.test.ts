@@ -1,9 +1,21 @@
-// @vitest-environment jsdom
+// @vitest-environment node
 import { describe, it, expect, beforeEach, vi } from 'vitest';
 import { dataLayer } from '../dataLayer';
 
+const mockStorage: Record<string, string> = {};
+
 beforeEach(() => {
-  localStorage.clear();
+  Object.keys(mockStorage).forEach(k => delete mockStorage[k]);
+  // Mock window so dataLayer functions don't short-circuit on typeof window === 'undefined'
+  globalThis.window = {} as Window & typeof globalThis;
+  globalThis.localStorage = {
+    getItem: vi.fn((key: string) => mockStorage[key] ?? null),
+    setItem: vi.fn((key: string, value: string) => { mockStorage[key] = value; }),
+    removeItem: vi.fn((key: string) => { delete mockStorage[key]; }),
+    clear: vi.fn(() => { Object.keys(mockStorage).forEach(k => delete mockStorage[k]); }),
+    key: vi.fn((index: number) => Object.keys(mockStorage)[index] ?? null),
+    get length() { return Object.keys(mockStorage).length; },
+  } as Storage;
 });
 
 describe('dataLayer streak logic', () => {

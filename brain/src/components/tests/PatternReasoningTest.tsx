@@ -574,7 +574,7 @@ function PatternReasoningTest() {
           <button onClick={() => setGameState('idle')} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
           <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6 border-b border-card-border/40 pb-3">
             <span className="text-accent uppercase tracking-wider font-semibold">{MODE_TITLES[currentMode]}</span>
-            <span>Q {currentIdx + 1} / 5</span>
+            <span>Q {currentIdx + 1} / {questionCount.current}</span>
             <span>SCORE: {score} Pts</span>
           </div>
 

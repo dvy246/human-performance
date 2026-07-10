@@ -38,7 +38,7 @@ export function measureRefreshRate(onComplete: (result: CalibrationResult) => vo
 
       // Snap to common standard values (tighter 2Hz tolerance for accuracy)
       const standards = [60, 75, 90, 120, 144, 165, 240, 280, 360];
-      const snapped = standards.find(s => Math.abs(s - hz) <= 2);
+      const snapped = standards.find(s => Math.abs(s - hz) <= 3);
       if (snapped) hz = snapped;
 
       // Expected display latency is half of one frame interval

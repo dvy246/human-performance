@@ -89,16 +89,30 @@ export default function TestResultsPage() {
   const [data, setData] = useState<ResultData | null>(null);
   const [showQR, setShowQR] = useState(false);
 
+  const hasResultParam = typeof window !== 'undefined' && new URLSearchParams(window.location.search).has('hasResult');
+
   useEffect(() => {
     try {
       const raw = sessionStorage.getItem('cogniarena-last-result');
       if (raw) {
         setData(JSON.parse(raw));
+        // Clean URL param after data loads
+        if (hasResultParam) {
+          window.history.replaceState({}, '', '/tests/results/');
+        }
       }
     } catch { /* ignore */ }
   }, []);
 
   if (!data) {
+    if (hasResultParam) {
+      return (
+        <div className="w-full max-w-2xl mx-auto py-16 flex flex-col items-center justify-center text-center gap-4">
+          <div className="w-8 h-8 border-2 border-accent border-t-transparent rounded-full animate-spin" />
+          <h2 className="text-xl font-bold text-foreground">Loading results...</h2>
+        </div>
+      );
+    }
     return (
       <div className="w-full max-w-2xl mx-auto py-16 flex flex-col items-center justify-center text-center gap-4">
         <span className="text-4xl">🔍</span>

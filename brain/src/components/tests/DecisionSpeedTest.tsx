@@ -40,7 +40,7 @@ function DecisionSpeedTest() {
         setResults(next);
         advance(next);
       }
-    }, TIMEOUT_MS);
+    }, timeoutMs.current);
   };
 
   const handleAnswer = (answer: 'high' | 'low') => {

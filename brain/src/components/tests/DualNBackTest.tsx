@@ -54,6 +54,8 @@ function DualNBackTest() {
   const sequenceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const initialNRef = useRef<number>(2);
   const lastConfig = useRef<GameConfig | null>(null);
+  // Ref for the active sequence list — always up to date, even after regeneration
+  const sequenceListRef = useRef<Stimulus[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -110,9 +112,43 @@ function DualNBackTest() {
     return list;
   };
 
+  /** Generate a subsequence of trials for the remaining slots, using the new nVal for match offsets. */
+  const generateRemaining = (count: number, nVal: number, preceding: Stimulus[]): Stimulus[] => {
+    const list: Stimulus[] = [];
+    const totalSoFar = preceding.length;
+
+    for (let i = 0; i < count; i++) {
+      const actualIdx = totalSoFar + i;
+      const matchPos = Math.random() < 0.35;
+      const matchLetter = Math.random() < 0.35;
+
+      const refIndex = actualIdx - nVal;
+      const position = refIndex >= 0 && matchPos
+        ? preceding[refIndex].position
+        : Math.floor(Math.random() * 9);
+      const letter = refIndex >= 0 && matchLetter
+        ? preceding[refIndex].letter
+        : LETTERS[Math.floor(Math.random() * LETTERS.length)];
+
+      list.push({ position, letter });
+    }
+
+    return list;
+  };
+
   const startTest = (config?: GameConfig) => {
     if (config) lastConfig.current = config;
     const cfg = config || lastConfig.current || {};
+
+    // Clean up any pending timers from a previous run
+    if (trialTimerRef.current) clearTimeout(trialTimerRef.current);
+    if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
+    trialTimerRef.current = null;
+    sequenceTimerRef.current = null;
+    if (typeof window !== 'undefined' && window.speechSynthesis) {
+      window.speechSynthesis.cancel();
+    }
+
     const diff = getDifficultyParams('dual-n-back', (cfg.difficulty as string) || 'Medium');
     const startN = (diff.startN as number) || 2;
     setN(startN);
@@ -122,6 +158,7 @@ function DualNBackTest() {
     initialNRef.current = startN;
     consecutiveCorrect.current = 0;
     const sequence = generateSequence(startN);
+    sequenceListRef.current = sequence;
     setTrialList(sequence);
     setCurrentIdx(-1);
     setActivePosition(null);
@@ -139,11 +176,12 @@ function DualNBackTest() {
 
     // Launch sequence timing
     setTimeout(() => {
-      runNextTrial(0, sequence);
+      runNextTrial(0);
     }, 500);
   };
 
-  const runNextTrial = (idx: number, list: Stimulus[]) => {
+  const runNextTrial = (idx: number, _list?: Stimulus[]) => {
+    const list = sequenceListRef.current;
     if (idx >= list.length) {
       evaluateResult(list);
       return;
@@ -171,8 +209,9 @@ function DualNBackTest() {
     if (trialTimerRef.current) clearTimeout(trialTimerRef.current);
     trialTimerRef.current = setTimeout(() => {
       // Evaluate trial response at the end of the 2.5s interval
-      evaluateTrialResponse(idx, list);
-      runNextTrial(idx + 1, list);
+      // Both functions read from sequenceListRef.current, not the closure param
+      evaluateTrialResponse(idx);
+      runNextTrial(idx + 1);
     }, 2500);
   };
 
@@ -186,7 +225,8 @@ function DualNBackTest() {
     userMatchLetter.current = true;
   }, [gameState, currentIdx, n]);
 
-  const evaluateTrialResponse = (idx: number, list: Stimulus[]) => {
+  const evaluateTrialResponse = (idx: number, _list?: Stimulus[]) => {
+    const list = sequenceListRef.current;
     if (idx < currentNRef.current) return; // First N trials cannot have matches
 
     const targetPosMatch = list[idx].position === list[idx - currentNRef.current].position;
@@ -210,6 +250,8 @@ function DualNBackTest() {
         consecutiveCorrect.current = 0;
         setN(currentNRef.current);
         setMaxN(maxNRef.current);
+        // Regenerate remaining trials with new n so match offsets stay consistent
+        regenerateRemaining(idx);
       }
     } else {
       // Any error resets the streak and drops level
@@ -217,11 +259,25 @@ function DualNBackTest() {
       if (currentNRef.current > 1) {
         currentNRef.current -= 1;
         setN(currentNRef.current);
+        // Regenerate with new (lower) n
+        regenerateRemaining(idx);
       }
     }
   };
 
-  const evaluateResult = async (list: Stimulus[]) => {
+  /** Regenerate the remaining trials (idx+1 onward) using the current currentNRef n value. */
+  const regenerateRemaining = (currentTrialIdx: number) => {
+    const list = sequenceListRef.current;
+    const remainingCount = TOTAL_TRIALS - currentTrialIdx - 1;
+    if (remainingCount <= 0) return;
+    const preceding = list.slice(0, currentTrialIdx + 1);
+    const replacement = generateRemaining(remainingCount, currentNRef.current, preceding);
+    const newList = [...preceding, ...replacement];
+    sequenceListRef.current = newList;
+    setTrialList(newList);
+  };
+
+  const evaluateResult = async (_list?: Stimulus[]) => {
     if (submittedRef.current) return;
     submittedRef.current = true;
     setGameState('result');

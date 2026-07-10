@@ -2,6 +2,10 @@
 /challenge/*  /challenge/  200
 /tests/flick-trainer  /tests/flick-trainer  200
 /gauntlet  /gauntlet  200
+/tests/results  /tests/results  200
+/dashboard  /dashboard  200
+/records  /records  200
+/history  /history  200
 
 # SEO keyword-URL redirects (301)
 /reaction-time-test  /tests/reaction-time  301
