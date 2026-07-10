@@ -296,7 +296,7 @@ const NumberMemoryTest = () => {
             <button
               onClick={handleSubmit}
               disabled={userInput.length === 0}
-              className="w-full text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-6 py-2.5 rounded transition-standard active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed"
+              className="w-full text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-6 py-2.5 rounded transition-standard active:scale-[0.98] disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
             >
               Submit
             </button>
@@ -341,7 +341,7 @@ const NumberMemoryTest = () => {
             </div>
             <button
               onClick={finishTest}
-              className="text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-8 py-2.5 rounded transition-standard active:scale-[0.98] mt-2"
+              className="text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-8 py-2.5 rounded transition-standard active:scale-[0.98] mt-2 cursor-pointer"
             >
               View Results
             </button>

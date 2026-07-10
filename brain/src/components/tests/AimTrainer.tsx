@@ -194,7 +194,6 @@ function AimTrainer() {
     e.preventDefault();
     if (gameState !== 'playing' || !canvasRef.current || !currentTarget.current) return;
     if (respondedRef.current) return;
-    respondedRef.current = true;
 
     activeClicks.current += 1;
     setClicks(activeClicks.current);
@@ -210,6 +209,7 @@ function AimTrainer() {
     const dist = Math.sqrt((x - target.x) ** 2 + (y - target.y) ** 2);
 
     if (dist <= target.r) {
+      respondedRef.current = true;
       // Hit!
       playClick();
       const timeElapsed = Math.round(performance.now() - target.spawnTime);

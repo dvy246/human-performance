@@ -1,81 +1,191 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Choice Reaction Time & Hick's Law — Science | CogniArena";
-const description = "Understand Hick's Law logarithmic scaling, stimulus-response compatibility effects, and decision tree overhead in choice reaction tasks.";
+const title = "Choice Reaction Time & Hick's Law Science | CogniArena";
+const description = "Explore choice reaction speed, Hick's Law logarithmic formulas, stimulus discrimination, and cognitive routing overhead.";
 const canonicalUrl = "https://cogniarena.com/learn/choice-reaction";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Science of Choice Reaction Time and Hick's Law",
-  "description": "Examine decision tree branching, stimulus-response compatibility, and the logarithmic relationship between choices and reaction delay.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Decision Complexity and Hick's Law log2 Formula",
+    "description": "Explore choice reaction speed, Hick's Law logarithmic formulas, stimulus discrimination, and cognitive routing overhead.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between simple and choice reaction time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Simple reaction time has only one stimulus and one response (e.g. clicking when a screen turns green). Choice reaction time has multiple different stimuli, each requiring a different response (e.g. pressing different keys based on the color displayed), which requires cognitive decision-making."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does Hick's Law state?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Hick's Law states that the time it takes to make a decision increases logarithmically with the number of alternatives. Every time the number of choices doubles, the cognitive processing overhead increases linearly."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I train to make faster choices?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can train choice speed by practicing stimulus-response pairing to build automaticity, minimizing eye movement by using peripheral vision, and utilizing targeted drills that force rapid discrimination under time pressure."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does choice reaction time predict real-world skills?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Choice reaction speed is highly correlated with driving safety (responding to sudden traffic changes), athletic performance, and cognitive flexibility in fast-paced professional environments."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Choice Reaction",
+        "item": "https://cogniarena.com/learn/choice-reaction"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        Choice Reaction Time & Hick's Law
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Choice Reaction Time & Hick's Law Science
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed">
-        An exploration of decision latency, stimulus-response mapping, and the mathematical structure of choice.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Choice reaction time (CRT) measures the latency of responding to one of multiple distinct stimuli with a matching response. Unlike simple reflexes, choice reaction incorporates sensory discrimination and decision-making complexity, serving as a primary metric of cognitive processing efficiency.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Hick's Law: Logarithmic Scaling of Decision Time</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Hick's Law states that reaction time increases logarithmically as the number of stimulus-response alternatives grows. The formula RT = a + b log₂(N) describes how each additional binary choice adds a fixed increment of processing time. This logarithmic relationship reveals that the brain serializes decision making through a branching tree structure rather than processing all options in parallel.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Choice reaction time engages extensive cortical pathways. When one of several visual triggers appears, the signal travels from the primary visual cortex (V1) to the secondary visual areas (V2, V4, and IT) for color, shape, and spatial discrimination. This classified visual data is projected to the prefrontal cortex (PFC), specifically the dorsolateral prefrontal cortex (dlPFC) and anterior cingulate cortex (ACC), which resolve the conflict and select the appropriate motor response mapped to that stimulus. The supplementary motor area and primary motor cortex then execute the specific muscle command. This cognitive loop requires visual classification, rule retrieval, conflict resolution, and selective motor activation, adding significant latency compared to a simple reflex path.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Stimulus-Response Compatibility Effects</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Stimulus-response (S-R) compatibility refers to the natural mapping between a stimulus and its required response. Compatible pairings, such as pressing a right-side button when a right-side light illuminates, produce faster reaction times than incompatible ones. Spatial S-R compatibility effects are mediated by the parietal cortex, which maps external spatial coordinates to motor coordinates. Incompatible mappings force the brain to perform an additional translation step, adding 30ms to 80ms of latency.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The mathematical relationship between choice complexity and response speed is defined by Hick's Law (or the Hick-Hyman Law). The formula states: RT = a + b * log2(n), where RT is reaction time, 'a' is baseline sensory-motor conduction time, 'b' is the cognitive processing overhead per bit of information, and 'n' is the number of equally probable alternatives. Each doubling of choices adds one 'bit' of information to be processed, which translates to a linear increase in response time. If 'n' increases from 2 to 4, the info-processing load increases by 1 bit, adding approximately 30-50ms of cognitive routing delay depending on the individual's baseline processing speed.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Decision Tree Overhead and Response Conflict</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The brain's decision tree is not purely serial; it involves parallel evaluation of evidence across multiple cortical regions followed by a race-to-threshold mechanism. The anterior cingulate cortex monitors for response conflict when multiple possible actions are partially activated. This conflict monitoring adds overhead proportional to the similarity between competing responses, a phenomenon captured by the Eriksen flanker effect.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Population averages for choice reaction time range from 380ms to 450ms for a 4-choice design. In contrast, simple reaction time averages 250ms. Highly trained individuals, such as fighter pilots, air traffic controllers, and professional video game players, maintain CRT scores under 320ms, showing highly optimized cortical networks and rapid classification systems. As people age, CRT slows faster than simple reaction time, indicating that age-related decline affects prefrontal decision-making speed and cognitive set-shifting more severely than fundamental nerve conduction.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Training choice reaction speed involves optimizing visual scanning, stimulus categorization, and motor mapping. Practice 'spatial chunking' to group adjacent choice locations into unified visual fields. Training under cognitive load (such as dual-tasking) forces the prefrontal cortex to streamline response selection. Hardware optimization is critical: using high-polling-rate keyboards or mice and screens with minimal latency ensures that prefrontal processing speed is accurately recorded without being masked by mechanical delay.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">What is the average choice reaction time?</h4>
-            <p class="text-muted">Simple reaction time averages 200ms to 250ms, while four-choice reaction time averages 350ms to 500ms. The increase follows Hick's Law logarithmic scaling.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the difference between simple and choice reaction time?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Simple reaction time has only one stimulus and one response (e.g. clicking when a screen turns green). Choice reaction time has multiple different stimuli, each requiring a different response (e.g. pressing different keys based on the color displayed), which requires cognitive decision-making.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">How does Hick's Law affect test scores?</h4>
-            <p class="text-muted">Tests with more possible stimuli produce predictably longer reaction times. Scoring accounts for this by measuring the slope of the RT increase rather than raw speed alone.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What does Hick's Law state?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Hick's Law states that the time it takes to make a decision increases logarithmically with the number of alternatives. Every time the number of choices doubles, the cognitive processing overhead increases linearly.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">Can choice reaction time be trained?</h4>
-            <p class="text-muted">Yes. Practice reduces the intercept of the Hick's Law curve through improved stimulus-response mapping, though the logarithmic slope remains relatively stable.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              How can I train to make faster choices?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              You can train choice speed by practicing stimulus-response pairing to build automaticity, minimizing eye movement by using peripheral vision, and utilizing targeted drills that force rapid discrimination under time pressure.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              Does choice reaction time predict real-world skills?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Yes. Choice reaction speed is highly correlated with driving safety (responding to sudden traffic changes), athletic performance, and cognitive flexibility in fast-paced professional environments.
+            </p>
           </div>
         </div>
       </article>
     </section>
-
-    <p class="text-muted text-sm leading-relaxed text-center border-t border-card-border pt-10">
-      Measure your choice reaction speed on the <a href="/tests/choice-reaction" class="text-accent underline underline-offset-2 hover:brightness-110 transition-all">Choice Reaction Test</a>.
-    </p>
   </div>
 </Layout>

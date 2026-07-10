@@ -1,42 +1,115 @@
 ---
-import Layout from "@/layouts/main.astro";
-import VerbalMemoryTest from "@/components/tests/VerbalMemoryTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import VerbalMemoryTest from "@/components/tests/VerbalMemoryTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Verbal Memory Test – Word Recall | CogniArena";
-const description = "Test your verbal working memory capacity. Memorize growing word lists and recall them from a set of distractors. Track your recall span and compare against population benchmarks.";
-const canonicalUrl = "https://cogniarena.com/tests/verbal-memory";
+const title = "Verbal Memory Test – Word Recall | CogniArena"
+const description =
+  "Test your verbal working memory capacity. Memorize growing word lists and recall them from a set of distractors. Track your recall span and compare against population benchmarks."
+const canonicalUrl = "https://cogniarena.com/tests/verbal-memory"
 
 const schemaJson = [
-  { "@context": "https://schema.org", "@type": "SoftwareApplication", "applicationCategory": "GameApplication", "name": "Verbal Memory Test", "description": "Verbal working memory assessment measuring word recall from growing lists with distractors.", "about": { "@type": "Thing", "name": "Working Memory" } },
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "What is a good word count score?", "acceptedAnswer": { "@type": "Answer", "text": "The average score is around 8-10 words. Scoring 12-15 words is above average, and 18+ words indicates exceptional verbal working memory. Most people can hold about 7 items in working memory, but chunking strategies can extend this." } },
-    { "@type": "Question", "name": "How does this relate to real-world memory?", "acceptedAnswer": { "@type": "Answer", "text": "Verbal working memory is used whenever you remember a phone number, follow spoken instructions, or recall a shopping list. Strong verbal memory correlates with better reading comprehension and language learning ability." } },
-    { "@type": "Question", "name": "Is this a medical diagnostic tool?", "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." } }
-  ] },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: "Verbal Memory Test",
+    description:
+      "Verbal working memory assessment measuring word recall from growing lists with distractors.",
+    about: { "@type": "Thing", name: "Working Memory" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is a good word count score?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The average score is around 8-10 words. Scoring 12-15 words is above average, and 18+ words indicates exceptional verbal working memory. Most people can hold about 7 items in working memory, but chunking strategies can extend this.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does this relate to real-world memory?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Verbal working memory is used whenever you remember a phone number, follow spoken instructions, or recall a shopping list. Strong verbal memory correlates with better reading comprehension and language learning ability.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
+  },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Memory Suite", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Verbal Memory Test", "item": "https://cogniarena.com/tests/verbal-memory" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Memory Suite",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Verbal Memory Test",
+        item: "https://cogniarena.com/tests/verbal-memory",
+      },
+    ],
+  },
+]
 ---
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb"><a href="/" class="hover:underline">Home</a><span>/</span><a href="/#suite" class="hover:underline">Tests</a><span>/</span><span class="text-muted">Verbal Memory Test</span></nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Verbal Memory Test</h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">Measure your verbal working memory capacity by memorizing lists of words and recalling them from a larger set. Difficulty increases with each round.</p>
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a><span>/</span><a
+          href="/tests"
+          class="hover:underline">Tests</a
+        ><span>/</span><span class="text-muted">Verbal Memory Test</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Verbal Memory Test
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Measure your verbal working memory capacity by memorizing lists of words
+        and recalling them from a larger set. Difficulty increases with each
+        round.
+      </p>
     </header>
     <section class="w-full"><VerbalMemoryTest client:visible /></section>
 
     <HowItWorks
       testName="the Verbal Memory Test"
+      learnSlug="verbal-memory"
+      learnTitle="Verbal Recall Science"
       whatItMeasures="This test evaluates your verbal working memory by presenting a growing list of words to memorize. After each list, you must identify the correct words from a larger set of distractors, testing your phonological loop capacity."
       howScoringWorks="Each round adds one more word to remember. A correct recall advances you to the next level. Your score is the maximum number of words you can reliably recall. The average score is 8-10 words."
       whatAffectsResults="Your working memory capacity, chunking ability (grouping words into phrases), vocabulary familiarity, and focus during the presentation phase all affect your recall accuracy."
@@ -44,12 +117,28 @@ const schemaJson = [
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Verbal Memory Score</h2>
-      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
-        <li><strong class="text-foreground">Working memory capacity</strong> — the number of items you can actively hold and manipulate</li>
-        <li><strong class="text-foreground">Chunking ability</strong> — grouping words into meaningful phrases extends effective memory span</li>
-        <li><strong class="text-foreground">Vocabulary familiarity</strong> — common words are easier to retain than unusual or abstract terms</li>
-        <li><strong class="text-foreground">Focus and attention</strong> — distraction during the presentation phase directly reduces recall accuracy</li>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        What Affects Your Verbal Memory Score
+      </h2>
+      <ul
+        class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+      >
+        <li>
+          <strong class="text-foreground">Working memory capacity</strong> — the number
+          of items you can actively hold and manipulate
+        </li>
+        <li>
+          <strong class="text-foreground">Chunking ability</strong> — grouping words
+          into meaningful phrases extends effective memory span
+        </li>
+        <li>
+          <strong class="text-foreground">Vocabulary familiarity</strong> — common
+          words are easier to retain than unusual or abstract terms
+        </li>
+        <li>
+          <strong class="text-foreground">Focus and attention</strong> — distraction
+          during the presentation phase directly reduces recall accuracy
+        </li>
       </ul>
     </article>
 
@@ -57,25 +146,52 @@ const schemaJson = [
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What is a good word count score?</h3>
-          <p class="text-muted text-sm leading-relaxed">The average score is around 8-10 words. Scoring 12-15 words is above average, and 18+ words indicates exceptional verbal working memory. Most people can hold about 7 items in working memory, but chunking strategies can extend this.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What is a good word count score?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            The average score is around 8-10 words. Scoring 12-15 words is above
+            average, and 18+ words indicates exceptional verbal working memory.
+            Most people can hold about 7 items in working memory, but chunking
+            strategies can extend this.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How does this relate to real-world memory?</h3>
-          <p class="text-muted text-sm leading-relaxed">Verbal working memory is used whenever you remember a phone number, follow spoken instructions, or recall a shopping list. Strong verbal memory correlates with better reading comprehension and language learning ability.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How does this relate to real-world memory?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Verbal working memory is used whenever you remember a phone number,
+            follow spoken instructions, or recall a shopping list. Strong verbal
+            memory correlates with better reading comprehension and language
+            learning ability.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this a medical diagnostic tool?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This test is designed for self-tracking, performance
+            benchmarking, and entertainment purposes. It is not a clinical
+            cognitive assessment.
+          </p>
         </div>
       </div>
     </article>
 
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > For self-tracking and educational purposes only. Not a clinical or diagnostic
+      evaluation.
     </div>
   </div>
 </Layout>

@@ -97,6 +97,7 @@ function GauntletTest() {
     redirectToResults({
       testId: 'gauntlet', testName: 'The Gauntlet', attempts: r.map(s => s.score), unit: 'pts',
       percentile, personalBest: null, category: 'focus', average: totalScore,
+      difficulty: difficultyLevel
     });
   };
 

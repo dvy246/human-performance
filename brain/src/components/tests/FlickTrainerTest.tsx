@@ -111,6 +111,7 @@ function FlickTrainerTest() {
     setResults([]);
     resultsRef.current = [];
     submittedRef.current = false;
+    respondedRef.current = false;
     setTimeout(() => { if (containerRef.current) spawnTarget(containerRef.current); }, 300);
   };
 

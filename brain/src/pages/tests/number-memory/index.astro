@@ -1,73 +1,110 @@
 ---
-import Layout from "@/layouts/main.astro";
-import NumberMemoryTest from "@/components/tests/NumberMemoryTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import NumberMemoryTest from "@/components/tests/NumberMemoryTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Number Memory Test — Working Memory Benchmark | CogniArena";
-const description = "Test your numerical memory span and benchmark your working memory recall capacity. Free, millisecond-accurate, and local-first.";
-const canonicalUrl = "https://cogniarena.com/tests/number-memory";
+const title = "Number Memory Test — Working Memory Benchmark | CogniArena"
+const description =
+  "Test your numerical memory span and benchmark your working memory recall capacity. Free, millisecond-accurate, and local-first."
+const canonicalUrl = "https://cogniarena.com/tests/number-memory"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Number Memory Test",
-    "description": "Benchmark your short-term working memory span with expanding digit patterns.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "Number Memory Test",
+    description:
+      "Benchmark your short-term working memory span with expanding digit patterns.",
+    about: {
       "@type": "Thing",
-      "name": "Working Memory"
-    }
+      name: "Working Memory",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is the average number memory span?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Most adults can hold 7 digits (plus or minus 2) in short-term working memory, according to Miller's Law. Scoring 9+ digits is above average, and 12+ is exceptional. Memory athletes use chunking and mnemonic techniques to reach 20+ digits." }
+        name: "What is the average number memory span?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Most adults can hold 7 digits (plus or minus 2) in short-term working memory, according to Miller's Law. Scoring 9+ digits is above average, and 12+ is exceptional. Memory athletes use chunking and mnemonic techniques to reach 20+ digits.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How can I improve my number memory?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Practice chunking by grouping digits into meaningful patterns (dates, phone numbers). Use mnemonic techniques like the Major System to convert numbers into words. Regular practice with expanding digit sequences strengthens working memory capacity over time." }
+        name: "How can I improve my number memory?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Practice chunking by grouping digits into meaningful patterns (dates, phone numbers). Use mnemonic techniques like the Major System to convert numbers into words. Regular practice with expanding digit sequences strengthens working memory capacity over time.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this a medical diagnostic tool?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
-      }
-    ]
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Memory Suite", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Number Memory Test", "item": "https://cogniarena.com/tests/number-memory" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Memory Suite",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Number Memory Test",
+        item: "https://cogniarena.com/tests/number-memory",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/tests" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Number Memory Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Number Memory Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Most people can hold around 7 digits in short-term working memory. Test your limits with this expanding digit sequencer.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Most people can hold around 7 digits in short-term working memory. Test
+        your limits with this expanding digit sequencer.
       </p>
     </header>
 
@@ -77,43 +114,78 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the Number Memory Test"
+        learnSlug="number-memory"
+        learnTitle="Number Memory Science"
         whatItMeasures="Tests your digit span — the number of numeric digits you can hold in active working memory. A sequence of digits is shown briefly, then you must type it back from memory."
         howScoringWorks="Each correct recall extends the sequence by one digit. Your score is the longest sequence length you can correctly recall. The average digit span is 7±2 (Miller's Law)."
         whatAffectsResults="Your working memory capacity, ability to chunk digits into groups, focus during encoding, and practice with memory tasks all affect your digit span."
       />
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">How the Number Memory Test Works</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          The test displays a number on the screen. Try to remember it. Once the countdown timer ends, type the number back into the input field. If correct, the number of digits increases by one. If incorrect, the test finishes.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          How the Number Memory Test Works
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          The test displays a number on the screen. Try to remember it. Once the
+          countdown timer ends, type the number back into the input field. If
+          correct, the number of digits increases by one. If incorrect, the test
+          finishes.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Understanding Short-Term Memory Capacity</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          Cognitive research suggests that adult working memory span is constrained by Miller's Law: we can typically hold between 5 to 9 chunks of information simultaneously. High-performance recall relies on chunking strategies, converting digits into associations, shapes, or sequences.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Understanding Short-Term Memory Capacity
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          Cognitive research suggests that adult working memory span is
+          constrained by Miller's Law: we can typically hold between 5 to 9
+          chunks of information simultaneously. High-performance recall relies
+          on chunking strategies, converting digits into associations, shapes,
+          or sequences.
         </p>
       </article>
     </section>
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Number Memory Score</h2>
-      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
-        <li><strong class="text-foreground">Chunking ability</strong> — grouping digits into meaningful patterns (dates, sequences) to reduce cognitive load</li>
-        <li><strong class="text-foreground">Working memory capacity</strong> — the number of items you can actively maintain in short-term storage</li>
-        <li><strong class="text-foreground">Encoding speed</strong> — how quickly you convert visual digits into mental representations</li>
-        <li><strong class="text-foreground">Display latency</strong> — slower monitors add minor overhead to digit recognition</li>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        What Affects Your Number Memory Score
+      </h2>
+      <ul
+        class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+      >
+        <li>
+          <strong class="text-foreground">Chunking ability</strong> — grouping digits
+          into meaningful patterns (dates, sequences) to reduce cognitive load
+        </li>
+        <li>
+          <strong class="text-foreground">Working memory capacity</strong> — the number
+          of items you can actively maintain in short-term storage
+        </li>
+        <li>
+          <strong class="text-foreground">Encoding speed</strong> — how quickly you
+          convert visual digits into mental representations
+        </li>
+        <li>
+          <strong class="text-foreground">Display latency</strong> — slower monitors
+          add minor overhead to digit recognition
+        </li>
       </ul>
     </article>
 
@@ -121,19 +193,42 @@ const schemaJson = [
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What is the average number memory span?</h3>
-          <p class="text-muted text-sm leading-relaxed">Most adults can hold 7 digits (plus or minus 2) in short-term working memory, according to Miller's Law. Scoring 9+ digits is above average, and 12+ is exceptional. Memory athletes use chunking and mnemonic techniques to reach 20+ digits.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What is the average number memory span?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Most adults can hold 7 digits (plus or minus 2) in short-term
+            working memory, according to Miller's Law. Scoring 9+ digits is
+            above average, and 12+ is exceptional. Memory athletes use chunking
+            and mnemonic techniques to reach 20+ digits.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How can I improve my number memory?</h3>
-          <p class="text-muted text-sm leading-relaxed">Practice chunking by grouping digits into meaningful patterns (dates, phone numbers). Use mnemonic techniques like the Major System to convert numbers into words. Regular practice with expanding digit sequences strengthens working memory capacity over time.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How can I improve my number memory?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Practice chunking by grouping digits into meaningful patterns
+            (dates, phone numbers). Use mnemonic techniques like the Major
+            System to convert numbers into words. Regular practice with
+            expanding digit sequences strengthens working memory capacity over
+            time.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this a medical diagnostic tool?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This test is designed for self-tracking, performance
+            benchmarking, and entertainment purposes. It is not a clinical
+            cognitive assessment.
+          </p>
         </div>
       </div>
     </article>

@@ -65,7 +65,7 @@ function DualNBackTest() {
     }).catch(console.error);
     return () => {
       mounted = false;
-      if (trialTimerRef.current) clearInterval(trialTimerRef.current);
+      if (trialTimerRef.current) clearTimeout(trialTimerRef.current);
       if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
       if (typeof window !== 'undefined' && window.speechSynthesis) {
         window.speechSynthesis.cancel();
@@ -338,12 +338,13 @@ function DualNBackTest() {
     redirectToResults({
       testId: 'dual-n-back', testName: 'Dual N-Back', attempts: [finalScore], unit: 'pts',
       percentile, personalBest: null, category: 'memory', average: finalScore,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
   useVisibilityGuard(() => {
-    if (trialTimerRef.current) clearInterval(trialTimerRef.current);
+    if (trialTimerRef.current) clearTimeout(trialTimerRef.current);
     if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current);
     setGameState('idle');
   }, gameState === 'running');
@@ -380,7 +381,7 @@ function DualNBackTest() {
 
       {gameState === 'running' && (
         <div className="rounded-xl border border-card-border bg-card p-6 flex flex-col items-center justify-between min-h-[440px] shadow-lg relative overflow-hidden">
-          <button onClick={() => { if (trialTimerRef.current) clearInterval(trialTimerRef.current); if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current); setGameState('idle'); }} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+          <button onClick={() => { if (trialTimerRef.current) clearTimeout(trialTimerRef.current); if (sequenceTimerRef.current) clearTimeout(sequenceTimerRef.current); setGameState('idle'); }} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
           {/* Header Status */}
           <div className="w-full flex justify-between items-center text-xs font-mono text-muted mb-6">
             <span>TRIAL {currentIdx + 1} / {trialList.length}</span>

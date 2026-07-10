@@ -1,73 +1,112 @@
 ---
-import Layout from "@/layouts/main.astro";
-import PatternReasoningTest from "@/components/tests/PatternReasoningTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import PatternReasoningTest from "@/components/tests/PatternReasoningTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Pattern Reasoning Test — Fluid Intelligence Assessment | CogniArena";
-const description = "Evaluate your visual pattern recognition, logical reasoning, and fluid intelligence. Complete geometric progressions and matrix puzzles with millisecond precision.";
-const canonicalUrl = "https://cogniarena.com/tests/pattern-reasoning";
+const title =
+  "Pattern Reasoning Test — Fluid Intelligence Assessment | CogniArena"
+const description =
+  "Evaluate your visual pattern recognition, logical reasoning, and fluid intelligence. Complete geometric progressions and matrix puzzles with millisecond precision."
+const canonicalUrl = "https://cogniarena.com/tests/pattern-reasoning"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Pattern Reasoning Test",
-    "description": "Assess fluid visual reasoning and logical pattern completions.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "Pattern Reasoning Test",
+    description:
+      "Assess fluid visual reasoning and logical pattern completions.",
+    about: {
       "@type": "Thing",
-      "name": "Fluid Intelligence & Logic"
-    }
+      name: "Fluid Intelligence & Logic",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What does the pattern reasoning test measure?",
-        "acceptedAnswer": { "@type": "Answer", "text": "It measures fluid intelligence — your ability to think logically and solve problems in novel situations, independent of acquired knowledge. Specifically, it tests inductive reasoning, pattern recognition, and the ability to extract rules from complex visual sequences." }
+        name: "What does the pattern reasoning test measure?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "It measures fluid intelligence — your ability to think logically and solve problems in novel situations, independent of acquired knowledge. Specifically, it tests inductive reasoning, pattern recognition, and the ability to extract rules from complex visual sequences.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How can I improve my pattern reasoning score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Practice identifying common pattern types (rotation, progression, XOR logic). Break complex patterns into simpler components. Work through puzzles and matrix reasoning exercises regularly. Speed improves with familiarity — the more pattern types you recognize, the faster you'll respond." }
+        name: "How can I improve my pattern reasoning score?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Practice identifying common pattern types (rotation, progression, XOR logic). Break complex patterns into simpler components. Work through puzzles and matrix reasoning exercises regularly. Speed improves with familiarity — the more pattern types you recognize, the faster you'll respond.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this a medical diagnostic tool?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
-      }
-    ]
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Fluid Logic Suite", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Pattern Reasoning Test", "item": "https://cogniarena.com/tests/pattern-reasoning" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Tests",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Pattern Reasoning Test",
+        item: "https://cogniarena.com/tests/pattern-reasoning",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/tests" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Pattern Reasoning Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Pattern Reasoning Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Benchmark your fluid intelligence. Identify the logical symbol that completes each pattern sequence. Respond quickly and accurately to maximize your score.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Benchmark your fluid intelligence. Identify the logical symbol that
+        completes each pattern sequence. Respond quickly and accurately to
+        maximize your score.
       </p>
     </header>
 
@@ -77,43 +116,79 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the Pattern Reasoning Test"
+        learnSlug="iq-test"
+        learnTitle="IQ & Fluid Intelligence Science"
         whatItMeasures="Evaluates fluid intelligence through multiple formats: pattern recognition (linear sequences), matrix reasoning (2x2 grids), sequence logic (numerical/rotational progressions), and shape analogies (morph transformations)."
         howScoringWorks="Score is accuracy across all formats, with faster correct responses weighted higher. This measures your ability to identify rules and apply transformations — the core of fluid reasoning (Gf)."
         whatAffectsResults="Your pattern recognition speed, experience with abstract reasoning puzzles, cognitive flexibility, and current mental fatigue all affect your reasoning score."
       />
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Fluid Reasoning & Visual Pattern Recognition</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          Fluid intelligence represents your capacity to think logically and solve problems in novel situations, independent of acquired knowledge. Non-verbal matrix reasoning tests are widely recognized in cognitive neuroscience as strong indicators of fluid reasoning efficiency, requiring structural pattern matching and rule extraction.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Fluid Reasoning & Visual Pattern Recognition
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          Fluid intelligence represents your capacity to think logically and
+          solve problems in novel situations, independent of acquired knowledge.
+          Non-verbal matrix reasoning tests are widely recognized in cognitive
+          neuroscience as strong indicators of fluid reasoning efficiency,
+          requiring structural pattern matching and rule extraction.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Methodology and Scoring</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          The Pattern Reasoning test consists of 10 progressive sequence puzzles. Your score represents a composite of accuracy (number of correct completions) and speed (response latency per question). Answering quickly with high accuracy yields the highest performance index, indicating fast processing and accurate inductive reasoning.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Methodology and Scoring
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          The Pattern Reasoning test consists of 10 progressive sequence
+          puzzles. Your score represents a composite of accuracy (number of
+          correct completions) and speed (response latency per question).
+          Answering quickly with high accuracy yields the highest performance
+          index, indicating fast processing and accurate inductive reasoning.
         </p>
       </article>
     </section>
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Pattern Reasoning Score</h2>
-      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
-        <li><strong class="text-foreground">Inductive reasoning ability</strong> — extracting underlying rules from visual sequences and applying them to novel patterns</li>
-        <li><strong class="text-foreground">Pattern vocabulary</strong> — familiarity with common pattern types (rotation, progression, XOR, reflection)</li>
-        <li><strong class="text-foreground">Processing speed</strong> — how quickly you can analyze and compare visual elements</li>
-        <li><strong class="text-foreground">Display latency</strong> — slower monitors add minor overhead to pattern recognition</li>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        What Affects Your Pattern Reasoning Score
+      </h2>
+      <ul
+        class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+      >
+        <li>
+          <strong class="text-foreground">Inductive reasoning ability</strong> — extracting
+          underlying rules from visual sequences and applying them to novel patterns
+        </li>
+        <li>
+          <strong class="text-foreground">Pattern vocabulary</strong> — familiarity
+          with common pattern types (rotation, progression, XOR, reflection)
+        </li>
+        <li>
+          <strong class="text-foreground">Processing speed</strong> — how quickly
+          you can analyze and compare visual elements
+        </li>
+        <li>
+          <strong class="text-foreground">Display latency</strong> — slower monitors
+          add minor overhead to pattern recognition
+        </li>
       </ul>
     </article>
 
@@ -121,19 +196,43 @@ const schemaJson = [
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What does the pattern reasoning test measure?</h3>
-          <p class="text-muted text-sm leading-relaxed">It measures fluid intelligence — your ability to think logically and solve problems in novel situations, independent of acquired knowledge. Specifically, it tests inductive reasoning, pattern recognition, and the ability to extract rules from complex visual sequences.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What does the pattern reasoning test measure?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            It measures fluid intelligence — your ability to think logically and
+            solve problems in novel situations, independent of acquired
+            knowledge. Specifically, it tests inductive reasoning, pattern
+            recognition, and the ability to extract rules from complex visual
+            sequences.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How can I improve my pattern reasoning score?</h3>
-          <p class="text-muted text-sm leading-relaxed">Practice identifying common pattern types (rotation, progression, XOR logic). Break complex patterns into simpler components. Work through puzzles and matrix reasoning exercises regularly. Speed improves with familiarity — the more pattern types you recognize, the faster you'll respond.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How can I improve my pattern reasoning score?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Practice identifying common pattern types (rotation, progression,
+            XOR logic). Break complex patterns into simpler components. Work
+            through puzzles and matrix reasoning exercises regularly. Speed
+            improves with familiarity — the more pattern types you recognize,
+            the faster you'll respond.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this a medical diagnostic tool?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This test is designed for self-tracking, performance
+            benchmarking, and entertainment purposes. It is not a clinical
+            cognitive assessment.
+          </p>
         </div>
       </div>
     </article>

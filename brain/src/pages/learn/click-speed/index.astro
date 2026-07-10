@@ -1,63 +1,188 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Click Speed & Motor Stamina (CPS) Science | CogniArena";
-const description = "Scientific guide to clicking frequency cadences, Fitts's Law, mechanical latency, and speed endurance training.";
+const title = "Click Speed (CPS) Science & Muscle Jitter | CogniArena";
+const description = "Scientific guide to click speed (CPS), muscular twitch recruitment, mechanical switch telemetry, and jitter clicking methods.";
 const canonicalUrl = "https://cogniarena.com/learn/click-speed";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Science of Click Speed, Cadence Frequency, and Motor Stamina",
-  "description": "Understand clicks-per-second, neuro-muscular fatigue patterns, and mouse polling latency benchmarks.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Muscular Twitch Recruitment and Switch Latency",
+    "description": "Scientific guide to click speed (CPS), muscular twitch recruitment, mechanical switch telemetry, and jitter clicking methods.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the average human clicking speed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The average human clicking speed is 6 to 7 Clicks Per Second (CPS) using standard finger clicking. With specialized techniques, this can be increased to 12-15 CPS."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Is jitter clicking safe?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Jitter clicking involves tensing forearm muscles to vibrate the finger, which can cause muscle strain, tendonitis, or carpal tunnel syndrome if practiced excessively. It is important to take frequent breaks and stop immediately if you feel pain."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does mouse debounce delay affect CPS?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Debounce delay is a firmware safeguard that ignores rapid switch vibrations to prevent double-clicks. If set too high, it will ignore legitimate, rapid physical clicks, capping your maximum registered CPS."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What are fast-twitch muscle fibers?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Type IIb fast-twitch fibers are muscle cells designed for rapid, explosive movements. They contract quickly but rely on anaerobic pathways, causing them to fatigue quickly due to lactic acid buildup."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Click Speed",
+        "item": "https://cogniarena.com/learn/click-speed"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        Click Speed (CPS) Science & Dynamics
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Click Speed (CPS) Science & Muscle Jitter
       </h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed">
-        Investigating clicks-per-second, finger flexing muscular fatigue curves, and hardware input polling rates.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Click speed, measured in Clicks Per Second (CPS), evaluates motor unit recruitment, fast-twitch muscle fiber activation, and neuromuscular endurance. This guide breaks down the physiology of rapid muscular activation, clicking techniques, and mechanical switch latency.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Muscle Activation Jitter and Clicking Techniques</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
-          High-frequency clicking (above 9 CPS) requires activating either muscular tension oscillation (jitter clicking) or tactile rebound slide movements (drag clicking). During jitter clicking, antagonists and agonist forearm muscles are co-contracted, producing micro-tremors that click the switch.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Rapid clicking requires high-frequency activation of the forearm muscles, specifically the flexor digitorum superficialis and profundus, which control finger flexion. The primary motor cortex sends rapid, rhythmic bursts of electrical action potentials down the corticospinal tract. These signals cross neuromuscular junctions, releasing acetylcholine to trigger calcium release in muscle cells, causing rapid contraction. To achieve high CPS, the motor cortex must recruit fast-twitch (Type IIb) glycolytic muscle fibers, which contract quickly but fatigue rapidly. Maintaining a high clicking rate requires rapid cycling of motor units and precise timing to prevent muscle tetany (cramp), where continuous activation prevents the muscle from relaxing between clicks.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Polling Rates and Mechanical Switch Latency</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
-          The physical button on a mouse contains metallic leaf springs that vibrate when pressed (bounce). Mechanical switches introduce a debounce delay (typically 2ms to 8ms) to prevent double clicks. Mouse USB polling rates determine how frequently the operating system checks for click packets, with 1000Hz (1ms) being the baseline benchmark.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The physics of click registration involves both physical finger travel and switch mechanics. A standard mechanical mouse switch requires a physical force of 50-75 grams and a travel distance of 1-2mm to actuate. Once actuated, metal contacts vibrate (bounce), requiring a digital 'debounce delay' (typically 2-20ms) inside the mouse firmware to prevent duplicate inputs. If a mouse has a high debounce delay, it limits the maximum registered clicking speed. Advanced techniques like jitter clicking or butterfly clicking exploit muscular vibration (agonist/antagonist co-contraction) or alternating finger strikes to actuate the switch faster than standard voluntary finger contractions.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The average clicking speed using standard grip is 6 to 7 CPS over a 5-second interval. Trained players using jitter clicking or butterfly clicking can sustain 12 to 16 CPS, with elite speedrunners or Minecraft players peaking over 20 CPS. Click speed declines with muscle fatigue, lactic acid accumulation, and age, as motor unit recruitment rates gradually slow down over time.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To safely improve click speed, practice relaxation techniques to prevent excessive muscle tension, which can lead to repetitive strain injuries (RSI) like carpal tunnel syndrome. Jitter clicking relies on tensing the arm muscles to generate controlled tremors, which must be practiced carefully. Technically, utilize a mouse with light switches (optical or low-force mechanical) and adjustable debounce settings to ensure that rapid physical clicks are registered with zero firmware delay.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">What is a good CPS score?</h4>
-            <p class="text-muted dark:text-muted">An average user records a click speed between 6.0 and 7.2 CPS. Competitive gamers utilizing muscular jittering frequently surpass 12 CPS.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the average human clicking speed?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The average human clicking speed is 6 to 7 Clicks Per Second (CPS) using standard finger clicking. With specialized techniques, this can be increased to 12-15 CPS.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">Are optical switches faster than mechanical ones?</h4>
-            <p class="text-muted dark:text-muted">Yes. Optical mouse switches use a light beam interruption to register clicks, eliminating physical contact debounce delays entirely and reducing latency to sub-0.5ms ranges.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              Is jitter clicking safe?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Jitter clicking involves tensing forearm muscles to vibrate the finger, which can cause muscle strain, tendonitis, or carpal tunnel syndrome if practiced excessively. It is important to take frequent breaks and stop immediately if you feel pain.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How does mouse debounce delay affect CPS?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Debounce delay is a firmware safeguard that ignores rapid switch vibrations to prevent double-clicks. If set too high, it will ignore legitimate, rapid physical clicks, capping your maximum registered CPS.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              What are fast-twitch muscle fibers?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Type IIb fast-twitch fibers are muscle cells designed for rapid, explosive movements. They contract quickly but rely on anaerobic pathways, causing them to fatigue quickly due to lactic acid buildup.
+            </p>
           </div>
         </div>
       </article>

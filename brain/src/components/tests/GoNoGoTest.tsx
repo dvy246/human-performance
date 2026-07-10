@@ -67,6 +67,7 @@ function GoNoGoTest() {
   const falseAlarmsRef = useRef<number>(0);
   const stimulusCountRef = useRef<number>(0);
   const correctCountRef = useRef<number>(0);
+  const attemptsRef = useRef<number[]>([]);
 
   useEffect(() => {
     let mounted = true;
@@ -112,6 +113,7 @@ function GoNoGoTest() {
     noGoRateRef.current = (diff.noGoRate as number) || 0.35;
     omissionMsRef.current = (diff.omissionMs as number) || 1500;
     setAttempts([]);
+    attemptsRef.current = [];
     setFalseAlarms(0);
     falseAlarmsRef.current = 0;
     stimulusCountRef.current = 0;
@@ -167,10 +169,10 @@ function GoNoGoTest() {
               setGameState('waiting');
               queueNextSignal();
             } else {
-              const avg = attempts.length > 0
-                ? Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length)
+              const avg = attemptsRef.current.length > 0
+                ? Math.round(attemptsRef.current.reduce((a, b) => a + b, 0) / attemptsRef.current.length)
                 : 0;
-              finalizeTest(avg, attempts.length, attempts);
+              finalizeTest(avg, attemptsRef.current.length, attemptsRef.current);
             }
           }, 500);
         }, 600);
@@ -185,7 +187,8 @@ function GoNoGoTest() {
 
     // Missed target: add +250ms penalty attempt
     const finalScore = omissionMsRef.current + 250;
-    const updatedAttempts = [...attempts, finalScore];
+    const updatedAttempts = [...attemptsRef.current, finalScore];
+    attemptsRef.current = updatedAttempts;
     setAttempts(updatedAttempts);
     setCurrentScore(finalScore);
 
@@ -223,7 +226,8 @@ function GoNoGoTest() {
         stimulusCountRef.current += 1;
         correctCountRef.current += 1;
         const elapsed = Math.round(performance.now() - startTime.current);
-        const updatedAttempts = [...attempts, elapsed];
+        const updatedAttempts = [...attemptsRef.current, elapsed];
+        attemptsRef.current = updatedAttempts;
         setAttempts(updatedAttempts);
         setCurrentScore(elapsed);
         playClick();
@@ -247,10 +251,10 @@ function GoNoGoTest() {
           setGameState('attempt-result');
           setCurrentScore(null);
         } else {
-          const avg = attempts.length > 0
-            ? Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length)
+          const avg = attemptsRef.current.length > 0
+            ? Math.round(attemptsRef.current.reduce((a, b) => a + b, 0) / attemptsRef.current.length)
             : 0;
-          finalizeTest(avg, attempts.length, attempts);
+          finalizeTest(avg, attemptsRef.current.length, attemptsRef.current);
         }
       }
     } else if (gameState === 'attempt-result') {
@@ -303,6 +307,7 @@ function GoNoGoTest() {
     redirectToResults({
       testId: 'go-no-go', testName: 'Go/No-Go', attempts: allAttempts, unit: 'ms',
       percentile, personalBest: pb, category: 'reaction', average: finalAverage,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 
@@ -316,8 +321,8 @@ function GoNoGoTest() {
 
   const copyChallengeLink = () => {
     if (typeof window === 'undefined') return;
-    const avgScore = attempts.length > 0
-      ? Math.round(attempts.reduce((a, b) => a + b, 0) / attempts.length) + (falseAlarms * 250)
+    const avgScore = attemptsRef.current.length > 0
+      ? Math.round(attemptsRef.current.reduce((a, b) => a + b, 0) / attemptsRef.current.length) + (falseAlarms * 250)
       : 0;
     const token = encodeChallenge({ testId: 'go-no-go', score: avgScore });
     const url = `${window.location.origin}/tests/go-no-go/?challenge=${token}`;

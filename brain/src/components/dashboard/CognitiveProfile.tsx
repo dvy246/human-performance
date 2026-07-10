@@ -782,7 +782,7 @@ export default function CognitiveProfile() {
                             {formatScore(row.testId, row.rawScore)}
                           </td>
                           <td className="py-3 text-right text-accent font-bold">
-                            {formatTopPercentile(row.percentile)}
+                            {formatTopPercentile(row.percentile, row.testId)}
                           </td>
                           <td className="py-3 text-right pr-2">
                             {row.synced ? (

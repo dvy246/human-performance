@@ -1,20 +1,27 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Reaction Time Hub — Science and Training | CogniArena";
-const description = "Scientific analysis of human reaction time, Hick's Law formulas, training systems, and population percentile curves.";
+const title = "Reaction Time Science & Visual Reflex Latency | CogniArena";
+const description = "In-depth scientific guide to visual reaction time, neural transduction pathways, Hick's Law formulas, and display paint lag calibration.";
 const canonicalUrl = "https://cogniarena.com/learn/reaction-time";
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Scientific Analysis of Reaction Time & Neural Latency",
-    "description": "Comprehensive guide to human reaction speed benchmarks, visual paint-sync calibration, and reflex training protocols.",
+    "headline": "The Neurobiology & Physics of Visual Reaction Time",
+    "description": "In-depth scientific guide to visual reaction time, neural transduction pathways, Hick's Law formulas, and display paint lag calibration.",
     "publisher": {
       "@type": "Organization",
       "name": "CogniArena"
-    }
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
   },
   {
     "@context": "https://schema.org",
@@ -23,17 +30,34 @@ const schemaJson = [
       {
         "@type": "Question",
         "name": "What is the average human reaction time?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The average visual reaction speed is roughly 250ms for simple stimuli, while auditory triggers average around 170ms due to shorter synapse pathways." }
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The average visual reaction speed is roughly 250 milliseconds for the general population. Auditory reaction speeds are faster, averaging around 170 milliseconds, because auditory signals travel a shorter distance and require fewer synapses to reach the brain's processing centers."
+        }
       },
       {
         "@type": "Question",
-        "name": "How does monitor refresh rate affect reaction time scores?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A 60Hz display introduces up to 16.7ms of visual display lag. Using a 144Hz or 240Hz screen minimizes paint delay, displaying the trigger stimulus faster." }
+        "name": "Can you train your reaction time to be faster?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes, to an extent. While baseline neural conduction velocity is genetically bounded by axonal myelination, you can improve decision speed, visual processing, and motor planning through consistent training. This reduces the cognitive decision-making overhead, bringing your response time closer to your physiological limit."
+        }
       },
       {
         "@type": "Question",
-        "name": "What is a good reaction time?",
-        "acceptedAnswer": { "@type": "Answer", "text": "A visual reaction time below 250ms is considered excellent for adults aged 20-35. Below 200ms is elite territory. Above 300ms may indicate fatigue or hardware latency." }
+        "name": "How much does screen refresh rate affect my score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Significantly. A 60Hz display introduces up to 16.7ms of visual lag between when the computer registers a change and when it is displayed on screen. A 144Hz display reduces this to 6.9ms, and a 240Hz screen to 4.2ms. High-refresh-rate screens allow you to see the stimulus earlier and respond sooner."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What factors can temporarily slow down reaction time?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Common temporary inhibitors include sleep deprivation, mental fatigue, alcohol consumption, dehydration, and distraction. Even mild dehydration can decrease cognitive throughput and slow visual reaction times by 20ms or more."
+        }
       }
     ]
   },
@@ -41,67 +65,124 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Learning Center", "item": "https://cogniarena.com/learn" },
-      { "@type": "ListItem", "position": 3, "name": "Reaction Time", "item": "https://cogniarena.com/learn/reaction-time" }
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Reaction Time",
+        "item": "https://cogniarena.com/learn/reaction-time"
+      }
     ]
   }
 ];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        Reaction Time Science & Assessments
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Reaction Time Science & Visual Reflex Latency
       </h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed">
-        Understanding the physiological latency of visual transduction, auditory synapse transmission, and motor response times.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Reaction time represents the temporal latency between the presentation of a sensory stimulus and the physical execution of a motor response. This guide breaks down the biological conduction pathways, mathematical models of cognitive complexity, and strategies to minimize hardware measurement overhead.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Biological Pathways of Visual Stimulus Response</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
-          When a visual stimulus flashes (such as a screen transitioning from red to green), photoreceptors in the retina convert photons into electric potentials. These signals travel via the optic nerve to the lateral geniculate nucleus (LGN) and visual cortex, before prefrontal motor areas dispatch commands through the spinal tract to execute a muscle contraction.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The biological path of a visual reflex begins when photons strike photoreceptors (rods and cones) in the retina, triggering a cascade of hyperpolarization. These electrical impulses travel via the optic nerve to the optic chiasm and the lateral geniculate nucleus (LGN) of the thalamus. From the LGN, signals project to the primary visual cortex (V1) in the occipital lobe for initial feature extraction. The signal then flows through the ventral and dorsal streams to the prefrontal cortex, where decision-making and motor planning occur. Premotor and supplementary motor areas program the motor sequence, sending signals down the corticospinal tract. This reaches lower motor neurons in the spinal cord, causing muscle fibers to contract. Since every chemical synapse introduces a synaptic delay of 1 to 2 milliseconds, and neural conduction velocity is finite, the absolute physiological limit of human visual response speed lies between 130ms and 150ms.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Hick's Law: Decision Complexity and Latency</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
-          Choice reaction times increase logarithmically with the count of alternative stimuli. Hick's Law specifies that every binary alternative (or bit of choice information) introduces a prefrontal cognitive routing delay. For choice assessments, this overhead is isolated from the base reflex time to quantify decision efficiency.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Cognitive modeling divides reaction telemetry into simple reaction time (SRT) and choice reaction time (CRT). Simple reaction involves a single stimulus and a single response, serving as a baseline for neural conduction speed. Choice reaction, governed by Hick's Law, dictates that response latency increases logarithmically with the number of stimulus options. Mathematically, Hick's Law is expressed as RT = a + b * log2(n), where 'a' is the baseline movement time, 'b' is the cognitive processing rate per bit of information, and 'n' is the number of alternatives. Furthermore, physical measurement systems introduce visual display lag: a standard 60Hz monitor displays a new frame every 16.7ms, whereas a 240Hz screen slashes this display latency to 4.17ms, drastically improving testing accuracy.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Practical Protocols to Train Reaction Speed</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed font-sans">
-          Physical reflex latency is bounded by myelination quality. However, cognitive decision speed and stimulus classification can be trained through:
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Ecological benchmarks reveal significant variance across populations. The average young adult exhibits a visual reaction time of approximately 250ms when tested on standard consumer hardware. Elite esports professionals, fighter pilots, and combat athletes operate in the 140ms to 180ms range, indicating heightened synaptic efficiency and neural speed. Reaction time is highly sensitive to aging: peak performance is achieved between ages 18 and 24, after which latency increases by approximately 2-3ms per decade. This gradual decline is attributed to white matter demyelination, leading to slower action potential propagation along cortical axons, along with reduced neurotransmitter availability in motor planning centers.
         </p>
-        <ul class="list-disc pl-5 flex flex-col gap-2 text-muted dark:text-muted text-sm">
-          <li><strong>Anticipatory suppression:</strong> Training the prefrontal cortex to inhibit actions until the stimulus is painted.</li>
-          <li><strong>Spatial chunking:</strong> Reducing choice overhead by categorizing screen regions into singular visual chunks.</li>
-          <li><strong>Cadence consistency:</strong> Optimizing muscle memory responses for stable execution intervals.</li>
-        </ul>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Optimizing reaction speed requires addressing both physiological and technical variables. From a training perspective, anticipatory inhibition drills train the prefrontal cortex to suppress premature motor execution (false alarms) and focus purely on stimulus onset. To minimize hardware-induced measurement error, players should use displays running at 144Hz or higher, configure their mouse to a 1000Hz+ polling rate, disable hardware-level V-Sync (which buffers frames and adds lag), and use wired peripherals over wireless equivalents. Proper hydration, adequate sleep, and acute cardiovascular exercise also boost neural vigilance by increasing blood flow and oxygenation to the prefrontal cortex.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">What is the average human reaction time?</h4>
-            <p class="text-muted dark:text-muted">The average visual reaction speed is roughly 250ms for simple stimuli, while auditory triggers average around 170ms due to shorter synapse pathways.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the average human reaction time?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The average visual reaction speed is roughly 250 milliseconds for the general population. Auditory reaction speeds are faster, averaging around 170 milliseconds, because auditory signals travel a shorter distance and require fewer synapses to reach the brain's processing centers.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">How does monitor refresh rate affect scores?</h4>
-            <p class="text-muted dark:text-muted">A 60Hz display introduces up to 16.7ms of visual display lag. Using a 144Hz or 240Hz screen minimizes paint delay, displaying the trigger stimulus faster.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              Can you train your reaction time to be faster?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Yes, to an extent. While baseline neural conduction velocity is genetically bounded by axonal myelination, you can improve decision speed, visual processing, and motor planning through consistent training. This reduces the cognitive decision-making overhead, bringing your response time closer to your physiological limit.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How much does screen refresh rate affect my score?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Significantly. A 60Hz display introduces up to 16.7ms of visual lag between when the computer registers a change and when it is displayed on screen. A 144Hz display reduces this to 6.9ms, and a 240Hz screen to 4.2ms. High-refresh-rate screens allow you to see the stimulus earlier and respond sooner.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              What factors can temporarily slow down reaction time?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Common temporary inhibitors include sleep deprivation, mental fatigue, alcohol consumption, dehydration, and distraction. Even mild dehydration can decrease cognitive throughput and slow visual reaction times by 20ms or more.
+            </p>
           </div>
         </div>
       </article>

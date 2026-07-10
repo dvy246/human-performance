@@ -158,10 +158,20 @@ export default function TestResultsPage() {
         <span className="text-accent text-[11px] font-mono uppercase tracking-widest font-semibold">{data.testName}</span>
         <h1 className="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">{msg.title}</h1>
         <p className="text-muted text-sm max-w-md leading-relaxed">{msg.subtitle}</p>
+        {data.difficulty && (
+          <span className="px-2 py-0.5 rounded text-[10px] font-mono uppercase bg-subtle border border-card-border text-secondary">
+            Difficulty: {data.difficulty}
+          </span>
+        )}
         <div className="flex items-baseline gap-2 mt-2">
           <span className="text-5xl font-mono font-extrabold text-foreground">{formatScore(average)}</span>
           <span className="text-accent text-sm font-medium">{formatTopPercentile(percentile, !['click-speed', 'sequence-memory', 'number-memory', 'visual-pattern', 'pattern-reasoning', 'planning', 'prioritization'].includes(data.testId))}</span>
         </div>
+        {data.difficulty && data.difficulty !== 'Medium' && (
+          <span className="text-[10px] text-muted font-mono max-w-xs leading-normal">
+            * Percentile ranking is based on standard Medium difficulty population norms.
+          </span>
+        )}
       </div>
 
       {/* Per-Attempt Bar Chart */}

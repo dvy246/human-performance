@@ -1,223 +1,191 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Typing Speed Test Guide — Average WPM, Benchmarks & Improvement Tips | CogniArena";
-const description = "Comprehensive guide to typing speed: what is a good WPM, average speed by age and profession, how typing speed is measured, and science-backed tips to improve.";
-const canonicalUrl = "https://cogniarena.com/learn/typing-speed/";
+const title = "Typing Speed Science & Motor Control | CogniArena";
+const description = "Scientific guide to typing speed, word processing, motor chunking, tactile feedback loops, and keyboard layout optimization.";
+const canonicalUrl = "https://cogniarena.com/learn/typing-speed";
 
-const articleSchema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Typing Speed: Average WPM, Benchmarks, and How to Improve",
-  "description": "A comprehensive guide to understanding typing speed — how it's measured, what the averages are by profession and age, and how to improve your words per minute.",
-  "datePublished": "2026-07-07",
-  "dateModified": "2026-07-07"
-};
-
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": "What is a typing test?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A typing test measures how many words per minute (WPM) you can type accurately. It calculates your net WPM by subtracting errors from your gross typing speed over a timed interval." }
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Motor Chunking and Tactile Feedback Loops",
+    "description": "Scientific guide to typing speed, word processing, motor chunking, tactile feedback loops, and keyboard layout optimization.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
     },
-    {
-      "@type": "Question",
-      "name": "What is a good typing speed?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The average typing speed is around 40 WPM. Proficient typists reach 55-70 WPM, professionals type 70-90 WPM, and elite typists exceed 90 WPM. Accuracy matters more than raw speed — errors cost time." }
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
     },
-    {
-      "@type": "Question",
-      "name": "How can I improve my typing speed?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Master touch typing basics with proper home row position, prioritize accuracy over speed, practice with varied content daily for 15-20 minutes, and optimize your keyboard hardware. Consistent practice produces measurable improvement within weeks." }
-    }
-  ]
-};
-
-const breadcrumbSchema = {
-  "@context": "https://schema.org",
-  "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-    { "@type": "ListItem", "position": 2, "name": "Learning Center", "item": "https://cogniarena.com/learn" },
-    { "@type": "ListItem", "position": 3, "name": "Typing Speed", "item": "https://cogniarena.com/learn/typing-speed" }
-  ]
-};
-
-const schemaJson = [articleSchema, faqSchema, breadcrumbSchema];
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the average human typing speed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The average typing speed is around 40 Words Per Minute (WPM). Trained individuals who touch-type typically average 60 to 80 WPM, while elite typists can exceed 120 WPM."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is motor chunking in typing?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Motor chunking is the process where the brain groups individual keystrokes into a single motor program. Instead of thinking 'T-H-E', the brain executes a single, fluid pattern for the entire word, increasing speed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Do mechanical keyboards improve typing speed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Mechanical keyboards provide consistent tactile feedback and actuation points, allowing typists to feel when a key registers. This eliminates the need to bottom out keys, reducing finger fatigue and increasing speed."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does accuracy relate to typing speed?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Accuracy is the foundation of speed. Making an error requires hitting backspace and retyping, which breaks motor flow and introduces a cognitive correction penalty, reducing overall WPM."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Typing Speed",
+        "item": "https://cogniarena.com/learn/typing-speed"
+      }
+    ]
+  }
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <article class="flex flex-col gap-8 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
-        <a href="/learn" class="hover:underline">Learning Center</a>
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+        <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Typing Speed</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
-        Typing Speed: Average WPM, Benchmarks & How to Improve
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Typing Speed & Cognitive Control Science
       </h1>
-      <div class="flex items-center gap-3 text-xs text-muted font-mono">
-        <span>Updated <strong class="text-foreground">July 7, 2026</strong></span>
-        <span>&middot;</span>
-        <span>Updated July 7, 2026</span>
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
       </div>
-      <p class="text-muted text-sm leading-relaxed max-w-2xl">
-        Typing speed is measured in words per minute (WPM) and is a key productivity metric across many professions. This guide covers what the averages are, how speed is calculated, and what actually works for improvement.
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Typing speed, measured in Words Per Minute (WPM), evaluates visual word processing, motor chunking, and bi-lateral finger coordination. This guide explores the cognitive processes behind fluent typing, the role of tactile feedback, and keyboard ergonomics.
       </p>
     </header>
 
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed">
-      <strong class="text-foreground font-semibold">Key Takeaway:</strong> The average typing speed is ~40 WPM. With consistent practice most people can reach 60-70 WPM. Accuracy matters more than raw speed — errors cost time.
-    </div>
+    <section class="flex flex-col gap-10 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Typing is a complex cognitive and motor skill that requires the coordination of multiple brain areas. When reading text to type, visual word forms are processed in the occipital lobe and sent to the left hemisphere language center (Wernicke's and Broca's areas) for lexical recognition. Instead of processing letters individually, the brain translates words into motor chunks—pre-programmed sequences of finger movements stored in the supplementary motor area (SMA) and premotor cortex. The motor cortex executes these programs, sending commands to both hands. As the fingers strike the keys, tactile feedback from somatosensory receptors and auditory feedback from key clicks are processed in real-time, allowing the brain to confirm successful keystrokes and adjust finger positioning without looking at the keyboard.
+        </p>
+      </article>
 
-    <section class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">How Typing Speed Is Measured</h2>
-      <p class="text-muted text-sm leading-relaxed">
-        Typing speed is calculated using a standard formula that accounts for both speed and accuracy. The industry standard is <strong class="text-foreground">net words per minute (net WPM)</strong>, which penalizes errors to give a realistic measure of productive typing output.
-      </p>
-      <div class="p-4 rounded-lg bg-subtle border border-card-border font-mono text-xs leading-relaxed text-secondary">
-        <div class="flex flex-col gap-2">
-          <span><strong class="text-foreground">Gross WPM</strong> = (Total keystrokes ÷ 5) ÷ Time in minutes</span>
-          <span><strong class="text-foreground">Net WPM</strong> = Gross WPM — (Incorrect words ÷ Time in minutes)</span>
-          <span><strong class="text-foreground">Accuracy</strong> = (Correct keystrokes ÷ Total keystrokes) × 100</span>
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Typing speed is mathematically modeled by analyzing keystroke intervals (inter-key latency). In fluent typists, the latency between keys in a familiar word chunk (e.g., 't-h-e') is significantly shorter than the latency between unfamiliar letter transitions or word boundaries. This shows that typing speed is limited by cognitive retrieval and motor transitions between chunks rather than physical finger speed. Additionally, keyboard rollover (the ability of a keyboard to register multiple simultaneous keypresses) and switch actuation travel (typically 1.2mm to 2.0mm) dictate the mechanical limits of typing speed.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The average typing speed in the general population is approximately 40 WPM, while professional typists and transcriptionists average 65 to 80 WPM. Elite typists can sustain speeds over 120 WPM, with world records peaking above 200 WPM. Typing speed is highly dependent on touch-typing proficiency; looking at the keyboard introduces a visual feedback loop that adds 200ms of latency per word, capping speed at around 30-40 WPM.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To improve typing speed, focus on touch-typing accuracy and motor chunking. Practice typing without looking at the keyboard to train somatosensory feedback loops. Focus on keeping your hands relaxed and wrists floating above the desk. Technically, mechanical keyboards with tactile or linear switches and N-key rollover ensure that rapid, overlapping keystrokes are registered accurately and provide clear tactile feedback.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the average human typing speed?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The average typing speed is around 40 Words Per Minute (WPM). Trained individuals who touch-type typically average 60 to 80 WPM, while elite typists can exceed 120 WPM.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is motor chunking in typing?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Motor chunking is the process where the brain groups individual keystrokes into a single motor program. Instead of thinking 'T-H-E', the brain executes a single, fluid pattern for the entire word, increasing speed.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              Do mechanical keyboards improve typing speed?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Yes. Mechanical keyboards provide consistent tactile feedback and actuation points, allowing typists to feel when a key registers. This eliminates the need to bottom out keys, reducing finger fatigue and increasing speed.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How does accuracy relate to typing speed?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Accuracy is the foundation of speed. Making an error requires hitting backspace and retyping, which breaks motor flow and introduces a cognitive correction penalty, reducing overall WPM.
+            </p>
+          </div>
         </div>
-      </div>
-      <p class="text-muted text-sm leading-relaxed">
-        A "word" is standardized as 5 keystrokes (including spaces and punctuation), regardless of actual word length. This convention makes WPM measurements consistent across different typing tests.
-      </p>
+      </article>
     </section>
-
-    <section class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Average Typing Speed by Skill Level</h2>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead>
-            <tr class="border-b border-card-border text-muted font-mono">
-              <th class="py-2.5">Skill Level</th>
-              <th class="py-2.5 text-right">WPM Range</th>
-              <th class="py-2.5 text-right">Accuracy</th>
-              <th class="py-2.5 text-right">Characteristics</th>
-            </tr>
-          </thead>
-          <tbody class="text-secondary font-mono divide-y divide-card-border/50">
-            <tr><td class="py-3">Beginner</td><td class="py-3 text-right text-foreground">&lt; 25 WPM</td><td class="py-3 text-right">70-85%</td><td class="py-3 text-right">Hunt-and-peck, limited finger use</td></tr>
-            <tr><td class="py-3">Casual</td><td class="py-3 text-right text-foreground">25-40 WPM</td><td class="py-3 text-right">85-92%</td><td class="py-3 text-right">Partial touch typing, frequent pauses</td></tr>
-            <tr><td class="py-3">Average</td><td class="py-3 text-right text-foreground">40-55 WPM</td><td class="py-3 text-right">90-95%</td><td class="py-3 text-right">Touch typing, occasional errors</td></tr>
-            <tr><td class="py-3 text-accent font-semibold">Proficient</td><td class="py-3 text-right text-foreground">55-70 WPM</td><td class="py-3 text-right">93-97%</td><td class="py-3 text-right">Fluid touch typing, minimal errors</td></tr>
-            <tr><td class="py-3 text-accent font-semibold">Professional</td><td class="py-3 text-right text-foreground">70-90 WPM</td><td class="py-3 text-right">95-99%</td><td class="py-3 text-right">Expert touch typing, highly consistent</td></tr>
-            <tr><td class="py-3 text-accent font-semibold">Elite</td><td class="py-3 text-right text-foreground">90+ WPM</td><td class="py-3 text-right">97-100%</td><td class="py-3 text-right">Exceptional speed, near-perfect accuracy</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Average Typing Speed by Profession</h2>
-      <p class="text-muted text-sm leading-relaxed">
-        Different professions demand different typing speeds. Here are the typical WPM ranges based on occupational requirements:
-      </p>
-      <div class="overflow-x-auto">
-        <table class="w-full text-left text-xs border-collapse">
-          <thead>
-            <tr class="border-b border-card-border text-muted font-mono">
-              <th class="py-2.5">Profession</th>
-              <th class="py-2.5 text-right">Average WPM</th>
-              <th class="py-2.5 text-right">Why It Matters</th>
-            </tr>
-          </thead>
-          <tbody class="text-secondary font-mono divide-y divide-card-border/50">
-            <tr><td class="py-3">Court Reporter</td><td class="py-3 text-right text-foreground">200+</td><td class="py-3 text-right">Must capture verbatim speech in real-time</td></tr>
-            <tr><td class="py-3">Transcriptionist</td><td class="py-3 text-right text-foreground">80-100</td><td class="py-3 text-right">Audio-to-text conversion with high accuracy</td></tr>
-            <tr><td class="py-3">Data Entry Specialist</td><td class="py-3 text-right text-foreground">70-90</td><td class="py-3 text-right">High volume of structured data input</td></tr>
-            <tr><td class="py-3">Programmer</td><td class="py-3 text-right text-foreground">65-80</td><td class="py-3 text-right">Code with symbols; thinking time dominates</td></tr>
-            <tr><td class="py-3">Executive Assistant</td><td class="py-3 text-right text-foreground">60-75</td><td class="py-3 text-right">Correspondence, reports, meeting notes</td></tr>
-            <tr><td class="py-3">Writer/Journalist</td><td class="py-3 text-right text-foreground">55-70</td><td class="py-3 text-right">Content creation with concurrent editing</td></tr>
-            <tr><td class="py-3">Student</td><td class="py-3 text-right text-foreground">45-55</td><td class="py-3 text-right">Note-taking, essays, research</td></tr>
-            <tr><td class="py-3">General Office</td><td class="py-3 text-right text-foreground">40-55</td><td class="py-3 text-right">Email, documentation, basic data entry</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <section class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Typing Speed</h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <h3 class="font-semibold text-foreground mb-1">Keyboard Hardware</h3>
-          <p class="text-muted leading-relaxed">Mechanical switches with tactile feedback improve accuracy by ~5-15% over membrane keyboards. Key travel distance (ideally 3-4mm), actuation force (45-60g), and polling rate all affect performance. Low-profile switches reduce finger travel but may decrease accuracy for some users.</p>
-        </div>
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <h3 class="font-semibold text-foreground mb-1">Technique & Posture</h3>
-          <p class="text-muted leading-relaxed">Touch typing with proper finger placement is 2-3x faster than hunt-and-peck. Wrist angle, chair height, and monitor position affect fatigue. The home row position (ASDF-JKL;) minimizes hand movement and reduces strain over long sessions.</p>
-        </div>
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <h3 class="font-semibold text-foreground mb-1">Fatigue & Focus</h3>
-          <p class="text-muted leading-relaxed">Typing speed declines 15-25% after 30+ minutes of continuous work. Regular micro-breaks every 20 minutes restore performance. Mental focus is critical — divided attention (e.g., listening while typing) can reduce speed by 30-50%.</p>
-        </div>
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <h3 class="font-semibold text-foreground mb-1">Text Complexity</h3>
-          <p class="text-muted leading-relaxed">Typing speed varies by content type. Simple prose is fastest. Technical text with symbols, numbers, and capital letters reduces speed by 15-30%. Code with special characters and mixed case is typically the slowest.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">How to Improve Your Typing Speed</h2>
-      <p class="text-muted text-sm leading-relaxed">
-        Improving typing speed is a skill that responds well to deliberate practice. Research on skill acquisition suggests that focused, regular practice produces measurable improvement within weeks.
-      </p>
-      <div class="flex flex-col gap-4 text-sm">
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Step 1</span>
-          <h3 class="font-semibold text-foreground mt-1">Master touch typing basics</h3>
-          <p class="text-muted mt-1 leading-relaxed">If you're still looking at the keyboard, start with home row position. Each finger has assigned keys — index fingers cover two columns each, other fingers cover one. Practice without looking down.</p>
-        </div>
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Step 2</span>
-          <h3 class="font-semibold text-foreground mt-1">Prioritize accuracy over speed</h3>
-          <p class="text-muted mt-1 leading-relaxed">Speed is a byproduct of accuracy and efficiency. If you're making more than 5% errors, slow down until accuracy improves. The habit of correcting mistakes is far more important than typing fast incorrectly.</p>
-        </div>
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Step 3</span>
-          <h3 class="font-semibold text-foreground mt-1">Practice with varied content</h3>
-          <p class="text-muted mt-1 leading-relaxed">Don't just type the same passages. Alternate between prose, technical content, quotes, and code. This builds the neuromuscular adaptability that transfers to real-world typing.</p>
-        </div>
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Step 4</span>
-          <h3 class="font-semibold text-foreground mt-1">Use consistent practice intervals</h3>
-          <p class="text-muted mt-1 leading-relaxed">15-20 minutes of daily practice is more effective than 2 hours once a week. Spaced repetition builds neural pathways more reliably than massed practice. Track your progress with the typing speed test to stay motivated.</p>
-        </div>
-        <div class="p-4 rounded-lg border border-card-border bg-subtle">
-          <span class="text-[10px] font-mono uppercase tracking-widest text-accent">Step 5</span>
-          <h3 class="font-semibold text-foreground mt-1">Optimize your equipment</h3>
-          <p class="text-muted mt-1 leading-relaxed">A quality mechanical keyboard with a layout that suits your hands can make a measurable difference. Consider factors like switch type (linear vs. tactile), actuation force, and keycap profile.</p>
-        </div>
-      </div>
-    </section>
-
-    <section class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Try the Typing Speed Test</h2>
-      <p class="text-muted text-sm leading-relaxed">
-        Ready to measure your current speed? Take the <a href="/tests/typing-speed" class="text-accent hover:underline font-medium">Typing Speed Test</a> to get your accurate WPM score with real-time accuracy tracking. Results are saved to your dashboard so you can track improvement over time.
-      </p>
-      <div class="flex flex-wrap gap-3">
-        <a href="/tests/typing-speed" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold bg-accent hover:bg-accent-hover text-white transition-all">
-          Take the Test
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-        </a>
-        <a href="/dashboard" class="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg text-sm font-semibold bg-subtle border border-card-border text-foreground hover:bg-panel transition-all">
-          View Dashboard
-        </a>
-      </div>
-    </section>
-
-    <footer class="text-xs text-muted border-t border-card-border pt-6 flex flex-col gap-1 font-mono">
-      <span>Last updated: July 7, 2026</span>
-      <span>CogniArena Research Team</span>
-    </footer>
-  </article>
+  </div>
 </Layout>

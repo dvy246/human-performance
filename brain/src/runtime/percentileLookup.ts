@@ -11,6 +11,36 @@ import percentilesData from '../data/percentiles.json';
  *                        Default is false (higher scores = better performance).
  * @returns The percentile (0.1–99.9), or 0.1 if no table exists or score is below all thresholds.
  */
+export const LOWER_IS_BETTER = new Set([
+  'reaction-time',
+  'f1-lights',
+  'sound-reaction',
+  'choice-reaction',
+  'go-no-go',
+  'aim-trainer',
+  'aim-coordination',
+  'mouse-accuracy',
+  'flick-trainer',
+  'stroop',
+  'tmt-partA',
+  'tmt-partB',
+  'planning'
+]);
+
+export function isLowerBetter(testId: string): boolean {
+  return LOWER_IS_BETTER.has(testId);
+}
+
+/**
+ * Look up the percentile for a given score using the test-specific table from percentiles.json.
+ * Tables are sorted ascending by score. Returns the highest percentile whose score threshold is <= the given score.
+ *
+ * @param testId - The test identifier matching a key in percentiles.json
+ * @param score - The raw score to look up
+ * @param lowerIsBetter - If true, inverts the lookup for metrics where lower values are better (e.g. reaction times).
+ *                        Default is false (higher scores = better performance).
+ * @returns The percentile (0.1–99.9), or 0.1 if no table exists or score is below all thresholds.
+ */
 export function lookupPercentile(testId: string, score: number, lowerIsBetter = false): number {
   const table = (percentilesData as Record<string, { score: number; percentile: number }[]>)[testId];
   if (!table || table.length === 0) return 0.1;
@@ -31,18 +61,21 @@ export function lookupPercentile(testId: string, score: number, lowerIsBetter = 
   return 0.1;
 }
 
-export function formatTopPercentile(percentile: number, _lowerIsBetter = false): string {
-  // lookupPercentile already returns standardized percentile (higher=better)
-  // so lowerIsBetter is always false here — kept for backward compat
-  const isTop = percentile >= 50;
-  const top = 100 - percentile;
-  const rounded = Math.round(top * 10) / 10;
-
+export function formatTopPercentile(percentile: number, lowerIsBetter: boolean | string = false): string {
+  const isLower = typeof lowerIsBetter === 'string' ? LOWER_IS_BETTER.has(lowerIsBetter) : lowerIsBetter;
+  const isTop = isLower ? (percentile <= 50) : (percentile >= 50);
+  
   if (isTop) {
+    const topVal = isLower ? percentile : (100 - percentile);
+    const rounded = Math.round(topVal * 10) / 10;
+    if (rounded < 0.1) return 'Top 0.1%';
     if (rounded < 1) return `Top ${rounded.toFixed(1)}%`;
     return `Top ${Math.round(rounded)}%`;
+  } else {
+    const bottomVal = isLower ? (100 - percentile) : percentile;
+    const rounded = Math.round(bottomVal * 10) / 10;
+    if (rounded < 0.1) return 'Bottom <1%';
+    if (rounded < 1) return 'Bottom <1%';
+    return `Bottom ${Math.round(rounded)}%`;
   }
-  const bottom = Math.round(percentile * 10) / 10;
-  if (bottom < 1) return 'Bottom <1%';
-  return `Bottom ${Math.round(bottom)}%`;
 }

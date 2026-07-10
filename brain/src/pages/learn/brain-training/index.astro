@@ -1,179 +1,191 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Brain Training Exercises - Improve Cognitive Performance | CogniArena";
-const description = "Discover scientifically-backed brain training exercises to improve memory, focus, and cognitive performance. Start your brain training journey today.";
-const keywords = "brain training, cognitive training, brain exercises, memory training, focus exercises, mental fitness, brain workout";
+const title = "Cognitive Brain Training Science & Focus | CogniArena";
+const description = "Scientific guide to cognitive brain training, executive control development, neuroplasticity mechanisms, and focus stamina.";
 const canonicalUrl = "https://cogniarena.com/learn/brain-training";
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Brain Training Exercises - Improve Cognitive Performance",
-  "description": "Discover scientifically-backed brain training exercises to improve memory, focus, and cognitive performance.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Executive Control Development and Neuroplasticity",
+    "description": "Scientific guide to cognitive brain training, executive control development, neuroplasticity mechanisms, and focus stamina.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
   },
-  "datePublished": new Date().toISOString().split('T')[0],
-  "mainEntityOfPage": {
-    "@type": "WebPage",
-    "@id": "https://cogniarena.com/learn/brain-training/"
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Does cognitive brain training work?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Consistent training improves cognitive control, working memory, and attention within trained areas (near-transfer). While it may not automatically make you smarter, it optimizes prefrontal network efficiency."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is neuroplasticity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Neuroplasticity is the brain's ability to adapt and change its structure and function in response to training, learning, or environment, forming stronger synaptic connections."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does inhibitory control support focus?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Inhibitory control allows the brain to suppress impulsive responses to distractions or incorrect triggers, helping you maintain focus on the target task."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How long should I train to see cognitive benefits?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Consistent practice of 15 to 20 minutes daily, 3-4 times a week, has been shown to improve focus and cognitive control within a few weeks, provided the tasks challenge your limits."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Brain Training",
+        "item": "https://cogniarena.com/learn/brain-training"
+      }
+    ]
   }
-};
+];
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schema}>
-  <article class="max-w-3xl mx-auto">
-    <header class="mb-8">
-      <div class="flex items-center gap-2 text-xs text-muted mb-3 font-mono uppercase tracking-wider">
-        <span>Brain Training</span>
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+        <span>Learning Center</span>
         <span>&middot;</span>
-        <span>12 min read</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-bold text-foreground mb-4">
-        Brain Training Exercises: Improve Your Cognitive Performance
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Cognitive Brain Training Science & Focus
       </h1>
-      <p class="text-lg text-secondary leading-relaxed">
-        Learn about scientifically-backed brain training exercises that can help improve memory, focus, processing speed, and overall cognitive performance.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Cognitive brain training evaluates the science behind attention development, focus stamina, and inhibitory control. This guide explores the neural mechanisms of selective attention, executive function networks, and the limits of cognitive plasticity.
       </p>
     </header>
 
-    <div class="prose prose-sm max-w-none space-y-6 text-secondary leading-relaxed">
-      <section>
-        <h2 class="text-2xl font-bold text-foreground mb-4">What is Brain Training?</h2>
-        <p>
-          Brain training refers to structured cognitive exercises designed to improve mental abilities such as memory, attention, processing speed, and executive function. Unlike passive activities like reading or watching TV, brain training involves active, targeted exercises that challenge specific cognitive domains.
+    <section class="flex flex-col gap-10 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Brain training and executive control rely on the frontoparietal control network (FPN) and the default mode network (DMN). The FPN, including the prefrontal cortex and posterior parietal cortex, manages task-directed attention, selective focus, and working memory. The DMN is active during rest or mind-wandering and must be actively suppressed to maintain focus on a task. Inhibitory control, managed by the inferior frontal gyrus and basal ganglia, allows the brain to ignore distracting stimuli and suppress impulsive responses (such as clicking on distractors in a Go/No-Go test). Consistent cognitive training strengthens synaptic connections in the FPN and improves the brain's ability to suppress the DMN, increasing focus stamina and cognitive endurance.
         </p>
-        <p>
-          Research shows that consistent brain training can lead to measurable improvements in cognitive performance, with benefits extending to everyday tasks and activities.
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Cognitive training is modeled using neuroplasticity and cognitive reserve frameworks. Neuroplasticity is the brain's ability to reorganize itself by forming new neural connections in response to learning or experience. Training challenges executive networks, triggering the release of brain-derived neurotrophic factor (BDNF) and promoting synaptic growth. While the extent of 'far-transfer' (improving unrelated real-world skills) is debated, training consistently improves 'near-transfer' skills—cognitive control, attention gating, and working memory updating within the trained domains.
         </p>
-      </section>
+      </article>
 
-      <section>
-        <h2 class="text-2xl font-bold text-foreground mb-4">Top 5 Brain Training Exercises</h2>
-        
-        <div class="space-y-4">
-          <div class="border border-card-border rounded-lg p-4 bg-card">
-            <h3 class="text-lg font-bold text-foreground mb-2">1. Dual N-Back Training</h3>
-            <p class="text-sm mb-2">
-              Dual N-Back is one of the most researched brain training exercises. It involves remembering a sequence of visual and auditory stimuli simultaneously.
-            </p>
-            <p class="text-xs text-muted">
-              <strong>Benefits:</strong> Improves working memory and fluid intelligence<br>
-              <strong>Time:</strong> 15-20 minutes daily<br>
-              <a href="/tests/dual-n-back/" class="text-accent hover:underline">Try Dual N-Back →</a>
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Average attention spans and focus stamina vary by age, lifestyle, and cognitive load. Digital environments with frequent interruptions can reduce attentional stamina, leading to rapid fatigue during sustained focus tasks. Cognitive training programs have shown efficacy in improving attentional focus in individuals with ADHD, aging adults, and high-performance professionals, helping to build cognitive reserve and maintain executive function.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To optimize cognitive focus and brain training, implement structured training intervals and minimize environmental distractions. Train in 20-30 minute blocks to avoid mental exhaustion, and ensure your training environment is free from notifications and background noise to prevent attention lapses. Maintain healthy sleep patterns and physical activity, which support neuroplasticity and cognitive recovery.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              Does cognitive brain training work?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Consistent training improves cognitive control, working memory, and attention within trained areas (near-transfer). While it may not automatically make you smarter, it optimizes prefrontal network efficiency.
             </p>
           </div>
-
-          <div class="border border-card-border rounded-lg p-4 bg-card">
-            <h3 class="text-lg font-bold text-foreground mb-2">2. Reaction Time Training</h3>
-            <p class="text-sm mb-2">
-              Reaction time exercises measure and improve how quickly you can respond to stimuli. These tests train your brain to process information faster.
-            </p>
-            <p class="text-xs text-muted">
-              <strong>Benefits:</strong> Enhances processing speed and alertness<br>
-              <strong>Time:</strong> 5-10 minutes daily<br>
-              <a href="/tests/reaction-time/" class="text-accent hover:underline">Try Reaction Time →</a>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is neuroplasticity?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Neuroplasticity is the brain's ability to adapt and change its structure and function in response to training, learning, or environment, forming stronger synaptic connections.
             </p>
           </div>
-
-          <div class="border border-card-border rounded-lg p-4 bg-card">
-            <h3 class="text-lg font-bold text-foreground mb-2">3. Memory Sequence Training</h3>
-            <p class="text-sm mb-2">
-              Sequence memory exercises challenge you to remember and reproduce increasingly complex patterns. This strengthens short-term and working memory.
-            </p>
-            <p class="text-xs text-muted">
-              <strong>Benefits:</strong> Improves memory capacity and recall<br>
-              <strong>Time:</strong> 10-15 minutes daily<br>
-              <a href="/tests/sequence-memory/" class="text-accent hover:underline">Try Sequence Memory →</a>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How does inhibitory control support focus?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Inhibitory control allows the brain to suppress impulsive responses to distractions or incorrect triggers, helping you maintain focus on the target task.
             </p>
           </div>
-
-          <div class="border border-card-border rounded-lg p-4 bg-card">
-            <h3 class="text-lg font-bold text-foreground mb-2">4. Attention & Focus Training</h3>
-            <p class="text-sm mb-2">
-              Stroop tests and trail-making exercises train your ability to focus attention and ignore distractions. These are excellent for improving concentration.
-            </p>
-            <p class="text-xs text-muted">
-              <strong>Benefits:</strong> Enhances attention control and cognitive flexibility<br>
-              <strong>Time:</strong> 10-15 minutes daily<br>
-              <a href="/tests/stroop/" class="text-accent hover:underline">Try Stroop Test →</a>
-            </p>
-          </div>
-
-          <div class="border border-card-border rounded-lg p-4 bg-card">
-            <h3 class="text-lg font-bold text-foreground mb-2">5. Click Speed & Motor Training</h3>
-            <p class="text-sm mb-2">
-              Click speed tests (CPS) and aim trainers improve hand-eye coordination and fine motor control while training rapid decision-making.
-            </p>
-            <p class="text-xs text-muted">
-              <strong>Benefits:</strong> Improves motor speed and coordination<br>
-              <strong>Time:</strong> 5-10 minutes daily<br>
-              <a href="/tests/click-speed/" class="text-accent hover:underline">Try Click Speed →</a>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How long should I train to see cognitive benefits?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Consistent practice of 15 to 20 minutes daily, 3-4 times a week, has been shown to improve focus and cognitive control within a few weeks, provided the tasks challenge your limits.
             </p>
           </div>
         </div>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-bold text-foreground mb-4">How to Create a Brain Training Routine</h2>
-        <p>For optimal results, follow these guidelines:</p>
-        <ul class="list-disc list-inside space-y-2 ml-4">
-          <li><strong>Consistency:</strong> Train daily for 15-30 minutes</li>
-          <li><strong>Variety:</strong> Rotate between different types of exercises</li>
-          <li><strong>Progressive Difficulty:</strong> Gradually increase challenge level</li>
-          <li><strong>Track Progress:</strong> Monitor your scores over time</li>
-          <li><strong>Rest:</strong> Allow adequate sleep for memory consolidation</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-bold text-foreground mb-4">Scientific Evidence for Brain Training</h2>
-        <p>
-          Multiple peer-reviewed studies have demonstrated the effectiveness of cognitive training:
-        </p>
-        <ul class="list-disc list-inside space-y-2 ml-4">
-          <li>A 2017 meta-analysis found that cognitive training improves cognitive function in older adults</li>
-          <li>Research shows Dual N-Back training can increase fluid intelligence</li>
-          <li>Studies demonstrate that reaction time training improves processing speed</li>
-          <li>Memory training has been shown to increase working memory capacity</li>
-        </ul>
-      </section>
-
-      <section>
-        <h2 class="text-2xl font-bold text-foreground mb-4">Start Your Brain Training Today</h2>
-        <p>
-          CogniArena offers 24+ scientifically-designed brain training exercises covering all major cognitive domains. Track your progress, set personal records, and challenge yourself to improve.
-        </p>
-        <p>
-          <a href="/tests/reaction-time/" class="text-accent hover:underline font-medium">
-            Start training now →
-          </a>
-        </p>
-      </section>
-
-      <section class="border-t border-card-border pt-6">
-        <h2 class="text-xl font-bold text-foreground mb-4">Related Topics</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-          <a href="/learn/iq-test/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
-            <p class="text-sm font-medium text-foreground">IQ Test Guide</p>
-            <p class="text-xs text-muted">Measure your intelligence</p>
-          </a>
-          <a href="/learn/reaction-time/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
-            <p class="text-sm font-medium text-foreground">Reaction Time Science</p>
-            <p class="text-xs text-muted">Understanding processing speed</p>
-          </a>
-          <a href="/learn/memory-test/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
-            <p class="text-sm font-medium text-foreground">Memory Training</p>
-            <p class="text-xs text-muted">Improve your memory</p>
-          </a>
-          <a href="/learn/dual-n-back/" class="block p-3 border border-card-border rounded-lg hover:bg-hover transition-colors">
-            <p class="text-sm font-medium text-foreground">Dual N-Back Training</p>
-            <p class="text-xs text-muted">Boost fluid intelligence</p>
-          </a>
-        </div>
-      </section>
-    </div>
-  </article>
+      </article>
+    </section>
+  </div>
 </Layout>

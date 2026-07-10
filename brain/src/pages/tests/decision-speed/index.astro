@@ -1,66 +1,119 @@
 ---
-import Layout from "@/layouts/main.astro";
-import DecisionSpeedTest from "@/components/tests/DecisionSpeedTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import DecisionSpeedTest from "@/components/tests/DecisionSpeedTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Decision Speed Test – Binary Choice | CogniArena";
-const description = "Measure your decision-making speed. Rapidly classify numbers as ≥50 or <50 in this cognitive processing speed test.";
-const canonicalUrl = "https://cogniarena.com/tests/decision-speed";
+const title = "Decision Speed Test – Binary Choice | CogniArena"
+const description =
+  "Measure your decision-making speed. Rapidly classify numbers as ≥50 or <50 in this cognitive processing speed test."
+const canonicalUrl = "https://cogniarena.com/tests/decision-speed"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Decision Speed Test | CogniArena",
-    "description": "Binary choice cognitive assessment measuring information processing speed by classifying numbers as high or low.",
-    "about": { "@type": "Thing", "name": "Processing Speed / Decision Making" },
-    "educationalAlignment": { "@type": "AlignmentObject", "alignmentType": "educationalRequirement", "educationalFramework": "Cognitive Science" }
+    applicationCategory: "GameApplication",
+    name: "Decision Speed Test | CogniArena",
+    description:
+      "Binary choice cognitive assessment measuring information processing speed by classifying numbers as high or low.",
+    about: { "@type": "Thing", name: "Processing Speed / Decision Making" },
+    educationalAlignment: {
+      "@type": "AlignmentObject",
+      alignmentType: "educationalRequirement",
+      educationalFramework: "Cognitive Science",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is Hick's Law?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Hick's Law states that reaction time increases logarithmically with the number of possible choices. This test uses a binary decision (high or low) to isolate processing speed from complex choice overhead." }
+        name: "What is Hick's Law?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Hick's Law states that reaction time increases logarithmically with the number of possible choices. This test uses a binary decision (high or low) to isolate processing speed from complex choice overhead.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does this differ from simple reaction time?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Simple reaction time measures a single stimulus-response pair (see a light, click). Decision speed adds a cognitive classification step — you must evaluate the number and choose a response, which engages additional processing pathways." }
+        name: "How does this differ from simple reaction time?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Simple reaction time measures a single stimulus-response pair (see a light, click). Decision speed adds a cognitive classification step — you must evaluate the number and choose a response, which engages additional processing pathways.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this a medical diagnostic tool?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
-      }
-    ]
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Cognition", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Decision Speed Test", "item": "https://cogniarena.com/tests/decision-speed" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Cognition",
+        item: "https://cogniarena.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Decision Speed Test",
+        item: "https://cogniarena.com/tests/decision-speed",
+      },
+    ],
+  },
+]
 ---
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb"><a href="/" class="hover:underline">Home</a><span>/</span><a href="/#suite" class="hover:underline">Tests</a><span>/</span><span class="text-muted">Decision Speed Test</span></nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Decision Speed Test</h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">How fast can you decide? Classify 20 numbers as ≥50 or &lt;50 against a 2-second timeout. Measures raw information processing speed.</p>
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a><span>/</span><a
+          href="/tests"
+          class="hover:underline">Tests</a
+        ><span>/</span><span class="text-muted">Decision Speed Test</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Decision Speed Test
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        How fast can you decide? Classify 20 numbers as ≥50 or &lt;50 against a
+        2-second timeout. Measures raw information processing speed.
+      </p>
     </header>
     <section class="w-full"><DecisionSpeedTest client:visible /></section>
 
     <HowItWorks
       testName="the Decision Speed Test"
+      learnSlug="decision-speed"
+      learnTitle="Processing Speed Science"
       whatItMeasures="Measures raw information processing speed. Numbers appear one at a time and you must classify each as ≥50 or <50 as fast as possible. Unlike simple reaction tests, this requires a cognitive classification step."
       howScoringWorks="Score is the average response time for correct classifications across 20 trials. A 2-second timeout prevents guessing. Faster response times with high accuracy indicate efficient neural processing."
       whatAffectsResults="Your processing speed, attention and arousal level, practice effects (familiarity with the threshold builds faster mental shortcuts), and display refresh rate all affect your decision speed."
@@ -68,12 +121,28 @@ const schemaJson = [
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Decision Speed</h2>
-      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
-        <li><strong class="text-foreground">Processing speed</strong> — how quickly your brain evaluates a stimulus and commits to a classification</li>
-        <li><strong class="text-foreground">Attention and arousal</strong> — optimal alertness improves classification accuracy under time pressure</li>
-        <li><strong class="text-foreground">Practice effects</strong> — repeated exposure to the ≥50/&lt;50 threshold builds faster mental shortcuts</li>
-        <li><strong class="text-foreground">Monitor refresh rate</strong> — higher Hz displays reduce the gap between stimulus onset and your perception of it</li>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        What Affects Your Decision Speed
+      </h2>
+      <ul
+        class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+      >
+        <li>
+          <strong class="text-foreground">Processing speed</strong> — how quickly
+          your brain evaluates a stimulus and commits to a classification
+        </li>
+        <li>
+          <strong class="text-foreground">Attention and arousal</strong> — optimal
+          alertness improves classification accuracy under time pressure
+        </li>
+        <li>
+          <strong class="text-foreground">Practice effects</strong> — repeated exposure
+          to the ≥50/&lt;50 threshold builds faster mental shortcuts
+        </li>
+        <li>
+          <strong class="text-foreground">Monitor refresh rate</strong> — higher Hz
+          displays reduce the gap between stimulus onset and your perception of it
+        </li>
       </ul>
     </article>
 
@@ -81,25 +150,52 @@ const schemaJson = [
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What is Hick's Law?</h3>
-          <p class="text-muted text-sm leading-relaxed">Hick's Law states that reaction time increases logarithmically with the number of possible choices. This test uses a binary decision (high or low) to isolate processing speed from complex choice overhead.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What is Hick's Law?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Hick's Law states that reaction time increases logarithmically with
+            the number of possible choices. This test uses a binary decision
+            (high or low) to isolate processing speed from complex choice
+            overhead.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How does this differ from simple reaction time?</h3>
-          <p class="text-muted text-sm leading-relaxed">Simple reaction time measures a single stimulus-response pair (see a light, click). Decision speed adds a cognitive classification step — you must evaluate the number and choose a response, which engages additional processing pathways.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How does this differ from simple reaction time?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Simple reaction time measures a single stimulus-response pair (see a
+            light, click). Decision speed adds a cognitive classification step —
+            you must evaluate the number and choose a response, which engages
+            additional processing pathways.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this a medical diagnostic tool?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This test is designed for self-tracking, performance
+            benchmarking, and entertainment purposes. It is not a clinical
+            cognitive assessment.
+          </p>
         </div>
       </div>
     </article>
 
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > For self-tracking and educational purposes only. Not a clinical or diagnostic
+      evaluation.
     </div>
   </div>
 </Layout>

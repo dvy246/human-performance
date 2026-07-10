@@ -1,78 +1,190 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Visual Pattern Recognition & Gestalt Science | CogniArena";
-const description = "Understand Gestalt grouping principles, early visual cortex feature extraction, and the neural mechanisms of pattern completion.";
+const title = "Visual Pattern Memory & Matrix Recall | CogniArena";
+const description = "Explore visual pattern memory, visual-spatial working memory, matrix recall capacity, and visuospatial chunking.";
 const canonicalUrl = "https://cogniarena.com/learn/visual-pattern";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Visual Pattern Recognition, Gestalt Principles, and Cortical Processing",
-  "description": "Examine feature extraction in V1 and V2, Gestalt grouping laws, and pattern completion mechanisms in the ventral visual stream.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Visuospatial Working Memory and Matrix Chunking",
+    "description": "Explore visual pattern memory, visual-spatial working memory, matrix recall capacity, and visuospatial chunking.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is visual pattern memory?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Visual pattern memory is the ability to remember the spatial configuration of objects or blocks on a grid over a short period. It is a key component of visuospatial working memory."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the average visual pattern memory score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The average visual pattern span is 7 to 9 squares. Scores above 12 are considered elite, showing advanced spatial chunking and mental visualization techniques."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the brain store visual grids?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The brain uses the visuospatial scratchpad in the parietal lobe to store spatial coordinates. By grouping adjacent squares into geometric chunks, the brain can fit more information into its limited memory slots."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my visual pattern score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Focus on grouping blocks into shapes (like lines or boxes) and look for symmetry. Constructing a mental image or story about the pattern can also create stronger memory traces."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Visual Pattern",
+        "item": "https://cogniarena.com/learn/visual-pattern"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        Visual Pattern Recognition & Gestalt Science
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Visual Pattern Memory & Matrix Recall Science
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed">
-        How the visual cortex extracts features, groups elements into coherent wholes, and completes partial patterns.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Visual pattern memory, or matrix recall, evaluates visual-spatial short-term memory capacity. This test measures the ability to encode, maintain, and retrieve visual configurations on a grid, exploring the limits of the visuospatial scratchpad and pattern chunking.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Gestalt Grouping Principles in Visual Perception</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Gestalt psychology describes how the visual system organizes disjoint elements into unified wholes. Proximity groups nearby items, similarity clusters objects that share color or shape, and good continuation merges smooth contours across interruptions. These principles operate pre-attentively and are implemented by lateral connections in early visual cortex, enabling the brain to parse noisy retinal input into structured scenes without conscious effort. Closure, the tendency to fill missing edges, underpins pattern recognition even with incomplete information.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Visual pattern memory relies on a network involving the visual cortex, parietal lobe, and prefrontal cortex. When a grid pattern appears, visual features (shapes and spatial relationships) are processed in the primary visual cortex and sent via the dorsal visual stream to the posterior parietal cortex, which maps the spatial coordinates. The prefrontal cortex (specifically the dlPFC) maintains this visual representation in working memory during the delay phase, while the temporal lobe helps recognize geometric configurations. During the recall phase, the prefrontal cortex retrieves the pattern from the parietal buffer and coordinates the motor response. Successful performance requires visual attention to encode the pattern and active rehearsal to prevent visual trace decay.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Feature Extraction in V1 and V2 Cortex</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Primary visual cortex (V1) contains orientation-selective simple cells that respond to edges at specific angles, organized in cortical columns. Complex cells integrate across positions to detect motion direction, while V2 adds curvature, illusory contour, and binocular disparity processing. This hierarchical feature extraction feeds into the ventral stream, where increasingly invariant representations enable object recognition invariant to rotation, scale, and lighting changes. Each stage trades spatial resolution for selectivity.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The capacity of visual pattern memory is modeled using visual working memory (VWM) slots and visuospatial chunking theories. VWM models suggest the brain has a limited number of 'slots' (typically 3 to 4) to store visual representations. To store larger grids, the brain uses chunking—grouping adjacent illuminated squares into unified shapes or patterns (e.g., a T-shape or a square block) based on Gestalt principles of proximity and similarity. This allows the brain to store multiple squares in a single memory slot, extending the functional capacity of the visuospatial buffer.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Pattern Completion and the Fusiform Face Area</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Pattern completion allows the brain to recognize objects from partial input by activating stored representations in higher-tier visual areas. The fusiform face area (FFA) in the ventral temporal cortex specializes in holistic face processing, completing a full face from fragments of eyes and mouth. This top-down feedback from inferotemporal cortex to V1 fills in missing low-level features, demonstrating that pattern recognition is not purely feedforward but a continuous bidirectional exchange between expectation and sensory evidence.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The average visual pattern memory span is 7 to 9 illuminated squares on a grid. Scores above 12 represent exceptional visuospatial memory capacity. Visual pattern memory is highly predictive of performance in fields requiring complex visual tracking, such as medical imaging, architecture, and flight navigation. It is also sensitive to age-related decline, with visuospatial capacity declining faster than verbal short-term memory.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To improve visual pattern memory, practice visual chunking and semantic association. When the pattern appears, group the illuminated squares into geometric shapes or connect them mentally to create a simplified path or object. Focus on memorizing the 'negative space' (unlit squares) if it is simpler than the lit pattern. Maintain focused attention during the brief encoding phase and avoid blink distraction, which can overwrite the visuospatial buffer.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">How does the brain recognize visual patterns?</h4>
-            <p class="text-muted">The brain extracts low-level features (edges, orientation, motion) in V1 and V2, then combines them along the ventral stream into increasingly complex representations, culminating in invariant object recognition in inferotemporal cortex.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is visual pattern memory?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Visual pattern memory is the ability to remember the spatial configuration of objects or blocks on a grid over a short period. It is a key component of visuospatial working memory.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">Can visual pattern recognition be trained?</h4>
-            <p class="text-muted">Yes. Perceptual learning studies show that repeated exposure to specific patterns sharpens cortical tuning curves in V1 and V2, improving discrimination accuracy and reaction time for trained stimuli.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the average visual pattern memory score?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The average visual pattern span is 7 to 9 squares. Scores above 12 are considered elite, showing advanced spatial chunking and mental visualization techniques.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How does the brain store visual grids?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The brain uses the visuospatial scratchpad in the parietal lobe to store spatial coordinates. By grouping adjacent squares into geometric chunks, the brain can fit more information into its limited memory slots.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How can I improve my visual pattern score?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Focus on grouping blocks into shapes (like lines or boxes) and look for symmetry. Constructing a mental image or story about the pattern can also create stronger memory traces.
+            </p>
           </div>
         </div>
-      </article>
-
-      <article class="flex flex-col gap-4">
-        <p class="text-muted text-sm leading-relaxed">
-          Challenge your visual cortex with the <a href="/tests/visual-pattern" class="text-accent underline underline-offset-4 hover:no-underline transition-all duration-200">Visual Pattern Test</a> to measure your pattern recognition speed and accuracy.
-        </p>
       </article>
     </section>
   </div>

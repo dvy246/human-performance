@@ -1,73 +1,112 @@
 ---
-import Layout from "@/layouts/main.astro";
-import StroopTest from "@/components/tests/StroopTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import StroopTest from "@/components/tests/StroopTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Stroop Attention Test — Cognitive Interference Assessment | CogniArena";
-const description = "Benchmark your selective attention, impulse control, and processing speed with the classic Stroop color-conflict test. Measure response latency and accuracy.";
-const canonicalUrl = "https://cogniarena.com/tests/stroop";
+const title =
+  "Stroop Attention Test — Cognitive Interference Assessment | CogniArena"
+const description =
+  "Benchmark your selective attention, impulse control, and processing speed with the classic Stroop color-conflict test. Measure response latency and accuracy."
+const canonicalUrl = "https://cogniarena.com/tests/stroop"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Stroop Attention Test",
-    "description": "Assess cognitive interference control and response inhibition speeds.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "Stroop Attention Test",
+    description:
+      "Assess cognitive interference control and response inhibition speeds.",
+    about: {
       "@type": "Thing",
-      "name": "Attention & Executive Control"
-    }
+      name: "Attention & Executive Control",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is the Stroop effect?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The Stroop effect is the cognitive interference that occurs when the meaning of a word conflicts with the color it's printed in. For example, the word 'RED' printed in blue ink creates mental friction because your brain automatically reads the word before processing the color. This delay measures your executive control and response inhibition ability." }
+        name: "What is the Stroop effect?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The Stroop effect is the cognitive interference that occurs when the meaning of a word conflicts with the color it's printed in. For example, the word 'RED' printed in blue ink creates mental friction because your brain automatically reads the word before processing the color. This delay measures your executive control and response inhibition ability.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How can I improve my Stroop test score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Practice selective attention exercises regularly. Focus on the ink color before reading the word. Techniques include: narrowing your visual focus, using a finger to point at the color, and practicing with increasingly difficult color-word combinations. Regular practice reduces the Stroop interference effect over time." }
+        name: "How can I improve my Stroop test score?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Practice selective attention exercises regularly. Focus on the ink color before reading the word. Techniques include: narrowing your visual focus, using a finger to point at the color, and practicing with increasingly difficult color-word combinations. Regular practice reduces the Stroop interference effect over time.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this a medical diagnostic tool?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
-      }
-    ]
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Attention & Executive Control", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Stroop Attention Test", "item": "https://cogniarena.com/tests/stroop" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Attention & Executive Control",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Stroop Attention Test",
+        item: "https://cogniarena.com/tests/stroop",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/tests" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Stroop Attention Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Stroop Attention Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Test your selective attention limits and cognitive processing conflict resolution. Click the button matching the word's ink color, ignoring the text value.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Test your selective attention limits and cognitive processing conflict
+        resolution. Click the button matching the word's ink color, ignoring the
+        text value.
       </p>
     </header>
 
@@ -77,42 +116,82 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Understanding the Stroop Effect</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          The Stroop effect demonstrates the cognitive friction caused by word-color mismatches. When a word like "RED" is printed in green ink, your brain automatically reads the text before processing the visual color. This creates cognitive conflict that must be resolved by executive control systems in the prefrontal cortex, leading to increased response latencies.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Understanding the Stroop Effect
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          The Stroop effect demonstrates the cognitive friction caused by
+          word-color mismatches. When a word like "RED" is printed in green ink,
+          your brain automatically reads the text before processing the visual
+          color. This creates cognitive conflict that must be resolved by
+          executive control systems in the prefrontal cortex, leading to
+          increased response latencies.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Selective Attention Training</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          Regularly practicing interference control tasks helps strengthen selective focus, impulse inhibition, and attention gating. Standardized browser assessments record congruent trials (matching ink/word) and incongruent trials (mismatched ink/word) to isolate the exact cognitive processing overhead in milliseconds.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Selective Attention Training
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          Regularly practicing interference control tasks helps strengthen
+          selective focus, impulse inhibition, and attention gating.
+          Standardized browser assessments record congruent trials (matching
+          ink/word) and incongruent trials (mismatched ink/word) to isolate the
+          exact cognitive processing overhead in milliseconds.
         </p>
       </article>
     </section>
 
     <!-- What Affects Your Score -->
-      <HowItWorks
-        testName="the Stroop Test"
-        whatItMeasures="The Stroop test measures selective attention and cognitive inhibition. Color words (RED, BLUE, GREEN) are displayed in mismatched ink colors, and you must name the ink color rather than read the word. This creates measurable cognitive interference."
-        howScoringWorks="Your score is the average response time across all trials, with penalties for incorrect answers. The Stroop interference effect typically adds 200-400ms to response time compared to reading congruent text."
-        whatAffectsResults="Response inhibition ability, selective attention focus, processing speed, and display latency all affect your score. Practice reduces the Stroop interference effect over time."
-      />
+    <HowItWorks
+      testName="the Stroop Test"
+      learnSlug="stroop"
+      learnTitle="Stroop Effect Science"
+      whatItMeasures="The Stroop test measures selective attention and cognitive inhibition. Color words (RED, BLUE, GREEN) are displayed in mismatched ink colors, and you must name the ink color rather than read the word. This creates measurable cognitive interference."
+      howScoringWorks="Your score is the average response time across all trials, with penalties for incorrect answers. The Stroop interference effect typically adds 200-400ms to response time compared to reading congruent text."
+      whatAffectsResults="Response inhibition ability, selective attention focus, processing speed, and display latency all affect your score. Practice reduces the Stroop interference effect over time."
+    />
 
-      <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Stroop Score</h2>
-      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
-        <li><strong class="text-foreground">Response inhibition</strong> — your ability to suppress the automatic tendency to read the word instead of naming the color</li>
-        <li><strong class="text-foreground">Selective attention</strong> — focusing on the relevant stimulus (ink color) while ignoring the irrelevant one (word meaning)</li>
-        <li><strong class="text-foreground">Processing speed</strong> — how quickly your brain resolves the cognitive conflict and executes the motor response</li>
-        <li><strong class="text-foreground">Display latency</strong> — slower monitors add minor overhead to color recognition</li>
+    <article class="flex flex-col gap-4">
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        What Affects Your Stroop Score
+      </h2>
+      <ul
+        class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+      >
+        <li>
+          <strong class="text-foreground">Response inhibition</strong> — your ability
+          to suppress the automatic tendency to read the word instead of naming the
+          color
+        </li>
+        <li>
+          <strong class="text-foreground">Selective attention</strong> — focusing
+          on the relevant stimulus (ink color) while ignoring the irrelevant one (word
+          meaning)
+        </li>
+        <li>
+          <strong class="text-foreground">Processing speed</strong> — how quickly
+          your brain resolves the cognitive conflict and executes the motor response
+        </li>
+        <li>
+          <strong class="text-foreground">Display latency</strong> — slower monitors
+          add minor overhead to color recognition
+        </li>
       </ul>
     </article>
 
@@ -120,19 +199,44 @@ const schemaJson = [
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What is the Stroop effect?</h3>
-          <p class="text-muted text-sm leading-relaxed">The Stroop effect is the cognitive interference that occurs when the meaning of a word conflicts with the color it's printed in. For example, the word 'RED' printed in blue ink creates mental friction because your brain automatically reads the word before processing the color. This delay measures your executive control and response inhibition ability.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What is the Stroop effect?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            The Stroop effect is the cognitive interference that occurs when the
+            meaning of a word conflicts with the color it's printed in. For
+            example, the word 'RED' printed in blue ink creates mental friction
+            because your brain automatically reads the word before processing
+            the color. This delay measures your executive control and response
+            inhibition ability.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How can I improve my Stroop test score?</h3>
-          <p class="text-muted text-sm leading-relaxed">Practice selective attention exercises regularly. Focus on the ink color before reading the word. Techniques include: narrowing your visual focus, using a finger to point at the color, and practicing with increasingly difficult color-word combinations. Regular practice reduces the Stroop interference effect over time.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How can I improve my Stroop test score?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Practice selective attention exercises regularly. Focus on the ink
+            color before reading the word. Techniques include: narrowing your
+            visual focus, using a finger to point at the color, and practicing
+            with increasingly difficult color-word combinations. Regular
+            practice reduces the Stroop interference effect over time.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this a medical diagnostic tool?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This test is designed for self-tracking, performance
+            benchmarking, and entertainment purposes. It is not a clinical
+            cognitive assessment.
+          </p>
         </div>
       </div>
     </article>

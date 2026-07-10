@@ -106,9 +106,13 @@ const VerbalMemoryTest = () => {
   const finalize = async (correct: number) => {
     if (submittedRef.current) return;
     submittedRef.current = true;
+    const passed = correct === wordList.length;
+    const finalScore = passed 
+      ? startListSize.current + level - 1 
+      : (level > 1 ? startListSize.current + level - 2 : 0);
     try {
       await dataLayer.saveSession({
-        testId: 'verbal-memory', category: 'memory', rawScore: correct, percentile: lookupPercentile('verbal-memory', correct),
+        testId: 'verbal-memory', category: 'memory', rawScore: finalScore, percentile: lookupPercentile('verbal-memory', finalScore),
         metadata: { level, maxListLength: Math.min(startListSize.current + level - 1, maxLevel.current) },
       });
     } catch (err) {
@@ -117,7 +121,7 @@ const VerbalMemoryTest = () => {
     if (!submittedRef.current) return;
     
     try {
-      const card = await generateShareCard('Verbal Memory Test', `${correct}/${Math.min(startListSize.current + level - 1, maxLevel.current)}`, lookupPercentile('verbal-memory', correct));
+      const card = await generateShareCard('Verbal Memory Test', `${finalScore} Words`, lookupPercentile('verbal-memory', finalScore));
       setShareImage(card);
     } catch (err) {
       console.error('Failed to generate share card:', err);
@@ -125,8 +129,9 @@ const VerbalMemoryTest = () => {
     if (!submittedRef.current) return;
 
     redirectToResults({
-      testId: 'verbal-memory', testName: 'Verbal Memory', attempts: [correct], unit: 'words',
-      percentile: lookupPercentile('verbal-memory', correct), personalBest: null, category: 'memory', average: correct,
+      testId: 'verbal-memory', testName: 'Verbal Memory', attempts: [finalScore], unit: 'words',
+      percentile: lookupPercentile('verbal-memory', finalScore), personalBest: null, category: 'memory', average: finalScore,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 
@@ -214,16 +219,19 @@ const VerbalMemoryTest = () => {
 
   if (phase === 'done') {
     const finalCorrect = selected.filter(w => wordList.includes(w)).length;
-    const score = Math.max(0, Math.min(100, Math.round((finalCorrect / wordList.length) * 100)));
+    const passed = finalCorrect === wordList.length;
+    const finalScore = passed 
+      ? startListSize.current + level - 1 
+      : (level > 1 ? startListSize.current + level - 2 : 0);
     return (
       <div className="w-full flex flex-col gap-6 max-w-2xl mx-auto">
         <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-4">
           <div className="text-4xl text-success">✓</div>
           <div className="text-center">
-            <div className="text-4xl font-bold font-mono text-foreground">{finalCorrect}/{wordList.length}</div>
-            <div className="text-xs text-muted font-mono mt-1">Score: {score}/100 • Max Level: {level}</div>
+            <div className="text-4xl font-bold font-mono text-foreground">{finalScore} Words</div>
+            <div className="text-xs text-muted font-mono mt-1">Memory Span: {finalScore} words (Level {level})</div>
             <span className="text-accent text-xs font-mono uppercase mt-1 block">
-              {formatTopPercentile(lookupPercentile('verbal-memory', finalCorrect))}
+              {formatTopPercentile(lookupPercentile('verbal-memory', finalScore))}
             </span>
           </div>
           {shareImage && (
@@ -232,7 +240,7 @@ const VerbalMemoryTest = () => {
               <span>Download Share Card</span>
             </a>
           )}
-          <SocialShare testId="verbal-memory" score={finalCorrect} scoreLabel={`${finalCorrect}/${wordList.length}`} testName="Verbal Memory Test" />
+          <SocialShare testId="verbal-memory" score={finalScore} scoreLabel={`${finalScore} Words`} testName="Verbal Memory Test" />
           <button onClick={() => { if (encodingTimerRef.current) clearTimeout(encodingTimerRef.current); submittedRef.current = false; respondedRef.current = false; setPhase('intro'); }} className="flex items-center justify-center gap-2 rounded-md bg-subtle border border-card-border text-foreground hover:bg-panel h-10 text-sm active:scale-[0.98] transition-standard cursor-pointer">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="23 4 23 10 17 10"/><path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10"/></svg>
             <span>Try Again</span>

@@ -1,63 +1,188 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Memory Span & Visuospatial Science | CogniArena";
-const description = "Understand visuospatial chunking limits, Miller's Law equations, short-term working memory capacity, and pattern recognition.";
+const title = "Memory Systems & Short-Term Capacity | CogniArena";
+const description = "Scientific guide to human memory systems, short-term vs working memory, synaptic encoding, and retention training.";
 const canonicalUrl = "https://cogniarena.com/learn/memory-test";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Science of Visuospatial Recall, Working Memory, and Miller's Law Limits",
-  "description": "Analyze chunking tactics, Short-term memory limits, and cognitive decay rates.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Synaptic Encoding and Visuospatial Memory Capacity",
+    "description": "Scientific guide to human memory systems, short-term vs working memory, synaptic encoding, and retention training.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the difference between short-term and working memory?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Short-term memory is the passive storage of information over a short period. Working memory is the active manipulation and updating of that stored information to perform tasks."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does the hippocampus participate in memory?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The hippocampus acts as the brain's sorting center, converting short-term sensory traces into stable long-term memories through synaptic consolidation, though long-term storage occurs in the cortex."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why do we forget things in short-term memory?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Short-term memory traces decay within 15-30 seconds without active rehearsal, or are overwritten by new incoming sensory information due to limited storage capacity."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my cognitive retention?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Practice spaced retrieval, utilize chunking, and create visual associations. Maintaining healthy sleep is also essential for memory consolidation."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Memory Systems",
+        "item": "https://cogniarena.com/learn/memory-test"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        Memory Science & Chunking Limits
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Memory Systems & Cognitive Retention Science
       </h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed">
-        Investigating prefrontal working memory limits, sensory memory decay rates, and spatial chunking strategies.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Memory systems measure the capacity to encode, retain, and retrieve sensory information over short intervals. This guide explores the distinction between short-term and working memory, the neurobiology of synaptic consolidation, and strategies to improve cognitive retention.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Miller's Law and Working Memory Capacity</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
-          Formulated by cognitive psychologist George Miller in 1956, Miller's Law states that the number of objects an average human can hold in working memory is 7 &plusmn; 2. This limit applies to immediate recall tasks (sensory buffer registers) and is governed by prefrontal cortical circuit sizes.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Human memory is divided into sensory memory, short-term memory (STM), and long-term memory (LTM), engaging distinct brain networks. Sensory memory holds raw visual or auditory inputs for milliseconds in sensory cortices. Short-term memory maintains a limited amount of processed information for 15-30 seconds, relying on active neural firing in the prefrontal cortex and parietal lobe. Working memory goes further, actively manipulating this information to perform tasks. Encoding occurs when synapses modify their signaling strength (long-term potentiation, LTP), mediated by the hippocampus and temporal lobe. The prefrontal cortex manages retrieval, searching memory traces and pulling them back into conscious awareness. Visual memories are stored in the visuospatial scratchpad, while verbal memories utilize the phonological loop.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Visuospatial Chunking Strategies</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed">
-          High-performance memory scores are achieved by chunking individual items into consolidated logical units. In a spatial grid test, this involves grouping coordinate sequences into visual lines, polygons, or motion trajectories, mapping multiple variables into a single conceptual unit.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Memory capacity is modeled using slot-based and resource-limit theories of working memory. Slot models suggest the brain has a fixed number of memory slots (typically 4) that can hold individual items with high precision. Resource models suggest that working memory is a continuous pool of attentional energy distributed across active memory traces; as the number of items increases, the resources per item decrease, reducing detail and increasing the rate of decay. Forgetting occurs due to trace decay (passive loss of information over time) and interference (new information overwriting existing traces).
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The average short-term memory capacity is 4 to 7 items, depending on the modality (verbal vs visual). Memory span is highly predictive of learning ability, reading comprehension, and executive functioning. Short-term memory capacity peaks in the early 20s and gradually declines, though semantic memory and chunking strategies can help preserve functional memory performance.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To optimize memory retention, practice active chunking, visual association, and spaced retrieval. Group separate items into larger, meaningful chunks to maximize slot utilization. Create vivid visual associations to link new information with existing knowledge, building stronger memory pathways. Ensure you maintain healthy sleep hygiene, as sleep is critical for synaptic consolidation, converting short-term traces into stable memory.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">Can working memory span be permanently increased?</h4>
-            <p class="text-muted dark:text-muted">While absolute working memory capacity is highly correlated with genetics, you can significantly optimize effective recall through chunking techniques and spatial associations.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the difference between short-term and working memory?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Short-term memory is the passive storage of information over a short period. Working memory is the active manipulation and updating of that stored information to perform tasks.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">What is the difference between short-term and working memory?</h4>
-            <p class="text-muted dark:text-muted">Short-term memory refers strictly to the passive storage of information, while working memory involves both storage and active manipulation of those data points.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              How does the hippocampus participate in memory?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The hippocampus acts as the brain's sorting center, converting short-term sensory traces into stable long-term memories through synaptic consolidation, though long-term storage occurs in the cortex.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              Why do we forget things in short-term memory?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Short-term memory traces decay within 15-30 seconds without active rehearsal, or are overwritten by new incoming sensory information due to limited storage capacity.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How can I improve my cognitive retention?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Practice spaced retrieval, utilize chunking, and create visual associations. Maintaining healthy sleep is also essential for memory consolidation.
+            </p>
           </div>
         </div>
       </article>

@@ -1,78 +1,190 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
 const title = "Spatial Orientation & Mental Rotation Science | CogniArena";
-const description = "Examine mental rotation paradigms and spatial ability factors rooted in Shepard and Metzler's foundational research. Discover how parietal cortex circuits enable visuospatial transformations.";
+const description = "Explore spatial orientation, mental rotation pathways, visuospatial coordinate transformation, and parietal lobe logic.";
 const canonicalUrl = "https://cogniarena.com/learn/spatial-orientation";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Spatial Orientation, Mental Rotation, and Parietal Function",
-  "description": "Scientific analysis of mental rotation, spatial ability factors, and the parietal cortex's role in visuospatial processing.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Parietal Coordinate Transformation and Rotation Speed",
+    "description": "Explore spatial orientation, mental rotation pathways, visuospatial coordinate transformation, and parietal lobe logic.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is mental rotation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Mental rotation is the cognitive ability to rotate mental representations of 2D or 3D objects in working memory, simulating physical rotation to compare shapes or determine orientation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why does reaction time increase with rotation angle?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The brain performs an analog simulation of rotation. It mentally rotates the object at a constant speed, meaning larger angles of rotation require more simulation time and result in longer reaction times."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which brain area manages spatial orientation?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The parietal lobe, specifically the superior parietal lobule and intraparietal sulcus, is the primary center for spatial processing, mapping coordinates, and executing mental transformations."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Can spatial orientation skills be trained?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Spatial orientation is highly plastic. Consistent training through mental rotation exercises, spatial games, and drawing can significantly increase rotation speed and spatial accuracy."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Spatial Orientation",
+        "item": "https://cogniarena.com/learn/spatial-orientation"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        Spatial Orientation & Mental Rotation
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Spatial Orientation & Mental Rotation Science
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed">
-        Investigating the cognitive mechanisms of mental rotation, spatial visualization, and the neural substrates that support orientation in three-dimensional space.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Spatial orientation measures the ability to mentally rotate and transform 2D and 3D objects in space. This test evaluates parietal lobe function, spatial processing speed, and the capacity to coordinate visual reference frames.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Shepard and Metzler's Mental Rotation Paradigm</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Shepard and Metzler's landmark 1971 experiment presented participants with pairs of three-dimensional block figures rotated at varying angles. Reaction times increased linearly with the angular disparity between figures, suggesting that participants mentally rotate objects at a constant angular velocity — approximately 50 to 60 degrees per second. This finding provided compelling evidence that mental imagery employs analog representations that preserve the spatial properties of physical objects.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Mental rotation and spatial transformation rely on a network centered in the parietal lobe, particularly the superior parietal lobule and the intraparietal sulcus (IPS). When presented with an angled or rotated object, the visual cortex extracts its features and projects them to the parietal lobe. The parietal lobe performs a coordinate transformation, mentally rotating the object's representation to align it with a baseline reference frame. This process recruits the motor cortex, as the brain simulates the physical rotation of the object. The prefrontal cortex manages the comparison, evaluating whether the rotated representation matches the target. Spatial orientation requires working memory to store the object's structure during rotation and visual attention to maintain alignment.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Spatial Ability Factors: Visualization, Orientation, and Relations</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Psychometric research identifies multiple distinct spatial ability factors. Spatial visualization involves complex multistep manipulations of spatial information. Spatial orientation refers to the ability to imagine how a stimulus appears from a different perspective. Spatial relations involve rapid mental rotation of simple objects. These factors are differentially predictive of performance in STEM fields, particularly engineering, architecture, and surgical medicine.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Mental rotation speed is modeled as a linear increase in response time with the angle of rotation. The rotation rate is modeled by the slope of the reaction time curve: RT = a + b * theta, where theta is the angular disparity (in degrees), 'a' is the comparison and decision time, and 'b' is the mental rotation speed per degree. This linear relationship indicates that the brain performs an analog simulation of physical rotation, mentally spinning the object at a constant speed, typically 30 to 60 degrees per second depending on individual spatial ability.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Parietal Cortex: The Neural Hub for Visuospatial Processing</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Mental rotation reliably activates the posterior parietal cortex, particularly the intraparietal sulcus (IPS). This region transforms visual input into coordinate-based spatial representations used for manipulating objects in both physical and imagined space. The parietal cortex integrates visual, proprioceptive, and vestibular signals to maintain a coherent spatial framework. Damage to the right parietal lobe can produce profound spatial orientation deficits, including hemispatial neglect.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Average mental rotation speeds are 40-50 degrees per second. Individuals with high spatial ability (such as architects, mechanical engineers, and surgeons) can achieve rotation speeds exceeding 90 degrees per second. Spatial orientation is highly predictive of success in STEM fields. While spatial ability shows a developmental decline with age, spatial training programs have demonstrated high plasticity, allowing individuals to significantly improve rotation speed and accuracy.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To train spatial orientation, practice rotating simple shapes and using physical object manipulation. Focus on identifying distinct landmarks or asymmetrical features on the object (like an arrow or corner) and track their position relative to the reference frame. Practicing mental rotation drills regularly strengthens the intraparietal sulcus, improving both rotation speed and accuracy. Technically, ensure your monitor contrast and resolution are optimized for clear visual details.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">What is mental rotation?</h4>
-            <p class="text-muted">Mental rotation is the cognitive process of imagining an object rotating in three-dimensional space. It is an analog mental transformation that preserves spatial relationships, and its speed is proportional to the angle of rotation required.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is mental rotation?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Mental rotation is the cognitive ability to rotate mental representations of 2D or 3D objects in working memory, simulating physical rotation to compare shapes or determine orientation.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">Can spatial orientation be trained?</h4>
-            <p class="text-muted">Yes. Spatial abilities are malleable and improve with practice. Training with mental rotation exercises, video games requiring spatial navigation, and activities like 3D modeling or mechanical reasoning tasks all produce measurable gains in spatial orientation performance.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              Why does reaction time increase with rotation angle?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The brain performs an analog simulation of rotation. It mentally rotates the object at a constant speed, meaning larger angles of rotation require more simulation time and result in longer reaction times.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              Which brain area manages spatial orientation?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The parietal lobe, specifically the superior parietal lobule and intraparietal sulcus, is the primary center for spatial processing, mapping coordinates, and executing mental transformations.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              Can spatial orientation skills be trained?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Yes. Spatial orientation is highly plastic. Consistent training through mental rotation exercises, spatial games, and drawing can significantly increase rotation speed and spatial accuracy.
+            </p>
           </div>
         </div>
-      </article>
-
-      <article class="flex flex-col gap-4">
-        <p class="text-muted text-sm leading-relaxed">
-          Test your mental rotation and spatial orientation skills with our <a href="/tests/spatial-orientation" class="text-accent hover:underline">Spatial Orientation Test</a> and see how your visuospatial abilities compare.
-        </p>
       </article>
     </section>
   </div>

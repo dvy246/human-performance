@@ -67,6 +67,7 @@ function SequenceMemoryTest() {
 
 
   const startTest = (config?: GameConfig) => {
+    mountedRef.current = true;
     if (config) lastConfig.current = config;
     const cfg = config || lastConfig.current || {};
     const diff = getDifficultyParams('sequence-memory', (cfg.difficulty as string) || 'Medium');
@@ -195,11 +196,13 @@ function SequenceMemoryTest() {
     redirectToResults({
       testId: 'sequence-memory', testName: 'Sequence Memory', attempts: [finalScore], unit: 'levels',
       percentile, personalBest: pb, category: 'memory', average: finalScore,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 
   useBeforeUnload(gameState !== 'idle' && gameState !== 'result');
   useVisibilityGuard(() => {
+    mountedRef.current = false;
     setGameState('idle');
   }, gameState === 'showing' || gameState === 'playing');
 
@@ -227,7 +230,9 @@ function SequenceMemoryTest() {
 
       {/* Grid Container */}
       <div className="w-full rounded-xl border border-card-border bg-card p-8 flex flex-col items-center gap-6 relative">
-        <button onClick={() => setGameState('idle')} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        {gameState !== 'idle' && gameState !== 'result' && (
+          <button onClick={() => { mountedRef.current = false; setGameState('idle'); }} className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-panel/80 border border-card-border text-muted hover:text-error hover:border-error/50 text-[11px] transition-standard cursor-pointer z-10" aria-label="Restart">✕</button>
+        )}
         <div className="flex justify-between items-center w-full max-w-xs text-xs font-mono text-muted">
           <span>{t('seq.level')} <strong className="text-foreground">{level}</strong></span>
           <span>{t('seq.status')} <strong className="text-accent">{gameState === 'showing' ? t('seq.watch') : gameState === 'playing' ? t('seq.repeat') : t('seq.ready')}</strong></span>

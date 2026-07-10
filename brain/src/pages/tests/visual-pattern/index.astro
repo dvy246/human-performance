@@ -1,73 +1,110 @@
 ---
-import Layout from "@/layouts/main.astro";
-import VisualPatternTest from "@/components/tests/VisualPatternTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import VisualPatternTest from "@/components/tests/VisualPatternTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Visual Pattern Memory Test — Spatial Assessment | CogniArena";
-const description = "Benchmark your visuospatial working memory. Recall grid patterns under millisecond-accurate display intervals.";
-const canonicalUrl = "https://cogniarena.com/tests/visual-pattern";
+const title = "Visual Pattern Memory Test — Spatial Assessment | CogniArena"
+const description =
+  "Benchmark your visuospatial working memory. Recall grid patterns under millisecond-accurate display intervals."
+const canonicalUrl = "https://cogniarena.com/tests/visual-pattern"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Visual Pattern Memory Test",
-    "description": "Assess visual pattern recognition and visuospatial chunking abilities.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "Visual Pattern Memory Test",
+    description:
+      "Assess visual pattern recognition and visuospatial chunking abilities.",
+    about: {
       "@type": "Thing",
-      "name": "Spatial Memory"
-    }
+      name: "Spatial Memory",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is a good visual pattern memory score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Most people can recall 4-6 grid cells accurately. Scoring 7-9 cells is above average, 10-12 is advanced, and 13+ is exceptional. Performance depends on your ability to chunk adjacent cells into meaningful shapes." }
+        name: "What is a good visual pattern memory score?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Most people can recall 4-6 grid cells accurately. Scoring 7-9 cells is above average, 10-12 is advanced, and 13+ is exceptional. Performance depends on your ability to chunk adjacent cells into meaningful shapes.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does visual chunking improve pattern memory?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Instead of remembering individual cells, expert performers group adjacent tiles into larger shapes (L-shapes, lines, corners). This reduces cognitive load from 12 individual items to 3-4 chunks, leveraging the brain's pattern recognition strengths." }
+        name: "How does visual chunking improve pattern memory?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Instead of remembering individual cells, expert performers group adjacent tiles into larger shapes (L-shapes, lines, corners). This reduces cognitive load from 12 individual items to 3-4 chunks, leveraging the brain's pattern recognition strengths.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this a medical diagnostic tool?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
-      }
-    ]
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Memory Suite", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Visual Pattern Test", "item": "https://cogniarena.com/tests/visual-pattern" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Memory Suite",
+        item: "https://cogniarena.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Visual Pattern Test",
+        item: "https://cogniarena.com/tests/visual-pattern",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Visual Pattern Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Visual Pattern Memory Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Test your visual pattern memory boundaries. Memorize the illuminated grid locations and recall them correctly.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Test your visual pattern memory boundaries. Memorize the illuminated
+        grid locations and recall them correctly.
       </p>
     </header>
 
@@ -77,43 +114,76 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the Visual Pattern Test"
+        learnSlug="visual-pattern"
+        learnTitle="Visual Pattern Recognition Science"
         whatItMeasures="Tests visual working memory by flashing a pattern of illuminated cells in a grid. After a brief delay, you must reproduce the pattern from memory by clicking the correct cells."
         howScoringWorks="Score is based on how many cells you correctly recall. Grid size and pattern complexity increase with difficulty. Higher scores indicate stronger visuospatial working memory."
         whatAffectsResults="Your visuospatial sketchpad capacity, ability to encode patterns as shapes rather than individual cells, display quality, and current focus level all affect performance."
       />
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">How the Visual Pattern Memory Test Works</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          At the start of each level, a grid displays a pattern of highlighted tiles. Memorize their coordinates. When they disappear, click all cells that were part of the pattern, then submit.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          How the Visual Pattern Memory Test Works
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          At the start of each level, a grid displays a pattern of highlighted
+          tiles. Memorize their coordinates. When they disappear, click all
+          cells that were part of the pattern, then submit.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Visuospatial Processing Efficiency</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          The parietal lobe and prefrontal cortex play central roles in processing spatial positions. Visual chunking strategies allow high-level performers to group adjacent tiles into single vector shapes, optimizing visual cache recall.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Visuospatial Processing Efficiency
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          The parietal lobe and prefrontal cortex play central roles in
+          processing spatial positions. Visual chunking strategies allow
+          high-level performers to group adjacent tiles into single vector
+          shapes, optimizing visual cache recall.
         </p>
       </article>
     </section>
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Visual Pattern Score</h2>
-      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
-        <li><strong class="text-foreground">Chunking strategy</strong> — grouping adjacent cells into shapes (lines, corners, L-shapes) to reduce cognitive load</li>
-        <li><strong class="text-foreground">Visuospatial working memory</strong> — the number of spatial locations you can actively maintain in short-term storage</li>
-        <li><strong class="text-foreground">Pattern complexity</strong> — symmetric patterns are easier to recall than random distributions</li>
-        <li><strong class="text-foreground">Display latency</strong> — slower monitors add minor overhead to pattern encoding</li>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        What Affects Your Visual Pattern Score
+      </h2>
+      <ul
+        class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+      >
+        <li>
+          <strong class="text-foreground">Chunking strategy</strong> — grouping adjacent
+          cells into shapes (lines, corners, L-shapes) to reduce cognitive load
+        </li>
+        <li>
+          <strong class="text-foreground">Visuospatial working memory</strong> — the
+          number of spatial locations you can actively maintain in short-term storage
+        </li>
+        <li>
+          <strong class="text-foreground">Pattern complexity</strong> — symmetric
+          patterns are easier to recall than random distributions
+        </li>
+        <li>
+          <strong class="text-foreground">Display latency</strong> — slower monitors
+          add minor overhead to pattern encoding
+        </li>
       </ul>
     </article>
 
@@ -121,19 +191,41 @@ const schemaJson = [
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What is a good visual pattern memory score?</h3>
-          <p class="text-muted text-sm leading-relaxed">Most people can recall 4-6 grid cells accurately. Scoring 7-9 cells is above average, 10-12 is advanced, and 13+ is exceptional. Performance depends on your ability to chunk adjacent cells into meaningful shapes.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What is a good visual pattern memory score?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Most people can recall 4-6 grid cells accurately. Scoring 7-9 cells
+            is above average, 10-12 is advanced, and 13+ is exceptional.
+            Performance depends on your ability to chunk adjacent cells into
+            meaningful shapes.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How does visual chunking improve pattern memory?</h3>
-          <p class="text-muted text-sm leading-relaxed">Instead of remembering individual cells, expert performers group adjacent tiles into larger shapes (L-shapes, lines, corners). This reduces cognitive load from 12 individual items to 3-4 chunks, leveraging the brain's pattern recognition strengths.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How does visual chunking improve pattern memory?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Instead of remembering individual cells, expert performers group
+            adjacent tiles into larger shapes (L-shapes, lines, corners). This
+            reduces cognitive load from 12 individual items to 3-4 chunks,
+            leveraging the brain's pattern recognition strengths.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this a medical diagnostic tool?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This test is designed for self-tracking, performance
+            benchmarking, and entertainment purposes. It is not a clinical
+            cognitive assessment.
+          </p>
         </div>
       </div>
     </article>

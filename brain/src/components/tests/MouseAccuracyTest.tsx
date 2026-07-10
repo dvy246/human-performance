@@ -39,7 +39,7 @@ function MouseAccuracyTest() {
     if (!c) return;
     const rect = c.getBoundingClientRect();
     const sizeIdx = Math.min(Math.floor(idx / PER_SIZE), TARGET_SIZES.length - 1);
-    const size = TARGET_SIZES[sizeIdx];
+    const size = Math.round(TARGET_SIZES[sizeIdx] * (sizeMultiplier.current ?? 1.0));
     const margin = size / 2 + 4;
     const x = margin + Math.random() * (rect.width - margin * 2);
     const y = margin + Math.random() * (rect.height - margin * 2);
@@ -77,7 +77,7 @@ function MouseAccuracyTest() {
     try {
       await dataLayer.saveSession({
         testId: 'mouse-accuracy', category: 'precision', rawScore: score, percentile: lookupPercentile('mouse-accuracy', score),
-        metadata: { avgOffsetPx: Math.round(avgOffset * 10) / 10, totalTargets: TOTAL },
+        metadata: { avgOffsetPx: Math.round(avgOffset * 10) / 10, totalTargets: targetCount.current },
       });
     } catch (err) {
       console.error('Failed to save Mouse Accuracy session:', err);
@@ -108,6 +108,7 @@ function MouseAccuracyTest() {
     setOffsets([]);
     offsetsRef.current = [];
     submittedRef.current = false;
+    respondedRef.current = false;
     setTimeout(() => spawnTarget(0), 200);
   };
 

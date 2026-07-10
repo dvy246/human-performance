@@ -166,6 +166,7 @@ class TypingEngine {
   setComposing(v: boolean) { this.isComposing = v; }
 
   handleKeydown(e: KeyboardEvent): boolean {
+    if (this.submitted) return false;
     if (this.isComposing && e.key !== 'Escape') return false;
     if (e.key === 'Tab') { e.preventDefault(); this.reset(); this.onUpdate(); return true; }
     if (e.key === 'Escape') {

@@ -1,69 +1,105 @@
 ---
-import Layout from "@/layouts/main.astro";
-import GoNoGoTest from "@/components/tests/GoNoGoTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import GoNoGoTest from "@/components/tests/GoNoGoTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Go/No-Go Color Reaction Test — Inhibitory Control Benchmark | CogniArena";
-const description = "Benchmark your cognitive inhibition and motor impulse control. Click only when green flashes and suppress reactions for distractors. View percentiles.";
-const canonicalUrl = "https://cogniarena.com/tests/go-no-go";
+const title =
+  "Go/No-Go Color Reaction Test — Inhibitory Control Benchmark | CogniArena"
+const description =
+  "Benchmark your cognitive inhibition and motor impulse control. Click only when green flashes and suppress reactions for distractors. View percentiles."
+const canonicalUrl = "https://cogniarena.com/tests/go-no-go"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Go/No-Go Color Test",
-    "description": "An online motor inhibition reaction time test measuring response speeds and false alarm rates.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "Go/No-Go Color Test",
+    description:
+      "An online motor inhibition reaction time test measuring response speeds and false alarm rates.",
+    about: {
       "@type": "Thing",
-      "name": "Inhibitory Control"
-    }
+      name: "Inhibitory Control",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is a normal Go/No-Go reaction score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Because of the decision check required, Go/No-Go response latency is typically 80ms to 120ms slower than a simple reaction test. A normal score is around 320ms to 380ms. Under 280ms is exceptional, and scores above 450ms indicate fatigue, distraction, or high false alarm rates." }
+        name: "What is a normal Go/No-Go reaction score?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Because of the decision check required, Go/No-Go response latency is typically 80ms to 120ms slower than a simple reaction test. A normal score is around 320ms to 380ms. Under 280ms is exceptional, and scores above 450ms indicate fatigue, distraction, or high false alarm rates.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does the calibration work?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The test runs on a double-buffered requestAnimationFrame loop to sync the random color flash to your monitor's actual screen refresh rate, bypassing browser rendering jitter." }
-      }
-    ]
+        name: "How does the calibration work?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The test runs on a double-buffered requestAnimationFrame loop to sync the random color flash to your monitor's actual screen refresh rate, bypassing browser rendering jitter.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Reaction & Reflexes", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Go/No-Go Test", "item": "https://cogniarena.com/tests/go-no-go" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Reaction & Reflexes",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Go/No-Go Test",
+        item: "https://cogniarena.com/tests/go-no-go",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/tests" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Go/No-Go Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Go/No-Go Color Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Benchmark your cognitive inhibition and motor control. The screen will flash random colors. Click or tap **ONLY when the color is GREEN**. If any other color flashes, suppress your click.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Benchmark your cognitive inhibition and motor control. The screen will
+        flash random colors. Click or tap **ONLY when the color is GREEN**. If
+        any other color flashes, suppress your click.
       </p>
     </header>
 
@@ -74,75 +110,121 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the Go/No-Go Test"
+        learnSlug="brain-training"
+        learnTitle="Cognitive Training & Focus Science"
         whatItMeasures="Measures inhibitory motor control by presenting colored flashes. Click only when green (Go signal) and suppress responses to red, blue, or purple (No-Go signals). This directly tests your prefrontal cortex response inhibition circuit."
         howScoringWorks="Score combines correct Go responses (hits) with incorrectly acted No-Go responses (false alarms). Higher scores indicate stronger impulse control and selective attention."
         whatAffectsResults="Your ability to suppress automatic motor responses, current fatigue level, and practice with inhibition tasks all affect performance. Sleep deprivation increases false alarm rates by 30-50%."
       />
-      
+
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
-        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
-        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-[10px] font-bold text-accent"
+        >
+          BB
+        </div>
+        <span
+          >Learn about calibration protocols and scientific formulas on our <a
+            href="/methodology"
+            class="font-medium text-accent hover:underline">Methodology Page</a
+          >.</span
+        >
       </div>
 
       <!-- What is it -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is a Go/No-Go Test?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The Go/No-Go test is a classic psychological paradigm used to measure **inhibitory control**—the cognitive ability to suppress prepotent motor impulses and inappropriate actions. 
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What is a Go/No-Go Test?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          The Go/No-Go test is a classic psychological paradigm used to measure
+          **inhibitory control**—the cognitive ability to suppress prepotent
+          motor impulses and inappropriate actions.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          In this color variant, the "Go" signal is the color **Green**, while all other colors (Red, Blue, Purple, Yellow) act as "No-Go" distractors. Your prefrontal cortex must rapidly classify the flashing stimulus and make a binary split-second decision: release a motor action (click) or actively suppress it.
+        <p class="text-sm leading-relaxed text-muted">
+          In this color variant, the "Go" signal is the color **Green**, while
+          all other colors (Red, Blue, Purple, Yellow) act as "No-Go"
+          distractors. Your prefrontal cortex must rapidly classify the flashing
+          stimulus and make a binary split-second decision: release a motor
+          action (click) or actively suppress it.
         </p>
       </article>
 
       <!-- Commission vs Omission -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Commission Errors vs. Omission Errors</h2>
-        <p class="text-muted text-sm leading-relaxed">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Commission Errors vs. Omission Errors
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
           This test measures two types of errors:
         </p>
-        <ul class="list-disc pl-5 flex flex-col gap-2 text-muted text-sm">
+        <ul class="flex list-disc flex-col gap-2 pl-5 text-sm text-muted">
           <li>
-            <strong class="text-foreground">False Alarms (Commission Errors):</strong> Clicking when a No-Go distractor (e.g. Red) appears. This indicates a failure of executive motor inhibition and carries a **+250ms penalty** per occurrence.
+            <strong class="text-foreground"
+              >False Alarms (Commission Errors):</strong
+            > Clicking when a No-Go distractor (e.g. Red) appears. This indicates
+            a failure of executive motor inhibition and carries a **+250ms penalty**
+            per occurrence.
           </li>
           <li>
-            <strong class="text-foreground">Missed Targets (Omission Errors):</strong> Failing to click when the Go target (Green) appears. This indicates lapses in sustained attention or focus.
+            <strong class="text-foreground"
+              >Missed Targets (Omission Errors):</strong
+            > Failing to click when the Go target (Green) appears. This indicates
+            lapses in sustained attention or focus.
           </li>
         </ul>
       </article>
 
-    <ExploreTests currentSlug="go-no-go" />
+      <ExploreTests currentSlug="go-no-go" />
 
-    <!-- FAQ Section -->
+      <!-- FAQ Section -->
       <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">What is a normal Go/No-Go reaction score?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              Because of the decision check required, Go/No-Go response latency is typically **80ms to 120ms slower** than a simple reaction test. A normal score is around 320ms to 380ms. Under 280ms is exceptional, and scores above 450ms indicate fatigue, distraction, or high false alarm rates.
+            <h3 class="text-sm font-medium text-foreground">
+              What is a normal Go/No-Go reaction score?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              Because of the decision check required, Go/No-Go response latency
+              is typically **80ms to 120ms slower** than a simple reaction test.
+              A normal score is around 320ms to 380ms. Under 280ms is
+              exceptional, and scores above 450ms indicate fatigue, distraction,
+              or high false alarm rates.
             </p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">How does the calibration work?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              The test runs on a double-buffered <code>requestAnimationFrame</code> loop to sync the random color flash to your monitor's actual screen refresh rate, bypassing browser rendering jitter.
+            <h3 class="text-sm font-medium text-foreground">
+              How does the calibration work?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              The test runs on a double-buffered <code
+                >requestAnimationFrame</code
+              > loop to sync the random color flash to your monitor's actual screen
+              refresh rate, bypassing browser rendering jitter.
             </p>
           </div>
         </div>
       </article>
-      
     </section>
   </div>
 </Layout>

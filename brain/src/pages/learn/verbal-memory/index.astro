@@ -1,82 +1,190 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Verbal Memory & Phonological Loop Science | CogniArena";
-const description = "Explore Baddeley's phonological loop model, articulatory suppression effects, and verbal rehearsal mechanisms in working memory.";
+const title = "Verbal Memory & Cognitive Lexicon Science | CogniArena";
+const description = "Explore verbal memory recall, word recognition, lexical processing networks, and semantic interference patterns.";
 const canonicalUrl = "https://cogniarena.com/learn/verbal-memory";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Phonological Loop, Verbal Rehearsal, and Memory Encoding",
-  "description": "Examine Baddeley's working memory model, word length effect, articulatory suppression, and verbal span capacity.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Lexical Recognition and Semantic Interference",
+    "description": "Explore verbal memory recall, word recognition, lexical processing networks, and semantic interference patterns.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is verbal memory?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Verbal memory is the cognitive ability to encode, store, and retrieve words, language, or verbal concepts. It is essential for reading, verbal communication, and structured learning."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What is the difference between recollection and familiarity?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Familiarity is a rapid, automatic feeling that you have seen a word before, without specific context. Recollection is a slower, deliberate process where you recall the exact moment or context in which you saw the word."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How does semantic interference cause mistakes?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Semantic interference occurs when words with similar meanings or associations confuse the brain's familiarity circuits. For example, seeing the word 'river' might make you falsely believe you previously saw the word 'water'."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my verbal memory score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Use visual associations (picturing the object), create mnemonics, or weave the words into a continuous mental story. This deeper semantic encoding makes the memory traces more resistant to decay."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Verbal Memory",
+        "item": "https://cogniarena.com/learn/verbal-memory"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        Verbal Memory & the Phonological Loop
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Verbal Memory & Cognitive Lexicon Science
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed">
-        How the brain temporarily stores and rehearses verbal information through subvocal articulation and phonological encoding.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Verbal memory measures the brain's capacity to recognize and recall words, testing the efficiency of lexical processing, semantic encoding, and verbal working memory. This guide explores how the brain distinguishes between novel and repeated words and handles semantic interference.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Baddeley's Phonological Loop Model</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Baddeley's working memory model divides verbal storage into two subcomponents: the phonological store, which holds auditory memory traces for 1.5 to 2 seconds, and the articulatory rehearsal process, which refreshes those traces through subvocal repetition. This loop forms the backbone of verbal working memory and directly constrains how many digits, words, or letters a person can hold in immediate recall. The modal memory span of 7 ± 2 items collapses to roughly 4 to 5 when rehearsal is prevented, revealing the loop's capacity bottleneck.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Verbal memory engages a widespread network in the temporal and frontal lobes, primarily in the left hemisphere. When a word is presented, visual letter strings are processed in the visual word form area (VWFA) of the fusiform gyrus. The brain retrieves the word's semantic meaning by accessing the temporal pole and middle temporal gyrus. The hippocampus and surrounding entorhinal cortex encode the word into episodic memory, creating a trace of the event. When a subsequent word is shown, the prefrontal cortex (PFC) and medial temporal lobe (MTL) compare the new stimulus against the active memory traces. If a match is found, recognition circuits in the lateral parietal cortex trigger a sense of familiarity, signaling that the word has been seen previously. If no match is found, the word is processed as novel.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Word Length Effect and Articulatory Suppression</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The word length effect demonstrates that memory span decreases as syllable count per item increases. Longer words take more time to rehearse, allowing decay before the loop completes a full cycle. Articulatory suppression — repeating an irrelevant sound like "the the the" during encoding — blocks the rehearsal mechanism entirely, abolishing the word length effect and reducing recall to purely phonological store traces. This double dissociation cleanly separates the storage and rehearsal functions of the loop.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Cognitive models of verbal recognition rely on dual-process theory, which divides recognition into two distinct mechanisms: familiarity (a fast, automatic feeling of having seen the word before) and recollection (a slower, conscious retrieval of the context in which the word was presented). Semantic interference occurs when words with related meanings (e.g., 'apple' and 'pear') are introduced, which can confuse familiarity circuits and lead to false positives. To combat this, the brain relies on prefrontal executive control to verify the contextual details of the memory trace, resolving the conflict.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Phonological Similarity and Serial Recall</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Items that share phonemes (e.g., "bee, pea, key") produce poorer serial recall than dissimilar items, even when presented visually. This phonological similarity effect arises because similar traces interfere within the phonological store. The effect vanishes under articulatory suppression for visual presentation but persists for auditory input, confirming that only auditory stimuli gain mandatory access to the store regardless of rehearsal status. These interference patterns provide the empirical foundation for distinguishing modality-specific buffers in working memory.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The average verbal memory score for healthy adults is 30 to 45 correct answers before recording three strikes. Exceptional performers can recall over 80 words by utilizing semantic organization and active visualization. Verbal memory is highly sensitive to neurodegenerative conditions, particularly Alzheimer's disease, where early damage to the entorhinal cortex and hippocampus impairs the encoding of new verbal information while leaving older lexical knowledge intact.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To optimize verbal memory performance, practice active semantic association and visualization. When a word appears, associate it with a visual image or construct a brief mental story connecting successive words. This deep processing recruits visual and semantic brain networks, creating stronger, multi-modal memory traces. Ensure you maintain a steady pacing, avoid second-guessing familiarity cues, and ensure your testing environment is quiet to prevent auditory distractions from disrupting the encoding process.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">What is the phonological loop in working memory?</h4>
-            <p class="text-muted">The phonological loop is a Baddeley-model subsystem that temporarily stores auditory-verbal information. It consists of a passive phonological store and an active articulatory rehearsal process that prevents trace decay through subvocal repetition.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is verbal memory?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Verbal memory is the cognitive ability to encode, store, and retrieve words, language, or verbal concepts. It is essential for reading, verbal communication, and structured learning.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">Can verbal memory capacity be expanded?</h4>
-            <p class="text-muted">Verbal span can improve through chunking strategies and rehearsal optimization, but the underlying phonological loop capacity is relatively fixed. Training gains typically reflect more efficient chunking rather than increased raw storage.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the difference between recollection and familiarity?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Familiarity is a rapid, automatic feeling that you have seen a word before, without specific context. Recollection is a slower, deliberate process where you recall the exact moment or context in which you saw the word.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">What is articulatory suppression?</h4>
-            <p class="text-muted">Articulatory suppression is the repeated utterance of an irrelevant sound during encoding, which occupies the articulatory rehearsal mechanism and prevents the subvocal refreshing of phonological traces.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              How does semantic interference cause mistakes?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Semantic interference occurs when words with similar meanings or associations confuse the brain's familiarity circuits. For example, seeing the word 'river' might make you falsely believe you previously saw the word 'water'.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How can I improve my verbal memory score?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Use visual associations (picturing the object), create mnemonics, or weave the words into a continuous mental story. This deeper semantic encoding makes the memory traces more resistant to decay.
+            </p>
           </div>
         </div>
-      </article>
-
-      <article class="flex flex-col gap-4">
-        <p class="text-muted text-sm leading-relaxed">
-          Assess your verbal memory span with the <a href="/tests/verbal-memory" class="text-accent underline underline-offset-4 hover:no-underline transition-all duration-200">Verbal Memory Test</a> and compare your phonological loop performance against normative benchmarks.
-        </p>
       </article>
     </section>
   </div>

@@ -1,82 +1,190 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Planning & Tower of Hanoi Executive Function | CogniArena";
-const description = "Discover the prefrontal cortex role in planning, subgoal decomposition strategies, and the Tower of Hanoi problem space analysis.";
+const title = "Executive Planning & Problem Solving Science | CogniArena";
+const description = "Explore executive planning, prefrontal cortex mechanisms, Tower of London models, and cognitive sequencing logic.";
 const canonicalUrl = "https://cogniarena.com/learn/planning";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Executive Planning, Subgoal Decomposition, and Tower of Hanoi",
-  "description": "Examine prefrontal contributions to hierarchical planning, the problem space of Tower of Hanoi, and executive function assessment.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Prefrontal Planning and Working Memory Sequencing",
+    "description": "Explore executive planning, prefrontal cortex mechanisms, Tower of London models, and cognitive sequencing logic.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is executive planning?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Executive planning is the cognitive ability to anticipate future events, set goals, and sequence a series of steps in working memory to achieve a desired outcome while avoiding errors."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Which brain area is most important for planning?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The dorsolateral prefrontal cortex (dlPFC) is the primary brain area responsible for planning. It stores mental representations of goals and manages working memory during sequence calculation."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is inhibitory control necessary for planning?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Inhibitory control is needed to suppress the urge to make immediate, impulsive moves. This allows the brain to keep the physical action paused while it calculates and verifies the sequence in working memory."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my planning skills?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can improve by practicing logic games, breaking complex tasks down into sub-goals, and consciously pausing to visualize 3-4 steps ahead before initiating any physical actions."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Planning",
+        "item": "https://cogniarena.com/learn/planning"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
         Planning & Executive Function Science
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed">
-        How the prefrontal cortex constructs hierarchical action plans, manages subgoals, and navigates combinatorial problem spaces.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        Planning evaluates the capacity to sequence actions to reach a goal, a core executive function. This guide explores the prefrontal neural networks, cognitive sequencing models, and strategies to develop structured problem-solving skills.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Prefrontal Cortex and Hierarchical Planning</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The dorsolateral prefrontal cortex (DLPFC) is the primary neural substrate for planning. It maintains goal representations while orchestrating subgoals in working memory, suppressing immediate rewards in favor of distal outcomes. Neuroimaging studies show DLPFC activation scaling with plan depth — the number of moves a participant looks ahead before acting. Damage to this region produces dramatic planning deficits, with patients unable to sequence multi-step tasks.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Planning is a high-level executive function that relies on the prefrontal cortex, specifically the dorsolateral prefrontal cortex (dlPFC) and the anterior cingulate cortex (ACC). When faced with a multi-step problem (such as a Tower of London or maze puzzle), the dlPFC generates a mental representation of the goal state and coordinates with the parietal cortex to map the spatial relationships. The brain then simulates a sequence of moves in working memory, evaluating each move's outcome without executing it physically. The ACC monitors for errors or conflicts in the planned sequence, while the basal ganglia assist in selecting and sequencing motor actions. This cognitive loop requires working memory to store intermediate states, inhibitory control to suppress impulsive, incorrect moves, and cognitive flexibility to adjust strategies when a path is blocked.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Subgoal Decomposition and Problem Space</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Complex planning tasks require decomposing a goal into intermediate subgoals. In the Tower of Hanoi, the minimum-move solution demands recursive subgoal sequencing: move the largest disk only after clearing smaller disks to the auxiliary peg. Newell and Simon's problem space theory formalizes this as a state-space search where each move transitions between states. Expert planners use means-ends analysis to reduce the distance between current and target states by identifying the largest movable obstacle.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Executive planning is modeled using working memory capacity and cognitive sequencing frameworks. The complexity of a plan is determined by the depth of the search tree—the number of future steps that must be calculated and stored in working memory simultaneously. As the search depth increases, cognitive load rises exponentially. If the plan exceeds the individual's working memory capacity (typically 4-7 chunks), the plan collapses, leading to errors, repetitive moves, or reliance on trial-and-error strategies.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Tower of Hanoi as an Executive Function Assay</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The Tower of Hanoi is a gold-standard neuropsychological test of executive planning. Scoring metrics include total moves, rule violations, and initial planning time. The 3-disk version requires 7 minimum moves, while 4 disks require 15. Performance correlates with DLPFC integrity and is impaired in frontal lobe lesions, Parkinson's disease, and ADHD. The task's strength lies in its well-defined problem space: the minimum-optimal path is known, making deviations from optimality a direct measure of planning efficiency.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The average planning score corresponds to successfully solving 4-step to 5-step spatial sequence problems without errors. High-functioning individuals (such as chess players, programmers, and strategic planners) can calculate sequence paths 8 to 12 steps deep. Planning capacity is highly sensitive to frontal lobe damage, stress, and ADHD, which impair the inhibitory control needed to prevent impulsive, uncalculated moves.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To train executive planning, practice multi-step visualization exercises and logic games. Before executing a move, force yourself to calculate the entire sequence to the goal, mentally verifying each step. Practice breaking complex problems into smaller, manageable sub-goals to reduce working memory load. Maintaining a calm, focused breathing rhythm also supports prefrontal cortex function, reducing the impulsivity that leads to premature actions.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">What cognitive functions does the Tower of Hanoi measure?</h4>
-            <p class="text-muted">The Tower of Hanoi primarily measures executive planning, subgoal sequencing, working memory maintenance, and inhibition of premature moves. It is a classic indicator of dorsolateral prefrontal cortex function.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is executive planning?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Executive planning is the cognitive ability to anticipate future events, set goals, and sequence a series of steps in working memory to achieve a desired outcome while avoiding errors.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">How can I improve planning skills?</h4>
-            <p class="text-muted">Planning improves with deliberate practice on tasks that require look-ahead, such as puzzle games that reward minimal-move solutions. Training generalizes best when you explicitly verbalize subgoal strategies.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              Which brain area is most important for planning?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The dorsolateral prefrontal cortex (dlPFC) is the primary brain area responsible for planning. It stores mental representations of goals and manages working memory during sequence calculation.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">What is the minimal move count for Tower of Hanoi?</h4>
-            <p class="text-muted">For n disks, the minimum number of moves is 2ⁿ − 1. Three disks require 7 moves, four disks require 15, and five disks require 31 moves.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              Why is inhibitory control necessary for planning?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Inhibitory control is needed to suppress the urge to make immediate, impulsive moves. This allows the brain to keep the physical action paused while it calculates and verifies the sequence in working memory.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How can I improve my planning skills?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              You can improve by practicing logic games, breaking complex tasks down into sub-goals, and consciously pausing to visualize 3-4 steps ahead before initiating any physical actions.
+            </p>
           </div>
         </div>
-      </article>
-
-      <article class="flex flex-col gap-4">
-        <p class="text-muted text-sm leading-relaxed">
-          Test your executive planning ability with the <a href="/tests/planning" class="text-accent underline underline-offset-4 hover:no-underline transition-all duration-200">Planning Test</a> and compare your subgoal decomposition performance against population norms.
-        </p>
       </article>
     </section>
   </div>

@@ -160,6 +160,7 @@ function TrailMakingTest() {
       setWrongNodeId(node.id);
       setTimeout(() => {
         setWrongNodeId(null);
+        respondedRef.current = false;
       }, 500);
     }
   };
@@ -211,6 +212,7 @@ function TrailMakingTest() {
     redirectToResults({
       testId: testId, testName: `Trail Making (${mode === 'partA' ? 'A' : 'B'})`, attempts: [totalScore], unit: 'ms',
       percentile, personalBest: null, category: 'focus', average: totalScore,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 

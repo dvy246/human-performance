@@ -200,6 +200,7 @@ function ReactionTimeTest() {
     redirectToResults({
       testId: 'reaction-time', testName: 'Reaction Time', attempts: allAttempts, unit: 'ms',
       percentile, personalBest: existingPb, category: 'reaction', average: avgScore,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 

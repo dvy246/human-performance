@@ -7,7 +7,7 @@ import { lookupPercentile, formatTopPercentile } from '../../runtime/percentileL
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
-import { getDifficultyParams } from '../../runtime/testConfig';
+import { loadTestConfig } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
@@ -115,7 +115,7 @@ const MODE_DESCS: Record<GameMode, string> = {
   analogy: 'Apply the shape transformation to complete the analogy.'
 };
 
-function generatePatternQuestion(): GeneratedQuestion {
+function generatePatternQuestion(difficulty: string): GeneratedQuestion {
   const colorIdxs = [0, 1, 2, 3, 4, 5];
   const c1 = Math.floor(Math.random() * colorIdxs.length);
   let c2 = Math.floor(Math.random() * colorIdxs.length);
@@ -136,7 +136,8 @@ function generatePatternQuestion(): GeneratedQuestion {
     { seq: [c1, c2, c3, c1, c3], answer: c2, rule: 'A-B-C-A-C-B' },
   ];
 
-  const p = patterns[Math.floor(Math.random() * patterns.length)];
+  const patternCount = difficulty === 'Easy' ? 4 : difficulty === 'Medium' ? 7 : 10;
+  const p = patterns[Math.floor(Math.random() * patternCount)];
   const sequence: React.ReactNode[] = p.seq.map((ci, i) => <SvgCircle key={i} color={SVG_COLORS[ci]} size={40} />);
   sequence.push(<SvgQuestionMark key="q" size={40} />);
 
@@ -168,7 +169,7 @@ function generatePatternQuestion(): GeneratedQuestion {
   };
 }
 
-function generateMatrixQuestion(): GeneratedQuestion {
+function generateMatrixQuestion(difficulty: string): GeneratedQuestion {
   const shapeIdx = Math.floor(Math.random() * SHAPES.length);
   let otherShapeIdx = Math.floor(Math.random() * SHAPES.length);
   while (otherShapeIdx === shapeIdx) otherShapeIdx = Math.floor(Math.random() * SHAPES.length);
@@ -180,7 +181,8 @@ function generateMatrixQuestion(): GeneratedQuestion {
   const Shape1 = SHAPES[shapeIdx];
   const Shape2 = SHAPES[otherShapeIdx];
 
-  const ruleType = Math.floor(Math.random() * 4);
+  const ruleCount = difficulty === 'Easy' ? 2 : difficulty === 'Medium' ? 3 : 4;
+  const ruleType = Math.floor(Math.random() * ruleCount);
   let topLeft: React.ReactNode, topRight: React.ReactNode, bottomLeft: React.ReactNode;
   let bottomRight: React.ReactNode;
   let correctOption: React.ReactNode;
@@ -264,13 +266,15 @@ function generateMatrixQuestion(): GeneratedQuestion {
   };
 }
 
-function generateSequenceQuestion(): GeneratedQuestion {
+function generateSequenceQuestion(difficulty: string): GeneratedQuestion {
   const shapeIdx = Math.floor(Math.random() * SHAPES.length);
   const Shape = SHAPES[shapeIdx];
   const colorIdx = Math.floor(Math.random() * SVG_COLORS.length);
 
   // Rotation sequence: 0°, 90°, 180°, 270°, ?
-  const steps = [30, 45, 60, 72, 90, 120];
+  const allSteps = [30, 45, 60, 72, 90, 120];
+  const minStepIdx = difficulty === 'Easy' ? 2 : difficulty === 'Medium' ? 1 : 0;
+  const steps = allSteps.slice(minStepIdx);
   const step = steps[Math.floor(Math.random() * steps.length)];
   const startAngle = Math.floor(Math.random() * 360);
   const rotations = [0, 1, 2, 3].map(i => startAngle + step * i);
@@ -310,7 +314,7 @@ function generateSequenceQuestion(): GeneratedQuestion {
   };
 }
 
-function generateAnalogyQuestion(): GeneratedQuestion {
+function generateAnalogyQuestion(difficulty: string): GeneratedQuestion {
   // Use dynamic color indices for variety across plays
   const ci1 = Math.floor(Math.random() * SVG_COLORS.length);
   let ci2 = Math.floor(Math.random() * SVG_COLORS.length);
@@ -331,7 +335,8 @@ function generateAnalogyQuestion(): GeneratedQuestion {
     { name: 'cross', aShapeIdx: 0, aColorIdx: ci1, bShapeIdx: 1, bColorIdx: ci2, cShapeIdx: 1, cColorIdx: ci1, correctShapeIdx: 0, correctColorIdx: ci2 },
   ];
 
-  const t = transformations[Math.floor(Math.random() * transformations.length)];
+  const transformCount = difficulty === 'Easy' ? 4 : difficulty === 'Medium' ? 7 : 10;
+  const t = transformations[Math.floor(Math.random() * transformCount)];
 
   const analogyData = {
     a: { shapeIdx: t.aShapeIdx, colorIdx: t.aColorIdx, size: 44 },
@@ -404,6 +409,7 @@ function PatternReasoningTest() {
   const submittedRef = useRef(false);
   const scoreRef = useRef<number>(0);
   const answersRef = useRef<boolean[]>([]);
+  const respondedRef = useRef(false);
 
   useEffect(() => {
     let mounted = true;
@@ -424,24 +430,20 @@ function PatternReasoningTest() {
     return () => { mounted = false; };
   }, []);
 
-  const lastConfig = useRef<GameConfig | null>(null);
   const questionCount = useRef<number>(5);
-  const difficultyRuleTypes = useRef<number>(4);
 
   const startTest = (mode: GameMode, config?: GameConfig) => {
-    if (config) lastConfig.current = config;
-    const cfg = config || lastConfig.current || {};
-    const diff = getDifficultyParams('pattern-reasoning', (cfg.difficulty as string) || 'Medium');
-    difficultyRuleTypes.current = (diff.ruleTypes as number) || 4;
-    const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : 5;
+    const cfg = config || {};
+    const difficulty = (cfg.difficulty as string) || 'Medium';
+    const attemptCount = typeof cfg.questions === 'number' ? cfg.questions : 5;
     questionCount.current = attemptCount;
     setCurrentMode(mode);
     const questionList: GeneratedQuestion[] = [];
     for (let i = 0; i < questionCount.current; i++) {
-      if (mode === 'pattern') questionList.push(generatePatternQuestion());
-      else if (mode === 'matrix') questionList.push(generateMatrixQuestion());
-      else if (mode === 'sequence') questionList.push(generateSequenceQuestion());
-      else questionList.push(generateAnalogyQuestion());
+      if (mode === 'pattern') questionList.push(generatePatternQuestion(difficulty));
+      else if (mode === 'matrix') questionList.push(generateMatrixQuestion(difficulty));
+      else if (mode === 'sequence') questionList.push(generateSequenceQuestion(difficulty));
+      else questionList.push(generateAnalogyQuestion(difficulty));
     }
 
     setQuestions(questionList);
@@ -556,14 +558,14 @@ function PatternReasoningTest() {
               description="Test your non-verbal intelligence with visual shape patterns. Evaluate sequences, solve matrix grids, detect rotational logic, and complete shape analogies."
               personalBest={personalBest}
               personalBestLabel="Pts"
-              onStart={(config: GameConfig) => { lastConfig.current = config; }}
+              onStart={() => {}}
             />
           </div>
           <div className="grid grid-cols-2 gap-3 text-left">
             {MODES.map(m => (
               <button
                 key={m}
-                onClick={() => startTest(m, lastConfig.current || undefined)}
+                onClick={() => startTest(m, loadTestConfig('pattern-reasoning'))}
                 className="p-4 rounded-xl border border-card-border/80 bg-subtle hover:border-accent hover:bg-card text-left transition-standard flex flex-col gap-1 active:scale-98 group cursor-pointer"
               >
                 <span className="text-xs font-bold text-foreground group-hover:text-accent font-mono">
@@ -705,7 +707,7 @@ function PatternReasoningTest() {
 
           <div className="grid grid-cols-2 gap-4 w-full">
             <button
-              onClick={() => startTest(getNextMode())}
+              onClick={() => startTest(getNextMode(), loadTestConfig('pattern-reasoning'))}
               className="h-11 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
             >
               Next Format ➔

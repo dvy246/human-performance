@@ -1,69 +1,113 @@
 ---
-import Layout from "@/layouts/main.astro";
-import SequenceMemoryTest from "@/components/tests/SequenceMemoryTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import SequenceMemoryTest from "@/components/tests/SequenceMemoryTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Sequence Memory Test — Spatial Pattern Memory Benchmark | CogniArena";
-const description = "Benchmark your short-term spatial working memory capacity. Learn about Miller's Law and spatial chunking techniques to improve sequence retention.";
-const canonicalUrl = "https://cogniarena.com/tests/sequence-memory";
+const title =
+  "Sequence Memory Test — Spatial Pattern Memory Benchmark | CogniArena"
+const description =
+  "Benchmark your short-term spatial working memory capacity. Learn about Miller's Law and spatial chunking techniques to improve sequence retention."
+const canonicalUrl = "https://cogniarena.com/tests/sequence-memory"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Sequence Memory Test",
-    "description": "An online visuospatial working memory test utilizing an expanding 3x3 pattern sequence matrix.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "Sequence Memory Test",
+    description:
+      "An online visuospatial working memory test utilizing an expanding 3x3 pattern sequence matrix.",
+    about: {
       "@type": "Thing",
-      "name": "Working Memory"
-    }
+      name: "Working Memory",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is a normal sequence memory level?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The average score is Level 7. Scoring Level 8 to 11 is above average, and anything level 14 or above indicates exceptional spatial memory and trained visual chunking capability." }
+        name: "What is a normal sequence memory level?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The average score is Level 7. Scoring Level 8 to 11 is above average, and anything level 14 or above indicates exceptional spatial memory and trained visual chunking capability.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How can I improve my sequence memory?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Do not try to remember individual grid numbers. Instead, visualize the sequence as a single drawing path (e.g. an L-shape followed by a triangle). This technique encodes multiple coordinates as a single cognitive chunk, dramatically extending your memory buffer." }
-      }
-    ]
+        name: "How can I improve my sequence memory?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Do not try to remember individual grid numbers. Instead, visualize the sequence as a single drawing path (e.g. an L-shape followed by a triangle). This technique encodes multiple coordinates as a single cognitive chunk, dramatically extending your memory buffer.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. The Sequence Memory Test is designed for spatial memory training, self-tracking, and entertainment purposes. It is not a clinical, medical, or diagnostic evaluation.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Memory Suite", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Sequence Memory Test", "item": "https://cogniarena.com/tests/sequence-memory" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Memory Suite",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Sequence Memory Test",
+        item: "https://cogniarena.com/tests/sequence-memory",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/tests" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Sequence Memory Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Sequence Memory Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Benchmark your spatial short-term working memory capacity. Memorize and repeat an expanding pattern of grid flashes on the 3x3 tile grid. How many levels can your brain hold?
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Benchmark your spatial short-term working memory capacity. Memorize and
+        repeat an expanding pattern of grid flashes on the 3x3 tile grid. How
+        many levels can your brain hold?
       </p>
     </header>
 
@@ -74,15 +118,23 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the Sequence Memory Test"
+        learnSlug="sequence-memory"
+        learnTitle="Sequence Memory Science"
         whatItMeasures="This test evaluates your visuospatial working memory by presenting an expanding sequence of lit tiles on a 3x3 grid. Each round adds one more step to the sequence, and you must repeat it from memory by clicking the tiles in the correct order."
         howScoringWorks="Each correctly recalled sequence advances you to the next level with one additional tile. Your final score is the highest level reached. Most people max out around Level 7 (Miller's Law), but chunking strategies can extend this significantly."
         whatAffectsResults="Your ability to group individual tile flashes into visual shapes or paths (chunking), your current fatigue level, and practice with similar memory tasks all affect your score."
@@ -90,68 +142,122 @@ const schemaJson = [
 
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
-        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
-        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-[10px] font-bold text-accent"
+        >
+          BB
+        </div>
+        <span
+          >Learn about calibration protocols and scientific formulas on our <a
+            href="/methodology"
+            class="font-medium text-accent hover:underline">Methodology Page</a
+          >.</span
+        >
       </div>
 
       <!-- What is it -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is the Sequence Memory Test?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The Sequence Memory test (often referred to as a Simon task or spatial span test) evaluates your visuospatial working memory. Working memory is the cognitive system responsible for temporarily holding and manipulating information in active focus. 
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What is the Sequence Memory Test?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          The Sequence Memory test (often referred to as a Simon task or spatial
+          span test) evaluates your visuospatial working memory. Working memory
+          is the cognitive system responsible for temporarily holding and
+          manipulating information in active focus.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          As the pattern expands, your brain must encode each coordinates flash, retain the sequential relationships, and retrieve them in chronological order while suppressing distracting impulses.
+        <p class="text-sm leading-relaxed text-muted">
+          As the pattern expands, your brain must encode each coordinates flash,
+          retain the sequential relationships, and retrieve them in
+          chronological order while suppressing distracting impulses.
         </p>
       </article>
 
       <!-- Miller's Law -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Miller's Law: The Magic Number Seven</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          In 1956, cognitive psychologist George Miller published one of the most highly cited papers in psychology: *"The Magical Number Seven, Plus or Minus Two: Some Limits on Our Capacity for Processing Information."* 
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Miller's Law: The Magic Number Seven
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          In 1956, cognitive psychologist George Miller published one of the
+          most highly cited papers in psychology: *"The Magical Number Seven,
+          Plus or Minus Two: Some Limits on Our Capacity for Processing
+          Information."*
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          Miller discovered that the average human short-term memory capacity has a fixed limit of **7 items or "chunks"** of information. This is why phone numbers are typically 7 digits long. 
+        <p class="text-sm leading-relaxed text-muted">
+          Miller discovered that the average human short-term memory capacity
+          has a fixed limit of **7 items or "chunks"** of information. This is
+          why phone numbers are typically 7 digits long.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          In spatial sequence memory tasks, reaching **Level 7** marks the transition where raw memory slots become full, forcing your brain to engage advanced encoding systems like *chunking* (grouping individual grid coordinate flashes into visual shapes, lines, or paths) to reach higher levels.
+        <p class="text-sm leading-relaxed text-muted">
+          In spatial sequence memory tasks, reaching **Level 7** marks the
+          transition where raw memory slots become full, forcing your brain to
+          engage advanced encoding systems like *chunking* (grouping individual
+          grid coordinate flashes into visual shapes, lines, or paths) to reach
+          higher levels.
         </p>
       </article>
 
       <!-- Visuospatial Sketchpad -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">The Visuospatial Sketchpad</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          According to Baddeley's model of working memory, spatial sequence information is handled by the **visuospatial sketchpad**, a specialized subsystem in the parietal lobe and prefrontal cortex. 
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          The Visuospatial Sketchpad
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          According to Baddeley's model of working memory, spatial sequence
+          information is handled by the **visuospatial sketchpad**, a
+          specialized subsystem in the parietal lobe and prefrontal cortex.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          This system behaves like a mental whiteboard. In this test, your sketchpad draws vectors connecting the flashing blocks. As long as you can visualize the "flow path" of the line, you can recall sequences of 10 or 15 elements, far surpassing the standard 7-digit Miller limit.
+        <p class="text-sm leading-relaxed text-muted">
+          This system behaves like a mental whiteboard. In this test, your
+          sketchpad draws vectors connecting the flashing blocks. As long as you
+          can visualize the "flow path" of the line, you can recall sequences of
+          10 or 15 elements, far surpassing the standard 7-digit Miller limit.
         </p>
       </article>
 
-    <ExploreTests currentSlug="sequence-memory" />
+      <ExploreTests currentSlug="sequence-memory" />
 
-    <!-- FAQ Section -->
+      <!-- FAQ Section -->
       <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">What is a normal sequence memory level?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              The average score is Level 7. Scoring Level 8 to 11 is above average, and anything level 14 or above indicates exceptional spatial memory and trained visual chunking capability.
+            <h3 class="text-sm font-medium text-foreground">
+              What is a normal sequence memory level?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              The average score is Level 7. Scoring Level 8 to 11 is above
+              average, and anything level 14 or above indicates exceptional
+              spatial memory and trained visual chunking capability.
             </p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">How can I improve my sequence memory?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              Do not try to remember individual grid numbers. Instead, visualize the sequence as a single drawing path (e.g. *"an L-shape followed by a triangle"*). This technique encodes multiple coordinates as a single cognitive chunk, dramatically extending your memory buffer.
+            <h3 class="text-sm font-medium text-foreground">
+              How can I improve my sequence memory?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              Do not try to remember individual grid numbers. Instead, visualize
+              the sequence as a single drawing path (e.g. *"an L-shape followed
+              by a triangle"*). This technique encodes multiple coordinates as a
+              single cognitive chunk, dramatically extending your memory buffer.
+            </p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">
+              Is this a medical diagnostic tool?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              No. The Sequence Memory Test is designed for spatial memory
+              training, self-tracking, and entertainment purposes. It is not a
+              clinical, medical, or diagnostic evaluation.
             </p>
           </div>
         </div>
       </article>
-      
     </section>
   </div>
 </Layout>

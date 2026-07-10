@@ -1,0 +1,49 @@
+---
+import Layout from "@/layouts/main.astro";
+import ExploreTests from "@/components/ui/ExploreTests.astro";
+
+const title = "All Cognitive Tests & Brain Games — Free Online Brain Assessments | CogniArena";
+const description = "Explore our complete collection of 24+ free cognitive tests, reflexes, and memory games. Test your reaction time, digit span, verbal memory, fluid logic, and executive function.";
+const canonicalUrl = "https://cogniarena.com/tests";
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
+    { "@type": "ListItem", "position": 2, "name": "Tests", "item": "https://cogniarena.com/tests" }
+  ]
+};
+
+const collectionPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  "name": "Cognitive Assessments Collection",
+  "description": "Collection of all cognitive testing and performance benchmarking tasks running in the browser.",
+  "url": "https://cogniarena.com/tests"
+};
+
+const schemaJson = [breadcrumbSchema, collectionPageSchema];
+---
+
+<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+  <div class="flex flex-col gap-10 w-full max-w-5xl mx-auto py-4">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+        <span data-i18n="tests_index.badge1">CogniArena</span>
+        <span>&middot;</span>
+        <span data-i18n="tests_index.badge2">Assessments</span>
+      </div>
+      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground" data-i18n="tests_index.title">
+        Cognitive Assessment Hub
+      </h1>
+      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl" data-i18n="tests_index.subtitle">
+        Welcome to the central assessments library. Select from our 24+ clinical-grade, browser-calibrated tests measuring reaction time, memory, motor precision, logic, attention, and executive execution.
+      </p>
+    </header>
+
+    <!-- Collection Grid -->
+    <ExploreTests title="All Available Assessments" />
+  </div>
+</Layout>

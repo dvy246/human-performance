@@ -7,7 +7,6 @@ import { lookupPercentile } from '../../runtime/percentileLookup';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
-import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
@@ -186,7 +185,7 @@ function SpatialOrientationTest() {
   const submittedRef = useRef(false);
   const lastConfig = useRef<GameConfig | null>(null);
   const trialCount = useRef<number>(TOTAL);
-  const choicesPerTrial = useRef<number>(4);
+  const difficultyRef = useRef<string>('Medium');
 
   useBeforeUnload(phase !== 'intro' && phase !== 'done');
   useVisibilityGuard(() => {
@@ -198,7 +197,8 @@ function SpatialOrientationTest() {
   }, []);
 
   const generateTrial = () => {
-    const p = PATTERNS[Math.floor(Math.random() * PATTERNS.length)];
+    const maxPatternIdx = difficultyRef.current === 'Easy' ? 15 : difficultyRef.current === 'Medium' ? 25 : 35;
+    const p = PATTERNS[Math.floor(Math.random() * maxPatternIdx)];
     const angle = ANGLES[Math.floor(Math.random() * ANGLES.length)];
     const rotated = rotateGrid(p, angle);
     setTarget(p);
@@ -257,8 +257,7 @@ function SpatialOrientationTest() {
     const cfg = config || lastConfig.current || {};
     const attemptCount = typeof cfg.trials === 'number' ? cfg.trials : typeof cfg.targets === 'number' ? cfg.targets : typeof cfg.attempts === 'number' ? cfg.attempts : typeof cfg.questions === 'number' ? cfg.questions : typeof cfg.rounds === 'number' ? cfg.rounds : TOTAL;
     trialCount.current = attemptCount;
-    const diff = getDifficultyParams('spatial-orientation', (cfg.difficulty as string) || 'Medium');
-    choicesPerTrial.current = (diff.choicesPerTrial as number) || 4;
+    difficultyRef.current = (cfg.difficulty as string) || 'Medium';
     setShareImage(null);
     submittedRef.current = false;
     setPhase('playing');

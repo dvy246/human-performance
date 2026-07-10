@@ -151,6 +151,7 @@ function PrioritizationTest() {
     redirectToResults({
       testId: 'prioritization', testName: 'Prioritization', attempts: r.map(x => x.points), unit: 'pts',
       percentile: lookupPercentile('prioritization', score), personalBest: null, category: 'executive', average: avg,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 

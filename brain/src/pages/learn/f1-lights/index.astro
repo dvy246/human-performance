@@ -1,77 +1,191 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "F1 Lights Test & Peripheral Vision Science | CogniArena";
-const description = "Explore retinal rod and cone distribution, peripheral stimulus discrimination thresholds, and saccadic eye movement dynamics in racing light response tasks.";
+const title = "F1 Start Lights Reaction & Anticipatory Reflexes | CogniArena";
+const description = "Analyze anticipatory reflex mechanisms, peripheral vision, visual attention networks, and Formula 1 start telemetry.";
 const canonicalUrl = "https://cogniarena.com/learn/f1-lights";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Science of Peripheral Vision and F1 Lights Response",
-  "description": "Examine retinal photoreceptor distribution, peripheral discrimination limits, and the role of saccades in reacting to lights.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Anticipatory Focus and Formula 1 Start Telemetry",
+    "description": "Analyze anticipatory reflex mechanisms, peripheral vision, visual attention networks, and Formula 1 start telemetry.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the official limit for an F1 jump start?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "In Formula 1, any reaction time under 100ms is deemed a jump start and penalized. This is because it is physically impossible for the human brain to process a visual change and initiate a motor response in under 100ms; anything faster is an anticipation guess."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How do F1 drivers react so fast on race starts?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Drivers train their motor preparation loops to be in a state of high activation before the lights go out. They mentally prep the muscle contraction and suppress it, releasing it immediately when the light change is detected, minimizing decision overhead."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Does anxiety affect my start times?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Yes. Moderate arousal improves reaction time by boosting dopamine and norepinephrine levels, but excessive anxiety triggers muscle tension and erratic motor execution, causing false starts or delayed reactions."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I improve my F1 reaction score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Focus on the visual space where the lights disappear, pre-load your finger pressure on the mouse button, and practice keeping your mind calm to avoid clicking prematurely. Ensure your screen and mouse latency are minimized."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "F1 Lights",
+        "item": "https://cogniarena.com/learn/f1-lights"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        F1 Lights & Peripheral Vision Science
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        F1 Start Lights Reaction & Anticipatory Reflexes
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed">
-        A deep dive into retinal physiology, peripheral detection latency, and the eye movement strategies used in racing light sequences.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        The F1 Start Lights test simulates the high-pressure launch conditions of professional motorsport. Success requires a combination of rapid visual stimulus processing, motor readiness, and anticipatory inhibition (waiting for the random light extinction without jumping the start).
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. Retinal Rod and Cone Distribution</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The human retina contains approximately 120 million rod cells and 6 million cone cells with dramatically non-uniform spatial distribution. The fovea is packed exclusively with cone cells optimized for high acuity and color vision, while rod density peaks at roughly 20 degrees of eccentricity, providing superior low-light sensitivity. This anatomical trade-off means peripheral stimuli are detected with lower spatial resolution but higher temporal sensitivity, making rods crucial for detecting the onset of peripheral lights.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The neurobiology of the F1 start involves a state of heightened motor readiness known as motor preparation. While the red lights illuminate sequentially, the driver's brain enters an active state of expectation, preparing the motor program in the supplementary motor area (SMA) and premotor cortex. The basal ganglia and cerebellum modulate motor inhibition, keeping the corticospinal tract suppressed to prevent a false start. When the lights go out, the sudden visual transition (extinction of light) is processed via the visual pathway to the visual cortex. Because this involves a simple visual change (light-off transition), the signal bypasses complex identification steps and is immediately routed from sensory areas to preplanned motor neurons in the motor cortex, triggering finger/foot release.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Peripheral Stimulus Discrimination</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Peripheral vision exhibits decreased acuity due to the convergence of rod cells onto fewer retinal ganglion cells, reducing the sampling resolution sent to the visual cortex. However, peripheral rods have faster response kinetics than foveal cones, allowing quicker detection of luminance changes. The magnocellular pathway, which projects to the parietal cortex, is specialized for peripheral motion and transient detection, processing rapid changes 20ms to 30ms faster than the parvocellular foveal pathway.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Formula 1 start reaction time is modeled by analyzing the distinction between pure sensory reaction and anticipatory timing. F1 telemetry defines a 'jump start' (false start) as any movement occurring within 100ms of the green signal or light extinction, as 100ms is the absolute physical limit for visual transduction and motor activation in humans. Drivers utilize anticipatory gating: they synchronize their focus to the visual rhythm of the lights, prepping motor programs to release the clutch precisely at the predicted extinction window.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Saccadic Eye Movement Dynamics</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Saccades are rapid eye movements that redirect the fovea to a new visual target, reaching peak angular velocities of up to 900 degrees per second. A saccade is preceded by a latency of 150ms to 250ms as the superior colliculus and frontal eye fields compute the target vector. During the saccade itself, visual perception is actively suppressed through saccadic masking, meaning information about stimulus changes during the movement is lost. Efficient F1 lights response requires minimizing reliance on saccades by using peripheral detection rather than foveating each light.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Professional F1 drivers achieve average race-start reaction times of 160ms to 200ms under extreme cabin pressure. Valterri Bottas famously recorded an official reaction time of 201ms at the 2017 Austrian Grand Prix, a near-perfect start. Factors affecting performance include situational anxiety, ambient noise, physical G-forces, and muscle temperature. In the general population, average response times on this test hover around 260ms due to lack of motor readiness training and lack of hardware optimization.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          Training for the F1 lights test centers on anticipatory inhibition and muscle-memory synchronization. Practice focusing on the target area and maintaining a relaxed grip until the stimulus triggers. Physically, maintaining warm hands increases nerve conduction velocity and muscle contraction speed. Technically, users must minimize display input lag by running high frame rates, disabling V-sync, and using high-polling-rate input devices.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">Why is peripheral vision slower than foveal vision?</h4>
-            <p class="text-muted">Peripheral detection is actually faster for luminance changes due to rod cell kinetics, but discrimination of details is slower. The difference is in task demands: detecting a light is faster peripherally, while identifying which light is slower.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the official limit for an F1 jump start?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              In Formula 1, any reaction time under 100ms is deemed a jump start and penalized. This is because it is physically impossible for the human brain to process a visual change and initiate a motor response in under 100ms; anything faster is an anticipation guess.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">How can I train peripheral awareness for F1 lights?</h4>
-            <p class="text-muted">Practice maintaining central fixation while attending to peripheral stimuli, training the magnocellular pathway. Over time, this reduces the need for saccades and improves response speed.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              How do F1 drivers react so fast on race starts?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Drivers train their motor preparation loops to be in a state of high activation before the lights go out. They mentally prep the muscle contraction and suppress it, releasing it immediately when the light change is detected, minimizing decision overhead.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              Does anxiety affect my start times?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Yes. Moderate arousal improves reaction time by boosting dopamine and norepinephrine levels, but excessive anxiety triggers muscle tension and erratic motor execution, causing false starts or delayed reactions.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How can I improve my F1 reaction score?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Focus on the visual space where the lights disappear, pre-load your finger pressure on the mouse button, and practice keeping your mind calm to avoid clicking prematurely. Ensure your screen and mouse latency are minimized.
+            </p>
           </div>
         </div>
       </article>
     </section>
-
-    <p class="text-muted text-sm leading-relaxed text-center border-t border-card-border pt-10">
-      Challenge your peripheral reaction speed on the <a href="/tests/f1-lights" class="text-accent underline underline-offset-2 hover:brightness-110 transition-all">F1 Lights Test</a>.
-    </p>
   </div>
 </Layout>

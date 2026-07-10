@@ -1,58 +1,86 @@
 ---
+import Icon from "@/components/ui/Icon.astro"
+
 export interface Props {
-  whatItMeasures: string;
-  howScoringWorks: string;
-  whatAffectsResults?: string;
-  testName?: string;
+  whatItMeasures: string
+  howScoringWorks: string
+  whatAffectsResults?: string
+  testName?: string
+  learnSlug?: string
+  learnTitle?: string
 }
 
-const { whatItMeasures, howScoringWorks, whatAffectsResults, testName = "This Test" } = Astro.props;
+const {
+  whatItMeasures,
+  howScoringWorks,
+  whatAffectsResults,
+  testName = "This Test",
+  learnSlug,
+  learnTitle,
+} = Astro.props
 
-const faqSchema = {
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
-    {
-      "@type": "Question",
-      "name": `What does ${testName} measure?`,
-      "acceptedAnswer": { "@type": "Answer", "text": whatItMeasures.replace(/<[^>]*>/g, "") },
-    },
-    {
-      "@type": "Question",
-      "name": `How is ${testName} scored?`,
-      "acceptedAnswer": { "@type": "Answer", "text": howScoringWorks.replace(/<[^>]*>/g, "") },
-    },
-  ],
-};
 ---
 
 <article class="flex flex-col gap-8">
-  <script type="application/ld+json" set:html={JSON.stringify(faqSchema)} />
-  
+
   <div class="flex flex-col gap-4">
-    <h2 class="text-xl font-semibold text-foreground tracking-tight">How This Test Works</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <div class="p-5 rounded-xl bg-card border border-card-border flex flex-col gap-3">
+    <h2 class="text-xl font-semibold tracking-tight text-foreground">
+      How This Test Works
+    </h2>
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <div
+        class="flex flex-col gap-3 rounded-xl border border-card-border bg-card p-5"
+      >
         <div class="flex items-center gap-2.5">
-          <span class="w-8 h-8 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-xs font-bold text-accent font-mono">1</span>
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-xs font-bold text-accent"
+            >1</span
+          >
           <h3 class="text-sm font-bold text-foreground">What It Measures</h3>
         </div>
-        <p class="text-sm text-muted leading-relaxed">{whatItMeasures}</p>
+        <p class="text-sm leading-relaxed text-muted">{whatItMeasures}</p>
       </div>
-      <div class="p-5 rounded-xl bg-card border border-card-border flex flex-col gap-3">
+      <div
+        class="flex flex-col gap-3 rounded-xl border border-card-border bg-card p-5"
+      >
         <div class="flex items-center gap-2.5">
-          <span class="w-8 h-8 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-xs font-bold text-accent font-mono">2</span>
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-xs font-bold text-accent"
+            >2</span
+          >
           <h3 class="text-sm font-bold text-foreground">How Scoring Works</h3>
         </div>
-        <p class="text-sm text-muted leading-relaxed">{howScoringWorks}</p>
+        <p class="text-sm leading-relaxed text-muted">{howScoringWorks}</p>
       </div>
     </div>
   </div>
 
-  {whatAffectsResults && (
-    <div class="flex flex-col gap-4">
-      <h3 class="text-sm font-bold text-foreground tracking-tight">What Affects Your Results</h3>
-      <p class="text-sm text-muted leading-relaxed">{whatAffectsResults}</p>
-    </div>
-  )}
+  {
+    whatAffectsResults && (
+      <div class="flex flex-col gap-4">
+        <h3 class="text-sm font-bold tracking-tight text-foreground">
+          What Affects Your Results
+        </h3>
+        <p class="text-sm leading-relaxed text-muted">{whatAffectsResults}</p>
+      </div>
+    )
+  }
+
+  {
+    learnSlug && (
+      <div class="mt-4 flex items-center gap-3 rounded-xl border border-card-border bg-accent/5 p-4 text-xs text-muted shadow-sm">
+        <Icon name="book-open" size={18} class="shrink-0 text-accent" />
+        <span>
+          Want to understand the science? Read our full guide on{" "}
+          <a
+            href={`/learn/${learnSlug}`}
+            class="font-semibold text-accent hover:underline"
+          >
+            {learnTitle || "Cognitive Science & Training Guides"}
+          </a>
+          .
+        </span>
+      </div>
+    )
+  }
 </article>

@@ -1,55 +1,110 @@
 ---
-import Layout from "@/layouts/main.astro";
-import ClickSpeedTest from "@/components/tests/ClickSpeedTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import ClickSpeedTest from "@/components/tests/ClickSpeedTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Click Speed Test (CPS) — Online Clicks Per Second Counter | CogniArena";
-const description = "Test your clicks per second (CPS) over 10 seconds. Learn advanced gaming clicking techniques like Jitter, Butterfly, and Drag clicking.";
-const canonicalUrl = "https://cogniarena.com/tests/click-speed";
+const title =
+  "Click Speed Test (CPS) — Online Clicks Per Second Counter | CogniArena"
+const description =
+  "Test your clicks per second (CPS) over 10 seconds. Learn advanced gaming clicking techniques like Jitter, Butterfly, and Drag clicking."
+const canonicalUrl = "https://cogniarena.com/tests/click-speed"
 
 const schemaJson = [
   {
-    "@context": "https://schema.org", "@type": "SoftwareApplication", "applicationCategory": "GameApplication", "name": "Click Speed Test",
-    "description": "An online click endurance test that calculates clicks per second (CPS) over a sustained 10-second window.",
-    "about": { "@type": "Thing", "name": "Motor Speed" }
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: "Click Speed Test",
+    description:
+      "An online click endurance test that calculates clicks per second (CPS) over a sustained 10-second window.",
+    about: { "@type": "Thing", name: "Motor Speed" },
   },
   {
-    "@context": "https://schema.org", "@type": "FAQPage",
-    "mainEntity": [
-      { "@type": "Question", "name": "What is a good clicks-per-second score?", "acceptedAnswer": { "@type": "Answer", "text": "Average is around 6-7 CPS. Scoring 8-9 CPS is above average, 10+ CPS is excellent, and 12+ CPS is elite. Professional gamers and musicians tend to score in the top percentile." } },
-      { "@type": "Question", "name": "Does mouse type affect click speed?", "acceptedAnswer": { "@type": "Answer", "text": "Yes. Gaming mice with lighter switches and lower actuation force can add 0.5-1 CPS. Mouse weight, switch type (optical vs mechanical), and button travel distance all influence maximum click rate." } },
-      { "@type": "Question", "name": "Is this a medical diagnostic tool?", "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." } }
-    ]
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What is a good clicks-per-second score?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Average is around 6-7 CPS. Scoring 8-9 CPS is above average, 10+ CPS is excellent, and 12+ CPS is elite. Professional gamers and musicians tend to score in the top percentile.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Does mouse type affect click speed?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Gaming mice with lighter switches and lower actuation force can add 0.5-1 CPS. Mouse weight, switch type (optical vs mechanical), and button travel distance all influence maximum click rate.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Speed Suite", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Click Speed Test", "item": "https://cogniarena.com/tests/click-speed" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Tests",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Click Speed Test",
+        item: "https://cogniarena.com/tests/click-speed",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/tests" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Click Speed Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Click Speed Test (CPS)
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Benchmark your sustained motor clicking speed. Click the target card as fast as possible over a 10-second test frame. Review your clicking cadence and speed sustainability timeline.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Benchmark your sustained motor clicking speed. Click the target card as
+        fast as possible over a 10-second test frame. Review your clicking
+        cadence and speed sustainability timeline.
       </p>
     </header>
 
@@ -60,15 +115,23 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the Click Speed Test"
+        learnSlug="click-speed"
+        learnTitle="Click Speed (CPS) Science"
         whatItMeasures="This test measures your sustained motor clicking speed over a 10-second window. You click a button as fast as possible while the timer tracks every click, generating a real-time cadence curve."
         howScoringWorks="Your final score is total clicks divided by 10 (CPS — Clicks Per Second). A cadence chart shows how your click rate changes across the 10 seconds, revealing fatigue onset and stamina."
         whatAffectsResults="Mouse switch type (mechanical vs membrane), finger fatigue, clicking technique (jitter, butterfly, or drag clicking), and sustained concentration all influence your CPS score."
@@ -76,50 +139,94 @@ const schemaJson = [
 
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
-        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
-        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-[10px] font-bold text-accent"
+        >
+          BB
+        </div>
+        <span
+          >Learn about calibration protocols and scientific formulas on our <a
+            href="/methodology"
+            class="font-medium text-accent hover:underline">Methodology Page</a
+          >.</span
+        >
       </div>
 
       <!-- What is it -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is the Clicks Per Second (CPS) Test?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The Clicks Per Second (CPS) test is a motor speed assessment measuring your ability to trigger repetitive clicks with your index finger. In competitive gaming (particularly in PvP-focused titles like Minecraft, or click-heavy RTS games), clicking speed directly dictates action rate and performance. 
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What is the Clicks Per Second (CPS) Test?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          The Clicks Per Second (CPS) test is a motor speed assessment measuring
+          your ability to trigger repetitive clicks with your index finger. In
+          competitive gaming (particularly in PvP-focused titles like Minecraft,
+          or click-heavy RTS games), clicking speed directly dictates action
+          rate and performance.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          While 1-second and 5-second tests exist, the **10-second window** is the scientific standard because it measures motor endurance alongside burst speed. After 5 seconds, forearm muscle fatigue starts setting in, separating casual clickers from trained competitors.
+        <p class="text-sm leading-relaxed text-muted">
+          While 1-second and 5-second tests exist, the **10-second window** is
+          the scientific standard because it measures motor endurance alongside
+          burst speed. After 5 seconds, forearm muscle fatigue starts setting
+          in, separating casual clickers from trained competitors.
         </p>
       </article>
 
       <!-- Advanced Clicking Techniques -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Advanced Clicking Techniques</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          To break past the limitations of normal clicking, competitive gamers utilize specialized physical techniques to trigger inputs:
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Advanced Clicking Techniques
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          To break past the limitations of normal clicking, competitive gamers
+          utilize specialized physical techniques to trigger inputs:
         </p>
-        <ul class="list-disc list-inside text-muted text-sm flex flex-col gap-2.5 leading-relaxed">
-          <li><strong class="text-foreground">Jitter Clicking:</strong> Involves tensing your arm and forearm muscles until they vibrate, causing your finger to pulse against the mouse button. This can yield speeds of **10 to 14 CPS**, but is physically taxing and increases strain.</li>
-          <li><strong class="text-foreground">Butterfly Clicking:</strong> Using two fingers (index and middle) to alternate clicking on the same mouse button. This splits the load and lets you comfortably reach speeds of **12 to 16 CPS** with practice.</li>
-          <li><strong class="text-foreground">Drag Clicking:</strong> Involves sliding your finger across the mouse button to create friction. The resulting vibrations register as dozens of rapid micro-clicks in a single stroke, achieving extreme burst speeds over **20+ CPS**. This requires specialized mouse switches with low debounce delays.</li>
+        <ul
+          class="flex list-inside list-disc flex-col gap-2.5 text-sm leading-relaxed text-muted"
+        >
+          <li>
+            <strong class="text-foreground">Jitter Clicking:</strong> Involves tensing
+            your arm and forearm muscles until they vibrate, causing your finger to
+            pulse against the mouse button. This can yield speeds of **10 to 14 CPS**,
+            but is physically taxing and increases strain.
+          </li>
+          <li>
+            <strong class="text-foreground">Butterfly Clicking:</strong> Using two
+            fingers (index and middle) to alternate clicking on the same mouse button.
+            This splits the load and lets you comfortably reach speeds of **12 to
+            16 CPS** with practice.
+          </li>
+          <li>
+            <strong class="text-foreground">Drag Clicking:</strong> Involves sliding
+            your finger across the mouse button to create friction. The resulting
+            vibrations register as dozens of rapid micro-clicks in a single stroke,
+            achieving extreme burst speeds over **20+ CPS**. This requires specialized
+            mouse switches with low debounce delays.
+          </li>
         </ul>
       </article>
 
       <!-- CPS Benchmark Brackets -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">CPS Benchmark Brackets</h2>
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          CPS Benchmark Brackets
+        </h2>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
+          <table class="w-full border-collapse text-left text-xs">
             <thead>
-              <tr class="border-b border-card-border text-muted font-mono">
+              <tr class="border-b border-card-border font-mono text-muted">
                 <th class="py-2.5">Speed Class</th>
                 <th class="py-2.5 text-right">Target CPS Range</th>
                 <th class="py-2.5 text-right">User Bracket</th>
               </tr>
             </thead>
-            <tbody class="text-secondary font-mono divide-y divide-card-border/50">
+            <tbody
+              class="divide-y divide-card-border/50 font-mono text-secondary"
+            >
               <tr>
-                <td class="py-3 text-accent font-semibold">Grandmaster</td>
-                <td class="py-3 text-right text-foreground">12.0 - 16.0+ CPS</td>
+                <td class="py-3 font-semibold text-accent">Grandmaster</td>
+                <td class="py-3 text-right text-foreground">12.0 - 16.0+ CPS</td
+                >
                 <td class="py-3 text-right">Top 1% (Pro Gamers)</td>
               </tr>
               <tr>
@@ -148,34 +255,62 @@ const schemaJson = [
       </article>
 
       <!-- Health Warning -->
-      <article class="p-4 rounded-lg bg-[var(--error-bg)] border border-[var(--error-border)] flex flex-col gap-2">
-        <h3 class="text-xs font-mono uppercase text-error">⚠️ Ergonomic Health Advisory</h3>
-        <p class="text-muted text-xs leading-relaxed">
-          Repetitive jitter clicking causes significant tension in the tendons of the hand and wrist. Sustained practices without rest can lead to Carpal Tunnel Syndrome or Repetitive Strain Injury (RSI). If you feel numbness, tingling, or joint soreness, stop clicking immediately and rest your wrist.
+      <article
+        class="flex flex-col gap-2 rounded-lg border border-[var(--error-border)] bg-[var(--error-bg)] p-4"
+      >
+        <h3 class="font-mono text-xs text-error uppercase">
+          ⚠️ Ergonomic Health Advisory
+        </h3>
+        <p class="text-xs leading-relaxed text-muted">
+          Repetitive jitter clicking causes significant tension in the tendons
+          of the hand and wrist. Sustained practices without rest can lead to
+          Carpal Tunnel Syndrome or Repetitive Strain Injury (RSI). If you feel
+          numbness, tingling, or joint soreness, stop clicking immediately and
+          rest your wrist.
         </p>
       </article>
 
-    <ExploreTests currentSlug="click-speed" />
+      <ExploreTests currentSlug="click-speed" />
 
-    <!-- FAQ Section -->
+      <!-- FAQ Section -->
       <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">What is a good clicks-per-second score?</h3>
-            <p class="text-muted text-sm leading-relaxed">Average is around 6-7 CPS. Scoring 8-9 CPS is above average, 10+ CPS is excellent, and 12+ CPS is elite. Professional gamers and musicians tend to score in the top percentile.</p>
+            <h3 class="text-sm font-medium text-foreground">
+              What is a good clicks-per-second score?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              Average is around 6-7 CPS. Scoring 8-9 CPS is above average, 10+
+              CPS is excellent, and 12+ CPS is elite. Professional gamers and
+              musicians tend to score in the top percentile.
+            </p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">Does mouse type affect click speed?</h3>
-            <p class="text-muted text-sm leading-relaxed">Yes. Gaming mice with lighter switches and lower actuation force can add 0.5-1 CPS. Mouse weight, switch type (optical vs mechanical), and button travel distance all influence maximum click rate.</p>
+            <h3 class="text-sm font-medium text-foreground">
+              Does mouse type affect click speed?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              Yes. Gaming mice with lighter switches and lower actuation force
+              can add 0.5-1 CPS. Mouse weight, switch type (optical vs
+              mechanical), and button travel distance all influence maximum
+              click rate.
+            </p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-            <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+            <h3 class="text-sm font-medium text-foreground">
+              Is this a medical diagnostic tool?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              No. This test is designed for self-tracking, performance
+              benchmarking, and entertainment purposes. It is not a clinical
+              cognitive assessment.
+            </p>
           </div>
         </div>
       </article>
-      
     </section>
   </div>
 </Layout>

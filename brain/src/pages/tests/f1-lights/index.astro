@@ -1,69 +1,112 @@
 ---
-import Layout from "@/layouts/main.astro";
-import F1LightsTest from "@/components/tests/F1LightsTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import F1LightsTest from "@/components/tests/F1LightsTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "F1 Starting Lights Reaction Test — Measure Reflexes | CogniArena";
-const description = "Simulate a Formula 1 race start and measure your reaction time to the gantry extinguishment. Compare your split speed against professional F1 drivers.";
-const canonicalUrl = "https://cogniarena.com/tests/f1-lights";
+const title = "F1 Starting Lights Reaction Test — Measure Reflexes | CogniArena"
+const description =
+  "Simulate a Formula 1 race start and measure your reaction time to the gantry extinguishment. Compare your split speed against professional F1 drivers."
+const canonicalUrl = "https://cogniarena.com/tests/f1-lights"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "F1 Start Reaction Test",
-    "description": "A simulation of the Formula 1 starting light sequence designed to test anticipatory motor reactions.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "F1 Start Reaction Test",
+    description:
+      "A simulation of the Formula 1 starting light sequence designed to test anticipatory motor reactions.",
+    about: {
       "@type": "Thing",
-      "name": "Reaction Time"
-    }
+      name: "Reaction Time",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "How do F1 drivers know when the lights will go out?",
-        "acceptedAnswer": { "@type": "Answer", "text": "They don't. The delay between the 5th red light turning on and all lights extinguishing is randomized (typically between 0.8 and 3 seconds) to prevent drivers from predicting the release." }
+        name: "How do F1 drivers know when the lights will go out?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "They don't. The delay between the 5th red light turning on and all lights extinguishing is randomized (typically between 0.8 and 3 seconds) to prevent drivers from predicting the release.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why are F1 reaction times faster than general reaction times?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Grid starts are anticipatory. Drivers are already prepared to execute a specific, pre-loaded motor command (releasing the clutch paddle). This cognitive pre-loading removes the decision-making overhead, resulting in scores 40-70ms faster than normal choice tests." }
-      }
-    ]
+        name: "Why are F1 reaction times faster than general reaction times?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Grid starts are anticipatory. Drivers are already prepared to execute a specific, pre-loaded motor command (releasing the clutch paddle). This cognitive pre-loading removes the decision-making overhead, resulting in scores 40-70ms faster than normal choice tests.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. The F1 Start Lights Test is designed for motor reflex training, self-tracking, and entertainment purposes. It is not a clinical, medical, or diagnostic evaluation.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Reaction & Reflexes", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "F1 Lights Test", "item": "https://cogniarena.com/tests/f1-lights" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Reaction & Reflexes",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "F1 Lights Test",
+        item: "https://cogniarena.com/tests/f1-lights",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/tests" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">F1 Lights Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         F1 Starting Lights Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Simulate the starting grid of a Grand Prix. Wait for the five red LED light rows to illuminate sequentially, and react the exact instant the entire gantry is extinguished.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Simulate the starting grid of a Grand Prix. Wait for the five red LED
+        light rows to illuminate sequentially, and react the exact instant the
+        entire gantry is extinguished.
       </p>
     </header>
 
@@ -74,57 +117,91 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the F1 Start Lights Test"
+        learnSlug="f1-lights"
+        learnTitle="Peripheral Vision Science"
         whatItMeasures="Simulates a Formula 1 race start gantry. After a random 1-5 second delay, 5 red LEDs extinguish and you click as fast as possible. Tests your ability to suppress anticipation and react precisely."
         howScoringWorks="Your score is the average reaction time across 5 starts. Early clicks before lights extinguish are flagged as false starts (anticipation errors). Faster average times indicate better impulse control and reflex speed."
         whatAffectsResults="Your ability to stay focused during the variable delay window, fatigue level, and display latency all affect your start reaction time."
       />
-      
+
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
-        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
-        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-[10px] font-bold text-accent"
+        >
+          BB
+        </div>
+        <span
+          >Learn about calibration protocols and scientific formulas on our <a
+            href="/methodology"
+            class="font-medium text-accent hover:underline">Methodology Page</a
+          >.</span
+        >
       </div>
 
       <!-- What is it -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is the F1 Start Reaction Test?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The Formula 1 starting sequence is one of the most high-pressure reaction scenarios in modern sports. Drivers line up on the grid, and five red lights are illuminated one by one at one-second intervals. Once all five rows are active, the FIA race director triggers a random delay before all lights are extinguished. 
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What is the F1 Start Reaction Test?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          The Formula 1 starting sequence is one of the most high-pressure
+          reaction scenarios in modern sports. Drivers line up on the grid, and
+          five red lights are illuminated one by one at one-second intervals.
+          Once all five rows are active, the FIA race director triggers a random
+          delay before all lights are extinguished.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          This test simulates that exact sequence. It measures your ability to hold motor impulses under tension and release them the exact millisecond the visual trigger disappears.
+        <p class="text-sm leading-relaxed text-muted">
+          This test simulates that exact sequence. It measures your ability to
+          hold motor impulses under tension and release them the exact
+          millisecond the visual trigger disappears.
         </p>
       </article>
 
       <!-- F1 Driver Benchmarks Table -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">F1 Driver Reflex Benchmarks</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Professional racing drivers possess elite hand-eye coordination. Here is how different experience brackets compare on the starting gantry:
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          F1 Driver Reflex Benchmarks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Professional racing drivers possess elite hand-eye coordination. Here
+          is how different experience brackets compare on the starting gantry:
         </p>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
+          <table class="w-full border-collapse text-left text-xs">
             <thead>
-              <tr class="border-b border-card-border text-muted font-mono">
+              <tr class="border-b border-card-border font-mono text-muted">
                 <th class="py-2.5">Driver Group</th>
                 <th class="py-2.5 text-right">Average Grid Reaction (ms)</th>
                 <th class="py-2.5 text-right">Neurological Profile</th>
               </tr>
             </thead>
-            <tbody class="text-secondary font-mono divide-y divide-card-border/50">
+            <tbody
+              class="divide-y divide-card-border/50 font-mono text-secondary"
+            >
               <tr>
-                <td class="py-3">Elite F1 Drivers (e.g. Hamilton, Verstappen)</td>
+                <td class="py-3"
+                  >Elite F1 Drivers (e.g. Hamilton, Verstappen)</td
+                >
                 <td class="py-3 text-right text-foreground">120 - 150 ms</td>
-                <td class="py-3 text-right text-success">Hyper-calibrated / Elite</td>
+                <td class="py-3 text-right text-success"
+                  >Hyper-calibrated / Elite</td
+                >
               </tr>
               <tr>
                 <td class="py-3">Standard Grid Drivers</td>
@@ -144,44 +221,74 @@ const schemaJson = [
             </tbody>
           </table>
         </div>
-        <p class="text-[10px] text-muted font-mono mt-1 leading-normal">
-          Reflex profiles compiled using telemetry logs from Grand Prix starts and sim-racing hardware polling studies.
+        <p class="mt-1 font-mono text-[10px] leading-normal text-muted">
+          Reflex profiles compiled using telemetry logs from Grand Prix starts
+          and sim-racing hardware polling studies.
         </p>
       </article>
 
       <!-- Jump Starts -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is a "Jump Start" in Formula 1?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Under FIA regulations, any driver who moves before the red lights are extinguished is classified as a "jump start" and receives a time penalty. In our simulation, clicking the gantry while the lights are still red immediately aborts the run and flags a `JUMP START`. 
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What is a "Jump Start" in Formula 1?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Under FIA regulations, any driver who moves before the red lights are
+          extinguished is classified as a "jump start" and receives a time
+          penalty. In our simulation, clicking the gantry while the lights are
+          still red immediately aborts the run and flags a `JUMP START`.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          Because racing drivers anticipate the start, they are constantly fighting their motor reflexes to avoid jumping early. A true reaction test requires suppressing the anticipation loop until the actual visual change is painted on screen.
+        <p class="text-sm leading-relaxed text-muted">
+          Because racing drivers anticipate the start, they are constantly
+          fighting their motor reflexes to avoid jumping early. A true reaction
+          test requires suppressing the anticipation loop until the actual
+          visual change is painted on screen.
         </p>
       </article>
 
-    <ExploreTests currentSlug="f1-lights" />
+      <ExploreTests currentSlug="f1-lights" />
 
-    <!-- FAQ Section -->
+      <!-- FAQ Section -->
       <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">How do F1 drivers know when the lights will go out?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              They don't. The delay between the 5th red light turning on and all lights extinguishing is randomized (typically between 0.8 and 3 seconds) to prevent drivers from predicting the release.
+            <h3 class="text-sm font-medium text-foreground">
+              How do F1 drivers know when the lights will go out?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              They don't. The delay between the 5th red light turning on and all
+              lights extinguishing is randomized (typically between 0.8 and 3
+              seconds) to prevent drivers from predicting the release.
             </p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">Why are F1 reaction times faster than general reaction times?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              Grid starts are anticipatory. Drivers are already prepared to execute a specific, pre-loaded motor command (releasing the clutch paddle). This cognitive pre-loading removes the decision-making overhead, resulting in scores 40-70ms faster than normal choice tests.
+            <h3 class="text-sm font-medium text-foreground">
+              Why are F1 reaction times faster than general reaction times?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              Grid starts are anticipatory. Drivers are already prepared to
+              execute a specific, pre-loaded motor command (releasing the clutch
+              paddle). This cognitive pre-loading removes the decision-making
+              overhead, resulting in scores 40-70ms faster than normal choice
+              tests.
+            </p>
+          </div>
+          <div class="flex flex-col gap-1.5">
+            <h3 class="text-sm font-medium text-foreground">
+              Is this a medical diagnostic tool?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              No. The F1 Start Lights Test is designed for motor reflex
+              training, self-tracking, and entertainment purposes. It is not a
+              clinical, medical, or diagnostic evaluation.
             </p>
           </div>
         </div>
       </article>
-      
     </section>
   </div>
 </Layout>

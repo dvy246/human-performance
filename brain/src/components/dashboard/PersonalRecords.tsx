@@ -131,7 +131,7 @@ export default function PersonalRecords() {
             </div>
             <div className="text-right">
               <p className="text-lg font-bold text-foreground">{record.bestScore}</p>
-              <p className="text-xs text-accent font-medium">{formatTopPercentile(record.percentile, !LOWER_IS_BETTER.has(record.testId))}</p>
+              <p className="text-xs text-accent font-medium">{formatTopPercentile(record.percentile, record.testId)}</p>
             </div>
           </div>
         ))}

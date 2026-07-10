@@ -36,7 +36,10 @@ function DecisionSpeedTest() {
   }, phase === 'playing');
 
   const genNumber = () => {
-    const n = Math.floor(Math.random() * 98) + 1;
+    let n = Math.floor(Math.random() * 98) + 1;
+    while (n === 50) {
+      n = Math.floor(Math.random() * 98) + 1;
+    }
     setNumber(n);
     startRef.current = performance.now();
     respondedRef.current = false;
@@ -47,6 +50,7 @@ function DecisionSpeedTest() {
         setResults(next);
         advance(next);
       }
+      respondedRef.current = true;
     }, timeoutMs.current);
   };
 
@@ -102,6 +106,7 @@ function DecisionSpeedTest() {
     redirectToResults({
       testId: 'decision-speed', testName: 'Decision Speed', attempts: r.map(x => x.rt), unit: 'ms',
       percentile: lookupPercentile('decision-speed', score), personalBest: null, category: 'processing', average: avgRt,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 

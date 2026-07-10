@@ -1,42 +1,114 @@
 ---
-import Layout from "@/layouts/main.astro";
-import PrioritizationTest from "@/components/tests/PrioritizationTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import PrioritizationTest from "@/components/tests/PrioritizationTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Prioritization Test – Task Scheduling | CogniArena";
-const description = "Test your task prioritization and scheduling skills. Maximize points by completing high-value tasks before deadlines across 5 rounds.";
-const canonicalUrl = "https://cogniarena.com/tests/prioritization";
+const title = "Prioritization Test – Task Scheduling | CogniArena"
+const description =
+  "Test your task prioritization and scheduling skills. Maximize points by completing high-value tasks before deadlines across 5 rounds."
+const canonicalUrl = "https://cogniarena.com/tests/prioritization"
 
 const schemaJson = [
-  { "@context": "https://schema.org", "@type": "SoftwareApplication", "applicationCategory": "GameApplication", "name": "Prioritization Test", "description": "Task scheduling assessment measuring ability to maximize value under time pressure.", "about": { "@type": "Thing", "name": "Executive Function" } },
-  { "@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [
-    { "@type": "Question", "name": "How is the score calculated?", "acceptedAnswer": { "@type": "Answer", "text": "Each round presents 5 tasks with different effort costs and point values. Your score is the total points earned across 5 rounds. The key trade-off is choosing high-value tasks that fit within the 10-second time limit versus rushing through many low-value tasks." } },
-    { "@type": "Question", "name": "What cognitive skill does this measure?", "acceptedAnswer": { "@type": "Answer", "text": "Prioritization measures executive decision-making under time pressure — specifically the ability to quickly evaluate task value versus effort cost and commit to an optimal sequence without second-guessing." } },
-    { "@type": "Question", "name": "Is this a medical diagnostic tool?", "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." } }
-  ] },
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: "Prioritization Test",
+    description:
+      "Task scheduling assessment measuring ability to maximize value under time pressure.",
+    about: { "@type": "Thing", name: "Executive Function" },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "How is the score calculated?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Each round presents 5 tasks with different effort costs and point values. Your score is the total points earned across 5 rounds. The key trade-off is choosing high-value tasks that fit within the 10-second time limit versus rushing through many low-value tasks.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "What cognitive skill does this measure?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Prioritization measures executive decision-making under time pressure — specifically the ability to quickly evaluate task value versus effort cost and commit to an optimal sequence without second-guessing.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
+  },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Executive", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Prioritization Test", "item": "https://cogniarena.com/tests/prioritization" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Executive",
+        item: "https://cogniarena.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Prioritization Test",
+        item: "https://cogniarena.com/tests/prioritization",
+      },
+    ],
+  },
+]
 ---
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb"><a href="/" class="hover:underline">Home</a><span>/</span><a href="/#suite" class="hover:underline">Tests</a><span>/</span><span class="text-muted">Prioritization Test</span></nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Prioritization Test</h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">5 rounds of simulated task scheduling. Each round gives you 10 seconds and 5 tasks — choose wisely to maximize points before deadlines expire.</p>
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a><span>/</span><a
+          href="/tests"
+          class="hover:underline">Tests</a
+        ><span>/</span><span class="text-muted">Prioritization Test</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Prioritization Test
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        5 rounds of simulated task scheduling. Each round gives you 10 seconds
+        and 5 tasks — choose wisely to maximize points before deadlines expire.
+      </p>
     </header>
     <section class="w-full"><PrioritizationTest client:visible /></section>
 
     <HowItWorks
       testName="the Prioritization Test"
+      learnSlug="prioritization"
+      learnTitle="Task Prioritization Science"
       whatItMeasures="Tests task scheduling and prioritization skills across 5 rounds. Each round presents multiple tasks with different point values and deadlines. You must decide which tasks to complete and in what order."
       howScoringWorks="Score is total points accumulated across all 5 rounds. Optimal strategies prioritize high-value tasks with approaching deadlines (Eisenhower Matrix thinking)."
       whatAffectsResults="Your value assessment speed, impulse control (resisting the first visible task), working memory (tracking completed tasks), and attention under time pressure all affect your prioritization score."
@@ -44,12 +116,28 @@ const schemaJson = [
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Prioritization Score</h2>
-      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
-        <li><strong class="text-foreground">Value assessment speed</strong> — how quickly you can compare task effort against point reward</li>
-        <li><strong class="text-foreground">Impulse control</strong> — resisting the urge to click the first task you see rather than scanning for the best value</li>
-        <li><strong class="text-foreground">Working memory</strong> — tracking which tasks you have already completed across rounds</li>
-        <li><strong class="text-foreground">Attention under time pressure</strong> — maintaining accuracy when the 10-second clock is ticking</li>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        What Affects Your Prioritization Score
+      </h2>
+      <ul
+        class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+      >
+        <li>
+          <strong class="text-foreground">Value assessment speed</strong> — how quickly
+          you can compare task effort against point reward
+        </li>
+        <li>
+          <strong class="text-foreground">Impulse control</strong> — resisting the
+          urge to click the first task you see rather than scanning for the best value
+        </li>
+        <li>
+          <strong class="text-foreground">Working memory</strong> — tracking which
+          tasks you have already completed across rounds
+        </li>
+        <li>
+          <strong class="text-foreground">Attention under time pressure</strong> —
+          maintaining accuracy when the 10-second clock is ticking
+        </li>
       </ul>
     </article>
 
@@ -57,25 +145,52 @@ const schemaJson = [
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How is the score calculated?</h3>
-          <p class="text-muted text-sm leading-relaxed">Each round presents 5 tasks with different effort costs and point values. Your score is the total points earned across 5 rounds. The key trade-off is choosing high-value tasks that fit within the 10-second time limit versus rushing through many low-value tasks.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How is the score calculated?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Each round presents 5 tasks with different effort costs and point
+            values. Your score is the total points earned across 5 rounds. The
+            key trade-off is choosing high-value tasks that fit within the
+            10-second time limit versus rushing through many low-value tasks.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What cognitive skill does this measure?</h3>
-          <p class="text-muted text-sm leading-relaxed">Prioritization measures executive decision-making under time pressure — specifically the ability to quickly evaluate task value versus effort cost and commit to an optimal sequence without second-guessing.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What cognitive skill does this measure?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Prioritization measures executive decision-making under time
+            pressure — specifically the ability to quickly evaluate task value
+            versus effort cost and commit to an optimal sequence without
+            second-guessing.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this a medical diagnostic tool?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This test is designed for self-tracking, performance
+            benchmarking, and entertainment purposes. It is not a clinical
+            cognitive assessment.
+          </p>
         </div>
       </div>
     </article>
 
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-      <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> For self-tracking and educational purposes only. Not a clinical or diagnostic evaluation.
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > For self-tracking and educational purposes only. Not a clinical or diagnostic
+      evaluation.
     </div>
   </div>
 </Layout>

@@ -1,79 +1,118 @@
 ---
-import Layout from "@/layouts/main.astro";
-import ReactionTimeTest from "@/components/tests/ReactionTimeTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import ReactionTimeTest from "@/components/tests/ReactionTimeTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
+import Icon from "@/components/ui/Icon.astro"
 
-const title = "Reaction Time Test — Measure Your Reflexes | CogniArena";
-const description = "Benchmark your raw physical reflexes with our millisecond-accurate reaction time test. Calibrate your monitor latency, view population percentile curves, and challenge friends.";
-const canonicalUrl = "https://cogniarena.com/tests/reaction-time";
+const title = "Reaction Time Test — Measure Your Reflexes | CogniArena"
+const description =
+  "Benchmark your raw physical reflexes with our millisecond-accurate reaction time test. Calibrate your monitor latency, view population percentile curves, and challenge friends."
+const canonicalUrl = "https://cogniarena.com/tests/reaction-time"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Reaction Time Test",
-    "description": "A millisecond-accurate cognitive assessment to measure raw visual reaction speed.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "Reaction Time Test",
+    description:
+      "A millisecond-accurate cognitive assessment to measure raw visual reaction speed.",
+    about: {
       "@type": "Thing",
-      "name": "Reaction Time"
+      name: "Reaction Time",
     },
-    "educationalAlignment": {
+    educationalAlignment: {
       "@type": "AlignmentObject",
-      "alignmentType": "educationalRequirement",
-      "educationalFramework": "Cognitive Science"
-    }
+      alignmentType: "educationalRequirement",
+      educationalFramework: "Cognitive Science",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "Can I train to react faster?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. While genetics set a baseline, deliberate motor pathway training and focus exercises can trim your reaction time by 20-50 milliseconds." }
+        name: "Can I train to react faster?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. While genetics set a baseline, deliberate motor pathway training and focus exercises can trim your reaction time by 20-50 milliseconds.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why are my scores slower on mobile?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Mobile touch digitizers read finger touch grids, adding 15-40ms of latency compared to physical microswitch mouse buttons." }
+        name: "Why are my scores slower on mobile?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Mobile touch digitizers read finger touch grids, adding 15-40ms of latency compared to physical microswitch mouse buttons.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this a medical diagnostic tool?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
-      }
-    ]
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Reaction & Reflexes", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Reaction Time Test", "item": "https://cogniarena.com/tests/reaction-time" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Reaction & Reflexes",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Reaction Time Test",
+        item: "https://cogniarena.com/tests/reaction-time",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/tests" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Reaction Time Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Reaction Time Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Measure your raw reflex speed in response to visual stimulus. This test utilizes high-precision paint-syncing and hardware refresh-rate calibration for millisecond accuracy.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Measure your raw reflex speed in response to visual stimulus. This test
+        utilizes high-precision paint-syncing and hardware refresh-rate
+        calibration for millisecond accuracy.
       </p>
     </header>
 
@@ -84,64 +123,102 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the Reaction Time Test"
+        learnSlug="reaction-time"
+        learnTitle="Reaction Time Science"
         whatItMeasures="A reaction time test measures the speed at which you respond to a visual stimulus. The screen changes from dark to green, and you click as fast as possible. Our timer uses requestAnimationFrame paint-sync calibration to record responses with sub-millisecond accuracy, eliminating browser rendering jitter."
         howScoringWorks="Your final result is the average of 5 consecutive attempts. This methodology reduces statistical variance caused by anticipation errors, distraction, or random motor twitches. Your average is then compared against our population model to output your percentile rank."
         whatAffectsResults="Display latency (60Hz adds 16.7ms), mouse polling rate (125Hz adds 8ms), wireless Bluetooth lag (8-20ms), and your current fatigue and focus levels all affect your measured score."
       />
-      
+
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted">
-        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
-        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-[10px] font-bold text-accent"
+        >
+          BB
+        </div>
+        <span
+          >Learn about calibration protocols and scientific formulas on our <a
+            href="/methodology"
+            class="font-medium text-accent hover:underline">Methodology Page</a
+          >.</span
+        >
       </div>
 
       <!-- What is it -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What is a Reaction Time Test?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          A reaction time test is a simple cognitive assessment designed to measure the speed at which a person responds to a visual, auditory, or physical stimulus. In our test, you measure your visual processing speed by clicking or tapping as soon as a dark screen changes to a solid green color.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What is a Reaction Time Test?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          A reaction time test is a simple cognitive assessment designed to
+          measure the speed at which a person responds to a visual, auditory, or
+          physical stimulus. In our test, you measure your visual processing
+          speed by clicking or tapping as soon as a dark screen changes to a
+          solid green color.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          The time interval between the paint-sync of the green color and your input trigger is recorded in milliseconds (ms). The faster you react, the lower your score.
+        <p class="text-sm leading-relaxed text-muted">
+          The time interval between the paint-sync of the green color and your
+          input trigger is recorded in milliseconds (ms). The faster you react,
+          the lower your score.
         </p>
       </article>
 
       <!-- How is it scored -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">How is the Test Scored?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Your final result is computed as the **average of 5 consecutive attempts**. This methodology reduces the statistical variance caused by anticipation errors, distraction, or random motor twitches. 
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How is the Test Scored?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Your final result is computed as the **average of 5 consecutive
+          attempts**. This methodology reduces the statistical variance caused
+          by anticipation errors, distraction, or random motor twitches.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          Once your average is calculated, it is compared against our population model. This model outputs your percentile rank, indicating what percentage of the global population you outperform (e.g., a score in the 8th percentile means you reacted faster than 92% of participants).
+        <p class="text-sm leading-relaxed text-muted">
+          Once your average is calculated, it is compared against our population
+          model. This model outputs your percentile rank, indicating what
+          percentage of the global population you outperform (e.g., a score in
+          the 8th percentile means you reacted faster than 92% of participants).
         </p>
       </article>
 
       <!-- Average Benchmark Data -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Average Reaction Times (Normative Study Data)</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Human reaction speed changes across life stages and training backgrounds. Below are average visual reaction times by age group, sourced from peer-reviewed cognitive datasets:
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Average Reaction Times (Normative Study Data)
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Human reaction speed changes across life stages and training
+          backgrounds. Below are average visual reaction times by age group,
+          sourced from peer-reviewed cognitive datasets:
         </p>
         <div class="overflow-x-auto">
-          <table class="w-full text-left text-xs border-collapse">
+          <table class="w-full border-collapse text-left text-xs">
             <thead>
-              <tr class="border-b border-card-border text-muted font-mono">
+              <tr class="border-b border-card-border font-mono text-muted">
                 <th class="py-2.5">Age Range</th>
                 <th class="py-2.5 text-right">Average Reaction Time (ms)</th>
                 <th class="py-2.5 text-right">Performance Class</th>
               </tr>
             </thead>
-            <tbody class="text-secondary font-mono divide-y divide-card-border/50">
+            <tbody
+              class="divide-y divide-card-border/50 font-mono text-secondary"
+            >
               <tr>
                 <td class="py-3">15 – 24 years</td>
                 <td class="py-3 text-right text-foreground">220 - 240 ms</td>
@@ -170,34 +247,59 @@ const schemaJson = [
             </tbody>
           </table>
         </div>
-        <p class="text-[10px] text-muted font-mono mt-1 leading-normal">
-          Citation: Normative values modeled from *Der & Deary (2006), Reaction Times and Cognitive Abilities Across the Lifespan*, and *Williamson & Feyer (2000), Cognitive Psychomotor Latency*.
+        <p class="mt-1 font-mono text-[10px] leading-normal text-muted">
+          Citation: Normative values modeled from *Der & Deary (2006), Reaction
+          Times and Cognitive Abilities Across the Lifespan*, and *Williamson &
+          Feyer (2000), Cognitive Psychomotor Latency*.
         </p>
       </article>
 
       <!-- Hardware Latency Factors -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Measured Score?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Many users are surprised by their online scores because they do not account for hardware and browser pipeline delays. In reality, your computer adds significant latency before your click registers:
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What Affects Your Measured Score?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Many users are surprised by their online scores because they do not
+          account for hardware and browser pipeline delays. In reality, your
+          computer adds significant latency before your click registers:
         </p>
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mt-2">
-          <div class="p-4 rounded-lg bg-subtle border border-card-border flex flex-col gap-2">
-            <h3 class="text-xs font-mono uppercase text-accent">Display Latency</h3>
-            <p class="text-muted text-xs leading-normal">
-              A standard 60Hz monitor updates its display once every 16.7ms, meaning you could lose up to 16ms waiting for the screen to refresh. A 144Hz monitor lowers this expected delay to 3.5ms.
+        <div class="mt-2 grid grid-cols-1 gap-6 md:grid-cols-3">
+          <div
+            class="flex flex-col gap-2 rounded-lg border border-card-border bg-subtle p-4"
+          >
+            <h3 class="font-mono text-xs text-accent uppercase">
+              Display Latency
+            </h3>
+            <p class="text-xs leading-normal text-muted">
+              A standard 60Hz monitor updates its display once every 16.7ms,
+              meaning you could lose up to 16ms waiting for the screen to
+              refresh. A 144Hz monitor lowers this expected delay to 3.5ms.
             </p>
           </div>
-          <div class="p-4 rounded-lg bg-subtle border border-card-border flex flex-col gap-2">
-            <h3 class="text-xs font-mono uppercase text-accent">Polling Latency</h3>
-            <p class="text-muted text-xs leading-normal">
-              USB input devices poll data periodically. A standard mouse polls at 125Hz (8ms delay), while high-end gaming mice poll at 1000Hz (1ms delay). Wireless connections like Bluetooth add another 8-20ms of lag.
+          <div
+            class="flex flex-col gap-2 rounded-lg border border-card-border bg-subtle p-4"
+          >
+            <h3 class="font-mono text-xs text-accent uppercase">
+              Polling Latency
+            </h3>
+            <p class="text-xs leading-normal text-muted">
+              USB input devices poll data periodically. A standard mouse polls
+              at 125Hz (8ms delay), while high-end gaming mice poll at 1000Hz
+              (1ms delay). Wireless connections like Bluetooth add another
+              8-20ms of lag.
             </p>
           </div>
-          <div class="p-4 rounded-lg bg-subtle border border-card-border flex flex-col gap-2">
-            <h3 class="text-xs font-mono uppercase text-accent">Browser & OS</h3>
-            <p class="text-muted text-xs leading-normal">
-              Operating systems stack window managers and compositors which delay paints. Chrome and Safari also buffer JavaScript execution. This combines to add another 10-30ms of rendering overhead.
+          <div
+            class="flex flex-col gap-2 rounded-lg border border-card-border bg-subtle p-4"
+          >
+            <h3 class="font-mono text-xs text-accent uppercase">
+              Browser & OS
+            </h3>
+            <p class="text-xs leading-normal text-muted">
+              Operating systems stack window managers and compositors which
+              delay paints. Chrome and Safari also buffer JavaScript execution.
+              This combines to add another 10-30ms of rendering overhead.
             </p>
           </div>
         </div>
@@ -205,42 +307,70 @@ const schemaJson = [
 
       <!-- How to improve -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">How to Improve Your Score</h2>
-        <ul class="list-disc list-inside text-muted text-sm flex flex-col gap-2 leading-relaxed">
-          <li><strong class="text-foreground">Optimize Your Environment:</strong> Use a wired gaming mouse and a monitor with a high refresh rate (120Hz+). Avoid TVs or cheap bluetooth trackpads.</li>
-          <li><strong class="text-foreground">Rest & Hydration:</strong> Sleep deprivation is proven to decay reaction time by up to 20%. Keep well-rested and hydrated to maintain synaptic conductivity.</li>
-          <li><strong class="text-foreground">Consistent Focus drills:</strong> Practicing spatial aim trainers and coordination drills helps build permanent neuromuscular myelin sheaths, speeding up raw reflex pathways.</li>
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How to Improve Your Score
+        </h2>
+        <ul
+          class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+        >
+          <li>
+            <strong class="text-foreground">Optimize Your Environment:</strong> Use
+            a wired gaming mouse and a monitor with a high refresh rate (120Hz+).
+            Avoid TVs or cheap bluetooth trackpads.
+          </li>
+          <li>
+            <strong class="text-foreground">Rest & Hydration:</strong> Sleep deprivation
+            is proven to decay reaction time by up to 20%. Keep well-rested and hydrated
+            to maintain synaptic conductivity.
+          </li>
+          <li>
+            <strong class="text-foreground">Consistent Focus drills:</strong> Practicing
+            spatial aim trainers and coordination drills helps build permanent neuromuscular
+            myelin sheaths, speeding up raw reflex pathways.
+          </li>
         </ul>
       </article>
 
-    <ExploreTests currentSlug="reaction-time" />
+      <ExploreTests currentSlug="reaction-time" />
 
       <!-- FAQ Section -->
       <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+
         <div class="flex flex-col gap-4">
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">Can I train to react faster?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              Yes. While genetics set a baseline, deliberate motor pathway training and focus exercises can trim your reaction time by 20-50 milliseconds.
+            <h3 class="text-sm font-medium text-foreground">
+              Can I train to react faster?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              Yes. While genetics set a baseline, deliberate motor pathway
+              training and focus exercises can trim your reaction time by 20-50
+              milliseconds.
             </p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">Why are my scores slower on mobile?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              Mobile touch digitizers read finger touch grids, adding 15-40ms of latency compared to physical microswitch mouse buttons.
+            <h3 class="text-sm font-medium text-foreground">
+              Why are my scores slower on mobile?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              Mobile touch digitizers read finger touch grids, adding 15-40ms of
+              latency compared to physical microswitch mouse buttons.
             </p>
           </div>
           <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-            <p class="text-muted text-sm leading-relaxed">
-              No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.
+            <h3 class="text-sm font-medium text-foreground">
+              Is this a medical diagnostic tool?
+            </h3>
+            <p class="text-sm leading-relaxed text-muted">
+              No. This test is designed for self-tracking, performance
+              benchmarking, and entertainment purposes. It is not a clinical
+              cognitive assessment.
             </p>
           </div>
         </div>
       </article>
-      
     </section>
   </div>
 </Layout>

@@ -63,6 +63,12 @@ export const translations: Record<LangCode, Record<string, string>> = {
     'nav.all_guides': 'All Guides',
     'nav.calibration': 'Calibration Status',
     'nav.online': 'Online',
+    'nav.records': 'Personal Records',
+    'nav.brain_games': 'Brain Games',
+    'nav.adhd_test': 'ADHD Test',
+    'nav.color_game': 'Color Game',
+    'nav.aim_coordination': 'Aim Coordination',
+    'nav.faq': 'FAQ',
     // Footer
     'footer.disclaimer_title': 'Disclaimer & Scope Note:',
     'footer.disclaimer': 'CogniArena is an educational, self-tracking, and cognitive training platform. All assessments (including visual/audio reaction speed, sequence memory, visual memory, clicking frequency, and target precision) and generated metrics (including percentiles, demographic ranks, and CogniArena Index / CAI score) are intended for self-tracking and entertainment purposes only. They do not constitute medical, diagnostic, clinical, psychiatric, or neuropsychological evaluations. If you have concerns about your cognitive health or attention controls, please consult a licensed healthcare professional.',

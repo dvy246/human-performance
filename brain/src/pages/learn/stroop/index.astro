@@ -1,78 +1,190 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Stroop Effect & Cognitive Inhibition Science | CogniArena";
-const description = "Explore the classic Stroop paradigm measuring cognitive interference and inhibitory control. Understand how automatic reading processes compete with controlled color-naming tasks.";
+const title = "Stroop Effect Science & Cognitive Inhibition | CogniArena";
+const description = "Explore Stroop interference, cognitive inhibition pathways, visual word-color conflict, and anterior cingulate control.";
 const canonicalUrl = "https://cogniarena.com/learn/stroop";
 
-const schemaJson = {
-  "@context": "https://schema.org",
-  "@type": "Article",
-  "headline": "Stroop Effect, Cognitive Inhibition, and Conflict Monitoring",
-  "description": "Scientific analysis of the Stroop paradigm, automaticity versus controlled processing, and anterior cingulate cortex function.",
-  "publisher": {
-    "@type": "Organization",
-    "name": "CogniArena"
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "Cognitive Interference and Anterior Cingulate Oversight",
+    "description": "Explore Stroop interference, cognitive inhibition pathways, visual word-color conflict, and anterior cingulate control.",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CogniArena"
+    },
+    "author": {
+      "@type": "Organization",
+      "name": "CogniArena Scientific Review Board",
+      "url": "https://cogniarena.com/about#board"
+    },
+    "datePublished": "2026-07-05",
+    "dateModified": "2026-07-10"
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "What is the Stroop Effect?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The Stroop Effect is the delay in reaction time that occurs when there is a conflict between a word's meaning and its color. For example, it takes longer to name the color of the word 'RED' when it is printed in blue ink."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Why is reading faster than color naming?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Reading is a highly automated skill in literate adults, processed quickly through specialized language pathways. Naming a color is a controlled cognitive process, requiring more visual processing and semantic classification."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What does the anterior cingulate cortex do during the Stroop test?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "The anterior cingulate cortex (ACC) acts as the brain's conflict monitor. It detects the mismatch between the word's meaning and its color, signaling the prefrontal cortex to recruit attentional resources to resolve the conflict."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How can I reduce my Stroop interference score?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "You can improve by squinting or focusing on a single character to blur the word, reducing automatic lexical recognition, and practicing mental inhibition drills to strengthen prefrontal control."
+        }
+      }
+    ]
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://cogniarena.com"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Learning Center",
+        "item": "https://cogniarena.com/learn"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": "Stroop Effect",
+        "item": "https://cogniarena.com/learn/stroop"
+      }
+    ]
   }
-};
+];
 ---
 
 <Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
         <span>Learning Center</span>
         <span>&middot;</span>
-        <span>Pillar Page</span>
+        <span>Scientific Guide</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in">
-        Stroop Effect & Cognitive Inhibition
+      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+        Stroop Effect & Cognitive Inhibition Science
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed">
-        Understanding the cognitive interference between automatic word reading and deliberate color identification, and the neural systems that resolve this conflict.
+      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
+        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+          CA
+        </div>
+        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+      </div>
+      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
+        The Stroop Effect demonstrates the interference that occurs when processing a stimulus feature is delayed by a competing, more automatic feature. This test isolates cognitive inhibition and selective attention, measuring how effectively the prefrontal cortex suppresses automatic responses.
       </p>
     </header>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-10">
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">1. The Classic Stroop Paradigm and Interference Effect</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          In the standard Stroop task, participants name the ink color of a printed word while ignoring the word's semantic meaning. When the word and ink color are incongruent (e.g., the word "RED" printed in blue ink), response times increase significantly compared to congruent trials. This Stroop interference effect is one of the most robust phenomena in cognitive psychology, reliably producing delayed reaction times of 100ms to 300ms.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          1. Neurobiological Foundations &amp; Neural Pathways
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The Stroop test triggers a conflict between two visual processing pathways. When a word like 'RED' is written in blue ink, the brain processes both the word's meaning (lexical reading) and the physical ink color (color naming). Reading is highly automated in literate adults, processed rapidly through the visual word form area (VWFA) and language centers. Color naming is less automated, requiring more visual and semantic processing. Both streams project to the prefrontal cortex, leading to a response conflict. The anterior cingulate cortex (ACC) detects this conflict and signals the dorsolateral prefrontal cortex (dlPFC) to recruit selective attention. The dlPFC tenses executive control, suppressing the automatic reading response and routing the color naming response to motor output centers.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">2. Automaticity vs Controlled Processing in the Stroop Task</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The Stroop effect demonstrates the competition between automatic and controlled cognitive processes. Word reading is highly overlearned and proceeds automatically, requiring minimal attentional resources. Color naming, by contrast, demands deliberate controlled processing. When these two processes yield conflicting outputs, the cognitive system must resolve the competition through inhibitory control mechanisms, a function primarily governed by prefrontal brain regions.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          2. Cognitive Modeling &amp; Theoretical Frameworks
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The difference in response speed between congruent trials (the word 'RED' in red ink) and incongruent trials (the word 'RED' in blue ink) is known as the Stroop Interference Effect. Mathematically, it is quantified as the reaction time delta: Interference = RT_incongruent - RT_congruent. The average interference penalty is 50ms to 150ms. This delay represents the cognitive overhead of active suppression and selective routing. The Stroop effect is a classic measure of executive function, specifically isolating cognitive inhibition, conflict resolution, and automaticity.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">3. Anterior Cingulate Cortex: Conflict Monitoring and Error Detection</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Neuroimaging studies consistently implicate the anterior cingulate cortex (ACC) in detecting response conflicts during Stroop performance. The ACC acts as a conflict monitor, signaling when competing response tendencies arise and recruiting prefrontal regions for top-down resolution. Individuals with greater ACC activation typically show smaller Stroop interference effects, suggesting more efficient conflict resolution circuitry. This neural mechanism is foundational to our understanding of executive attention.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          3. Performance Benchmarks &amp; Ecological Validity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          The average congruent Stroop reaction time is 550ms, while the average incongruent reaction time rises to 700ms. Exceptional cognitive control, characterized by an interference delta below 50ms, indicates highly efficient prefrontal conflict resolution. The Stroop test is widely used in neuropsychological batteries to assess ADHD, schizophrenia, and frontal lobe trauma, where damage to the ACC or prefrontal cortex impairs the ability to inhibit the automatic reading response.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Frequently Asked Questions</h2>
-        <div class="flex flex-col gap-4 text-sm">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          4. Training Protocols &amp; Performance Optimization
+        </h2>
+        <p class="text-sm leading-relaxed text-muted dark:text-muted">
+          To improve Stroop performance, practice selective focus and gaze modulation. Focus your gaze on a single letter rather than reading the entire word, which helps suppress automatic lexical processing. Practice deep, focused attention to maintain task rules ('name the color, ignore the word') in working memory. Technically, ensure your monitor contrast is optimized to make ink colors easily distinguishable, reducing visual processing time.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Frequently Asked Questions
+        </h2>
+        <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="text-foreground font-bold mb-1">What does the Stroop test measure?</h4>
-            <p class="text-muted">The Stroop test measures cognitive inhibition and interference control — the ability to suppress an automatic response (reading) in favor of a less practiced one (naming colors). It is a primary measure of executive function and is widely used in clinical neuropsychology.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              What is the Stroop Effect?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The Stroop Effect is the delay in reaction time that occurs when there is a conflict between a word's meaning and its color. For example, it takes longer to name the color of the word 'RED' when it is printed in blue ink.
+            </p>
           </div>
           <div>
-            <h4 class="text-foreground font-bold mb-1">Why is the Stroop effect so robust?</h4>
-            <p class="text-muted">The effect is robust because word reading is deeply automatized through years of practice, making it nearly impossible to suppress. Even with explicit instruction to ignore the word, semantic processing occurs involuntarily, producing measurable interference in virtually all literate adults.</p>
+            <h4 class="mb-2 font-bold text-foreground">
+              Why is reading faster than color naming?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              Reading is a highly automated skill in literate adults, processed quickly through specialized language pathways. Naming a color is a controlled cognitive process, requiring more visual processing and semantic classification.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              What does the anterior cingulate cortex do during the Stroop test?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              The anterior cingulate cortex (ACC) acts as the brain's conflict monitor. It detects the mismatch between the word's meaning and its color, signaling the prefrontal cortex to recruit attentional resources to resolve the conflict.
+            </p>
+          </div>
+          <div>
+            <h4 class="mb-2 font-bold text-foreground">
+              How can I reduce my Stroop interference score?
+            </h4>
+            <p class="text-muted dark:text-muted leading-relaxed">
+              You can improve by squinting or focusing on a single character to blur the word, reducing automatic lexical recognition, and practicing mental inhibition drills to strengthen prefrontal control.
+            </p>
           </div>
         </div>
-      </article>
-
-      <article class="flex flex-col gap-4">
-        <p class="text-muted text-sm leading-relaxed">
-          Measure your own cognitive inhibition capacity with our <a href="/tests/stroop" class="text-accent hover:underline">Stroop Effect Test</a> and discover how efficiently your brain resolves conflicting information streams.
-        </p>
       </article>
     </section>
   </div>

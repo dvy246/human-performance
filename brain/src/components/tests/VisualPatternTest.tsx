@@ -186,9 +186,11 @@ function VisualPatternTest() {
       console.error('Failed to save Visual Pattern session:', err);
     }
 
+    if (!submittedRef.current) return;
     const pb = await dataLayer.getPersonalBest('visual-pattern', 'higher');
     setPersonalBest(pb);
 
+    if (!submittedRef.current) return;
     try {
       const card = await generateShareCard(
         'Visual Pattern Memory',
@@ -200,6 +202,7 @@ function VisualPatternTest() {
       console.error('Failed to generate share card:', err);
     }
 
+    if (!submittedRef.current) return;
     redirectToResults({
       testId: 'visual-pattern', testName: 'Visual Pattern', attempts: [finalScore], unit: 'levels',
       percentile, personalBest: pb, category: 'memory', average: finalScore,
@@ -339,7 +342,7 @@ function VisualPatternTest() {
             {phase === 'input' && (
               <button
                 onClick={submitPattern}
-                className="mt-2 text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-8 py-2.5 rounded transition-standard active:scale-[0.98]"
+                className="mt-2 text-xs uppercase font-mono tracking-widest text-black bg-accent hover:bg-accent-hover font-semibold px-8 py-2.5 rounded transition-standard active:scale-[0.98] cursor-pointer"
               >
                 Submit Pattern ({userSelected.size}/{pattern.size} selected)
               </button>

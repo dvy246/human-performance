@@ -212,6 +212,7 @@ const StroopTest = () => {
 
     const pb = await dataLayer.getPersonalBest('stroop', 'lower');
     setPersonalBest(pb);
+    if (!submittedRef.current) return;
 
     try {
       const card = await generateShareCard('Stroop Attention Test', `${finalScore} ms`, percentile);
@@ -223,6 +224,7 @@ const StroopTest = () => {
     redirectToResults({
       testId: 'stroop', testName: 'Stroop Attention', attempts: [...congruentScores, ...incongruentScores], unit: 'ms',
       percentile, personalBest: pb, category: 'focus', average: finalScore,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 
@@ -293,7 +295,7 @@ const StroopTest = () => {
               <button
                 key={c.name}
                 onClick={() => handleAnswer(c.name)}
-                className="h-12 rounded border border-card-border hover:bg-subtle text-foreground text-sm font-semibold tracking-wide transition-standard active:scale-97"
+                className="h-12 rounded border border-card-border hover:bg-subtle text-foreground text-sm font-semibold tracking-wide transition-standard active:scale-97 cursor-pointer"
               >
                 {c.name}
               </button>
@@ -341,7 +343,7 @@ const StroopTest = () => {
 
           <button
             onClick={() => startTest()}
-            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow"
+            className="w-full h-11 rounded bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-98 transition-standard shadow cursor-pointer"
           >
             Train Again
           </button>

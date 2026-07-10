@@ -1,73 +1,110 @@
 ---
-import Layout from "@/layouts/main.astro";
-import DualNBackTest from "@/components/tests/DualNBackTest";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
-import HowItWorks from "@/components/ui/HowItWorks.astro";
+import Layout from "@/layouts/main.astro"
+import DualNBackTest from "@/components/tests/DualNBackTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
 
-const title = "Dual N-Back Memory Test — Working Memory Trainer | CogniArena";
-const description = "Test and train your visual and auditory working memory with the online Dual N-Back memory test. Track cognitive performance with millisecond-accurate browser timers.";
-const canonicalUrl = "https://cogniarena.com/tests/dual-n-back";
+const title = "Dual N-Back Memory Test — Working Memory Trainer | CogniArena"
+const description =
+  "Test and train your visual and auditory working memory with the online Dual N-Back memory test. Track cognitive performance with millisecond-accurate browser timers."
+const canonicalUrl = "https://cogniarena.com/tests/dual-n-back"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "applicationCategory": "GameApplication",
-    "name": "Dual N-Back Memory Test",
-    "description": "Assess active working memory updates, spatial retention, and auditory tracking.",
-    "about": {
+    applicationCategory: "GameApplication",
+    name: "Dual N-Back Memory Test",
+    description:
+      "Assess active working memory updates, spatial retention, and auditory tracking.",
+    about: {
       "@type": "Thing",
-      "name": "Working Memory & Executive Control"
-    }
+      name: "Working Memory & Executive Control",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is a good Dual N-Back score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Most beginners start at 1-back or 2-back. Reaching 3-back consistently is above average, 4-back is advanced, and 5+ back is elite. Research suggests regular training can increase your working memory capacity over time." }
+        name: "What is a good Dual N-Back score?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Most beginners start at 1-back or 2-back. Reaching 3-back consistently is above average, 4-back is advanced, and 5+ back is elite. Research suggests regular training can increase your working memory capacity over time.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Does Dual N-Back training improve fluid intelligence?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Some studies suggest that Dual N-Back training can improve working memory capacity and fluid reasoning, though results are mixed. Consistent practice over several weeks tends to show the most benefit for attention and memory tasks." }
+        name: "Does Dual N-Back training improve fluid intelligence?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Some studies suggest that Dual N-Back training can improve working memory capacity and fluid reasoning, though results are mixed. Consistent practice over several weeks tends to show the most benefit for attention and memory tasks.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this a medical diagnostic tool?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment." }
-      }
-    ]
+        name: "Is this a medical diagnostic tool?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Memory Suite", "item": "https://cogniarena.com/#suite" },
-      { "@type": "ListItem", "position": 3, "name": "Dual N-Back Test", "item": "https://cogniarena.com/tests/dual-n-back" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Memory Suite",
+        item: "https://cogniarena.com/",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Dual N-Back Test",
+        item: "https://cogniarena.com/tests/dual-n-back",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
-        <a href="/#suite" class="hover:underline">Tests</a>
+        <a href="/" class="hover:underline">Tests</a>
         <span>/</span>
         <span class="text-muted">Dual N-Back Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Dual N-Back Memory Test
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Improve visual-auditory working memory updates and active focus gates. Compare current stimuli to those shown N steps back.
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Improve visual-auditory working memory updates and active focus gates.
+        Compare current stimuli to those shown N steps back.
       </p>
     </header>
 
@@ -77,43 +114,80 @@ const schemaJson = [
 
     <!-- Below the fold SEO and Methodology Content -->
 
-      <!-- Medical/Scientific Disclaimer Notice -->
-      <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-        <strong class="text-foreground font-semibold">Self-Tracking Notice:</strong> This assessment is for self-tracking, educational, and cognitive training purposes only. It is not a clinical, medical, diagnostic, or neuropsychological evaluation, and may be affected by display latency, input delays, or device configuration.
-      </div>
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, input delays, or device
+      configuration.
+    </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
-
       <HowItWorks
         testName="the Dual N-Back Test"
+        learnSlug="dual-n-back"
+        learnTitle="Dual N-Back Training Science"
         whatItMeasures="Simultaneously tracks two independent streams of information: auditory tones and visual grid positions. You must indicate when either the current tone or current position matches what appeared N steps earlier."
         howScoringWorks="Score combines accuracy on both auditory and visual streams. Higher N values indicate stronger working memory capacity. The dual-task nature taxes the central executive system."
         whatAffectsResults="Your working memory capacity, ability to divide attention between modalities, practice with N-back tasks, and current cognitive fatigue all affect your score."
       />
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">The Science of Dual N-Back Training</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          The Dual N-Back task requires users to track two independent streams of sensory information: visual (grid positions) and auditory (spoken letters). In each trial, you must determine if the current items match the ones presented exactly N steps earlier. Research in cognitive psychology suggests N-back exercises increase working memory capacity and fluid reasoning.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          The Science of Dual N-Back Training
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          The Dual N-Back task requires users to track two independent streams
+          of sensory information: visual (grid positions) and auditory (spoken
+          letters). In each trial, you must determine if the current items match
+          the ones presented exactly N steps earlier. Research in cognitive
+          psychology suggests N-back exercises increase working memory capacity
+          and fluid reasoning.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Working Memory Gating & Cognitive Control</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          Working memory serves as the active cache of the brain, managed by the dorsolateral prefrontal cortex. As N increases, the cognitive load grows exponentially, requiring active gating mechanisms to prune outdated items and latch onto new sequences. Regular N-back exercises help build concentration and prevent mental fatigue.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Working Memory Gating & Cognitive Control
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          Working memory serves as the active cache of the brain, managed by the
+          dorsolateral prefrontal cortex. As N increases, the cognitive load
+          grows exponentially, requiring active gating mechanisms to prune
+          outdated items and latch onto new sequences. Regular N-back exercises
+          help build concentration and prevent mental fatigue.
         </p>
       </article>
     </section>
 
     <!-- What Affects Your Score -->
     <article class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Dual N-Back Score</h2>
-      <ul class="flex flex-col gap-2 text-muted text-sm leading-relaxed list-disc list-inside">
-        <li><strong class="text-foreground">Working memory capacity</strong> — the number of items you can actively maintain and update simultaneously</li>
-        <li><strong class="text-foreground">Attention gating</strong> — your ability to filter out irrelevant stimuli and focus on target updates</li>
-        <li><strong class="text-foreground">Processing speed</strong> — faster encoding and retrieval of visual and auditory information</li>
-        <li><strong class="text-foreground">Display latency</strong> — slower monitors add minor overhead to stimulus recognition</li>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        What Affects Your Dual N-Back Score
+      </h2>
+      <ul
+        class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+      >
+        <li>
+          <strong class="text-foreground">Working memory capacity</strong> — the number
+          of items you can actively maintain and update simultaneously
+        </li>
+        <li>
+          <strong class="text-foreground">Attention gating</strong> — your ability
+          to filter out irrelevant stimuli and focus on target updates
+        </li>
+        <li>
+          <strong class="text-foreground">Processing speed</strong> — faster encoding
+          and retrieval of visual and auditory information
+        </li>
+        <li>
+          <strong class="text-foreground">Display latency</strong> — slower monitors
+          add minor overhead to stimulus recognition
+        </li>
       </ul>
     </article>
 
@@ -121,19 +195,41 @@ const schemaJson = [
 
     <!-- FAQ Section -->
     <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What is a good Dual N-Back score?</h3>
-          <p class="text-muted text-sm leading-relaxed">Most beginners start at 1-back or 2-back. Reaching 3-back consistently is above average, 4-back is advanced, and 5+ back is elite. Research suggests regular training can increase your working memory capacity over time.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What is a good Dual N-Back score?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Most beginners start at 1-back or 2-back. Reaching 3-back
+            consistently is above average, 4-back is advanced, and 5+ back is
+            elite. Research suggests regular training can increase your working
+            memory capacity over time.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Does Dual N-Back training improve fluid intelligence?</h3>
-          <p class="text-muted text-sm leading-relaxed">Some studies suggest that Dual N-Back training can improve working memory capacity and fluid reasoning, though results are mixed. Consistent practice over several weeks tends to show the most benefit for attention and memory tasks.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Does Dual N-Back training improve fluid intelligence?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Some studies suggest that Dual N-Back training can improve working
+            memory capacity and fluid reasoning, though results are mixed.
+            Consistent practice over several weeks tends to show the most
+            benefit for attention and memory tasks.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this a medical diagnostic tool?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this a medical diagnostic tool?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This test is designed for self-tracking, performance
+            benchmarking, and entertainment purposes. It is not a clinical
+            cognitive assessment.
+          </p>
         </div>
       </div>
     </article>

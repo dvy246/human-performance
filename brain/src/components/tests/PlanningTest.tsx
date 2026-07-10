@@ -95,6 +95,7 @@ function PlanningTest() {
     redirectToResults({
       testId: 'planning', testName: 'Planning', attempts: [score], unit: 'pts',
       percentile: lookupPercentile('planning', score), personalBest: null, category: 'executive', average: score,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 

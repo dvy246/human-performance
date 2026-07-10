@@ -9,7 +9,6 @@ import { useI18n } from '../../runtime/useI18n';
 import { redirectToResults } from '../../runtime/redirectToResults';
 import GameConfigPanel from '../ui/GameConfigPanel';
 import type { GameConfig } from '../../runtime/testConfig';
-import { getDifficultyParams } from '../../runtime/testConfig';
 import { useBeforeUnload } from '../../runtime/useBeforeUnload';
 import { useVisibilityGuard } from '../../runtime/useVisibilityGuard';
 
@@ -103,8 +102,6 @@ const ClickSpeedTest = () => {
     setClicks(0);
     setClickRates([]);
 
-    const cfg = config || {};
-    getDifficultyParams('click-speed', (cfg.difficulty as string) || 'Medium');
     const dur = config && typeof config.duration === 'number' ? config.duration : duration;
     setDuration(dur as Duration);
     beginClicking(dur);
@@ -169,6 +166,7 @@ const ClickSpeedTest = () => {
     redirectToResults({
       testId: 'click-speed', testName: 'Click Speed', attempts: [cps], unit: 'CPS',
       percentile, personalBest: pb, category: 'stamina', average: cps,
+      difficulty: (lastConfig.current?.difficulty as string) || 'Medium'
     });
   };
 

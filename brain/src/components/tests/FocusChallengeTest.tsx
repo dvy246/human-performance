@@ -230,6 +230,7 @@ function FocusChallengeTest() {
     redirectToResults({
       testId: 'focus-challenge', testName: 'Focus Challenge', attempts: results.map(r => r.score), unit: 'pts',
       percentile, personalBest: pb, category: 'focus', average: totalScore,
+      difficulty: difficultyLevel
     });
   };
 
