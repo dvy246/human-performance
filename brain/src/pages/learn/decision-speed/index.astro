@@ -1,112 +1,138 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Decision Speed & Cognitive Processing Science | CogniArena";
-const description = "Scientific guide to decision speed, information processing, sensory discrimination, and cortical throughput telemetry.";
-const canonicalUrl = "https://cogniarena.com/learn/decision-speed";
+const title = "Decision Speed & Cognitive Processing Science | CogniArena"
+const description =
+  "Scientific guide to decision speed, information processing, sensory discrimination, and cortical throughput telemetry."
+const canonicalUrl = "https://cogniarena.com/learn/decision-speed"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Binary Discrimination and Cognitive Processing Speed",
-    "description": "Scientific guide to decision speed, information processing, sensory discrimination, and cortical throughput telemetry.",
-    "publisher": {
+    headline: "Binary Discrimination and Cognitive Processing Speed",
+    description:
+      "Scientific guide to decision speed, information processing, sensory discrimination, and cortical throughput telemetry.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is decision speed?",
-        "acceptedAnswer": {
+        name: "What is decision speed?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Decision speed is the time it takes the brain to process sensory information, categorize a stimulus, and select the correct response. It is a key metric of cognitive processing efficiency."
-        }
+          text: "Decision speed is the time it takes the brain to process sensory information, categorize a stimulus, and select the correct response. It is a key metric of cognitive processing efficiency.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What is the speed-accuracy trade-off?",
-        "acceptedAnswer": {
+        name: "What is the speed-accuracy trade-off?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "The speed-accuracy trade-off is the balance between how fast you respond and how many errors you make. Responding faster requires lowering your decision boundary, which increases speed but also increases the rate of errors."
-        }
+          text: "The speed-accuracy trade-off is the balance between how fast you respond and how many errors you make. Responding faster requires lowering your decision boundary, which increases speed but also increases the rate of errors.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why does mental fatigue slow down decision speed?",
-        "acceptedAnswer": {
+        name: "Why does mental fatigue slow down decision speed?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Decision-making in the prefrontal cortex requires high ATP (energy) consumption. When mentally fatigued, glucose metabolism in prefrontal areas decreases, leading to slower evidence accumulation and delayed decisions."
-        }
+          text: "Decision-making in the prefrontal cortex requires high ATP (energy) consumption. When mentally fatigued, glucose metabolism in prefrontal areas decreases, leading to slower evidence accumulation and delayed decisions.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does aging affect processing speed?",
-        "acceptedAnswer": {
+        name: "How does aging affect processing speed?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Aging gradually slows cognitive processing speed due to reduced axonal myelination (slower signal transmission) and a reduction in synaptic connections, requiring the brain to collect sensory evidence for longer."
-        }
-      }
-    ]
+          text: "Aging gradually slows cognitive processing speed due to reduced axonal myelination (slower signal transmission) and a reduction in synaptic connections, requiring the brain to collect sensory evidence for longer.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Decision Speed",
-        "item": "https://cogniarena.com/learn/decision-speed"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Decision Speed",
+        item: "https://cogniarena.com/learn/decision-speed",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Decision Speed & Cognitive Processing Science
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Decision speed evaluates cognitive processing rate, visual discrimination, and information throughput. This guide explores sensory classification networks, prefrontal decision thresholds, and methods to train cognitive processing speed.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Decision speed evaluates cognitive processing rate, visual
+        discrimination, and information throughput. This guide explores sensory
+        classification networks, prefrontal decision thresholds, and methods to
+        train cognitive processing speed.
       </p>
     </header>
 
@@ -116,7 +142,19 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Decision speed reflects the time required to categorize a stimulus and select a response, engaging the ventral visual stream and the prefrontal cortex. When a complex visual stimulus appears, features such as color, orientation, and shape are processed in secondary visual areas (V2, V4). This feature map is projected to the inferior temporal cortex for object identification and then to the prefrontal cortex. The dorsolateral prefrontal cortex (dlPFC) evaluates the stimulus against task rules (e.g., 'is this color green or red?'), while the anterior cingulate cortex monitors for conflict. Once the prefrontal network reaches a decision threshold, it activates the matching motor program. The speed of this process is determined by synaptic efficiency, visual transduction speed, and the rate of information accumulation in cortical decision networks.
+          Decision speed reflects the time required to categorize a stimulus and
+          select a response, engaging the ventral visual stream and the
+          prefrontal cortex. When a complex visual stimulus appears, features
+          such as color, orientation, and shape are processed in secondary
+          visual areas (V2, V4). This feature map is projected to the inferior
+          temporal cortex for object identification and then to the prefrontal
+          cortex. The dorsolateral prefrontal cortex (dlPFC) evaluates the
+          stimulus against task rules (e.g., 'is this color green or red?'),
+          while the anterior cingulate cortex monitors for conflict. Once the
+          prefrontal network reaches a decision threshold, it activates the
+          matching motor program. The speed of this process is determined by
+          synaptic efficiency, visual transduction speed, and the rate of
+          information accumulation in cortical decision networks.
         </p>
       </article>
 
@@ -125,7 +163,16 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Cognitive processing speed is modeled using drift-diffusion models (DDM), which conceptualize decision-making as the accumulation of sensory evidence over time. Evidence accumulation begins at a baseline and drifts toward a decision boundary; once the boundary is crossed, the decision is made and a response is executed. The drift rate reflects the quality and speed of sensory processing, while the boundary separation reflects the individual's caution (speed-accuracy trade-off). High decision speed indicates a rapid drift rate, allowing the brain to reach a decision with minimal sensory evidence while maintaining accuracy.
+          Cognitive processing speed is modeled using drift-diffusion models
+          (DDM), which conceptualize decision-making as the accumulation of
+          sensory evidence over time. Evidence accumulation begins at a baseline
+          and drifts toward a decision boundary; once the boundary is crossed,
+          the decision is made and a response is executed. The drift rate
+          reflects the quality and speed of sensory processing, while the
+          boundary separation reflects the individual's caution (speed-accuracy
+          trade-off). High decision speed indicates a rapid drift rate, allowing
+          the brain to reach a decision with minimal sensory evidence while
+          maintaining accuracy.
         </p>
       </article>
 
@@ -134,7 +181,13 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Average binary decision speeds range from 350ms to 420ms, excluding physical movement time. Decision speed is highly sensitive to mental fatigue, sleep deprivation, and blood glucose levels, as prefrontal decision networks are highly energy-dependent. As people age, decision speed slows by approximately 5-8% per decade after age 30, reflecting a general reduction in central nervous system conduction speed and synaptic density.
+          Average binary decision speeds range from 350ms to 420ms, excluding
+          physical movement time. Decision speed is highly sensitive to mental
+          fatigue, sleep deprivation, and blood glucose levels, as prefrontal
+          decision networks are highly energy-dependent. As people age, decision
+          speed slows by approximately 5-8% per decade after age 30, reflecting
+          a general reduction in central nervous system conduction speed and
+          synaptic density.
         </p>
       </article>
 
@@ -143,7 +196,13 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To train decision speed, practice stimulus discrimination drills under time pressure, forcing the brain to increase its drift rate. Focus on maintaining a balanced speed-accuracy trade-off, adjusting decision boundaries based on task demands. Technically, minimize visual noise and optimize screen contrast to ensure clear sensory input, and ensure your input hardware has minimal latency to prevent masking your cognitive processing speed.
+          To train decision speed, practice stimulus discrimination drills under
+          time pressure, forcing the brain to increase its drift rate. Focus on
+          maintaining a balanced speed-accuracy trade-off, adjusting decision
+          boundaries based on task demands. Technically, minimize visual noise
+          and optimize screen contrast to ensure clear sensory input, and ensure
+          your input hardware has minimal latency to prevent masking your
+          cognitive processing speed.
         </p>
       </article>
 
@@ -156,32 +215,43 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               What is decision speed?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Decision speed is the time it takes the brain to process sensory information, categorize a stimulus, and select the correct response. It is a key metric of cognitive processing efficiency.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Decision speed is the time it takes the brain to process sensory
+              information, categorize a stimulus, and select the correct
+              response. It is a key metric of cognitive processing efficiency.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               What is the speed-accuracy trade-off?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              The speed-accuracy trade-off is the balance between how fast you respond and how many errors you make. Responding faster requires lowering your decision boundary, which increases speed but also increases the rate of errors.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              The speed-accuracy trade-off is the balance between how fast you
+              respond and how many errors you make. Responding faster requires
+              lowering your decision boundary, which increases speed but also
+              increases the rate of errors.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Why does mental fatigue slow down decision speed?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Decision-making in the prefrontal cortex requires high ATP (energy) consumption. When mentally fatigued, glucose metabolism in prefrontal areas decreases, leading to slower evidence accumulation and delayed decisions.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Decision-making in the prefrontal cortex requires high ATP
+              (energy) consumption. When mentally fatigued, glucose metabolism
+              in prefrontal areas decreases, leading to slower evidence
+              accumulation and delayed decisions.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How does aging affect processing speed?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Aging gradually slows cognitive processing speed due to reduced axonal myelination (slower signal transmission) and a reduction in synaptic connections, requiring the brain to collect sensory evidence for longer.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Aging gradually slows cognitive processing speed due to reduced
+              axonal myelination (slower signal transmission) and a reduction in
+              synaptic connections, requiring the brain to collect sensory
+              evidence for longer.
             </p>
           </div>
         </div>

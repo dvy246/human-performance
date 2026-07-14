@@ -165,7 +165,7 @@ Current protections (all verified):
 3. **FAQ schema on every test**: Includes Q&A "Is this a medical diagnostic tool?" → explicit "No"
 4. **Terms of Service** (terms/index.astro:31): "not medical, diagnostic, or clinical evaluations"
 5. **Privacy policy**: Mentions local-first storage, no personal data collection
-6. **44px tap targets**: 20 elements flagged below threshold (h-8/h-9 buttons) — not yet fixed
+6. **44px tap targets**: 24 flagged elements fixed (ErrorBoundary, ThemeToggle, SocialShare, SyncPanel, 4 gauntlet stages, GauntletTest, index.astro CTAs, contact form buttons) ✅
 
 **Rules:**
 - NEVER remove or weaken disclaimers
@@ -310,5 +310,73 @@ ReactionTimeTest, ClickSpeedTest, AimTrainer, AimCoordinationTest, MouseAccuracy
 - Tests: 55 pass, 1 pre-existing (calibration 141→144Hz snap)
 - All changes verified clean
 
+### Phase 6 — UI/UX Polish (July 2026)
+
+#### Phase 1 — Design System Consistency
+- **CSS button system**: `.btn-base` + `.btn-primary`/`.btn-ghost`/`.btn-danger` utility classes in global.css, Button.tsx refactored to use them
+- **`.label-micro` utility**: `text-[9px] font-medium uppercase tracking-wider text-muted` — used for form labels and section headers
+- **Mobile drawer i18n**: 39 missing `data-i18n` attributes added to hamburger drawer nav items (all 6 categories, quizzes, learning center)
+- **Result screen buttons**: 20+ buttons with `cursor-pointer` missing on test result screens (AimTrainer, FlickTrainer, MouseAccuracy, ClickSpeed, plus game-over states) — all fixed
+- **Icon.astro**: 24 Lucide-style SVG icons (home, chart-bar, castle, zap, volume, flag, hash, shield, brain, layers, puzzle, file-text, refresh, crosshair, palette, compass, mouse, keyboard, git-branch, trello, clipboard, message-circle, book-open, book, award, gamepad), accepts name/size/class props, sets aria-hidden="true"
+- **emoji→SVG in both sidebars**: 74 instances in main.astro (desktop accordion nav + mobile drawer bottom nav) replaced emoji with `<Icon name={...}>`
+
+#### Phase 2 — Visual Polish
+- **ExploreTests hover fix**: Added `group` class to card links, removed redundant `transition-standard` causing double-transition
+- **Homepage emoji→SVG**: Category links (6), social proof avatars (12), brain rot metadata section all migrated to `<Icon>`
+- **`gamepad` icon**: Added to Icon.astro (used by Motor Performance category)
+- **Stagger animations**: Added `animate-fadeInUp` + `animation-delay-*` stagger classes (1–8 delays) to homepage sections not previously animated: hero subtitle, description, how-it-works steps, FAQ items, social proof testimonials
+- **TestResultsPage entry animations**: Header score, bar chart, trend section, stats grid, personal best, CTAs, and related tests all get staggered fadeInUp
+
+#### Phase 3 — UX/Interaction
+- **44px tap target fix**: 24 elements across 12 files bumped from h-8/h-9 to h-11:
+  - ErrorBoundary.tsx — back/retry buttons
+  - ThemeToggle.tsx — sun/moon buttons
+  - SocialShare.tsx — share/close buttons
+  - SyncPanel.tsx — sync/close buttons
+  - 4 gauntlet stages (StageReaction, StageSequenceMemory, StageStroop, StageAim) — start buttons
+  - GauntletTest.tsx — begin/restart buttons
+  - index.astro (homepage) — "Take the Tests" / "Start Training" CTAs
+  - contact/index.astro — submit/reset buttons
+- **Dashboard empty state**: Replaced text placeholder with SVG lock icon, added secondary "Browse All Assessments" CTA linking to `/`, bumped buttons from h-10→h-11 for consistency
+- **SyncPanel modal close**: Close button now 44px (h-11) + cursor-pointer + active:scale-95
+- **Press feedback audit**: Confirmed all interactive elements in ExploreTests, test result cards, sidebar nav, homepage CTAs, dashboard already had active:scale + cursor-pointer — no changes needed
+
+#### Phase 4 — Remaining Emoji→SVG
+- **`iconName` field**: Added `iconName: string` to both `TestEntry` and `CategoryGroup` interfaces in `src/data/tests.ts`
+- **`t()` factory updated**: Added `iconName` as 6th parameter to the test entry constructor
+- **24 test entries populated**: Every test got its iconName mapped to existing SVG icon names (e.g., reaction-time→"zap", sequence-memory→"layers", dual-n-back→"brain")
+- **6 category entries populated**: Category→iconName mapping (reaction→zap, memory→brain, reasoning→puzzle, focus→crosshair, motor→gamepad, executive→compass)
+- **ExploreTests.astro**: Imported `<Icon>` component, replaced `{category.icon}` and `{test.icon}` emoji with `<Icon name={category.iconName}>` and `<Icon name={test.iconName}>`
+- **Backward compatible**: `.icon` (emoji) property retained unchanged on all entries — existing consumers unaffected
+- **Build**: 77 pages, 0 errors; Tests: 56/56 pass
+
 ### Pre-existing (known, not from any audit)
 - **calibration.test.ts:** 1 pre-existing test failure (unrelated).
+
+### Phase 7 — Production-Ready Audits (July 2026)
+
+#### Focus & Attention audit — bugs found & fixed (3 of 11 files)
+- **TrailMakingTest (CRITICAL):** `respondedRef.current` never reset in wrong-click timeout — once a mistake was made, ALL subsequent clicks were silently ignored, creating permanent lockout. Fixed at `TrailMakingTest.tsx:163` (`respondedRef.current = false` added before setTimeout).
+- **StroopTest (MEDIUM):** No `submittedRef` guard after `getPersonalBest` await in `finishTest` — "Train Again" click could race with in-flight async write, corrupting results. Fixed at `StroopTest.tsx:215` (`if (!submittedRef.current) return;` after await).
+- **StroopTest (LOW):** Color choice buttons and "Train Again" button missing `cursor-pointer`. Fixed.
+- **All other focus/attention components (8 of 11)**: clean — no bugs found.
+- Build: 77 pages, 0 errors; Tests: 56/56 pass.
+
+#### Executive Function audit — bugs found & fixed (1 of 3 files)
+- **DecisionSpeedTest (LOW):** Timeout handler advanced trial without setting `respondedRef.current = true` — user click within 300ms inter-trial window could double-advance, skip trials, or prematurely end the test. Fixed at `DecisionSpeedTest.tsx:50` (added `respondedRef.current = true` inside miss-detection block).
+- **PrioritizationTest**: LOW concern identified (interval race can call `endRound` twice) — no visible UX impact, left untouched.
+- **PlanningTest**: clean — no bugs. Build: 77 pages, 0 errors; Tests: 56/56 pass.
+
+#### The Gauntlet audit — clean (7 files, 0 bugs)
+- All 5 stages (Reaction, SequenceMemory, Stroop, Matrix, Aim) + GauntletTypes verified: 0 bugs.
+- Phase 4 `respondedRef` guards confirmed present in all 4 RT-sensitive stages.
+- `submittedRef`, `stageCompletedRef`, timer/lifecycle cleanup patterns all correct.
+- **LOW optional**: `GauntletTest.tsx:97` — missing `submittedRef` guard before `redirectToResults` after `generateShareCard` await. Race window effectively zero (page navigates synchronously), but adding it would follow the established pattern.
+- Build: 77 pages, 0 errors; Tests: 56/56 pass.
+
+#### Summary — all 24 test components + Gauntlet now audited
+- 6 bugs found and fixed across 3 audits (1 CRITICAL, 1 MEDIUM, 4 LOW)
+- 8 component files modified across the codebase
+- 1 LOW concern documented but not fixed (PrioritizationTest interval race)
+- 1 LOW optional guard documented but not fixed (GauntletTest race)
+- Build: 77 pages, 0 errors across all phases; Tests: 56/56 pass consistently

@@ -1,45 +1,72 @@
 ---
-import Layout from "@/layouts/main.astro";
-import ExploreTests from "@/components/ui/ExploreTests.astro";
+import Layout from "@/layouts/main.astro"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
 
-const title = "All Cognitive Tests & Brain Games — Free Online Brain Assessments | CogniArena";
-const description = "Explore our complete collection of 24+ free cognitive tests, reflexes, and memory games. Test your reaction time, digit span, verbal memory, fluid logic, and executive function.";
-const canonicalUrl = "https://cogniarena.com/tests";
+const title = "Free Cognitive Test Hub & Online Brain Games | CogniArena"
+const description =
+  "Explore our complete library of 24+ free brain tests, cognitive assessments, and online mind power games. Test your memory, logic, and reaction time."
+const canonicalUrl = "https://cogniarena.com/tests"
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-    { "@type": "ListItem", "position": 2, "name": "Tests", "item": "https://cogniarena.com/tests" }
-  ]
-};
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://cogniarena.com",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "Tests",
+      item: "https://cogniarena.com/tests",
+    },
+  ],
+}
 
 const collectionPageSchema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "Cognitive Assessments Collection",
-  "description": "Collection of all cognitive testing and performance benchmarking tasks running in the browser.",
-  "url": "https://cogniarena.com/tests"
-};
+  name: "Cognitive Assessments Collection",
+  description:
+    "Collection of all cognitive testing and performance benchmarking tasks running in the browser.",
+  url: "https://cogniarena.com/tests",
+}
 
-const schemaJson = [breadcrumbSchema, collectionPageSchema];
+const schemaJson = [breadcrumbSchema, collectionPageSchema]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-10 w-full max-w-5xl mx-auto py-4">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-5xl flex-col gap-10 py-4">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span data-i18n="tests_index.badge1">CogniArena</span>
         <span>&middot;</span>
         <span data-i18n="tests_index.badge2">Assessments</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground" data-i18n="tests_index.title">
-        Cognitive Assessment Hub
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="tests_index.title"
+      >
+        Free Cognitive Test &amp; Brain Training Hub
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl" data-i18n="tests_index.subtitle">
-        Welcome to the central assessments library. Select from our 24+ clinical-grade, browser-calibrated tests measuring reaction time, memory, motor precision, logic, attention, and executive execution.
+      <p
+        class="max-w-2xl text-sm leading-relaxed text-muted md:text-base"
+        data-i18n="tests_index.subtitle"
+      >
+        Measure your mind power and brain power with our 24+ free brain tests
+        and online games. Benchmark your reaction time, memory, logic, and
+        precision with millisecond accuracy.
       </p>
     </header>
 

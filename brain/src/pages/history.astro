@@ -1,27 +1,60 @@
 ---
-import Layout from "@/layouts/main.astro";
-import HistoryDashboard from "@/components/dashboard/HistoryDashboard";
+import Layout from "@/layouts/main.astro"
+import HistoryDashboard from "@/components/dashboard/HistoryDashboard"
 
-const title = "Test History - CogniArena";
-const description = "View your complete test history, track progress, and analyze performance trends over time.";
-const canonicalUrl = "https://cogniarena.com/history";
+const title = "Test History - CogniArena"
+const description =
+  "View your complete test history, track progress, and analyze performance trends over time."
+const canonicalUrl = "https://cogniarena.com/history"
 
 const schemaJson = [
-  { "@context": "https://schema.org", "@type": "WebPage", "name": title, "description": description, "url": canonicalUrl },
-  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-    { "@type": "ListItem", "position": 2, "name": "Test History", "item": "https://cogniarena.com/history" }
-  ]}
-];
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Test History",
+        item: "https://cogniarena.com/history",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="space-y-6">
     <div>
-      <h1 class="text-2xl font-bold text-foreground mb-2" data-i18n="history.title">Test History</h1>
-      <p class="text-sm text-muted" data-i18n="history.desc">View all your past test attempts and track your progress over time.</p>
+      <h1
+        class="mb-2 text-2xl font-bold text-foreground"
+        data-i18n="history.title"
+      >
+        Test History
+      </h1>
+      <p class="text-sm text-muted" data-i18n="history.desc">
+        View all your past test attempts and track your progress over time.
+      </p>
     </div>
-    
+
     <HistoryDashboard client:load />
   </div>
 </Layout>

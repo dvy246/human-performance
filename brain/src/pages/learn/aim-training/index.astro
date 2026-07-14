@@ -1,112 +1,138 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Aim Training Science & Fitts's Law | CogniArena";
-const description = "Scientific guide to hand-eye coordination, Fitts's Law equations, spatial motor control, and motor unit recruitment.";
-const canonicalUrl = "https://cogniarena.com/learn/aim-training";
+const title = "Aim Training Science & Fitts's Law | CogniArena"
+const description =
+  "Scientific guide to hand-eye coordination, Fitts's Law equations, spatial motor control, and motor unit recruitment."
+const canonicalUrl = "https://cogniarena.com/learn/aim-training"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Motor Planning and Fitts's Law Calculations",
-    "description": "Scientific guide to hand-eye coordination, Fitts's Law equations, spatial motor control, and motor unit recruitment.",
-    "publisher": {
+    headline: "Motor Planning and Fitts's Law Calculations",
+    description:
+      "Scientific guide to hand-eye coordination, Fitts's Law equations, spatial motor control, and motor unit recruitment.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What does Fitts's Law state?",
-        "acceptedAnswer": {
+        name: "What does Fitts's Law state?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Fitts's Law states that the time required to move to a target depends on the distance to the target and the width of the target. Slower movements are required for smaller or more distant targets to maintain accuracy."
-        }
+          text: "Fitts's Law states that the time required to move to a target depends on the distance to the target and the width of the target. Slower movements are required for smaller or more distant targets to maintain accuracy.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why is cerebellar health important for aiming?",
-        "acceptedAnswer": {
+        name: "Why is cerebellar health important for aiming?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "The cerebellum act as the brain's real-time error correction engine. It continuously compares visual feedback of the cursor with motor execution, adjusting muscle signals mid-flight to ensure a precise landing."
-        }
+          text: "The cerebellum act as the brain's real-time error correction engine. It continuously compares visual feedback of the cursor with motor execution, adjusting muscle signals mid-flight to ensure a precise landing.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Should I use mouse acceleration for aiming tests?",
-        "acceptedAnswer": {
+        name: "Should I use mouse acceleration for aiming tests?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "No. Mouse acceleration changes cursor speed based on how fast you move the mouse, making it difficult for the cerebellum to build consistent muscle memory. Disabling acceleration ensures a constant ratio of movement."
-        }
+          text: "No. Mouse acceleration changes cursor speed based on how fast you move the mouse, making it difficult for the cerebellum to build consistent muscle memory. Disabling acceleration ensures a constant ratio of movement.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does display latency affect aiming?",
-        "acceptedAnswer": {
+        name: "How does display latency affect aiming?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Display lag delays the visual feedback of your cursor's position. This causes the cerebellum to receive outdated information, leading to overshooting or undershooting the target."
-        }
-      }
-    ]
+          text: "Display lag delays the visual feedback of your cursor's position. This causes the cerebellum to receive outdated information, leading to overshooting or undershooting the target.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Aim Training",
-        "item": "https://cogniarena.com/learn/aim-training"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Aim Training",
+        item: "https://cogniarena.com/learn/aim-training",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Aim Training Science & Hand-Eye Coordination
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Aim training evaluates and develops hand-eye coordination, spatial motor planning, and target acquisition speed. This guide explains Fitts's Law, the motor control loops of the cerebellum, and protocols to optimize spatial precision and physical input latency.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Aim training evaluates and develops hand-eye coordination, spatial motor
+        planning, and target acquisition speed. This guide explains Fitts's Law,
+        the motor control loops of the cerebellum, and protocols to optimize
+        spatial precision and physical input latency.
       </p>
     </header>
 
@@ -116,7 +142,19 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Hand-eye coordination requires a real-time integration of sensory input and motor feedback. When a target appears on screen, visual signals travel via the optic nerve to the primary visual cortex (V1), which detects the target's spatial coordinates. This information is sent to the posterior parietal cortex, which translates the visual coordinates into a motor map. The prefrontal cortex selects the movement strategy, and the motor cortex initiates the command, sending signals down the spinal cord to move the hand. As the hand moves, the visual system tracks both the cursor and the target, sending real-time feedback to the cerebellum. The cerebellum compares the actual movement path with the intended path, calculating real-time error corrections and adjusting motor signals to ensure the cursor hits the target.
+          Hand-eye coordination requires a real-time integration of sensory
+          input and motor feedback. When a target appears on screen, visual
+          signals travel via the optic nerve to the primary visual cortex (V1),
+          which detects the target's spatial coordinates. This information is
+          sent to the posterior parietal cortex, which translates the visual
+          coordinates into a motor map. The prefrontal cortex selects the
+          movement strategy, and the motor cortex initiates the command, sending
+          signals down the spinal cord to move the hand. As the hand moves, the
+          visual system tracks both the cursor and the target, sending real-time
+          feedback to the cerebellum. The cerebellum compares the actual
+          movement path with the intended path, calculating real-time error
+          corrections and adjusting motor signals to ensure the cursor hits the
+          target.
         </p>
       </article>
 
@@ -125,7 +163,16 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Spatial target acquisition is modeled using Fitts's Law, which predicts the time required to move to a target as a function of the target's distance and size. The formula is: MT = a + b * log2(2D / W), where MT is movement time, 'D' is the distance to the target, 'W' is the width of the target, and 'a' and 'b' are empirical constants. The logarithmic term is the Index of Difficulty (ID). Fitts's Law shows that targeting speed is a trade-off between speed and accuracy: smaller targets or longer distances increase difficulty, requiring more visual feedback loops and slowing down movement to maintain accuracy.
+          Spatial target acquisition is modeled using Fitts's Law, which
+          predicts the time required to move to a target as a function of the
+          target's distance and size. The formula is: MT = a + b * log2(2D / W),
+          where MT is movement time, 'D' is the distance to the target, 'W' is
+          the width of the target, and 'a' and 'b' are empirical constants. The
+          logarithmic term is the Index of Difficulty (ID). Fitts's Law shows
+          that targeting speed is a trade-off between speed and accuracy:
+          smaller targets or longer distances increase difficulty, requiring
+          more visual feedback loops and slowing down movement to maintain
+          accuracy.
         </p>
       </article>
 
@@ -134,7 +181,14 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Average target reaction time (the delay before starting movement) is 220-250ms, while total target acquisition time averages 400-600ms. Professional esports players (especially in FPS titles) achieve total acquisition times under 300ms, showing highly optimized motor pathways and rapid cerebellar correction loops. Hand-eye coordination is highly sensitive to muscle temperature, fatigue, and input latency; a slow mouse sensor or display lag can add 30ms or more to total targeting time, degrading accuracy.
+          Average target reaction time (the delay before starting movement) is
+          220-250ms, while total target acquisition time averages 400-600ms.
+          Professional esports players (especially in FPS titles) achieve total
+          acquisition times under 300ms, showing highly optimized motor pathways
+          and rapid cerebellar correction loops. Hand-eye coordination is highly
+          sensitive to muscle temperature, fatigue, and input latency; a slow
+          mouse sensor or display lag can add 30ms or more to total targeting
+          time, degrading accuracy.
         </p>
       </article>
 
@@ -143,7 +197,14 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To train hand-eye coordination, focus on smooth, deliberate movements rather than raw speed. Practicing slowly trains the cerebellum to calculate clean paths, building muscle memory that can eventually be executed quickly. Technically, ensure your mouse acceleration is disabled (raw input enabled) to maintain a linear relationship between physical hand movement and cursor travel. Use a high-quality mousepad, optimize your mouse sensitivity (DPI), and run the game at high frame rates to minimize visual tracking delay.
+          To train hand-eye coordination, focus on smooth, deliberate movements
+          rather than raw speed. Practicing slowly trains the cerebellum to
+          calculate clean paths, building muscle memory that can eventually be
+          executed quickly. Technically, ensure your mouse acceleration is
+          disabled (raw input enabled) to maintain a linear relationship between
+          physical hand movement and cursor travel. Use a high-quality mousepad,
+          optimize your mouse sensitivity (DPI), and run the game at high frame
+          rates to minimize visual tracking delay.
         </p>
       </article>
 
@@ -156,32 +217,43 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               What does Fitts's Law state?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Fitts's Law states that the time required to move to a target depends on the distance to the target and the width of the target. Slower movements are required for smaller or more distant targets to maintain accuracy.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Fitts's Law states that the time required to move to a target
+              depends on the distance to the target and the width of the target.
+              Slower movements are required for smaller or more distant targets
+              to maintain accuracy.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Why is cerebellar health important for aiming?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              The cerebellum act as the brain's real-time error correction engine. It continuously compares visual feedback of the cursor with motor execution, adjusting muscle signals mid-flight to ensure a precise landing.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              The cerebellum act as the brain's real-time error correction
+              engine. It continuously compares visual feedback of the cursor
+              with motor execution, adjusting muscle signals mid-flight to
+              ensure a precise landing.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Should I use mouse acceleration for aiming tests?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              No. Mouse acceleration changes cursor speed based on how fast you move the mouse, making it difficult for the cerebellum to build consistent muscle memory. Disabling acceleration ensures a constant ratio of movement.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              No. Mouse acceleration changes cursor speed based on how fast you
+              move the mouse, making it difficult for the cerebellum to build
+              consistent muscle memory. Disabling acceleration ensures a
+              constant ratio of movement.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How does display latency affect aiming?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Display lag delays the visual feedback of your cursor's position. This causes the cerebellum to receive outdated information, leading to overshooting or undershooting the target.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Display lag delays the visual feedback of your cursor's position.
+              This causes the cerebellum to receive outdated information,
+              leading to overshooting or undershooting the target.
             </p>
           </div>
         </div>

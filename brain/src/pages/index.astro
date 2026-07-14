@@ -1,164 +1,303 @@
 ---
-import Layout from "@/layouts/main.astro";
-import Icon from "@/components/ui/Icon.astro";
-import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard";
+import Layout from "@/layouts/main.astro"
+import Icon from "@/components/ui/Icon.astro"
+import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard"
 
-const title = "CogniArena — Free Online Cognitive Tests & Brain Training";
-const description = "Take the free reaction time test and measure your reflexes in milliseconds. 23+ cognitive assessments including IQ test, typing test, memory games. 100% anonymous, runs in your browser.";
-const canonicalUrl = "https://cogniarena.com";
+const title =
+  "CogniArena — Free Reaction Time Test, Brain Games & Reflex Tester"
+const description =
+  "Measure your reflexes in milliseconds with our high-precision reaction time test. Access 23+ free cognitive tests, brain games, IQ tests, and memory exercises."
+const canonicalUrl = "https://cogniarena.com"
 
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "What is a reaction time test?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A reaction time test measures how quickly you respond to a visual, auditory, or physical stimulus. It records the interval between stimulus presentation and your motor response in milliseconds (ms). The average human visual reaction time is approximately 250ms." }
+      name: "What is a reaction time test?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A reaction time test measures how quickly you respond to a visual, auditory, or physical stimulus. It records the interval between stimulus presentation and your motor response in milliseconds (ms). The average human visual reaction time is approximately 250ms.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the average human reaction time?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The average visual reaction time for adults aged 20-35 is approximately 240-260ms. Auditory reaction times are faster, averaging around 160-180ms. Reaction time peaks in the early 20s and gradually declines with age." }
+      name: "What is the average human reaction time?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The average visual reaction time for adults aged 20-35 is approximately 240-260ms. Auditory reaction times are faster, averaging around 160-180ms. Reaction time peaks in the early 20s and gradually declines with age.",
+      },
     },
     {
       "@type": "Question",
-      "name": "How can I improve my reaction time?",
-      "acceptedAnswer": { "@type": "Answer", "text": "You can improve reaction time through regular practice with reaction time tests, adequate sleep (7-9 hours), physical exercise, hand-eye coordination drills, and maintaining focus during tasks. Gaming and sports also help train faster responses." }
+      name: "How can I improve my reaction time?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "You can improve reaction time through regular practice with reaction time tests, adequate sleep (7-9 hours), physical exercise, hand-eye coordination drills, and maintaining focus during tasks. Gaming and sports also help train faster responses.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is CogniArena?",
-      "acceptedAnswer": { "@type": "Answer", "text": "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision. No sign-up required." }
+      name: "What is CogniArena?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision. No sign-up required.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is my data stored or sent anywhere?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device using local-first IndexedDB storage." }
+      name: "Is my data stored or sent anywhere?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device using local-first IndexedDB storage.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the Brain Challenge (Gauntlet)?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The Gauntlet is a flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CogniArena Index (CAI) score and cognitive archetype showing your strengths across all dimensions." }
-    }
-  ]
-};
+      name: "What is the Brain Challenge (Gauntlet)?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The Gauntlet is a flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CogniArena Index (CAI) score and cognitive archetype showing your strengths across all dimensions.",
+      },
+    },
+  ],
+}
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" }
-  ]
-};
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://cogniarena.com",
+    },
+  ],
+}
 
 const webPageSchema = {
   "@context": "https://schema.org",
   "@type": "WebPage",
-  "name": "Reaction Time Test — Free Online Reflex & Cognitive Assessment",
-  "description": "Take the free reaction time test and measure your reflexes in milliseconds. 23+ cognitive assessments including IQ test, typing test, and memory games.",
-  "url": "https://cogniarena.com",
-  "publisher": {
+  name: "Reaction Time Test — Free Online Reflex & Cognitive Assessment",
+  description:
+    "Take the free reaction time test and measure your reflexes in milliseconds. 23+ cognitive assessments including IQ test, typing test, and memory games.",
+  url: "https://cogniarena.com",
+  publisher: {
     "@type": "Organization",
-    "name": "CogniArena",
-    "url": "https://cogniarena.com"
-  }
-};
+    name: "CogniArena",
+    url: "https://cogniarena.com",
+  },
+}
 
-const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
+const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="flex flex-col gap-10 py-4">
     <!-- ===== HERO: The Challenge ===== -->
-    <section class="relative w-full max-w-5xl mx-auto flex flex-col items-center text-center px-4 py-8 md:py-14 animate-fade-in-up hero-glow">
+    <section
+      class="animate-fade-in-up hero-glow relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 py-8 text-center md:py-14"
+    >
       <!-- Trust badge -->
-      <div class="inline-flex items-center gap-2 px-5 py-2 rounded-full bg-accent/10 border border-accent/30 text-xs font-mono uppercase tracking-wider mb-6 backdrop-blur-sm" style="color: var(--accent);">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        <span class="font-semibold" data-i18n="hero.badge">23+ Cognitive Benchmarks</span>
-        <span class="w-px h-3 bg-accent/40" />
-        <span class="opacity-80" data-i18n="hero.anonymous">100% Anonymous</span>
+      <div
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-5 py-2 font-mono text-xs tracking-wider uppercase backdrop-blur-sm"
+        style="color: var(--accent);"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          ><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg
+        >
+        <span class="font-semibold" data-i18n="hero.badge"
+          >23+ Cognitive Benchmarks</span
+        >
+        <span class="h-3 w-px bg-accent/40"></span>
+        <span class="opacity-80" data-i18n="hero.anonymous">100% Anonymous</span
+        >
       </div>
 
       <!-- Main headline with gradient -->
-      <h1 class="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight leading-[1.05] mb-4 hero-gradient-text">
-        <span data-i18n="hero.title_1">Free Reaction Time Test</span><br class="hidden sm:block" /><span data-i18n="hero.title_2"> — Measure Your Reflexes</span>
+      <h1
+        class="hero-gradient-text mb-4 text-4xl leading-[1.05] font-black tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+      >
+        <span data-i18n="hero.title">How Fast is Your Brain?</span>
       </h1>
 
       <!-- Subtitle -->
-      <p class="text-secondary text-base sm:text-lg md:text-xl leading-relaxed max-w-2xl mb-8" data-i18n-html="hero.subtitle">
-        23+ precision assessments measuring <strong class="text-foreground font-semibold">reaction speed</strong>, <strong class="text-foreground font-semibold">working memory</strong>, <strong class="text-foreground font-semibold">fluid reasoning</strong>, and <strong class="text-foreground font-semibold">cognitive flexibility</strong>. No sign-up. Sub-millisecond accuracy. Runs entirely in your browser.
+      <p
+        class="mb-8 max-w-2xl text-base leading-relaxed text-secondary sm:text-lg md:text-xl"
+        data-i18n-html="hero.subtitle"
+      >
+        Benchmark your intelligence with a <strong
+          class="font-semibold text-foreground">free cognitive test</strong
+        > or <strong class="font-semibold text-foreground"
+          >free brain test</strong
+        >. Challenge your reflexes, attention, and memory with 23+ <strong
+          class="font-semibold text-foreground">free online games</strong
+        > and assessments directly in your browser.
       </p>
 
       <!-- Stat cards row -->
-      <div class="flex flex-wrap items-center justify-center gap-4 sm:gap-6 mb-8 w-full max-w-2xl">
-        <div class="hero-stat-card flex flex-col items-center px-6 py-4 rounded-xl bg-card/60 border border-card-border backdrop-blur-sm">
-          <span class="text-3xl sm:text-4xl font-black text-accent font-mono tabular-nums leading-none">250ms</span>
-          <span class="text-[10px] font-mono text-muted uppercase tracking-widest mt-2" data-i18n="hero.stat_reaction">Avg Reaction</span>
+      <div
+        class="mb-8 flex w-full max-w-2xl flex-wrap items-center justify-center gap-4 sm:gap-6"
+      >
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-accent tabular-nums sm:text-4xl"
+            >250ms</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_reaction">Avg Reaction</span
+          >
         </div>
-        <div class="hero-stat-card flex flex-col items-center px-6 py-4 rounded-xl bg-card/60 border border-card-border backdrop-blur-sm">
-          <span class="text-3xl sm:text-4xl font-black text-foreground/80 font-mono tabular-nums leading-none">7&plusmn;2</span>
-          <span class="text-[10px] font-mono text-muted uppercase tracking-widest mt-2" data-i18n="hero.stat_memory">Memory Span</span>
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-foreground/80 tabular-nums sm:text-4xl"
+            >7&plusmn;2</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_memory">Memory Span</span
+          >
         </div>
-        <div class="hero-stat-card flex flex-col items-center px-6 py-4 rounded-xl bg-card/60 border border-card-border backdrop-blur-sm">
-          <span class="text-3xl sm:text-4xl font-black text-accent/80 font-mono tabular-nums leading-none">60s</span>
-          <span class="text-[10px] font-mono text-muted uppercase tracking-widest mt-2" data-i18n="hero.stat_focus">Focus Challenge</span>
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-accent/80 tabular-nums sm:text-4xl"
+            >60s</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_focus">Focus Challenge</span
+          >
         </div>
       </div>
 
       <!-- Single CTA -->
-      <a href="/gauntlet" class="hero-cta-primary inline-flex items-center justify-center gap-2.5 rounded-xl bg-accent hover:bg-accent-hover text-white font-bold h-14 px-10 text-base transition-standard active:scale-[0.97] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 cursor-pointer animate-pulse-glow shadow-lg shadow-accent/20">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
+      <a
+        href="/gauntlet"
+        class="hero-cta-primary transition-standard animate-pulse-glow inline-flex h-14 cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-accent px-10 text-base font-bold text-white shadow-lg shadow-accent/20 hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.97]"
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
         </svg>
         <span data-i18n="hero.cta_primary">Take the Brain Challenge</span>
       </a>
 
       <!-- Social proof -->
-      <div class="flex items-center gap-3 mt-8 text-[11px] text-muted font-mono">
+      <div
+        class="mt-8 flex items-center gap-3 font-mono text-[11px] text-muted"
+      >
         <div class="flex -space-x-1.5">
-          <span class="w-5 h-5 rounded-full bg-accent/20 border border-card flex items-center justify-center"><Icon name="zap" size={10} /></span>
-          <span class="w-5 h-5 rounded-full bg-purple-500/20 border border-card flex items-center justify-center"><Icon name="brain" size={10} /></span>
-          <span class="w-5 h-5 rounded-full bg-cyan-500/20 border border-card flex items-center justify-center"><Icon name="crosshair" size={10} /></span>
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-accent/20"
+            ><Icon name="zap" size={10} /></span
+          >
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-purple-500/20"
+            ><Icon name="brain" size={10} /></span
+          >
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-cyan-500/20"
+            ><Icon name="crosshair" size={10} /></span
+          >
         </div>
-        <span data-i18n="hero.trust">Trusted by researchers &amp; cognitive enthusiasts</span>
+        <span data-i18n="hero.trust"
+          >Trusted by researchers &amp; cognitive enthusiasts</span
+        >
       </div>
     </section>
 
     <!-- ===== BRAIN ROT CHALLENGE ===== -->
-    <section class="w-full max-w-4xl mx-auto p-6 md:p-8 rounded-xl bg-gradient-to-br from-amber-950/20 via-card to-rose-950/20 border border-accent/20 flex flex-col md:flex-row gap-8 items-center relative overflow-hidden card-interactive animate-fade-in-up stagger-1 group">
-      <div class="absolute -right-16 -top-16 w-64 h-64 rounded-full bg-amber-500/5 blur-3xl pointer-events-none" />
-      <div class="absolute -left-16 -bottom-16 w-64 h-64 rounded-full bg-rose-500/5 blur-3xl pointer-events-none" />
-      <div class="w-full md:w-1/3 flex justify-center shrink-0">
+    <section
+      class="card-interactive animate-fade-in-up stagger-1 group relative mx-auto flex w-full max-w-4xl flex-col items-center gap-8 overflow-hidden rounded-xl border border-accent/20 bg-gradient-to-br from-amber-950/20 via-card to-rose-950/20 p-6 md:flex-row md:p-8"
+    >
+      <div
+        class="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-amber-500/5 blur-3xl"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-rose-500/5 blur-3xl"
+      >
+      </div>
+      <div class="flex w-full shrink-0 justify-center md:w-1/3">
         <div class="relative">
-          <div class="w-28 h-28 rounded-2xl bg-gradient-to-br from-amber-500/20 to-rose-500/20 border border-accent/30 flex items-center justify-center text-5xl group-hover:scale-110 transition-transform duration-500">
+          <div
+            class="flex h-28 w-28 items-center justify-center rounded-2xl border border-accent/30 bg-gradient-to-br from-amber-500/20 to-rose-500/20 text-5xl transition-transform duration-500 group-hover:scale-110"
+          >
             🧠
           </div>
-          <span class="absolute -top-1 -right-1 text-xs animate-pulse">🔥</span>
+          <span class="absolute -top-1 -right-1 animate-pulse text-xs">🔥</span>
         </div>
       </div>
-      <div class="flex flex-col gap-4 flex-1">
+      <div class="flex flex-1 flex-col gap-4">
         <div class="flex items-center gap-2">
-          <span class="text-[10px] font-mono uppercase text-warning tracking-widest">New Challenge</span>
-          <span class="text-[9px] px-1.5 py-0.5 rounded bg-[var(--error-bg)] text-error font-mono uppercase tracking-wider">Brain Rot Edition</span>
+          <span
+            class="font-mono text-[10px] tracking-widest text-warning uppercase"
+            >New Challenge</span
+          >
+          <span
+            class="rounded bg-[var(--error-bg)] px-1.5 py-0.5 font-mono text-[9px] tracking-wider text-error uppercase"
+            >Brain Rot Edition</span
+          >
         </div>
-        <h2 class="text-xl font-bold text-foreground tracking-tight">Can You Survive the Brain Rot Challenge?</h2>
-        <p class="text-secondary text-sm leading-relaxed">
-          A <strong class="text-accent">5-stage attention gauntlet</strong> — selective focus, impulse control, task switching, sustained vigilance, and working memory under distraction. Most people score below 60 on their first attempt.
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          Can You Survive the Brain Rot Challenge?
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          A <strong class="text-accent">5-stage attention gauntlet</strong> — selective
+          focus, impulse control, task switching, sustained vigilance, and working
+          memory under distraction. Most people score below 60 on their first attempt.
         </p>
-        <div class="flex items-center gap-6 text-xs text-muted font-mono">
+        <div class="flex items-center gap-6 font-mono text-xs text-muted">
           <span><Icon name="crosshair" size={12} /> 5 stages</span>
           <span>⏱️ ~4 minutes</span>
-          <span><Icon name="chart-bar" size={12} /> Composite score + percentile</span>
+          <span
+            ><Icon name="chart-bar" size={12} /> Composite score + percentile</span
+          >
         </div>
-        <div class="flex gap-3 mt-1">
+        <div class="mt-1 flex gap-3">
           <a href="/tests/focus-challenge">
-            <button class="px-5 h-11 rounded-lg bg-accent hover:bg-accent-hover text-white font-semibold text-xs transition-standard active:scale-95 cursor-pointer">
+            <button
+              class="transition-standard h-11 cursor-pointer rounded-lg bg-accent px-5 text-xs font-semibold text-white hover:bg-accent-hover active:scale-95"
+            >
               Accept Challenge
             </button>
           </a>
           <a href="/tests/focus-challenge#learn">
-            <button class="px-5 h-11 rounded-lg bg-subtle border border-card-border text-secondary hover:text-foreground text-xs transition-standard active:scale-95 cursor-pointer">
+            <button
+              class="transition-standard h-11 cursor-pointer rounded-lg border border-card-border bg-subtle px-5 text-xs text-secondary hover:text-foreground active:scale-95"
+            >
               Learn More
             </button>
           </a>
@@ -167,187 +306,543 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema];
     </section>
 
     <!-- ===== STATS BAR ===== -->
-    <section class="w-full max-w-2xl mx-auto animate-fade-in-up stagger-2">
-      <div class="flex items-center justify-center gap-6 sm:gap-10 text-center">
+    <section class="animate-fade-in-up stagger-2 mx-auto w-full max-w-2xl">
+      <div class="flex items-center justify-center gap-6 text-center sm:gap-10">
         <div>
-          <span class="block text-xl font-bold text-foreground tabular-nums">23+</span>
-          <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Assessments</span>
+          <span class="block text-xl font-bold text-foreground tabular-nums"
+            >23+</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            >Assessments</span
+          >
         </div>
-        <span class="w-px h-8 bg-card-border" />
+        <span class="h-8 w-px bg-card-border"></span>
         <div>
-          <span class="block text-xl font-bold text-foreground tabular-nums">100%</span>
-          <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Anonymous</span>
+          <span class="block text-xl font-bold text-foreground tabular-nums"
+            >100%</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            >Anonymous</span
+          >
         </div>
-        <span class="w-px h-8 bg-card-border" />
+        <span class="h-8 w-px bg-card-border"></span>
         <div>
-          <span class="block text-xl font-bold text-foreground tabular-nums">&lt;1ms</span>
-          <span class="text-[10px] font-mono text-muted uppercase tracking-widest">Timer Precision</span>
+          <span class="block text-xl font-bold text-foreground tabular-nums"
+            >&lt;1ms</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            >Timer Precision</span
+          >
         </div>
       </div>
     </section>
 
     <!-- ===== BRAIN SCORE DASHBOARD ===== -->
-    <section class="w-full max-w-4xl mx-auto flex flex-col items-center animate-fade-in-up stagger-5">
+    <section
+      class="animate-fade-in-up stagger-5 mx-auto flex w-full max-w-4xl flex-col items-center"
+    >
       <BrainScoreDashboard client:visible />
     </section>
 
     <!-- ===== 6 CATEGORY LINKS ===== -->
-    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up stagger-3">
-      <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
-        <a href="/tests/reaction-time" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
+    <section class="animate-fade-in-up stagger-3 mx-auto w-full max-w-3xl px-4">
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <a
+          href="/tests/reaction-time"
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
           <Icon name="zap" size={16} /> Reaction
         </a>
-        <a href="/tests/sequence-memory" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
+        <a
+          href="/tests/sequence-memory"
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
           <Icon name="brain" size={16} /> Memory
         </a>
-        <a href="/tests/pattern-reasoning" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
+        <a
+          href="/tests/pattern-reasoning"
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
           <Icon name="puzzle" size={16} /> Reasoning
         </a>
-        <a href="/tests/focus-challenge" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
+        <a
+          href="/tests/focus-challenge"
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
           <Icon name="crosshair" size={16} /> Focus
         </a>
-        <a href="/tests/click-speed" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
+        <a
+          href="/tests/click-speed"
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
           <Icon name="gamepad" size={16} /> Motor
         </a>
-        <a href="/tests/decision-speed" class="flex items-center gap-2 px-4 py-3 rounded-xl bg-card border border-card-border hover:border-accent/30 hover:bg-accent/[0.03] transition-standard text-sm font-medium text-foreground/80 hover:text-accent">
+        <a
+          href="/tests/decision-speed"
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
           <Icon name="compass" size={16} /> Executive
         </a>
       </div>
-      <div class="text-center mt-4">
-        <a href="/tests/reaction-time" class="text-xs text-accent hover:text-accent-hover font-medium transition-standard cursor-pointer" data-i18n="hero.cta_secondary">Explore all 23+ assessments &rarr;</a>
+      <div class="mt-4 text-center">
+        <a
+          href="/tests/reaction-time"
+          class="transition-standard cursor-pointer text-xs font-medium text-accent hover:text-accent-hover"
+          data-i18n="hero.cta_secondary">Explore all 23+ assessments &rarr;</a
+        >
       </div>
     </section>
 
     <!-- ===== HOW IT WORKS ===== -->
-    <section class="w-full max-w-4xl mx-auto px-4 animate-fade-in-up stagger-4">
-      <h2 class="text-xl font-bold text-foreground tracking-tight text-center mb-6" data-i18n="how.title">How It Works</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
-          <div class="w-10 h-10 rounded-full bg-[var(--warning-bg)] border border-[var(--warning-border)] flex items-center justify-center mx-auto mb-3">
-            <span class="text-lg font-bold font-mono text-warning">1</span>
+    <section class="animate-fade-in-up stagger-4 mx-auto w-full max-w-4xl px-4">
+      <h2
+        class="mb-6 text-center text-xl font-bold tracking-tight text-foreground"
+        data-i18n="how.title"
+      >
+        How It Works
+      </h2>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div
+          class="card-interactive rounded-xl border border-card-border bg-card p-5 text-center"
+        >
+          <div
+            class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--warning-border)] bg-[var(--warning-bg)]"
+          >
+            <span class="font-mono text-lg font-bold text-warning">1</span>
           </div>
-          <h3 class="text-sm font-bold text-foreground mb-1" data-i18n="how.step1_title">Pick an Assessment</h3>
-          <p class="text-muted text-xs leading-relaxed" data-i18n="how.step1_desc">Choose from 23+ tests across reaction, memory, reasoning, focus, motor, and executive function.</p>
+          <h3
+            class="mb-1 text-sm font-bold text-foreground"
+            data-i18n="how.step1_title"
+          >
+            Pick an Assessment
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step1_desc"
+          >
+            Choose from 23+ tests across reaction, memory, reasoning, focus,
+            motor, and executive function.
+          </p>
         </div>
-        <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
-          <div class="w-10 h-10 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center mx-auto mb-3">
-            <span class="text-lg font-bold font-mono text-accent">2</span>
+        <div
+          class="card-interactive rounded-xl border border-card-border bg-card p-5 text-center"
+        >
+          <div
+            class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-accent/20 bg-accent/10"
+          >
+            <span class="font-mono text-lg font-bold text-accent">2</span>
           </div>
-          <h3 class="text-sm font-bold text-foreground mb-1" data-i18n="how.step2_title">Perform Under Pressure</h3>
-          <p class="text-muted text-xs leading-relaxed" data-i18n="how.step2_desc">Each test runs locally with sub-millisecond precision. No uploads, no accounts, no distractions.</p>
+          <h3
+            class="mb-1 text-sm font-bold text-foreground"
+            data-i18n="how.step2_title"
+          >
+            Perform Under Pressure
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step2_desc"
+          >
+            Each test runs locally with sub-millisecond precision. No uploads,
+            no accounts, no distractions.
+          </p>
         </div>
-        <div class="p-5 rounded-xl bg-card border border-card-border card-interactive text-center">
-          <div class="w-10 h-10 rounded-full bg-[var(--success-bg)] border border-[var(--success-border)] flex items-center justify-center mx-auto mb-3">
-            <span class="text-lg font-bold font-mono text-success">3</span>
+        <div
+          class="card-interactive rounded-xl border border-card-border bg-card p-5 text-center"
+        >
+          <div
+            class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--success-border)] bg-[var(--success-bg)]"
+          >
+            <span class="font-mono text-lg font-bold text-success">3</span>
           </div>
-          <h3 class="text-sm font-bold text-foreground mb-1" data-i18n="how.step3_title">Track Your Growth</h3>
-          <p class="text-muted text-xs leading-relaxed" data-i18n="how.step3_desc">See your scores, percentiles, and improvement over time. Build your cognitive profile across all dimensions.</p>
+          <h3
+            class="mb-1 text-sm font-bold text-foreground"
+            data-i18n="how.step3_title"
+          >
+            Track Your Growth
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step3_desc"
+          >
+            See your scores, percentiles, and improvement over time. Build your
+            cognitive profile across all dimensions.
+          </p>
         </div>
       </div>
     </section>
 
     <!-- ===== FAQ ===== -->
-    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up stagger-6 pb-8">
-      <h2 class="text-xl font-bold text-foreground tracking-tight text-center mb-6">Frequently Asked Questions</h2>
+    <section
+      class="animate-fade-in-up stagger-6 mx-auto w-full max-w-3xl px-4 pb-8"
+    >
+      <h2
+        class="mb-6 text-center text-xl font-bold tracking-tight text-foreground"
+      >
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-3">
-        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
-          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
             What is CogniArena?
-            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
           </summary>
-          <p class="text-muted text-sm leading-relaxed mt-3">CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.</p>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            CogniArena is a free cognitive performance platform with 23+
+            browser-based assessments measuring reaction speed, memory,
+            reasoning, focus, motor control, and executive function. All tests
+            run locally with sub-millisecond precision.
+          </p>
         </details>
-        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
-          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
             Is my data stored or sent anywhere?
-            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
           </summary>
-          <p class="text-muted text-sm leading-relaxed mt-3">No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device.</p>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            No. Everything runs 100% in your browser. No accounts, no cookies,
+            no data collection. Your results stay on your device.
+          </p>
         </details>
-        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
-          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
             How accurate are the measurements?
-            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
           </summary>
-          <p class="text-muted text-sm leading-relaxed mt-3">We use requestAnimationFrame timing with sub-millisecond precision. Our calibration system accounts for monitor refresh rate and browser input latency to give you the most accurate physical reaction measurements possible.</p>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            We use requestAnimationFrame timing with sub-millisecond precision.
+            Our calibration system accounts for monitor refresh rate and browser
+            input latency to give you the most accurate physical reaction
+            measurements possible.
+          </p>
         </details>
-        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
-          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
             What is the Brain Challenge (Gauntlet)?
-            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
           </summary>
-          <p class="text-muted text-sm leading-relaxed mt-3">The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.</p>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            The Gauntlet is our flagship 5-stage cognitive assessment covering
+            reaction, memory, focus, reasoning, and precision. You receive a
+            unified CAI score and cognitive archetype, plus a hexagonal radar
+            profile showing your strengths across all dimensions.
+          </p>
         </details>
-        <details class="group p-4 rounded-xl bg-card border border-card-border card-interactive">
-          <summary class="flex items-center justify-between cursor-pointer text-sm font-semibold text-foreground">
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
             Can I improve my scores over time?
-            <svg class="w-4 h-4 text-muted transition-transform group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
           </summary>
-          <p class="text-muted text-sm leading-relaxed mt-3">Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement.</p>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            Yes. Each assessment includes evidence-based training guidance. Our
+            Learning Center has 20+ in-depth guides covering the neuroscience
+            behind every cognitive domain, with practical protocols for
+            measurable improvement.
+          </p>
         </details>
       </div>
     </section>
 
     <!-- ===== SEO CONTENT: Reaction Time Test Guide ===== -->
-    <section class="w-full max-w-3xl mx-auto px-4 animate-fade-in-up stagger-7">
-      <div class="flex flex-col gap-6 text-secondary text-sm leading-relaxed">
-        <h2 class="text-2xl font-bold text-foreground tracking-tight">The Complete Guide to Reaction Time Testing</h2>
+    <section class="animate-fade-in-up stagger-7 mx-auto w-full max-w-3xl px-4">
+      <div class="flex flex-col gap-6 text-sm leading-relaxed text-secondary">
+        <h2 class="text-2xl font-bold tracking-tight text-foreground">
+          The Complete Guide to the Reaction Time Test
+        </h2>
 
-        <p>Reaction time is one of the most fundamental measures of cognitive performance. It captures the interval between a stimulus appearing and your motor response completing — a window typically measured in milliseconds. This free <strong class="text-foreground">reaction time test</strong> uses high-precision <code>requestAnimationFrame</code> paint-sync calibration to record your responses with sub-millisecond accuracy, eliminating the browser rendering jitter that plagues most online timers.</p>
+        <p>
+          Reaction time is one of the most fundamental measures of cognitive
+          performance. It captures the interval between a stimulus appearing and
+          your motor response completing — a window typically measured in
+          milliseconds. This free <strong class="text-foreground"
+            >reaction time test</strong
+          > serves as a high-fidelity online <strong class="text-foreground"
+            >reaction time tester</strong
+          >. By utilizing advanced <code>requestAnimationFrame</code> paint-sync calibration,
+          our <strong class="text-foreground">reaction test</strong> records your
+          responses with sub-millisecond accuracy, eliminating the browser rendering
+          jitter that plagues most online timers.
+        </p>
 
-        <h3 class="text-xl font-semibold text-foreground tracking-tight">What Is Reaction Time and How Is It Measured?</h3>
-        <p>Reaction time (RT) is the duration between the presentation of a sensory stimulus and the initiation of a voluntary motor response. In a typical visual reaction time test, a screen changes color — for example, from red to green — and you click or tap as quickly as possible. The timer records the gap between the pixel actually changing (paint-sync locked) and your input registering.</p>
-        <p>The measurement pipeline involves three biological stages: sensory transduction (the retina converting photons to neural signals), central processing (the brain interpreting the signal and formulating a motor command), and motor execution (the signal traveling down the spinal cord to activate muscles). Each stage adds measurable latency. The total visual reaction time for a healthy adult typically falls between 180ms and 320ms.</p>
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          What Is Reaction Time and How to Test Reaction Time?
+        </h3>
+        <p>
+          Reaction time (RT) is the duration between the presentation of a
+          sensory stimulus and the initiation of a voluntary motor response. If
+          you want to <strong class="text-foreground">test reaction time</strong
+          >, you typically engage in a visual <strong class="text-foreground"
+            >reaction time game</strong
+          > or <strong class="text-foreground">human reaction test</strong>,
+          where a screen changes color (e.g., from red to green) and you click
+          or tap as quickly as possible. The timer records the gap between the
+          pixel actually changing and your input registering.
+        </p>
+        <p>
+          The biological pipeline of this <strong class="text-foreground"
+            >human reaction time</strong
+          > assessment involves three stages: sensory transduction (retinal hyperpolarization),
+          central processing (prefrontal decision and motor planning), and motor execution
+          (corticospinal muscle activation). Each stage adds latency, meaning that
+          the total visual response time for a healthy adult typically falls between
+          180ms and 320ms.
+        </p>
 
-        <h3 class="text-xl font-semibold text-foreground tracking-tight">Average Human Reaction Time: What the Data Shows</h3>
-        <p>Large-scale cognitive studies consistently show that the <strong class="text-foreground">average human reaction time</strong> for simple visual stimuli is approximately 250 milliseconds. Auditory reactions are notably faster — around 160-180ms — because the cochlea-to-brainstem pathway involves fewer synaptic relays than the visual pathway. Here is how reaction time varies by age group:</p>
-        <ul class="list-disc list-inside space-y-1 ml-2">
-          <li><strong class="text-foreground">Ages 15-24:</strong> 220-240ms (peak performance window)</li>
-          <li><strong class="text-foreground">Ages 25-34:</strong> 240-260ms (still near peak)</li>
-          <li><strong class="text-foreground">Ages 35-44:</strong> 260-280ms (gradual neural decay)</li>
-          <li><strong class="text-foreground">Ages 45-54:</strong> 280-300ms (myelination changes)</li>
-          <li><strong class="text-foreground">Ages 55+:</strong> 300ms+ (cognitive aging effects)</li>
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          What Is the Average Reaction Time for Humans?
+        </h3>
+        <p>
+          What is the average reaction time? Large-scale cognitive studies
+          consistently show that the <strong class="text-foreground"
+            >average reaction time</strong
+          > (specifically the <strong class="text-foreground"
+            >average human reaction time</strong
+          >) for simple visual stimuli is approximately 250 milliseconds.
+          Auditory reactions are notably faster — around 160-180ms — because the
+          pathway bypasses visual cortical routing. Here is how reaction time
+          varies by age group:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <strong class="text-foreground">Ages 15-24:</strong> 220-240ms (peak performance
+            window)
+          </li>
+          <li>
+            <strong class="text-foreground">Ages 25-34:</strong> 240-260ms (still
+            near peak)
+          </li>
+          <li>
+            <strong class="text-foreground">Ages 35-44:</strong> 260-280ms (gradual
+            neural decay)
+          </li>
+          <li>
+            <strong class="text-foreground">Ages 45-54:</strong> 280-300ms (myelination
+            changes)
+          </li>
+          <li>
+            <strong class="text-foreground">Ages 55+:</strong> 300ms+ (cognitive aging
+            effects)
+          </li>
         </ul>
-        <p>These benchmarks come from peer-reviewed normative datasets, including Der &amp; Deary (2006) and Williamson &amp; Feyer (2000). Your score on this reaction time test is compared against these population distributions to produce a percentile ranking.</p>
+        <p>
+          These benchmarks come from peer-reviewed datasets, including Der &amp;
+          Deary (2006) and Williamson &amp; Feyer (2000). Your score on our
+          platform compares your performance against these population
+          distributions to calculate your percentile ranking.
+        </p>
 
-        <h3 class="text-xl font-semibold text-foreground tracking-tight">What Affects Your Reaction Time?</h3>
-        <p>Several factors influence how quickly you respond to a stimulus. Understanding them helps you interpret your scores and optimize your performance:</p>
-        <ul class="list-disc list-inside space-y-1 ml-2">
-          <li><strong class="text-foreground">Fatigue and sleep:</strong> Sleep deprivation can slow reaction time by 20% or more. Even one night of poor sleep measurably increases response latency.</li>
-          <li><strong class="text-foreground">Hardware latency:</strong> A 60Hz monitor adds up to 16.7ms of display lag. A 144Hz screen reduces this to ~3.5ms. Wireless mice add 8-20ms of input delay compared to wired connections.</li>
-          <li><strong class="text-foreground">Age:</strong> Reaction time peaks in the early-to-mid 20s and gradually increases after age 30 due to changes in myelination and synaptic efficiency.</li>
-          <li><strong class="text-foreground">Stimulus modality:</strong> Sound reactions are 60-80ms faster than visual reactions. This is why auditory reflex tests often produce lower (faster) scores.</li>
-          <li><strong class="text-foreground">Practice and training:</strong> Repeated exposure to the same task builds neuromuscular myelin sheaths, reducing motor pathway latency over time.</li>
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          What Affects Your Reaction Time?
+        </h3>
+        <p>
+          Several factors influence how quickly you respond to a stimulus.
+          Understanding them helps you interpret your scores and optimize your
+          performance:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <strong class="text-foreground">Fatigue and sleep:</strong> Sleep deprivation
+            can slow reaction time by 20% or more. Even one night of poor sleep measurably
+            increases response latency.
+          </li>
+          <li>
+            <strong class="text-foreground">Hardware latency:</strong> A 60Hz monitor
+            adds up to 16.7ms of display lag. A 144Hz screen reduces this to ~3.5ms.
+            Wireless mice add 8-20ms of input delay compared to wired connections.
+          </li>
+          <li>
+            <strong class="text-foreground">Age:</strong> Reaction time peaks in the
+            early-to-mid 20s and gradually increases after age 30 due to changes in
+            myelination and synaptic efficiency.
+          </li>
+          <li>
+            <strong class="text-foreground">Stimulus modality:</strong> Sound reactions
+            are 60-80ms faster than visual reactions. This is why auditory reflex
+            tests often produce lower (faster) scores.
+          </li>
+          <li>
+            <strong class="text-foreground">Practice and training:</strong> Repeated
+            exposure to the same task builds neuromuscular myelin sheaths, reducing
+            motor pathway latency over time.
+          </li>
         </ul>
 
-        <h3 class="text-xl font-semibold text-foreground tracking-tight">How to Improve Your Reaction Time</h3>
-        <p>While genetics set a baseline for raw neural conduction speed, you can measurably improve your reaction time through targeted practice:</p>
-        <ul class="list-disc list-inside space-y-1 ml-2">
-          <li><strong class="text-foreground">Practice with reaction time tests regularly:</strong> Even 5-10 minutes of daily practice can trim 10-20ms from your score within a few weeks.</li>
-          <li><strong class="text-foreground">Play fast-paced video games:</strong> Action games train rapid stimulus-response cycling and improve visual attention span.</li>
-          <li><strong class="text-foreground">Prioritize sleep and hydration:</strong> Seven to nine hours of quality sleep per night is essential for optimal neural processing speed.</li>
-          <li><strong class="text-foreground">Physical exercise:</strong> Aerobic activity increases blood flow to the brain and supports neuroplasticity, both of which contribute to faster responses.</li>
-          <li><strong class="text-foreground">Minimize hardware lag:</strong> Use a high-refresh-rate monitor (120Hz+) and a wired mouse with a high polling rate (1000Hz) for the most accurate measurements.</li>
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          How to Improve Reaction Time: Best Exercises
+        </h3>
+        <p>
+          While genetics set a baseline for raw neural conduction speed, you can
+          discover <strong class="text-foreground"
+            >how to improve reaction time</strong
+          > through targeted practice and implementing the <strong
+            class="text-foreground">best exercises for reaction time</strong
+          >:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <strong class="text-foreground"
+              >Practice with reaction time tests regularly:</strong
+            > Even 5-10 minutes of daily practice using a visual <strong
+              class="text-foreground">reaction time tester</strong
+            > can trim 10-20ms from your score within a few weeks.
+          </li>
+          <li>
+            <strong class="text-foreground">Play fast-paced video games:</strong
+            > Action games train rapid stimulus-response cycling, visual attention
+            span, and motor prediction.
+          </li>
+          <li>
+            <strong class="text-foreground"
+              >Prioritize sleep and hydration:</strong
+            > Seven to nine hours of quality sleep per night is essential for optimal
+            neural processing speed.
+          </li>
+          <li>
+            <strong class="text-foreground">Physical exercise:</strong> Aerobic activity
+            increases blood flow to the brain and supports neuroplasticity, both of
+            which contribute to faster responses.
+          </li>
+          <li>
+            <strong class="text-foreground">Minimize hardware lag:</strong> Use a
+            high-refresh-rate monitor (120Hz+) and a wired mouse with a high polling
+            rate (1000Hz) for the most accurate measurements.
+          </li>
         </ul>
 
-        <h3 class="text-xl font-semibold text-foreground tracking-tight">Practical Applications of Reaction Time</h3>
-        <p>Fast reaction time isn't just a party trick — it matters in real-world scenarios:</p>
-        <ul class="list-disc list-inside space-y-1 ml-2">
-          <li><strong class="text-foreground">Gaming and esports:</strong> Competitive gamers need sub-200ms reactions to outperform opponents in FPS, fighting, and MOBA titles.</li>
-          <li><strong class="text-foreground">Driving safety:</strong> Emergency braking reactions depend on rapid visual processing. A 50ms improvement can translate to meters of additional stopping distance at highway speeds.</li>
-          <li><strong class="text-foreground">Sports performance:</strong> Athletes in tennis, boxing, and baseball rely on split-second visual-motor responses to return serves, dodge punches, or hit fastballs.</li>
-          <li><strong class="text-foreground">Cognitive health monitoring:</strong> Tracking your reaction time over time provides insight into cognitive aging, fatigue levels, and the effectiveness of brain training.</li>
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          Practical Applications of Reaction Time
+        </h3>
+        <p>
+          Fast reaction time isn't just a party trick — it matters in real-world
+          scenarios:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <strong class="text-foreground">Gaming and esports:</strong> Competitive
+            gamers need sub-200ms reactions to outperform opponents in FPS, fighting,
+            and MOBA titles.
+          </li>
+          <li>
+            <strong class="text-foreground">Driving safety:</strong> Emergency braking
+            reactions depend on rapid visual processing. A 50ms improvement can translate
+            to meters of additional stopping distance at highway speeds.
+          </li>
+          <li>
+            <strong class="text-foreground">Sports performance:</strong> Athletes
+            in tennis, boxing, and baseball rely on split-second visual-motor responses
+            to return serves, dodge punches, or hit fastballs.
+          </li>
+          <li>
+            <strong class="text-foreground">Cognitive health monitoring:</strong
+            > Tracking your reaction time over time provides insight into cognitive
+            aging, fatigue levels, and the effectiveness of brain training.
+          </li>
         </ul>
 
-        <h3 class="text-xl font-semibold text-foreground tracking-tight">Beyond Reaction Time: Explore More Cognitive Assessments</h3>
-        <p>CogniArena offers 23+ assessments across six cognitive domains. After testing your reflexes, explore other dimensions of your cognitive performance:</p>
-        <ul class="list-disc list-inside space-y-1 ml-2">
-          <li><a href="/quiz/iq-test" class="text-accent hover:underline font-medium">Free IQ Test</a> — Measure your intelligence across logical, numerical, verbal, and spatial reasoning domains. 20 questions, instant results.</li>
-          <li><a href="/tests/typing-speed" class="text-accent hover:underline font-medium">Typing Speed Test</a> — Benchmark your words per minute (WPM) and typing accuracy. Compare against profession-based benchmarks.</li>
-          <li><a href="/tests/sequence-memory" class="text-accent hover:underline font-medium">Sequence Memory Test</a> — Test your working memory capacity by recalling expanding grid patterns.</li>
-          <li><a href="/tests/pattern-reasoning" class="text-accent hover:underline font-medium">Pattern Reasoning Test</a> — Evaluate your fluid intelligence and logical reasoning with geometric progressions.</li>
-          <li><a href="/gauntlet" class="text-accent hover:underline font-medium">The Gauntlet</a> — Our flagship 5-stage cognitive challenge covering reaction, memory, focus, reasoning, and precision.</li>
-          <li><a href="/brain-games" class="text-accent hover:underline font-medium">Brain Games</a> — Fun, science-backed games to train your cognitive skills across all domains.</li>
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          Beyond Reaction Time: Explore More Cognitive Assessments
+        </h3>
+        <p>
+          CogniArena offers 23+ assessments across six cognitive domains. After
+          testing your reflexes, explore other dimensions of your cognitive
+          performance:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <a
+              href="/quiz/iq-test"
+              class="font-medium text-accent hover:underline">Free IQ Test</a
+            > — Measure your intelligence across logical, numerical, verbal, and spatial
+            reasoning domains. 20 questions, instant results.
+          </li>
+          <li>
+            <a
+              href="/tests/typing-speed"
+              class="font-medium text-accent hover:underline"
+              >Typing Speed Test</a
+            > — Benchmark your words per minute (WPM) and typing accuracy. Compare
+            against profession-based benchmarks.
+          </li>
+          <li>
+            <a
+              href="/tests/sequence-memory"
+              class="font-medium text-accent hover:underline"
+              >Sequence Memory Test</a
+            > — Test your working memory capacity by recalling expanding grid patterns.
+          </li>
+          <li>
+            <a
+              href="/tests/pattern-reasoning"
+              class="font-medium text-accent hover:underline"
+              >Pattern Reasoning Test</a
+            > — Evaluate your fluid intelligence and logical reasoning with geometric
+            progressions.
+          </li>
+          <li>
+            <a href="/gauntlet" class="font-medium text-accent hover:underline"
+              >The Gauntlet</a
+            > — Our flagship 5-stage cognitive challenge covering reaction, memory,
+            focus, reasoning, and precision.
+          </li>
+          <li>
+            <a
+              href="/brain-games"
+              class="font-medium text-accent hover:underline">Brain Games</a
+            > — Fun, science-backed games to train your cognitive skills across all
+            domains.
+          </li>
         </ul>
       </div>
     </section>

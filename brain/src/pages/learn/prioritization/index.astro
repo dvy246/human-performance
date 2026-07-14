@@ -1,112 +1,138 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Task Prioritization & Cognitive Flexibility | CogniArena";
-const description = "Scientific guide to task prioritization, cognitive switching costs, attentional resource allocation, and working memory gating.";
-const canonicalUrl = "https://cogniarena.com/learn/prioritization";
+const title = "Task Prioritization & Cognitive Flexibility | CogniArena"
+const description =
+  "Scientific guide to task prioritization, cognitive switching costs, attentional resource allocation, and working memory gating."
+const canonicalUrl = "https://cogniarena.com/learn/prioritization"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Attentional Gating and Cognitive Switching Costs",
-    "description": "Scientific guide to task prioritization, cognitive switching costs, attentional resource allocation, and working memory gating.",
-    "publisher": {
+    headline: "Attentional Gating and Cognitive Switching Costs",
+    description:
+      "Scientific guide to task prioritization, cognitive switching costs, attentional resource allocation, and working memory gating.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is task prioritization in cognitive science?",
-        "acceptedAnswer": {
+        name: "What is task prioritization in cognitive science?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Task prioritization is the executive process of organizing, scheduling, and allocating limited attentional resources to multiple tasks based on urgency, importance, and resource demands."
-        }
+          text: "Task prioritization is the executive process of organizing, scheduling, and allocating limited attentional resources to multiple tasks based on urgency, importance, and resource demands.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why is multi-tasking inefficient?",
-        "acceptedAnswer": {
+        name: "Why is multi-tasking inefficient?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "The human brain cannot process two complex cognitive tasks simultaneously. Instead, it rapidly switches between them, introducing a cognitive switching cost (time lost and increased errors) as task rules are updated."
-        }
+          text: "The human brain cannot process two complex cognitive tasks simultaneously. Instead, it rapidly switches between them, introducing a cognitive switching cost (time lost and increased errors) as task rules are updated.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What is task-set inertia?",
-        "acceptedAnswer": {
+        name: "What is task-set inertia?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Task-set inertia is the residual cognitive activation of a previous task's rules or stimulus associations. This lingers in working memory, causing interference when you switch to a new task."
-        }
+          text: "Task-set inertia is the residual cognitive activation of a previous task's rules or stimulus associations. This lingers in working memory, causing interference when you switch to a new task.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How can I reduce cognitive switching costs?",
-        "acceptedAnswer": {
+        name: "How can I reduce cognitive switching costs?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "You can reduce switching costs by grouping similar tasks together, completing distinct task blocks before shifting focus, and externalizing task lists to reduce working memory load."
-        }
-      }
-    ]
+          text: "You can reduce switching costs by grouping similar tasks together, completing distinct task blocks before shifting focus, and externalizing task lists to reduce working memory load.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Prioritization",
-        "item": "https://cogniarena.com/learn/prioritization"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Prioritization",
+        item: "https://cogniarena.com/learn/prioritization",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Prioritization & Attentional Allocation Science
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Task prioritization measures the ability to dynamically allocate attentional resources and coordinate multiple goals. This guide explores cognitive flexibility, task-switching costs, and strategies to optimize executive control under high information load.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Task prioritization measures the ability to dynamically allocate
+        attentional resources and coordinate multiple goals. This guide explores
+        cognitive flexibility, task-switching costs, and strategies to optimize
+        executive control under high information load.
       </p>
     </header>
 
@@ -116,7 +142,17 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Task prioritization requires a dynamic interaction between the prefrontal cortex and sensory gating systems. When managing multiple tasks, the prefrontal cortex (specifically the dlPFC and orbitofrontal cortex) evaluates the value, urgency, and resource demands of each task. The anterior cingulate cortex (ACC) monitors performance and signals when a shift in focus is required. Attentional gating occurs in the thalamus, which acts as a filter, suppressing sensory input from low-priority tasks while routing target signals to primary processing areas. Shifting focus from one task to another requires updating the working memory buffer with new task rules, engaging the frontoparietal control network to re-allocate attentional resources.
+          Task prioritization requires a dynamic interaction between the
+          prefrontal cortex and sensory gating systems. When managing multiple
+          tasks, the prefrontal cortex (specifically the dlPFC and orbitofrontal
+          cortex) evaluates the value, urgency, and resource demands of each
+          task. The anterior cingulate cortex (ACC) monitors performance and
+          signals when a shift in focus is required. Attentional gating occurs
+          in the thalamus, which acts as a filter, suppressing sensory input
+          from low-priority tasks while routing target signals to primary
+          processing areas. Shifting focus from one task to another requires
+          updating the working memory buffer with new task rules, engaging the
+          frontoparietal control network to re-allocate attentional resources.
         </p>
       </article>
 
@@ -125,7 +161,15 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Cognitive load theory models prioritization by analyzing the switching costs associated with multi-tasking. When switching between tasks, performance decreases (reaction times increase and error rates rise) due to task-set inertia—the residual activation of the previous task's rules in working memory. The cognitive cost of switching is determined by the complexity of the tasks and the individual's cognitive flexibility. Effective prioritization requires minimizing unnecessary switching, grouping similar tasks, and maintaining clear hierarchical goals in working memory.
+          Cognitive load theory models prioritization by analyzing the switching
+          costs associated with multi-tasking. When switching between tasks,
+          performance decreases (reaction times increase and error rates rise)
+          due to task-set inertia—the residual activation of the previous task's
+          rules in working memory. The cognitive cost of switching is determined
+          by the complexity of the tasks and the individual's cognitive
+          flexibility. Effective prioritization requires minimizing unnecessary
+          switching, grouping similar tasks, and maintaining clear hierarchical
+          goals in working memory.
         </p>
       </article>
 
@@ -134,7 +178,13 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Average prioritization efficiency drops by 20-30% under multi-tasking conditions, reflecting the metabolic and cognitive cost of frequent task-switching. High executive capacity, found in project managers, air traffic controllers, and medical triage staff, is characterized by rapid task-set updating and low switching costs. Prioritization skills are highly vulnerable to stress and high cognitive load, which deplete prefrontal resources and lead to task neglect or erratic switching.
+          Average prioritization efficiency drops by 20-30% under multi-tasking
+          conditions, reflecting the metabolic and cognitive cost of frequent
+          task-switching. High executive capacity, found in project managers,
+          air traffic controllers, and medical triage staff, is characterized by
+          rapid task-set updating and low switching costs. Prioritization skills
+          are highly vulnerable to stress and high cognitive load, which deplete
+          prefrontal resources and lead to task neglect or erratic switching.
         </p>
       </article>
 
@@ -143,7 +193,13 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To train prioritization, practice structured task scheduling and attentional focusing drills. Train yourself to complete a single task block before switching, reducing task-set inertia. Use visual aids to externalize task hierarchies, freeing up working memory capacity. Practice mindfulness and attentional focus drills to strengthen the frontoparietal network, allowing for cleaner, faster attentional transitions.
+          To train prioritization, practice structured task scheduling and
+          attentional focusing drills. Train yourself to complete a single task
+          block before switching, reducing task-set inertia. Use visual aids to
+          externalize task hierarchies, freeing up working memory capacity.
+          Practice mindfulness and attentional focus drills to strengthen the
+          frontoparietal network, allowing for cleaner, faster attentional
+          transitions.
         </p>
       </article>
 
@@ -156,32 +212,42 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               What is task prioritization in cognitive science?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Task prioritization is the executive process of organizing, scheduling, and allocating limited attentional resources to multiple tasks based on urgency, importance, and resource demands.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Task prioritization is the executive process of organizing,
+              scheduling, and allocating limited attentional resources to
+              multiple tasks based on urgency, importance, and resource demands.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Why is multi-tasking inefficient?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              The human brain cannot process two complex cognitive tasks simultaneously. Instead, it rapidly switches between them, introducing a cognitive switching cost (time lost and increased errors) as task rules are updated.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              The human brain cannot process two complex cognitive tasks
+              simultaneously. Instead, it rapidly switches between them,
+              introducing a cognitive switching cost (time lost and increased
+              errors) as task rules are updated.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               What is task-set inertia?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Task-set inertia is the residual cognitive activation of a previous task's rules or stimulus associations. This lingers in working memory, causing interference when you switch to a new task.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Task-set inertia is the residual cognitive activation of a
+              previous task's rules or stimulus associations. This lingers in
+              working memory, causing interference when you switch to a new
+              task.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How can I reduce cognitive switching costs?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              You can reduce switching costs by grouping similar tasks together, completing distinct task blocks before shifting focus, and externalizing task lists to reduce working memory load.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              You can reduce switching costs by grouping similar tasks together,
+              completing distinct task blocks before shifting focus, and
+              externalizing task lists to reduce working memory load.
             </p>
           </div>
         </div>

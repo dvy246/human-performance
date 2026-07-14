@@ -1,113 +1,206 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Free ADHD Test Online — Attention & Focus Assessment | CogniArena";
-const description = "Take a free online ADHD test to evaluate your attention, impulse control, and focus. Not a diagnosis — but a scientifically grounded self-assessment tool for adults and kids.";
-const canonicalUrl = "https://cogniarena.com/adhd-test";
+const title =
+  "Free ADHD Test Online — Attention & Focus Assessment | CogniArena"
+const description =
+  "Take a free online ADHD test to evaluate your attention, impulse control, and focus. Not a diagnosis — but a scientifically grounded self-assessment tool for adults and kids."
+const canonicalUrl = "https://cogniarena.com/adhd-test"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Free ADHD Test Online — Attention & Focus Assessment",
-    "description": "Take a free online ADHD test to evaluate your attention, impulse control, and focus. Scientifically grounded self-assessment tool.",
-    "url": canonicalUrl
+    name: "Free ADHD Test Online — Attention & Focus Assessment",
+    description:
+      "Take a free online ADHD test to evaluate your attention, impulse control, and focus. Scientifically grounded self-assessment tool.",
+    url: canonicalUrl,
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "ADHD Test", "item": "https://cogniarena.com/adhd-test" }
-    ]
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "ADHD Test",
+        item: "https://cogniarena.com/adhd-test",
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "Is this ADHD test a clinical diagnosis?",
-        "acceptedAnswer": { "@type": "Answer", "text": "No. This is NOT a clinical diagnostic tool. The CogniArena ADHD screening page offers cognitive performance tests that measure attention, impulse control, and focus — the same cognitive domains assessed in clinical ADHD evaluations. However, only a licensed healthcare professional can diagnose ADHD. Use these results as a starting point for self-awareness, not as a medical diagnosis." }
+        name: "Is this ADHD test a clinical diagnosis?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. This is NOT a clinical diagnostic tool. The CogniArena ADHD screening page offers cognitive performance tests that measure attention, impulse control, and focus — the same cognitive domains assessed in clinical ADHD evaluations. However, only a licensed healthcare professional can diagnose ADHD. Use these results as a starting point for self-awareness, not as a medical diagnosis.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does the ADHD test work?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The ADHD test battery uses four evidence-based cognitive paradigms: Go/No-Go (response inhibition), Stroop (selective attention and interference control), Trail Making (cognitive flexibility), and Focus Challenge (sustained attention under distraction). Each test measures a different dimension of attention and impulse control — the core cognitive domains affected in ADHD." }
+        name: "How does the ADHD test work?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The ADHD test battery uses four evidence-based cognitive paradigms: Go/No-Go (response inhibition), Stroop (selective attention and interference control), Trail Making (cognitive flexibility), and Focus Challenge (sustained attention under distraction). Each test measures a different dimension of attention and impulse control — the core cognitive domains affected in ADHD.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Can adults take this ADHD test?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. Adults of all ages can take these cognitive tests. ADHD symptoms often persist into adulthood, and many adults discover attention difficulties later in life. The tests are designed for anyone aged 13 and above. For children under 13, parental supervision is recommended." }
+        name: "Can adults take this ADHD test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. Adults of all ages can take these cognitive tests. ADHD symptoms often persist into adulthood, and many adults discover attention difficulties later in life. The tests are designed for anyone aged 13 and above. For children under 13, parental supervision is recommended.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What should I do if my results suggest attention difficulties?",
-        "acceptedAnswer": { "@type": "Answer", "text": "If you consistently score below average on attention and impulse control tests, consider consulting a licensed psychologist or psychiatrist who specializes in ADHD. They can conduct a comprehensive evaluation including clinical interview, behavior rating scales, and cognitive testing. Early identification and treatment (behavioral strategies, coaching, or medication) can significantly improve quality of life." }
+        name: "What should I do if my results suggest attention difficulties?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "If you consistently score below average on attention and impulse control tests, consider consulting a licensed psychologist or psychiatrist who specializes in ADHD. They can conduct a comprehensive evaluation including clinical interview, behavior rating scales, and cognitive testing. Early identification and treatment (behavioral strategies, coaching, or medication) can significantly improve quality of life.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this ADHD test free?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes, completely free. All cognitive tests on CogniArena are free to take with no sign-up required. You get instant scores, percentile rankings, and performance breakdowns for each attention dimension." }
-      }
-    ]
-  }
-];
+        name: "Is this ADHD test free?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, completely free. All cognitive tests on CogniArena are free to take with no sign-up required. You get instant scores, percentile rankings, and performance breakdowns for each attention dimension.",
+        },
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
         <span class="text-muted">ADHD Test</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Free ADHD Test — Evaluate Your Attention & Focus Online</h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Explore four cognitive tests that measure the core attention dimensions evaluated in clinical ADHD assessments. Free, anonymous, and instant results.
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Free ADHD Test — Evaluate Your Attention & Focus Online
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Explore four cognitive tests that measure the core attention dimensions
+        evaluated in clinical ADHD assessments. Free, anonymous, and instant
+        results.
       </p>
     </header>
 
     <!-- Important Disclaimer -->
-    <div class="p-4 rounded-xl border border-[var(--error-border)] bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-      <strong class="text-foreground font-semibold">Important Disclaimer:</strong> This is NOT a clinical diagnostic tool. These cognitive tests measure attention, impulse control, and processing speed — the same domains assessed in ADHD evaluations — but they cannot diagnose ADHD. Only a licensed healthcare professional can provide a medical diagnosis. Use these results for self-awareness and as a conversation starter with your doctor.
+    <div
+      class="rounded-xl border border-[var(--error-border)] bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Important Disclaimer:</strong
+      > This is NOT a clinical diagnostic tool. These cognitive tests measure attention,
+      impulse control, and processing speed — the same domains assessed in ADHD evaluations
+      — but they cannot diagnose ADHD. Only a licensed healthcare professional can
+      provide a medical diagnosis. Use these results for self-awareness and as a conversation
+      starter with your doctor.
     </div>
 
     <!-- Recommended Test Battery -->
     <section class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">ADHD Cognitive Screening Battery</h2>
-      <p class="text-muted text-sm leading-relaxed">
-        Clinical ADHD evaluations typically assess four cognitive domains. Take each test below to build a complete attention profile:
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        ADHD Cognitive Screening Battery
+      </h2>
+      <p class="text-sm leading-relaxed text-muted">
+        Clinical ADHD evaluations typically assess four cognitive domains. Take
+        each test below to build a complete attention profile:
       </p>
       <div class="grid gap-3">
-        <a href="/tests/go-no-go" class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5 hover:border-accent transition-colors">
+        <a
+          href="/tests/go-no-go"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-foreground">1. Go/No-Go Test — Response Inhibition</h3>
+            <h3 class="text-sm font-bold text-foreground">
+              1. Go/No-Go Test — Response Inhibition
+            </h3>
             <span class="text-xs text-accent">Take Test →</span>
           </div>
-          <p class="text-muted text-xs leading-relaxed">Measures your ability to suppress automatic reactions. In ADHD research, Go/No-Go performance is one of the strongest differentiators between ADHD and neurotypical populations. Errors of commission (false alarms) specifically index impulse control.</p>
+          <p class="text-xs leading-relaxed text-muted">
+            Measures your ability to suppress automatic reactions. In ADHD
+            research, Go/No-Go performance is one of the strongest
+            differentiators between ADHD and neurotypical populations. Errors of
+            commission (false alarms) specifically index impulse control.
+          </p>
         </a>
-        <a href="/tests/stroop" class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5 hover:border-accent transition-colors">
+        <a
+          href="/tests/stroop"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-foreground">2. Stroop Test — Selective Attention</h3>
+            <h3 class="text-sm font-bold text-foreground">
+              2. Stroop Test — Selective Attention
+            </h3>
             <span class="text-xs text-accent">Take Test →</span>
           </div>
-          <p class="text-muted text-xs leading-relaxed">The classic Stroop color-word interference test measures selective attention and cognitive flexibility. People with ADHD typically show larger Stroop interference effects due to difficulty filtering conflicting information.</p>
+          <p class="text-xs leading-relaxed text-muted">
+            The classic Stroop color-word interference test measures selective
+            attention and cognitive flexibility. People with ADHD typically show
+            larger Stroop interference effects due to difficulty filtering
+            conflicting information.
+          </p>
         </a>
-        <a href="/tests/trail-making" class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5 hover:border-accent transition-colors">
+        <a
+          href="/tests/trail-making"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-foreground">3. Trail Making Test — Cognitive Flexibility</h3>
+            <h3 class="text-sm font-bold text-foreground">
+              3. Trail Making Test — Cognitive Flexibility
+            </h3>
             <span class="text-xs text-accent">Take Test →</span>
           </div>
-          <p class="text-muted text-xs leading-relaxed">Measures task-switching ability and mental flexibility. The Trail Making Test (Part B) is widely used in neuropsychological assessments and is sensitive to executive function deficits common in ADHD.</p>
+          <p class="text-xs leading-relaxed text-muted">
+            Measures task-switching ability and mental flexibility. The Trail
+            Making Test (Part B) is widely used in neuropsychological
+            assessments and is sensitive to executive function deficits common
+            in ADHD.
+          </p>
         </a>
-        <a href="/tests/focus-challenge" class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5 hover:border-accent transition-colors">
+        <a
+          href="/tests/focus-challenge"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-foreground">4. Focus Challenge — Sustained Attention</h3>
+            <h3 class="text-sm font-bold text-foreground">
+              4. Focus Challenge — Sustained Attention
+            </h3>
             <span class="text-xs text-accent">Take Test →</span>
           </div>
-          <p class="text-muted text-xs leading-relaxed">A 5-stage attention battery measuring selective attention, impulse control, task switching, sustained vigilance, and working memory under distraction. Provides a composite Focus Score that maps to overall attentional capacity.</p>
+          <p class="text-xs leading-relaxed text-muted">
+            A 5-stage attention battery measuring selective attention, impulse
+            control, task switching, sustained vigilance, and working memory
+            under distraction. Provides a composite Focus Score that maps to
+            overall attentional capacity.
+          </p>
         </a>
       </div>
     </section>
@@ -115,82 +208,195 @@ const schemaJson = [
     <!-- SEO Content Section -->
     <section class="flex flex-col gap-6 border-t border-card-border pt-10">
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Understanding ADHD and Attention</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Attention-Deficit/Hyperactivity Disorder (ADHD) is one of the most common neurodevelopmental conditions, affecting approximately 5% of children and 2.5% of adults worldwide. It is characterized by persistent patterns of inattention, hyperactivity, and impulsivity that interfere with daily functioning.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Understanding ADHD and Attention
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Attention-Deficit/Hyperactivity Disorder (ADHD) is one of the most
+          common neurodevelopmental conditions, affecting approximately 5% of
+          children and 2.5% of adults worldwide. It is characterized by
+          persistent patterns of inattention, hyperactivity, and impulsivity
+          that interfere with daily functioning.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          However, attention difficulties exist on a spectrum. Many people who don't meet the full diagnostic criteria for ADHD still experience occasional challenges with focus, impulse control, or sustained attention. The cognitive tests on this page help you understand where you fall on that spectrum.
+        <p class="text-sm leading-relaxed text-muted">
+          However, attention difficulties exist on a spectrum. Many people who
+          don't meet the full diagnostic criteria for ADHD still experience
+          occasional challenges with focus, impulse control, or sustained
+          attention. The cognitive tests on this page help you understand where
+          you fall on that spectrum.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What Cognitive Domains Are Affected in ADHD?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          ADHD primarily impacts four cognitive domains, each measurable through specific tests:
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What Cognitive Domains Are Affected in ADHD?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          ADHD primarily impacts four cognitive domains, each measurable through
+          specific tests:
         </p>
-        <ul class="list-disc list-inside text-muted text-sm flex flex-col gap-2 leading-relaxed">
-          <li><strong class="text-foreground">Response Inhibition:</strong> The ability to stop a prepotent but incorrect response. Measured by Go/No-Go tasks. People with ADHD often show higher commission errors — clicking when they should withhold.</li>
-          <li><strong class="text-foreground">Selective Attention:</strong> The ability to focus on relevant information while ignoring distractions. Measured by the Stroop test. ADHD-related interference typically shows as slower response times on incongruent trials.</li>
-          <li><strong class="text-foreground">Cognitive Flexibility:</strong> The ability to switch between tasks or mental sets. Measured by Trail Making. Difficulty with task-switching is a hallmark of executive dysfunction in ADHD.</li>
-          <li><strong class="text-foreground">Sustained Attention:</strong> The ability to maintain focus over extended periods. Measured by the Focus Challenge's vigilance stage. Attentional lapses (momentary mind-wandering) are significantly more frequent in ADHD.</li>
+        <ul
+          class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+        >
+          <li>
+            <strong class="text-foreground">Response Inhibition:</strong> The ability
+            to stop a prepotent but incorrect response. Measured by Go/No-Go tasks.
+            People with ADHD often show higher commission errors — clicking when they
+            should withhold.
+          </li>
+          <li>
+            <strong class="text-foreground">Selective Attention:</strong> The ability
+            to focus on relevant information while ignoring distractions. Measured
+            by the Stroop test. ADHD-related interference typically shows as slower
+            response times on incongruent trials.
+          </li>
+          <li>
+            <strong class="text-foreground">Cognitive Flexibility:</strong> The ability
+            to switch between tasks or mental sets. Measured by Trail Making. Difficulty
+            with task-switching is a hallmark of executive dysfunction in ADHD.
+          </li>
+          <li>
+            <strong class="text-foreground">Sustained Attention:</strong> The ability
+            to maintain focus over extended periods. Measured by the Focus Challenge's
+            vigilance stage. Attentional lapses (momentary mind-wandering) are significantly
+            more frequent in ADHD.
+          </li>
         </ul>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">ADHD Test for Adults</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Adult ADHD is often underdiagnosed. Many adults develop coping strategies that mask their attention difficulties, but struggle with time management, organization, or completing tasks. If you've always felt like you "can't focus" or "can't sit still," these cognitive tests can provide objective data about your attention profile.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          ADHD Test for Adults
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Adult ADHD is often underdiagnosed. Many adults develop coping
+          strategies that mask their attention difficulties, but struggle with
+          time management, organization, or completing tasks. If you've always
+          felt like you "can't focus" or "can't sit still," these cognitive
+          tests can provide objective data about your attention profile.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          Start with the <a href="/tests/focus-challenge" class="text-accent hover:underline">Focus Challenge</a> for a comprehensive 5-stage attention assessment, then take the <a href="/tests/go-no-go" class="text-accent hover:underline">Go/No-Go test</a> to specifically measure impulse control. Compare your results against population benchmarks to see if your attention metrics fall outside the typical range.
+        <p class="text-sm leading-relaxed text-muted">
+          Start with the <a
+            href="/tests/focus-challenge"
+            class="text-accent hover:underline">Focus Challenge</a
+          > for a comprehensive 5-stage attention assessment, then take the <a
+            href="/tests/go-no-go"
+            class="text-accent hover:underline">Go/No-Go test</a
+          > to specifically measure impulse control. Compare your results against
+          population benchmarks to see if your attention metrics fall outside the
+          typical range.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">ADHD Test for Kids & Teens</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          If you're a parent concerned about your child's attention, these tests can provide preliminary insights. The <a href="/tests/sequence-memory" class="text-accent hover:underline">Sequence Memory Test</a> and <a href="/tests/reaction-time" class="text-accent hover:underline">Reaction Time Test</a> are child-friendly starting points. For teens, the full battery (Go/No-Go, Stroop, Trail Making, Focus Challenge) provides a more complete picture.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          ADHD Test for Kids & Teens
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          If you're a parent concerned about your child's attention, these tests
+          can provide preliminary insights. The <a
+            href="/tests/sequence-memory"
+            class="text-accent hover:underline">Sequence Memory Test</a
+          > and <a
+            href="/tests/reaction-time"
+            class="text-accent hover:underline">Reaction Time Test</a
+          > are child-friendly starting points. For teens, the full battery (Go/No-Go,
+          Stroop, Trail Making, Focus Challenge) provides a more complete picture.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          <strong class="text-foreground">Important:</strong> If you suspect your child has ADHD, please consult a pediatric psychologist or psychiatrist. These online tests are screening tools only and cannot replace a comprehensive clinical evaluation that includes behavioral observations, parent/teacher reports, and developmental history.
+        <p class="text-sm leading-relaxed text-muted">
+          <strong class="text-foreground">Important:</strong> If you suspect your
+          child has ADHD, please consult a pediatric psychologist or psychiatrist.
+          These online tests are screening tools only and cannot replace a comprehensive
+          clinical evaluation that includes behavioral observations, parent/teacher
+          reports, and developmental history.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What to Do After Taking the Tests</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          After completing all four tests, review your results across each cognitive domain. If you consistently score below the 25th percentile across multiple attention measures, consider seeking a professional evaluation. Share your test results with your healthcare provider — the objective performance data can be a valuable addition to the clinical assessment process.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What to Do After Taking the Tests
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          After completing all four tests, review your results across each
+          cognitive domain. If you consistently score below the 25th percentile
+          across multiple attention measures, consider seeking a professional
+          evaluation. Share your test results with your healthcare provider —
+          the objective performance data can be a valuable addition to the
+          clinical assessment process.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          If your results are within the typical range but you still experience daily attention challenges, consider exploring cognitive training through our <a href="/brain-games" class="text-accent hover:underline">brain games collection</a>. Regular practice with attention-training games can help strengthen focus and impulse control over time.
+        <p class="text-sm leading-relaxed text-muted">
+          If your results are within the typical range but you still experience
+          daily attention challenges, consider exploring cognitive training
+          through our <a href="/brain-games" class="text-accent hover:underline"
+            >brain games collection</a
+          >. Regular practice with attention-training games can help strengthen
+          focus and impulse control over time.
         </p>
       </article>
     </section>
 
     <!-- FAQ Section -->
     <section class="flex flex-col gap-6 border-t border-card-border pt-10">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this ADHD test a clinical diagnosis?</h3>
-          <p class="text-muted text-sm leading-relaxed">No. This is NOT a clinical diagnostic tool. The CogniArena ADHD screening page offers cognitive performance tests that measure attention, impulse control, and focus — the same cognitive domains assessed in clinical ADHD evaluations. However, only a licensed healthcare professional can diagnose ADHD.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this ADHD test a clinical diagnosis?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            No. This is NOT a clinical diagnostic tool. The CogniArena ADHD
+            screening page offers cognitive performance tests that measure
+            attention, impulse control, and focus — the same cognitive domains
+            assessed in clinical ADHD evaluations. However, only a licensed
+            healthcare professional can diagnose ADHD.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How does the ADHD test work?</h3>
-          <p class="text-muted text-sm leading-relaxed">The ADHD test battery uses four evidence-based cognitive paradigms: Go/No-Go (response inhibition), Stroop (selective attention and interference control), Trail Making (cognitive flexibility), and Focus Challenge (sustained attention under distraction). Each test measures a different dimension of attention and impulse control.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How does the ADHD test work?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            The ADHD test battery uses four evidence-based cognitive paradigms:
+            Go/No-Go (response inhibition), Stroop (selective attention and
+            interference control), Trail Making (cognitive flexibility), and
+            Focus Challenge (sustained attention under distraction). Each test
+            measures a different dimension of attention and impulse control.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Can adults take this ADHD test?</h3>
-          <p class="text-muted text-sm leading-relaxed">Yes. Adults of all ages can take these cognitive tests. ADHD symptoms often persist into adulthood, and many adults discover attention difficulties later in life. The tests are designed for anyone aged 13 and above.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Can adults take this ADHD test?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Yes. Adults of all ages can take these cognitive tests. ADHD
+            symptoms often persist into adulthood, and many adults discover
+            attention difficulties later in life. The tests are designed for
+            anyone aged 13 and above.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What should I do if my results suggest attention difficulties?</h3>
-          <p class="text-muted text-sm leading-relaxed">If you consistently score below average on attention and impulse control tests, consider consulting a licensed psychologist or psychiatrist who specializes in ADHD. They can conduct a comprehensive evaluation including clinical interview, behavior rating scales, and cognitive testing.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What should I do if my results suggest attention difficulties?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            If you consistently score below average on attention and impulse
+            control tests, consider consulting a licensed psychologist or
+            psychiatrist who specializes in ADHD. They can conduct a
+            comprehensive evaluation including clinical interview, behavior
+            rating scales, and cognitive testing.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is this ADHD test free?</h3>
-          <p class="text-muted text-sm leading-relaxed">Yes, completely free. All cognitive tests on CogniArena are free to take with no sign-up required. You get instant scores, percentile rankings, and performance breakdowns for each attention dimension.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is this ADHD test free?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Yes, completely free. All cognitive tests on CogniArena are free to
+            take with no sign-up required. You get instant scores, percentile
+            rankings, and performance breakdowns for each attention dimension.
+          </p>
         </div>
       </div>
     </section>

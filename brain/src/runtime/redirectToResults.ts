@@ -3,15 +3,15 @@
  * Called by each test component after finalizeTest() completes.
  */
 export interface ResultsPayload {
-  testId: string;
-  testName: string;
-  attempts: number[];
-  unit: string;
-  percentile: number;
-  personalBest: number | null;
-  category: string;
-  average: number;
-  difficulty?: string;
+  testId: string
+  testName: string
+  attempts: number[]
+  unit: string
+  percentile: number
+  personalBest: number | null
+  category: string
+  average: number
+  difficulty?: string
 }
 
 /**
@@ -21,11 +21,13 @@ export interface ResultsPayload {
  */
 export function redirectToResults(payload: ResultsPayload): void {
   try {
-    sessionStorage.setItem('cogniarena-last-result', JSON.stringify(payload));
-  } catch { /* ignore quota errors */ }
+    sessionStorage.setItem("cogniarena-last-result", JSON.stringify(payload))
+  } catch {
+    /* ignore quota errors */
+  }
 }
 
 /** Navigate to the dedicated results page (call from a user-initiated action). */
 export function navigateToResults(): void {
-  window.location.href = '/tests/results/?hasResult=1';
+  window.location.href = "/tests/results/?hasResult=1"
 }

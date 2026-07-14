@@ -1,112 +1,139 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Auditory Reaction Time Science & Processing | CogniArena";
-const description = "Scientific guide to auditory reaction time, cochlear transduction pathways, brainstem auditory networks, and audio latency calibration.";
-const canonicalUrl = "https://cogniarena.com/learn/sound-reaction";
+const title = "Auditory Reaction Time Science & Processing | CogniArena"
+const description =
+  "Scientific guide to auditory reaction time, cochlear transduction pathways, brainstem auditory networks, and audio latency calibration."
+const canonicalUrl = "https://cogniarena.com/learn/sound-reaction"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "The Neurobiology of Auditory Speed and Reflexes",
-    "description": "Scientific guide to auditory reaction time, cochlear transduction pathways, brainstem auditory networks, and audio latency calibration.",
-    "publisher": {
+    headline: "The Neurobiology of Auditory Speed and Reflexes",
+    description:
+      "Scientific guide to auditory reaction time, cochlear transduction pathways, brainstem auditory networks, and audio latency calibration.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "Why is auditory reaction time faster than visual reaction time?",
-        "acceptedAnswer": {
+        name: "Why is auditory reaction time faster than visual reaction time?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Auditory transduction is much faster than visual transduction. Auditory hair cells convert mechanical vibrations into electrical signals in under 2ms, whereas photoreceptors in the retina require 30-40ms of chemical processing to convert light into electrical potentials."
-        }
+          text: "Auditory transduction is much faster than visual transduction. Auditory hair cells convert mechanical vibrations into electrical signals in under 2ms, whereas photoreceptors in the retina require 30-40ms of chemical processing to convert light into electrical potentials.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Does headphone latency affect sound reaction scores?",
-        "acceptedAnswer": {
+        name: "Does headphone latency affect sound reaction scores?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Absolutely. Wireless Bluetooth headphones add 100ms to 300ms of lag due to audio compression and transmission protocols. For accurate testing, wired headphones or speakers connected directly to a 3.5mm jack must be used."
-        }
+          text: "Absolutely. Wireless Bluetooth headphones add 100ms to 300ms of lag due to audio compression and transmission protocols. For accurate testing, wired headphones or speakers connected directly to a 3.5mm jack must be used.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What is a good score on a sound reaction test?",
-        "acceptedAnswer": {
+        name: "What is a good score on a sound reaction test?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "A sound reaction time under 180ms is average, under 150ms is excellent, and under 120ms is elite. Scores above 220ms generally reflect significant hardware delay or auditory fatigue."
-        }
+          text: "A sound reaction time under 180ms is average, under 150ms is excellent, and under 120ms is elite. Scores above 220ms generally reflect significant hardware delay or auditory fatigue.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does noise affect auditory reaction speed?",
-        "acceptedAnswer": {
+        name: "How does noise affect auditory reaction speed?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Background noise increases cognitive load and auditory filtering overhead. This requires the auditory cortex to spend more time isolating the target signal from background noise, slowing down response times by 10-30ms."
-        }
-      }
-    ]
+          text: "Background noise increases cognitive load and auditory filtering overhead. This requires the auditory cortex to spend more time isolating the target signal from background noise, slowing down response times by 10-30ms.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Auditory Reaction",
-        "item": "https://cogniarena.com/learn/sound-reaction"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Auditory Reaction",
+        item: "https://cogniarena.com/learn/sound-reaction",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Sound Reaction Time Science & Auditory Processing
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Sound reaction time measures the speed of auditory stimulus transduction, brainstem transmission, and motor response. Because auditory signals bypass the visual cortex and require fewer synaptic steps, human auditory reaction speed is faster than visual, providing a direct metric of fundamental brainstem processing.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Sound reaction time measures the speed of auditory stimulus
+        transduction, brainstem transmission, and motor response. Because
+        auditory signals bypass the visual cortex and require fewer synaptic
+        steps, human auditory reaction speed is faster than visual, providing a
+        direct metric of fundamental brainstem processing.
       </p>
     </header>
 
@@ -116,7 +143,20 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Auditory transduction begins when sound waves enter the ear canal, vibrating the tympanic membrane (eardrum) and ossicles. This mechanical energy is transmitted to the oval window, generating fluid waves inside the cochlea. Hair cells along the basilar membrane convert these fluid waves into neural potentials, which propagate along the auditory nerve (cranial nerve VIII). The signals travel through the cochlear nuclei and superior olivary complex in the brainstem, ascending via the lateral lemniscus to the inferior colliculus in the midbrain. From there, auditory information projects through the medial geniculate body of the thalamus to the primary auditory cortex (A1) in the temporal lobe. Because this pathway utilizes fast electrical transmission through brainstem reflex loops, it bypasses the complex, multi-layered cortical processing of the visual system, resulting in faster response times.
+          Auditory transduction begins when sound waves enter the ear canal,
+          vibrating the tympanic membrane (eardrum) and ossicles. This
+          mechanical energy is transmitted to the oval window, generating fluid
+          waves inside the cochlea. Hair cells along the basilar membrane
+          convert these fluid waves into neural potentials, which propagate
+          along the auditory nerve (cranial nerve VIII). The signals travel
+          through the cochlear nuclei and superior olivary complex in the
+          brainstem, ascending via the lateral lemniscus to the inferior
+          colliculus in the midbrain. From there, auditory information projects
+          through the medial geniculate body of the thalamus to the primary
+          auditory cortex (A1) in the temporal lobe. Because this pathway
+          utilizes fast electrical transmission through brainstem reflex loops,
+          it bypasses the complex, multi-layered cortical processing of the
+          visual system, resulting in faster response times.
         </p>
       </article>
 
@@ -125,7 +165,17 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Mathematical models of auditory processing isolate the latency of sensory transduction from peripheral nerve conduction and muscle activation. Auditory transduction in the cochlea takes approximately 1-2 milliseconds, and brainstem transmission to the auditory cortex takes 10-15ms. In contrast, visual retinal transduction takes 30-40ms. Therefore, auditory reflexes are consistently 30-40ms faster than visual counterparts. However, audio latency in consumer hardware presents a major obstacle. Bluetooth headphones introduce an audio latency of 150ms to 300ms, while motherboard audio processing (DAC/ADC buffering) can add 10-50ms of variable lag, which must be calibrated and minimized for accurate reflex measurements.
+          Mathematical models of auditory processing isolate the latency of
+          sensory transduction from peripheral nerve conduction and muscle
+          activation. Auditory transduction in the cochlea takes approximately
+          1-2 milliseconds, and brainstem transmission to the auditory cortex
+          takes 10-15ms. In contrast, visual retinal transduction takes 30-40ms.
+          Therefore, auditory reflexes are consistently 30-40ms faster than
+          visual counterparts. However, audio latency in consumer hardware
+          presents a major obstacle. Bluetooth headphones introduce an audio
+          latency of 150ms to 300ms, while motherboard audio processing (DAC/ADC
+          buffering) can add 10-50ms of variable lag, which must be calibrated
+          and minimized for accurate reflex measurements.
         </p>
       </article>
 
@@ -134,7 +184,15 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Auditory reaction benchmarks indicate a general population average of 170ms to 190ms, compared to 250ms for visual stimuli. Elite musicians, audio engineers, and blind individuals often demonstrate auditory response speeds below 130ms, reflecting specialized synaptic plasticity and auditory cortex recruitment. Auditory speed remains relatively stable through middle age compared to visual speed, but eventually declines as high-frequency hair cell degradation reduces signal-to-noise ratios in the cochlea, requiring longer integration times in the auditory cortex.
+          Auditory reaction benchmarks indicate a general population average of
+          170ms to 190ms, compared to 250ms for visual stimuli. Elite musicians,
+          audio engineers, and blind individuals often demonstrate auditory
+          response speeds below 130ms, reflecting specialized synaptic
+          plasticity and auditory cortex recruitment. Auditory speed remains
+          relatively stable through middle age compared to visual speed, but
+          eventually declines as high-frequency hair cell degradation reduces
+          signal-to-noise ratios in the cochlea, requiring longer integration
+          times in the auditory cortex.
         </p>
       </article>
 
@@ -143,7 +201,14 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To train and optimize auditory reaction times, focus on auditory discrimination exercises and hardware configuration. Training programs that require responding to specific pitch thresholds train the temporal lobe to filter background frequencies. To avoid hardware lag, testing should be conducted using wired headphones connected to a low-latency analog jack, disabling software audio enhancement effects (like virtual surround sound), and utilizing specialized low-latency audio drivers (such as ASIO on Windows or CoreAudio on macOS).
+          To train and optimize auditory reaction times, focus on auditory
+          discrimination exercises and hardware configuration. Training programs
+          that require responding to specific pitch thresholds train the
+          temporal lobe to filter background frequencies. To avoid hardware lag,
+          testing should be conducted using wired headphones connected to a
+          low-latency analog jack, disabling software audio enhancement effects
+          (like virtual surround sound), and utilizing specialized low-latency
+          audio drivers (such as ASIO on Windows or CoreAudio on macOS).
         </p>
       </article>
 
@@ -156,32 +221,44 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               Why is auditory reaction time faster than visual reaction time?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Auditory transduction is much faster than visual transduction. Auditory hair cells convert mechanical vibrations into electrical signals in under 2ms, whereas photoreceptors in the retina require 30-40ms of chemical processing to convert light into electrical potentials.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Auditory transduction is much faster than visual transduction.
+              Auditory hair cells convert mechanical vibrations into electrical
+              signals in under 2ms, whereas photoreceptors in the retina require
+              30-40ms of chemical processing to convert light into electrical
+              potentials.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Does headphone latency affect sound reaction scores?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Absolutely. Wireless Bluetooth headphones add 100ms to 300ms of lag due to audio compression and transmission protocols. For accurate testing, wired headphones or speakers connected directly to a 3.5mm jack must be used.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Absolutely. Wireless Bluetooth headphones add 100ms to 300ms of
+              lag due to audio compression and transmission protocols. For
+              accurate testing, wired headphones or speakers connected directly
+              to a 3.5mm jack must be used.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               What is a good score on a sound reaction test?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              A sound reaction time under 180ms is average, under 150ms is excellent, and under 120ms is elite. Scores above 220ms generally reflect significant hardware delay or auditory fatigue.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              A sound reaction time under 180ms is average, under 150ms is
+              excellent, and under 120ms is elite. Scores above 220ms generally
+              reflect significant hardware delay or auditory fatigue.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How does noise affect auditory reaction speed?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Background noise increases cognitive load and auditory filtering overhead. This requires the auditory cortex to spend more time isolating the target signal from background noise, slowing down response times by 10-30ms.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Background noise increases cognitive load and auditory filtering
+              overhead. This requires the auditory cortex to spend more time
+              isolating the target signal from background noise, slowing down
+              response times by 10-30ms.
             </p>
           </div>
         </div>

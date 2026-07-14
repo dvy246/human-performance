@@ -1,42 +1,58 @@
 ---
-import Layout from "@/layouts/main.astro";
-import TestBenchmarkPage from "@/components/benchmarks/TestBenchmarkPage";
-import { categoryConfigs, getBenchmarkConfig } from "@/data/benchmarks";
+import Layout from "@/layouts/main.astro"
+import TestBenchmarkPage from "@/components/benchmarks/TestBenchmarkPage"
+import { categoryConfigs, getBenchmarkConfig } from "@/data/benchmarks"
 
 export async function getStaticPaths() {
-  return categoryConfigs.map(c => ({
+  return categoryConfigs.map((c) => ({
     params: { slug: c.slug },
     props: { slug: c.slug },
-  }));
+  }))
 }
 
-const { slug } = Astro.props;
-const config = getBenchmarkConfig(slug);
+const { slug } = Astro.props
+const config = getBenchmarkConfig(slug)
 
 if (!config) {
-  return Astro.redirect('/benchmarks');
+  return Astro.redirect("/benchmarks")
 }
 
-const { title, description: configDescription, lowerIsBetter, metric, unit } = config;
-const pageTitle = `${title} Benchmarks — Population Distribution & Percentiles | CogniArena`;
-const pageDescription = `View population distribution charts, age benchmarks, and professional comparisons for ${title.toLowerCase()}. ${configDescription}`;
-const canonicalUrl = `https://cogniarena.com/benchmarks/${slug}`;
+const {
+  title,
+  description: configDescription,
+  lowerIsBetter,
+  metric,
+  unit,
+} = config
+const pageTitle = `${title} Benchmarks — Population Distribution & Percentiles | CogniArena`
+const pageDescription = `View population distribution charts, age benchmarks, and professional comparisons for ${title.toLowerCase()}. ${configDescription}`
+const canonicalUrl = `https://cogniarena.com/benchmarks/${slug}`
 
-const metricDirection = lowerIsBetter ? 'lowerScore' : 'higherScore';
+const metricDirection = lowerIsBetter ? "lowerScore" : "higherScore"
 const schemaJson = {
   "@context": "https://schema.org",
   "@type": "Dataset",
-  "name": `${title} Benchmark Data`,
-  "description": configDescription,
-  "variableMeasured": {
+  name: `${title} Benchmark Data`,
+  description: configDescription,
+  variableMeasured: {
     "@type": "PropertyValue",
-    "name": metric,
-    "unitText": unit || undefined,
-    [metricDirection]: true
+    name: metric,
+    unitText: unit || undefined,
+    [metricDirection]: true,
   },
-  "provider": { "@type": "Organization", "name": "CogniArena", "url": "https://cogniarena.com" }
-};
+  provider: {
+    "@type": "Organization",
+    name: "CogniArena",
+    url: "https://cogniarena.com",
+  },
+}
 ---
-<Layout title={pageTitle} description={pageDescription} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <TestBenchmarkPage config={config} client:load />
 </Layout>

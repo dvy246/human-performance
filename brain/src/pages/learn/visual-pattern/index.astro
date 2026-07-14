@@ -1,112 +1,138 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Visual Pattern Memory & Matrix Recall | CogniArena";
-const description = "Explore visual pattern memory, visual-spatial working memory, matrix recall capacity, and visuospatial chunking.";
-const canonicalUrl = "https://cogniarena.com/learn/visual-pattern";
+const title = "Visual Pattern Memory & Matrix Recall | CogniArena"
+const description =
+  "Explore visual pattern memory, visual-spatial working memory, matrix recall capacity, and visuospatial chunking."
+const canonicalUrl = "https://cogniarena.com/learn/visual-pattern"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Visuospatial Working Memory and Matrix Chunking",
-    "description": "Explore visual pattern memory, visual-spatial working memory, matrix recall capacity, and visuospatial chunking.",
-    "publisher": {
+    headline: "Visuospatial Working Memory and Matrix Chunking",
+    description:
+      "Explore visual pattern memory, visual-spatial working memory, matrix recall capacity, and visuospatial chunking.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is visual pattern memory?",
-        "acceptedAnswer": {
+        name: "What is visual pattern memory?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Visual pattern memory is the ability to remember the spatial configuration of objects or blocks on a grid over a short period. It is a key component of visuospatial working memory."
-        }
+          text: "Visual pattern memory is the ability to remember the spatial configuration of objects or blocks on a grid over a short period. It is a key component of visuospatial working memory.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What is the average visual pattern memory score?",
-        "acceptedAnswer": {
+        name: "What is the average visual pattern memory score?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "The average visual pattern span is 7 to 9 squares. Scores above 12 are considered elite, showing advanced spatial chunking and mental visualization techniques."
-        }
+          text: "The average visual pattern span is 7 to 9 squares. Scores above 12 are considered elite, showing advanced spatial chunking and mental visualization techniques.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does the brain store visual grids?",
-        "acceptedAnswer": {
+        name: "How does the brain store visual grids?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "The brain uses the visuospatial scratchpad in the parietal lobe to store spatial coordinates. By grouping adjacent squares into geometric chunks, the brain can fit more information into its limited memory slots."
-        }
+          text: "The brain uses the visuospatial scratchpad in the parietal lobe to store spatial coordinates. By grouping adjacent squares into geometric chunks, the brain can fit more information into its limited memory slots.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How can I improve my visual pattern score?",
-        "acceptedAnswer": {
+        name: "How can I improve my visual pattern score?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Focus on grouping blocks into shapes (like lines or boxes) and look for symmetry. Constructing a mental image or story about the pattern can also create stronger memory traces."
-        }
-      }
-    ]
+          text: "Focus on grouping blocks into shapes (like lines or boxes) and look for symmetry. Constructing a mental image or story about the pattern can also create stronger memory traces.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Visual Pattern",
-        "item": "https://cogniarena.com/learn/visual-pattern"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Visual Pattern",
+        item: "https://cogniarena.com/learn/visual-pattern",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Visual Pattern Memory & Matrix Recall Science
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Visual pattern memory, or matrix recall, evaluates visual-spatial short-term memory capacity. This test measures the ability to encode, maintain, and retrieve visual configurations on a grid, exploring the limits of the visuospatial scratchpad and pattern chunking.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Visual pattern memory, or matrix recall, evaluates visual-spatial
+        short-term memory capacity. This test measures the ability to encode,
+        maintain, and retrieve visual configurations on a grid, exploring the
+        limits of the visuospatial scratchpad and pattern chunking.
       </p>
     </header>
 
@@ -116,7 +142,18 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Visual pattern memory relies on a network involving the visual cortex, parietal lobe, and prefrontal cortex. When a grid pattern appears, visual features (shapes and spatial relationships) are processed in the primary visual cortex and sent via the dorsal visual stream to the posterior parietal cortex, which maps the spatial coordinates. The prefrontal cortex (specifically the dlPFC) maintains this visual representation in working memory during the delay phase, while the temporal lobe helps recognize geometric configurations. During the recall phase, the prefrontal cortex retrieves the pattern from the parietal buffer and coordinates the motor response. Successful performance requires visual attention to encode the pattern and active rehearsal to prevent visual trace decay.
+          Visual pattern memory relies on a network involving the visual cortex,
+          parietal lobe, and prefrontal cortex. When a grid pattern appears,
+          visual features (shapes and spatial relationships) are processed in
+          the primary visual cortex and sent via the dorsal visual stream to the
+          posterior parietal cortex, which maps the spatial coordinates. The
+          prefrontal cortex (specifically the dlPFC) maintains this visual
+          representation in working memory during the delay phase, while the
+          temporal lobe helps recognize geometric configurations. During the
+          recall phase, the prefrontal cortex retrieves the pattern from the
+          parietal buffer and coordinates the motor response. Successful
+          performance requires visual attention to encode the pattern and active
+          rehearsal to prevent visual trace decay.
         </p>
       </article>
 
@@ -125,7 +162,15 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The capacity of visual pattern memory is modeled using visual working memory (VWM) slots and visuospatial chunking theories. VWM models suggest the brain has a limited number of 'slots' (typically 3 to 4) to store visual representations. To store larger grids, the brain uses chunking—grouping adjacent illuminated squares into unified shapes or patterns (e.g., a T-shape or a square block) based on Gestalt principles of proximity and similarity. This allows the brain to store multiple squares in a single memory slot, extending the functional capacity of the visuospatial buffer.
+          The capacity of visual pattern memory is modeled using visual working
+          memory (VWM) slots and visuospatial chunking theories. VWM models
+          suggest the brain has a limited number of 'slots' (typically 3 to 4)
+          to store visual representations. To store larger grids, the brain uses
+          chunking—grouping adjacent illuminated squares into unified shapes or
+          patterns (e.g., a T-shape or a square block) based on Gestalt
+          principles of proximity and similarity. This allows the brain to store
+          multiple squares in a single memory slot, extending the functional
+          capacity of the visuospatial buffer.
         </p>
       </article>
 
@@ -134,7 +179,13 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The average visual pattern memory span is 7 to 9 illuminated squares on a grid. Scores above 12 represent exceptional visuospatial memory capacity. Visual pattern memory is highly predictive of performance in fields requiring complex visual tracking, such as medical imaging, architecture, and flight navigation. It is also sensitive to age-related decline, with visuospatial capacity declining faster than verbal short-term memory.
+          The average visual pattern memory span is 7 to 9 illuminated squares
+          on a grid. Scores above 12 represent exceptional visuospatial memory
+          capacity. Visual pattern memory is highly predictive of performance in
+          fields requiring complex visual tracking, such as medical imaging,
+          architecture, and flight navigation. It is also sensitive to
+          age-related decline, with visuospatial capacity declining faster than
+          verbal short-term memory.
         </p>
       </article>
 
@@ -143,7 +194,13 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To improve visual pattern memory, practice visual chunking and semantic association. When the pattern appears, group the illuminated squares into geometric shapes or connect them mentally to create a simplified path or object. Focus on memorizing the 'negative space' (unlit squares) if it is simpler than the lit pattern. Maintain focused attention during the brief encoding phase and avoid blink distraction, which can overwrite the visuospatial buffer.
+          To improve visual pattern memory, practice visual chunking and
+          semantic association. When the pattern appears, group the illuminated
+          squares into geometric shapes or connect them mentally to create a
+          simplified path or object. Focus on memorizing the 'negative space'
+          (unlit squares) if it is simpler than the lit pattern. Maintain
+          focused attention during the brief encoding phase and avoid blink
+          distraction, which can overwrite the visuospatial buffer.
         </p>
       </article>
 
@@ -156,32 +213,41 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               What is visual pattern memory?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Visual pattern memory is the ability to remember the spatial configuration of objects or blocks on a grid over a short period. It is a key component of visuospatial working memory.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Visual pattern memory is the ability to remember the spatial
+              configuration of objects or blocks on a grid over a short period.
+              It is a key component of visuospatial working memory.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               What is the average visual pattern memory score?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              The average visual pattern span is 7 to 9 squares. Scores above 12 are considered elite, showing advanced spatial chunking and mental visualization techniques.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              The average visual pattern span is 7 to 9 squares. Scores above 12
+              are considered elite, showing advanced spatial chunking and mental
+              visualization techniques.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How does the brain store visual grids?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              The brain uses the visuospatial scratchpad in the parietal lobe to store spatial coordinates. By grouping adjacent squares into geometric chunks, the brain can fit more information into its limited memory slots.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              The brain uses the visuospatial scratchpad in the parietal lobe to
+              store spatial coordinates. By grouping adjacent squares into
+              geometric chunks, the brain can fit more information into its
+              limited memory slots.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How can I improve my visual pattern score?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Focus on grouping blocks into shapes (like lines or boxes) and look for symmetry. Constructing a mental image or story about the pattern can also create stronger memory traces.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Focus on grouping blocks into shapes (like lines or boxes) and
+              look for symmetry. Constructing a mental image or story about the
+              pattern can also create stronger memory traces.
             </p>
           </div>
         </div>

@@ -1,48 +1,110 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Terms of Service | CogniArena";
-const description = "CogniArena Terms of Service. Understand local ledger limitations and non-medical assessment disclaimers.";
-const canonicalUrl = "https://cogniarena.com/terms";
+const title = "Terms of Service | CogniArena"
+const description =
+  "CogniArena Terms of Service. Understand local ledger limitations and non-medical assessment disclaimers."
+const canonicalUrl = "https://cogniarena.com/terms"
 
 const schemaJson = [
-  { "@context": "https://schema.org", "@type": "WebPage", "name": title, "description": description, "url": canonicalUrl },
-  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-    { "@type": "ListItem", "position": 2, "name": "Terms of Service", "item": "https://cogniarena.com/terms" }
-  ]}
-];
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Terms of Service",
+        item: "https://cogniarena.com/terms",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-10 w-full max-w-3xl mx-auto py-4">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-10 py-4">
     <header class="flex flex-col gap-3">
-      <span class="text-xs font-mono uppercase tracking-widest text-accent" data-i18n="terms.badge">Legal Documentation</span>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground" data-i18n="terms.title">Terms of Service</h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed" data-i18n="terms.subtitle">
+      <span
+        class="font-mono text-xs tracking-widest text-accent uppercase"
+        data-i18n="terms.badge">Legal Documentation</span
+      >
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="terms.title"
+      >
+        Terms of Service
+      </h1>
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+        data-i18n="terms.subtitle"
+      >
         Effective date: July 5, 2026.
       </p>
     </header>
 
-    <section class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm text-muted dark:text-muted leading-relaxed">
+    <section
+      class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm leading-relaxed text-muted dark:text-muted"
+    >
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground" data-i18n="terms.s1_title">1. Service Utilization & Limits</h2>
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="terms.s1_title"
+        >
+          1. Service Utilization & Limits
+        </h2>
         <p data-i18n="terms.s1_desc">
-          CogniArena is provided for self-assessment, cognitive training, and general performance logging purposes only. The assessments are not medical, diagnostic, or clinical evaluations and should not be used as such.
+          CogniArena is provided for self-assessment, cognitive training, and
+          general performance logging purposes only. The assessments are not
+          medical, diagnostic, or clinical evaluations and should not be used as
+          such.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground" data-i18n="terms.s2_title">2. Disclaimer of Warranties</h2>
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="terms.s2_title"
+        >
+          2. Disclaimer of Warranties
+        </h2>
         <p data-i18n="terms.s2_desc">
-          We do not warrant that our telemetry scores are free from hardware delay distortions (such as touchscreen interface processing delays, GPU paint syncing latency, or operating system interrupts).
+          We do not warrant that our telemetry scores are free from hardware
+          delay distortions (such as touchscreen interface processing delays,
+          GPU paint syncing latency, or operating system interrupts).
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground" data-i18n="terms.s3_title">3. Fair Use & Bot Protocols</h2>
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="terms.s3_title"
+        >
+          3. Fair Use & Bot Protocols
+        </h2>
         <p data-i18n="terms.s3_desc">
-          Attempts to automate grid inputs, visual paint clicks, or coordinate target acquisition using scripted macro tools or background headless instances is strictly prohibited. We reserve the right to flag anomalies in local scores to preserve leaderboard integrity.
+          Attempts to automate grid inputs, visual paint clicks, or coordinate
+          target acquisition using scripted macro tools or background headless
+          instances is strictly prohibited. We reserve the right to flag
+          anomalies in local scores to preserve leaderboard integrity.
         </p>
       </article>
     </section>

@@ -1,320 +1,802 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Frequently Asked Questions | CogniArena";
-const description = "Answers to common questions about reaction time tests, memory assessments, typing speed, aim training, cognitive assessments, and the CogniArena platform.";
-const canonicalUrl = "https://cogniarena.com/faq";
+const title = "Frequently Asked Questions | CogniArena"
+const description =
+  "Answers to common questions about reaction time tests, memory assessments, typing speed, aim training, cognitive assessments, and the CogniArena platform."
+const canonicalUrl = "https://cogniarena.com/faq"
 
 const faqSchema = {
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": [
+  mainEntity: [
     {
       "@type": "Question",
-      "name": "What is a reaction time test?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A reaction time test measures how quickly you respond to a visual, auditory, or physical stimulus. It records the interval between stimulus presentation and your motor response in milliseconds (ms). The average human visual reaction time is approximately 250ms." }
+      name: "What is a reaction time test?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A reaction time test measures how quickly you respond to a visual, auditory, or physical stimulus. It records the interval between stimulus presentation and your motor response in milliseconds (ms). The average human visual reaction time is approximately 250ms.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the average human reaction time?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The average visual reaction time for adults aged 20-35 is approximately 240-260ms. Auditory reaction times are faster, averaging around 160-180ms due to shorter synapse pathways. Simple reaction tests are fastest, choice reaction adds decision overhead, and Go/No-Go tests measure inhibition control." }
+      name: "What is the average human reaction time?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The average visual reaction time for adults aged 20-35 is approximately 240-260ms. Auditory reaction times are faster, averaging around 160-180ms due to shorter synapse pathways. Simple reaction tests are fastest, choice reaction adds decision overhead, and Go/No-Go tests measure inhibition control.",
+      },
     },
     {
       "@type": "Question",
-      "name": "How does monitor refresh rate affect reaction time scores?",
-      "acceptedAnswer": { "@type": "Answer", "text": "A 60Hz display introduces up to 16.7ms of visual display lag. Higher refresh rate monitors (144Hz, 240Hz) reduce this delay. CogniArena's paint-sync calibration compensates using a double-nested requestAnimationFrame loop to measure and subtract display latency." }
+      name: "How does monitor refresh rate affect reaction time scores?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "A 60Hz display introduces up to 16.7ms of visual display lag. Higher refresh rate monitors (144Hz, 240Hz) reduce this delay. CogniArena's paint-sync calibration compensates using a double-nested requestAnimationFrame loop to measure and subtract display latency.",
+      },
     },
     {
       "@type": "Question",
-      "name": "How does the sequence memory test work?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The sequence memory test, also known as the Simon game, displays a 4x4 grid where tiles light up in a random sequence. You must repeat the sequence by clicking the tiles in the correct order. Each successful round adds one more step. This measures visuospatial working memory capacity, related to Miller's Law of 7 plus or minus 2 items." }
+      name: "How does the sequence memory test work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The sequence memory test, also known as the Simon game, displays a 4x4 grid where tiles light up in a random sequence. You must repeat the sequence by clicking the tiles in the correct order. Each successful round adds one more step. This measures visuospatial working memory capacity, related to Miller's Law of 7 plus or minus 2 items.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the dual n-back test?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The dual n-back test presents simultaneous visual and auditory stimuli. You must identify when the current stimulus matches one presented n steps earlier in the sequence. This dual-task working memory assessment is widely used in cognitive training research and neuroscience studies." }
+      name: "What is the dual n-back test?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The dual n-back test presents simultaneous visual and auditory stimuli. You must identify when the current stimulus matches one presented n steps earlier in the sequence. This dual-task working memory assessment is widely used in cognitive training research and neuroscience studies.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the average typing speed?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The average typing speed is approximately 40 words per minute (WPM). Proficient typists reach 55-70 WPM, professionals type 70-90 WPM, and elite typists exceed 90 WPM. Net WPM is calculated by subtracting 1 word per uncorrected error from gross WPM." }
+      name: "What is the average typing speed?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The average typing speed is approximately 40 words per minute (WPM). Proficient typists reach 55-70 WPM, professionals type 70-90 WPM, and elite typists exceed 90 WPM. Net WPM is calculated by subtracting 1 word per uncorrected error from gross WPM.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is an aim trainer test?",
-      "acceptedAnswer": { "@type": "Answer", "text": "An aim trainer measures how quickly and accurately you move a cursor to a target on screen. Targets appear at random positions and you click them as fast as possible. Scores are measured in targets per second and accuracy percentage. This assesses hand-eye coordination and fine motor control." }
+      name: "What is an aim trainer test?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "An aim trainer measures how quickly and accurately you move a cursor to a target on screen. Targets appear at random positions and you click them as fast as possible. Scores are measured in targets per second and accuracy percentage. This assesses hand-eye coordination and fine motor control.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What does the click speed test measure?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The click speed test measures how many mouse clicks you can register in a fixed time window, typically 5 or 10 seconds. The score is reported in clicks per second (CPS). This assesses motor firing rate and finger stamina rather than cognitive speed." }
+      name: "What does the click speed test measure?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The click speed test measures how many mouse clicks you can register in a fixed time window, typically 5 or 10 seconds. The score is reported in clicks per second (CPS). This assesses motor firing rate and finger stamina rather than cognitive speed.",
+      },
     },
     {
       "@type": "Question",
-      "name": "How does the pattern reasoning test work?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The pattern reasoning test presents a 3x3 grid of shapes where one cell is missing. You must identify the logical rule governing the sequence and select the correct shape to complete the pattern. This measures fluid intelligence and abstract reasoning ability." }
+      name: "How does the pattern reasoning test work?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The pattern reasoning test presents a 3x3 grid of shapes where one cell is missing. You must identify the logical rule governing the sequence and select the correct shape to complete the pattern. This measures fluid intelligence and abstract reasoning ability.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the Stroop test?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The Stroop test displays color words (RED, BLUE, GREEN) printed in ink that may match or conflict with the word meaning. You must identify the ink color, not the word. Incongruent trials create cognitive interference that slows response. This measures selective attention and cognitive inhibition." }
+      name: "What is the Stroop test?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The Stroop test displays color words (RED, BLUE, GREEN) printed in ink that may match or conflict with the word meaning. You must identify the ink color, not the word. Incongruent trials create cognitive interference that slows response. This measures selective attention and cognitive inhibition.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the Trail Making Test?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The Trail Making Test has two parts. Part A requires connecting numbered circles in ascending order. Part B alternates between numbers and letters (1-A-2-B-3-C). Part B measures cognitive flexibility and task-switching ability and typically takes longer. This is a standard neuropsychological assessment for executive function." }
+      name: "What is the Trail Making Test?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The Trail Making Test has two parts. Part A requires connecting numbered circles in ascending order. Part B alternates between numbers and letters (1-A-2-B-3-C). Part B measures cognitive flexibility and task-switching ability and typically takes longer. This is a standard neuropsychological assessment for executive function.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the difference between the Planning and Prioritization tests?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The Planning test evaluates how efficiently you solve multi-step problems by comparing your moves to the optimal solution. The Prioritization test measures your ability to rank tasks by value and urgency under time pressure. Both assess executive function from different angles." }
+      name: "What is the difference between the Planning and Prioritization tests?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The Planning test evaluates how efficiently you solve multi-step problems by comparing your moves to the optimal solution. The Prioritization test measures your ability to rank tasks by value and urgency under time pressure. Both assess executive function from different angles.",
+      },
     },
     {
       "@type": "Question",
-      "name": "How are percentile scores calculated?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Percentile scores compare your performance against the CogniArena user population. A percentile of 80 means you performed better than 80% of users. Each test category uses its own distribution curve. Raw metrics (ms, WPM, CPS, accuracy) are mapped to percentile lookup tables." }
+      name: "How are percentile scores calculated?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Percentile scores compare your performance against the CogniArena user population. A percentile of 80 means you performed better than 80% of users. Each test category uses its own distribution curve. Raw metrics (ms, WPM, CPS, accuracy) are mapped to percentile lookup tables.",
+      },
     },
     {
       "@type": "Question",
-      "name": "What is the CogniArena Index (CAI) score?",
-      "acceptedAnswer": { "@type": "Answer", "text": "The CAI score is a unified performance metric derived from the 5-stage Gauntlet assessment. It aggregates reaction speed, memory accuracy, focus stability, reasoning ability, and motor precision into a single 0-100 score with a cognitive archetype label." }
+      name: "What is the CogniArena Index (CAI) score?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "The CAI score is a unified performance metric derived from the 5-stage Gauntlet assessment. It aggregates reaction speed, memory accuracy, focus stability, reasoning ability, and motor precision into a single 0-100 score with a cognitive archetype label.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is CogniArena free?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. CogniArena is completely free with no sign-up, no accounts, and no data collection. All tests run locally in your browser using IndexedDB storage. There are no paywalls, premium tiers, or usage limits." }
+      name: "Is CogniArena free?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. CogniArena is completely free with no sign-up, no accounts, and no data collection. All tests run locally in your browser using IndexedDB storage. There are no paywalls, premium tiers, or usage limits.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Does CogniArena work on mobile devices?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. All tests work on mobile browsers with touch support. Reaction tests use touchstart events for low-latency response. The interface adapts to smaller screens with a mobile bottom nav. Some precision tests benefit from a mouse but every assessment is fully functional on phones and tablets." }
+      name: "Does CogniArena work on mobile devices?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "Yes. All tests work on mobile browsers with touch support. Reaction tests use touchstart events for low-latency response. The interface adapts to smaller screens with a mobile bottom nav. Some precision tests benefit from a mouse but every assessment is fully functional on phones and tablets.",
+      },
     },
     {
       "@type": "Question",
-      "name": "Is my data stored or sent anywhere?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device using local-first IndexedDB storage." }
-    }
-  ]
-};
+      name: "Is my data stored or sent anywhere?",
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device using local-first IndexedDB storage.",
+      },
+    },
+  ],
+}
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
-  "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-    { "@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://cogniarena.com/faq" }
-  ]
-};
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: "Home",
+      item: "https://cogniarena.com",
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: "FAQ",
+      item: "https://cogniarena.com/faq",
+    },
+  ],
+}
 
-const schemaJson = [faqSchema, breadcrumbSchema];
+const schemaJson = [faqSchema, breadcrumbSchema]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>&middot;</span>
         <span>FAQ</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Frequently Asked Questions
       </h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed">
-        Answers to common questions about reaction time testing, memory assessments, typing speed, cognitive performance, and the CogniArena platform.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Answers to common questions about reaction time testing, memory
+        assessments, typing speed, cognitive performance, and the CogniArena
+        platform.
       </p>
     </header>
 
     <section class="flex flex-col gap-3 border-t border-card-border pt-10">
-
       <!-- Reaction Time -->
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What is a reaction time test?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          A reaction time test measures how quickly you respond to a visual, auditory, or physical stimulus. It records the interval between stimulus presentation and your motor response in milliseconds (ms). The average human visual reaction time is approximately 250ms. Try our <a href="/tests/reaction-time" class="text-accent hover:underline">visual reaction test</a> or <a href="/tests/sound-reaction" class="text-accent hover:underline">sound reflex test</a>.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          A reaction time test measures how quickly you respond to a visual,
+          auditory, or physical stimulus. It records the interval between
+          stimulus presentation and your motor response in milliseconds (ms).
+          The average human visual reaction time is approximately 250ms. Try our <a
+            href="/tests/reaction-time"
+            class="text-accent hover:underline">visual reaction test</a
+          > or <a
+            href="/tests/sound-reaction"
+            class="text-accent hover:underline">sound reflex test</a
+          >.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What is the average human reaction time?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The average visual reaction time for adults aged 20-35 is approximately 240-260ms. Auditory reaction times are around 160-180ms. Simple reaction is fastest, while <a href="/tests/choice-reaction" class="text-accent hover:underline">choice reaction</a> adds decision overhead and <a href="/tests/go-no-go" class="text-accent hover:underline">Go/No-Go</a> tests measure inhibition control. The <a href="/tests/f1-lights" class="text-accent hover:underline">F1 start lights test</a> combines all three.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The average visual reaction time for adults aged 20-35 is
+          approximately 240-260ms. Auditory reaction times are around 160-180ms.
+          Simple reaction is fastest, while <a
+            href="/tests/choice-reaction"
+            class="text-accent hover:underline">choice reaction</a
+          > adds decision overhead and <a
+            href="/tests/go-no-go"
+            class="text-accent hover:underline">Go/No-Go</a
+          > tests measure inhibition control. The <a
+            href="/tests/f1-lights"
+            class="text-accent hover:underline">F1 start lights test</a
+          > combines all three.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
-          <span>How does monitor refresh rate affect reaction time scores?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
+          <span>How does monitor refresh rate affect reaction time scores?</span
+          >
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          A 60Hz display introduces up to 16.7ms of visual display lag. Higher refresh rate monitors (144Hz, 240Hz) reduce this delay. CogniArena's paint-sync calibration compensates using a double-nested <code class="text-accent text-xs">requestAnimationFrame</code> loop to measure and subtract display latency, ensuring comparable scores across different hardware.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          A 60Hz display introduces up to 16.7ms of visual display lag. Higher
+          refresh rate monitors (144Hz, 240Hz) reduce this delay. CogniArena's
+          paint-sync calibration compensates using a double-nested <code
+            class="text-xs text-accent">requestAnimationFrame</code
+          > loop to measure and subtract display latency, ensuring comparable scores
+          across different hardware.
         </div>
       </details>
 
       <!-- Memory -->
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>How does the sequence memory test work?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The <a href="/tests/sequence-memory" class="text-accent hover:underline">sequence memory test</a> displays a 4x4 grid where tiles light up in a random sequence. You repeat the sequence by clicking tiles in the correct order. Each round adds one step. This measures visuospatial working memory capacity, related to Miller's Law of 7 plus or minus 2 items.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The <a
+            href="/tests/sequence-memory"
+            class="text-accent hover:underline">sequence memory test</a
+          > displays a 4x4 grid where tiles light up in a random sequence. You repeat
+          the sequence by clicking tiles in the correct order. Each round adds one
+          step. This measures visuospatial working memory capacity, related to Miller's
+          Law of 7 plus or minus 2 items.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What is the dual n-back test?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The <a href="/tests/dual-n-back" class="text-accent hover:underline">dual n-back test</a> presents simultaneous visual (grid position) and auditory (letter) stimuli. You identify when the current stimulus matches one presented n steps earlier. This dual-task working memory assessment is widely used in cognitive training research and neuroscience studies.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The <a href="/tests/dual-n-back" class="text-accent hover:underline"
+            >dual n-back test</a
+          > presents simultaneous visual (grid position) and auditory (letter) stimuli.
+          You identify when the current stimulus matches one presented n steps earlier.
+          This dual-task working memory assessment is widely used in cognitive training
+          research and neuroscience studies.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>How many digits can the average person remember?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The average person can hold 7 digits in short-term working memory. The <a href="/tests/number-memory" class="text-accent hover:underline">number memory test</a> starts at 4 digits and increases by one each round. The <a href="/tests/verbal-memory" class="text-accent hover:underline">verbal memory test</a> and <a href="/tests/visual-pattern" class="text-accent hover:underline">visual pattern memory test</a> measure the same capacity for words and spatial layouts.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The average person can hold 7 digits in short-term working memory. The <a
+            href="/tests/number-memory"
+            class="text-accent hover:underline">number memory test</a
+          > starts at 4 digits and increases by one each round. The <a
+            href="/tests/verbal-memory"
+            class="text-accent hover:underline">verbal memory test</a
+          > and <a
+            href="/tests/visual-pattern"
+            class="text-accent hover:underline">visual pattern memory test</a
+          > measure the same capacity for words and spatial layouts.
         </div>
       </details>
 
       <!-- Typing -->
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What is the average typing speed?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The average typing speed is approximately 40 WPM. Proficient typists reach 55-70 WPM, professionals type 70-90 WPM, and elite typists exceed 90 WPM. Take the <a href="/tests/typing-speed" class="text-accent hover:underline">typing speed test</a> to measure your words per minute with accuracy tracking.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The average typing speed is approximately 40 WPM. Proficient typists
+          reach 55-70 WPM, professionals type 70-90 WPM, and elite typists
+          exceed 90 WPM. Take the <a
+            href="/tests/typing-speed"
+            class="text-accent hover:underline">typing speed test</a
+          > to measure your words per minute with accuracy tracking.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>How is typing speed (WPM) calculated?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          Net WPM is calculated as gross WPM minus 1 word per uncorrected error. Gross WPM is total characters typed divided by 5 (standard word length) divided by time in minutes. This penalizes errors while rewarding speed, giving a balanced measure of typing ability.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          Net WPM is calculated as gross WPM minus 1 word per uncorrected error.
+          Gross WPM is total characters typed divided by 5 (standard word
+          length) divided by time in minutes. This penalizes errors while
+          rewarding speed, giving a balanced measure of typing ability.
         </div>
       </details>
 
       <!-- Precision / Motor -->
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What is an aim trainer test?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          An <a href="/tests/aim-trainer" class="text-accent hover:underline">aim trainer</a> measures how quickly and accurately you move a cursor to a target. Targets appear at random positions and you click them as fast as possible. The <a href="/tests/mouse-accuracy" class="text-accent hover:underline">mouse accuracy test</a> uses smaller targets for fine motor measurement and the <a href="/tests/flick-trainer" class="text-accent hover:underline">flick trainer</a> tests fast wrist movements.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          An <a href="/tests/aim-trainer" class="text-accent hover:underline"
+            >aim trainer</a
+          > measures how quickly and accurately you move a cursor to a target. Targets
+          appear at random positions and you click them as fast as possible. The <a
+            href="/tests/mouse-accuracy"
+            class="text-accent hover:underline">mouse accuracy test</a
+          > uses smaller targets for fine motor measurement and the <a
+            href="/tests/flick-trainer"
+            class="text-accent hover:underline">flick trainer</a
+          > tests fast wrist movements.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What does the click speed test measure?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The <a href="/tests/click-speed" class="text-accent hover:underline">click speed test</a> measures how many mouse clicks you register in a fixed time window (5 or 10 seconds), reported as clicks per second (CPS). This assesses motor firing rate and finger stamina. Elite clickers reach 10+ CPS using jitter clicking or butterfly clicking techniques.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The <a href="/tests/click-speed" class="text-accent hover:underline"
+            >click speed test</a
+          > measures how many mouse clicks you register in a fixed time window (5
+          or 10 seconds), reported as clicks per second (CPS). This assesses motor
+          firing rate and finger stamina. Elite clickers reach 10+ CPS using jitter
+          clicking or butterfly clicking techniques.
         </div>
       </details>
 
       <!-- Reasoning -->
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>How does the pattern reasoning test work?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The <a href="/tests/pattern-reasoning" class="text-accent hover:underline">pattern reasoning test</a> presents a 3x3 grid of shapes with one cell missing. Identify the logical rule and select the correct shape to complete the pattern. This measures fluid intelligence and abstract reasoning. The <a href="/tests/spatial-orientation" class="text-accent hover:underline">spatial orientation test</a> tests mental rotation, a related cognitive skill.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The <a
+            href="/tests/pattern-reasoning"
+            class="text-accent hover:underline">pattern reasoning test</a
+          > presents a 3x3 grid of shapes with one cell missing. Identify the logical
+          rule and select the correct shape to complete the pattern. This measures
+          fluid intelligence and abstract reasoning. The <a
+            href="/tests/spatial-orientation"
+            class="text-accent hover:underline">spatial orientation test</a
+          > tests mental rotation, a related cognitive skill.
         </div>
       </details>
 
       <!-- Focus / Executive -->
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What is the Stroop test?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The <a href="/tests/stroop" class="text-accent hover:underline">Stroop test</a> displays color words (RED, BLUE, GREEN) printed in ink that may match or conflict with the word meaning. You identify the ink color, not the word. Incongruent trials create cognitive interference that slows response. The <a href="/tests/focus-challenge" class="text-accent hover:underline">focus challenge</a> extends this with multi-modal distractions over a longer session.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The <a href="/tests/stroop" class="text-accent hover:underline"
+            >Stroop test</a
+          > displays color words (RED, BLUE, GREEN) printed in ink that may match
+          or conflict with the word meaning. You identify the ink color, not the word.
+          Incongruent trials create cognitive interference that slows response. The
+          <a href="/tests/focus-challenge" class="text-accent hover:underline"
+            >focus challenge</a
+          > extends this with multi-modal distractions over a longer session.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What is the Trail Making Test?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The <a href="/tests/trail-making" class="text-accent hover:underline">Trail Making Test</a> has two parts. Part A connects numbered circles in ascending order. Part B alternates between numbers and letters (1-A-2-B-3-C). Part B measures cognitive flexibility and task-switching ability and typically takes longer. This is a standard neuropsychological assessment.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The <a href="/tests/trail-making" class="text-accent hover:underline"
+            >Trail Making Test</a
+          > has two parts. Part A connects numbered circles in ascending order. Part
+          B alternates between numbers and letters (1-A-2-B-3-C). Part B measures
+          cognitive flexibility and task-switching ability and typically takes longer.
+          This is a standard neuropsychological assessment.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
-          <span>What is the difference between Planning and Prioritization tests?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
+          <span
+            >What is the difference between Planning and Prioritization tests?</span
+          >
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The <a href="/tests/planning" class="text-accent hover:underline">planning test</a> evaluates how efficiently you solve multi-step problems by comparing your moves to the optimal solution. The <a href="/tests/prioritization" class="text-accent hover:underline">prioritization test</a> measures your ability to rank tasks by value and urgency under time pressure. The <a href="/tests/decision-speed" class="text-accent hover:underline">decision speed test</a> rounds out the executive function suite.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The <a href="/tests/planning" class="text-accent hover:underline"
+            >planning test</a
+          > evaluates how efficiently you solve multi-step problems by comparing your
+          moves to the optimal solution. The <a
+            href="/tests/prioritization"
+            class="text-accent hover:underline">prioritization test</a
+          > measures your ability to rank tasks by value and urgency under time pressure.
+          The <a
+            href="/tests/decision-speed"
+            class="text-accent hover:underline">decision speed test</a
+          > rounds out the executive function suite.
         </div>
       </details>
 
       <!-- Scoring -->
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>How are percentile scores calculated?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          Percentile scores compare your performance against the CogniArena user population. A percentile of 80 means you performed better than 80% of users. Each test category uses its own distribution curve. Raw metrics (ms, WPM, CPS, accuracy) are mapped to percentile lookup tables. View your scores on the <a href="/dashboard" class="text-accent hover:underline">dashboard</a>.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          Percentile scores compare your performance against the CogniArena user
+          population. A percentile of 80 means you performed better than 80% of
+          users. Each test category uses its own distribution curve. Raw metrics
+          (ms, WPM, CPS, accuracy) are mapped to percentile lookup tables. View
+          your scores on the <a
+            href="/dashboard"
+            class="text-accent hover:underline">dashboard</a
+          >.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>What is the CogniArena Index (CAI) score?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          The CAI score is a unified performance metric from the <a href="/gauntlet" class="text-accent hover:underline">5-stage Gauntlet assessment</a>. It aggregates reaction speed, memory accuracy, focus stability, reasoning ability, and motor precision into a single 0-100 score with a cognitive archetype label.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          The CAI score is a unified performance metric from the <a
+            href="/gauntlet"
+            class="text-accent hover:underline">5-stage Gauntlet assessment</a
+          >. It aggregates reaction speed, memory accuracy, focus stability,
+          reasoning ability, and motor precision into a single 0-100 score with
+          a cognitive archetype label.
         </div>
       </details>
 
       <!-- Platform -->
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>Does CogniArena work on mobile devices?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          Yes. All tests work on mobile browsers with touch support. Reaction tests use <code class="text-accent text-xs">touchstart</code> events for low-latency response. The interface adapts to smaller screens with a mobile bottom nav. Some precision tests benefit from a mouse but every assessment is fully functional on phones and tablets.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          Yes. All tests work on mobile browsers with touch support. Reaction
+          tests use <code class="text-xs text-accent">touchstart</code> events for
+          low-latency response. The interface adapts to smaller screens with a mobile
+          bottom nav. Some precision tests benefit from a mouse but every assessment
+          is fully functional on phones and tablets.
         </div>
       </details>
 
-      <details class="group rounded-xl bg-card border border-card-border overflow-hidden">
-        <summary class="flex items-center justify-between gap-4 p-5 text-sm font-bold text-foreground cursor-pointer list-none hover:bg-subtle [&::-webkit-details-marker]:hidden">
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
           <span>Is my data stored or sent anywhere?</span>
-          <svg class="w-4 h-4 text-muted shrink-0 transition-transform duration-200 group-open:rotate-180" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="6 9 12 15 18 9" /></svg>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
         </summary>
-        <div class="px-5 pb-5 text-sm text-muted dark:text-muted leading-relaxed border-t border-card-border pt-4">
-          No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device using local-first IndexedDB storage. See our <a href="/privacy" class="text-accent hover:underline">privacy policy</a> for details.
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          No. Everything runs 100% in your browser. No accounts, no cookies, no
+          data collection. Your results stay on your device using local-first
+          IndexedDB storage. See our <a
+            href="/privacy"
+            class="text-accent hover:underline">privacy policy</a
+          > for details.
         </div>
       </details>
-
     </section>
   </div>
 </Layout>

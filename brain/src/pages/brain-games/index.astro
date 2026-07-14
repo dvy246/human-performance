@@ -1,179 +1,411 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Free Brain Games Online — Train Memory, Focus & Logic | CogniArena";
-const description = "Play 23+ free brain games scientifically designed to challenge your memory, attention, logic, and reflexes. No sign-up, no downloads — train your brain directly in your browser.";
-const canonicalUrl = "https://cogniarena.com/brain-games";
+const title =
+  "Free Brain Games Online — Train Memory, Focus & Logic | CogniArena"
+const description =
+  "Play 23+ free brain games scientifically designed to challenge your memory, attention, logic, and reflexes. No sign-up, no downloads — train your brain directly in your browser."
+const canonicalUrl = "https://cogniarena.com/brain-games"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Free Brain Games Online — Train Memory, Focus & Logic",
-    "description": "Play 23+ free brain games scientifically designed to challenge your memory, attention, logic, and reflexes.",
-    "url": canonicalUrl,
-    "mainEntity": {
+    name: "Free Brain Games Online — Train Memory, Focus & Logic",
+    description:
+      "Play 23+ free brain games scientifically designed to challenge your memory, attention, logic, and reflexes.",
+    url: canonicalUrl,
+    mainEntity: {
       "@type": "CollectionPage",
-      "name": "CogniArena Brain Games Collection",
-      "description": "A collection of 23+ free online brain games targeting different cognitive skills."
-    }
+      name: "CogniArena Brain Games Collection",
+      description:
+        "A collection of 23+ free online brain games targeting different cognitive skills.",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Brain Games", "item": "https://cogniarena.com/brain-games" }
-    ]
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Brain Games",
+        item: "https://cogniarena.com/brain-games",
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "Are brain games effective at improving cognitive skills?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Research suggests that regular practice on cognitively demanding tasks can improve performance on those specific tasks and related skills. Brain games that challenge working memory, attention, and executive function may help strengthen those cognitive domains over time. However, transfer to unrelated real-world tasks varies by individual and training consistency." }
+        name: "Are brain games effective at improving cognitive skills?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Research suggests that regular practice on cognitively demanding tasks can improve performance on those specific tasks and related skills. Brain games that challenge working memory, attention, and executive function may help strengthen those cognitive domains over time. However, transfer to unrelated real-world tasks varies by individual and training consistency.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What are the best brain games for kids?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The best brain games for kids target age-appropriate cognitive skills: memory games like Sequence Memory for spatial recall, pattern reasoning games for logical thinking, reaction time games for attention and processing speed, and typing games for motor coordination. CogniArena offers 23+ free games covering all these domains with no sign-up required." }
+        name: "What are the best brain games for kids?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The best brain games for kids target age-appropriate cognitive skills: memory games like Sequence Memory for spatial recall, pattern reasoning games for logical thinking, reaction time games for attention and processing speed, and typing games for motor coordination. CogniArena offers 23+ free games covering all these domains with no sign-up required.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How often should I play brain training games?",
-        "acceptedAnswer": { "@type": "Answer", "text": "For meaningful cognitive engagement, aim for 10–20 minutes per session, 3–5 times per week. Shorter, consistent sessions are more effective than occasional long sessions. Track your scores over time to identify improvement trends and cognitive patterns." }
+        name: "How often should I play brain training games?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "For meaningful cognitive engagement, aim for 10–20 minutes per session, 3–5 times per week. Shorter, consistent sessions are more effective than occasional long sessions. Track your scores over time to identify improvement trends and cognitive patterns.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Are these brain games free?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. All 23+ brain games on CogniArena are completely free, run directly in your browser, and require no account or download. Every game provides instant scoring, percentile rankings, and detailed performance breakdowns." }
-      }
-    ]
-  }
-];
+        name: "Are these brain games free?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. All 23+ brain games on CogniArena are completely free, run directly in your browser, and require no account or download. Every game provides instant scoring, percentile rankings, and detailed performance breakdowns.",
+        },
+      },
+    ],
+  },
+]
 
 const categories = [
-  { name: "Reaction & Reflexes", href: "/tests/reaction-time", desc: "Test raw reflex speed with visual, auditory, and choice reaction tests.", games: ["Reaction Time Test", "Sound Reaction Test", "F1 Lights Test", "Choice Reaction Test"] },
-  { name: "Memory", href: "/tests/sequence-memory", desc: "Challenge your short-term and working memory capacity.", games: ["Sequence Memory", "Number Memory", "Visual Pattern", "Verbal Memory", "Dual N-Back"] },
-  { name: "Attention & Focus", href: "/tests/stroop", desc: "Train selective attention, impulse control, and concentration.", games: ["Stroop Test", "Go/No-Go", "Focus Challenge", "Trail Making"] },
-  { name: "Logic & Reasoning", href: "/tests/pattern-reasoning", desc: "Sharpen fluid intelligence and pattern recognition.", games: ["Pattern Reasoning", "Planning (Tower of Hanoi)", "Prioritization"] },
-  { name: "Speed & Precision", href: "/tests/click-speed", desc: "Measure processing speed, aim accuracy, and motor control.", games: ["Click Speed (CPS)", "Aim Trainer", "Mouse Accuracy", "Flick Trainer"] },
-  { name: "IQ & Cognitive Assessment", href: "/quiz/iq-test", desc: "Full-scale cognitive assessments with IQ scoring.", games: ["Free IQ Test", "Typing Speed Test", "The Gauntlet"] }
-];
+  {
+    name: "Reaction & Reflexes",
+    href: "/tests/reaction-time",
+    desc: "Test raw reflex speed with visual, auditory, and choice reaction tests.",
+    games: [
+      "Reaction Time Test",
+      "Sound Reaction Test",
+      "F1 Lights Test",
+      "Choice Reaction Test",
+    ],
+  },
+  {
+    name: "Memory",
+    href: "/tests/sequence-memory",
+    desc: "Challenge your short-term and working memory capacity.",
+    games: [
+      "Sequence Memory",
+      "Number Memory",
+      "Visual Pattern",
+      "Verbal Memory",
+      "Dual N-Back",
+    ],
+  },
+  {
+    name: "Attention & Focus",
+    href: "/tests/stroop",
+    desc: "Train selective attention, impulse control, and concentration.",
+    games: ["Stroop Test", "Go/No-Go", "Focus Challenge", "Trail Making"],
+  },
+  {
+    name: "Logic & Reasoning",
+    href: "/tests/pattern-reasoning",
+    desc: "Sharpen fluid intelligence and pattern recognition.",
+    games: ["Pattern Reasoning", "Planning (Tower of Hanoi)", "Prioritization"],
+  },
+  {
+    name: "Speed & Precision",
+    href: "/tests/click-speed",
+    desc: "Measure processing speed, aim accuracy, and motor control.",
+    games: [
+      "Click Speed (CPS)",
+      "Aim Trainer",
+      "Mouse Accuracy",
+      "Flick Trainer",
+    ],
+  },
+  {
+    name: "IQ & Cognitive Assessment",
+    href: "/quiz/iq-test",
+    desc: "Full-scale cognitive assessments with IQ scoring.",
+    games: ["Free IQ Test", "Typing Speed Test", "The Gauntlet"],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
         <span class="text-muted">Brain Games</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Free Brain Games — Train Your Memory, Focus & Logic</h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Play 23+ scientifically designed brain games that challenge every dimension of your cognition. No downloads, no sign-ups — just pure cognitive training that runs in your browser with millisecond precision.
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Free Brain Games Online — Mind Power &amp; Reflex Training
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Play 23+ free online games designed to boost your brain power and test
+        your mind power. Challenge your memory, focus, and logic with our
+        comprehensive free brain tests and cognitive assessments.
       </p>
     </header>
 
     <!-- Game Categories Grid -->
     <section class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Browse Brain Games by Category</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Browse Brain Games by Category
+      </h2>
       <div class="grid gap-4">
-        {categories.map(cat => (
-          <a href={cat.href} class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-2 hover:border-accent transition-colors">
-            <div class="flex items-center justify-between">
-              <h3 class="text-sm font-bold text-foreground">{cat.name}</h3>
-              <span class="text-xs text-accent">Explore →</span>
-            </div>
-            <p class="text-muted text-xs leading-relaxed">{cat.desc}</p>
-            <div class="flex flex-wrap gap-1.5 mt-1">
-              {cat.games.map(g => (
-                <span class="px-2 py-0.5 rounded bg-subtle text-[10px] text-muted font-mono">{g}</span>
-              ))}
-            </div>
-          </a>
-        ))}
+        {
+          categories.map((cat) => (
+            <a
+              href={cat.href}
+              class="flex flex-col gap-2 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+            >
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-foreground">{cat.name}</h3>
+                <span class="text-xs text-accent">Explore →</span>
+              </div>
+              <p class="text-xs leading-relaxed text-muted">{cat.desc}</p>
+              <div class="mt-1 flex flex-wrap gap-1.5">
+                {cat.games.map((g) => (
+                  <span class="rounded bg-subtle px-2 py-0.5 font-mono text-[10px] text-muted">
+                    {g}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))
+        }
       </div>
     </section>
 
     <!-- SEO Content Section -->
     <section class="flex flex-col gap-6 border-t border-card-border pt-10">
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What Are Brain Games?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Brain games are structured cognitive exercises designed to challenge specific mental abilities — memory, attention, processing speed, logical reasoning, and executive function. Unlike casual video games, effective brain games target measurable cognitive dimensions and provide quantifiable performance metrics so you can track improvement over time.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What Are Brain Games?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Brain games are structured cognitive exercises designed to challenge
+          specific mental abilities — memory, attention, processing speed,
+          logical reasoning, and executive function. Unlike casual video games,
+          effective brain games target measurable cognitive dimensions and
+          provide quantifiable performance metrics so you can track improvement
+          over time.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          CogniArena offers <strong>23+ free brain games</strong> built on established cognitive paradigms: the Stroop effect for attention training, N-back tasks for working memory, Tower of Hanoi for planning, and millisecond-precision reaction time tests for reflex measurement. Every game runs entirely in your browser with no downloads or sign-ups required.
+        <p class="text-sm leading-relaxed text-muted">
+          CogniArena offers <strong>23+ free brain games</strong> built on established
+          cognitive paradigms: the Stroop effect for attention training, N-back tasks
+          for working memory, Tower of Hanoi for planning, and millisecond-precision
+          reaction time tests for reflex measurement. Every game runs entirely in
+          your browser with no downloads or sign-ups required.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Best Brain Games for Each Cognitive Skill</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Different brain games target different cognitive domains. Here's how to choose the right games for your training goals:
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Best Brain Games for Each Cognitive Skill
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Different brain games target different cognitive domains. Here's how
+          to choose the right games for your training goals:
         </p>
-        <ul class="list-disc list-inside text-muted text-sm flex flex-col gap-2 leading-relaxed">
-          <li><strong class="text-foreground">Memory games:</strong> <a href="/tests/sequence-memory" class="text-accent hover:underline">Sequence Memory</a>, <a href="/tests/number-memory" class="text-accent hover:underline">Number Memory</a>, and <a href="/tests/dual-n-back" class="text-accent hover:underline">Dual N-Back</a> challenge your short-term and working memory capacity. These games require you to encode, retain, and recall increasingly complex patterns.</li>
-          <li><strong class="text-foreground">Attention games:</strong> The <a href="/tests/stroop" class="text-accent hover:underline">Stroop Test</a>, <a href="/tests/go-no-go" class="text-accent hover:underline">Go/No-Go</a>, and <a href="/tests/focus-challenge" class="text-accent hover:underline">Focus Challenge</a> train selective attention, impulse control, and sustained concentration — the foundation of productive work and learning.</li>
-          <li><strong class="text-foreground">Logic & reasoning games:</strong> <a href="/tests/pattern-reasoning" class="text-accent hover:underline">Pattern Reasoning</a> and <a href="/tests/planning" class="text-accent hover:underline">Planning (Tower of Hanoi)</a> engage fluid intelligence — the ability to solve novel problems using logic and abstract thinking.</li>
-          <li><strong class="text-foreground">Reflex & speed games:</strong> The <a href="/tests/reaction-time" class="text-accent hover:underline">Reaction Time Test</a>, <a href="/tests/sound-reaction" class="text-accent hover:underline">Sound Reaction Test</a>, and <a href="/tests/click-speed" class="text-accent hover:underline">Click Speed Test</a> measure processing speed and motor response latency with sub-millisecond accuracy.</li>
+        <ul
+          class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+        >
+          <li>
+            <strong class="text-foreground">Memory games:</strong>
+            <a href="/tests/sequence-memory" class="text-accent hover:underline"
+              >Sequence Memory</a
+            >, <a
+              href="/tests/number-memory"
+              class="text-accent hover:underline">Number Memory</a
+            >, and <a
+              href="/tests/dual-n-back"
+              class="text-accent hover:underline">Dual N-Back</a
+            > challenge your short-term and working memory capacity. These games require
+            you to encode, retain, and recall increasingly complex patterns.
+          </li>
+          <li>
+            <strong class="text-foreground">Attention games:</strong> The <a
+              href="/tests/stroop"
+              class="text-accent hover:underline">Stroop Test</a
+            >, <a href="/tests/go-no-go" class="text-accent hover:underline"
+              >Go/No-Go</a
+            >, and <a
+              href="/tests/focus-challenge"
+              class="text-accent hover:underline">Focus Challenge</a
+            > train selective attention, impulse control, and sustained concentration
+            — the foundation of productive work and learning.
+          </li>
+          <li>
+            <strong class="text-foreground">Logic & reasoning games:</strong>
+            <a
+              href="/tests/pattern-reasoning"
+              class="text-accent hover:underline">Pattern Reasoning</a
+            > and <a href="/tests/planning" class="text-accent hover:underline"
+              >Planning (Tower of Hanoi)</a
+            > engage fluid intelligence — the ability to solve novel problems using
+            logic and abstract thinking.
+          </li>
+          <li>
+            <strong class="text-foreground">Reflex & speed games:</strong> The <a
+              href="/tests/reaction-time"
+              class="text-accent hover:underline">Reaction Time Test</a
+            >, <a
+              href="/tests/sound-reaction"
+              class="text-accent hover:underline">Sound Reaction Test</a
+            >, and <a
+              href="/tests/click-speed"
+              class="text-accent hover:underline">Click Speed Test</a
+            > measure processing speed and motor response latency with sub-millisecond
+            accuracy.
+          </li>
         </ul>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Best Brain Games for Kids & Students</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Brain games are an engaging way for children and students to develop cognitive skills that support academic performance. <strong>Sequence Memory</strong> builds spatial reasoning needed for mathematics. <strong>Dual N-Back</strong> strengthens working memory — one of the strongest predictors of reading comprehension and problem-solving ability. <strong>Pattern Reasoning</strong> develops the logical thinking skills tested in gifted programs and standardized exams.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Best Brain Games for Kids & Students
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Brain games are an engaging way for children and students to develop
+          cognitive skills that support academic performance. <strong
+            >Sequence Memory</strong
+          > builds spatial reasoning needed for mathematics. <strong
+            >Dual N-Back</strong
+          > strengthens working memory — one of the strongest predictors of reading
+          comprehension and problem-solving ability. <strong
+            >Pattern Reasoning</strong
+          > develops the logical thinking skills tested in gifted programs and standardized
+          exams.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          For younger users, we recommend starting with the <a href="/tests/sequence-memory" class="text-accent hover:underline">Sequence Memory Test</a> and <a href="/tests/reaction-time" class="text-accent hover:underline">Reaction Time Test</a> — both are intuitive, visually clear, and provide immediate feedback that keeps learners motivated.
+        <p class="text-sm leading-relaxed text-muted">
+          For younger users, we recommend starting with the <a
+            href="/tests/sequence-memory"
+            class="text-accent hover:underline">Sequence Memory Test</a
+          > and <a
+            href="/tests/reaction-time"
+            class="text-accent hover:underline">Reaction Time Test</a
+          > — both are intuitive, visually clear, and provide immediate feedback that
+          keeps learners motivated.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">How Brain Training Works</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Effective brain training follows the principle of <strong>progressive overload</strong> — the same concept used in physical fitness. Each game on CogniArena increases in difficulty as you improve, ensuring your cognitive systems are consistently challenged at their edge. Our <a href="/methodology" class="text-accent hover:underline">scientific methodology</a> ensures that every metric is measured with research-grade precision using calibrated browser APIs.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How Brain Training Works
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Effective brain training follows the principle of <strong
+            >progressive overload</strong
+          > — the same concept used in physical fitness. Each game on CogniArena increases
+          in difficulty as you improve, ensuring your cognitive systems are consistently
+          challenged at their edge. Our <a
+            href="/methodology"
+            class="text-accent hover:underline">scientific methodology</a
+          > ensures that every metric is measured with research-grade precision using
+          calibrated browser APIs.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          Track your progress over time using the <a href="/dashboard" class="text-accent hover:underline">Dashboard</a>. Compare your scores against population benchmarks, identify your strongest and weakest cognitive domains, and focus your training where it matters most.
+        <p class="text-sm leading-relaxed text-muted">
+          Track your progress over time using the <a
+            href="/dashboard"
+            class="text-accent hover:underline">Dashboard</a
+          >. Compare your scores against population benchmarks, identify your
+          strongest and weakest cognitive domains, and focus your training where
+          it matters most.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Why Choose CogniArena?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Unlike commercial brain training apps that require subscriptions, CogniArena is <strong>100% free and anonymous</strong>. Every game runs client-side in your browser — your data never leaves your device unless you choose to save it. We use native browser APIs (Web Audio API, requestAnimationFrame, Performance.now()) to achieve research-grade timing precision that casual game sites cannot match.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Why Choose CogniArena?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Unlike commercial brain training apps that require subscriptions,
+          CogniArena is <strong>100% free and anonymous</strong>. Every game
+          runs client-side in your browser — your data never leaves your device
+          unless you choose to save it. We use native browser APIs (Web Audio
+          API, requestAnimationFrame, Performance.now()) to achieve
+          research-grade timing precision that casual game sites cannot match.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          Whether you're a student sharpening your mind, a professional tracking cognitive performance, a gamer improving reflexes, or a parent looking for educational brain games for kids — CogniArena has scientifically grounded tools for every goal.
+        <p class="text-sm leading-relaxed text-muted">
+          Whether you're a student sharpening your mind, a professional tracking
+          cognitive performance, a gamer improving reflexes, or a parent looking
+          for educational brain games for kids — CogniArena has scientifically
+          grounded tools for every goal.
         </p>
       </article>
     </section>
 
     <!-- FAQ Section -->
     <section class="flex flex-col gap-6 border-t border-card-border pt-10">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Are brain games effective at improving cognitive skills?</h3>
-          <p class="text-muted text-sm leading-relaxed">Research suggests that regular practice on cognitively demanding tasks can improve performance on those specific tasks and related skills. Brain games that challenge working memory, attention, and executive function may help strengthen those cognitive domains over time. However, transfer to unrelated real-world tasks varies by individual and training consistency.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Are brain games effective at improving cognitive skills?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Research suggests that regular practice on cognitively demanding
+            tasks can improve performance on those specific tasks and related
+            skills. Brain games that challenge working memory, attention, and
+            executive function may help strengthen those cognitive domains over
+            time. However, transfer to unrelated real-world tasks varies by
+            individual and training consistency.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What are the best brain games for kids?</h3>
-          <p class="text-muted text-sm leading-relaxed">The best brain games for kids target age-appropriate cognitive skills: memory games like Sequence Memory for spatial recall, pattern reasoning games for logical thinking, reaction time games for attention and processing speed, and typing games for motor coordination. CogniArena offers 23+ free games covering all these domains with no sign-up required.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What are the best brain games for kids?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            The best brain games for kids target age-appropriate cognitive
+            skills: memory games like Sequence Memory for spatial recall,
+            pattern reasoning games for logical thinking, reaction time games
+            for attention and processing speed, and typing games for motor
+            coordination. CogniArena offers 23+ free games covering all these
+            domains with no sign-up required.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How often should I play brain training games?</h3>
-          <p class="text-muted text-sm leading-relaxed">For meaningful cognitive engagement, aim for 10–20 minutes per session, 3–5 times per week. Shorter, consistent sessions are more effective than occasional long sessions. Track your scores over time to identify improvement trends and cognitive patterns.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How often should I play brain training games?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            For meaningful cognitive engagement, aim for 10–20 minutes per
+            session, 3–5 times per week. Shorter, consistent sessions are more
+            effective than occasional long sessions. Track your scores over time
+            to identify improvement trends and cognitive patterns.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Are these brain games free?</h3>
-          <p class="text-muted text-sm leading-relaxed">Yes. All 23+ brain games on CogniArena are completely free, run directly in your browser, and require no account or download. Every game provides instant scoring, percentile rankings, and detailed performance breakdowns.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Are these brain games free?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Yes. All 23+ brain games on CogniArena are completely free, run
+            directly in your browser, and require no account or download. Every
+            game provides instant scoring, percentile rankings, and detailed
+            performance breakdowns.
+          </p>
         </div>
       </div>
     </section>

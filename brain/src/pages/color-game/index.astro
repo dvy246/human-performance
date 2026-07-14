@@ -1,111 +1,197 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Color Game — Test Your Color Recognition Speed | CogniArena";
-const description = "Play the free online color game and test your color recognition speed. Match colors, train your reflexes, and compare your score against thousands of players.";
-const canonicalUrl = "https://cogniarena.com/color-game";
+const title = "Color Game — Test Your Color Recognition Speed | CogniArena"
+const description =
+  "Play the free online color game and test your color recognition speed. Match colors, train your reflexes, and compare your score against thousands of players."
+const canonicalUrl = "https://cogniarena.com/color-game"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Color Game — Test Your Color Recognition Speed",
-    "description": "Play the free online color game and test your color recognition speed with millisecond precision.",
-    "url": canonicalUrl
+    name: "Color Game — Test Your Color Recognition Speed",
+    description:
+      "Play the free online color game and test your color recognition speed with millisecond precision.",
+    url: canonicalUrl,
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Color Game", "item": "https://cogniarena.com/color-game" }
-    ]
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Color Game",
+        item: "https://cogniarena.com/color-game",
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is the Color Game?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The Color Game is a fast-paced cognitive test that measures your color recognition speed and accuracy. You must quickly identify and respond to specific colors while ignoring distracting information. It combines elements of the Go/No-Go paradigm and Stroop effect to challenge your visual processing, selective attention, and impulse control." }
+        name: "What is the Color Game?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The Color Game is a fast-paced cognitive test that measures your color recognition speed and accuracy. You must quickly identify and respond to specific colors while ignoring distracting information. It combines elements of the Go/No-Go paradigm and Stroop effect to challenge your visual processing, selective attention, and impulse control.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How is color recognition speed measured?",
-        "acceptedAnswer": { "@type": "Answer", "text": "CogniArena uses the browser's Performance.now() API combined with requestAnimationFrame-synced stimulus presentation to measure your response time from the exact frame a color appears on screen to the moment you click. This achieves sub-millisecond timing precision that casual color games cannot match." }
+        name: "How is color recognition speed measured?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "CogniArena uses the browser's Performance.now() API combined with requestAnimationFrame-synced stimulus presentation to measure your response time from the exact frame a color appears on screen to the moment you click. This achieves sub-millisecond timing precision that casual color games cannot match.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What cognitive skills does the Color Game train?",
-        "acceptedAnswer": { "@type": "Answer", "text": "The Color Game primarily trains visual processing speed, selective attention (filtering irrelevant color information), response inhibition (resisting incorrect color responses), and cognitive flexibility (switching between color-matching rules). These are core components of executive function." }
+        name: "What cognitive skills does the Color Game train?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "The Color Game primarily trains visual processing speed, selective attention (filtering irrelevant color information), response inhibition (resisting incorrect color responses), and cognitive flexibility (switching between color-matching rules). These are core components of executive function.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is the Color Game free?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes, the Color Game is completely free on CogniArena. No sign-up or download is required. You get instant scores, accuracy metrics, and percentile rankings after each round." }
-      }
-    ]
-  }
-];
+        name: "Is the Color Game free?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes, the Color Game is completely free on CogniArena. No sign-up or download is required. You get instant scores, accuracy metrics, and percentile rankings after each round.",
+        },
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <nav class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent" aria-label="Breadcrumb">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
         <a href="/" class="hover:underline">Home</a>
         <span>/</span>
         <span class="text-muted">Color Game</span>
       </nav>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Color Game — Test Your Color Recognition Speed</h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        How fast can you identify colors under pressure? This fast-paced visual challenge measures your color processing speed, accuracy, and impulse control with millisecond precision.
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Color Game — Test Your Color Recognition Speed
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        How fast can you identify colors under pressure? This fast-paced visual
+        challenge measures your color processing speed, accuracy, and impulse
+        control with millisecond precision.
       </p>
     </header>
 
     <!-- Play Now CTA -->
     <section class="flex flex-col gap-3">
-      <a href="/tests/go-no-go" class="p-5 rounded-xl bg-card border-2 border-accent flex flex-col gap-2 hover:bg-accent/5 transition-colors">
+      <a
+        href="/tests/go-no-go"
+        class="flex flex-col gap-2 rounded-xl border-2 border-accent bg-card p-5 transition-colors hover:bg-accent/5"
+      >
         <div class="flex items-center justify-between">
-          <h2 class="text-lg font-bold text-foreground">Play the Color Game Now</h2>
-          <span class="text-sm text-accent font-mono">Start →</span>
+          <h2 class="text-lg font-bold text-foreground">
+            Play the Color Game Now
+          </h2>
+          <span class="font-mono text-sm text-accent">Start →</span>
         </div>
-        <p class="text-muted text-xs leading-relaxed">Our Go/No-Go Color Test is the ultimate color game challenge. Rapid color flashes appear on screen — click matching colors, withhold on non-matching ones. Measures reaction time and accuracy with sub-millisecond precision.</p>
+        <p class="text-xs leading-relaxed text-muted">
+          Our Go/No-Go Color Test is the ultimate color game challenge. Rapid
+          color flashes appear on screen — click matching colors, withhold on
+          non-matching ones. Measures reaction time and accuracy with
+          sub-millisecond precision.
+        </p>
       </a>
     </section>
 
     <!-- Related Color Challenges -->
     <section class="flex flex-col gap-4">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">More Color-Based Brain Games</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        More Color-Based Brain Games
+      </h2>
       <div class="grid gap-3">
-        <a href="/tests/stroop" class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5 hover:border-accent transition-colors">
+        <a
+          href="/tests/stroop"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-foreground">Stroop Color Conflict Test</h3>
+            <h3 class="text-sm font-bold text-foreground">
+              Stroop Color Conflict Test
+            </h3>
             <span class="text-xs text-accent">Play →</span>
           </div>
-          <p class="text-muted text-xs leading-relaxed">The classic color-word game: click the ink color, ignore the word meaning. The Stroop effect creates cognitive interference that slows your response. One of the most famous color games in psychology.</p>
+          <p class="text-xs leading-relaxed text-muted">
+            The classic color-word game: click the ink color, ignore the word
+            meaning. The Stroop effect creates cognitive interference that slows
+            your response. One of the most famous color games in psychology.
+          </p>
         </a>
-        <a href="/tests/f1-lights" class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5 hover:border-accent transition-colors">
+        <a
+          href="/tests/f1-lights"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-foreground">F1 Lights — Color Reaction Game</h3>
+            <h3 class="text-sm font-bold text-foreground">
+              F1 Lights — Color Reaction Game
+            </h3>
             <span class="text-xs text-accent">Play →</span>
           </div>
-          <p class="text-muted text-xs leading-relaxed">React to the red lights extinguishing in this Formula 1-inspired color reaction game. Measures your visual reflex speed to color changes with millisecond precision.</p>
+          <p class="text-xs leading-relaxed text-muted">
+            React to the red lights extinguishing in this Formula 1-inspired
+            color reaction game. Measures your visual reflex speed to color
+            changes with millisecond precision.
+          </p>
         </a>
-        <a href="/tests/choice-reaction" class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5 hover:border-accent transition-colors">
+        <a
+          href="/tests/choice-reaction"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-foreground">Choice Reaction — Color Matching</h3>
+            <h3 class="text-sm font-bold text-foreground">
+              Choice Reaction — Color Matching
+            </h3>
             <span class="text-xs text-accent">Play →</span>
           </div>
-          <p class="text-muted text-xs leading-relaxed">Match the displayed color to one of four buttons as fast as possible. Tests color recognition speed combined with decision-making under time pressure.</p>
+          <p class="text-xs leading-relaxed text-muted">
+            Match the displayed color to one of four buttons as fast as
+            possible. Tests color recognition speed combined with
+            decision-making under time pressure.
+          </p>
         </a>
-        <a href="/tests/reaction-time" class="p-4 rounded-lg bg-card border border-card-border flex flex-col gap-1.5 hover:border-accent transition-colors">
+        <a
+          href="/tests/reaction-time"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
           <div class="flex items-center justify-between">
-            <h3 class="text-sm font-bold text-foreground">Reaction Time Test</h3>
+            <h3 class="text-sm font-bold text-foreground">
+              Reaction Time Test
+            </h3>
             <span class="text-xs text-accent">Play →</span>
           </div>
-          <p class="text-muted text-xs leading-relaxed">The purest test of visual reaction speed. Click as soon as the screen turns green. Compare your raw reflexes against population benchmarks.</p>
+          <p class="text-xs leading-relaxed text-muted">
+            The purest test of visual reaction speed. Click as soon as the
+            screen turns green. Compare your raw reflexes against population
+            benchmarks.
+          </p>
         </a>
       </div>
     </section>
@@ -113,65 +199,171 @@ const schemaJson = [
     <!-- SEO Content -->
     <section class="flex flex-col gap-6 border-t border-card-border pt-10">
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">What Is the Color Game?</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          The Color Game is a category of cognitive tests that use color stimuli to measure visual processing speed, recognition accuracy, and decision-making under time pressure. Color-based games are among the most widely used tools in experimental psychology because they cleanly isolate specific cognitive processes — from simple sensory reaction to complex executive control.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What Is the Color Game?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          The Color Game is a category of cognitive tests that use color stimuli
+          to measure visual processing speed, recognition accuracy, and
+          decision-making under time pressure. Color-based games are among the
+          most widely used tools in experimental psychology because they cleanly
+          isolate specific cognitive processes — from simple sensory reaction to
+          complex executive control.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          On this page, you'll find the best free color games backed by cognitive science. Each game targets a different dimension of color processing: simple reaction (how fast you respond to a color), selective attention (identifying a color while ignoring conflicting information), and response inhibition (withholding a response when a specific color appears).
+        <p class="text-sm leading-relaxed text-muted">
+          On this page, you'll find the best free color games backed by
+          cognitive science. Each game targets a different dimension of color
+          processing: simple reaction (how fast you respond to a color),
+          selective attention (identifying a color while ignoring conflicting
+          information), and response inhibition (withholding a response when a
+          specific color appears).
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Why Color Games Train Your Brain</h2>
-        <p class="text-muted text-sm leading-relaxed">
-          Color recognition engages multiple brain regions simultaneously: the visual cortex (V4 area) processes color information, the prefrontal cortex handles decision rules, and the motor cortex executes your response. When you play color games regularly, you're exercising this entire neural pathway — improving the speed and efficiency of color-to-action processing.
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Why Color Games Train Your Brain
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Color recognition engages multiple brain regions simultaneously: the
+          visual cortex (V4 area) processes color information, the prefrontal
+          cortex handles decision rules, and the motor cortex executes your
+          response. When you play color games regularly, you're exercising this
+          entire neural pathway — improving the speed and efficiency of
+          color-to-action processing.
         </p>
-        <p class="text-muted text-sm leading-relaxed">
-          Research shows that color-based cognitive training can improve <strong>visual processing speed</strong>, <strong>attentional control</strong>, and <strong>working memory</strong>. The key is progressive challenge: as you improve at one color game, move to more complex variants that add interference, time pressure, or multi-rule switching.
+        <p class="text-sm leading-relaxed text-muted">
+          Research shows that color-based cognitive training can improve <strong
+            >visual processing speed</strong
+          >, <strong>attentional control</strong>, and <strong
+            >working memory</strong
+          >. The key is progressive challenge: as you improve at one color game,
+          move to more complex variants that add interference, time pressure, or
+          multi-rule switching.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Types of Color Games on CogniArena</h2>
-        <ul class="list-disc list-inside text-muted text-sm flex flex-col gap-2 leading-relaxed">
-          <li><strong class="text-foreground">Simple Color Reaction:</strong> React as fast as possible when a specific color appears. The <a href="/tests/reaction-time" class="text-accent hover:underline">Reaction Time Test</a> and <a href="/tests/f1-lights" class="text-accent hover:underline">F1 Lights</a> measure pure visual reflex speed.</li>
-          <li><strong class="text-foreground">Color Matching:</strong> Identify and select the correct color from multiple options. The <a href="/tests/choice-reaction" class="text-accent hover:underline">Choice Reaction Test</a> adds a decision layer to color recognition.</li>
-          <li><strong class="text-foreground">Color-Word Conflict:</strong> The <a href="/tests/stroop" class="text-accent hover:underline">Stroop Test</a> creates cognitive interference by mismatching color words from their ink colors — one of the most famous color games in psychology.</li>
-          <li><strong class="text-foreground">Color Go/No-Go:</strong> The <a href="/tests/go-no-go" class="text-accent hover:underline">Go/No-Go Color Test</a> requires rapid responses to target colors while inhibiting responses to non-target colors — training impulse control through color-based decisions.</li>
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Types of Color Games on CogniArena
+        </h2>
+        <ul
+          class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+        >
+          <li>
+            <strong class="text-foreground">Simple Color Reaction:</strong> React
+            as fast as possible when a specific color appears. The <a
+              href="/tests/reaction-time"
+              class="text-accent hover:underline">Reaction Time Test</a
+            > and <a href="/tests/f1-lights" class="text-accent hover:underline"
+              >F1 Lights</a
+            > measure pure visual reflex speed.
+          </li>
+          <li>
+            <strong class="text-foreground">Color Matching:</strong> Identify and
+            select the correct color from multiple options. The <a
+              href="/tests/choice-reaction"
+              class="text-accent hover:underline">Choice Reaction Test</a
+            > adds a decision layer to color recognition.
+          </li>
+          <li>
+            <strong class="text-foreground">Color-Word Conflict:</strong> The <a
+              href="/tests/stroop"
+              class="text-accent hover:underline">Stroop Test</a
+            > creates cognitive interference by mismatching color words from their
+            ink colors — one of the most famous color games in psychology.
+          </li>
+          <li>
+            <strong class="text-foreground">Color Go/No-Go:</strong> The <a
+              href="/tests/go-no-go"
+              class="text-accent hover:underline">Go/No-Go Color Test</a
+            > requires rapid responses to target colors while inhibiting responses
+            to non-target colors — training impulse control through color-based decisions.
+          </li>
         </ul>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight">Tips for Best Color Game Performance</h2>
-        <ul class="list-disc list-inside text-muted text-sm flex flex-col gap-2 leading-relaxed">
-          <li><strong class="text-foreground">Use a high-quality display:</strong> IPS panels with low input lag (&lt; 5ms) provide the most accurate color stimulus presentation. Avoid TVs with high post-processing latency.</li>
-          <li><strong class="text-foreground">Ensure proper color calibration:</strong> Your monitor should display accurate, distinct colors. Extreme brightness or color temperature settings can make similar shades harder to differentiate.</li>
-          <li><strong class="text-foreground">Play in a well-lit room:</strong> Ambient lighting affects color perception. Too dark and your eyes strain; too bright and screen contrast decreases.</li>
-          <li><strong class="text-foreground">Practice regularly:</strong> Color game performance improves with consistent practice. Aim for short daily sessions (5–10 minutes) rather than occasional long ones.</li>
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Tips for Best Color Game Performance
+        </h2>
+        <ul
+          class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+        >
+          <li>
+            <strong class="text-foreground">Use a high-quality display:</strong> IPS
+            panels with low input lag (&lt; 5ms) provide the most accurate color stimulus
+            presentation. Avoid TVs with high post-processing latency.
+          </li>
+          <li>
+            <strong class="text-foreground"
+              >Ensure proper color calibration:</strong
+            > Your monitor should display accurate, distinct colors. Extreme brightness
+            or color temperature settings can make similar shades harder to differentiate.
+          </li>
+          <li>
+            <strong class="text-foreground">Play in a well-lit room:</strong> Ambient
+            lighting affects color perception. Too dark and your eyes strain; too
+            bright and screen contrast decreases.
+          </li>
+          <li>
+            <strong class="text-foreground">Practice regularly:</strong> Color game
+            performance improves with consistent practice. Aim for short daily sessions
+            (5–10 minutes) rather than occasional long ones.
+          </li>
         </ul>
       </article>
     </section>
 
     <!-- FAQ Section -->
     <section class="flex flex-col gap-6 border-t border-card-border pt-10">
-      <h2 class="text-xl font-semibold text-foreground tracking-tight">Frequently Asked Questions</h2>
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Frequently Asked Questions
+      </h2>
       <div class="flex flex-col gap-4">
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What is the Color Game?</h3>
-          <p class="text-muted text-sm leading-relaxed">The Color Game is a fast-paced cognitive test that measures your color recognition speed and accuracy. You must quickly identify and respond to specific colors while ignoring distracting information. It combines elements of the Go/No-Go paradigm and Stroop effect to challenge your visual processing, selective attention, and impulse control.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What is the Color Game?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            The Color Game is a fast-paced cognitive test that measures your
+            color recognition speed and accuracy. You must quickly identify and
+            respond to specific colors while ignoring distracting information.
+            It combines elements of the Go/No-Go paradigm and Stroop effect to
+            challenge your visual processing, selective attention, and impulse
+            control.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">How is color recognition speed measured?</h3>
-          <p class="text-muted text-sm leading-relaxed">CogniArena uses the browser's Performance.now() API combined with requestAnimationFrame-synced stimulus presentation to measure your response time from the exact frame a color appears on screen to the moment you click. This achieves sub-millisecond timing precision.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            How is color recognition speed measured?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            CogniArena uses the browser's Performance.now() API combined with
+            requestAnimationFrame-synced stimulus presentation to measure your
+            response time from the exact frame a color appears on screen to the
+            moment you click. This achieves sub-millisecond timing precision.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">What cognitive skills does the Color Game train?</h3>
-          <p class="text-muted text-sm leading-relaxed">The Color Game primarily trains visual processing speed, selective attention, response inhibition, and cognitive flexibility. These are core components of executive function.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            What cognitive skills does the Color Game train?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            The Color Game primarily trains visual processing speed, selective
+            attention, response inhibition, and cognitive flexibility. These are
+            core components of executive function.
+          </p>
         </div>
         <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">Is the Color Game free?</h3>
-          <p class="text-muted text-sm leading-relaxed">Yes, the Color Game is completely free on CogniArena. No sign-up or download is required. You get instant scores, accuracy metrics, and percentile rankings after each round.</p>
+          <h3 class="text-sm font-medium text-foreground">
+            Is the Color Game free?
+          </h3>
+          <p class="text-sm leading-relaxed text-muted">
+            Yes, the Color Game is completely free on CogniArena. No sign-up or
+            download is required. You get instant scores, accuracy metrics, and
+            percentile rankings after each round.
+          </p>
         </div>
       </div>
     </section>

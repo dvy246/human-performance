@@ -1,64 +1,93 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 ---
 
 <Layout title="Resolving Challenge | CogniArena">
-  <div class="flex flex-col items-center justify-center min-h-[300px] gap-6 text-center">
-    <div class="w-8 h-8 rounded-full border-2 border-card-border border-t-accent animate-spin"></div>
+  <div
+    class="flex min-h-[300px] flex-col items-center justify-center gap-6 text-center"
+  >
+    <div
+      class="h-8 w-8 animate-spin rounded-full border-2 border-card-border border-t-accent"
+    >
+    </div>
     <div class="flex flex-col gap-1">
-      <h2 class="text-foreground font-medium text-sm" data-i18n="challenge.loading">Decoding Challenge Link</h2>
-      <p class="text-muted font-mono text-xs" data-i18n="challenge.preparing">Preparing test canvas and benchmarks...</p>
+      <h2
+        class="text-sm font-medium text-foreground"
+        data-i18n="challenge.loading"
+      >
+        Decoding Challenge Link
+      </h2>
+      <p class="font-mono text-xs text-muted" data-i18n="challenge.preparing">
+        Preparing test canvas and benchmarks...
+      </p>
     </div>
   </div>
 
   <script>
-    import { decodeChallenge } from "@/runtime/share";
+    import { decodeChallenge } from "@/runtime/share"
 
     // Read token from URL (query param 'id', location hash, or trailing pathname)
     const getHashToken = () => {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get('id')) return params.get('id');
-      
-      if (window.location.hash) return window.location.hash.substring(1);
+      const params = new URLSearchParams(window.location.search)
+      if (params.get("id")) return params.get("id")
+
+      if (window.location.hash) return window.location.hash.substring(1)
 
       // Trailing path name: e.g. /challenge/abc123 -> ["challenge", "abc123"]
-      const paths = window.location.pathname.split('/').filter(Boolean);
-      if (paths.length > 1 && paths[0] === 'challenge') {
-        return paths[1];
+      const paths = window.location.pathname.split("/").filter(Boolean)
+      if (paths.length > 1 && paths[0] === "challenge") {
+        return paths[1]
       }
-      
-      return null;
-    };
+
+      return null
+    }
 
     // Whitelist of valid test route IDs to prevent open redirect (SEC-01)
     const VALID_TEST_IDS = new Set([
-      'reaction-time', 'sound-reaction', 'f1-lights', 'choice-reaction',
-      'go-no-go', 'sequence-memory', 'number-memory', 'visual-pattern',
-      'dual-n-back', 'verbal-memory', 'pattern-reasoning', 'spatial-orientation',
-      'stroop', 'trail-making', 'focus-challenge', 'click-speed',
-      'aim-trainer', 'mouse-accuracy', 'flick-trainer', 'typing-speed',
-      'decision-speed', 'planning', 'prioritization'
-    ]);
+      "reaction-time",
+      "sound-reaction",
+      "f1-lights",
+      "choice-reaction",
+      "go-no-go",
+      "sequence-memory",
+      "number-memory",
+      "visual-pattern",
+      "dual-n-back",
+      "verbal-memory",
+      "pattern-reasoning",
+      "spatial-orientation",
+      "stroop",
+      "trail-making",
+      "focus-challenge",
+      "click-speed",
+      "aim-trainer",
+      "mouse-accuracy",
+      "flick-trainer",
+      "typing-speed",
+      "decision-speed",
+      "planning",
+      "prioritization",
+    ])
 
-    const token = getHashToken();
+    const token = getHashToken()
     if (token) {
-      const payload = decodeChallenge(token);
+      const payload = decodeChallenge(token)
       if (payload && payload.testId) {
         // Normalize legacy alias
-        let route = payload.testId;
-        if (route === 'reaction') route = 'reaction-time';
+        let route = payload.testId
+        if (route === "reaction") route = "reaction-time"
 
         // Validate against whitelist before redirect
         if (VALID_TEST_IDS.has(route)) {
-          window.location.href = `/tests/${route}/?challenge=${token}`;
+          window.location.href = `/tests/${route}/?challenge=${token}`
         } else {
-          window.location.href = "/";
+          window.location.href = "/"
         }
       } else {
-        window.location.href = "/";
+        window.location.href = "/"
       }
     } else {
-      window.location.href = "/";
+      window.location.href = "/"
     }
   </script>
 </Layout>

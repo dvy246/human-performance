@@ -1,48 +1,111 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Privacy Policy | CogniArena local-first Privacy";
-const description = "CogniArena Privacy Policy. We use browser local storage (IndexedDB) for local-first tracking without collecting personal identifiers.";
-const canonicalUrl = "https://cogniarena.com/privacy";
+const title = "Privacy Policy | CogniArena local-first Privacy"
+const description =
+  "CogniArena Privacy Policy. We use browser local storage (IndexedDB) for local-first tracking without collecting personal identifiers."
+const canonicalUrl = "https://cogniarena.com/privacy"
 
 const schemaJson = [
-  { "@context": "https://schema.org", "@type": "WebPage", "name": title, "description": description, "url": canonicalUrl },
-  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-    { "@type": "ListItem", "position": 2, "name": "Privacy Policy", "item": "https://cogniarena.com/privacy" }
-  ]}
-];
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Privacy Policy",
+        item: "https://cogniarena.com/privacy",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-10 w-full max-w-3xl mx-auto py-4">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-10 py-4">
     <header class="flex flex-col gap-3">
-      <span class="text-xs font-mono uppercase tracking-widest text-accent" data-i18n="privacy.badge">Legal Documentation</span>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground" data-i18n="privacy.title">Privacy Policy</h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed" data-i18n="privacy.subtitle">
+      <span
+        class="font-mono text-xs tracking-widest text-accent uppercase"
+        data-i18n="privacy.badge">Legal Documentation</span
+      >
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="privacy.title"
+      >
+        Privacy Policy
+      </h1>
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+        data-i18n="privacy.subtitle"
+      >
         Effective date: July 5, 2026. We prioritize local-first data isolation.
       </p>
     </header>
 
-    <section class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm text-muted dark:text-muted leading-relaxed">
+    <section
+      class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm leading-relaxed text-muted dark:text-muted"
+    >
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground" data-i18n="privacy.s1_title">1. Local Storage Ledger</h2>
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="privacy.s1_title"
+        >
+          1. Local Storage Ledger
+        </h2>
         <p data-i18n="privacy.s1_desc">
-          All completed runs, scores, raw latencies, and percentiles are processed and saved locally in your browser's IndexedDB. We do not transmit or access this ledger unless you explicitly select Cloud Sync.
+          All completed runs, scores, raw latencies, and percentiles are
+          processed and saved locally in your browser's IndexedDB. We do not
+          transmit or access this ledger unless you explicitly select Cloud
+          Sync.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground" data-i18n="privacy.s2_title">2. Optional Cloud Sync</h2>
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="privacy.s2_title"
+        >
+          2. Optional Cloud Sync
+        </h2>
         <p data-i18n="privacy.s2_desc">
-          If you opt to backup your dashboard stats, an anonymous hashed recovery key maps your encrypted scores to our database hosted on Cloudflare edge systems. No emails, names, or physical telemetry data are linked to the sync token.
+          If you opt to backup your dashboard stats, an anonymous hashed
+          recovery key maps your encrypted scores to our database hosted on
+          Cloudflare edge systems. No emails, names, or physical telemetry data
+          are linked to the sync token.
         </p>
       </article>
 
       <article class="flex flex-col gap-3">
-        <h2 class="text-lg font-bold text-foreground" data-i18n="privacy.s3_title">3. Analytics and AdSense Cookies</h2>
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="privacy.s3_title"
+        >
+          3. Analytics and AdSense Cookies
+        </h2>
         <p data-i18n="privacy.s3_desc">
-          To maintain server calibration costs, we partner with premium ad exchanges (such as Google AdSense). These third-party networks may place anonymous tracking cookies on your device to serve relevant advertisements, in compliance with GDPR and CCPA protocols.
+          To maintain server calibration costs, we partner with premium ad
+          exchanges (such as Google AdSense). These third-party networks may
+          place anonymous tracking cookies on your device to serve relevant
+          advertisements, in compliance with GDPR and CCPA protocols.
         </p>
       </article>
     </section>

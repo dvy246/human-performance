@@ -1,77 +1,128 @@
 ---
-import Layout from "@/layouts/main.astro";
-import IQTest from "@/components/quiz/IQTest";
+import Layout from "@/layouts/main.astro"
+import IQTest from "@/components/quiz/IQTest"
 
-const title = "Free IQ Test Online — Measure Your IQ Instantly | CogniArena";
-const description = "Take a free IQ test online and get your IQ score instantly. 20 questions covering logical, numerical, verbal, and spatial reasoning. No sign-up, instant results with percentile ranking.";
-const canonicalUrl = "https://cogniarena.com/quiz/iq-test";
+const title = "Free IQ Test Online — Measure Your IQ Instantly | CogniArena"
+const description =
+  "Take a free IQ test online and get your IQ score instantly. 20 questions covering logical, numerical, verbal, and spatial reasoning. No sign-up, instant results with percentile ranking."
+const canonicalUrl = "https://cogniarena.com/quiz/iq-test"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Quiz",
-    "name": "CogniArena Free IQ Test",
-    "description": "A 20-question IQ test covering numerical, verbal, spatial, and logical reasoning domains, inspired by the ICAR cognitive ability framework.",
-    "about": { "@type": "Thing", "name": "IQ and Cognitive Ability" },
-    "educationalAlignment": {
+    name: "CogniArena Free IQ Test",
+    description:
+      "A 20-question IQ test covering numerical, verbal, spatial, and logical reasoning domains, inspired by the ICAR cognitive ability framework.",
+    about: { "@type": "Thing", name: "IQ and Cognitive Ability" },
+    educationalAlignment: {
       "@type": "AlignmentObject",
-      "alignmentType": "educationalRequirement",
-      "educationalFramework": "Cognitive Science"
-    }
+      alignmentType: "educationalRequirement",
+      educationalFramework: "Cognitive Science",
+    },
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What does an IQ test measure?",
-        "acceptedAnswer": { "@type": "Answer", "text": "An IQ test measures cognitive abilities including logical reasoning, pattern recognition, working memory, processing speed, verbal comprehension, and spatial reasoning. IQ scores follow a normal distribution with a mean of 100 and standard deviation of 15." }
+        name: "What does an IQ test measure?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "An IQ test measures cognitive abilities including logical reasoning, pattern recognition, working memory, processing speed, verbal comprehension, and spatial reasoning. IQ scores follow a normal distribution with a mean of 100 and standard deviation of 15.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Is this IQ test free?",
-        "acceptedAnswer": { "@type": "Answer", "text": "Yes. CogniArena's IQ test is completely free. No sign-up, no payment, and no data collection. You get instant results with a score estimate and percentile ranking." }
+        name: "Is this IQ test free?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. CogniArena's IQ test is completely free. No sign-up, no payment, and no data collection. You get instant results with a score estimate and percentile ranking.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How accurate is this online IQ test?",
-        "acceptedAnswer": { "@type": "Answer", "text": "This IQ test uses question formats inspired by the ICAR framework, which correlates with established measures like Raven's Progressive Matrices. However, it is a 20-question estimate and not a substitute for a professionally administered cognitive evaluation." }
+        name: "How accurate is this online IQ test?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "This IQ test uses question formats inspired by the ICAR framework, which correlates with established measures like Raven's Progressive Matrices. However, it is a 20-question estimate and not a substitute for a professionally administered cognitive evaluation.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What is a good IQ score?",
-        "acceptedAnswer": { "@type": "Answer", "text": "IQ scores follow a bell curve: 85-115 is average (68% of people), 115-130 is above average, and 130+ is considered gifted. The average IQ is 100 by definition." }
-      }
-    ]
+        name: "What is a good IQ score?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "IQ scores follow a bell curve: 85-115 is average (68% of people), 115-130 is above average, and 130+ is considered gifted. The average IQ is 100 by definition.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
-      { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-      { "@type": "ListItem", "position": 2, "name": "Quizzes", "item": "https://cogniarena.com/quiz" },
-      { "@type": "ListItem", "position": 3, "name": "IQ Test", "item": "https://cogniarena.com/quiz/iq-test" }
-    ]
-  }
-];
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Quizzes",
+        item: "https://cogniarena.com/quiz",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "IQ Test",
+        item: "https://cogniarena.com/quiz/iq-test",
+      },
+    ],
+  },
+]
 ---
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-6 w-full max-w-3xl mx-auto">
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-6">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Quizzes</span>
         <span>&middot;</span>
         <span>Cognitive Reasoning Quiz</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground">Free IQ Test: Measure Your Intelligence Online</h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-2xl">
-        Take this free online IQ test and get your score instantly. 20 questions across logical, numerical, verbal, and spatial reasoning — no sign-up required.
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Free IQ Test: Measure Your Intelligence Online
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Take this free online IQ test and get your score instantly. 20 questions
+        across logical, numerical, verbal, and spatial reasoning — no sign-up
+        required.
       </p>
     </header>
     <section class="w-full"><IQTest client:visible /></section>
-    <div class="p-4 rounded-xl border border-card-border bg-subtle text-xs text-muted leading-relaxed shadow-sm">
-      <strong class="text-foreground font-semibold">Entertainment Disclaimer:</strong> This quiz is for entertainment and self-educational purposes only. It is not a clinically validated IQ assessment, nor a clinical or diagnostic evaluation. Scores are estimates based on a 20-question sample and should not be treated as a professionally administered cognitive evaluation. For a comprehensive assessment, consult a licensed psychologist.
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Entertainment Disclaimer:</strong
+      > This quiz is for entertainment and self-educational purposes only. It is not
+      a clinically validated IQ assessment, nor a clinical or diagnostic evaluation.
+      Scores are estimates based on a 20-question sample and should not be treated
+      as a professionally administered cognitive evaluation. For a comprehensive assessment,
+      consult a licensed psychologist.
     </div>
   </div>
 </Layout>

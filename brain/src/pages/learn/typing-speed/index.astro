@@ -1,112 +1,138 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Typing Speed Science & Motor Control | CogniArena";
-const description = "Scientific guide to typing speed, word processing, motor chunking, tactile feedback loops, and keyboard layout optimization.";
-const canonicalUrl = "https://cogniarena.com/learn/typing-speed";
+const title = "Typing Speed Science & Motor Control | CogniArena"
+const description =
+  "Scientific guide to typing speed, word processing, motor chunking, tactile feedback loops, and keyboard layout optimization."
+const canonicalUrl = "https://cogniarena.com/learn/typing-speed"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Motor Chunking and Tactile Feedback Loops",
-    "description": "Scientific guide to typing speed, word processing, motor chunking, tactile feedback loops, and keyboard layout optimization.",
-    "publisher": {
+    headline: "Motor Chunking and Tactile Feedback Loops",
+    description:
+      "Scientific guide to typing speed, word processing, motor chunking, tactile feedback loops, and keyboard layout optimization.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is the average human typing speed?",
-        "acceptedAnswer": {
+        name: "What is the average human typing speed?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "The average typing speed is around 40 Words Per Minute (WPM). Trained individuals who touch-type typically average 60 to 80 WPM, while elite typists can exceed 120 WPM."
-        }
+          text: "The average typing speed is around 40 Words Per Minute (WPM). Trained individuals who touch-type typically average 60 to 80 WPM, while elite typists can exceed 120 WPM.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What is motor chunking in typing?",
-        "acceptedAnswer": {
+        name: "What is motor chunking in typing?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Motor chunking is the process where the brain groups individual keystrokes into a single motor program. Instead of thinking 'T-H-E', the brain executes a single, fluid pattern for the entire word, increasing speed."
-        }
+          text: "Motor chunking is the process where the brain groups individual keystrokes into a single motor program. Instead of thinking 'T-H-E', the brain executes a single, fluid pattern for the entire word, increasing speed.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Do mechanical keyboards improve typing speed?",
-        "acceptedAnswer": {
+        name: "Do mechanical keyboards improve typing speed?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Yes. Mechanical keyboards provide consistent tactile feedback and actuation points, allowing typists to feel when a key registers. This eliminates the need to bottom out keys, reducing finger fatigue and increasing speed."
-        }
+          text: "Yes. Mechanical keyboards provide consistent tactile feedback and actuation points, allowing typists to feel when a key registers. This eliminates the need to bottom out keys, reducing finger fatigue and increasing speed.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does accuracy relate to typing speed?",
-        "acceptedAnswer": {
+        name: "How does accuracy relate to typing speed?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Accuracy is the foundation of speed. Making an error requires hitting backspace and retyping, which breaks motor flow and introduces a cognitive correction penalty, reducing overall WPM."
-        }
-      }
-    ]
+          text: "Accuracy is the foundation of speed. Making an error requires hitting backspace and retyping, which breaks motor flow and introduces a cognitive correction penalty, reducing overall WPM.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Typing Speed",
-        "item": "https://cogniarena.com/learn/typing-speed"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Typing Speed",
+        item: "https://cogniarena.com/learn/typing-speed",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Typing Speed & Cognitive Control Science
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Typing speed, measured in Words Per Minute (WPM), evaluates visual word processing, motor chunking, and bi-lateral finger coordination. This guide explores the cognitive processes behind fluent typing, the role of tactile feedback, and keyboard ergonomics.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Typing speed, measured in Words Per Minute (WPM), evaluates visual word
+        processing, motor chunking, and bi-lateral finger coordination. This
+        guide explores the cognitive processes behind fluent typing, the role of
+        tactile feedback, and keyboard ergonomics.
       </p>
     </header>
 
@@ -116,7 +142,19 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Typing is a complex cognitive and motor skill that requires the coordination of multiple brain areas. When reading text to type, visual word forms are processed in the occipital lobe and sent to the left hemisphere language center (Wernicke's and Broca's areas) for lexical recognition. Instead of processing letters individually, the brain translates words into motor chunks—pre-programmed sequences of finger movements stored in the supplementary motor area (SMA) and premotor cortex. The motor cortex executes these programs, sending commands to both hands. As the fingers strike the keys, tactile feedback from somatosensory receptors and auditory feedback from key clicks are processed in real-time, allowing the brain to confirm successful keystrokes and adjust finger positioning without looking at the keyboard.
+          Typing is a complex cognitive and motor skill that requires the
+          coordination of multiple brain areas. When reading text to type,
+          visual word forms are processed in the occipital lobe and sent to the
+          left hemisphere language center (Wernicke's and Broca's areas) for
+          lexical recognition. Instead of processing letters individually, the
+          brain translates words into motor chunks—pre-programmed sequences of
+          finger movements stored in the supplementary motor area (SMA) and
+          premotor cortex. The motor cortex executes these programs, sending
+          commands to both hands. As the fingers strike the keys, tactile
+          feedback from somatosensory receptors and auditory feedback from key
+          clicks are processed in real-time, allowing the brain to confirm
+          successful keystrokes and adjust finger positioning without looking at
+          the keyboard.
         </p>
       </article>
 
@@ -125,7 +163,16 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Typing speed is mathematically modeled by analyzing keystroke intervals (inter-key latency). In fluent typists, the latency between keys in a familiar word chunk (e.g., 't-h-e') is significantly shorter than the latency between unfamiliar letter transitions or word boundaries. This shows that typing speed is limited by cognitive retrieval and motor transitions between chunks rather than physical finger speed. Additionally, keyboard rollover (the ability of a keyboard to register multiple simultaneous keypresses) and switch actuation travel (typically 1.2mm to 2.0mm) dictate the mechanical limits of typing speed.
+          Typing speed is mathematically modeled by analyzing keystroke
+          intervals (inter-key latency). In fluent typists, the latency between
+          keys in a familiar word chunk (e.g., 't-h-e') is significantly shorter
+          than the latency between unfamiliar letter transitions or word
+          boundaries. This shows that typing speed is limited by cognitive
+          retrieval and motor transitions between chunks rather than physical
+          finger speed. Additionally, keyboard rollover (the ability of a
+          keyboard to register multiple simultaneous keypresses) and switch
+          actuation travel (typically 1.2mm to 2.0mm) dictate the mechanical
+          limits of typing speed.
         </p>
       </article>
 
@@ -134,7 +181,13 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The average typing speed in the general population is approximately 40 WPM, while professional typists and transcriptionists average 65 to 80 WPM. Elite typists can sustain speeds over 120 WPM, with world records peaking above 200 WPM. Typing speed is highly dependent on touch-typing proficiency; looking at the keyboard introduces a visual feedback loop that adds 200ms of latency per word, capping speed at around 30-40 WPM.
+          The average typing speed in the general population is approximately 40
+          WPM, while professional typists and transcriptionists average 65 to 80
+          WPM. Elite typists can sustain speeds over 120 WPM, with world records
+          peaking above 200 WPM. Typing speed is highly dependent on
+          touch-typing proficiency; looking at the keyboard introduces a visual
+          feedback loop that adds 200ms of latency per word, capping speed at
+          around 30-40 WPM.
         </p>
       </article>
 
@@ -143,7 +196,13 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To improve typing speed, focus on touch-typing accuracy and motor chunking. Practice typing without looking at the keyboard to train somatosensory feedback loops. Focus on keeping your hands relaxed and wrists floating above the desk. Technically, mechanical keyboards with tactile or linear switches and N-key rollover ensure that rapid, overlapping keystrokes are registered accurately and provide clear tactile feedback.
+          To improve typing speed, focus on touch-typing accuracy and motor
+          chunking. Practice typing without looking at the keyboard to train
+          somatosensory feedback loops. Focus on keeping your hands relaxed and
+          wrists floating above the desk. Technically, mechanical keyboards with
+          tactile or linear switches and N-key rollover ensure that rapid,
+          overlapping keystrokes are registered accurately and provide clear
+          tactile feedback.
         </p>
       </article>
 
@@ -156,32 +215,42 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               What is the average human typing speed?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              The average typing speed is around 40 Words Per Minute (WPM). Trained individuals who touch-type typically average 60 to 80 WPM, while elite typists can exceed 120 WPM.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              The average typing speed is around 40 Words Per Minute (WPM).
+              Trained individuals who touch-type typically average 60 to 80 WPM,
+              while elite typists can exceed 120 WPM.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               What is motor chunking in typing?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Motor chunking is the process where the brain groups individual keystrokes into a single motor program. Instead of thinking 'T-H-E', the brain executes a single, fluid pattern for the entire word, increasing speed.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Motor chunking is the process where the brain groups individual
+              keystrokes into a single motor program. Instead of thinking
+              'T-H-E', the brain executes a single, fluid pattern for the entire
+              word, increasing speed.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Do mechanical keyboards improve typing speed?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Yes. Mechanical keyboards provide consistent tactile feedback and actuation points, allowing typists to feel when a key registers. This eliminates the need to bottom out keys, reducing finger fatigue and increasing speed.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Yes. Mechanical keyboards provide consistent tactile feedback and
+              actuation points, allowing typists to feel when a key registers.
+              This eliminates the need to bottom out keys, reducing finger
+              fatigue and increasing speed.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How does accuracy relate to typing speed?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Accuracy is the foundation of speed. Making an error requires hitting backspace and retyping, which breaks motor flow and introduces a cognitive correction penalty, reducing overall WPM.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Accuracy is the foundation of speed. Making an error requires
+              hitting backspace and retyping, which breaks motor flow and
+              introduces a cognitive correction penalty, reducing overall WPM.
             </p>
           </div>
         </div>

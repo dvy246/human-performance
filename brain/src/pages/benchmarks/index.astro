@@ -1,64 +1,105 @@
 ---
-import Layout from "@/layouts/main.astro";
-import { categoryConfigs } from "@/data/benchmarks";
+import Layout from "@/layouts/main.astro"
+import { categoryConfigs } from "@/data/benchmarks"
 
-const title = "Cognitive Performance Benchmarks — Population Data & Percentiles | CogniArena";
-const description = "Explore population distribution charts, age group comparisons, and professional benchmarks across 7 cognitive domains. Compare your scores against real data.";
-const canonicalUrl = "https://cogniarena.com/benchmarks";
+const title =
+  "Cognitive Performance Benchmarks — Population Data & Percentiles | CogniArena"
+const description =
+  "Explore population distribution charts, age group comparisons, and professional benchmarks across 7 cognitive domains. Compare your scores against real data."
+const canonicalUrl = "https://cogniarena.com/benchmarks"
 
 const schemaJson = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  "name": "CogniArena Benchmarks",
-  "description": "Comprehensive population benchmarks for cognitive performance across reaction, memory, reasoning, focus, motor, executive, and composite domains.",
-  "provider": { "@type": "Organization", "name": "CogniArena", "url": "https://cogniarena.com" },
-  "about": { "@type": "Thing", "name": "Cognitive Performance Benchmarks" },
-  "hasPart": categoryConfigs.map(c => ({
+  name: "CogniArena Benchmarks",
+  description:
+    "Comprehensive population benchmarks for cognitive performance across reaction, memory, reasoning, focus, motor, executive, and composite domains.",
+  provider: {
+    "@type": "Organization",
+    name: "CogniArena",
+    url: "https://cogniarena.com",
+  },
+  about: { "@type": "Thing", name: "Cognitive Performance Benchmarks" },
+  hasPart: categoryConfigs.map((c) => ({
     "@type": "Dataset",
-    "name": `${c.title} Benchmarks`,
-    "url": `https://cogniarena.com/benchmarks/${c.slug}`,
-    "description": c.description
-  }))
-};
+    name: `${c.title} Benchmarks`,
+    url: `https://cogniarena.com/benchmarks/${c.slug}`,
+    description: c.description,
+  })),
+}
 ---
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-4xl mx-auto">
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-4xl flex-col gap-12">
     <header class="flex flex-col gap-4">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span data-i18n="bench.badge1">Benchmarks</span>
         <span>&middot;</span>
         <span data-i18n="bench.badge2">Hub</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in" data-i18n="bench.title">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="bench.title"
+      >
         Cognitive Performance Benchmarks
       </h1>
-      <p class="text-muted text-sm md:text-base leading-relaxed max-w-3xl" data-i18n="bench.subtitle">
-        Population distribution charts, age group comparisons, and professional benchmarks across
-        7 cognitive domains. Select a category to see how you stack up against the general population and elite performers.
+      <p
+        class="max-w-3xl text-sm leading-relaxed text-muted md:text-base"
+        data-i18n="bench.subtitle"
+      >
+        Population distribution charts, age group comparisons, and professional
+        benchmarks across 7 cognitive domains. Select a category to see how you
+        stack up against the general population and elite performers.
       </p>
     </header>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-      {categoryConfigs.map((cat) => (
-        <a
-          href={`/benchmarks/${cat.slug}`}
-          class="flex items-start gap-3 p-4 rounded-xl border border-card-border bg-subtle hover:bg-accent/5 hover:border-accent/30 transition-standard group"
-        >
-          <span class="text-2xl mt-0.5 shrink-0">{cat.icon}</span>
-          <div class="flex flex-col gap-1 min-w-0 flex-1">
-            <span class="text-sm font-semibold text-foreground group-hover:text-accent transition-colors truncate">{cat.title}</span>
-            <span class="text-xs text-muted leading-relaxed line-clamp-2">{cat.description}</span>
-            <div class="flex flex-wrap gap-1 mt-1">
-              {cat.testIds.map(id => (
-                <span class="text-[9px] font-mono text-muted bg-card px-1.5 py-0.5 rounded-full">{id.replace(/-/g, ' ')}</span>
-              ))}
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+      {
+        categoryConfigs.map((cat) => (
+          <a
+            href={`/benchmarks/${cat.slug}`}
+            class="transition-standard group flex items-start gap-3 rounded-xl border border-card-border bg-subtle p-4 hover:border-accent/30 hover:bg-accent/5"
+          >
+            <span class="mt-0.5 shrink-0 text-2xl">{cat.icon}</span>
+            <div class="flex min-w-0 flex-1 flex-col gap-1">
+              <span class="truncate text-sm font-semibold text-foreground transition-colors group-hover:text-accent">
+                {cat.title}
+              </span>
+              <span class="line-clamp-2 text-xs leading-relaxed text-muted">
+                {cat.description}
+              </span>
+              <div class="mt-1 flex flex-wrap gap-1">
+                {cat.testIds.map((id) => (
+                  <span class="rounded-full bg-card px-1.5 py-0.5 font-mono text-[9px] text-muted">
+                    {id.replace(/-/g, " ")}
+                  </span>
+                ))}
+              </div>
             </div>
-          </div>
-          <svg class="w-4 h-4 text-muted group-hover:text-accent shrink-0 self-center transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
-          </svg>
-        </a>
-      ))}
+            <svg
+              class="h-4 w-4 shrink-0 self-center text-muted transition-colors group-hover:text-accent"
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M9 5l7 7-7 7"
+              />
+            </svg>
+          </a>
+        ))
+      }
     </div>
   </div>
 </Layout>

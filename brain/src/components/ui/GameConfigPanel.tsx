@@ -1,22 +1,28 @@
-import React, { useState, useEffect } from 'react';
-import { TEST_CONFIGS, loadTestConfig, saveTestConfig, type ConfigOption, type GameConfig } from '../../runtime/testConfig';
-import { useI18n } from '../../runtime/useI18n';
+import React, { useState, useEffect } from "react"
+import {
+  TEST_CONFIGS,
+  loadTestConfig,
+  saveTestConfig,
+  type ConfigOption,
+  type GameConfig,
+} from "../../runtime/testConfig"
+import { useI18n } from "../../runtime/useI18n"
 
 interface GameConfigPanelProps {
-  testId: string;
-  onStart: (config: GameConfig) => void;
+  testId: string
+  onStart: (config: GameConfig) => void
   /** Optional override for the start button label */
-  startLabel?: string;
+  startLabel?: string
   /** Optional emoji/icon shown above the title */
-  icon?: string;
+  icon?: string
   /** Optional title override */
-  title?: string;
+  title?: string
   /** Optional description text */
-  description?: string;
+  description?: string
   /** Optional personal best to display */
-  personalBest?: number | null;
+  personalBest?: number | null
   /** Optional personal best label */
-  personalBestLabel?: string;
+  personalBestLabel?: string
 }
 
 /**
@@ -27,77 +33,81 @@ interface GameConfigPanelProps {
 export default function GameConfigPanel({
   testId,
   onStart,
-  startLabel = 'Start Assessment',
+  startLabel = "Start Assessment",
   icon,
   title,
   description,
   personalBest,
   personalBestLabel,
 }: GameConfigPanelProps) {
-  const { t } = useI18n();
-  const options = TEST_CONFIGS[testId] || [];
-  const [config, setConfig] = useState<GameConfig>(() => loadTestConfig(testId));
+  const { t } = useI18n()
+  const options = TEST_CONFIGS[testId] || []
+  const [config, setConfig] = useState<GameConfig>(() => loadTestConfig(testId))
   const [soundEnabled, setSoundEnabled] = useState(() => {
-    if (typeof window === 'undefined') return true;
-    return localStorage.getItem('cogniarena-muted') !== 'true';
-  });
+    if (typeof window === "undefined") return true
+    return localStorage.getItem("cogniarena-muted") !== "true"
+  })
 
   // Persist sound preference globally
   useEffect(() => {
-    localStorage.setItem('cogniarena-muted', soundEnabled ? 'false' : 'true');
-  }, [soundEnabled]);
+    localStorage.setItem("cogniarena-muted", soundEnabled ? "false" : "true")
+  }, [soundEnabled])
 
   const handleOptionChange = (key: string, value: string | number) => {
-    const next = { ...config, [key]: value };
-    setConfig(next);
-    saveTestConfig(testId, next);
-  };
+    const next = { ...config, [key]: value }
+    setConfig(next)
+    saveTestConfig(testId, next)
+  }
 
   const handleStart = () => {
-    saveTestConfig(testId, config);
-    onStart(config);
-  };
+    saveTestConfig(testId, config)
+    onStart(config)
+  }
 
   return (
-    <div className="w-full min-h-[360px] rounded-xl border border-card-border bg-card p-8 flex flex-col items-center justify-center text-center">
-      <div className="flex flex-col items-center gap-5 w-full max-w-sm">
+    <div className="flex min-h-[360px] w-full flex-col items-center justify-center rounded-xl border border-card-border bg-card p-8 text-center">
+      <div className="flex w-full max-w-sm flex-col items-center gap-5">
         {/* Icon */}
         {icon && <span className="text-3xl">{icon}</span>}
 
         {/* Title */}
         {title && (
-          <h2 className="text-xl font-bold text-foreground tracking-tight">{title}</h2>
+          <h2 className="text-xl font-bold tracking-tight text-foreground">
+            {title}
+          </h2>
         )}
 
         {/* Description */}
         {description && (
-          <p className="text-muted text-xs leading-relaxed max-w-sm">{description}</p>
+          <p className="max-w-sm text-xs leading-relaxed text-muted">
+            {description}
+          </p>
         )}
 
         {/* Config Options */}
         {options.length > 0 && (
-          <div className="flex flex-col gap-3 w-full mt-2">
+          <div className="mt-2 flex w-full flex-col gap-3">
             {options.map((opt: ConfigOption) => (
               <div key={opt.key} className="flex flex-col gap-1.5">
-                <span className="text-[10px] font-mono text-muted uppercase tracking-widest text-left">
+                <span className="text-left font-mono text-[10px] tracking-widest text-muted uppercase">
                   {opt.label}
                 </span>
                 <div className="flex gap-2">
                   {opt.options.map((val) => {
-                    const isSelected = config[opt.key] === val;
+                    const isSelected = config[opt.key] === val
                     return (
                       <button
                         key={String(val)}
                         onClick={() => handleOptionChange(opt.key, val)}
-                        className={`flex-1 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border transition-standard cursor-pointer ${
+                        className={`transition-standard flex-1 cursor-pointer rounded-lg border px-3 py-1.5 font-mono text-xs font-semibold ${
                           isSelected
-                            ? 'bg-accent text-white border-accent'
-                            : 'bg-subtle text-muted border-card-border hover:border-accent/30'
+                            ? "border-accent bg-accent text-white"
+                            : "border-card-border bg-subtle text-muted hover:border-accent/30"
                         }`}
                       >
                         {val}
                       </button>
-                    );
+                    )
                   })}
                 </div>
               </div>
@@ -106,38 +116,45 @@ export default function GameConfigPanel({
         )}
 
         {/* Sound Toggle */}
-        <div className="flex items-center justify-between w-full mt-2 px-1">
-          <span className="text-[10px] font-mono text-muted uppercase tracking-widest">{t('config.sound_effects')}</span>
+        <div className="mt-2 flex w-full items-center justify-between px-1">
+          <span className="font-mono text-[10px] tracking-widest text-muted uppercase">
+            {t("config.sound_effects")}
+          </span>
           <button
             onClick={() => setSoundEnabled(!soundEnabled)}
-            className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-mono font-semibold border transition-standard cursor-pointer ${
+            className={`transition-standard flex cursor-pointer items-center gap-1.5 rounded-lg border px-3 py-1.5 font-mono text-xs font-semibold ${
               soundEnabled
-                ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/30'
-                : 'bg-subtle text-muted border-card-border'
+                ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-600"
+                : "border-card-border bg-subtle text-muted"
             }`}
           >
-            <span>{soundEnabled ? '🔊' : '🔇'}</span>
-            <span>{soundEnabled ? t('config.sound_on') : t('config.sound_off')}</span>
+            <span>{soundEnabled ? "🔊" : "🔇"}</span>
+            <span>
+              {soundEnabled ? t("config.sound_on") : t("config.sound_off")}
+            </span>
           </button>
         </div>
 
         {/* Personal Best */}
         {personalBest !== null && personalBest !== undefined && (
-          <span className="text-xs text-accent font-mono mt-1">
-            {t('config.personal_best')} {personalBest}{personalBestLabel ? ` ${personalBestLabel}` : ''}
+          <span className="mt-1 font-mono text-xs text-accent">
+            {t("config.personal_best")} {personalBest}
+            {personalBestLabel ? ` ${personalBestLabel}` : ""}
           </span>
         )}
 
         {/* Start Button */}
         <button
           onClick={handleStart}
-          className="w-full mt-3 h-11 rounded-lg bg-accent hover:bg-accent-hover text-white font-bold uppercase text-xs font-mono tracking-wider active:scale-[0.98] transition-standard shadow cursor-pointer"
+          className="transition-standard mt-3 h-11 w-full cursor-pointer rounded-lg bg-accent font-mono text-xs font-bold tracking-wider text-white uppercase shadow hover:bg-accent-hover active:scale-[0.98]"
         >
           {startLabel}
         </button>
 
-        <span className="text-[10px] font-mono text-muted/50 mt-2">Press ? for shortcuts</span>
+        <span className="mt-2 font-mono text-[10px] text-muted/50">
+          Press ? for shortcuts
+        </span>
       </div>
     </div>
-  );
+  )
 }

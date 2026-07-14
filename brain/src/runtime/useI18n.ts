@@ -1,9 +1,9 @@
-import { useState, useEffect, useCallback } from 'react';
-import { translations, type LangCode } from '../i18n/translations';
+import { useState, useEffect, useCallback } from "react"
+import { translations, type LangCode } from "../i18n/translations"
 
 declare global {
   interface Window {
-    __getCurrentLang?: () => string;
+    __getCurrentLang?: () => string
   }
 }
 
@@ -15,31 +15,32 @@ declare global {
  */
 export function useI18n() {
   const [lang, setLang] = useState<LangCode>(() => {
-    if (typeof window !== 'undefined' && window.__getCurrentLang) {
-      return (window.__getCurrentLang() as LangCode) || 'en';
+    if (typeof window !== "undefined" && window.__getCurrentLang) {
+      return (window.__getCurrentLang() as LangCode) || "en"
     }
-    return 'en';
-  });
+    return "en"
+  })
 
   useEffect(() => {
     const handleLangChange = (e: Event) => {
-      const customEvent = e as CustomEvent<{ lang: string }>;
+      const customEvent = e as CustomEvent<{ lang: string }>
       if (customEvent.detail?.lang) {
-        setLang(customEvent.detail.lang as LangCode);
+        setLang(customEvent.detail.lang as LangCode)
       }
-    };
+    }
 
-    window.addEventListener('cogniarena:langchange', handleLangChange);
-    return () => window.removeEventListener('cogniarena:langchange', handleLangChange);
-  }, []);
+    window.addEventListener("cogniarena:langchange", handleLangChange)
+    return () =>
+      window.removeEventListener("cogniarena:langchange", handleLangChange)
+  }, [])
 
   const t = useCallback(
     (key: string): string => {
-      const dict = translations[lang] || translations['en'] || {};
-      return dict[key] || translations['en']?.[key] || key;
+      const dict = translations[lang] || translations["en"] || {}
+      return dict[key] || translations["en"]?.[key] || key
     },
     [lang]
-  );
+  )
 
-  return { t, lang };
+  return { t, lang }
 }

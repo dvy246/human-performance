@@ -1,53 +1,105 @@
 ---
-import Layout from "@/layouts/main.astro";
+import Layout from "@/layouts/main.astro"
 
-const title = "Scientific Methodology & Calibration Protocols | CogniArena";
-const description = "Explore the neural science and technical formulas behind CogniArena, including Hick's Law, Fitts's Law, Miller's Law, and high-precision browser timers.";
-const canonicalUrl = "https://cogniarena.com/methodology";
+const title = "Scientific Methodology & Calibration Protocols | CogniArena"
+const description =
+  "Explore the neural science and technical formulas behind CogniArena, including Hick's Law, Fitts's Law, Miller's Law, and high-precision browser timers."
+const canonicalUrl = "https://cogniarena.com/methodology"
 
 const schemaJson = [
-  { "@context": "https://schema.org", "@type": "WebPage", "name": title, "description": description, "url": canonicalUrl },
-  { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [
-    { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://cogniarena.com" },
-    { "@type": "ListItem", "position": 2, "name": "Methodology", "item": "https://cogniarena.com/methodology" }
-  ]}
-];
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Methodology",
+        item: "https://cogniarena.com/methodology",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-3xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span data-i18n="meth.badge1">Scientific Foundation</span>
         <span>&middot;</span>
         <span data-i18n="meth.badge2">Calibration Specs</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground animate-fade-in" data-i18n="meth.title">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="meth.title"
+      >
         Technical & Scientific Methodology
       </h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed" data-i18n="meth.subtitle">
-        CogniArena is engineered to eliminate browser rendering discrepancies and quantify cognitive-motor functions using established neuro-computational models.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+        data-i18n="meth.subtitle"
+      >
+        CogniArena is engineered to eliminate browser rendering discrepancies
+        and quantify cognitive-motor functions using established
+        neuro-computational models.
       </p>
     </header>
 
     <!-- Methodology Content Grid -->
     <section class="flex flex-col gap-12 border-t border-card-border pt-10">
-      
       <!-- 1. Millisecond-Accurate Paint Sync -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
-          <span class="text-accent font-mono text-sm">01.</span>
+        <h2
+          class="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
+        >
+          <span class="font-mono text-sm text-accent">01.</span>
           Millisecond-Accurate Paint Sync Calibration
         </h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s1_p1">
-          Standard browser reaction timers initiate time-captions during a state trigger, letting the browser queue and paint the visual state change asynchronously. This introduces a variable latency jitter of 8ms to 32ms depending on GPU scheduling and screen refresh rates.
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s1_p1"
+        >
+          Standard browser reaction timers initiate time-captions during a state
+          trigger, letting the browser queue and paint the visual state change
+          asynchronously. This introduces a variable latency jitter of 8ms to
+          32ms depending on GPU scheduling and screen refresh rates.
         </p>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s1_p2">
-          CogniArena resolves this by measuring reaction triggers using a double-nested <code>requestAnimationFrame (rAF)</code> loop. The start timestamp is locked only when the browser confirms the paint buffer has updated, matching real-world photon emission delays.
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s1_p2"
+        >
+          CogniArena resolves this by measuring reaction triggers using a
+          double-nested <code>requestAnimationFrame (rAF)</code> loop. The start timestamp
+          is locked only when the browser confirms the paint buffer has updated, matching
+          real-world photon emission delays.
         </p>
-        <div class="bg-subtle border border-card-border p-4 rounded-lg font-mono text-xs text-foreground/80">
-          <span class="text-muted">// Visual trigger paint synchronization</span><br />
+        <div
+          class="rounded-lg border border-card-border bg-subtle p-4 font-mono text-xs text-foreground/80"
+        >
+          <span class="text-muted">// Visual trigger paint synchronization</span
+          ><br />
           requestAnimationFrame(() =&gt; &#123;<br />
           &nbsp;&nbsp;requestAnimationFrame(() =&gt; &#123;<br />
           &nbsp;&nbsp;&nbsp;&nbsp;startTime.current = performance.now();<br />
@@ -58,66 +110,120 @@ const schemaJson = [
 
       <!-- 2. Hick's Law -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
-          <span class="text-accent font-mono text-sm">02.</span>
+        <h2
+          class="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
+        >
+          <span class="font-mono text-sm text-accent">02.</span>
           Hick's Law (Choice & Decision Latency)
         </h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s2_p1">
-          Hick's Law states that the time it takes to make a decision increases logarithmically with the number of alternatives:
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s2_p1"
+        >
+          Hick's Law states that the time it takes to make a decision increases
+          logarithmically with the number of alternatives:
         </p>
-        <div class="bg-subtle border border-card-border py-3 px-5 rounded-lg font-mono text-base text-accent text-center">
+        <div
+          class="rounded-lg border border-card-border bg-subtle px-5 py-3 text-center font-mono text-base text-accent"
+        >
           RT = a + b &middot; log₂ (n)
         </div>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s2_p2">
-          In our <strong>Choice Reaction Test</strong>, <code>n = 4</code>. This logarithmic increase represents prefrontal cortex stimulus-classification delays. We calibrate this by subtracting the participant's simple reaction time base to measure pure decision-overhead.
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s2_p2"
+        >
+          In our <strong>Choice Reaction Test</strong>, <code>n = 4</code>. This
+          logarithmic increase represents prefrontal cortex
+          stimulus-classification delays. We calibrate this by subtracting the
+          participant's simple reaction time base to measure pure
+          decision-overhead.
         </p>
       </article>
 
       <!-- 3. Fitts's Law -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
-          <span class="text-accent font-mono text-sm">03.</span>
+        <h2
+          class="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
+        >
+          <span class="font-mono text-sm text-accent">03.</span>
           Fitts's Law (Spatial Aim Precision)
         </h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s3_p1">
-          Fitts's Law predicts that the time required to rapidly move to a target is a function of the ratio between the distance to the target and the width of the target:
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s3_p1"
+        >
+          Fitts's Law predicts that the time required to rapidly move to a
+          target is a function of the ratio between the distance to the target
+          and the width of the target:
         </p>
-        <div class="bg-subtle border border-card-border py-3 px-5 rounded-lg font-mono text-base text-accent text-center">
+        <div
+          class="rounded-lg border border-card-border bg-subtle px-5 py-3 text-center font-mono text-base text-accent"
+        >
           MT = a + b &middot; log₂ (2D / W)
         </div>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s3_p2">
-          Our <strong>Aim Precision Trainer</strong> logs pinpoint coordinate offsets (sub-pixel distances from target center) and target acquire latency. This indexes the efficiency of the motor-cortex feedback loops governing spatial control.
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s3_p2"
+        >
+          Our <strong>Aim Precision Trainer</strong> logs pinpoint coordinate offsets
+          (sub-pixel distances from target center) and target acquire latency. This
+          indexes the efficiency of the motor-cortex feedback loops governing spatial
+          control.
         </p>
       </article>
 
       <!-- 4. Web Audio API Auditory Low-Latency -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
-          <span class="text-accent font-mono text-sm">04.</span>
+        <h2
+          class="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
+        >
+          <span class="font-mono text-sm text-accent">04.</span>
           Auditory Low-Latency Web Audio API
         </h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s4_p1">
-          Playing compressed audio formats like <code>.mp3</code> or <code>.wav</code> via HTML5 <code>&lt;audio&gt;</code> elements triggers decoder setup overhead and buffer delay.
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s4_p1"
+        >
+          Playing compressed audio formats like <code>.mp3</code> or <code
+            >.wav</code
+          > via HTML5 <code>&lt;audio&gt;</code> elements triggers decoder setup overhead
+          and buffer delay.
         </p>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s4_p2">
-          Our <strong>Sound Reflex Test</strong> synthesizes a pure 750Hz sine tone directly on the audio hardware thread using the Web Audio API <code>OscillatorNode</code>. This minimizes audio emission delay to sub-millisecond ranges.
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s4_p2"
+        >
+          Our <strong>Sound Reflex Test</strong> synthesizes a pure 750Hz sine tone
+          directly on the audio hardware thread using the Web Audio API <code
+            >OscillatorNode</code
+          >. This minimizes audio emission delay to sub-millisecond ranges.
         </p>
       </article>
 
       <!-- 5. Miller's Law -->
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-bold text-foreground tracking-tight flex items-center gap-2">
-          <span class="text-accent font-mono text-sm">05.</span>
+        <h2
+          class="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground"
+        >
+          <span class="font-mono text-sm text-accent">05.</span>
           Miller's Law (Working Memory)
         </h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s5_p1">
-          Miller's Law states that the average human short-term working memory span can hold approximately 7 items or "chunks" (7 &plusmn; 2).
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s5_p1"
+        >
+          Miller's Law states that the average human short-term working memory
+          span can hold approximately 7 items or "chunks" (7 &plusmn; 2).
         </p>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="meth.s5_p2">
-          The <strong>Sequence Memory Test</strong> evaluates this boundary. By chunking coordinate lists into visual shapes, patterns, or vectors, participants can bypass Miller's Law limits and reach higher levels.
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="meth.s5_p2"
+        >
+          The <strong>Sequence Memory Test</strong> evaluates this boundary. By chunking
+          coordinate lists into visual shapes, patterns, or vectors, participants
+          can bypass Miller's Law limits and reach higher levels.
         </p>
       </article>
-
     </section>
   </div>
 </Layout>

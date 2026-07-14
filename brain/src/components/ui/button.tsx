@@ -1,13 +1,13 @@
-import React from "react";
+import React from "react"
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
-  className?: string;
-  variant?: "primary" | "secondary" | "danger" | "ghost";
+  className?: string
+  variant?: "primary" | "secondary" | "danger" | "ghost"
 }
 
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className = "", variant = "primary", children, ...props }, ref) => {
-    const variantClass = `btn-${variant}`;
+    const variantClass = `btn-${variant}`
 
     return (
       <button
@@ -17,10 +17,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       >
         {children}
       </button>
-    );
+    )
   }
-);
+)
 
-Button.displayName = "Button";
-export default Button;
-
+Button.displayName = "Button"
+export default Button

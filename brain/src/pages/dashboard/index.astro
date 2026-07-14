@@ -1,33 +1,49 @@
 ---
-import Layout from "@/layouts/main.astro";
-import CognitiveProfile from "@/components/dashboard/CognitiveProfile";
+import Layout from "@/layouts/main.astro"
+import CognitiveProfile from "@/components/dashboard/CognitiveProfile"
 
-const title = "Dashboard — CogniArena | Cognitive Performance Hub";
-const description = "Your cognitive performance hub: personal records, trend charts, skill radar, achievement badges, and full test history.";
-const canonicalUrl = "https://cogniarena.com/dashboard";
+const title = "Dashboard — CogniArena | Cognitive Performance Hub"
+const description =
+  "Your cognitive performance hub: personal records, trend charts, skill radar, achievement badges, and full test history."
+const canonicalUrl = "https://cogniarena.com/dashboard"
 
 const schemaJson = {
   "@context": "https://schema.org",
   "@type": "ProfilePage",
-  "name": "Dashboard",
-  "description": "Central performance dashboard tracking reflexes, memory, precision, focus, stamina, and the CogniArena Index (CAI) score."
-};
+  name: "Dashboard",
+  description:
+    "Central performance dashboard tracking reflexes, memory, precision, focus, stamina, and the CogniArena Index (CAI) score.",
+}
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
-  <div class="flex flex-col gap-12 w-full max-w-5xl mx-auto">
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-5xl flex-col gap-12">
     <!-- Header Section -->
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-accent">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span data-i18n="dash.badge1">Command Center</span>
         <span>&middot;</span>
         <span data-i18n="dash.badge2">Dashboard</span>
       </div>
-      <h1 class="text-3xl md:text-4xl font-extrabold tracking-tight text-foreground" data-i18n="dash.title">
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="dash.title"
+      >
         Dashboard
       </h1>
-      <p class="text-muted dark:text-muted text-sm md:text-base leading-relaxed max-w-2xl" data-i18n="dash.subtitle">
-        Your personal performance hub. View records, trends, achievements, and full test history at a glance.
+      <p
+        class="max-w-2xl text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+        data-i18n="dash.subtitle"
+      >
+        Your personal performance hub. View records, trends, achievements, and
+        full test history at a glance.
       </p>
     </header>
 
@@ -37,51 +53,96 @@ const schemaJson = {
     </section>
 
     <!-- Below the fold Scientific Content -->
-    <section class="flex flex-col gap-10 border-t border-card-border pt-12 max-w-3xl">
-      
+    <section
+      class="flex max-w-3xl flex-col gap-10 border-t border-card-border pt-12"
+    >
       {/* Scientific Methodology link */}
       <div class="flex items-center gap-3 text-xs text-muted dark:text-muted">
-        <div class="w-6 h-6 rounded-full bg-accent/10 border border-accent/20 flex items-center justify-center text-[10px] text-accent font-mono font-bold">BB</div>
-        <span>Learn about calibration protocols and scientific formulas on our <a href="/methodology" class="text-accent hover:underline font-medium">Methodology Page</a>.</span>
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-[10px] font-bold text-accent"
+        >
+          BB
+        </div>
+        <span
+          >Learn about calibration protocols and scientific formulas on our <a
+            href="/methodology"
+            class="font-medium text-accent hover:underline">Methodology Page</a
+          >.</span
+        >
       </div>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight" data-i18n="dash.radar_title">Understanding Your Skill Radar Chart</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="dash.radar_desc">
-          The hexagonal skill radar measures your cognitive capabilities across six distinct dimensions. Your score in each category represents your **percentile rank** compared to global, calibrated averages:
+        <h2
+          class="text-xl font-semibold tracking-tight text-foreground"
+          data-i18n="dash.radar_title"
+        >
+          Understanding Your Skill Radar Chart
+        </h2>
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="dash.radar_desc"
+        >
+          The hexagonal skill radar measures your cognitive capabilities across
+          six distinct dimensions. Your score in each category represents your
+          **percentile rank** compared to global, calibrated averages:
         </p>
-        <ul class="list-disc pl-5 flex flex-col gap-2.5 text-muted dark:text-muted text-sm">
+        <ul
+          class="flex list-disc flex-col gap-2.5 pl-5 text-sm text-muted dark:text-muted"
+        >
           <li>
-            <strong class="text-foreground">Reaction:</strong> How fast you respond to what you see and hear. Based on Visual Reaction, Choice Grid, and Go/No-Go tests.
+            <strong class="text-foreground">Reaction:</strong> How fast you respond
+            to what you see and hear. Based on Visual Reaction, Choice Grid, and Go/No-Go
+            tests.
           </li>
           <li>
-            <strong class="text-foreground">Memory:</strong> How well you remember sequences, patterns, and numbers. Based on Sequence Memory and related tests.
+            <strong class="text-foreground">Memory:</strong> How well you remember
+            sequences, patterns, and numbers. Based on Sequence Memory and related
+            tests.
           </li>
           <li>
-            <strong class="text-foreground">Precision:</strong> How accurately you click targets on screen. Based on Aim Precision and Mouse Accuracy tests.
+            <strong class="text-foreground">Precision:</strong> How accurately you
+            click targets on screen. Based on Aim Precision and Mouse Accuracy tests.
           </li>
           <li>
-            <strong class="text-foreground">Speed & Motor:</strong> How fast you can click repeatedly (CPS) and maintain a steady cadence.
+            <strong class="text-foreground">Speed & Motor:</strong> How fast you can
+            click repeatedly (CPS) and maintain a steady cadence.
           </li>
           <li>
-            <strong class="text-foreground">Stamina:</strong> How consistent your performance stays across multiple attempts and extended sessions.
+            <strong class="text-foreground">Stamina:</strong> How consistent your
+            performance stays across multiple attempts and extended sessions.
           </li>
           <li>
-            <strong class="text-foreground">Auditory:</strong> How quickly you react to sounds. Compares your hearing reaction speed to visual cues.
+            <strong class="text-foreground">Auditory:</strong> How quickly you react
+            to sounds. Compares your hearing reaction speed to visual cues.
           </li>
         </ul>
       </article>
 
       <article class="flex flex-col gap-4">
-        <h2 class="text-xl font-semibold text-foreground tracking-tight" data-i18n="dash.privacy_title">Privacy & Local Ledger Integrity</h2>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="dash.privacy_desc1">
-          CogniArena is anonymous and does not collect personal identifiers. All performance records are stored locally inside your browser's IndexedDB database. 
+        <h2
+          class="text-xl font-semibold tracking-tight text-foreground"
+          data-i18n="dash.privacy_title"
+        >
+          Privacy & Local Ledger Integrity
+        </h2>
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="dash.privacy_desc1"
+        >
+          CogniArena is anonymous and does not collect personal identifiers. All
+          performance records are stored locally inside your browser's IndexedDB
+          database.
         </p>
-        <p class="text-muted dark:text-muted text-sm leading-relaxed" data-i18n="dash.privacy_desc2">
-          By activating **Cloud Sync**, an encrypted hash of your recovery key is saved to the Cloudflare D1 edge database to back up your achievements against cache clears. Disconnecting sync removes edge links immediately.
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="dash.privacy_desc2"
+        >
+          By activating **Cloud Sync**, an encrypted hash of your recovery key
+          is saved to the Cloudflare D1 edge database to back up your
+          achievements against cache clears. Disconnecting sync removes edge
+          links immediately.
         </p>
       </article>
-
     </section>
   </div>
 </Layout>

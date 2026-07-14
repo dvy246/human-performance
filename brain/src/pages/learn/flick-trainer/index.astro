@@ -1,112 +1,138 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Flick Training & Spatial Motor Coordination | CogniArena";
-const description = "Scientific guide to flick targeting, ballistic motor planning, saccadic eye movements, and rapid spatial coordination.";
-const canonicalUrl = "https://cogniarena.com/learn/flick-trainer";
+const title = "Flick Training & Spatial Motor Coordination | CogniArena"
+const description =
+  "Scientific guide to flick targeting, ballistic motor planning, saccadic eye movements, and rapid spatial coordination."
+const canonicalUrl = "https://cogniarena.com/learn/flick-trainer"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Ballistic Motor Planning and Saccadic Eye Movements",
-    "description": "Scientific guide to flick targeting, ballistic motor planning, saccadic eye movements, and rapid spatial coordination.",
-    "publisher": {
+    headline: "Ballistic Motor Planning and Saccadic Eye Movements",
+    description:
+      "Scientific guide to flick targeting, ballistic motor planning, saccadic eye movements, and rapid spatial coordination.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is a ballistic movement in aiming?",
-        "acceptedAnswer": {
+        name: "What is a ballistic movement in aiming?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "A ballistic movement is a rapid, open-loop movement that is executed too quickly for real-time visual feedback. The brain plans the movement force and path beforehand and executes it in a single burst."
-        }
+          text: "A ballistic movement is a rapid, open-loop movement that is executed too quickly for real-time visual feedback. The brain plans the movement force and path beforehand and executes it in a single burst.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why do I overshoot or undershoot targets?",
-        "acceptedAnswer": {
+        name: "Why do I overshoot or undershoot targets?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "This is due to motor programming errors. If your muscle memory is not aligned with your mouse sensitivity, or if muscle fatigue changes muscle resistance, the brain's planned force will cause the cursor to miss."
-        }
+          text: "This is due to motor programming errors. If your muscle memory is not aligned with your mouse sensitivity, or if muscle fatigue changes muscle resistance, the brain's planned force will cause the cursor to miss.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What is a saccade?",
-        "acceptedAnswer": {
+        name: "What is a saccade?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "A saccade is a rapid, automatic movement of the eyes between fixation points. During a flick, a saccade is triggered to align your eyes with the target, helping the brain verify target coordinates."
-        }
+          text: "A saccade is a rapid, automatic movement of the eyes between fixation points. During a flick, a saccade is triggered to align your eyes with the target, helping the brain verify target coordinates.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why is consistent mouse sensitivity important for flicking?",
-        "acceptedAnswer": {
+        name: "Why is consistent mouse sensitivity important for flicking?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Ballistic movements rely on preplanned muscle memory. If your mouse sensitivity changes, the same physical hand movement will move the cursor a different distance, disrupting your spatial motor map."
-        }
-      }
-    ]
+          text: "Ballistic movements rely on preplanned muscle memory. If your mouse sensitivity changes, the same physical hand movement will move the cursor a different distance, disrupting your spatial motor map.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Flick Training",
-        "item": "https://cogniarena.com/learn/flick-trainer"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Flick Training",
+        item: "https://cogniarena.com/learn/flick-trainer",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Flick Training & Spatial Motor Coordination
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Flick training evaluates and develops rapid, ballistic target acquisition. Unlike tracking, flicking requires executing quick movements to targets outside the active visual field, testing visual localization, ballistic motor programming, and muscle memory.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Flick training evaluates and develops rapid, ballistic target
+        acquisition. Unlike tracking, flicking requires executing quick
+        movements to targets outside the active visual field, testing visual
+        localization, ballistic motor programming, and muscle memory.
       </p>
     </header>
 
@@ -116,7 +142,18 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Flick targeting relies on rapid, feedforward motor execution, known as ballistic movement. When a target appears in the peripheral vision, the superior colliculus in the midbrain detects the visual change and triggers a saccade—a rapid eye movement to align the fovea (center of the retina) with the target. Simultaneously, the premotor cortex and cerebellum calculate the distance and direction of the hand movement, generating a ballistic motor program. The primary motor cortex fires a rapid burst of signals down the spinal cord, executing the flick in a single, open-loop movement. Because the movement is too fast for real-time visual feedback (which takes 100-150ms), the brain must rely on muscle memory and sensory predictions, only correcting the cursor's position after the flick is complete.
+          Flick targeting relies on rapid, feedforward motor execution, known as
+          ballistic movement. When a target appears in the peripheral vision,
+          the superior colliculus in the midbrain detects the visual change and
+          triggers a saccade—a rapid eye movement to align the fovea (center of
+          the retina) with the target. Simultaneously, the premotor cortex and
+          cerebellum calculate the distance and direction of the hand movement,
+          generating a ballistic motor program. The primary motor cortex fires a
+          rapid burst of signals down the spinal cord, executing the flick in a
+          single, open-loop movement. Because the movement is too fast for
+          real-time visual feedback (which takes 100-150ms), the brain must rely
+          on muscle memory and sensory predictions, only correcting the cursor's
+          position after the flick is complete.
         </p>
       </article>
 
@@ -125,7 +162,15 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Ballistic movements are modeled using open-loop motor control theories. The movement profile of a flick consists of a rapid acceleration phase followed by a deceleration phase, with peak velocity occurring mid-flight. The accuracy of a flick depends on the precision of the motor program's force calculation. Overshooting or undershooting occurs if the brain miscalculates the target's distance or the muscle's resistance. Achieving high accuracy requires consistent mouse sensitivity (DPI) and physical posture to keep motor coordinates stable in the brain's spatial map.
+          Ballistic movements are modeled using open-loop motor control
+          theories. The movement profile of a flick consists of a rapid
+          acceleration phase followed by a deceleration phase, with peak
+          velocity occurring mid-flight. The accuracy of a flick depends on the
+          precision of the motor program's force calculation. Overshooting or
+          undershooting occurs if the brain miscalculates the target's distance
+          or the muscle's resistance. Achieving high accuracy requires
+          consistent mouse sensitivity (DPI) and physical posture to keep motor
+          coordinates stable in the brain's spatial map.
         </p>
       </article>
 
@@ -134,7 +179,13 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Average flick target acquisition times are 250ms to 350ms, with error rates increasing as target distance rises. High-level FPS competitors achieve flick times under 200ms with high accuracy, showing highly developed ballistic motor maps. Flick performance is highly sensitive to changes in mouse sensitivity, muscle fatigue, and cognitive alertness, as the motor program must be updated to reflect physical conditions.
+          Average flick target acquisition times are 250ms to 350ms, with error
+          rates increasing as target distance rises. High-level FPS competitors
+          achieve flick times under 200ms with high accuracy, showing highly
+          developed ballistic motor maps. Flick performance is highly sensitive
+          to changes in mouse sensitivity, muscle fatigue, and cognitive
+          alertness, as the motor program must be updated to reflect physical
+          conditions.
         </p>
       </article>
 
@@ -143,7 +194,12 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To improve flick accuracy, practice consistent mouse placement and spatial awareness. Focus on executing the movement in a single, fluid stroke rather than two separate steps. Maintain a consistent mouse sensitivity (DPI) to help the cerebellum build stable muscle memory. Technically, utilize a light mouse with a low-friction mousepad to ensure smooth, rapid movements, and disable mouse acceleration.
+          To improve flick accuracy, practice consistent mouse placement and
+          spatial awareness. Focus on executing the movement in a single, fluid
+          stroke rather than two separate steps. Maintain a consistent mouse
+          sensitivity (DPI) to help the cerebellum build stable muscle memory.
+          Technically, utilize a light mouse with a low-friction mousepad to
+          ensure smooth, rapid movements, and disable mouse acceleration.
         </p>
       </article>
 
@@ -156,32 +212,42 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               What is a ballistic movement in aiming?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              A ballistic movement is a rapid, open-loop movement that is executed too quickly for real-time visual feedback. The brain plans the movement force and path beforehand and executes it in a single burst.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              A ballistic movement is a rapid, open-loop movement that is
+              executed too quickly for real-time visual feedback. The brain
+              plans the movement force and path beforehand and executes it in a
+              single burst.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Why do I overshoot or undershoot targets?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              This is due to motor programming errors. If your muscle memory is not aligned with your mouse sensitivity, or if muscle fatigue changes muscle resistance, the brain's planned force will cause the cursor to miss.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              This is due to motor programming errors. If your muscle memory is
+              not aligned with your mouse sensitivity, or if muscle fatigue
+              changes muscle resistance, the brain's planned force will cause
+              the cursor to miss.
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
-              What is a saccade?
-            </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              A saccade is a rapid, automatic movement of the eyes between fixation points. During a flick, a saccade is triggered to align your eyes with the target, helping the brain verify target coordinates.
+            <h4 class="mb-2 font-bold text-foreground">What is a saccade?</h4>
+            <p class="leading-relaxed text-muted dark:text-muted">
+              A saccade is a rapid, automatic movement of the eyes between
+              fixation points. During a flick, a saccade is triggered to align
+              your eyes with the target, helping the brain verify target
+              coordinates.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Why is consistent mouse sensitivity important for flicking?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Ballistic movements rely on preplanned muscle memory. If your mouse sensitivity changes, the same physical hand movement will move the cursor a different distance, disrupting your spatial motor map.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Ballistic movements rely on preplanned muscle memory. If your
+              mouse sensitivity changes, the same physical hand movement will
+              move the cursor a different distance, disrupting your spatial
+              motor map.
             </p>
           </div>
         </div>

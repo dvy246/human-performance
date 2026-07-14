@@ -1,112 +1,139 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Dual N-Back Training & Working Memory | CogniArena";
-const description = "Scientific guide to Dual N-Back training, working memory updating, fluid intelligence transfer, and prefrontal plasticity.";
-const canonicalUrl = "https://cogniarena.com/learn/dual-n-back";
+const title = "Dual N-Back Training & Working Memory | CogniArena"
+const description =
+  "Scientific guide to Dual N-Back training, working memory updating, fluid intelligence transfer, and prefrontal plasticity."
+const canonicalUrl = "https://cogniarena.com/learn/dual-n-back"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Working Memory Updating & Fluid Intelligence Transfer",
-    "description": "Scientific guide to Dual N-Back training, working memory updating, fluid intelligence transfer, and prefrontal plasticity.",
-    "publisher": {
+    headline: "Working Memory Updating & Fluid Intelligence Transfer",
+    description:
+      "Scientific guide to Dual N-Back training, working memory updating, fluid intelligence transfer, and prefrontal plasticity.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is Dual N-Back?",
-        "acceptedAnswer": {
+        name: "What is Dual N-Back?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Dual N-Back is a cognitive training task where you track a visual stimulus (position on a grid) and an auditory stimulus (spoken letter) simultaneously, indicating when the current stimulus matches the one presented 'N' steps ago."
-        }
+          text: "Dual N-Back is a cognitive training task where you track a visual stimulus (position on a grid) and an auditory stimulus (spoken letter) simultaneously, indicating when the current stimulus matches the one presented 'N' steps ago.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Does Dual N-Back training improve IQ?",
-        "acceptedAnswer": {
+        name: "Does Dual N-Back training improve IQ?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Studies suggest that Dual N-Back training improves working memory capacity, which is highly correlated with fluid intelligence (the ability to solve new problems). While 'transfer effects' to general intelligence are debated, training consistently improves cognitive control."
-        }
+          text: "Studies suggest that Dual N-Back training improves working memory capacity, which is highly correlated with fluid intelligence (the ability to solve new problems). While 'transfer effects' to general intelligence are debated, training consistently improves cognitive control.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why is Dual N-Back so difficult?",
-        "acceptedAnswer": {
+        name: "Why is Dual N-Back so difficult?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "It forces the brain to run two independent memory queues (visual and auditory) in working memory while continuously updating them and ignoring interference from nearby steps, leading to high cognitive load."
-        }
+          text: "It forces the brain to run two independent memory queues (visual and auditory) in working memory while continuously updating them and ignoring interference from nearby steps, leading to high cognitive load.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How can I improve my N-Back score?",
-        "acceptedAnswer": {
+        name: "How can I improve my N-Back score?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Focus on updating a sliding queue of size N in your head. When a new stimulus appears, mentally discard the oldest item and add the new one, rather than trying to recall the entire sequence from memory."
-        }
-      }
-    ]
+          text: "Focus on updating a sliding queue of size N in your head. When a new stimulus appears, mentally discard the oldest item and add the new one, rather than trying to recall the entire sequence from memory.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Dual N-Back",
-        "item": "https://cogniarena.com/learn/dual-n-back"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Dual N-Back",
+        item: "https://cogniarena.com/learn/dual-n-back",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Dual N-Back Training & Working Memory Science
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Dual N-Back is a cognitive training task designed to challenge and develop working memory capacity. By requiring users to simultaneously track auditory and visual sequences, this task pushes the limits of working memory updating, interference control, and prefrontal executive capacity.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Dual N-Back is a cognitive training task designed to challenge and
+        develop working memory capacity. By requiring users to simultaneously
+        track auditory and visual sequences, this task pushes the limits of
+        working memory updating, interference control, and prefrontal executive
+        capacity.
       </p>
     </header>
 
@@ -116,7 +143,20 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Dual N-Back is one of the most demanding cognitive tasks, engaging a network spanning prefrontal and parietal regions, known as the frontoparietal control network. Visuospatial tracking recruits the right middle frontal gyrus and posterior parietal cortex, while auditory tracking engages the left inferior frontal gyrus and temporal auditory regions. The dorsolateral prefrontal cortex (dlPFC) oversees both streams, performing working memory updating—constantly adding new stimuli to the sequence while discarding older ones. The anterior cingulate cortex (ACC) manages the conflict between visual and auditory inputs, and the basal ganglia act as a gatekeeper, controlling what information enters working memory. This dual-task configuration forces the brain to manage attentional resource allocation, visual-auditory coordination, and proactive interference from previous trials.
+          Dual N-Back is one of the most demanding cognitive tasks, engaging a
+          network spanning prefrontal and parietal regions, known as the
+          frontoparietal control network. Visuospatial tracking recruits the
+          right middle frontal gyrus and posterior parietal cortex, while
+          auditory tracking engages the left inferior frontal gyrus and temporal
+          auditory regions. The dorsolateral prefrontal cortex (dlPFC) oversees
+          both streams, performing working memory updating—constantly adding new
+          stimuli to the sequence while discarding older ones. The anterior
+          cingulate cortex (ACC) manages the conflict between visual and
+          auditory inputs, and the basal ganglia act as a gatekeeper,
+          controlling what information enters working memory. This dual-task
+          configuration forces the brain to manage attentional resource
+          allocation, visual-auditory coordination, and proactive interference
+          from previous trials.
         </p>
       </article>
 
@@ -125,7 +165,17 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The Dual N-Back task is modeled using working memory capacity (WMC) and cognitive control theories. The difficulty level 'N' determines the memory load: at 2-Back, the user must remember the visual position and audio letter from two steps ago. The cognitive load scales exponentially with N, requiring continuous updating of N-sized queues in working memory. Proactive interference occurs when a stimulus from N-1 or N+1 matches the current one, requiring active inhibitory control to suppress incorrect familiarity signals. Dual N-Back has been studied for its potential to improve fluid intelligence (Gf) through cognitive transfer, as both tasks rely on shared prefrontal networks.
+          The Dual N-Back task is modeled using working memory capacity (WMC)
+          and cognitive control theories. The difficulty level 'N' determines
+          the memory load: at 2-Back, the user must remember the visual position
+          and audio letter from two steps ago. The cognitive load scales
+          exponentially with N, requiring continuous updating of N-sized queues
+          in working memory. Proactive interference occurs when a stimulus from
+          N-1 or N+1 matches the current one, requiring active inhibitory
+          control to suppress incorrect familiarity signals. Dual N-Back has
+          been studied for its potential to improve fluid intelligence (Gf)
+          through cognitive transfer, as both tasks rely on shared prefrontal
+          networks.
         </p>
       </article>
 
@@ -134,7 +184,13 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The baseline capacity for most untrained adults is 2-Back or 3-Back. Through consistent training, individuals can reach 5-Back or higher, reflecting increased prefrontal efficiency and working memory capacity. Dual N-Back training has been shown to increase dopamine receptor density in the prefrontal cortex and modify white matter connectivity, demonstrating high neuroplasticity in executive control networks.
+          The baseline capacity for most untrained adults is 2-Back or 3-Back.
+          Through consistent training, individuals can reach 5-Back or higher,
+          reflecting increased prefrontal efficiency and working memory
+          capacity. Dual N-Back training has been shown to increase dopamine
+          receptor density in the prefrontal cortex and modify white matter
+          connectivity, demonstrating high neuroplasticity in executive control
+          networks.
         </p>
       </article>
 
@@ -143,7 +199,13 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To train Dual N-Back effectively, practice maintaining a continuous mental queue and managing interference. Do not attempt to memorize the entire sequence; instead, update your active queue ('slide' the window) as each new stimulus appears. Focus on keeping your breathing steady and tensing your attention without panic. Ensure you use low-latency wired headphones and a fast screen to keep visual and auditory stimuli synchronized, preventing timing alignment errors.
+          To train Dual N-Back effectively, practice maintaining a continuous
+          mental queue and managing interference. Do not attempt to memorize the
+          entire sequence; instead, update your active queue ('slide' the
+          window) as each new stimulus appears. Focus on keeping your breathing
+          steady and tensing your attention without panic. Ensure you use
+          low-latency wired headphones and a fast screen to keep visual and
+          auditory stimuli synchronized, preventing timing alignment errors.
         </p>
       </article>
 
@@ -153,35 +215,46 @@ const schemaJson = [
         </h2>
         <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
-              What is Dual N-Back?
-            </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Dual N-Back is a cognitive training task where you track a visual stimulus (position on a grid) and an auditory stimulus (spoken letter) simultaneously, indicating when the current stimulus matches the one presented 'N' steps ago.
+            <h4 class="mb-2 font-bold text-foreground">What is Dual N-Back?</h4>
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Dual N-Back is a cognitive training task where you track a visual
+              stimulus (position on a grid) and an auditory stimulus (spoken
+              letter) simultaneously, indicating when the current stimulus
+              matches the one presented 'N' steps ago.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Does Dual N-Back training improve IQ?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Studies suggest that Dual N-Back training improves working memory capacity, which is highly correlated with fluid intelligence (the ability to solve new problems). While 'transfer effects' to general intelligence are debated, training consistently improves cognitive control.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Studies suggest that Dual N-Back training improves working memory
+              capacity, which is highly correlated with fluid intelligence (the
+              ability to solve new problems). While 'transfer effects' to
+              general intelligence are debated, training consistently improves
+              cognitive control.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Why is Dual N-Back so difficult?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              It forces the brain to run two independent memory queues (visual and auditory) in working memory while continuously updating them and ignoring interference from nearby steps, leading to high cognitive load.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              It forces the brain to run two independent memory queues (visual
+              and auditory) in working memory while continuously updating them
+              and ignoring interference from nearby steps, leading to high
+              cognitive load.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How can I improve my N-Back score?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Focus on updating a sliding queue of size N in your head. When a new stimulus appears, mentally discard the oldest item and add the new one, rather than trying to recall the entire sequence from memory.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Focus on updating a sliding queue of size N in your head. When a
+              new stimulus appears, mentally discard the oldest item and add the
+              new one, rather than trying to recall the entire sequence from
+              memory.
             </p>
           </div>
         </div>

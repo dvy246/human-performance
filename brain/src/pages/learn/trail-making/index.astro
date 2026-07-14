@@ -1,112 +1,138 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Trail Making Test & Cognitive Set Shifting | CogniArena";
-const description = "Scientific guide to the Trail Making Test, set shifting costs, spatial scanning speed, and mental flexibility.";
-const canonicalUrl = "https://cogniarena.com/learn/trail-making";
+const title = "Trail Making Test & Cognitive Set Shifting | CogniArena"
+const description =
+  "Scientific guide to the Trail Making Test, set shifting costs, spatial scanning speed, and mental flexibility."
+const canonicalUrl = "https://cogniarena.com/learn/trail-making"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "Alternating Attention and Executive Set Shifting",
-    "description": "Scientific guide to the Trail Making Test, set shifting costs, spatial scanning speed, and mental flexibility.",
-    "publisher": {
+    headline: "Alternating Attention and Executive Set Shifting",
+    description:
+      "Scientific guide to the Trail Making Test, set shifting costs, spatial scanning speed, and mental flexibility.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is the difference between Trail Making Part A and Part B?",
-        "acceptedAnswer": {
+        name: "What is the difference between Trail Making Part A and Part B?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Part A requires connecting numbers in numerical order (1-2-3), measuring visual search and motor speed. Part B requires alternating between numbers and letters (1-A-2-B), measuring cognitive set shifting and mental flexibility."
-        }
+          text: "Part A requires connecting numbers in numerical order (1-2-3), measuring visual search and motor speed. Part B requires alternating between numbers and letters (1-A-2-B), measuring cognitive set shifting and mental flexibility.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What does set shifting mean in psychology?",
-        "acceptedAnswer": {
+        name: "What does set shifting mean in psychology?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Set shifting, or task switching, is the executive ability to switch focus between different rules or task sets. It requires updating working memory and suppressing the influence of previous rules."
-        }
+          text: "Set shifting, or task switching, is the executive ability to switch focus between different rules or task sets. It requires updating working memory and suppressing the influence of previous rules.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why does Part B take so much longer than Part A?",
-        "acceptedAnswer": {
+        name: "Why does Part B take so much longer than Part A?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Part B requires the brain to continuously switch between two different conceptual sets (numeric and alphabetic). This introduces a cognitive switching cost and increases visual search complexity, slowing down performance."
-        }
+          text: "Part B requires the brain to continuously switch between two different conceptual sets (numeric and alphabetic). This introduces a cognitive switching cost and increases visual search complexity, slowing down performance.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What does a high Trail Making score indicate?",
-        "acceptedAnswer": {
+        name: "What does a high Trail Making score indicate?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "A high completion time on Part B relative to Part A indicates executive dysfunction, which can be caused by brain injury, cognitive decline, sleep deprivation, or developmental conditions like ADHD."
-        }
-      }
-    ]
+          text: "A high completion time on Part B relative to Part A indicates executive dysfunction, which can be caused by brain injury, cognitive decline, sleep deprivation, or developmental conditions like ADHD.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Trail Making",
-        "item": "https://cogniarena.com/learn/trail-making"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Trail Making",
+        item: "https://cogniarena.com/learn/trail-making",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Trail Making Test & Cognitive Set Shifting
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        The Trail Making Test (TMT) evaluates executive function, specifically set shifting, cognitive flexibility, visual search speed, and motor planning. This guide explores the neural mechanisms of alternating attention, task switching costs, and clinical benchmarks.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        The Trail Making Test (TMT) evaluates executive function, specifically
+        set shifting, cognitive flexibility, visual search speed, and motor
+        planning. This guide explores the neural mechanisms of alternating
+        attention, task switching costs, and clinical benchmarks.
       </p>
     </header>
 
@@ -116,7 +142,19 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The Trail Making Test consists of two parts: TMT-A (connecting numbers in order: 1-2-3) and TMT-B (alternating between numbers and letters: 1-A-2-B). TMT-A primarily measures visual search speed and motor control, engaging the visual cortex and motor system. TMT-B requires set shifting, a high-level executive function that relies on the prefrontal cortex, specifically the dorsolateral prefrontal cortex (dlPFC) and the inferior frontal gyrus. When alternating between numbers and letters, the dlPFC must continuously update the task rules in working memory ('number next, then letter'). The parietal cortex manages spatial tracking, while the cerebellum and basal ganglia coordinate motor execution. Successful performance requires rapid switching between cognitive domains, visual scanning, and spatial memory to track target locations.
+          The Trail Making Test consists of two parts: TMT-A (connecting numbers
+          in order: 1-2-3) and TMT-B (alternating between numbers and letters:
+          1-A-2-B). TMT-A primarily measures visual search speed and motor
+          control, engaging the visual cortex and motor system. TMT-B requires
+          set shifting, a high-level executive function that relies on the
+          prefrontal cortex, specifically the dorsolateral prefrontal cortex
+          (dlPFC) and the inferior frontal gyrus. When alternating between
+          numbers and letters, the dlPFC must continuously update the task rules
+          in working memory ('number next, then letter'). The parietal cortex
+          manages spatial tracking, while the cerebellum and basal ganglia
+          coordinate motor execution. Successful performance requires rapid
+          switching between cognitive domains, visual scanning, and spatial
+          memory to track target locations.
         </p>
       </article>
 
@@ -125,7 +163,13 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The cognitive cost of set shifting is measured by subtracting the time taken for TMT-A from TMT-B: Shifting Cost = TMT_B - TMT_A. This subtraction isolates the pure executive switching overhead from base visual search and motor execution speeds. The alternating set-shifting cost represents the time needed to clear the previous rule from the working memory buffer and load the new rule. A high shifting cost indicates reduced cognitive flexibility or executive dysfunction.
+          The cognitive cost of set shifting is measured by subtracting the time
+          taken for TMT-A from TMT-B: Shifting Cost = TMT_B - TMT_A. This
+          subtraction isolates the pure executive switching overhead from base
+          visual search and motor execution speeds. The alternating set-shifting
+          cost represents the time needed to clear the previous rule from the
+          working memory buffer and load the new rule. A high shifting cost
+          indicates reduced cognitive flexibility or executive dysfunction.
         </p>
       </article>
 
@@ -134,7 +178,13 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The average time to complete TMT-A is 29 seconds, while TMT-B averages 75 seconds. A shifting cost of 45 seconds is normal for adults. Shifting costs rise significantly with age, sleep deprivation, and frontal lobe lesions. In clinical settings, the Trail Making Test is a primary diagnostic tool for assessing cognitive impairment, dementia, and fitness to drive, as it reflects the visual attention and mental flexibility needed to navigate complex environments.
+          The average time to complete TMT-A is 29 seconds, while TMT-B averages
+          75 seconds. A shifting cost of 45 seconds is normal for adults.
+          Shifting costs rise significantly with age, sleep deprivation, and
+          frontal lobe lesions. In clinical settings, the Trail Making Test is a
+          primary diagnostic tool for assessing cognitive impairment, dementia,
+          and fitness to drive, as it reflects the visual attention and mental
+          flexibility needed to navigate complex environments.
         </p>
       </article>
 
@@ -143,7 +193,13 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To optimize Trail Making performance, practice visual scanning and mental flexibility drills. Train your eyes to scan ahead to locate the next target while clicking the current one, reducing search latency. Maintain a clear mental representation of both sequences (numbers and letters) to minimize transition delay. Technically, ensure your mouse sensitivity is adjusted for clean, precise sweeps to avoid overshoot errors.
+          To optimize Trail Making performance, practice visual scanning and
+          mental flexibility drills. Train your eyes to scan ahead to locate the
+          next target while clicking the current one, reducing search latency.
+          Maintain a clear mental representation of both sequences (numbers and
+          letters) to minimize transition delay. Technically, ensure your mouse
+          sensitivity is adjusted for clean, precise sweeps to avoid overshoot
+          errors.
         </p>
       </article>
 
@@ -156,32 +212,44 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               What is the difference between Trail Making Part A and Part B?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Part A requires connecting numbers in numerical order (1-2-3), measuring visual search and motor speed. Part B requires alternating between numbers and letters (1-A-2-B), measuring cognitive set shifting and mental flexibility.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Part A requires connecting numbers in numerical order (1-2-3),
+              measuring visual search and motor speed. Part B requires
+              alternating between numbers and letters (1-A-2-B), measuring
+              cognitive set shifting and mental flexibility.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               What does set shifting mean in psychology?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Set shifting, or task switching, is the executive ability to switch focus between different rules or task sets. It requires updating working memory and suppressing the influence of previous rules.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Set shifting, or task switching, is the executive ability to
+              switch focus between different rules or task sets. It requires
+              updating working memory and suppressing the influence of previous
+              rules.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Why does Part B take so much longer than Part A?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Part B requires the brain to continuously switch between two different conceptual sets (numeric and alphabetic). This introduces a cognitive switching cost and increases visual search complexity, slowing down performance.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Part B requires the brain to continuously switch between two
+              different conceptual sets (numeric and alphabetic). This
+              introduces a cognitive switching cost and increases visual search
+              complexity, slowing down performance.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               What does a high Trail Making score indicate?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              A high completion time on Part B relative to Part A indicates executive dysfunction, which can be caused by brain injury, cognitive decline, sleep deprivation, or developmental conditions like ADHD.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              A high completion time on Part B relative to Part A indicates
+              executive dysfunction, which can be caused by brain injury,
+              cognitive decline, sleep deprivation, or developmental conditions
+              like ADHD.
             </p>
           </div>
         </div>

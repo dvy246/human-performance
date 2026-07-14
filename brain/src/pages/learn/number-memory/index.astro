@@ -1,112 +1,139 @@
 ---
 import Layout from "@/layouts/main.astro"
 
-const title = "Number Memory & Digit Span Capacity | CogniArena";
-const description = "Explore digit span memory, phonological loop capacity, number chunking methods, and short-term verbal memory thresholds.";
-const canonicalUrl = "https://cogniarena.com/learn/number-memory";
+const title = "Number Memory & Digit Span Capacity | CogniArena"
+const description =
+  "Explore digit span memory, phonological loop capacity, number chunking methods, and short-term verbal memory thresholds."
+const canonicalUrl = "https://cogniarena.com/learn/number-memory"
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Article",
-    "headline": "The Phonological Loop and Digit Span Capacity",
-    "description": "Explore digit span memory, phonological loop capacity, number chunking methods, and short-term verbal memory thresholds.",
-    "publisher": {
+    headline: "The Phonological Loop and Digit Span Capacity",
+    description:
+      "Explore digit span memory, phonological loop capacity, number chunking methods, and short-term verbal memory thresholds.",
+    publisher: {
       "@type": "Organization",
-      "name": "CogniArena"
+      name: "CogniArena",
     },
-    "author": {
+    author: {
       "@type": "Organization",
-      "name": "CogniArena Scientific Review Board",
-      "url": "https://cogniarena.com/about#board"
+      name: "CogniArena Scientific Review Board",
+      url: "https://cogniarena.com/about#board",
     },
-    "datePublished": "2026-07-05",
-    "dateModified": "2026-07-10"
+    datePublished: "2026-07-05",
+    dateModified: "2026-07-10",
   },
   {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
+    mainEntity: [
       {
         "@type": "Question",
-        "name": "What is the average human digit span?",
-        "acceptedAnswer": {
+        name: "What is the average human digit span?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "The average human digit span is 7 digits. Most healthy adults can recall between 5 and 9 numbers in forward order without training, aligning with George Miller's classic 7±2 rule."
-        }
+          text: "The average human digit span is 7 digits. Most healthy adults can recall between 5 and 9 numbers in forward order without training, aligning with George Miller's classic 7±2 rule.",
+        },
       },
       {
         "@type": "Question",
-        "name": "What is chunking in memory?",
-        "acceptedAnswer": {
+        name: "What is chunking in memory?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Chunking is the process of grouping individual pieces of information into larger, meaningful units. For example, memorizing '8392' as 'eighty-three, ninety-two' reduces the cognitive load from four individual chunks to two."
-        }
+          text: "Chunking is the process of grouping individual pieces of information into larger, meaningful units. For example, memorizing '8392' as 'eighty-three, ninety-two' reduces the cognitive load from four individual chunks to two.",
+        },
       },
       {
         "@type": "Question",
-        "name": "How does Broca's area participate in number memory?",
-        "acceptedAnswer": {
+        name: "How does Broca's area participate in number memory?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "Broca's area is responsible for subvocal rehearsal—the silent loop of repeating numbers in your head. This active repetition refreshes the memory traces in the parietal lobe's phonological store, preventing them from decaying."
-        }
+          text: "Broca's area is responsible for subvocal rehearsal—the silent loop of repeating numbers in your head. This active repetition refreshes the memory traces in the parietal lobe's phonological store, preventing them from decaying.",
+        },
       },
       {
         "@type": "Question",
-        "name": "Why does distraction immediately cause memory failure?",
-        "acceptedAnswer": {
+        name: "Why does distraction immediately cause memory failure?",
+        acceptedAnswer: {
           "@type": "Answer",
-          "text": "The phonological store only holds memory traces for about 1.5 to 2 seconds. If a distraction interrupts your subvocal rehearsal loop, the traces decay and are overwritten by the distracting stimuli, causing immediate forgetting."
-        }
-      }
-    ]
+          text: "The phonological store only holds memory traces for about 1.5 to 2 seconds. If a distraction interrupts your subvocal rehearsal loop, the traces decay and are overwritten by the distracting stimuli, causing immediate forgetting.",
+        },
+      },
+    ],
   },
   {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
-    "itemListElement": [
+    itemListElement: [
       {
         "@type": "ListItem",
-        "position": 1,
-        "name": "Home",
-        "item": "https://cogniarena.com"
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
       },
       {
         "@type": "ListItem",
-        "position": 2,
-        "name": "Learning Center",
-        "item": "https://cogniarena.com/learn"
+        position: 2,
+        name: "Learning Center",
+        item: "https://cogniarena.com/learn",
       },
       {
         "@type": "ListItem",
-        "position": 3,
-        "name": "Number Memory",
-        "item": "https://cogniarena.com/learn/number-memory"
-      }
-    ]
-  }
-];
+        position: 3,
+        name: "Number Memory",
+        item: "https://cogniarena.com/learn/number-memory",
+      },
+    ],
+  },
+]
 ---
 
-<Layout title={title} description={description} canonicalUrl={canonicalUrl} schemaJson={schemaJson}>
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
     <header class="flex flex-col gap-3">
-      <div class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
         <span>Learning Center</span>
         <span>&middot;</span>
         <span>Scientific Guide</span>
       </div>
-      <h1 class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl">
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
         Number Memory & Digit Span Capacity
       </h1>
-      <div class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted">
-        <div class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent">
+      <div
+        class="mt-2 flex items-center gap-3 border-b border-card-border/40 pb-4 text-xs text-muted"
+      >
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-[10px] font-bold text-accent"
+        >
           CA
         </div>
-        <span>Prepared by the <a href="/about#board" class="font-semibold text-accent hover:underline">CogniArena Scientific Review Board</a> &middot; Reviewed for Scientific Rigor</span>
+        <span
+          >Prepared by the <a
+            href="/about#board"
+            class="font-semibold text-accent hover:underline"
+            >CogniArena Scientific Review Board</a
+          > &middot; Reviewed for Scientific Rigor</span
+        >
       </div>
-      <p class="text-sm leading-relaxed text-muted md:text-base dark:text-muted">
-        Number memory, or digit span, is a classic psychological metric measuring the capacity of short-term auditory-verbal memory. This test isolates the phonological loop, evaluating how many numeric digits an individual can recall in sequence before attention decay or cognitive overload occurs.
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        Number memory, or digit span, is a classic psychological metric
+        measuring the capacity of short-term auditory-verbal memory. This test
+        isolates the phonological loop, evaluating how many numeric digits an
+        individual can recall in sequence before attention decay or cognitive
+        overload occurs.
       </p>
     </header>
 
@@ -116,7 +143,18 @@ const schemaJson = [
           1. Neurobiological Foundations &amp; Neural Pathways
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The neural substrate of number memory resides primarily in the left hemisphere language network. Verbal stimuli (even when read visually) are translated into silent speech via internal subvocal rehearsal, engaging Broca's area in the left inferior frontal gyrus and Wernicke's area in the left superior temporal gyrus. The phonological store, located in the left supramarginal gyrus of the parietal lobe, holds the acoustic trace of the digits for 1.5 to 2 seconds. The prefrontal cortex (dlPFC) oversees the storage and coordinates retrieval, while the basolateral amygdala and hippocampus modulate encoding depth. If the subvocal rehearsal loop is interrupted (e.g., by hearing someone speak), the phonological trace decays rapidly, leading to recall failure.
+          The neural substrate of number memory resides primarily in the left
+          hemisphere language network. Verbal stimuli (even when read visually)
+          are translated into silent speech via internal subvocal rehearsal,
+          engaging Broca's area in the left inferior frontal gyrus and
+          Wernicke's area in the left superior temporal gyrus. The phonological
+          store, located in the left supramarginal gyrus of the parietal lobe,
+          holds the acoustic trace of the digits for 1.5 to 2 seconds. The
+          prefrontal cortex (dlPFC) oversees the storage and coordinates
+          retrieval, while the basolateral amygdala and hippocampus modulate
+          encoding depth. If the subvocal rehearsal loop is interrupted (e.g.,
+          by hearing someone speak), the phonological trace decays rapidly,
+          leading to recall failure.
         </p>
       </article>
 
@@ -125,7 +163,16 @@ const schemaJson = [
           2. Cognitive Modeling &amp; Theoretical Frameworks
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The theoretical capacity of short-term memory was famously quantified by George Miller in 1956 as 'The Magical Number Seven, Plus or Minus Two' (7±2) chunks of information. Nelson Cowan's modern working memory model refines this baseline, suggesting a pure focal storage limit of approximately 4 chunks. To bypass this capacity constraint, individuals utilize 'chunking'—the process of grouping individual digits into larger semantic units (e.g., memorizing '3-9-4-1' as '39, 41'). This reduces the cognitive load on the phonological store, allowing the brain to treat multiple numbers as a single chunk, thereby extending functional recall limits.
+          The theoretical capacity of short-term memory was famously quantified
+          by George Miller in 1956 as 'The Magical Number Seven, Plus or Minus
+          Two' (7±2) chunks of information. Nelson Cowan's modern working memory
+          model refines this baseline, suggesting a pure focal storage limit of
+          approximately 4 chunks. To bypass this capacity constraint,
+          individuals utilize 'chunking'—the process of grouping individual
+          digits into larger semantic units (e.g., memorizing '3-9-4-1' as '39,
+          41'). This reduces the cognitive load on the phonological store,
+          allowing the brain to treat multiple numbers as a single chunk,
+          thereby extending functional recall limits.
         </p>
       </article>
 
@@ -134,7 +181,15 @@ const schemaJson = [
           3. Performance Benchmarks &amp; Ecological Validity
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          The average forward digit span for healthy adults is 7 digits, with a standard deviation of 1.5. Scores above 10 digits represent superior phonological loop capacity, often achieved through deliberate chunking practice or natural verbal working memory strength. Digit span tests are widely used in clinical neuropsychology (such as the WAIS intelligence scale) to assess cognitive impairment, attention deficit, and executive dysfunction. Digit memory declines gradually with age, though chunking strategies can preserve performance well into late adulthood.
+          The average forward digit span for healthy adults is 7 digits, with a
+          standard deviation of 1.5. Scores above 10 digits represent superior
+          phonological loop capacity, often achieved through deliberate chunking
+          practice or natural verbal working memory strength. Digit span tests
+          are widely used in clinical neuropsychology (such as the WAIS
+          intelligence scale) to assess cognitive impairment, attention deficit,
+          and executive dysfunction. Digit memory declines gradually with age,
+          though chunking strategies can preserve performance well into late
+          adulthood.
         </p>
       </article>
 
@@ -143,7 +198,14 @@ const schemaJson = [
           4. Training Protocols &amp; Performance Optimization
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          To maximize your number memory score, practice active chunking and subvocal pacing. Instead of reading digits individually ('four, eight, one, nine'), group them into triplets or quadruplets ('forty-eight, nineteen') and recite them with a rhythmic cadence. The rhythm acts as a retrieval structure, helping the brain reconstruct the sequence. Additionally, eliminating vocal distractions and focusing on deep mental imagery of the numbers can recruit visual areas to support the verbal phonological loop.
+          To maximize your number memory score, practice active chunking and
+          subvocal pacing. Instead of reading digits individually ('four, eight,
+          one, nine'), group them into triplets or quadruplets ('forty-eight,
+          nineteen') and recite them with a rhythmic cadence. The rhythm acts as
+          a retrieval structure, helping the brain reconstruct the sequence.
+          Additionally, eliminating vocal distractions and focusing on deep
+          mental imagery of the numbers can recruit visual areas to support the
+          verbal phonological loop.
         </p>
       </article>
 
@@ -156,32 +218,43 @@ const schemaJson = [
             <h4 class="mb-2 font-bold text-foreground">
               What is the average human digit span?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              The average human digit span is 7 digits. Most healthy adults can recall between 5 and 9 numbers in forward order without training, aligning with George Miller's classic 7±2 rule.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              The average human digit span is 7 digits. Most healthy adults can
+              recall between 5 and 9 numbers in forward order without training,
+              aligning with George Miller's classic 7±2 rule.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               What is chunking in memory?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Chunking is the process of grouping individual pieces of information into larger, meaningful units. For example, memorizing '8392' as 'eighty-three, ninety-two' reduces the cognitive load from four individual chunks to two.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Chunking is the process of grouping individual pieces of
+              information into larger, meaningful units. For example, memorizing
+              '8392' as 'eighty-three, ninety-two' reduces the cognitive load
+              from four individual chunks to two.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               How does Broca's area participate in number memory?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              Broca's area is responsible for subvocal rehearsal—the silent loop of repeating numbers in your head. This active repetition refreshes the memory traces in the parietal lobe's phonological store, preventing them from decaying.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              Broca's area is responsible for subvocal rehearsal—the silent loop
+              of repeating numbers in your head. This active repetition
+              refreshes the memory traces in the parietal lobe's phonological
+              store, preventing them from decaying.
             </p>
           </div>
           <div>
             <h4 class="mb-2 font-bold text-foreground">
               Why does distraction immediately cause memory failure?
             </h4>
-            <p class="text-muted dark:text-muted leading-relaxed">
-              The phonological store only holds memory traces for about 1.5 to 2 seconds. If a distraction interrupts your subvocal rehearsal loop, the traces decay and are overwritten by the distracting stimuli, causing immediate forgetting.
+            <p class="leading-relaxed text-muted dark:text-muted">
+              The phonological store only holds memory traces for about 1.5 to 2
+              seconds. If a distraction interrupts your subvocal rehearsal loop,
+              the traces decay and are overwritten by the distracting stimuli,
+              causing immediate forgetting.
             </p>
           </div>
         </div>
