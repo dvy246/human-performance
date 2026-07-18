@@ -9,6 +9,7 @@ import { KeyboardShortcutsHelp } from "@/components/ui/KeyboardShortcuts"
 import RecentTests from "@/components/ui/RecentTests"
 import Icon from "@/components/ui/Icon.astro"
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher"
+import GameSearch from "@/components/ui/GameSearch"
 import { translations } from "@/i18n/translations"
 import FaqsList from "@/components/ui/FaqsList.astro"
 import { getFaqSchemaForSlug, hasFaqsForPath } from "@/data/faqs"
@@ -80,6 +81,7 @@ const pageSchemas = Array.isArray(schemaJson)
   : [schemaJson || defaultSchema]
 
 const { pathname } = Astro.url
+const isHome = pathname === "/" || pathname === "/index.html"
 
 // Parse slug
 let testSlug = ""
@@ -1678,6 +1680,7 @@ const isProfileActive = pathname === "/dashboard"
                 class="h-7 w-7 brightness-125"
               />
             </a>
+            {isHome && <GameSearch client:load variant="compact" />}
             <LanguageSwitcher client:load />
             <ThemeToggle client:load />
           </div>

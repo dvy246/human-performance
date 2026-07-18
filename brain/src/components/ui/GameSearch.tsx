@@ -1,7 +1,11 @@
 import React, { useState, useEffect, useRef } from "react"
 import { allTests, type TestEntry } from "../../data/tests"
 
-export default function GameSearch() {
+interface GameSearchProps {
+  variant?: "default" | "compact"
+}
+
+export default function GameSearch({ variant = "default" }: GameSearchProps) {
   const [query, setQuery] = useState("")
   const [results, setResults] = useState<TestEntry[]>([])
   const [isOpen, setIsOpen] = useState(false)
@@ -60,13 +64,22 @@ export default function GameSearch() {
     }
   }
 
+  const isCompact = variant === "compact"
+
   return (
-    <div ref={containerRef} className="relative w-full max-w-md mx-auto z-40">
+    <div
+      ref={containerRef}
+      className={`relative w-full z-40 ${
+        isCompact ? "max-w-[120px] sm:max-w-[180px] md:max-w-[240px]" : "max-w-md mx-auto"
+      }`}
+    >
       {/* Search Input Bar */}
       <div className="relative">
-        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-muted">
+        <div
+          className={`absolute inset-y-0 left-0 pl-2.5 flex items-center pointer-events-none text-muted`}
+        >
           <svg
-            className="h-5 w-5"
+            className={isCompact ? "h-3.5 w-3.5" : "h-5 w-5"}
             xmlns="http://www.w3.org/2000/svg"
             fill="none"
             viewBox="0 0 24 24"
@@ -79,22 +92,24 @@ export default function GameSearch() {
         </div>
         <input
           type="text"
-          placeholder="Search 29+ cognitive tests & games..."
+          placeholder={isCompact ? "Search..." : "Search 29+ cognitive tests & games..."}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => {
             if (query.trim()) setIsOpen(true)
           }}
           onKeyDown={handleKeyDown}
-          className="w-full pl-10 pr-4 py-3 bg-card/80 border border-card-border/70 rounded-xl text-foreground text-sm focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all placeholder:text-muted/75 shadow-sm"
+          className={`w-full pl-8 bg-card/85 border border-card-border/70 rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent transition-all placeholder:text-muted/70 shadow-sm ${
+            isCompact ? "py-1 pr-7 text-xs h-8 focus:max-w-[180px] md:focus:max-w-[300px]" : "pr-4 py-3 text-sm h-11"
+          }`}
         />
         {query && (
           <button
             onClick={() => setQuery("")}
-            className="absolute inset-y-0 right-0 pr-3 flex items-center text-muted hover:text-foreground cursor-pointer"
+            className="absolute inset-y-0 right-0 pr-2 flex items-center text-muted hover:text-foreground cursor-pointer"
           >
             <svg
-              className="h-4 w-4"
+              className="h-3 w-3"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -110,7 +125,11 @@ export default function GameSearch() {
 
       {/* Results Dropdown */}
       {isOpen && (
-        <div className="absolute w-full mt-2 bg-card/95 border border-card-border rounded-xl shadow-xl backdrop-blur-md overflow-hidden max-h-72 overflow-y-auto animate-fade-in">
+        <div
+          className={`absolute mt-1.5 bg-card/95 border border-card-border rounded-xl shadow-xl backdrop-blur-md overflow-hidden max-h-72 overflow-y-auto animate-fade-in ${
+            isCompact ? "right-0 w-64 sm:w-80 md:w-96" : "w-full"
+          }`}
+        >
           {results.length > 0 ? (
             <div className="py-1 divide-y divide-card-border/30">
               {results.map((test, index) => {
@@ -119,20 +138,20 @@ export default function GameSearch() {
                   <a
                     key={test.slug}
                     href={test.href}
-                    className={`flex items-start gap-3 px-4 py-3 transition-colors ${
+                    className={`flex items-start gap-2.5 px-3 py-2.5 transition-colors ${
                       isActive ? "bg-accent/10 text-foreground" : "hover:bg-hover text-foreground/90"
                     }`}
                     onMouseEnter={() => setActiveIndex(index)}
                   >
-                    <span className="text-xl shrink-0 mt-0.5">{test.icon}</span>
+                    <span className="text-lg shrink-0 mt-0.5">{test.icon}</span>
                     <div className="flex flex-col gap-0.5 text-left">
-                      <div className="flex items-center gap-2">
-                        <span className="text-sm font-bold">{test.title}</span>
-                        <span className="px-1.5 py-0.5 text-[9px] font-semibold font-mono tracking-wider uppercase rounded bg-subtle text-accent border border-accent/10">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-bold leading-tight">{test.title}</span>
+                        <span className="px-1 py-0.2 text-[8px] font-semibold font-mono tracking-wider uppercase rounded bg-subtle text-accent border border-accent/10">
                           {test.category}
                         </span>
                       </div>
-                      <span className="text-[11px] leading-normal text-muted line-clamp-1">
+                      <span className="text-[10px] leading-normal text-muted line-clamp-1">
                         {test.shortDesc}
                       </span>
                     </div>
@@ -141,7 +160,7 @@ export default function GameSearch() {
               })}
             </div>
           ) : (
-            <div className="px-4 py-6 text-center text-muted text-xs">
+            <div className="px-4 py-4 text-center text-muted text-[10px]">
               No assessments found matching "{query}"
             </div>
           )}
