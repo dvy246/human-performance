@@ -94,6 +94,12 @@
     { "score": 9, "percentile": 80 }, { "score": 10, "percentile": 86 }, { "score": 11, "percentile": 90 }, { "score": 12, "percentile": 94 },
     { "score": 14, "percentile": 98 }, { "score": 17, "percentile": 99.9 }
   ],
+  "object-tracking": [
+    { "score": 1, "percentile": 1 }, { "score": 2, "percentile": 4 }, { "score": 3, "percentile": 10 }, { "score": 4, "percentile": 22 },
+    { "score": 5, "percentile": 38 }, { "score": 6, "percentile": 55 }, { "score": 7, "percentile": 72 }, { "score": 8, "percentile": 84 },
+    { "score": 9, "percentile": 92 }, { "score": 10, "percentile": 96 }, { "score": 11, "percentile": 98 }, { "score": 12, "percentile": 99.5 },
+    { "score": 14, "percentile": 99.9 }
+  ],
   "number-memory": [
     { "score": 3, "percentile": 2 }, { "score": 4, "percentile": 8 }, { "score": 5, "percentile": 20 }, { "score": 6, "percentile": 35 },
     { "score": 7, "percentile": 55 }, { "score": 8, "percentile": 75 }, { "score": 9, "percentile": 85 }, { "score": 10, "percentile": 93 },

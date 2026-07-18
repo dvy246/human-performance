@@ -5,6 +5,40 @@ export interface FAQItem {
 }
 
 export const FAQS_DATABASE: Record<string, FAQItem[]> = {
+  "object-tracking": [
+    {
+      "q": "What is a Multiple Object Tracking (MOT) test?",
+      "a": "A Multiple Object Tracking (MOT) test measures your ability to visually track a subset of moving items (targets) among identical moving distractors. It is a standard experimental paradigm used in cognitive psychology to assess dynamic visual attention, working memory, and tracking capacity."
+    },
+    {
+      "q": "How many moving objects can a human track at once?",
+      "a": "Research shows the typical human limit is tracking 3 to 4 objects simultaneously. Elite athletes, action video game players, and military pilots can often track 5 or more objects under demanding conditions."
+    },
+    {
+      "q": "Can you train your multiple object tracking capacity?",
+      "a": "Yes. Studies demonstrate that systematic training on MOT tasks can expand your tracking capacity, improve peripheral target detection, and enhance sustained attention span over time."
+    },
+    {
+      "q": "How does display size affect object tracking performance?",
+      "a": "Larger displays spread objects over a wider field of view, forcing reliance on peripheral vision. This increases tracking difficulty compared to small displays where objects are concentrated in the central foveal view."
+    },
+    {
+      "q": "Is this object tracking test a medical diagnostic tool?",
+      "a": "No. This test is designed purely for cognitive self-tracking, performance benchmarking, and educational training. It does not diagnose clinical attention deficit disorders (ADHD) or visual impairments."
+    },
+    {
+      "q": "Why do action video games improve tracking ability?",
+      "a": "Fast-paced action and tactical video games require players to monitor multiple threats, allies, and parameters simultaneously, which naturally trains and expands visual-spatial attention resources."
+    },
+    {
+      "q": "Does age affect visual tracking performance?",
+      "a": "Yes. Multiple object tracking performance generally peaks in early adulthood (ages 18-25) and shows a gradual decline with age due to decreases in visual working memory capacity and processing speeds."
+    },
+    {
+      "q": "How do distractors impact object tracking capacity?",
+      "a": "decoy distractors increase cognitive load by competing for attentional indexing. When distractors move faster or pass closer to target objects, the probability of attentional tracking errors increases."
+    }
+  ],
   "reaction-time": [
     {
       "q": "What is the average human reaction time?",

@@ -214,6 +214,15 @@ export const TEST_CONFIGS: Record<string, ConfigOption[]> = {
       default: "Medium",
     },
   ],
+  "object-tracking": [
+    { key: "rounds", label: "Rounds", options: [3, 5, 8], default: 5 },
+    {
+      key: "difficulty",
+      label: "Difficulty",
+      options: ["Easy", "Medium", "Hard"],
+      default: "Medium",
+    },
+  ],
   gauntlet: [
     {
       key: "difficulty",
@@ -563,6 +572,22 @@ export function getDifficultyParams(
       params.timeoutMs = 1500
     } else {
       params.timeoutMs = 2000
+    }
+  }
+
+  if (testId === "object-tracking") {
+    if (difficulty === "Easy") {
+      params.targetsToTrack = 2
+      params.totalObjects = 5
+      params.speedMultiplier = 1.0
+    } else if (difficulty === "Hard") {
+      params.targetsToTrack = 4
+      params.totalObjects = 9
+      params.speedMultiplier = 1.8
+    } else {
+      params.targetsToTrack = 3
+      params.totalObjects = 7
+      params.speedMultiplier = 1.4
     }
   }
 

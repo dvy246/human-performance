@@ -1,0 +1,215 @@
+---
+import Layout from "@/layouts/main.astro"
+import ObjectTrackingTest from "@/components/tests/ObjectTrackingTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
+import Icon from "@/components/ui/Icon.astro"
+
+const title = "Multiple Object Tracking Test — Online Attention & Focus Trainer | CogniArena"
+const description =
+  "Test your visual attention tracking with our free Multiple Object Tracking (MOT) test. Track multiple moving target dots among identical distractors, benchmark your focus percentile, and train your peripheral vision."
+const canonicalUrl = "https://cogniarena.com/tests/object-tracking"
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: "Multiple Object Tracking Test",
+    description:
+      "A high-precision cognitive assessment measuring sustained visual attention, dynamic spatial indexing, and visual working memory capacity.",
+    about: {
+      "@type": "Thing",
+      name: "Sustained Attention",
+    },
+    educationalAlignment: {
+      "@type": "AlignmentObject",
+      alignmentType: "educationalRequirement",
+      educationalFramework: "Cognitive Science",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Focus & Attention",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Multiple Object Tracking",
+        item: "https://cogniarena.com/tests/object-tracking",
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/tests" class="hover:underline">Tests</a>
+        <span>/</span>
+        <span class="text-muted">Multiple Object Tracking</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Multiple Object Tracking (MOT)
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Test your dynamic visual attention and spatial working memory. Track the highlighted target dots as they mix among identical distractors, and identify them once movement stops.
+      </p>
+    </header>
+
+    <!-- Interactive Game Island Container -->
+    <section class="w-full">
+      <ObjectTrackingTest client:visible />
+    </section>
+
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This assessment is for self-tracking, educational, and cognitive training
+      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
+      evaluation, and may be affected by display latency, fatigue, or device configuration.
+    </div>
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <HowItWorks
+        testName="the Multiple Object Tracking Test"
+        learnSlug="brain-training"
+        learnTitle="Cognitive Training Science"
+        whatItMeasures="Measures sustained visual attention, dynamic spatial indexing, and active visual working memory capacity. It evaluates your brain's ability to lock onto multiple target paths simultaneously while ignoring identical decoy objects."
+        howScoringWorks="Your score is the number of target dots correctly identified across 5 rounds. We track your choices, speed multiplier, and strikes (max 3 failures) to calculate a percentile rank compared to our normative attention database."
+        whatAffectsResults="Mental fatigue, screen size (larger viewports push targets into the periphery), display refresh rates (smoother movement prevents tracking loss), and current stress levels impact performance."
+      />
+
+      {/* Scientific Methodology link */}
+      <div class="flex items-center gap-3 text-xs text-muted">
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-[10px] font-bold text-accent"
+        >
+          BB
+        </div>
+        <span
+          >Learn about calibration protocols and scientific formulas on our <a
+            href="/methodology"
+            class="font-medium text-accent hover:underline">Methodology Page</a
+          >.</span
+        >
+      </div>
+
+      <!-- What is it -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What is a Multiple Object Tracking Test?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          A <strong class="text-foreground">Multiple Object Tracking (MOT) test</strong> is a standard cognitive assessment used in neuropsychology to study visual attention limits. In an MOT task, a set of identical circles moves randomly across a screen. At the start, a subset of these circles is highlighted as "targets." They then return to their original appearance and begin moving. Your goal is to track these targets and click them once the motion ceases.
+        </p>
+        <p class="text-sm leading-relaxed text-muted">
+          Unlike static focus games, MOT requires active, continuous spatial processing. It forces your brain to distribute its attentional resources across multiple coordinate vectors simultaneously, highlighting the limits of visual working memory capacity.
+        </p>
+      </article>
+
+      <!-- The Limits of Human Attention -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How Many Moving Objects Can You Track?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          In cognitive science, the baseline human limit is typically described as 3 to 4 objects. However, this capacity varies significantly based on individual training, age, and neurological traits. Action gamers, professional athletes, and aviation pilots routinely demonstrate the ability to track 5 or more targets simultaneously under high-velocity conditions.
+        </p>
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-left text-xs">
+            <thead>
+              <tr class="border-b border-card-border font-mono text-muted">
+                <th class="py-2.5">Category / Group</th>
+                <th class="py-2.5 text-right">Average Target Capacity</th>
+                <th class="py-2.5 text-right">Attentional Performance Index</th>
+              </tr>
+            </thead>
+            <tbody
+              class="divide-y divide-card-border/50 font-mono text-secondary"
+            >
+              <tr>
+                <td class="py-3">Professional Esport Athletes</td>
+                <td class="py-3 text-right text-foreground">4.5 - 5.5 targets</td>
+                <td class="py-3 text-right text-success">Elite Attentional Gating</td>
+              </tr>
+              <tr>
+                <td class="py-3">Action/FPS Video Gamers</td>
+                <td class="py-3 text-right text-foreground">3.8 - 4.5 targets</td>
+                <td class="py-3 text-right text-muted">Above Average</td>
+              </tr>
+              <tr>
+                <td class="py-3">Average General Population</td>
+                <td class="py-3 text-right text-foreground">3.0 - 3.5 targets</td>
+                <td class="py-3 text-right text-muted">Normative Baseline</td>
+              </tr>
+              <tr>
+                <td class="py-3">Sustained Fatigue (4+ Hours Sleep)</td>
+                <td class="py-3 text-right text-foreground">2.2 - 2.8 targets</td>
+                <td class="py-3 text-right text-muted">Slowing & Attention Lapses</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="mt-1 font-mono text-[10px] leading-normal text-muted">
+          Citation: Normative values modeled from *Pylyshyn & Storm (1988), Tracking of Multiple Independent Targets*, and *Green & Bavelier (2003), Action Video Game Modifies Visual Selective Attention*.
+        </p>
+      </article>
+
+      <!-- How to Train Object Tracking -->
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How to Improve Multiple Object Tracking Capacity
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Attentional tracking is a highly plastic neural resource. You can train your brain to expand its tracking limits using these strategies:
+        </p>
+        <ul
+          class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted"
+        >
+          <li>
+            <strong class="text-foreground">Practice Peripheral Expansion:</strong> Instead of focusing your gaze directly on a single dot, try to soft-focus on the center of the canvas. This relies on your peripheral vision to capture motion vectors.
+          </li>
+          <li>
+            <strong class="text-foreground">Sustained Attention drills:</strong> Consistently playing MOT games for 10-15 minutes a day builds attentional stamina and trims target indexing latencies.
+          </li>
+          <li>
+            <strong class="text-foreground">Optimize Refresh Rate:</strong> High-refresh rate displays (e.g. 144Hz+) render object movement more fluidly, preventing the "jumpy" motion that causes tracking loss on lower 60Hz displays.
+          </li>
+        </ul>
+      </article>
+
+      <ExploreTests currentSlug="object-tracking" />
+    </section>
+  </div>
+</Layout>

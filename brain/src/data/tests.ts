@@ -220,6 +220,14 @@ export const allTests: TestEntry[] = [
     "focus"
   ),
   t(
+    "object-tracking",
+    "Multiple Object Tracking",
+    "Track moving target dots among distractors. Evaluates dynamic spatial attention, peripheral vision, and visual working memory.",
+    "👁️",
+    "compass",
+    "focus"
+  ),
+  t(
     "gauntlet",
     "The Gauntlet",
     "Complete 5 cognitive stages — reaction, memory, focus, reasoning, precision — for a unified CAI score and archetype.",

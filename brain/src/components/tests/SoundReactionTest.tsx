@@ -86,7 +86,7 @@ function SoundReactionTest() {
     }
   }, [])
 
-  const initAudio = async () => {
+  const initAudio = () => {
     if (typeof window === "undefined") return false
     try {
       if (!audioCtx.current) {
@@ -95,7 +95,9 @@ function SoundReactionTest() {
         )()
       }
       if (audioCtx.current.state === "suspended") {
-        await audioCtx.current.resume()
+        audioCtx.current.resume().catch((err) => {
+          console.error("Failed to resume AudioContext:", err)
+        })
       }
       setAudioError(false)
       return true
@@ -160,7 +162,7 @@ function SoundReactionTest() {
       max: (diff.waitMax as number) || 5000,
     }
 
-    const audioInitialized = await initAudio()
+    const audioInitialized = initAudio()
     if (!audioInitialized) {
       console.warn(
         "Audio initialization failed - test will continue with visual feedback only"
