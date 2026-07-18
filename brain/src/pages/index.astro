@@ -2,6 +2,7 @@
 import Layout from "@/layouts/main.astro"
 import Icon from "@/components/ui/Icon.astro"
 import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard"
+import GameSearch from "@/components/ui/GameSearch"
 
 const title =
   "CogniArena — Free Reaction Time Test, Brain Games & Reflex Tester"
@@ -338,6 +339,11 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
           >
         </div>
       </div>
+    </section>
+
+    <!-- ===== GAME SEARCH ===== -->
+    <section class="animate-fade-in-up stagger-2.5 mx-auto w-full max-w-md px-4">
+      <GameSearch client:load />
     </section>
 
     <!-- ===== BRAIN SCORE DASHBOARD ===== -->
