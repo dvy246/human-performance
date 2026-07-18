@@ -30,36 +30,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "Can I train to react faster?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. While genetics set a baseline, deliberate motor pathway training and focus exercises can trim your reaction time by 20-50 milliseconds.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Why are my scores slower on mobile?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Mobile touch digitizers read finger touch grids, adding 15-40ms of latency compared to physical microswitch mouse buttons.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -363,44 +333,6 @@ const schemaJson = [
 
       <ExploreTests currentSlug="reaction-time" />
 
-      <!-- FAQ Section -->
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Can I train to react faster?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Yes. While genetics set a baseline, deliberate motor pathway
-              training and focus exercises can trim your reaction time by 20-50
-              milliseconds.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Why are my scores slower on mobile?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Mobile touch digitizers read finger touch grids, adding 15-40ms of
-              latency compared to physical microswitch mouse buttons.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Is this a medical diagnostic tool?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              No. This test is designed for self-tracking, performance
-              benchmarking, and entertainment purposes. It is not a clinical
-              cognitive assessment.
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
+      </section>
   </div>
 </Layout>

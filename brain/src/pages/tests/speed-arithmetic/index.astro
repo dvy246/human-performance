@@ -1,0 +1,126 @@
+---
+import Layout from "@/layouts/main.astro"
+import SpeedArithmetic from "@/components/tests/SpeedArithmetic"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
+
+const title = "Speed Arithmetic Test — Free Online Mental Math Trainer | CogniArena"
+const description =
+  "Benchmark your mental arithmetic speed, accuracy, and operational processing limits. Free online math game designed for adults, developers, and finance applicants."
+const canonicalUrl = "https://cogniarena.com/tests/speed-arithmetic"
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: "Speed Arithmetic Test",
+    description:
+      "A fast-paced client-side mental calculation game to evaluate arithmetic recall rates, processing limits, and quantitative agility.",
+    about: {
+      "@type": "Thing",
+      name: "Mental Mathematics",
+    },
+    educationalAlignment: {
+      "@type": "AlignmentObject",
+      alignmentType: "educationalRequirement",
+      educationalFramework: "Quantitative Cognitive Performance & Working Memory",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Cognitive Tests",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Speed Arithmetic Test",
+        item: "https://cogniarena.com/tests/speed-arithmetic",
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/tests" class="hover:underline">Tests</a>
+        <span>/</span>
+        <span class="text-muted">Speed Arithmetic</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Speed Arithmetic Test
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Benchmark your mathematical processing speed, operational recall, and mental working memory registers under time pressure. Built for quants, math athletes, and programmers.
+      </p>
+    </header>
+
+    <!-- Interactive Math Panel -->
+    <section class="w-full">
+      <SpeedArithmetic client:load />
+    </section>
+
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This math practice test is designed for self-tracking, educational arithmetic practice, and cognitive math training purposes only. It is not a clinical or medical diagnosis for dyscalculia or quantitative cognitive decline.
+    </div>
+
+    <!-- Below the fold SEO and Methodology Content -->
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <HowItWorks
+        testName="the Speed Arithmetic Test"
+        learnSlug="typing-speed"
+        learnTitle="Mental Math Science"
+        whatItMeasures="This assessment measures basic operator extraction speed, numerical working memory registers, and equation resolution under timed load."
+        howScoringWorks="Equations resolved correctly within the active 60-second window increment scores, with a small error penalty to prevent guessing."
+        whatAffectsResults="Shortcuts recall (rounding operations, left-to-right math), calculation cadence, typing speed, and fatigue affect results."
+      />
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How to Practice Mental Math Speed and Calculations
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Practicing arithmetic regularly is the most effective way to build operational numeracy. By training your brain's phonological loop to hold intermediate digits, you expand working memory span, which directly translates to faster problem-solving in complex coding environments.
+        </p>
+        <p class="text-sm leading-relaxed text-muted">
+          Our online <strong>mental math test</strong> evaluates your calculations. Working on drills for addition, multiplication, division, and subtraction strengthens visual mathematical parsing, accelerating calculations during quant interviews.
+        </p>
+      </article>
+
+      <ExploreTests currentSlug="speed-arithmetic" />
+    </section>
+  </div>
+</Layout>

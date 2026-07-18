@@ -34,44 +34,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How is the Focus Score calculated?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Each of the 5 stages produces a score from 0–100 based on accuracy and reaction metrics specific to that paradigm. The overall Focus Score is the simple average of all five stage scores. Your percentile rank compares your score against all other CogniArena users.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is a good Focus Score?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "75+ is considered sharp focus, 60–74 is moderate, and below 40 suggests you may be experiencing attentional lapses (which can happen from lack of sleep, stress, or multitasking). The top 10% of users typically score 85+.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I improve my score?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes! Attention is trainable. Practice with the Focus Challenge regularly, try our other Go/No-Go, Stroop, and Dual N-Back tests, and track your progress on your Dashboard.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a diagnostic tool for ADHD?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This is a performance-based entertainment and self-tracking tool. While it measures attention-related metrics, it is not validated for clinical diagnosis. If you suspect an attention disorder, please consult a licensed healthcare professional.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -285,68 +247,7 @@ const schemaJson = [
 
       <ExploreTests currentSlug="focus-challenge" />
 
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              How is the Focus Score calculated?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Each of the 5 stages produces a score from 0–100 based on accuracy
-              and reaction metrics specific to that paradigm. The overall Focus
-              Score is the simple average of all five stage scores. Your
-              percentile rank compares your score against all other CogniArena
-              users.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              What is a good Focus Score?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              75+ is considered sharp focus, 60–74 is moderate, and below 40
-              suggests you may be experiencing attentional lapses (which can
-              happen from lack of sleep, stress, or multitasking). The top 10%
-              of users typically score 85+.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Can I improve my score?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Yes! Attention is trainable. Practice with the Focus Challenge
-              regularly, try our other <a
-                href="/tests/go-no-go"
-                class="text-accent hover:underline">Go/No-Go</a
-              >, <a href="/tests/stroop" class="text-accent hover:underline"
-                >Stroop</a
-              >, and <a
-                href="/tests/dual-n-back"
-                class="text-accent hover:underline">Dual N-Back</a
-              > tests, and track your progress on your <a
-                href="/dashboard"
-                class="text-accent hover:underline">Dashboard</a
-              >.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Is this a diagnostic tool for ADHD?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              No. This is a <strong
-                >performance-based entertainment and self-tracking tool</strong
-              >. While it measures attention-related metrics, it is not
-              validated for clinical diagnosis. If you suspect an attention
-              disorder, please consult a licensed healthcare professional.
-            </p>
-          </div>
-        </div>
-      </article>
+      
     </section>
   </div>
 </Layout>

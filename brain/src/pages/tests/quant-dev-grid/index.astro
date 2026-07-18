@@ -1,0 +1,141 @@
+---
+import Layout from "@/layouts/main.astro"
+import QuantGrid from "@/components/tests/QuantGrid"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
+
+const title = "Quant-Dev Agility Grid — Speed Math & Logic Test | CogniArena"
+const description =
+  "Benchmark your boolean logic processing, bitwise shift speeds, and base-16 hexadecimal arithmetic performance. Monospace terminal mental calculations trainer for developers."
+const canonicalUrl = "https://cogniarena.com/tests/quant-dev-grid"
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: "Quant-Dev Agility Grid",
+    description:
+      "A developer-oriented cognitive assessment testing bitwise shifts, logic gates, and hex conversions in real-time.",
+    about: {
+      "@type": "Thing",
+      name: "Computer Science Arithmetic & Fluid Logic",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    name: "How to Play Quant-Dev Agility Grid",
+    description: "Solve logic equations as fast as possible using terminal inputs.",
+    step: [
+      {
+        "@type": "HowToStep",
+        text: "Select your difficulty level: Easy, Medium, or Hard.",
+      },
+      {
+        "@type": "HowToStep",
+        text: "Examine the logic gate, hex operation, or bitwise shift statement shown in the console.",
+      },
+      {
+        "@type": "HowToStep",
+        text: "Type the result using your physical keyboard or the on-screen terminal numeric/hex keypad, then hit Enter.",
+      },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Cognitive Tests",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Quant-Dev Agility Grid",
+        item: "https://cogniarena.com/tests/quant-dev-grid",
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/tests" class="hover:underline">Tests</a>
+        <span>/</span>
+        <span class="text-muted">Quant Grid</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Quant-Dev Agility Grid
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Benchmark visual logic parsing, hexadecimal base-16 calculations, and bitwise shift speeds. Designed specifically for software developers, quants, and systems engineers.
+      </p>
+    </header>
+
+    <!-- Interactive Grid Panel -->
+    <section class="w-full">
+      <QuantGrid client:load />
+    </section>
+
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This logic and code arithmetic game is designed for self-tracking, educational programming practice, and quantitative training purposes only. It is not a clinical IQ test or medical diagnostic tool for logical deficits.
+    </div>
+
+    <!-- Below the fold SEO and Methodology Content -->
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <HowItWorks
+        testName="the Quant-Dev Agility Grid"
+        learnSlug="typing-speed"
+        learnTitle="Systems Logic"
+        whatItMeasures="This assessment measures binary logic parsing speed, computer science math conversions, and mental register indexing capacity."
+        howScoringWorks="Logic matches verify outputs correctly resolved within a 60-second limit, penalizing errors to calculate net score metrics."
+        whatAffectsResults="Keyboard shortcut familiarity, math layout familiarity (hexadecimal notation, binary bitwise operators), and focus levels affect scores."
+      />
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How to Practice Hex Math and Boolean Logic Speed
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Systems programming relies heavily on boolean logic trees (AND, OR, XOR) and hexadecimal memory addresses. Developing automatic pattern recall for these operators eliminates calculation bottlenecks during critical coding tasks and interviews.
+        </p>
+        <p class="text-sm leading-relaxed text-muted">
+          Our online <strong>code speed arithmetic trainer</strong> allows engineers to practice shifts (like <code>&lt;&lt;</code> and <code>&gt;&gt;</code>) and logic gates. Consistently executing logic exercises builds rapid mental register recall, accelerating visual code audit speeds.
+        </p>
+      </article>
+
+      <ExploreTests currentSlug="quant-dev-grid" />
+    </section>
+  </div>
+</Layout>

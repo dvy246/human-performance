@@ -20,6 +20,7 @@
   },
   "dependencies": {
     "@astrojs/react": "^5",
+    "@cloudflare/workerd-darwin-arm64": "^1.20260718.1",
     "@tailwindcss/vite": "^4",
     "@types/react": "^19",
     "@types/react-dom": "^19",

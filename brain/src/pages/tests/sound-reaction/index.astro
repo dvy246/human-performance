@@ -24,36 +24,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How does CogniArena achieve audio accuracy?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Standard sites load static audio files (.mp3 or .wav), which require browser media players to buffer and spin up decoding threads. We utilize the native browser Web Audio API to synthesize a raw 750Hz sine wave directly on the main thread, reducing buffer latency to nearly 0ms.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is a good auditory reaction score?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Anything below 150ms is elite. 150ms to 180ms is excellent and typical of esports athletes and musicians. 180ms to 220ms is average, and above 250ms indicates attention fatigue or hardware lag.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. The Auditory Reflex Test is designed for sensory speed training, self-tracking, and entertainment purposes. It is not a clinical, medical, or diagnostic evaluation.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -244,48 +214,6 @@ const schemaJson = [
 
       <ExploreTests currentSlug="sound-reaction" />
 
-      <!-- FAQ Section -->
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              How does CogniArena achieve audio accuracy?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Standard sites load static audio files (.mp3 or .wav), which
-              require browser media players to buffer and spin up decoding
-              threads. We utilize the native browser **Web Audio API** to
-              synthesize a raw 750Hz sine wave directly on the main thread,
-              reducing buffer latency to nearly 0ms.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              What is a good auditory reaction score?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Anything below 150ms is elite. 150ms to 180ms is excellent and
-              typical of esports athletes and musicians. 180ms to 220ms is
-              average, and above 250ms indicates attention fatigue or hardware
-              lag.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Is this a medical diagnostic tool?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              No. The Auditory Reflex Test is designed for sensory speed
-              training, self-tracking, and entertainment purposes. It is not a
-              clinical, medical, or diagnostic evaluation.
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
+      </section>
   </div>
 </Layout>

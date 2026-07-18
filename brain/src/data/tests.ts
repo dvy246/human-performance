@@ -295,6 +295,46 @@ export const allTests: TestEntry[] = [
     "chart-bar",
     "executive"
   ),
+  t(
+    "latency-optimizer",
+    "Latency & Hz Optimizer",
+    "Benchmark your monitor refresh rate, event polling jitter, and true biological latency stack.",
+    "⚡",
+    "zap",
+    "reaction"
+  ),
+  t(
+    "ergonomic-architect",
+    "Ergonomic Architect",
+    "Generate a personalized workstation blueprint matching your physical geometry and motor alignment.",
+    "🖱️",
+    "mouse",
+    "motor"
+  ),
+  t(
+    "sleep-sanctuary",
+    "Sleep & Chronotype",
+    "Assess your circadian profile, run a fatigue Stroop test, and design a light-temperature sanctuary.",
+    "🌙",
+    "compass",
+    "focus"
+  ),
+  t(
+    "speed-arithmetic",
+    "Speed Arithmetic",
+    "Benchmark your mental calculation speed, operator accuracy, and quantitative working memory.",
+    "🔢",
+    "hash",
+    "reasoning"
+  ),
+  t(
+    "quant-dev-grid",
+    "Quant-Dev Agility Grid",
+    "Benchmark boolean logic processing, bitwise arithmetic shift latencies, and base-16 numerical agility.",
+    "💻",
+    "keyboard",
+    "reasoning"
+  ),
 ]
 
 export function getTestsByCategory(): {

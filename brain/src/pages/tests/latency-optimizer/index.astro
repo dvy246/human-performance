@@ -1,0 +1,126 @@
+---
+import Layout from "@/layouts/main.astro"
+import LatencyOptimizer from "@/components/tests/LatencyOptimizer"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
+
+const title = "Latency & Hz Optimizer — Free Online Input Lag & Refresh Rate Tester | CogniArena"
+const description =
+  "Test your display refresh rate (Hz), input polling jitter, and net biological reflex speed. Benchmark system latency vs. physiological reaction speed."
+const canonicalUrl = "https://cogniarena.com/tests/latency-optimizer"
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: "Latency & Hz Optimizer",
+    description:
+      "A high-precision client-side utility to measure monitor refresh rates, peripheral polling delays, and isolate biological reaction reflex.",
+    about: {
+      "@type": "Thing",
+      name: "Latency",
+    },
+    educationalAlignment: {
+      "@type": "AlignmentObject",
+      alignmentType: "educationalRequirement",
+      educationalFramework: "Cognitive Science & Peripheral Latency Optimization",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Cognitive Tests",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Latency & Hz Optimizer",
+        item: "https://cogniarena.com/tests/latency-optimizer",
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/tests" class="hover:underline">Tests</a>
+        <span>/</span>
+        <span class="text-muted">Latency Optimizer</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Latency & Hz Optimizer
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Benchmark your physical hardware, system rendering pipeline, and biological reflexes. Calibrate monitor refresh rate, track polling rate consistency, and optimize reaction speed settings.
+      </p>
+    </header>
+
+    <!-- Interactive Workspace Panel -->
+    <section class="w-full">
+      <LatencyOptimizer client:load />
+    </section>
+
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This latency utility is designed for self-tracking, system calibration, and performance benchmarking purposes only. It is not a clinical or medical diagnosis for neurological speed or sensory processing. Consult a medical specialist for clinical neurological testing.
+    </div>
+
+    <!-- Below the fold SEO and Methodology Content -->
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <HowItWorks
+        testName="the Latency & Hz Optimizer"
+        learnSlug="reaction-time"
+        learnTitle="Reflex Science"
+        whatItMeasures="This utility measures display frame rendering intervals, USB coordinate polling standard deviations, and click-to-render pipeline overhead."
+        howScoringWorks="Calculations isolate display refreshes (frame intervals) and input loops (USB queries) to calculate expected input delay."
+        whatAffectsResults="Monitor settings (V-Sync, G-Sync), mouse polling rates (125Hz vs 1000Hz), and browser compositor pipelines affect measurements."
+      />
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How to Lower Input Lag and Monitor Latency
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Input lag is the total duration between your mechanical input (pressing a mouse button) and the display drawing the action. Standard computer mice have coordinate intervals adding up to 8ms of random lag, whereas gaming peripherals poll at 1000Hz (1ms intervals). Using wired setups minimizes input jitter.
+        </p>
+        <p class="text-sm leading-relaxed text-muted">
+          Our online <strong class="text-foreground">refresh rate checker</strong> lets you test display fluidity. By disabling OS window transparencies and running the browser in clean fullscreen blocks, you optimize render timing, raising accuracy on all reaction-sensitive cognitive assessments.
+        </p>
+      </article>
+
+      <ExploreTests currentSlug="latency-optimizer" />
+    </section>
+  </div>
+</Layout>

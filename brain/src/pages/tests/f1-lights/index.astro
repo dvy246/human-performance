@@ -24,36 +24,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How do F1 drivers know when the lights will go out?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "They don't. The delay between the 5th red light turning on and all lights extinguishing is randomized (typically between 0.8 and 3 seconds) to prevent drivers from predicting the release.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Why are F1 reaction times faster than general reaction times?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Grid starts are anticipatory. Drivers are already prepared to execute a specific, pre-loaded motor command (releasing the clutch paddle). This cognitive pre-loading removes the decision-making overhead, resulting in scores 40-70ms faster than normal choice tests.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. The F1 Start Lights Test is designed for motor reflex training, self-tracking, and entertainment purposes. It is not a clinical, medical, or diagnostic evaluation.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -252,47 +222,6 @@ const schemaJson = [
 
       <ExploreTests currentSlug="f1-lights" />
 
-      <!-- FAQ Section -->
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              How do F1 drivers know when the lights will go out?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              They don't. The delay between the 5th red light turning on and all
-              lights extinguishing is randomized (typically between 0.8 and 3
-              seconds) to prevent drivers from predicting the release.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Why are F1 reaction times faster than general reaction times?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Grid starts are anticipatory. Drivers are already prepared to
-              execute a specific, pre-loaded motor command (releasing the clutch
-              paddle). This cognitive pre-loading removes the decision-making
-              overhead, resulting in scores 40-70ms faster than normal choice
-              tests.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Is this a medical diagnostic tool?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              No. The F1 Start Lights Test is designed for motor reflex
-              training, self-tracking, and entertainment purposes. It is not a
-              clinical, medical, or diagnostic evaluation.
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
+      </section>
   </div>
 </Layout>

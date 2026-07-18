@@ -25,36 +25,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is a normal sequence memory level?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The average score is Level 7. Scoring Level 8 to 11 is above average, and anything level 14 or above indicates exceptional spatial memory and trained visual chunking capability.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How can I improve my sequence memory?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Do not try to remember individual grid numbers. Instead, visualize the sequence as a single drawing path (e.g. an L-shape followed by a triangle). This technique encodes multiple coordinates as a single cognitive chunk, dramatically extending your memory buffer.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. The Sequence Memory Test is designed for spatial memory training, self-tracking, and entertainment purposes. It is not a clinical, medical, or diagnostic evaluation.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -218,46 +188,6 @@ const schemaJson = [
 
       <ExploreTests currentSlug="sequence-memory" />
 
-      <!-- FAQ Section -->
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              What is a normal sequence memory level?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              The average score is Level 7. Scoring Level 8 to 11 is above
-              average, and anything level 14 or above indicates exceptional
-              spatial memory and trained visual chunking capability.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              How can I improve my sequence memory?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Do not try to remember individual grid numbers. Instead, visualize
-              the sequence as a single drawing path (e.g. *"an L-shape followed
-              by a triangle"*). This technique encodes multiple coordinates as a
-              single cognitive chunk, dramatically extending your memory buffer.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Is this a medical diagnostic tool?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              No. The Sequence Memory Test is designed for spatial memory
-              training, self-tracking, and entertainment purposes. It is not a
-              clinical, medical, or diagnostic evaluation.
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
+      </section>
   </div>
 </Layout>

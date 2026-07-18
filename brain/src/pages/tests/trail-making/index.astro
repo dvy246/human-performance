@@ -25,36 +25,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is the difference between Trail Making Part A and Part B?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Part A tests visual scanning speed and motor execution by connecting numbered nodes in sequence (1→2→3). Part B adds cognitive load by requiring task switching — alternating between numbers and letters (1→A→2→B→3→C). The difference between Part A and Part B scores measures cognitive flexibility.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What is a good Trail Making Test score?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "For Part A, adults under 35 typically complete in 20-30 seconds. For Part B, 60-90 seconds is average. The key metric is the A/B ratio — a ratio under 2.5 indicates good cognitive flexibility, while ratios above 3.0 suggest significant task-switching overhead.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -194,46 +164,5 @@ const schemaJson = [
 
     <ExploreTests currentSlug="trail-making" />
 
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What is the difference between Trail Making Part A and Part B?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Part A tests visual scanning speed and motor execution by connecting
-            numbered nodes in sequence (1→2→3). Part B adds cognitive load by
-            requiring task switching — alternating between numbers and letters
-            (1→A→2→B→3→C). The difference between Part A and Part B scores
-            measures cognitive flexibility.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What is a good Trail Making Test score?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            For Part A, adults under 35 typically complete in 20-30 seconds. For
-            Part B, 60-90 seconds is average. The key metric is the A/B ratio —
-            a ratio under 2.5 indicates good cognitive flexibility, while ratios
-            above 3.0 suggest significant task-switching overhead.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
-  </div>
+    </div>
 </Layout>

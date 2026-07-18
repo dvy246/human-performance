@@ -21,36 +21,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is flick speed?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Flick speed measures how quickly you can move your cursor from one position to a new target and click. It combines reaction time, mouse control, and click timing into a single metric.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How does this differ from the Aim Trainer?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The Aim Trainer uses shrinking targets that reward precision over speed. Flick Trainer uses instant-appearing targets that reward fast cursor acceleration and deceleration — the two skills engage different motor control pathways.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -142,46 +112,6 @@ const schemaJson = [
     </article>
 
     <ExploreTests currentSlug="flick-trainer" />
-
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What is flick speed?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Flick speed measures how quickly you can move your cursor from one
-            position to a new target and click. It combines reaction time, mouse
-            control, and click timing into a single metric.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            How does this differ from the Aim Trainer?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            The Aim Trainer uses shrinking targets that reward precision over
-            speed. Flick Trainer uses instant-appearing targets that reward fast
-            cursor acceleration and deceleration — the two skills engage
-            different motor control pathways.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
 
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"

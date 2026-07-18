@@ -24,36 +24,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How does this test apply to real-world tasks?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Choice reaction is the baseline for almost all real-world activities. In driving, a simple reaction is slamming the brakes when a red light appears. A choice reaction is deciding whether to swerve left, swerve right, or brake when an obstacle appears in your lane.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Why are keys mapped to R, G, B, Y?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "We map inputs to the first letter of each color: Red, Green, Blue, and Yellow. This semantic mapping creates a minor cognitive association pathway that you must master to achieve elite reaction scores.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. The Choice Reaction Test is designed for cognitive training, self-tracking, and entertainment purposes. It is not a clinical, medical, or diagnostic evaluation.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -220,48 +190,6 @@ const schemaJson = [
 
       <ExploreTests currentSlug="choice-reaction" />
 
-      <!-- FAQ Section -->
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              How does this test apply to real-world tasks?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Choice reaction is the baseline for almost all real-world
-              activities. In driving, a simple reaction is slamming the brakes
-              when a red light appears. A choice reaction is deciding whether to
-              swerve left, swerve right, or brake when an obstacle appears in
-              your lane.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Why are keys mapped to R, G, B, Y?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              We map inputs to the first letter of each color: **R**ed,
-              **G**reen, **B**lue, and **Y**ellow. This semantic mapping creates
-              a minor cognitive association pathway that you must master to
-              achieve elite reaction scores.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Is this a medical diagnostic tool?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              No. The Choice Reaction Test is designed for cognitive training,
-              self-tracking, and entertainment purposes. It is not a clinical,
-              medical, or diagnostic evaluation.
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
+      </section>
   </div>
 </Layout>

@@ -232,15 +232,41 @@ export default function TestResultsPage() {
       )
     }
     return (
-      <div className="mx-auto flex w-full max-w-2xl flex-col items-center justify-center gap-4 py-16 text-center">
+      <div className="mx-auto flex w-full max-w-2xl flex-col items-center justify-center gap-6 py-16 text-center">
         <span className="text-4xl">🔍</span>
         <h2 className="text-xl font-bold text-foreground">
           {t("results.no_results")}
         </h2>
         <p className="text-sm text-muted">{t("results.no_results_desc")}</p>
+        
+        {/* Popular Tests Index Links */}
+        <div className="w-full mt-4">
+          <h3 className="text-xs font-mono font-bold tracking-widest text-muted uppercase mb-4 text-left border-b border-card-border/60 pb-2">
+            Popular Cognitive Assessments
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
+            <a href="/tests/reaction-time" className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
+              <div className="font-bold text-xs">⚡ Visual Reaction Time</div>
+              <div className="text-[10px] text-muted">Test raw motor response triggers.</div>
+            </a>
+            <a href="/tests/aim-trainer" className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
+              <div className="font-bold text-xs">🎯 Aim Precision</div>
+              <div className="text-[10px] text-muted">Fitts's Law target acquisition.</div>
+            </a>
+            <a href="/tests/quant-dev-grid" className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
+              <div className="font-bold text-xs">💻 Quant-Dev Agility Grid</div>
+              <div className="text-[10px] text-muted">Bitwise logic, logic gates, and hex arithmetic.</div>
+            </a>
+            <a href="/tests/sleep-sanctuary" className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
+              <div className="font-bold text-xs">🌙 Sleep & Chronotype</div>
+              <div className="text-[10px] text-muted">Circadian profiles and attention fatigue checks.</div>
+            </a>
+          </div>
+        </div>
+
         <a
           href="/"
-          className="transition-standard flex h-10 items-center rounded bg-accent px-6 font-mono text-xs font-semibold text-white uppercase hover:bg-accent-hover"
+          className="mt-6 transition-standard flex h-11 items-center rounded bg-accent px-6 font-mono text-xs font-semibold text-white uppercase hover:bg-accent-hover cursor-pointer"
         >
           {t("results.back_home")}
         </a>

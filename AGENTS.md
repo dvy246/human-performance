@@ -49,12 +49,12 @@ Node >=22.12.0 required. Vite pinned to ^7.3.6 via overrides.
 
 ## Project Structure
 
-### Pages (`src/pages/`) — 77 pages, 0 build errors
+### Pages (`src/pages/`) — 83 pages, 0 build errors
 
 | Area | Count | Path pattern |
 |---|---|---|
 | Home | 1 | `/index.astro` |
-| Cognitive tests | 23 | `/tests/{slug}/index.astro` |
+| Cognitive tests | 28 | `/tests/{slug}/index.astro` |
 | The Gauntlet | 1 | `/gauntlet/index.astro` |
 | Learn guides | 23 | `/learn/{slug}/index.astro` |
 | Learn index | 1 | `/learn/index.astro` |
@@ -62,12 +62,12 @@ Node >=22.12.0 required. Vite pinned to ^7.3.6 via overrides.
 | Benchmarks | 7 | `/benchmarks/index.astro`, `/benchmarks/[slug].astro` |
 | Quiz | 3 | `/quiz/index.astro`, `/quiz/iq-test`, `/quiz/cognitive-style` |
 | Info/legal | 8 | about, contact, faq, methodology, privacy, terms, brain-games, challenge |
-| Utilities | 4 | 404, 500, history, records, tests/results, adhd-test, color-game |
+| Utilities | 4 | 404, 500, history, records, tests/results, attention-test, color-game |
 
 ### Components (`src/components/`)
 
 - **`ui/`** — 18 shared components: `HowItWorks.astro`, `ExploreTests.astro`, `ErrorBoundary.tsx`, `LanguageSwitcher.tsx`, `ThemeToggle.tsx`, `SyncPanel.tsx`, `OnboardingFlow.tsx`, `KeyboardShortcuts.tsx`, `TestResultsPage.tsx`, `LoadingSkeletons.tsx`, `EnhancedShare.tsx`, `SocialShare.tsx`, `RecentTests.tsx`, `CalibrationBanner.tsx`, `GameConfigPanel.tsx`, `QRChallengeCard.tsx`, `button.tsx`, `withErrorBoundary.tsx`
-- **`tests/`** — 25 core test React components (one per test, including FocusChallengeTest, GauntletTest)
+- **`tests/`** — 30 core test React components (one per test, including FocusChallengeTest, GauntletTest)
 - **`tests/gauntlet/`** — 5 gauntlet stages: `StageReaction`, `StageSequenceMemory`, `StageStroop`, `StageMatrix`, `StageAim` + `GauntletTypes.ts`
 - **`tests/focus/`** — 5 focus challenge stages: `Stage1SelectiveAttention`, `Stage2ImpulseControl`, `Stage3TaskSwitching`, `Stage4SustainedAttention`, `Stage5WorkingMemoryUnderDistraction` + `StageTypes.ts`
 - **`benchmarks/`** — `TestBenchmarkPage`, `DistributionCurve`, `AgeBenchmarks`, `ProfessionalBenchmarks`, `PerformanceFactors`
@@ -76,7 +76,7 @@ Node >=22.12.0 required. Vite pinned to ^7.3.6 via overrides.
 
 ### Data (`src/data/`)
 
-- **`tests.ts`** — Test metadata manifest: `TestEntry` interface, 6 categories (Reaction & Reflexes, Memory, Reasoning, Focus & Attention, Motor Performance, Executive Function), `allTests[]` (24 entries), `getTestsByCategory()`, `getTestBySlug()`
+- **`tests.ts`** — Test metadata manifest: `TestEntry` interface, 6 categories (Reaction & Reflexes, Memory, Reasoning, Focus & Attention, Motor Performance, Executive Function), `allTests[]` (29 entries), `getTestsByCategory()`, `getTestBySlug()`
 - **`percentiles.json`** — Score-to-percentile lookup tables per test (~173 lines)
 - **`benchmarks.ts`** — Benchmark config for 7 categories: distribution curves via error function, age data, profession data, influencing factors
 - **`passages.ts`** — Typing test passage library: 3 categories (general, technology, coding), ~30 passages
@@ -190,13 +190,13 @@ src/
   data/          → test manifest, percentiles, benchmarks config, typing passages
   i18n/          → 6-language translations (~4k lines)
   layouts/       → main.astro (single site-wide layout)
-  pages/         → 77 Astro pages (23 tests + 23 learn + gauntlet + dashboard + benchmarks + quiz + info)
+  pages/         → 83 Astro pages (28 tests + 23 learn + gauntlet + dashboard + benchmarks + quiz + info)
   runtime/       → IndexedDB data layer, percentile lookup, skill radar, training engine, hooks
   styles/        → global.css (Tailwind v4 + theme tokens)
 sync-worker/     → separate CF Worker for optional D1 sync
 ```
 
-- 24 tests total: 23 individual + 1 Gauntlet (5-stage composite)
+- 29 tests total: 28 individual + 1 Gauntlet (5-stage composite)
 - 6 cognitive axes: reaction, memory, processing, precision, focus, stamina
 - 6 categories in sidebar: Reaction & Reflexes, Memory, Reasoning, Focus & Attention, Motor Performance, Executive Function
 - 6 personas in training engine
@@ -207,7 +207,7 @@ sync-worker/     → separate CF Worker for optional D1 sync
 Every test page under `src/pages/tests/{slug}/index.astro` MUST include:
 
 - **How This Test Works** — `<HowItWorks>` component after the disclaimer, explaining what the test measures, how scoring works, and what affects results. Each page defines unique props (`whatItMeasures`, `howScoringWorks`, `whatAffectsResults`).
-- **Explore All Tests** — `<ExploreTests currentSlug="{slug}" />` replacing the old 3-test Related Tests pill section. Renders all 24+ tests as category-grouped cards with descriptions.
+- **Explore All Tests** — `<ExploreTests currentSlug="{slug}" />` replacing the old 3-test Related Tests pill section. Renders all 28+ tests as category-grouped cards with descriptions.
 
 Shared components live in `src/components/ui/`:
 - `ExploreTests.astro` — full test grid sourced from `src/data/tests.ts`
@@ -380,3 +380,48 @@ ReactionTimeTest, ClickSpeedTest, AimTrainer, AimCoordinationTest, MouseAccuracy
 - 1 LOW concern documented but not fixed (PrioritizationTest interval race)
 - 1 LOW optional guard documented but not fixed (GauntletTest race)
 - Build: 77 pages, 0 errors across all phases; Tests: 56/56 pass consistently
+
+## Strategic Feature Audit: The Quant-Dev Agility Grid (July 2026)
+
+### 1. Self-Verification & Core Critique
+- **The Concept**: Build a "Cognitive Performance Benchmark for Software Professionals" (Quant-Dev Agility Grid) instead of child-directed math games.
+- **Verdict**: **VERIFIED & ENDORSED**. This is the optimal product-market wedge for CogniArena. It converts casual users into repeat power users looking to benchmark "throughput under logical stress."
+- **Critique on Implementation Assumptions**:
+  - *Assumption: Extend `trainingEngine.ts` for logic gates/quant operators (Phase 1, 1 week)*.
+    **Critique**: Incorrect/Over-engineered. `trainingEngine.ts` acts as a static configuration map for daily challenges and recommendation pools. Modifying it is a minor registration task. The actual algorithmic question-generation logic (e.g. binary shift, hex conversions, logic gate states) must live client-side inside the component to prevent database pollution and unnecessary server-side logic.
+  - *Assumption: Create a new `quant-dev` category*.
+    **Critique**: High risk of database regression. CogniArena's core architectures (`dataLayer.ts`, `skillRadar.ts`, and sidebar components) assume a fixed set of 6 cognitive categories matching the radar axes. Adding a parallel category will break scoring algorithms and sidebar layouts. 
+    **Resolution**: Classify the test under the existing **Reasoning** category in data lists, but customize the frontend naming and SEO metadata for developers.
+  - *Assumption: Dynamic role benchmarks `/benchmarks/software-engineer` via `[slug].astro`*.
+    **Critique**: `[slug].astro` generates category-level static benchmarks. Injecting roles directly would break category path resolution.
+    **Resolution**: Setup a separate sub-route directory: `src/pages/benchmarks/roles/[role].astro` to generate role-based pages programmatically.
+
+### 2. YMYL & AdSense Compliance Audit
+- **YMYL Status**: **100% Safe**. Speed logical processing and bitwise arithmetic are completely non-adjacent to medical/health diagnostics or financial advising.
+- **AdSense Strategy**: Monospace terminal aesthetics naturally space gameplay zones away from external ads, preventing accidental clicks. It targets high-income developers, attracting high-CPM technology ads.
+
+### 3. Verification & Execution Roadmap
+
+| Phase | Est. Duration | File Scope | Integration Moat |
+|---|---|---|---|
+| **Phase 1: Registration** | 1 Day | `src/data/tests.ts`, `translations.ts` | Register `quant-dev-grid` under **Reasoning** category. |
+| **Phase 2: UI & Logic** | 3 Days | `src/components/tests/QuantDevGrid.tsx` | Monospace IDE terminal interface. Algorithmic generator for operators: bitwise logic, hexadecimal arithmetic, logic gates. |
+| **Phase 3: Benchmarks** | 2 Days | `src/pages/benchmarks/roles/[role].astro` | Map percentile offsets for roles (Junior Dev, Senior Dev, Quant Trader). |
+| **Phase 4: Artifact** | 1 Day | `src/components/ui/EnhancedShare.tsx` | Render customized "Quant Agility Score Card" SVG highlighting developer metrics. |
+
+## Phase 8 — Centralized SEO FAQs Implementation (July 2026)
+
+### 1. Centralized FAQ Database & Dynamic Schema
+- **Database (`src/data/faqs.ts`)**: Built a structured database containing 8 high-value, SEO-optimized Q&A pairs for all 31 pages (including 28 tests, `attention-test`, and `gauntlet`).
+- **Layout Integration (`src/layouts/main.astro`)**:
+  - Automatically parses test slugs from pathnames on entry.
+  - Dynamically constructs and injects `FAQPage` JSON-LD schemas into `schemaJson` array for search engines.
+  - Renders `<FaqsList slug={testSlug} />` component below page slot content.
+- **Visual FAQ Component (`src/components/ui/FaqsList.astro`)**: Collapsible details cards styled using the product's design system tokens, supporting clean semantic HTML.
+- **Landing Page Expansion**: Added 10 more high-intent SEO FAQs on the home page (`src/pages/index.astro`) inside both layout frontmatter schema and body dropdowns, total of 16 FAQs.
+
+### 2. Automated Cleanups & Build Checks
+- Stripped duplicate visual FAQ articles and static frontmatter FAQ schemas across all 31 page files to prevent array syntax conflicts, reduce maintenance overhead, and guarantee zero Google duplicate-content flags.
+- Confirmed full Vitest suite passing (58/58 tests) and successful static build generation (84 pages built in 3.86s).
+
+

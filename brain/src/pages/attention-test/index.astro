@@ -1,0 +1,167 @@
+---
+import Layout from "@/layouts/main.astro"
+
+const title =
+  "Attention & Focus Assessment — Sustained Cognition Battery | CogniArena"
+const description =
+  "Evaluate your sustained attention, impulse response pace, and selective focus with a scientifically grounded self-assessment battery."
+const canonicalUrl = "https://cogniarena.com/attention-test"
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Attention & Focus Assessment — Sustained Cognition Battery",
+    description:
+      "Evaluate your sustained attention, impulse response pace, and selective focus with a self-assessment battery.",
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Attention Assessment",
+        item: "https://cogniarena.com/attention-test",
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <span class="text-muted">Attention Assessment</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Attention & Focus Assessment
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Benchmark your sustained focus, response pacing, and visual discrimination across four non-diagnostic cognitive paradigms. Free and anonymous.
+      </p>
+    </header>
+
+    <!-- Pre-game Medical Disclaimer -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Regulatory & Medical Scope Note:</strong
+      > This screening battery is designed solely for self-tracking, educational, and cognitive training purposes. It is not a diagnostic instrument. It does not screen, treat, cure, or evaluate clinical conditions (such as ADHD, ADD, executive dysfunction, or neurological disorders). For medical evaluations, consult a licensed neuropsychologist or medical practitioner.
+    </div>
+
+    <!-- Recommended Test Battery -->
+    <section class="flex flex-col gap-4">
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Attention Cognitive Assessment Suite
+      </h2>
+      <p class="text-sm leading-relaxed text-muted">
+        Select a test below to benchmark specific focus metrics:
+      </p>
+      <div class="grid gap-3">
+        <a
+          href="/tests/go-no-go"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              1. Go/No-Go Test — Response Inhibition
+            </h3>
+            <span class="text-xs text-accent">Take Test →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Measures your capacity to withhold automated click reactions. Useful for tracking coordination and pacing.
+          </p>
+        </a>
+        <a
+          href="/tests/stroop"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              2. Stroop Test — Selective Attention
+            </h3>
+            <span class="text-xs text-accent">Take Test →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Assess your color-word clash sorting rates, measuring interference control under visual noise.
+          </p>
+        </a>
+        <a
+          href="/tests/trail-making"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              3. Trail Making Test — Rule Switching
+            </h3>
+            <span class="text-xs text-accent">Take Test →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Measures sequence logic sorting speeds, tracking executive transition pacing under dynamic rules.
+          </p>
+        </a>
+        <a
+          href="/tests/focus-challenge"
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              4. Focus Challenge — Sustained Attention
+            </h3>
+            <span class="text-xs text-accent">Take Test →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            A comprehensive 5-stage sustained vigilance assessment measuring speed stability under audio-visual distractions.
+          </p>
+        </a>
+      </div>
+    </section>
+
+    <!-- SEO Content Section -->
+    <section class="flex flex-col gap-6 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-3">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          What is Cognitive Attention and How is it Measured?
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Cognitive attention is the mental capacity to selectively concentrate on a specific aspect of information while ignoring other perceivable stimuli. In cognitive science, this is evaluated through standardized paradigms measuring response time variances, false alarm ratios, and processing latencies.
+        </p>
+        <p class="text-sm leading-relaxed text-muted">
+          Tracking these focus metrics regularly allows users to monitor self-performance relative to standard baselines. These exercises represent training drills rather than diagnostic tests.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          How to Support Focus Capacity Naturally
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Attention stability fluctuates based on sleep duration, daily hydration, visual clutter, and screen fatigue. Prioritizing structured sleep schedules, regular breaks (such as the Pomodoro technique), and ergonomic workspace lighting help sustain cognitive execution performance.
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

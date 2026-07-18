@@ -24,36 +24,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is the average number memory span?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Most adults can hold 7 digits (plus or minus 2) in short-term working memory, according to Miller's Law. Scoring 9+ digits is above average, and 12+ is exceptional. Memory athletes use chunking and mnemonic techniques to reach 20+ digits.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How can I improve my number memory?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Practice chunking by grouping digits into meaningful patterns (dates, phone numbers). Use mnemonic techniques like the Major System to convert numbers into words. Regular practice with expanding digit sequences strengthens working memory capacity over time.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -191,46 +161,5 @@ const schemaJson = [
 
     <ExploreTests currentSlug="number-memory" />
 
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What is the average number memory span?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Most adults can hold 7 digits (plus or minus 2) in short-term
-            working memory, according to Miller's Law. Scoring 9+ digits is
-            above average, and 12+ is exceptional. Memory athletes use chunking
-            and mnemonic techniques to reach 20+ digits.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            How can I improve my number memory?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Practice chunking by grouping digits into meaningful patterns
-            (dates, phone numbers). Use mnemonic techniques like the Major
-            System to convert numbers into words. Regular practice with
-            expanding digit sequences strengthens working memory capacity over
-            time.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
-  </div>
+    </div>
 </Layout>

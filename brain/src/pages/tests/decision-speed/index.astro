@@ -26,36 +26,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is Hick's Law?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Hick's Law states that reaction time increases logarithmically with the number of possible choices. This test uses a binary decision (high or low) to isolate processing speed from complex choice overhead.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How does this differ from simple reaction time?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Simple reaction time measures a single stimulus-response pair (see a light, click). Decision speed adds a cognitive classification step — you must evaluate the number and choose a response, which engages additional processing pathways.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -147,47 +117,6 @@ const schemaJson = [
     </article>
 
     <ExploreTests currentSlug="decision-speed" />
-
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What is Hick's Law?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Hick's Law states that reaction time increases logarithmically with
-            the number of possible choices. This test uses a binary decision
-            (high or low) to isolate processing speed from complex choice
-            overhead.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            How does this differ from simple reaction time?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Simple reaction time measures a single stimulus-response pair (see a
-            light, click). Decision speed adds a cognitive classification step —
-            you must evaluate the number and choose a response, which engages
-            additional processing pathways.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
 
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"

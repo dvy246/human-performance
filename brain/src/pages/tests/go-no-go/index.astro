@@ -25,28 +25,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is a normal Go/No-Go reaction score?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Because of the decision check required, Go/No-Go response latency is typically 80ms to 120ms slower than a simple reaction test. A normal score is around 320ms to 380ms. Under 280ms is exceptional, and scores above 450ms indicate fatigue, distraction, or high false alarm rates.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How does the calibration work?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The test runs on a double-buffered requestAnimationFrame loop to sync the random color flash to your monitor's actual screen refresh rate, bypassing browser rendering jitter.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -193,38 +171,6 @@ const schemaJson = [
 
       <ExploreTests currentSlug="go-no-go" />
 
-      <!-- FAQ Section -->
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              What is a normal Go/No-Go reaction score?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Because of the decision check required, Go/No-Go response latency
-              is typically **80ms to 120ms slower** than a simple reaction test.
-              A normal score is around 320ms to 380ms. Under 280ms is
-              exceptional, and scores above 450ms indicate fatigue, distraction,
-              or high false alarm rates.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              How does the calibration work?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              The test runs on a double-buffered <code
-                >requestAnimationFrame</code
-              > loop to sync the random color flash to your monitor's actual screen
-              refresh rate, bypassing browser rendering jitter.
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
+      </section>
   </div>
 </Layout>

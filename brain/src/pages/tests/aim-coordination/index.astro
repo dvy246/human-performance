@@ -25,44 +25,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What does the Aim Coordination Test measure?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "It measures your visual-motor response latency — the time from when a target appears on screen to when you successfully click it. This captures the speed of your hand-eye coordination loop: eyes detect the stimulus, the brain processes spatial coordinates, and motor signals are sent to your hand to execute the click.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How is this different from the Aim Precision Trainer?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The Aim Precision Trainer uses smaller targets (24px radius) and focuses on pixel-offset accuracy and fine motor control. The Aim Coordination Test uses larger targets (30px radius) and prioritizes raw response speed — measuring how fast you can acquire and hit a target rather than how precisely you can click its center.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I improve my hand-eye coordination speed?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. Regular practice with aim trainers and fast-paced video games strengthens the neuromuscular pathways between your visual cortex and motor cortex. Over time, your brain builds more efficient myelin sheaths along these pathways, reducing signal transmission delay and improving coordination speed.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. The Aim Coordination Test is designed for motor speed training, self-tracking, and entertainment purposes. It is not a medical, clinical, or diagnostic tool.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -257,62 +219,6 @@ const schemaJson = [
 
       <ExploreTests currentSlug="aim-coordination" />
 
-      <!-- FAQ Section -->
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              What does the Aim Coordination Test measure?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              It measures your visual-motor response latency — the time from
-              when a target appears on screen to when you successfully click it.
-              This captures the speed of your hand-eye coordination loop: eyes
-              detect the stimulus, the brain processes spatial coordinates, and
-              motor signals are sent to your hand to execute the click.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              How is this different from the Aim Precision Trainer?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              The Aim Precision Trainer uses smaller targets (24px radius) and
-              focuses on pixel-offset accuracy and fine motor control. The Aim
-              Coordination Test uses larger targets (30px radius) and
-              prioritizes raw response speed — measuring how fast you can
-              acquire and hit a target rather than how precisely you can click
-              its center.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Can I improve my hand-eye coordination speed?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Yes. Regular practice with aim trainers and fast-paced video games
-              strengthens the neuromuscular pathways between your visual cortex
-              and motor cortex. Over time, your brain builds more efficient
-              myelin sheaths along these pathways, reducing signal transmission
-              delay and improving coordination speed.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Is this a medical diagnostic tool?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              No. The Aim Coordination Test is designed for motor speed
-              training, self-tracking, and entertainment purposes. It is not a
-              medical, clinical, or diagnostic tool.
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
+      </section>
   </div>
 </Layout>

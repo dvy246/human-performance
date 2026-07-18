@@ -24,36 +24,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How does DPI affect my aim test results?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "DPI (Dots Per Inch) is the hardware sensitivity of your mouse sensor. High DPI (e.g. 3200+) means minor hand jitters translate to large screen movements, increasing offset errors. Low DPI (e.g. 400 - 800) paired with a large mousepad allows you to use your forearm instead of wrist joints, providing significantly higher accuracy and precision control.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Can I improve my aim with a higher refresh rate monitor?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Yes. High refresh rates (144Hz, 240Hz, 360Hz) decrease frame spacing lag and display stutter. This lets your eye track the moving target's position with higher clarity, helping your motor system predict target acquisition coordinates with less visual delay.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. The Aim Precision test is designed for motor training, self-tracking, and entertainment purposes. It is not a medical, clinical, or diagnostic tool.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -223,50 +193,6 @@ const schemaJson = [
 
       <ExploreTests currentSlug="aim-trainer" />
 
-      <!-- FAQ Section -->
-      <article class="flex flex-col gap-6">
-        <h2 class="text-xl font-semibold tracking-tight text-foreground">
-          Frequently Asked Questions
-        </h2>
-
-        <div class="flex flex-col gap-4">
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              How does DPI affect my aim test results?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              DPI (Dots Per Inch) is the hardware sensitivity of your mouse
-              sensor. High DPI (e.g. 3200+) means minor hand jitters translate
-              to large screen movements, increasing offset errors. Low DPI (e.g.
-              400 - 800) paired with a large mousepad allows you to use your
-              forearm instead of wrist joints, providing significantly higher
-              accuracy and precision control.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Can I improve my aim with a higher refresh rate monitor?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              Yes. High refresh rates (144Hz, 240Hz, 360Hz) decrease frame
-              spacing lag and display stutter. This lets your eye track the
-              moving target's position with higher clarity, helping your motor
-              system predict target acquisition coordinates with less visual
-              delay.
-            </p>
-          </div>
-          <div class="flex flex-col gap-1.5">
-            <h3 class="text-sm font-medium text-foreground">
-              Is this a medical diagnostic tool?
-            </h3>
-            <p class="text-sm leading-relaxed text-muted">
-              No. The Aim Precision test is designed for motor training,
-              self-tracking, and entertainment purposes. It is not a clinical,
-              medical, or diagnostic evaluation.
-            </p>
-          </div>
-        </div>
-      </article>
-    </section>
+      </section>
   </div>
 </Layout>

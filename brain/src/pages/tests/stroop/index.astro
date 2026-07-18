@@ -25,36 +25,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is the Stroop effect?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The Stroop effect is the cognitive interference that occurs when the meaning of a word conflicts with the color it's printed in. For example, the word 'RED' printed in blue ink creates mental friction because your brain automatically reads the word before processing the color. This delay measures your executive control and response inhibition ability.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How can I improve my Stroop test score?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Practice selective attention exercises regularly. Focus on the ink color before reading the word. Techniques include: narrowing your visual focus, using a finger to point at the color, and practicing with increasingly difficult color-word combinations. Regular practice reduces the Stroop interference effect over time.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -197,48 +167,5 @@ const schemaJson = [
 
     <ExploreTests currentSlug="stroop" />
 
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What is the Stroop effect?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            The Stroop effect is the cognitive interference that occurs when the
-            meaning of a word conflicts with the color it's printed in. For
-            example, the word 'RED' printed in blue ink creates mental friction
-            because your brain automatically reads the word before processing
-            the color. This delay measures your executive control and response
-            inhibition ability.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            How can I improve my Stroop test score?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Practice selective attention exercises regularly. Focus on the ink
-            color before reading the word. Techniques include: narrowing your
-            visual focus, using a finger to point at the color, and practicing
-            with increasingly difficult color-word combinations. Regular
-            practice reduces the Stroop interference effect over time.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
-  </div>
+    </div>
 </Layout>

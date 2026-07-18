@@ -24,36 +24,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is a good Dual N-Back score?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Most beginners start at 1-back or 2-back. Reaching 3-back consistently is above average, 4-back is advanced, and 5+ back is elite. Research suggests regular training can increase your working memory capacity over time.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Does Dual N-Back training improve fluid intelligence?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Some studies suggest that Dual N-Back training can improve working memory capacity and fluid reasoning, though results are mixed. Consistent practice over several weeks tends to show the most benefit for attention and memory tasks.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -193,45 +163,5 @@ const schemaJson = [
 
     <ExploreTests currentSlug="dual-n-back" />
 
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What is a good Dual N-Back score?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Most beginners start at 1-back or 2-back. Reaching 3-back
-            consistently is above average, 4-back is advanced, and 5+ back is
-            elite. Research suggests regular training can increase your working
-            memory capacity over time.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Does Dual N-Back training improve fluid intelligence?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Some studies suggest that Dual N-Back training can improve working
-            memory capacity and fluid reasoning, though results are mixed.
-            Consistent practice over several weeks tends to show the most
-            benefit for attention and memory tasks.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
-  </div>
+    </div>
 </Layout>

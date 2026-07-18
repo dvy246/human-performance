@@ -4,11 +4,14 @@ import SyncPanel from "@/components/ui/SyncPanel"
 import ThemeToggle from "@/components/ui/ThemeToggle"
 import CalibrationBanner from "@/components/ui/CalibrationBanner"
 import OnboardingFlow from "@/components/ui/OnboardingFlow"
+import HowToPlayModal from "@/components/ui/HowToPlayModal"
 import { KeyboardShortcutsHelp } from "@/components/ui/KeyboardShortcuts"
 import RecentTests from "@/components/ui/RecentTests"
 import Icon from "@/components/ui/Icon.astro"
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher"
 import { translations } from "@/i18n/translations"
+import FaqsList from "@/components/ui/FaqsList.astro"
+import { getFaqSchemaForSlug, hasFaqsForPath } from "@/data/faqs"
 
 interface Props {
   title?: string
@@ -28,12 +31,21 @@ const {
   robots = "index, follow",
 } = Astro.props
 
+// Normalize canonicalUrl to ensure it ends with a trailing slash if it doesn't already
+let formattedCanonicalUrl = canonicalUrl;
+if (formattedCanonicalUrl && !formattedCanonicalUrl.endsWith('/')) {
+  const lastPart = formattedCanonicalUrl.split('/').pop() || '';
+  if (!lastPart.includes('.')) {
+    formattedCanonicalUrl = formattedCanonicalUrl + '/';
+  }
+}
+
 // Organization + WebSite schema — injected on every page for knowledge panel / sitelinks
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
   name: "CogniArena",
-  url: "https://cogniarena.com",
+  url: "https://cogniarena.com/",
   logo: "https://cogniarena.com/favicon.svg",
   description:
     "Free online cognitive assessment platform with 23+ brain tests measuring reaction time, memory, reasoning, focus, and motor skills.",
@@ -45,7 +57,7 @@ const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
   name: "CogniArena",
-  url: "https://cogniarena.com",
+  url: "https://cogniarena.com/",
 }
 
 // Default structured data for the site (fallback when page provides no schema)
@@ -54,21 +66,40 @@ const defaultSchema = {
   "@type": "WebPage",
   name: title,
   description: description,
-  url: canonicalUrl,
+  url: formattedCanonicalUrl,
   publisher: {
     "@type": "Organization",
     name: "CogniArena",
-    url: "https://cogniarena.com",
+    url: "https://cogniarena.com/",
   },
 }
 
 // Build final schema array: page schemas + global org/webSite schemas
 const pageSchemas = Array.isArray(schemaJson)
-  ? schemaJson
+  ? [...schemaJson]
   : [schemaJson || defaultSchema]
-const finalSchemas = [...pageSchemas, orgSchema, webSiteSchema]
 
 const { pathname } = Astro.url
+
+// Parse slug
+let testSlug = ""
+if (pathname === "/gauntlet" || pathname === "/gauntlet/") {
+  testSlug = "gauntlet"
+} else if (pathname === "/attention-test" || pathname === "/attention-test/") {
+  testSlug = "attention-test"
+} else if (pathname.startsWith("/tests/")) {
+  const parts = pathname.split("/").filter(Boolean)
+  if (parts[1] && parts[1] !== "results") {
+    testSlug = parts[1]
+  }
+}
+
+// Append FAQ schema if available
+if (testSlug && hasFaqsForPath(testSlug)) {
+  pageSchemas.push(getFaqSchemaForSlug(testSlug))
+}
+
+const finalSchemas = [...pageSchemas, orgSchema, webSiteSchema]
 
 // Determine active state indicators
 const isReactionOpen =
@@ -90,7 +121,7 @@ const isFocusOpen =
   pathname.includes("/tests/stroop") ||
   pathname.includes("/tests/trail-making") ||
   pathname.includes("/tests/focus-challenge") ||
-  pathname.includes("/adhd-test") ||
+  pathname.includes("/attention-test") ||
   pathname.includes("/color-game") ||
   pathname.includes("/gauntlet")
 const isMotorOpen =
@@ -141,14 +172,7 @@ const isProfileActive = pathname === "/dashboard"
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <meta name="apple-mobile-web-app-title" content="cogniarena" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="canonical" href={canonicalUrl} />
-    <link rel="alternate" hreflang="x-default" href={canonicalUrl} />
-    <link rel="alternate" hreflang="en" href={canonicalUrl} />
-    <link rel="alternate" hreflang="es" href={canonicalUrl} />
-    <link rel="alternate" hreflang="fr" href={canonicalUrl} />
-    <link rel="alternate" hreflang="de" href={canonicalUrl} />
-    <link rel="alternate" hreflang="pt" href={canonicalUrl} />
-    <link rel="alternate" hreflang="ja" href={canonicalUrl} />
+    <link rel="canonical" href={formattedCanonicalUrl} />
     <title>{title}</title>
 
     <!-- Meta tags for SEO -->
@@ -159,7 +183,7 @@ const isProfileActive = pathname === "/dashboard"
     <meta property="og:type" content="website" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:url" content={formattedCanonicalUrl} />
     <meta property="og:site_name" content="CogniArena" />
     <meta property="og:image" content={ogImage || "/og-image.svg"} />
     <meta property="og:image:width" content="1200" />
@@ -248,6 +272,9 @@ const isProfileActive = pathname === "/dashboard"
 
     <!-- Onboarding Flow -->
     <OnboardingFlow client:load />
+
+    <!-- How To Play Modal (Test Onboarding) -->
+    <HowToPlayModal client:load />
 
     <!-- Keyboard Shortcuts Help Modal -->
     <KeyboardShortcutsHelp client:load />
@@ -394,6 +421,13 @@ const isProfileActive = pathname === "/dashboard"
                 <Icon name="shield" size={16} />
                 <span data-i18n="nav.go_nogo">Color Go/No-Go</span>
               </a>
+              <a
+                href="/tests/latency-optimizer"
+                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/latency-optimizer") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+              >
+                <Icon name="zap" size={16} />
+                <span data-i18n="nav.latency_optimizer">Latency & Hz Optimizer</span>
+              </a>
             </div>
           </details>
 
@@ -538,6 +572,20 @@ const isProfileActive = pathname === "/dashboard"
                   >Spatial Orientation</span
                 >
               </a>
+              <a
+                href="/tests/speed-arithmetic"
+                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/speed-arithmetic") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+              >
+                <Icon name="hash" size={16} />
+                <span data-i18n="nav.speed_arithmetic">Speed Arithmetic</span>
+              </a>
+              <a
+                href="/tests/quant-dev-grid"
+                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/quant-dev-grid") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+              >
+                <Icon name="keyboard" size={16} />
+                <span data-i18n="nav.quant_dev_grid">Quant-Dev Grid</span>
+              </a>
             </div>
           </details>
 
@@ -589,11 +637,11 @@ const isProfileActive = pathname === "/dashboard"
                 <span data-i18n="nav.focus_challenge">Focus Challenge</span>
               </a>
               <a
-                href="/adhd-test"
-                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/adhd-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                href="/attention-test"
+                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/attention-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="brain" size={16} />
-                <span data-i18n="nav.adhd_test">ADHD Test</span>
+                <span data-i18n="nav.adhd_test">Attention Test</span>
               </a>
               <a
                 href="/color-game"
@@ -601,6 +649,13 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <Icon name="palette" size={16} />
                 <span data-i18n="nav.color_game">Color Game</span>
+              </a>
+              <a
+                href="/tests/sleep-sanctuary"
+                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/sleep-sanctuary") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+              >
+                <Icon name="compass" size={16} />
+                <span data-i18n="nav.sleep_sanctuary">Sleep & Chronotype</span>
               </a>
             </div>
           </details>
@@ -672,6 +727,13 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <Icon name="crosshair" size={16} />
                 <span data-i18n="nav.aim_coordination">Aim Coordination</span>
+              </a>
+              <a
+                href="/tests/ergonomic-architect"
+                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/ergonomic-architect") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+              >
+                <Icon name="mouse" size={16} />
+                <span data-i18n="nav.ergonomic_architect">Ergonomic Architect</span>
               </a>
             </div>
           </details>
@@ -1049,6 +1111,13 @@ const isProfileActive = pathname === "/dashboard"
                   <Icon name="shield" size={16} />
                   <span data-i18n="nav.go_nogo">Color Go/No-Go</span>
                 </a>
+                <a
+                  href="/tests/latency-optimizer"
+                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/latency-optimizer") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                >
+                  <Icon name="zap" size={16} />
+                  <span data-i18n="nav.latency_optimizer">Latency & Hz Optimizer</span>
+                </a>
               </div>
             </details>
 
@@ -1193,6 +1262,20 @@ const isProfileActive = pathname === "/dashboard"
                     >Spatial Orientation</span
                   >
                 </a>
+                <a
+                  href="/tests/speed-arithmetic"
+                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/speed-arithmetic") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                >
+                  <Icon name="hash" size={16} />
+                  <span data-i18n="nav.speed_arithmetic">Speed Arithmetic</span>
+                </a>
+                <a
+                  href="/tests/quant-dev-grid"
+                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/quant-dev-grid") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                >
+                  <Icon name="keyboard" size={16} />
+                  <span data-i18n="nav.quant_dev_grid">Quant-Dev Grid</span>
+                </a>
               </div>
             </details>
 
@@ -1244,11 +1327,11 @@ const isProfileActive = pathname === "/dashboard"
                   <span data-i18n="nav.focus_challenge">Focus Challenge</span>
                 </a>
                 <a
-                  href="/adhd-test"
-                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/adhd-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                  href="/attention-test"
+                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/attention-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="brain" size={16} />
-                  <span data-i18n="nav.adhd_test">ADHD Test</span>
+                  <span data-i18n="nav.adhd_test">Attention Test</span>
                 </a>
                 <a
                   href="/color-game"
@@ -1256,6 +1339,13 @@ const isProfileActive = pathname === "/dashboard"
                 >
                   <Icon name="palette" size={16} />
                   <span data-i18n="nav.color_game">Color Game</span>
+                </a>
+                <a
+                  href="/tests/sleep-sanctuary"
+                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/sleep-sanctuary") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                >
+                  <Icon name="compass" size={16} />
+                  <span data-i18n="nav.sleep_sanctuary">Sleep & Chronotype</span>
                 </a>
               </div>
             </details>
@@ -1327,6 +1417,13 @@ const isProfileActive = pathname === "/dashboard"
                 >
                   <Icon name="crosshair" size={16} />
                   <span data-i18n="nav.aim_coordination">Aim Coordination</span>
+                </a>
+                <a
+                  href="/tests/ergonomic-architect"
+                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/ergonomic-architect") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                >
+                  <Icon name="mouse" size={16} />
+                  <span data-i18n="nav.ergonomic_architect">Ergonomic Architect</span>
                 </a>
               </div>
             </details>
@@ -1589,6 +1686,7 @@ const isProfileActive = pathname === "/dashboard"
           <CalibrationBanner client:load />
         </div>
         <slot />
+        {testSlug && <FaqsList slug={testSlug} />}
         <footer
           class="mt-16 flex flex-col gap-6 border-t border-card-border/40 pt-8 text-xs text-muted"
         >

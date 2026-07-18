@@ -25,36 +25,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What does the pattern reasoning test measure?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "It measures fluid intelligence — your ability to think logically and solve problems in novel situations, independent of acquired knowledge. Specifically, it tests inductive reasoning, pattern recognition, and the ability to extract rules from complex visual sequences.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "How can I improve my pattern reasoning score?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Practice identifying common pattern types (rotation, progression, XOR logic). Break complex patterns into simpler components. Work through puzzles and matrix reasoning exercises regularly. Speed improves with familiarity — the more pattern types you recognize, the faster you'll respond.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -194,47 +164,5 @@ const schemaJson = [
 
     <ExploreTests currentSlug="pattern-reasoning" />
 
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What does the pattern reasoning test measure?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            It measures fluid intelligence — your ability to think logically and
-            solve problems in novel situations, independent of acquired
-            knowledge. Specifically, it tests inductive reasoning, pattern
-            recognition, and the ability to extract rules from complex visual
-            sequences.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            How can I improve my pattern reasoning score?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Practice identifying common pattern types (rotation, progression,
-            XOR logic). Break complex patterns into simpler components. Work
-            through puzzles and matrix reasoning exercises regularly. Speed
-            improves with familiarity — the more pattern types you recognize,
-            the faster you'll respond.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
-  </div>
+    </div>
 </Layout>

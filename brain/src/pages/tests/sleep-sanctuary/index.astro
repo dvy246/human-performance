@@ -1,0 +1,126 @@
+---
+import Layout from "@/layouts/main.astro"
+import SleepSanctuary from "@/components/tests/SleepSanctuary"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
+
+const title = "Circadian Sleep Sanctuary & Chronotype Planner | CogniArena"
+const description =
+  "Assess your circadian chronotype profile and fatigue baseline. Plan your wind-down blocks, caffeine cut-offs, and environmental sleep sanctuary targets."
+const canonicalUrl = "https://cogniarena.com/tests/sleep-sanctuary"
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: "Sleep Sanctuary & Chronotype Planner",
+    description:
+      "A circadian assessment quiz and interactive scheduler to optimize daily sleep schedules and resting environments based on chronobiology.",
+    about: {
+      "@type": "Thing",
+      name: "Sleep Hygiene",
+    },
+    educationalAlignment: {
+      "@type": "AlignmentObject",
+      alignmentType: "educationalRequirement",
+      educationalFramework: "Circadian Biology & Sleep Science Studies",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Cognitive Tests",
+        item: "https://cogniarena.com/tests",
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: "Sleep Sanctuary",
+        item: "https://cogniarena.com/tests/sleep-sanctuary",
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <a href="/tests" class="hover:underline">Tests</a>
+        <span>/</span>
+        <span class="text-muted">Sleep Sanctuary</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Sleep Sanctuary & Chronotype Planner
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        Determine your biological sleep profile, calculate caffeine clearance curves, and configure optimal room temperature/lighting rules to maximize cognitive recovery.
+      </p>
+    </header>
+
+    <!-- Interactive Sleep Panel -->
+    <section class="w-full">
+      <SleepSanctuary client:load />
+    </section>
+
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >Self-Tracking Notice:</strong
+      > This circadian schedule calculator is designed for self-tracking, sleep hygiene educational tracking, and chronobiology planning purposes only. It is not medical or diagnostic support for sleep apnea, clinical insomnia, or sleep disorders. Consult a certified clinical somnologist for medical diagnoses.
+    </div>
+
+    <!-- Below the fold SEO and Methodology Content -->
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <HowItWorks
+        testName="the Sleep Sanctuary Planner"
+        learnSlug="typing-speed"
+        learnTitle="Rest Science"
+        whatItMeasures="This planner assesses your subjective fatigue indexes, chronobiology schedules, caffeine half-lives, and sleep environment variables."
+        howScoringWorks="Logic checks integrate circadian chronotypes (Lion, Bear, Wolf, Dolphin) to map optimal alert windows."
+        whatAffectsResults="Consistent wake times, blue-light exposure, caffeine clearance limits, and bedroom temperatures affect sleep depth."
+      />
+
+      <article class="flex flex-col gap-4">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          Circadian Rhythms and Cognitive Recovery Cycles
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Your sleep chronotype determines your peak focus hours. Waking up during deep slow-wave stages results in severe grogginess (sleep inertia), clobbering your reaction times and memory digit spans. Customizing your schedule around 90-minute sleep cycles ensures you awake refreshed, optimization-ready.
+        </p>
+        <p class="text-sm leading-relaxed text-muted">
+          Using our <strong class="text-foreground">sleep schedule optimizer</strong>, you calculate precise wind-down targets. Blue-light filtering blocks should be activated at least 2 hours before bed, while bedroom climate limits should stay near 65°F (18°C) to support core body temperature drops.
+        </p>
+      </article>
+
+      <ExploreTests currentSlug="sleep-sanctuary" />
+    </section>
+  </div>
+</Layout>

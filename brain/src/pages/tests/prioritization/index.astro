@@ -21,36 +21,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How is the score calculated?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Each round presents 5 tasks with different effort costs and point values. Your score is the total points earned across 5 rounds. The key trade-off is choosing high-value tasks that fit within the 10-second time limit versus rushing through many low-value tasks.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What cognitive skill does this measure?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Prioritization measures executive decision-making under time pressure — specifically the ability to quickly evaluate task value versus effort cost and commit to an optimal sequence without second-guessing.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -142,47 +112,6 @@ const schemaJson = [
     </article>
 
     <ExploreTests currentSlug="prioritization" />
-
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            How is the score calculated?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Each round presents 5 tasks with different effort costs and point
-            values. Your score is the total points earned across 5 rounds. The
-            key trade-off is choosing high-value tasks that fit within the
-            10-second time limit versus rushing through many low-value tasks.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What cognitive skill does this measure?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Prioritization measures executive decision-making under time
-            pressure — specifically the ability to quickly evaluate task value
-            versus effort cost and commit to an optimal sequence without
-            second-guessing.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
 
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"

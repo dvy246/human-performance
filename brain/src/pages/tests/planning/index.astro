@@ -26,36 +26,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "What is the minimum number of moves for 4 disks?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "The optimal solution for 4 disks is 15 moves. The formula is 2^n - 1, where n is the number of disks. Each additional disk doubles the minimum moves plus one.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What cognitive skill does the Tower of Hanoi measure?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "It measures planning ability, working memory, and the capacity to hold multiple future states in mind simultaneously. Strong performers think several moves ahead and recognize recursive sub-goals.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -148,46 +118,6 @@ const schemaJson = [
     </article>
 
     <ExploreTests currentSlug="planning" />
-
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What is the minimum number of moves for 4 disks?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            The optimal solution for 4 disks is 15 moves. The formula is 2^n -
-            1, where n is the number of disks. Each additional disk doubles the
-            minimum moves plus one.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What cognitive skill does the Tower of Hanoi measure?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            It measures planning ability, working memory, and the capacity to
-            hold multiple future states in mind simultaneously. Strong
-            performers think several moves ahead and recognize recursive
-            sub-goals.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
 
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"

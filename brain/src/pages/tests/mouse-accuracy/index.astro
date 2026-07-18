@@ -21,36 +21,6 @@ const schemaJson = [
   },
   {
     "@context": "https://schema.org",
-    "@type": "FAQPage",
-    mainEntity: [
-      {
-        "@type": "Question",
-        name: "How is offset measured?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Each click records the pixel distance between where you clicked and the exact center of the target. Your final score is the average offset across all targets — lower is better.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "What DPI should I use?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "Lower DPI (400-800) generally produces better accuracy because it forces you to use arm movements instead of wrist jitter. Higher DPI amplifies small hand tremors, increasing offset errors.",
-        },
-      },
-      {
-        "@type": "Question",
-        name: "Is this a medical diagnostic tool?",
-        acceptedAnswer: {
-          "@type": "Answer",
-          text: "No. This test is designed for self-tracking, performance benchmarking, and entertainment purposes. It is not a clinical cognitive assessment.",
-        },
-      },
-    ],
-  },
-  {
-    "@context": "https://schema.org",
     "@type": "BreadcrumbList",
     itemListElement: [
       {
@@ -142,45 +112,6 @@ const schemaJson = [
     </article>
 
     <ExploreTests currentSlug="mouse-accuracy" />
-
-    <!-- FAQ Section -->
-    <article class="flex flex-col gap-6">
-      <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        Frequently Asked Questions
-      </h2>
-      <div class="flex flex-col gap-4">
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            How is offset measured?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Each click records the pixel distance between where you clicked and
-            the exact center of the target. Your final score is the average
-            offset across all targets — lower is better.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            What DPI should I use?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            Lower DPI (400-800) generally produces better accuracy because it
-            forces you to use arm movements instead of wrist jitter. Higher DPI
-            amplifies small hand tremors, increasing offset errors.
-          </p>
-        </div>
-        <div class="flex flex-col gap-1.5">
-          <h3 class="text-sm font-medium text-foreground">
-            Is this a medical diagnostic tool?
-          </h3>
-          <p class="text-sm leading-relaxed text-muted">
-            No. This test is designed for self-tracking, performance
-            benchmarking, and entertainment purposes. It is not a clinical
-            cognitive assessment.
-          </p>
-        </div>
-      </div>
-    </article>
 
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
