@@ -81,7 +81,7 @@ const pageSchemas = Array.isArray(schemaJson)
   : [schemaJson || defaultSchema]
 
 const { pathname } = Astro.url
-const isHome = pathname === "/" || pathname === "/index.html"
+const isHome = pathname.replace(/\/$/, "") === "" || pathname.includes("/index.html")
 
 // Parse slug
 let testSlug = ""
