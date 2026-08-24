@@ -290,7 +290,7 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "about.s4_desc":
       "CogniArena is built and maintained by a small independent team of cognitive science researchers, performance engineers, and design practitioners. Our work sits at the intersection of experimental psychology and modern web performance engineering.",
     "about.s4_contact":
-      "For inquiries, partnerships, or research collaboration, reach us at support@cogniarena.com.",
+      "For inquiries, partnerships, or research collaboration, reach us at hello@cogniarena.com.",
     // Contact page
     "contact.badge": "Communications",
     "contact.title": "Contact Platform Support",
@@ -659,7 +659,7 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "about.s4_desc":
       "CogniArena es construido por un peque\u00f1o equipo independiente de investigadores e ingenieros.",
     "about.s4_contact":
-      "Para consultas y colaboraciones: support@cogniarena.com.",
+      "Para consultas y colaboraciones: hello@cogniarena.com.",
     // Contact
     "contact.badge": "Comunicaciones",
     "contact.title": "Contacto con Soporte de la Plataforma",
@@ -1010,7 +1010,7 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "about.s4_title": "4. \u00c9quipe & Propri\u00e9t\u00e9",
     "about.s4_desc":
       "CogniArena est construit par une petite \u00e9quipe ind\u00e9pendante de chercheurs et ing\u00e9nieurs.",
-    "about.s4_contact": "Pour inquiries: support@cogniarena.com.",
+    "about.s4_contact": "Pour inquiries: hello@cogniarena.com.",
     // Contact
     "contact.badge": "Communications",
     "contact.title": "Contacter le Support",
@@ -1359,7 +1359,7 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "about.s4_title": "4. Team & Eigent\u00fcmer",
     "about.s4_desc":
       "CogniArena wird von einem kleinen unabh\u00e4ngigen Team gebaut.",
-    "about.s4_contact": "F\u00fcr Anfragen: support@cogniarena.com.",
+    "about.s4_contact": "F\u00fcr Anfragen: hello@cogniarena.com.",
     // Contact
     "contact.badge": "Kommunikation",
     "contact.title": "Plattform-Support Kontaktieren",
@@ -1702,7 +1702,7 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "about.s4_desc":
       "CogniArena \u00e9 constru\u00eddo por uma pequena equipe independente de pesquisadores e engenheiros.",
     "about.s4_contact":
-      "Para consultas e parcerias, entre em contato: support@cogniarena.com.",
+      "Para consultas e parcerias, entre em contato: hello@cogniarena.com.",
     // Contact page
     "contact.badge": "Comunica\u00e7\u00f5es",
     "contact.title": "Contato com Suporte da Plataforma",
@@ -2055,7 +2055,7 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "about.s4_desc":
       "CogniArena\u306f\u5c0f\u3055\u306a\u72ec\u7acb\u30c1\u30fc\u30e0\u304c\u958b\u767a\u3002",
     "about.s4_contact":
-      "\u304a\u554f\u3044\u5408\u308f\u305b: support@cogniarena.com",
+      "\u304a\u554f\u3044\u5408\u308f\u305b: hello@cogniarena.com",
     // Contact
     "contact.badge": "\u30b3\u30df\u30e5\u30cb\u30b1\u30fc\u30b7\u30e7\u30f3",
     "contact.title":

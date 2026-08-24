@@ -77,6 +77,12 @@ const schemaJson = [
             require account logins to receive messages. Please reach out to our
             team at:
           </p>
+          <a
+            href="mailto:hello@cogniarena.com"
+            class="font-mono text-sm font-semibold text-accent hover:underline"
+          >
+            hello@cogniarena.com
+          </a>
           <p class="text-xs text-muted" data-i18n="contact.hardware_note">
             For hardware synchronization and display calibration queries, please
             attach your environment specs from the Diagnostics tab in your
@@ -97,7 +103,7 @@ const schemaJson = [
           <form
             id="contact-form"
             class="flex flex-col gap-3"
-            onsubmit="event.preventDefault(); const subj = document.getElementById('contact-subject').value; const msg = document.getElementById('contact-message').value; window.location.href = 'mailto:support@cogniarena.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(msg);"
+            onsubmit="event.preventDefault(); const subj = document.getElementById('contact-subject').value; const msg = document.getElementById('contact-message').value; window.location.href = 'mailto:hello@cogniarena.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(msg);"
           >
             <div class="flex flex-col gap-1">
               <label

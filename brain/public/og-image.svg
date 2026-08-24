@@ -1,14 +1,136 @@
 <svg width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg">
   <defs>
-    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
-      <stop offset="0%" stop-color="#060a16"/>
-      <stop offset="100%" stop-color="#0c1428"/>
+    <!-- Background Gradient -->
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#050711"/>
+      <stop offset="50%" stop-color="#0a1024"/>
+      <stop offset="100%" stop-color="#060b18"/>
+    </linearGradient>
+
+    <!-- Ambient Radial Glow -->
+    <radialGradient id="blueGlow" cx="50%" cy="40%" r="50%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.25"/>
+      <stop offset="60%" stop-color="#1d4ed8" stop-opacity="0.08"/>
+      <stop offset="100%" stop-color="#050711" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Accent Violet Glow -->
+    <radialGradient id="violetGlow" cx="80%" cy="20%" r="35%">
+      <stop offset="0%" stop-color="#8b5cf6" stop-opacity="0.18"/>
+      <stop offset="100%" stop-color="#050711" stop-opacity="0"/>
+    </radialGradient>
+
+    <radialGradient id="cyanGlow" cx="20%" cy="80%" r="35%">
+      <stop offset="0%" stop-color="#06b6d4" stop-opacity="0.14"/>
+      <stop offset="100%" stop-color="#050711" stop-opacity="0"/>
+    </radialGradient>
+
+    <!-- Linear Accent Gradients -->
+    <linearGradient id="textGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+
+    <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#60a5fa"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+
+    <linearGradient id="borderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#1e293b" stop-opacity="0.6"/>
+      <stop offset="100%" stop-color="#8b5cf6" stop-opacity="0.4"/>
     </linearGradient>
   </defs>
-  <rect width="1200" height="630" fill="url(#bg)"/>
-  <circle cx="600" cy="280" r="120" fill="none" stroke="#3b82f6" stroke-width="2" opacity="0.15"/>
-  <circle cx="600" cy="280" r="80" fill="none" stroke="#3b82f6" stroke-width="1.5" opacity="0.25"/>
-  <text x="600" y="270" font-family="system-ui, -apple-system, sans-serif" font-size="80" font-weight="800" fill="#fafafa" text-anchor="middle" letter-spacing="-2">CogniArena</text>
-  <text x="600" y="330" font-family="system-ui, -apple-system, sans-serif" font-size="28" font-weight="400" fill="#8899b3" text-anchor="middle" letter-spacing="1">Free Cognitive Assessments &amp; Skill Training</text>
-  <text x="600" y="520" font-family="monospace" font-size="14" font-weight="400" fill="#64748b" text-anchor="middle">cogniarena.com</text>
+
+  <!-- Background Base -->
+  <rect width="1200" height="630" fill="url(#bgGrad)"/>
+  <rect width="1200" height="630" fill="url(#blueGlow)"/>
+  <rect width="1200" height="630" fill="url(#violetGlow)"/>
+  <rect width="1200" height="630" fill="url(#cyanGlow)"/>
+
+  <!-- Subtle Tech Grid Lines -->
+  <g stroke="#1e293b" stroke-width="1" opacity="0.35">
+    <line x1="0" y1="90" x2="1200" y2="90"/>
+    <line x1="0" y1="180" x2="1200" y2="180"/>
+    <line x1="0" y1="270" x2="1200" y2="270"/>
+    <line x1="0" y1="360" x2="1200" y2="360"/>
+    <line x1="0" y1="450" x2="1200" y2="450"/>
+    <line x1="0" y1="540" x2="1200" y2="540"/>
+    <line x1="150" y1="0" x2="150" y2="630"/>
+    <line x1="300" y1="0" x2="300" y2="630"/>
+    <line x1="450" y1="0" x2="450" y2="630"/>
+    <line x1="600" y1="0" x2="600" y2="630"/>
+    <line x1="750" y1="0" x2="750" y2="630"/>
+    <line x1="900" y1="0" x2="900" y2="630"/>
+    <line x1="1050" y1="0" x2="1050" y2="630"/>
+  </g>
+
+  <!-- Frame Border -->
+  <rect x="24" y="24" width="1152" height="582" rx="20" fill="none" stroke="url(#borderGrad)" stroke-width="1.5"/>
+
+  <!-- Top Badge / Pill -->
+  <g transform="translate(600, 110)">
+    <rect x="-180" y="-18" width="360" height="36" rx="18" fill="#0f172a" fill-opacity="0.8" stroke="#3b82f6" stroke-opacity="0.4" stroke-width="1"/>
+    <circle cx="-148" cy="0" r="4" fill="#3b82f6"/>
+    <text x="-132" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="13" font-weight="700" fill="#93c5fd" letter-spacing="1.5">29+ COGNITIVE ASSESSMENTS</text>
+  </g>
+
+  <!-- Central Logo Mark & Brand Title -->
+  <g transform="translate(600, 240)">
+    <!-- Brand Icon (Geometric neural node / hexagon) -->
+    <path d="M -235 -20 L -215 -35 L -195 -20 L -195 10 L -215 25 L -235 10 Z" fill="none" stroke="#3b82f6" stroke-width="3.5"/>
+    <circle cx="-215" cy="-5" r="7" fill="#60a5fa"/>
+    <line x1="-215" y1="-35" x2="-215" y2="-5" stroke="#38bdf8" stroke-width="2" opacity="0.7"/>
+    <line x1="-195" y1="10" x2="-215" y2="-5" stroke="#38bdf8" stroke-width="2" opacity="0.7"/>
+    <line x1="-235" y1="10" x2="-215" y2="-5" stroke="#38bdf8" stroke-width="2" opacity="0.7"/>
+
+    <!-- Main Title -->
+    <text x="-165" y="16" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="76" font-weight="800" fill="url(#textGrad)" letter-spacing="-2">CogniArena</text>
+  </g>
+
+  <!-- Tagline / Value Proposition -->
+  <text x="600" y="325" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="26" font-weight="500" fill="#94a3b8" text-anchor="middle" letter-spacing="0.5">
+    Free Reaction Time Test &amp; Cognitive Performance Platform
+  </text>
+
+  <!-- Feature Pills -->
+  <g transform="translate(600, 405)">
+    <!-- Pill 1: Reaction Speed -->
+    <rect x="-470" y="-18" width="165" height="36" rx="8" fill="#1e293b" fill-opacity="0.6" stroke="#334155" stroke-width="1"/>
+    <circle cx="-448" cy="0" r="4" fill="#60a5fa"/>
+    <text x="-372" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0" text-anchor="middle">Reaction Speed</text>
+
+    <!-- Pill 2: Memory & Sequence -->
+    <rect x="-285" y="-18" width="165" height="36" rx="8" fill="#1e293b" fill-opacity="0.6" stroke="#334155" stroke-width="1"/>
+    <circle cx="-263" cy="0" r="4" fill="#a78bfa"/>
+    <text x="-187" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0" text-anchor="middle">Memory &amp; N-Back</text>
+
+    <!-- Pill 3: Motor & Aim -->
+    <rect x="-100" y="-18" width="165" height="36" rx="8" fill="#1e293b" fill-opacity="0.6" stroke="#334155" stroke-width="1"/>
+    <circle cx="-78" cy="0" r="4" fill="#34d399"/>
+    <text x="-3" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0" text-anchor="middle">Aim &amp; Precision</text>
+
+    <!-- Pill 4: Focus & Executive -->
+    <rect x="85" y="-18" width="175" height="36" rx="8" fill="#1e293b" fill-opacity="0.6" stroke="#334155" stroke-width="1"/>
+    <circle cx="107" cy="0" r="4" fill="#f59e0b"/>
+    <text x="187" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0" text-anchor="middle">Sub-ms Precision</text>
+
+    <!-- Pill 5: Reasoning & IQ -->
+    <rect x="280" y="-18" width="190" height="36" rx="8" fill="#1e293b" fill-opacity="0.6" stroke="#334155" stroke-width="1"/>
+    <circle cx="302" cy="0" r="4" fill="#ec4899"/>
+    <text x="390" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#e2e8f0" text-anchor="middle">Reasoning &amp; Focus</text>
+  </g>
+
+  <!-- Bottom Divider Line -->
+  <line x1="80" y1="495" x2="1120" y2="495" stroke="#1e293b" stroke-width="1"/>
+
+  <!-- Footer Information -->
+  <g transform="translate(600, 545)">
+    <!-- Domain -->
+    <text x="-480" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="17" font-weight="600" fill="#38bdf8" text-anchor="start">cogniarena.com</text>
+
+    <!-- Features -->
+    <text x="480" y="5" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif" font-size="15" font-weight="500" fill="#64748b" text-anchor="end">100% Free &amp; Anonymous • No Account Required • Local-First</text>
+  </g>
 </svg>

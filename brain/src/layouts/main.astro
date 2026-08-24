@@ -19,27 +19,47 @@ interface Props {
   description?: string
   canonicalUrl?: string
   ogImage?: string
+  ogType?: "website" | "article" | string
   schemaJson?: Record<string, any> | Record<string, any>[]
   robots?: string
 }
 
 const {
   title = "CogniArena — Free Reaction Time Test & Cognitive Assessments",
-  description = "Take the free reaction time test and measure your reflexes in milliseconds. 23+ cognitive assessments including IQ test, typing test, memory games. 100% anonymous, runs in your browser.",
+  description = "Take the free reaction time test and measure your reflexes in milliseconds. 29+ cognitive assessments including IQ test, typing test, memory games. 100% anonymous, runs in your browser.",
   canonicalUrl = "https://cogniarena.com",
   ogImage,
+  ogType,
   schemaJson,
   robots = "index, follow",
 } = Astro.props
 
-// Normalize canonicalUrl to ensure it ends with a trailing slash if it doesn't already
+// Normalize canonicalUrl to ensure it ends with a trailing slash
 let formattedCanonicalUrl = canonicalUrl;
-if (formattedCanonicalUrl && !formattedCanonicalUrl.endsWith('/')) {
-  const lastPart = formattedCanonicalUrl.split('/').pop() || '';
-  if (!lastPart.includes('.')) {
-    formattedCanonicalUrl = formattedCanonicalUrl + '/';
+if (formattedCanonicalUrl) {
+  if (formattedCanonicalUrl === "https://cogniarena.com" || formattedCanonicalUrl === "https://cogniarena.com/") {
+    formattedCanonicalUrl = "https://cogniarena.com/";
+  } else if (!formattedCanonicalUrl.endsWith('/')) {
+    const lastPart = formattedCanonicalUrl.split('/').pop() || '';
+    if (!lastPart.includes('.')) {
+      formattedCanonicalUrl = formattedCanonicalUrl + '/';
+    }
   }
 }
+
+// Resolve fully-qualified absolute OG image URL (PNG format for broad social crawler compatibility)
+let resolvedOgImage = "https://cogniarena.com/og-image.png";
+if (ogImage) {
+  if (ogImage.startsWith("http://") || ogImage.startsWith("https://")) {
+    resolvedOgImage = ogImage;
+  } else {
+    resolvedOgImage = `https://cogniarena.com${ogImage.startsWith("/") ? "" : "/"}${ogImage}`;
+  }
+}
+
+// Resolve OG type (articles for educational / learn guides, website for everything else)
+const { pathname } = Astro.url;
+const resolvedOgType = ogType || (pathname.startsWith("/learn/") && pathname !== "/learn" && pathname !== "/learn/" ? "article" : "website");
 
 // Organization + WebSite schema — injected on every page for knowledge panel / sitelinks
 const orgSchema = {
@@ -49,9 +69,8 @@ const orgSchema = {
   url: "https://cogniarena.com/",
   logo: "https://cogniarena.com/favicon.svg",
   description:
-    "Free online cognitive assessment platform with 23+ brain tests measuring reaction time, memory, reasoning, focus, and motor skills.",
+    "Free online cognitive assessment platform with 29+ brain tests measuring reaction time, memory, reasoning, focus, and motor skills.",
   foundingDate: "2025",
-  sameAs: [],
 }
 
 const webSiteSchema = {
@@ -59,6 +78,9 @@ const webSiteSchema = {
   "@type": "WebSite",
   name: "CogniArena",
   url: "https://cogniarena.com/",
+  description:
+    "Free online cognitive assessments, reflex testers, and brain training platform.",
+  inLanguage: "en",
 }
 
 // Default structured data for the site (fallback when page provides no schema)
@@ -80,7 +102,6 @@ const pageSchemas = Array.isArray(schemaJson)
   ? [...schemaJson]
   : [schemaJson || defaultSchema]
 
-const { pathname } = Astro.url
 const isHome = pathname.replace(/\/$/, "") === "" || pathname.includes("/index.html")
 
 // Parse slug
@@ -180,26 +201,38 @@ const isProfileActive = pathname === "/dashboard"
     <!-- Meta tags for SEO -->
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
+    <meta name="yandex-verification" content="2cae89c2d02f63bb" />
 
     <!-- Open Graph tags for Social Sharing -->
-    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta property="og:locale:alternate" content="fr_FR" />
+    <meta property="og:locale:alternate" content="de_DE" />
+    <meta property="og:locale:alternate" content="pt_BR" />
+    <meta property="og:locale:alternate" content="ja_JP" />
+    <meta property="og:type" content={resolvedOgType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={formattedCanonicalUrl} />
     <meta property="og:site_name" content="CogniArena" />
-    <meta property="og:image" content={ogImage || "/og-image.svg"} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:secure_url" content={resolvedOgImage} />
+    <meta
+      property="og:image:type"
+      content={resolvedOgImage.endsWith(".jpg") || resolvedOgImage.endsWith(".jpeg")
+        ? "image/jpeg"
+        : "image/png"}
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="CogniArena — Free Reaction Time Test & Cognitive Assessments"
-    />
+    <meta property="og:image:alt" content={title} />
 
     <!-- Twitter card tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage || "/og-image.svg"} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+    <meta name="twitter:image:alt" content={title} />
 
     <!-- Theme Color -->
     <meta

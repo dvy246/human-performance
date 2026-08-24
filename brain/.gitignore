@@ -18,5 +18,8 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
+# i18n baseline snapshot (local verification only)
+.i18n-baseline/
+
 # jetbrains setting folder
 .idea/
