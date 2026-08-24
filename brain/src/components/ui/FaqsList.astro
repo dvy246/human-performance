@@ -1,12 +1,14 @@
 ---
 import { getFaqsForSlug } from "@/data/faqs"
+import { t, type LangCode } from "@/i18n/translations"
 
 export interface Props {
   slug: string
+  lang?: LangCode
 }
 
-const { slug } = Astro.props
-const faqs = getFaqsForSlug(slug)
+const { slug, lang = "en" } = Astro.props
+const faqs = getFaqsForSlug(slug, lang)
 
 if (!faqs || faqs.length === 0) {
   return null
@@ -15,8 +17,9 @@ if (!faqs || faqs.length === 0) {
 
 <section class="mt-12 flex flex-col gap-6 border-t border-card-border/50 pt-10">
   <h2 class="text-xl font-bold tracking-tight text-foreground">
-    Frequently Asked Questions
+    {t("faq.title", lang, "Frequently Asked Questions")}
   </h2>
+
   <div class="flex flex-col gap-3">
     {
       faqs.map((faq) => (

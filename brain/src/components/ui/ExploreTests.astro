@@ -1,13 +1,16 @@
 ---
 import Icon from "@/components/ui/Icon.astro"
 import { allTests, categories, getTestsByCategory } from "@/data/tests"
+import { type LangCode } from "@/i18n/translations"
 
 export interface Props {
   currentSlug?: string
   title?: string
+  lang?: LangCode
 }
 
-const { currentSlug, title = "Explore All Assessments" } = Astro.props
+const { currentSlug, title = "Explore All Assessments", lang = "en" } = Astro.props
+const localePrefix = lang === "en" ? "" : `/${lang}`
 const grouped = getTestsByCategory()
 // Build schema.org ItemList for SEO
 const itemListElements = allTests.map((t, i) => ({
@@ -15,7 +18,7 @@ const itemListElements = allTests.map((t, i) => ({
   position: i + 1,
   name: t.title,
   description: t.shortDesc,
-  url: `https://cogniarena.com${t.href}`,
+  url: `https://cogniarena.com${localePrefix}${t.href}`,
 }))
 const exploreSchema = {
   "@context": "https://schema.org",
@@ -58,7 +61,7 @@ const exploreSchema = {
               (currentSlug === "gauntlet" && test.slug === "gauntlet")
             return (
               <a
-                href={isCurrent ? undefined : test.href}
+                href={isCurrent ? undefined : `${localePrefix}${test.href}`}
                 class={`card-interactive group flex flex-col justify-between gap-4 rounded-xl border p-5 ${
                   isCurrent
                     ? "cursor-default border-accent/40 bg-accent/5"

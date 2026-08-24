@@ -1,5 +1,6 @@
 ---
 import Icon from "@/components/ui/Icon.astro"
+import { type LangCode } from "@/i18n/translations"
 
 export interface Props {
   whatItMeasures: string
@@ -8,6 +9,7 @@ export interface Props {
   testName?: string
   learnSlug?: string
   learnTitle?: string
+  lang?: LangCode
 }
 
 const {
@@ -17,7 +19,10 @@ const {
   testName = "This Test",
   learnSlug,
   learnTitle,
+  lang = "en",
 } = Astro.props
+
+const localePrefix = lang === "en" ? "" : `/${lang}`
 ---
 
 <article class="flex flex-col gap-8">
@@ -71,7 +76,7 @@ const {
         <span>
           Want to understand the science? Read our full guide on{" "}
           <a
-            href={`/learn/${learnSlug}`}
+            href={`${localePrefix}/learn/${learnSlug}`}
             class="font-semibold text-accent hover:underline"
           >
             {learnTitle || "Cognitive Science & Training Guides"}
