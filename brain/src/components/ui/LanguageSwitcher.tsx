@@ -35,6 +35,9 @@ export default function LanguageSwitcher({ initialLang = "en" }: LanguageSwitche
   const handleLanguageChange = (code: LangCode) => {
     setIsOpen(false)
     if (typeof window !== "undefined") {
+      try {
+        localStorage.setItem("language", code)
+      } catch (e) {}
       const targetPath = getLocalizedPath(window.location.pathname, code)
       window.location.href = targetPath
     }

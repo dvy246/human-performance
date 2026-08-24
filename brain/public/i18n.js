@@ -53,11 +53,22 @@
 
   // Will be populated by inline script in <head> with window.__i18nData
   var translations = window.__i18nData || {};
-  var currentLang = localStorage.getItem('language') || 'en';
+
+  function getPathLang() {
+    if (typeof window === 'undefined') return 'en';
+    var match = window.location.pathname.match(/^\/(es|fr|de|pt|ja)(\/|$)/);
+    if (match) return match[1];
+    return 'en';
+  }
+
+  var currentLang = getPathLang();
 
   function applyTranslations(lang) {
-    if (!lang) lang = currentLang;
+    if (!lang) lang = getPathLang();
     currentLang = lang;
+    try {
+      localStorage.setItem('language', lang);
+    } catch (e) {}
     var dict = translations[lang] || translations['en'] || {};
     if (!dict) return;
 
