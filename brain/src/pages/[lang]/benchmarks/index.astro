@@ -1,0 +1,98 @@
+---
+import Layout from "@/layouts/main.astro"
+import { categoryConfigs } from "@/data/benchmarks"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/benchmarks`
+const title = `${t("bench.title", lang, "Cognitive Performance Benchmarks")} | CogniArena`
+const description = t("bench.subtitle", lang, "Population distribution charts, age group comparisons, and professional benchmarks across 7 cognitive domains.")
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "CogniArena Benchmarks",
+  description: description,
+  provider: {
+    "@type": "Organization",
+    name: "CogniArena",
+    url: "https://cogniarena.com",
+  },
+  about: { "@type": "Thing", name: "Cognitive Performance Benchmarks" },
+  hasPart: categoryConfigs.map((c) => ({
+    "@type": "Dataset",
+    name: `${c.title} Benchmarks`,
+    url: `https://cogniarena.com/${lang}/benchmarks/${c.slug}`,
+    description: c.description,
+  })),
+}
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-4xl flex-col gap-12">
+    <header class="flex flex-col gap-4">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
+        <span data-i18n="bench.badge1">{t("bench.badge1", lang, "Benchmarks")}</span>
+        <span>&middot;</span>
+        <span data-i18n="bench.badge2">{t("bench.badge2", lang, "Hub")}</span>
+      </div>
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="bench.title"
+      >
+        {t("bench.title", lang, "Cognitive Performance Benchmarks")}
+      </h1>
+      <p
+        class="max-w-3xl text-sm leading-relaxed text-muted md:text-base"
+        data-i18n="bench.subtitle"
+      >
+        {t("bench.subtitle", lang, "Population distribution charts, age group comparisons, and professional benchmarks across 7 cognitive domains.")}
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        categoryConfigs.map((c) => (
+          <a
+            href={`${localePrefix}/benchmarks/${c.slug}`}
+            class="card-interactive group flex flex-col justify-between rounded-xl border border-card-border bg-card p-6 transition-all hover:border-accent/50 hover:bg-subtle"
+          >
+            <div>
+              <div class="mb-3 flex items-center justify-between">
+                <span class="text-2xl">{c.icon}</span>
+                <span class="font-mono text-xs font-bold text-accent group-hover:underline">
+                  View Data &rarr;
+                </span>
+              </div>
+              <h2 class="text-lg font-bold text-foreground group-hover:text-accent">
+                {c.title}
+              </h2>
+              <p class="mt-2 text-xs leading-relaxed text-muted">
+                {c.description}
+              </p>
+            </div>
+            <div class="mt-6 flex items-center justify-between border-t border-card-border/50 pt-4 font-mono text-[11px] text-muted">
+              <span>Metric:</span>
+              <span class="font-semibold text-foreground">{c.metric}</span>
+            </div>
+          </a>
+        ))
+      }
+    </div>
+  </div>
+</Layout>

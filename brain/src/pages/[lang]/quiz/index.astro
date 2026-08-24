@@ -1,0 +1,125 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/quiz`
+const title = `${t("quiz.title", lang, "Interactive Cognitive Quizzes")} | CogniArena`
+const description = t("quiz.subtitle", lang, "Free, research-backed quizzes that give you insight into your cognitive abilities.")
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "CogniArena Quizzes",
+  description: description,
+  provider: {
+    "@type": "Organization",
+    name: "CogniArena",
+    url: "https://cogniarena.com",
+  },
+  about: { "@type": "Thing", name: "Cognitive Assessment" },
+  hasPart: [
+    {
+      "@type": "Quiz",
+      name: "Free Cognitive Reasoning Quiz",
+      url: `https://cogniarena.com/${lang}/quiz/iq-test`,
+    },
+    {
+      "@type": "Quiz",
+      name: "Cognitive Style Quiz",
+      url: `https://cogniarena.com/${lang}/quiz/cognitive-style`,
+    },
+  ],
+}
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-4xl flex-col gap-12">
+    <header class="flex flex-col gap-4">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
+        <span data-i18n="quiz.badge1">{t("quiz.badge1", lang, "Quizzes")}</span>
+        <span>&middot;</span>
+        <span data-i18n="quiz.badge2">{t("quiz.badge2", lang, "Hub")}</span>
+      </div>
+      <h1
+        class="animate-fade-in text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="quiz.title"
+      >
+        {t("quiz.title", lang, "Interactive Cognitive Quizzes")}
+      </h1>
+      <p
+        class="max-w-3xl text-sm leading-relaxed text-muted md:text-base"
+        data-i18n="quiz.subtitle"
+      >
+        {t("quiz.subtitle", lang, "Free, research-backed quizzes that give you insight into your cognitive abilities.")}
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
+      <!-- IQ Quiz Card -->
+      <a
+        href={`${localePrefix}/quiz/iq-test`}
+        class="card-interactive group flex flex-col justify-between rounded-xl border border-card-border bg-card p-6 transition-all hover:border-accent/50 hover:bg-subtle"
+      >
+        <div>
+          <div class="mb-3 flex items-center justify-between">
+            <span class="text-3xl">🧠</span>
+            <span class="font-mono text-xs font-bold text-accent group-hover:underline">
+              {t("btn.start", lang, "Start")} &rarr;
+            </span>
+          </div>
+          <h2 class="text-lg font-bold text-foreground group-hover:text-accent">
+            {t("nav.iq_test", lang, "Free IQ Test")}
+          </h2>
+          <p class="mt-2 text-xs leading-relaxed text-muted">
+            20-question cognitive reasoning assessment covering numerical, verbal, spatial, and logical domains.
+          </p>
+        </div>
+        <div class="mt-6 flex items-center justify-between border-t border-card-border/50 pt-4 font-mono text-[11px] text-muted">
+          <span>~10 mins</span>
+          <span>Instant Score</span>
+        </div>
+      </a>
+
+      <!-- Cognitive Style Quiz Card -->
+      <a
+        href={`${localePrefix}/quiz/cognitive-style`}
+        class="card-interactive group flex flex-col justify-between rounded-xl border border-card-border bg-card p-6 transition-all hover:border-accent/50 hover:bg-subtle"
+      >
+        <div>
+          <div class="mb-3 flex items-center justify-between">
+            <span class="text-3xl">🧭</span>
+            <span class="font-mono text-xs font-bold text-accent group-hover:underline">
+              {t("btn.start", lang, "Start")} &rarr;
+            </span>
+          </div>
+          <h2 class="text-lg font-bold text-foreground group-hover:text-accent">
+            {t("nav.cognitive_style", lang, "Cognitive Style Quiz")}
+          </h2>
+          <p class="mt-2 text-xs leading-relaxed text-muted">
+            8 quick questions to discover your dominant processing style: visual, verbal, analytical, or holistic.
+          </p>
+        </div>
+        <div class="mt-6 flex items-center justify-between border-t border-card-border/50 pt-4 font-mono text-[11px] text-muted">
+          <span>~3 mins</span>
+          <span>Processing Archetype</span>
+        </div>
+      </a>
+    </div>
+  </div>
+</Layout>

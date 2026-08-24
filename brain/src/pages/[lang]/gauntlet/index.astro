@@ -1,0 +1,181 @@
+---
+import Layout from "@/layouts/main.astro"
+import GauntletTest from "@/components/tests/GauntletTest"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/gauntlet`
+const title = `${t("gaunt.title", lang, "The Gauntlet")} — 5-Stage Cognitive Assessment | CogniArena`
+const description = t("gaunt.subtitle", lang, "A 5-stage cognitive gauntlet: reaction speed, sequence memory, Stroop, matrix reasoning, and aim.")
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    name: "The Gauntlet — CogniArena Flagship Assessment",
+    description:
+      "A five-stage sequential cognitive assessment measuring reaction, memory, focus, reasoning, and precision.",
+    about: { "@type": "Thing", name: "Multi-Domain Cognitive Performance" },
+    timeRequired: "PT4M",
+    assesses: [
+      "Reaction Speed",
+      "Sequence Memory",
+      "Stroop Interference",
+      "Matrix Reasoning",
+      "Aim Precision",
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("gaunt.title", lang, "The Gauntlet"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
+        <span>/</span>
+        <span class="text-muted">{t("gaunt.title", lang, "The Gauntlet")}</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="gaunt.title"
+      >
+        {t("gaunt.title", lang, "The Gauntlet")}
+      </h1>
+      <p
+        class="max-w-2xl text-sm leading-relaxed text-muted md:text-base"
+        data-i18n="gaunt.subtitle"
+      >
+        {t("gaunt.subtitle", lang, "A 5-stage cognitive gauntlet: reaction → memory → focus → logic → precision. Takes ~4 minutes.")}
+      </p>
+    </header>
+    <section class="w-full"><GauntletTest client:visible lang={lang} /></section>
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >{t("footer.disclaimer_title", lang, "Self-Tracking Notice:")}</strong
+      > {t("footer.disclaimer", lang, "For self-tracking, educational, and cognitive training purposes only. Not a clinical, medical, or diagnostic evaluation.")}
+    </div>
+
+    <HowItWorks
+      testName="The Gauntlet"
+      learnSlug="brain-training"
+      learnTitle="Cognitive Training & Focus Science"
+      whatItMeasures="A 5-stage composite cognitive assessment: visual reaction speed, sequence memory, Stroop interference, matrix reasoning, and aim precision. Measures your performance across five core cognitive domains in one continuous session."
+      howScoringWorks="Each stage produces a score from 0-100. The overall CogniArena Index (CAI) is the average of all five stages. Your percentile compares your CAI against the full population distribution."
+      whatAffectsResults="Your performance in your weakest domain constrains your overall score (the weakest link effect). Mental fatigue across stages, prior experience with each test type, and hardware quality all affect results."
+      lang={lang}
+    />
+
+    <section class="flex flex-col gap-10 border-t border-card-border pt-12">
+      <article class="flex flex-col gap-4">
+        <h2
+          class="text-xl font-semibold tracking-tight text-foreground"
+          data-i18n="gaunt.what_title"
+        >
+          {t("gaunt.what_title", lang, "What is The Gauntlet?")}
+        </h2>
+        <p
+          class="text-sm leading-relaxed text-muted"
+          data-i18n="gaunt.what_desc"
+        >
+          {t("gaunt.what_desc", lang, "The Gauntlet is CogniArena' flagship multi-domain cognitive assessment producing a unified CAI score.")}
+        </p>
+      </article>
+      <article class="flex flex-col gap-4">
+        <h2
+          class="text-xl font-semibold tracking-tight text-foreground"
+          data-i18n="gaunt.stages_title"
+        >
+          {t("gaunt.stages_title", lang, "The 5 Stages")}
+        </h2>
+        <div class="grid gap-3">
+          <div
+            class="flex items-center gap-3 rounded-lg border border-card-border bg-card p-3"
+          >
+            <span class="text-lg">⚡</span>
+            <div>
+              <span class="text-xs font-bold text-foreground">Stage 1: Visual Reaction</span>
+              <p class="text-[11px] text-muted">Raw neural conduction speed</p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-3 rounded-lg border border-card-border bg-card p-3"
+          >
+            <span class="text-lg">🧠</span>
+            <div>
+              <span class="text-xs font-bold text-foreground">Stage 2: Sequence Memory</span>
+              <p class="text-[11px] text-muted">Working memory capacity</p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-3 rounded-lg border border-card-border bg-card p-3"
+          >
+            <span class="text-lg">🎯</span>
+            <div>
+              <span class="text-xs font-bold text-foreground">Stage 3: Stroop Interference</span>
+              <p class="text-[11px] text-muted">Selective attention</p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-3 rounded-lg border border-card-border bg-card p-3"
+          >
+            <span class="text-lg">🧩</span>
+            <div>
+              <span class="text-xs font-bold text-foreground">Stage 4: Matrix Reasoning</span>
+              <p class="text-[11px] text-muted">Fluid intelligence</p>
+            </div>
+          </div>
+          <div
+            class="flex items-center gap-3 rounded-lg border border-card-border bg-card p-3"
+          >
+            <span class="text-lg">🎮</span>
+            <div>
+              <span class="text-xs font-bold text-foreground">Stage 5: Target Precision</span>
+              <p class="text-[11px] text-muted">Fine motor control</p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <ExploreTests currentSlug="gauntlet" lang={lang} />
+  </div>
+</Layout>
