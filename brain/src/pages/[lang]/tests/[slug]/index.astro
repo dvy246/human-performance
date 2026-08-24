@@ -1,0 +1,187 @@
+---
+import Layout from "@/layouts/main.astro"
+import ExploreTests from "@/components/ui/ExploreTests.astro"
+import HowItWorks from "@/components/ui/HowItWorks.astro"
+import { allTests, getTestBySlug } from "@/data/tests"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+// Test components
+import ReactionTimeTest from "@/components/tests/ReactionTimeTest"
+import SoundReactionTest from "@/components/tests/SoundReactionTest"
+import F1LightsTest from "@/components/tests/F1LightsTest"
+import ChoiceReactionTest from "@/components/tests/ChoiceReactionTest"
+import GoNoGoTest from "@/components/tests/GoNoGoTest"
+import LatencyOptimizer from "@/components/tests/LatencyOptimizer"
+import SequenceMemoryTest from "@/components/tests/SequenceMemoryTest"
+import NumberMemoryTest from "@/components/tests/NumberMemoryTest"
+import VisualPatternTest from "@/components/tests/VisualPatternTest"
+import DualNBackTest from "@/components/tests/DualNBackTest"
+import VerbalMemoryTest from "@/components/tests/VerbalMemoryTest"
+import PatternReasoningTest from "@/components/tests/PatternReasoningTest"
+import SpatialOrientationTest from "@/components/tests/SpatialOrientationTest"
+import SpeedArithmetic from "@/components/tests/SpeedArithmetic"
+import QuantGrid from "@/components/tests/QuantGrid"
+import StroopTest from "@/components/tests/StroopTest"
+import TrailMakingTest from "@/components/tests/TrailMakingTest"
+import FocusChallengeTest from "@/components/tests/FocusChallengeTest"
+import SleepSanctuary from "@/components/tests/SleepSanctuary"
+import ClickSpeedTest from "@/components/tests/ClickSpeedTest"
+import AimTrainer from "@/components/tests/AimTrainer"
+import MouseAccuracyTest from "@/components/tests/MouseAccuracyTest"
+import FlickTrainerTest from "@/components/tests/FlickTrainerTest"
+import TypingSpeedTest from "@/components/tests/TypingSpeedTest"
+import AimCoordinationTest from "@/components/tests/AimCoordinationTest"
+import ErgonomicArchitect from "@/components/tests/ErgonomicArchitect"
+import DecisionSpeedTest from "@/components/tests/DecisionSpeedTest"
+import PlanningTest from "@/components/tests/PlanningTest"
+import PrioritizationTest from "@/components/tests/PrioritizationTest"
+import ObjectTrackingTest from "@/components/tests/ObjectTrackingTest"
+
+export function getStaticPaths() {
+  const paths = []
+  for (const lang of nonDefaultLocales) {
+    for (const test of allTests) {
+      if (test.slug !== "gauntlet") {
+        paths.push({
+          params: { lang, slug: test.slug },
+          props: { slug: test.slug, lang },
+        })
+      }
+    }
+  }
+  return paths
+}
+
+const { slug, lang } = Astro.props as { slug: string; lang: LangCode }
+const test = getTestBySlug(slug)
+if (!test) {
+  return Astro.redirect(`/${lang}/tests`)
+}
+
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/tests/${slug}`
+const pageTitle = `${test.title} | CogniArena`
+const pageDescription = test.shortDesc
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    applicationCategory: "GameApplication",
+    name: test.title,
+    description: test.shortDesc,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("mobile.tests", lang, "Tests"),
+        item: `https://cogniarena.com/${lang}/tests`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: test.title,
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
+        <span>/</span>
+        <a href={`${localePrefix}/tests`} class="hover:underline">{t("mobile.tests", lang, "Tests")}</a>
+        <span>/</span>
+        <span class="text-muted">{test.title}</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        {test.title}
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        {test.shortDesc}
+      </p>
+    </header>
+
+    <!-- Interactive Game Island -->
+    <section class="w-full">
+      {slug === "reaction-time" && <ReactionTimeTest client:visible lang={lang} />}
+      {slug === "sound-reaction" && <SoundReactionTest client:visible lang={lang} />}
+      {slug === "f1-lights" && <F1LightsTest client:visible lang={lang} />}
+      {slug === "choice-reaction" && <ChoiceReactionTest client:visible lang={lang} />}
+      {slug === "go-no-go" && <GoNoGoTest client:visible lang={lang} />}
+      {slug === "latency-optimizer" && <LatencyOptimizer client:visible lang={lang} />}
+      {slug === "sequence-memory" && <SequenceMemoryTest client:visible lang={lang} />}
+      {slug === "number-memory" && <NumberMemoryTest client:visible lang={lang} />}
+      {slug === "visual-pattern" && <VisualPatternTest client:visible lang={lang} />}
+      {slug === "dual-n-back" && <DualNBackTest client:visible lang={lang} />}
+      {slug === "verbal-memory" && <VerbalMemoryTest client:visible lang={lang} />}
+      {slug === "pattern-reasoning" && <PatternReasoningTest client:visible lang={lang} />}
+      {slug === "spatial-orientation" && <SpatialOrientationTest client:visible lang={lang} />}
+      {slug === "speed-arithmetic" && <SpeedArithmetic client:visible lang={lang} />}
+      {slug === "quant-dev-grid" && <QuantGrid client:visible lang={lang} />}
+      {slug === "stroop" && <StroopTest client:visible lang={lang} />}
+      {slug === "trail-making" && <TrailMakingTest client:visible lang={lang} />}
+      {slug === "focus-challenge" && <FocusChallengeTest client:visible lang={lang} />}
+      {slug === "sleep-sanctuary" && <SleepSanctuary client:visible lang={lang} />}
+      {slug === "click-speed" && <ClickSpeedTest client:visible lang={lang} />}
+      {slug === "aim-trainer" && <AimTrainer client:visible lang={lang} />}
+      {slug === "mouse-accuracy" && <MouseAccuracyTest client:visible lang={lang} />}
+      {slug === "flick-trainer" && <FlickTrainerTest client:visible lang={lang} />}
+      {slug === "typing-speed" && <TypingSpeedTest client:visible lang={lang} />}
+      {slug === "aim-coordination" && <AimCoordinationTest client:visible lang={lang} />}
+      {slug === "ergonomic-architect" && <ErgonomicArchitect client:visible lang={lang} />}
+      {slug === "decision-speed" && <DecisionSpeedTest client:visible lang={lang} />}
+      {slug === "planning" && <PlanningTest client:visible lang={lang} />}
+      {slug === "prioritization" && <PrioritizationTest client:visible lang={lang} />}
+      {slug === "object-tracking" && <ObjectTrackingTest client:visible lang={lang} />}
+    </section>
+
+    <!-- Medical/Scientific Disclaimer Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >{t("footer.disclaimer_title", lang, "Self-Tracking Notice:")}</strong
+      > {t("footer.disclaimer", lang, "This assessment is for self-tracking, educational, and cognitive training purposes only. Not a medical or diagnostic evaluation.")}
+    </div>
+
+    <HowItWorks
+      testName={test.title}
+      learnSlug={slug}
+      learnTitle={`${test.title} Science`}
+      whatItMeasures={test.shortDesc}
+      howScoringWorks="Your final score is recorded locally with sub-millisecond precision and calibrated against your hardware refresh rate."
+      whatAffectsResults="Display refresh rate, input latency, sleep quality, and focus affect measured scores."
+      lang={lang}
+    />
+
+    <ExploreTests currentSlug={slug} lang={lang} />
+  </div>
+</Layout>
