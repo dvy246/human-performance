@@ -5,6 +5,8 @@ import {
   calculateBbiScore,
   type CognitiveAverages,
 } from "../../runtime/skillRadar"
+import { useI18n } from "../../runtime/useI18n"
+import { getLocalizedPath } from "../../i18n/translations"
 
 interface TrendData {
   direction: "up" | "down" | "stable"
@@ -147,6 +149,7 @@ function ScoreCircle({ score, animate }: { score: number; animate: boolean }) {
 }
 
 export default function BrainScoreDashboard() {
+  const { t, lang } = useI18n()
   const [loading, setLoading] = useState(true)
   const [averages, setAverages] = useState<CognitiveAverages | null>(null)
   const [bbiScore, setBbiScore] = useState<number | null>(null)
@@ -253,7 +256,7 @@ export default function BrainScoreDashboard() {
           with skill bars and a composite index score.
         </p>
         <a
-          href="/tests/reaction-time"
+          href={getLocalizedPath("/tests/reaction-time", lang)}
           className="transition-standard inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-accent px-6 text-sm font-semibold text-white hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:outline-none active:scale-[0.98]"
         >
           <svg
@@ -269,7 +272,7 @@ export default function BrainScoreDashboard() {
           >
             <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2" />
           </svg>
-          Start Your First Assessment
+          {t("profile.cta", "Start Your First Assessment")}
         </a>
       </div>
     )
@@ -320,7 +323,7 @@ export default function BrainScoreDashboard() {
           return (
             <a
               key={cat.key}
-              href={cat.href}
+              href={getLocalizedPath(cat.href, lang)}
               className="group -mx-2 flex items-center gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-accent/[0.04] focus-visible:ring-1 focus-visible:ring-accent focus-visible:outline-none"
               role="listitem"
             >

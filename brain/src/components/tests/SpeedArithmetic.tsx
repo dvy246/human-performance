@@ -3,6 +3,7 @@ import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
 import { dataLayer } from "../../runtime/dataLayer"
 import { useSound } from "../../runtime/useSound"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type GamePhase = "config" | "playing" | "result"
 type Difficulty = "easy" | "medium" | "hard"
@@ -17,6 +18,7 @@ interface AnswerAttempt {
 }
 
 export function SpeedArithmetic() {
+  const { t } = useI18n()
   const { playClick, playSuccess, playError } = useSound()
   const [phase, setPhase] = useState<GamePhase>("config")
   const [difficulty, setDifficulty] = useState<Difficulty>("medium")
@@ -418,7 +420,7 @@ export function SpeedArithmetic() {
                 onClick={startTest}
                 className="btn-base btn-primary w-full cursor-pointer py-3 text-sm font-semibold rounded-lg"
               >
-                Restart Math Blitz
+                {t("test.restart", "Restart Assessment")}
               </button>
             </div>
           </div>

@@ -22,6 +22,7 @@ import Stage5WorkingMemoryUnderDistraction from "./focus/Stage5WorkingMemoryUnde
 import type { StageResult } from "./focus/StageTypes"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 import {
   STAGE_CONFIGS,
   computeOverallScore,
@@ -257,6 +258,7 @@ const stages = [
 ]
 
 function FocusChallengeTest() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>("intro")
   const [currentStage, setCurrentStage] = useState(0)
   const [stageResults, setStageResults] = useState<StageResult[]>([])
@@ -765,7 +767,7 @@ function FocusChallengeTest() {
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" x2="12" y1="15" y2="3" />
               </svg>
-              <span>Download Share Card</span>
+              <span>{t("test.download_card", "Download Share Card")}</span>
             </a>
           )}
           <SocialShare
@@ -803,7 +805,7 @@ function FocusChallengeTest() {
               <polyline points="23 4 23 10 17 10" />
               <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
             </svg>
-            <span>Take Challenge Again</span>
+            <span>{t("btn.try_again", "Take Challenge Again")}</span>
           </button>
         </div>
       </div>

@@ -1,7 +1,7 @@
 ---
 import Layout from "@/layouts/main.astro"
 import TestResultsPage from "@/components/ui/TestResultsPage"
-import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+import { nonDefaultLocales, type LangCode } from "@/i18n/translations"
 
 export function getStaticPaths() {
   return nonDefaultLocales.map((lang) => ({
@@ -21,6 +21,6 @@ const canonicalUrl = `https://cogniarena.com/${lang}/tests/results`
   lang={lang}
 >
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-8">
-    <TestResultsPage client:load lang={lang} />
+    <TestResultsPage client:load />
   </div>
 </Layout>

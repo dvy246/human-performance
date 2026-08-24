@@ -2,6 +2,8 @@ import React, { useEffect, useRef, useState } from "react"
 import QRCodeLib from "qrcode"
 import { encodeChallenge } from "../../runtime/share"
 import { formatTopPercentile } from "../../runtime/percentileLookup"
+import { useI18n } from "../../runtime/useI18n"
+import { getLocalizedPath } from "../../i18n/translations"
 
 const REACTION_TESTS = [
   "reaction-time",
@@ -40,6 +42,7 @@ export default function QRChallengeCard({
   testName,
   percentile,
 }: QRChallengeCardProps) {
+  const { t, lang } = useI18n()
   const qrCanvasRef = useRef<HTMLCanvasElement>(null)
   const [challengeUrl, setChallengeUrl] = useState("")
   const [copied, setCopied] = useState(false)
@@ -53,7 +56,8 @@ export default function QRChallengeCard({
   const generateQR = async () => {
     try {
       const token = encodeChallenge({ testId, score })
-      const url = `${window.location.origin}/tests/${TEST_SLUGS[testId] || testId}?challenge=${token}`
+      const localizedRoute = getLocalizedPath(`/tests/${TEST_SLUGS[testId] || testId}`, lang)
+      const url = `${window.location.origin}${localizedRoute}?challenge=${token}`
       setChallengeUrl(url)
 
       const canvas = document.createElement("canvas")
@@ -252,13 +256,13 @@ export default function QRChallengeCard({
             disabled={!qrReady}
             className="transition-standard h-11 flex-1 cursor-pointer rounded-lg bg-accent font-mono text-xs font-semibold text-white uppercase hover:bg-accent-hover active:scale-95 disabled:cursor-not-allowed disabled:opacity-40"
           >
-            Download Card
+            {t("test.download_card", "Download Card")}
           </button>
           <button
             onClick={handleCopyLink}
             className="transition-standard h-11 flex-1 cursor-pointer rounded-lg border border-card-border bg-subtle font-mono text-xs font-semibold text-foreground uppercase hover:bg-panel active:scale-95"
           >
-            {copied ? "Copied!" : "Copy Link"}
+            {copied ? t("social.copied", "Copied!") : t("social.copy_link", "Copy Link")}
           </button>
         </div>
       </div>

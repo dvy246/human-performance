@@ -13,6 +13,7 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { getDifficultyParams } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type TestMode = "partA" | "partB"
 type TrialState = "idle" | "running" | "result"
@@ -25,6 +26,7 @@ interface TMTNode {
 }
 
 function TrailMakingTest() {
+  const { t } = useI18n()
   const [gameState, setGameState] = useState<TrialState>("idle")
   const [mode, setMode] = useState<TestMode>("partA")
   const [nodes, setNodes] = useState<TMTNode[]>([])
@@ -435,13 +437,13 @@ function TrailMakingTest() {
               onClick={() => startTest(mode)}
               className="transition-standard h-11 rounded bg-accent font-mono text-xs font-bold tracking-wider text-white uppercase shadow hover:bg-accent-hover active:scale-98"
             >
-              Replay {mode === "partA" ? "Part A" : "Part B"}
+              {t("test.restart", "Restart Assessment")}
             </button>
             <button
               onClick={() => setGameState("idle")}
               className="transition-standard h-11 rounded border border-card-border font-mono text-xs font-bold tracking-wider text-foreground uppercase shadow hover:bg-subtle active:scale-98"
             >
-              Mode Menu
+              {t("btn.configure", "Mode Menu")}
             </button>
           </div>
 

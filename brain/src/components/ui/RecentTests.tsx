@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer } from "@/runtime/dataLayer"
+import { useI18n } from "@/runtime/useI18n"
+import { getLocalizedPath } from "@/i18n/translations"
 
 const TEST_SLUGS: Record<string, string> = {
   "tmt-partA": "trail-making",
@@ -13,6 +15,7 @@ interface RecentTest {
 }
 
 export default function RecentTests() {
+  const { t, lang } = useI18n()
   const [recentTests, setRecentTests] = useState<RecentTest[]>([])
 
   useEffect(() => {
@@ -44,7 +47,7 @@ export default function RecentTests() {
     if (minutes < 60) return `${minutes}m ago`
     if (hours < 24) return `${hours}h ago`
     if (days < 7) return `${days}d ago`
-    return new Date(timestamp).toLocaleDateString("en-US", {
+    return new Date(timestamp).toLocaleDateString(lang === "en" ? "en-US" : lang, {
       month: "short",
       day: "numeric",
     })
@@ -53,7 +56,7 @@ export default function RecentTests() {
   if (recentTests.length === 0) {
     return (
       <div className="py-4 text-center text-xs text-muted">
-        No recent tests yet
+        {t("sidebar.no_recent", "No recent tests yet")}
       </div>
     )
   }
@@ -61,27 +64,27 @@ export default function RecentTests() {
   return (
     <div className="flex flex-col gap-2">
       <span className="mb-1 px-2 font-mono text-[10px] font-semibold tracking-widest text-muted uppercase">
-        Recent Tests
+        {t("sidebar.recent_tests", "Recent Tests")}
       </span>
       {recentTests.map((test, idx) => (
         <a
           key={idx}
-          href={`/tests/${TEST_SLUGS[test.testId] || test.testId}`}
+          href={getLocalizedPath(`/tests/${TEST_SLUGS[test.testId] || test.testId}`, lang)}
           className="transition-standard group flex items-center justify-between rounded-md px-3 py-2 text-xs hover:bg-subtle"
         >
-          <span className="truncate text-muted group-hover:text-foreground">
-            {test.testId}
+          <span className="capitalize text-foreground group-hover:text-accent">
+            {test.testId.replace(/-/g, " ")}
           </span>
-          <span className="ml-2 shrink-0 font-mono text-[10px] text-muted">
+          <span className="font-mono text-[10px] text-muted">
             {formatTime(test.timestamp)}
           </span>
         </a>
       ))}
       <a
-        href="/history"
+        href={getLocalizedPath("/history", lang)}
         className="mt-2 text-center font-mono text-[10px] text-accent hover:underline"
       >
-        View all history →
+        {t("sidebar.view_history", "View all history →")}
       </a>
     </div>
   )

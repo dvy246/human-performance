@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer, type SessionRecord } from "@/runtime/dataLayer"
 import { formatTopPercentile } from "@/runtime/percentileLookup"
+import { useI18n } from "@/runtime/useI18n"
 
 const LOWER_IS_BETTER = new Set([
   "reaction-time",
@@ -57,6 +58,7 @@ interface PersonalBest {
 }
 
 export default function PersonalRecords() {
+  const { t, lang } = useI18n()
   const [records, setRecords] = useState<PersonalBest[]>([])
   const [isLoading, setIsLoading] = useState(true)
 

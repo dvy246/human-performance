@@ -7,6 +7,7 @@ import { PASSAGE_CATEGORIES } from "../../data/passages"
 import { redirectToResults } from "../../runtime/redirectToResults"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type GameState = "idle" | "typing" | "result"
 type TimeOption = 15 | 30 | 60 | 120
@@ -375,6 +376,7 @@ function interpolatePercentile(score: number): number {
 }
 
 function TypingSpeedTest() {
+  const { t } = useI18n()
   const engineRef = useRef<TypingEngine>(new TypingEngine())
   const containerRef = useRef<HTMLDivElement>(null)
   const wordsRef = useRef<HTMLDivElement>(null)
@@ -1069,7 +1071,7 @@ function TypingSpeedTest() {
                 <polyline points="23 4 23 10 17 10" />
                 <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
               </svg>
-              Try Again
+              {t("btn.try_again", "Try Again")}
             </button>
             {shareImage && (
               <a
@@ -1091,7 +1093,7 @@ function TypingSpeedTest() {
                   <polyline points="7 10 12 15 17 10" />
                   <line x1="12" x2="12" y1="15" y2="3" />
                 </svg>
-                Download Score
+                {t("test.download_card", "Download Score")}
               </a>
             )}
             <button onClick={copyChallengeLink} className="tts-btn-secondary">
@@ -1108,7 +1110,7 @@ function TypingSpeedTest() {
                 <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
               </svg>
-              {copiedChallenge ? "Copied!" : "Challenge a Friend"}
+              {copiedChallenge ? t("test.challenge_copied", "Copied!") : t("test.challenge_friend", "Challenge Friend")}
             </button>
           </div>
           <div

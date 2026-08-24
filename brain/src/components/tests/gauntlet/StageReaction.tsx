@@ -1,10 +1,12 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { useVisibilityGuard } from "../../../runtime/useVisibilityGuard"
+import { useI18n } from "../../../runtime/useI18n"
 import type { StageProps, GauntletStageResult } from "./GauntletTypes"
 
 const TOTAL_TRIALS = 5
 
 export default function StageReaction({ onComplete, difficulty }: StageProps) {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<
     "intro" | "waiting" | "ready" | "result" | "done"
   >("intro")
@@ -126,16 +128,16 @@ export default function StageReaction({ onComplete, difficulty }: StageProps) {
       >
         {phase === "intro" && (
           <span className="font-mono text-sm text-secondary">
-            Click to start
+            {t("test.click_to_start", "Click to start")}
           </span>
         )}
         {phase === "waiting" && (
           <span className="animate-pulse font-mono text-sm text-error">
-            Wait...
+            {t("test.wait", "Wait...")}
           </span>
         )}
         {phase === "ready" && (
-          <span className="text-2xl font-bold text-white">CLICK!</span>
+          <span className="text-2xl font-bold text-white">{t("test.click_now", "CLICK!")}</span>
         )}
         {phase === "result" && (
           <span className="font-mono text-sm text-secondary">

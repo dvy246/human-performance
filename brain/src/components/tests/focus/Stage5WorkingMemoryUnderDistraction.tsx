@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import { useVisibilityGuard } from "../../../runtime/useVisibilityGuard"
+import { useI18n } from "../../../runtime/useI18n"
 import type { StageProps, StageResult } from "./StageTypes"
 
 const MAX_LEVEL = 10
@@ -36,6 +37,7 @@ export default function Stage5WorkingMemoryUnderDistraction({
   calibrationHz,
   difficulty,
 }: StageProps) {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<
     "intro" | "encoding" | "recall" | "feedback" | "done"
   >("intro")
@@ -415,7 +417,7 @@ export default function Stage5WorkingMemoryUnderDistraction({
           onClick={startPlaying}
           className="transition-standard h-10 cursor-pointer rounded-lg bg-accent px-6 text-sm font-semibold text-white hover:bg-accent-hover active:scale-95"
         >
-          Start Stage
+          {t("btn.start_stage", "Start Stage")}
         </button>
       </div>
     )

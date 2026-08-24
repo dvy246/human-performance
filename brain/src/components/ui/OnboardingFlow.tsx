@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
+import { useI18n } from "../../runtime/useI18n"
 
 export default function OnboardingFlow() {
+  const { t, lang } = useI18n()
   const [isVisible, setIsVisible] = useState(false)
   const [currentStep, setCurrentStep] = useState(0)
   const [hasSeenOnboarding, setHasSeenOnboarding] = useState(true)
@@ -115,14 +117,14 @@ export default function OnboardingFlow() {
               onClick={() => setCurrentStep(currentStep - 1)}
               className="flex-1 rounded-md border border-card-border px-4 py-3 text-sm font-medium text-muted transition-colors hover:bg-subtle hover:text-foreground"
             >
-              Back
+              {t("btn.back", "Back")}
             </button>
           )}
           <button
             onClick={handleNext}
             className="flex-1 rounded-md bg-accent px-4 py-3 text-sm font-semibold text-white transition-opacity hover:opacity-90"
           >
-            {currentStep === 2 ? "Get Started" : "Next"}
+            {currentStep === 2 ? t("btn.get_started", "Get Started") : t("btn.next", "Next")}
           </button>
         </div>
 
@@ -131,7 +133,7 @@ export default function OnboardingFlow() {
           onClick={handleClose}
           className="mt-4 w-full text-xs text-muted transition-colors hover:text-foreground"
         >
-          Skip this tour
+          {t("btn.skip", "Skip this tour")}
         </button>
       </div>
     </div>

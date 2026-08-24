@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer, type SessionRecord } from "@/runtime/dataLayer"
+import { useI18n } from "@/runtime/useI18n"
 
 const TEST_NAMES: Record<string, string> = {
   "reaction-time": "Visual Reaction Test",
@@ -31,6 +32,7 @@ const TEST_NAMES: Record<string, string> = {
 }
 
 export default function HistoryDashboard() {
+  const { t, lang } = useI18n()
   const [sessions, setSessions] = useState<SessionRecord[]>([])
   const [filter, setFilter] = useState<string>("all")
   const [isLoading, setIsLoading] = useState(true)

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useI18n } from "../../runtime/useI18n"
+import { getLocalizedPath } from "../../i18n/translations"
 import { formatTopPercentile } from "../../runtime/percentileLookup"
 import QRChallengeCard from "./QRChallengeCard"
 
@@ -197,7 +198,7 @@ function computeStdDev(values: number[], mean: number): number {
 }
 
 export default function TestResultsPage() {
-  const { t } = useI18n()
+  const { t, lang } = useI18n()
   const [data, setData] = useState<ResultData | null>(null)
   const [showQR, setShowQR] = useState(false)
 
@@ -245,19 +246,19 @@ export default function TestResultsPage() {
             Popular Cognitive Assessments
           </h3>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-left">
-            <a href="/tests/reaction-time" className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
+            <a href={getLocalizedPath("/tests/reaction-time", lang)} className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
               <div className="font-bold text-xs">⚡ Visual Reaction Time</div>
               <div className="text-[10px] text-muted">Test raw motor response triggers.</div>
             </a>
-            <a href="/tests/aim-trainer" className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
+            <a href={getLocalizedPath("/tests/aim-trainer", lang)} className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
               <div className="font-bold text-xs">🎯 Aim Precision</div>
               <div className="text-[10px] text-muted">Fitts's Law target acquisition.</div>
             </a>
-            <a href="/tests/quant-dev-grid" className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
+            <a href={getLocalizedPath("/tests/quant-dev-grid", lang)} className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
               <div className="font-bold text-xs">💻 Quant-Dev Agility Grid</div>
               <div className="text-[10px] text-muted">Bitwise logic, logic gates, and hex arithmetic.</div>
             </a>
-            <a href="/tests/sleep-sanctuary" className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
+            <a href={getLocalizedPath("/tests/sleep-sanctuary", lang)} className="rounded-lg border border-card-border bg-subtle p-3 hover:border-accent hover:text-accent transition-standard">
               <div className="font-bold text-xs">🌙 Sleep & Chronotype</div>
               <div className="text-[10px] text-muted">Circadian profiles and attention fatigue checks.</div>
             </a>
@@ -265,7 +266,7 @@ export default function TestResultsPage() {
         </div>
 
         <a
-          href="/"
+          href={getLocalizedPath("/", lang)}
           className="mt-6 transition-standard flex h-11 items-center rounded bg-accent px-6 font-mono text-xs font-semibold text-white uppercase hover:bg-accent-hover cursor-pointer"
         >
           {t("results.back_home")}
@@ -516,13 +517,13 @@ export default function TestResultsPage() {
       {/* CTA Buttons */}
       <div className="animate-fade-in-up stagger-5 grid grid-cols-1 gap-3 sm:grid-cols-3">
         <a
-          href={`/tests/${TEST_SLUGS[data.testId] || data.testId}`}
+          href={getLocalizedPath(`/tests/${TEST_SLUGS[data.testId] || data.testId}`, lang)}
           className="transition-standard flex h-10 items-center justify-center gap-2 rounded-lg bg-accent font-mono text-xs font-semibold text-white uppercase hover:bg-accent-hover"
         >
           {t("results.play_again")}
         </a>
         <a
-          href="/dashboard"
+          href={getLocalizedPath("/dashboard", lang)}
           className="transition-standard flex h-10 items-center justify-center gap-2 rounded-lg border border-card-border bg-subtle font-mono text-xs font-semibold text-foreground uppercase hover:bg-panel"
         >
           {t("results.dashboard")}
@@ -561,7 +562,7 @@ export default function TestResultsPage() {
             {related.map((r) => (
               <a
                 key={r.slug}
-                href={`/tests/${r.slug}`}
+                href={getLocalizedPath(`/tests/${r.slug}`, lang)}
                 className="rounded-lg border border-card-border bg-subtle px-3 py-1.5 text-xs text-muted transition-colors hover:border-accent hover:text-foreground"
               >
                 {r.name} →

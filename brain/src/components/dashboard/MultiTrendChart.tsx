@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react"
 import { dataLayer, type SessionRecord } from "../../runtime/dataLayer"
+import { useI18n } from "../../runtime/useI18n"
 
 const LOWER_IS_BETTER = new Set([
   "reaction-time",
@@ -66,6 +67,7 @@ interface TrendLine {
 }
 
 export default function MultiTrendChart() {
+  const { t, lang } = useI18n()
   const [allRecords, setAllRecords] = useState<SessionRecord[]>([])
   const [selectedTests, setSelectedTests] = useState<Set<string>>(new Set())
   const [dropdownOpen, setDropdownOpen] = useState(false)

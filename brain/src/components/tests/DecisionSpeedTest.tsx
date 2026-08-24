@@ -10,11 +10,13 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { getDifficultyParams } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 const TOTAL = 20
 const TIMEOUT_MS = 2000
 
 function DecisionSpeedTest() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<"intro" | "playing" | "done">("intro")
   const [trial, setTrial] = useState(0)
   const [number, setNumber] = useState(50)
@@ -255,7 +257,7 @@ function DecisionSpeedTest() {
               <polyline points="7 10 12 15 17 10" />
               <line x1="12" x2="12" y1="15" y2="3" />
             </svg>
-            <span>Download Share Card</span>
+            <span>{t("test.download_card", "Download Share Card")}</span>
           </a>
         )}
         <SocialShare
@@ -268,7 +270,7 @@ function DecisionSpeedTest() {
           onClick={() => setPhase("intro")}
           className="transition-standard h-10 cursor-pointer rounded-lg border border-card-border bg-subtle px-6 text-sm text-foreground hover:bg-panel active:scale-95"
         >
-          Try Again
+          {t("btn.try_again", "Try Again")}
         </button>
       </div>
     </div>

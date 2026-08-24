@@ -68,7 +68,7 @@ const ObjectTrackingTest = () => {
       // Pause or reset on backgrounding to ensure integrity and prevent cheating
       handleQuit()
     }
-  })
+  }, phase === "tracking" || phase === "memorize")
 
   // Load personal best
   useEffect(() => {
@@ -445,13 +445,12 @@ const ObjectTrackingTest = () => {
     // Generate OG Share Card
     setIsShareLoading(true)
     try {
-      const card = await generateShareCard({
-        title: "Multiple Object Tracking",
-        metric: `${finalScore}/${maxPossible} targets`,
-        percentile: formatTopPercentile(percentile, false),
-        color: "#10b981", // Emerald accent
-        theme: "dark"
-      })
+      const card = await generateShareCard(
+        "Multiple Object Tracking",
+        `${finalScore}/${maxPossible} targets`,
+        percentile,
+        false
+      )
       setShareImage(card)
     } catch (err) {
       console.error("Failed to generate share image:", err)
@@ -484,7 +483,7 @@ const ObjectTrackingTest = () => {
         <GameConfigPanel
           testId="object-tracking"
           title="Multiple Object Tracking"
-          personalBest={personalBest !== null ? `${personalBest} targets` : undefined}
+          personalBest={personalBest}
           onStart={startTest}
         />
       )}
@@ -611,14 +610,18 @@ const ObjectTrackingTest = () => {
             </button>
           </div>
 
-          {shareImage && (
-            <div className="w-full border-t border-card-border/40 pt-6 flex flex-col items-center gap-3">
-              <span className="text-[10px] uppercase font-mono tracking-wider text-muted font-bold">
-                Share your result
-              </span>
-              <SocialShare shareImage={shareImage} isShareLoading={isShareLoading} />
-            </div>
-          )}
+          <div className="w-full border-t border-card-border/40 pt-6 flex flex-col items-center gap-3">
+            <span className="text-[10px] uppercase font-mono tracking-wider text-muted font-bold">
+              Share your result
+            </span>
+            <SocialShare
+              testId="object-tracking"
+              score={resultScore}
+              scoreLabel={`${resultScore} targets`}
+              testName="Multiple Object Tracking"
+              percentile={resultPercentile}
+            />
+          </div>
         </div>
       )}
     </div>

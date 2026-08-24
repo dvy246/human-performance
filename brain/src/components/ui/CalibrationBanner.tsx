@@ -3,8 +3,10 @@ import {
   measureRefreshRate,
   type CalibrationResult,
 } from "../../runtime/calibration"
+import { useI18n } from "../../runtime/useI18n"
 
 export default function CalibrationBanner() {
+  const { t } = useI18n()
   const [calibration, setCalibration] = useState<CalibrationResult | null>(null)
   const [detecting, setDetecting] = useState(true)
 
@@ -20,7 +22,7 @@ export default function CalibrationBanner() {
     return (
       <div className="bg-warning-bg border-warning-border flex animate-pulse items-center justify-center gap-2 rounded-lg border px-4 py-2 font-mono text-xs text-warning">
         <span className="h-1.5 w-1.5 rounded-full bg-warning" />
-        Detecting display refresh rate...
+        {t("calibration.detecting", "Detecting display refresh rate...")}
       </div>
     )
   }

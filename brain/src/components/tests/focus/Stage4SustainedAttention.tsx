@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
+import { useI18n } from "../../../runtime/useI18n"
 import type { StageProps, StageResult } from "./StageTypes"
 
 const TARGET_LETTER = "X"
@@ -19,6 +20,7 @@ export default function Stage4SustainedAttention({
   calibrationHz,
   difficulty,
 }: StageProps) {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<"intro" | "playing" | "done">("intro")
   const [showHelp, setShowHelp] = useState(false)
   const [currentLetter, setCurrentLetter] = useState("")
@@ -272,7 +274,7 @@ export default function Stage4SustainedAttention({
           onClick={startPlaying}
           className="transition-standard h-10 cursor-pointer rounded-lg bg-accent px-6 text-sm font-semibold text-white hover:bg-accent-hover active:scale-95"
         >
-          Start {Math.round(durationRef.current / 1000)}s Challenge
+          {t("btn.start", "Start")} {Math.round(durationRef.current / 1000)}s Challenge
         </button>
       </div>
     )

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import { useVisibilityGuard } from "../../../runtime/useVisibilityGuard"
+import { useI18n } from "../../../runtime/useI18n"
 import type { StageProps, StageResult } from "./StageTypes"
 
 const RULES = [
@@ -23,6 +24,7 @@ export default function Stage3TaskSwitching({
   calibrationHz,
   difficulty,
 }: StageProps) {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<"intro" | "playing" | "done">("intro")
   const [showHelp, setShowHelp] = useState(false)
   const [trialIndex, setTrialIndex] = useState(0)
@@ -218,7 +220,7 @@ export default function Stage3TaskSwitching({
           onClick={startPlaying}
           className="transition-standard h-10 cursor-pointer rounded-lg bg-accent px-6 text-sm font-semibold text-white hover:bg-accent-hover active:scale-95"
         >
-          Start Stage
+          {t("btn.start_stage", "Start Stage")}
         </button>
       </div>
     )

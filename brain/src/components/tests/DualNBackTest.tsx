@@ -13,6 +13,7 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { getDifficultyParams } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type GameState = "idle" | "running" | "result"
 
@@ -24,6 +25,7 @@ interface Stimulus {
 const LETTERS = ["A", "B", "C", "D", "P", "T", "L"]
 
 function DualNBackTest() {
+  const { t } = useI18n()
   const [gameState, setGameState] = useState<GameState>("idle")
   const [n, setN] = useState<number>(2)
   const [maxN, setMaxN] = useState<number>(2)
@@ -560,7 +562,13 @@ function DualNBackTest() {
             onClick={() => startTest()}
             className="transition-standard h-11 w-full rounded bg-accent font-mono text-xs font-bold tracking-wider text-white uppercase shadow hover:bg-accent-hover active:scale-98"
           >
-            Train Again
+            {t("btn.try_again", "Train Again")}
+          </button>
+          <button
+            onClick={() => setGameState("idle")}
+            className="transition-standard -mt-3 h-10 w-full rounded border border-card-border bg-subtle font-mono text-xs font-semibold text-foreground hover:bg-panel active:scale-[0.98]"
+          >
+            {t("btn.configure", "Configure Options")}
           </button>
 
           {shareImage && (

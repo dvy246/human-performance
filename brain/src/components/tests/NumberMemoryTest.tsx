@@ -14,10 +14,12 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { getDifficultyParams } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type Phase = "idle" | "showing" | "input" | "correct" | "wrong" | "result"
 
 const NumberMemoryTest = () => {
+  const { t } = useI18n()
   const { playClick, playError } = useSound()
   const [phase, setPhase] = useState<Phase>("idle")
   const [level, setLevel] = useState(1)
@@ -355,7 +357,7 @@ const NumberMemoryTest = () => {
               ✓
             </div>
             <span className="font-mono text-sm font-bold tracking-wider text-success uppercase">
-              Correct!
+              {t("results.correct", "Correct!")}
             </span>
             <span className="font-mono text-xs text-muted">
               {currentNumber}
@@ -371,7 +373,7 @@ const NumberMemoryTest = () => {
             </div>
             <div className="flex flex-col items-center gap-1">
               <span className="font-mono text-sm font-bold tracking-wider text-red-400 uppercase">
-                Incorrect
+                {t("results.incorrect", "Incorrect")}
               </span>
               <div className="mt-2 flex w-full flex-col gap-2 font-mono text-xs">
                 <div className="flex justify-between rounded border border-card-border/40 bg-subtle p-2">
@@ -392,7 +394,7 @@ const NumberMemoryTest = () => {
               onClick={finishTest}
               className="transition-standard mt-2 cursor-pointer rounded bg-accent px-8 py-2.5 font-mono text-xs font-semibold tracking-widest text-black uppercase hover:bg-accent-hover active:scale-[0.98]"
             >
-              View Results
+              {t("results.view_results", "View Results")}
             </button>
           </div>
         )}
@@ -422,7 +424,7 @@ const NumberMemoryTest = () => {
             <div className="mt-2 grid w-full max-w-xs grid-cols-2 gap-8 border-t border-card-border/50 pt-4 text-center">
               <div>
                 <span className="font-mono text-[10px] text-muted uppercase">
-                  Personal Best
+                  {t("results.personal_best", "Personal Best")}
                 </span>
                 <div className="font-mono text-sm text-foreground">
                   {personalBest ? `${personalBest} digits` : "--"}
@@ -430,7 +432,7 @@ const NumberMemoryTest = () => {
               </div>
               <div>
                 <span className="font-mono text-[10px] text-muted uppercase">
-                  Percentile
+                  {t("results.percentile", "Percentile")}
                 </span>
                 <div className="font-mono text-sm text-foreground">
                   ~
@@ -468,7 +470,7 @@ const NumberMemoryTest = () => {
               onClick={() => startTest()}
               className="mt-4 cursor-pointer rounded border border-card-border bg-subtle px-4 py-1.5 font-mono text-xs tracking-widest text-muted uppercase hover:border-accent/30 hover:text-foreground"
             >
-              Try Again
+              {t("btn.try_again", "Try Again")}
             </button>
           </div>
         )}
@@ -498,7 +500,7 @@ const NumberMemoryTest = () => {
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" x2="12" y1="15" y2="3" />
               </svg>
-              <span>Download Score Card</span>
+              <span>{t("test.download_card", "Download Score Card")}</span>
             </a>
           )}
         </div>

@@ -14,6 +14,7 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { getDifficultyParams } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type TrialState = "idle" | "running" | "result"
 interface Trial {
@@ -30,6 +31,7 @@ const COLORS = [
 ]
 
 const StroopTest = () => {
+  const { t } = useI18n()
   const { playClick, playError } = useSound()
   const [gameState, setGameState] = useState<TrialState>("idle")
   const [trials, setTrials] = useState<Trial[]>([])
@@ -359,17 +361,17 @@ const StroopTest = () => {
           >
             {lastFeedback === "correct" && (
               <span className="font-mono text-xs font-bold text-success">
-                ✓ CORRECT
+                ✓ {t("results.correct", "CORRECT")}
               </span>
             )}
             {lastFeedback === "wrong" && (
               <span className="font-mono text-xs font-bold text-error">
-                ✗ INCORRECT
+                ✗ {t("results.incorrect", "INCORRECT")}
               </span>
             )}
             {lastFeedback === "timeout" && (
               <span className="font-mono text-xs font-bold text-warning">
-                ⏰ TIMEOUT
+                ⏰ {t("results.timeout", "TIMEOUT")}
               </span>
             )}
           </div>
@@ -396,7 +398,7 @@ const StroopTest = () => {
           </div>
           <div>
             <span className="font-mono text-xs tracking-widest text-muted uppercase">
-              Assessment Final Score
+              {t("results.final_score", "Assessment Final Score")}
             </span>
             <h2 className="mt-1 text-4xl font-extrabold tracking-tight text-foreground">
               {resultScore} ms
@@ -410,7 +412,7 @@ const StroopTest = () => {
           <div className="my-2 grid w-full max-w-sm grid-cols-2 gap-4 border-t border-b border-card-border/50 py-4 text-left">
             <div className="flex flex-col">
               <span className="font-mono text-[10px] text-muted uppercase">
-                Accuracy
+                {t("results.accuracy", "Accuracy")}
               </span>
               <span className="text-sm font-bold text-foreground">
                 {accuracy}%
@@ -448,9 +450,15 @@ const StroopTest = () => {
 
           <button
             onClick={() => startTest()}
-            className="transition-standard h-11 w-full cursor-pointer rounded bg-accent font-mono text-xs font-bold tracking-wider text-white uppercase shadow hover:bg-accent-hover active:scale-98"
+            className="transition-standard h-11 w-full max-w-sm cursor-pointer rounded-lg bg-accent font-mono text-xs font-bold tracking-wider text-white uppercase shadow hover:bg-accent-hover active:scale-[0.98]"
           >
-            Train Again
+            {t("test.restart", "Restart Assessment")}
+          </button>
+          <button
+            onClick={() => setGameState("idle")}
+            className="transition-standard -mt-3 h-10 w-full max-w-sm cursor-pointer rounded-lg border border-card-border bg-subtle font-mono text-xs font-semibold text-foreground hover:bg-panel active:scale-[0.98]"
+          >
+            {t("btn.configure", "Configure Options")}
           </button>
 
           {shareImage && (

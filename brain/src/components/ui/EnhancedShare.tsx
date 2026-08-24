@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react"
+import { useI18n } from "../../runtime/useI18n"
 
 interface EnhancedShareProps {
   title: string
@@ -15,6 +16,7 @@ export default function EnhancedShare({
   score,
   testType,
 }: EnhancedShareProps) {
+  const { t, lang } = useI18n()
   const [copied, setCopied] = useState(false)
   const [canShare, setCanShare] = useState(false)
 
@@ -115,7 +117,7 @@ export default function EnhancedShare({
               >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-              Copied!
+              {t("social.copied", "Copied!")}
             </>
           ) : (
             <>
@@ -133,7 +135,7 @@ export default function EnhancedShare({
                 <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
                 <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
               </svg>
-              Copy Link
+              {t("social.copy_link", "Copy Link")}
             </>
           )}
         </button>

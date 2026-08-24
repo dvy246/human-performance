@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useI18n } from "../../runtime/useI18n"
 
 type Style = "visual" | "verbal" | "analytical" | "holistic"
 
@@ -197,6 +198,7 @@ const styleData: Record<
 type Phase = "start" | "playing" | "result"
 
 export default function CognitiveStyleQuiz() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>("start")
   const [current, setCurrent] = useState(0)
   const [scores, setScores] = useState<Record<Style, number>>({
@@ -236,7 +238,7 @@ export default function CognitiveStyleQuiz() {
           onClick={() => setPhase("playing")}
           className="transition-standard rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:bg-accent/90"
         >
-          Start Quiz
+          {t("quiz.start_quiz", "Start Quiz")}
         </button>
       </div>
     )
@@ -315,7 +317,7 @@ export default function CognitiveStyleQuiz() {
             onClick={handleRestart}
             className="transition-standard rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:bg-accent/90"
           >
-            Retake Quiz
+            {t("btn.try_again", "Retake Quiz")}
           </button>
         </div>
       </div>

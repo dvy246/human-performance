@@ -2,10 +2,12 @@ import React, { useState, useEffect, useRef } from "react"
 import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
 import { dataLayer } from "../../runtime/dataLayer"
 import { useSound } from "../../runtime/useSound"
+import { useI18n } from "../../runtime/useI18n"
 
 type ScreenMode = "config" | "reflex" | "result"
 
 export function ErgonomicArchitect() {
+  const { t } = useI18n()
   const { playClick, playSuccess, playError } = useSound()
   const [mode, setMode] = useState<ScreenMode>("config")
   
@@ -375,7 +377,7 @@ export function ErgonomicArchitect() {
                   onClick={() => setMode("config")}
                   className="btn-base btn-ghost flex-1 cursor-pointer py-3 text-sm font-semibold border border-card-border rounded-lg"
                 >
-                  Edit Parameters
+                  {t("btn.configure", "Edit Parameters")}
                 </button>
               </div>
             </div>
