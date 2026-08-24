@@ -385,9 +385,7 @@ function TypingSpeedTest() {
   const [testMode, setTestMode] = useState<TestMode>("time")
   const [wordCount, setWordCount] = useState<WordOption>(25)
   const [categoryIdx, setCategoryIdx] = useState(0)
-  const [passageIdx, setPassageIdx] = useState(() =>
-    Math.floor(Math.random() * PASSAGE_CATEGORIES[0].passages.length)
-  )
+  const [passageIdx, setPassageIdx] = useState(0)
   const [personalBest, setPersonalBest] = useState<number | null>(null)
   const [challengeScore, setChallengeScore] = useState<number | null>(null)
   const [shareImage, setShareImage] = useState<string | null>(null)
@@ -467,6 +465,7 @@ function TypingSpeedTest() {
 
   useEffect(() => {
     let mounted = true
+    setPassageIdx(Math.floor(Math.random() * PASSAGE_CATEGORIES[0].passages.length))
     dataLayer
       .getPersonalBest("typing-speed", "higher")
       .then((pb) => {
