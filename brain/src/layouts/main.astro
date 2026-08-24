@@ -10,7 +10,7 @@ import RecentTests from "@/components/ui/RecentTests"
 import Icon from "@/components/ui/Icon.astro"
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher"
 import GameSearch from "@/components/ui/GameSearch"
-import { translations } from "@/i18n/translations"
+import { translations, t, type LangCode } from "@/i18n/translations"
 import FaqsList from "@/components/ui/FaqsList.astro"
 import { getFaqSchemaForSlug, hasFaqsForPath } from "@/data/faqs"
 
@@ -22,6 +22,7 @@ interface Props {
   ogType?: "website" | "article" | string
   schemaJson?: Record<string, any> | Record<string, any>[]
   robots?: string
+  lang?: LangCode
 }
 
 const {
@@ -32,13 +33,34 @@ const {
   ogType,
   schemaJson,
   robots = "index, follow",
+  lang,
 } = Astro.props
+
+const { pathname } = Astro.url
+
+// Determine active language
+const pathLocaleMatch = pathname.match(/^\/(es|fr|de|pt|ja)(\/|$)/)
+const currentLang: LangCode = lang || (pathLocaleMatch ? (pathLocaleMatch[1] as LangCode) : "en")
+const localePrefix = currentLang === "en" ? "" : `/${currentLang}`
+
+// Clean unlocalized path for hreflang cluster and canonical resolution
+const cleanPath = pathname.replace(/^\/(es|fr|de|pt|ja)(\/|$)/, "/")
+const unlocalizedPath = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`
+
+const ogLocaleMap: Record<LangCode, string> = {
+  en: "en_US",
+  es: "es_ES",
+  fr: "fr_FR",
+  de: "de_DE",
+  pt: "pt_BR",
+  ja: "ja_JP",
+}
 
 // Normalize canonicalUrl to ensure it ends with a trailing slash
 let formattedCanonicalUrl = canonicalUrl;
 if (formattedCanonicalUrl) {
   if (formattedCanonicalUrl === "https://cogniarena.com" || formattedCanonicalUrl === "https://cogniarena.com/") {
-    formattedCanonicalUrl = "https://cogniarena.com/";
+    formattedCanonicalUrl = currentLang === "en" ? "https://cogniarena.com/" : `https://cogniarena.com/${currentLang}/`;
   } else if (!formattedCanonicalUrl.endsWith('/')) {
     const lastPart = formattedCanonicalUrl.split('/').pop() || '';
     if (!lastPart.includes('.')) {
@@ -58,8 +80,8 @@ if (ogImage) {
 }
 
 // Resolve OG type (articles for educational / learn guides, website for everything else)
-const { pathname } = Astro.url;
 const resolvedOgType = ogType || (pathname.startsWith("/learn/") && pathname !== "/learn" && pathname !== "/learn/" ? "article" : "website");
+
 
 // Organization + WebSite schema — injected on every page for knowledge panel / sitelinks
 const orgSchema = {
@@ -80,7 +102,7 @@ const webSiteSchema = {
   url: "https://cogniarena.com/",
   description:
     "Free online cognitive assessments, reflex testers, and brain training platform.",
-  inLanguage: "en",
+  inLanguage: currentLang,
 }
 
 // Default structured data for the site (fallback when page provides no schema)
@@ -166,7 +188,7 @@ const isHistoryActive = pathname === "/history"
 const isProfileActive = pathname === "/dashboard"
 ---
 
-<html lang="en">
+<html lang={currentLang}>
   <head>
     <script is:inline>
       const stored = localStorage.getItem("theme")
@@ -178,10 +200,6 @@ const isProfileActive = pathname === "/dashboard"
         document.documentElement.classList.add("dark")
       } else {
         document.documentElement.classList.remove("dark")
-      }
-      const lang = localStorage.getItem("language") || "en"
-      if (lang !== "en") {
-        document.documentElement.lang = lang
       }
     </script>
     <meta charset="utf-8" />
@@ -196,6 +214,13 @@ const isProfileActive = pathname === "/dashboard"
     <meta name="apple-mobile-web-app-title" content="cogniarena" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="canonical" href={formattedCanonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={`https://cogniarena.com${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="en" href={`https://cogniarena.com${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="es" href={`https://cogniarena.com/es${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="fr" href={`https://cogniarena.com/fr${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="de" href={`https://cogniarena.com/de${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="pt" href={`https://cogniarena.com/pt${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="ja" href={`https://cogniarena.com/ja${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
     <title>{title}</title>
 
     <!-- Meta tags for SEO -->
@@ -204,12 +229,13 @@ const isProfileActive = pathname === "/dashboard"
     <meta name="yandex-verification" content="2cae89c2d02f63bb" />
 
     <!-- Open Graph tags for Social Sharing -->
-    <meta property="og:locale" content="en_US" />
+    <meta property="og:locale" content={ogLocaleMap[currentLang] || "en_US"} />
     <meta property="og:locale:alternate" content="es_ES" />
     <meta property="og:locale:alternate" content="fr_FR" />
     <meta property="og:locale:alternate" content="de_DE" />
     <meta property="og:locale:alternate" content="pt_BR" />
     <meta property="og:locale:alternate" content="ja_JP" />
+
     <meta property="og:type" content={resolvedOgType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />

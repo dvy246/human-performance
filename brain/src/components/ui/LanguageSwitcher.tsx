@@ -1,34 +1,20 @@
 import React, { useState, useEffect, useRef } from "react"
+import { languages, getLocalizedPath, type LangCode } from "../../i18n/translations"
 
-declare global {
-  interface Window {
-    __applyTranslations?: (lang: string) => void
-    __getCurrentLang?: () => string
-  }
+export interface LanguageSwitcherProps {
+  initialLang?: LangCode
 }
 
-const languages = [
-  { code: "en", name: "English", flag: "🇺🇸" },
-  { code: "es", name: "Español", flag: "🇪🇸" },
-  { code: "fr", name: "Français", flag: "🇫🇷" },
-  { code: "de", name: "Deutsch", flag: "🇩🇪" },
-  { code: "pt", name: "Português", flag: "🇧🇷" },
-  { code: "ja", name: "日本語", flag: "🇯🇵" },
-]
-
-export default function LanguageSwitcher() {
+export default function LanguageSwitcher({ initialLang = "en" }: LanguageSwitcherProps) {
   const [isOpen, setIsOpen] = useState(false)
-  const [currentLang, setCurrentLang] = useState("en")
+  const [currentLang, setCurrentLang] = useState<LangCode>(initialLang)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    const stored = localStorage.getItem("language")
-    if (stored && languages.find((l) => l.code === stored)) {
-      setCurrentLang(stored)
-      // Apply stored language on mount
-      if (window.__applyTranslations) {
-        window.__applyTranslations(stored)
-      }
+    if (typeof window !== "undefined") {
+      const match = window.location.pathname.match(/^\/(es|fr|de|pt|ja)(\/|$)/)
+      const detected = (match ? match[1] : "en") as LangCode
+      setCurrentLang(detected)
     }
   }, [])
 
@@ -46,35 +32,12 @@ export default function LanguageSwitcher() {
     return () => document.removeEventListener("mousedown", handleClickOutside)
   }, [])
 
-  const handleLanguageChange = (code: string) => {
-    setCurrentLang(code)
-    localStorage.setItem("language", code)
+  const handleLanguageChange = (code: LangCode) => {
     setIsOpen(false)
-
-    // Apply translations across all pages
-    if (window.__applyTranslations) {
-      window.__applyTranslations(code)
-    } else {
-      document.documentElement.lang = code
+    if (typeof window !== "undefined") {
+      const targetPath = getLocalizedPath(window.location.pathname, code)
+      window.location.href = targetPath
     }
-
-    // Show notification
-    const langName = languages.find((l) => l.code === code)?.name || code
-    showNotification(`Language changed to ${langName}`)
-  }
-
-  const showNotification = (message: string) => {
-    const notification = document.createElement("div")
-    notification.className =
-      "fixed top-4 right-4 z-[200] px-4 py-2 bg-card border border-card-border rounded-lg shadow-lg text-sm text-foreground animate-fade-in"
-    notification.textContent = message
-    document.body.appendChild(notification)
-
-    setTimeout(() => {
-      notification.style.opacity = "0"
-      notification.style.transition = "opacity 0.3s"
-      setTimeout(() => notification.remove(), 300)
-    }, 2000)
   }
 
   const currentLanguage =
@@ -110,38 +73,48 @@ export default function LanguageSwitcher() {
 
       {isOpen && (
         <div className="animate-fade-in absolute top-full right-0 z-50 mt-1 w-40 overflow-hidden rounded-lg border border-card-border bg-card shadow-lg">
-          {languages.map((lang) => (
-            <button
-              key={lang.code}
-              onClick={() => handleLanguageChange(lang.code)}
-              className={`flex w-full items-center gap-2 px-3 py-2 text-xs transition-colors hover:bg-subtle ${
-                currentLang === lang.code
-                  ? "bg-accent/10 font-medium text-accent"
-                  : "text-muted hover:text-foreground"
-              }`}
-            >
-              <span className="text-sm">{lang.flag}</span>
-              <span>{lang.name}</span>
-              {currentLang === lang.code && (
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="12"
-                  height="12"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  className="ml-auto"
-                >
-                  <polyline points="20 6 9 17 4 12" />
-                </svg>
-              )}
-            </button>
-          ))}
+          {languages.map((lang) => {
+            const targetUrl = typeof window !== "undefined"
+              ? getLocalizedPath(window.location.pathname, lang.code)
+              : (lang.code === "en" ? "/" : `/${lang.code}`)
+            return (
+              <a
+                key={lang.code}
+                href={targetUrl}
+                onClick={(e) => {
+                  e.preventDefault()
+                  handleLanguageChange(lang.code)
+                }}
+                className={`flex w-full items-center gap-2 px-3 py-2 text-xs transition-colors hover:bg-subtle ${
+                  currentLang === lang.code
+                    ? "bg-accent/10 font-medium text-accent"
+                    : "text-muted hover:text-foreground"
+                }`}
+              >
+                <span className="text-sm">{lang.flag}</span>
+                <span>{lang.name}</span>
+                {currentLang === lang.code && (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="12"
+                    height="12"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="ml-auto"
+                  >
+                    <polyline points="20 6 9 17 4 12" />
+                  </svg>
+                )}
+              </a>
+            )
+          })}
         </div>
       )}
     </div>
   )
 }
+

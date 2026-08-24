@@ -7,6 +7,14 @@ import react from "@astrojs/react"
 // https://astro.build/config
 export default defineConfig({
   site: 'https://cogniarena.com',
+  i18n: {
+    defaultLocale: "en",
+    locales: ["en", "es", "fr", "de", "pt", "ja"],
+    routing: {
+      prefixDefaultLocale: false,
+      redirectToDefaultLocale: false,
+    },
+  },
   vite: {
     plugins: [tailwindcss()],
   },

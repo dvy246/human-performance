@@ -457,6 +457,17 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "nav.all_guides": "Todas las Guías",
     "nav.calibration": "Estado de Calibración",
     "nav.online": "En línea",
+    "nav.records": "Récords Personales",
+    "nav.brain_games": "Juegos Mentales",
+    "nav.adhd_test": "Prueba de Atención",
+    "nav.color_game": "Juego de Colores",
+    "nav.aim_coordination": "Coordinación de Puntería",
+    "nav.latency_optimizer": "Optimizador de Latencia y Hz",
+    "nav.sleep_sanctuary": "Sueño y Cronotipo",
+    "nav.ergonomic_architect": "Arquitecto Ergonómico",
+    "nav.speed_arithmetic": "Aritmética Rápida",
+    "nav.quant_dev_grid": "Cuícula Cuántica",
+    "nav.faq": "Preguntas Frecuentes",
     "footer.disclaimer_title": "Aviso Legal:",
     "footer.disclaimer":
       "CogniArena es una plataforma educativa, de autoseguimiento y entrenamiento cognitivo. Todas las evaluaciones y métricas generadas son solo para fines de autoseguimiento y entretenimiento. No constituyen evaluaciones médicas ni neuropsicológicas. Consulte a un profesional de la salud si tiene preocupaciones.",
@@ -810,6 +821,17 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "nav.all_guides": "Tous les Guides",
     "nav.calibration": "État de Calibration",
     "nav.online": "En ligne",
+    "nav.records": "Records Personnels",
+    "nav.brain_games": "Jeux Cérébraux",
+    "nav.adhd_test": "Test d'Attention",
+    "nav.color_game": "Jeu des Couleurs",
+    "nav.aim_coordination": "Coordination de Visée",
+    "nav.latency_optimizer": "Optimiseur de Latence et Hz",
+    "nav.sleep_sanctuary": "Sommeil et Chronotype",
+    "nav.ergonomic_architect": "Architecte Ergonomique",
+    "nav.speed_arithmetic": "Calcul Mental Rapide",
+    "nav.quant_dev_grid": "Grille Quant-Dev",
+    "nav.faq": "FAQ",
     "footer.disclaimer_title": "Avis Juridique:",
     "footer.disclaimer":
       "CogniArena est une plateforme éducative, d'auto-suivi et d'entraînement cognitif. Toutes les évaluations et métriques sont uniquement destinées à l'auto-suivi et au divertissement. Elles ne constituent pas des évaluations médicales. Consultez un professionnel de santé si nécessaire.",
@@ -1160,6 +1182,17 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "nav.all_guides": "Alle Anleitungen",
     "nav.calibration": "Kalibrierungsstatus",
     "nav.online": "Online",
+    "nav.records": "Persönliche Rekorde",
+    "nav.brain_games": "Gehirnspiele",
+    "nav.adhd_test": "Aufmerksamkeitstest",
+    "nav.color_game": "Farbspiel",
+    "nav.aim_coordination": "Zielkoordination",
+    "nav.latency_optimizer": "Latenz- & Hz-Optimierer",
+    "nav.sleep_sanctuary": "Schlaf & Chronotyp",
+    "nav.ergonomic_architect": "Ergonomie-Architekt",
+    "nav.speed_arithmetic": "Schnellrechnen",
+    "nav.quant_dev_grid": "Quant-Dev Gitter",
+    "nav.faq": "FAQ",
     "footer.disclaimer_title": "Rechtlicher Hinweis:",
     "footer.disclaimer":
       "CogniArena ist eine Bildungs-, Selbsttracking- und kognitive Trainingsplattform. Alle Bewertungen und Metriken dienen nur der Selbstverfolgung und Unterhaltung. Sie stellen keine medizinischen Bewertungen dar. Konsultieren Sie bei Bedenken einen Arzt.",
@@ -1503,6 +1536,17 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "nav.all_guides": "Todos os Guias",
     "nav.calibration": "Status de Calibração",
     "nav.online": "Online",
+    "nav.records": "Recordes Pessoais",
+    "nav.brain_games": "Jogos Cerebrais",
+    "nav.adhd_test": "Teste de Atenção",
+    "nav.color_game": "Jogo das Cores",
+    "nav.aim_coordination": "Coordenação de Mira",
+    "nav.latency_optimizer": "Otimizador de Latência e Hz",
+    "nav.sleep_sanctuary": "Sono e Cronotipo",
+    "nav.ergonomic_architect": "Arquiteto Ergonômico",
+    "nav.speed_arithmetic": "Aritmética Rápida",
+    "nav.quant_dev_grid": "Grade Quant-Dev",
+    "nav.faq": "Perguntas Frecuentes",
     "footer.disclaimer_title": "Aviso Legal:",
     "footer.disclaimer":
       "CogniArena é uma plataforma educacional, de automonitoramento e treinamento cognitivo. Todas as avaliações e métricas são apenas para automonitoramento e entretenimento. Não constituem avaliações médicas. Consulte um profissional de saúde se necessário.",
@@ -1853,6 +1897,17 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "nav.all_guides": "全ガイド",
     "nav.calibration": "キャリブレーション状態",
     "nav.online": "オンライン",
+    "nav.records": "個人記録",
+    "nav.brain_games": "脳トレゲーム",
+    "nav.adhd_test": "注意欠陥テスト",
+    "nav.color_game": "カラーゲーム",
+    "nav.aim_coordination": "エイム連携テスト",
+    "nav.latency_optimizer": "レイテンシ＆Hz最適化",
+    "nav.sleep_sanctuary": "睡眠とクロノタイプ",
+    "nav.ergonomic_architect": "エルゴノミクス設計",
+    "nav.speed_arithmetic": "スピード暗算",
+    "nav.quant_dev_grid": "クオンツ開発グリッド",
+    "nav.faq": "よくある質問",
     "footer.disclaimer_title": "免責事項：",
     "footer.disclaimer":
       "CogniArenaは教育・自己追跡・認知トレーニングプラットフォームです。すべての評価と指標は自己追跡と娯楽目的のみです。医学的評価ではありません。心配な場合は医療専門家にご相談ください。",
@@ -2175,6 +2230,22 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "quiz.subtitle":
       "\u7121\u6599\u306e\u7814\u7a76\u30d9\u30fc\u30b9\u30af\u30a4\u30ba\u3002",
     "quiz.about_title":
-      "\u3053\u306e\u30af\u30a4\u30ba\u306b\u3064\u3044\u3066",
+      "このクイズについて",
   },
+}
+
+export const nonDefaultLocales: LangCode[] = ["es", "fr", "de", "pt", "ja"]
+
+export function t(key: string, lang: LangCode = "en", fallback?: string): string {
+  const dict = translations[lang] || translations["en"] || {}
+  return dict[key] ?? translations["en"]?.[key] ?? fallback ?? key
+}
+
+export function getLocalizedPath(pathname: string, lang: LangCode = "en"): string {
+  const cleanPath = pathname.replace(/^\/(es|fr|de|pt|ja)(\/|$)/, "/")
+  const normalized = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`
+  if (lang === "en") {
+    return normalized
+  }
+  return `/${lang}${normalized === "/" ? "" : normalized}`
 }
