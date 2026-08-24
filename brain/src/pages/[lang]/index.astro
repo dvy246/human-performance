@@ -276,6 +276,41 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
       </div>
     </section>
 
+    <!-- ===== STATS BAR ===== -->
+    <section class="animate-fade-in-up stagger-2 mx-auto w-full max-w-2xl">
+      <div class="flex items-center justify-center gap-6 text-center sm:gap-10">
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums"
+            >23+</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.badge">Assessments</span
+          >
+        </div>
+        <span class="h-8 w-px bg-card-border"></span>
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums"
+            >100%</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.anonymous">{t("hero.anonymous", lang, "100% Anonymous")}</span
+          >
+        </div>
+        <span class="h-8 w-px bg-card-border"></span>
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums"
+            >&lt;1ms</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            >{t("test.calibration_precise", lang, "Timer Precision")}</span
+          >
+        </div>
+      </div>
+    </section>
+
     <!-- ===== BRAIN SCORE DASHBOARD ===== -->
     <section
       class="animate-fade-in-up stagger-3 mx-auto flex w-full max-w-4xl flex-col items-center"
@@ -404,6 +439,367 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
             {t("how.step3_desc", lang, "See your scores, percentiles, and improvement over time. Build your cognitive profile across all dimensions.")}
           </p>
         </div>
+      </div>
+    </section>
+
+    <!-- ===== FAQ ===== -->
+    <section
+      class="animate-fade-in-up stagger-6 mx-auto w-full max-w-3xl px-4 pb-8"
+    >
+      <h2
+        class="mb-6 text-center text-xl font-bold tracking-tight text-foreground"
+        data-i18n="faq.title"
+      >
+        {t("faq.title", lang, "Frequently Asked Questions")}
+      </h2>
+      <div class="flex flex-col gap-3">
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
+            {t("faq.q1", lang, "What is a reaction time test?")}
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            {t("faq.a1", lang, "A reaction time test measures how quickly you respond to a visual, auditory, or physical stimulus. It records the interval between stimulus presentation and your motor response in milliseconds (ms). The average human visual reaction time is approximately 250ms.")}
+          </p>
+        </details>
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
+            {t("faq.q2", lang, "What is the average human reaction time?")}
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            {t("faq.a2", lang, "The average visual reaction time for adults aged 20-35 is approximately 240-260ms. Auditory reaction times are faster, averaging around 160-180ms. Reaction time peaks in the early 20s and gradually declines with age.")}
+          </p>
+        </details>
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
+            {t("faq.q3", lang, "How can I improve my reaction time?")}
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            {t("faq.a3", lang, "You can improve reaction time through regular practice with reaction time tests, adequate sleep (7-9 hours), physical exercise, hand-eye coordination drills, and maintaining focus during tasks. Gaming and sports also help train faster responses.")}
+          </p>
+        </details>
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
+            {t("faq.q4", lang, "What is CogniArena?")}
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            {t("faq.a4", lang, "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision. No sign-up required.")}
+          </p>
+        </details>
+        <details
+          class="group card-interactive rounded-xl border border-card-border bg-card p-4"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between text-sm font-semibold text-foreground"
+          >
+            {t("faq.q5", lang, "Is my data stored or sent anywhere?")}
+            <svg
+              class="h-4 w-4 text-muted transition-transform group-open:rotate-180"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"><path d="M6 9l6 6 6-6"></path></svg
+            >
+          </summary>
+          <p class="mt-3 text-sm leading-relaxed text-muted">
+            {t("faq.a5", lang, "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device using local-first IndexedDB storage.")}
+          </p>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===== SEO CONTENT: Reaction Time Test Guide ===== -->
+    <section class="animate-fade-in-up stagger-7 mx-auto w-full max-w-3xl px-4">
+      <div class="flex flex-col gap-6 text-sm leading-relaxed text-secondary">
+        <h2 class="text-2xl font-bold tracking-tight text-foreground">
+          The Complete Guide to the Reaction Time Test
+        </h2>
+
+        <p>
+          Reaction time is one of the most fundamental measures of cognitive
+          performance. It captures the interval between a stimulus appearing and
+          your motor response completing — a window typically measured in
+          milliseconds. This free <strong class="text-foreground"
+            >reaction time test</strong
+          > serves as a high-fidelity online <strong class="text-foreground"
+            >reaction time tester</strong
+          >. By utilizing advanced <code>requestAnimationFrame</code> paint-sync calibration,
+          our <strong class="text-foreground">reaction test</strong> records your
+          responses with sub-millisecond accuracy, eliminating the browser rendering
+          jitter that plagues most online timers.
+        </p>
+
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          What Is Reaction Time and How to Test Reaction Time?
+        </h3>
+        <p>
+          Reaction time (RT) is the duration between the presentation of a
+          sensory stimulus and the initiation of a voluntary motor response. If
+          you want to <strong class="text-foreground">test reaction time</strong
+          >, you typically engage in a visual <strong class="text-foreground"
+            >reaction time game</strong
+          > or <strong class="text-foreground">human reaction test</strong>,
+          where a screen changes color (e.g., from red to green) and you click
+          or tap as quickly as possible. The timer records the gap between the
+          pixel actually changing and your input registering.
+        </p>
+        <p>
+          The biological pipeline of this <strong class="text-foreground"
+            >human reaction time</strong
+          > assessment involves three stages: sensory transduction (retinal hyperpolarization),
+          central processing (prefrontal decision and motor planning), and motor execution
+          (corticospinal muscle activation). Each stage adds latency, meaning that
+          the total visual response time for a healthy adult typically falls between
+          180ms and 320ms.
+        </p>
+
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          What Is the Average Reaction Time for Humans?
+        </h3>
+        <p>
+          What is the average reaction time? Large-scale cognitive studies
+          consistently show that the <strong class="text-foreground"
+            >average reaction time</strong
+          > (specifically the <strong class="text-foreground"
+            >average human reaction time</strong
+          >) for simple visual stimuli is approximately 250 milliseconds.
+          Auditory reactions are notably faster — around 160-180ms — because the
+          pathway bypasses visual cortical routing. Here is how reaction time
+          varies by age group:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <strong class="text-foreground">Ages 15-24:</strong> 220-240ms (peak performance
+            window)
+          </li>
+          <li>
+            <strong class="text-foreground">Ages 25-34:</strong> 240-260ms (still
+            near peak)
+          </li>
+          <li>
+            <strong class="text-foreground">Ages 35-44:</strong> 260-280ms (gradual
+            neural decay)
+          </li>
+          <li>
+            <strong class="text-foreground">Ages 45-54:</strong> 280-300ms (myelination
+            changes)
+          </li>
+          <li>
+            <strong class="text-foreground">Ages 55+:</strong> 300ms+ (cognitive aging
+            effects)
+          </li>
+        </ul>
+        <p>
+          These benchmarks come from peer-reviewed datasets, including Der &amp;
+          Deary (2006) and Williamson &amp; Feyer (2000). Your score on our
+          platform compares your performance against these population
+          distributions to calculate your percentile ranking.
+        </p>
+
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          What Affects Your Reaction Time?
+        </h3>
+        <p>
+          Several factors influence how quickly you respond to a stimulus.
+          Understanding them helps you interpret your scores and optimize your
+          performance:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <strong class="text-foreground">Fatigue and sleep:</strong> Sleep deprivation
+            can slow reaction time by 20% or more. Even one night of poor sleep measurably
+            increases response latency.
+          </li>
+          <li>
+            <strong class="text-foreground">Hardware latency:</strong> A 60Hz monitor
+            adds up to 16.7ms of display lag. A 144Hz screen reduces this to ~3.5ms.
+            Wireless mice add 8-20ms of input delay compared to wired connections.
+          </li>
+          <li>
+            <strong class="text-foreground">Age:</strong> Reaction time peaks in the
+            early-to-mid 20s and gradually increases after age 30 due to changes in
+            myelination and synaptic efficiency.
+          </li>
+          <li>
+            <strong class="text-foreground">Stimulus modality:</strong> Sound reactions
+            are 60-80ms faster than visual reactions. This is why auditory reflex
+            tests often produce lower (faster) scores.
+          </li>
+          <li>
+            <strong class="text-foreground">Practice and training:</strong> Repeated
+            exposure to the same task builds neuromuscular myelin sheaths, reducing
+            motor pathway latency over time.
+          </li>
+        </ul>
+
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          How to Improve Reaction Time: Best Exercises
+        </h3>
+        <p>
+          While genetics set a baseline for raw neural conduction speed, you can
+          discover <strong class="text-foreground"
+            >how to improve reaction time</strong
+          > through targeted practice and implementing the <strong
+            class="text-foreground">best exercises for reaction time</strong
+          >:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <strong class="text-foreground"
+              >Practice with reaction time tests regularly:</strong
+            > Even 5-10 minutes of daily practice using a visual <strong
+              class="text-foreground">reaction time tester</strong
+            > can trim 10-20ms from your score within a few weeks.
+          </li>
+          <li>
+            <strong class="text-foreground">Play fast-paced video games:</strong
+            > Action games train rapid stimulus-response cycling, visual attention
+            span, and motor prediction.
+          </li>
+          <li>
+            <strong class="text-foreground"
+              >Prioritize sleep and hydration:</strong
+            > Seven to nine hours of quality sleep per night is essential for optimal
+            neural processing speed.
+          </li>
+          <li>
+            <strong class="text-foreground">Physical exercise:</strong> Aerobic activity
+            increases blood flow to the brain and supports neuroplasticity, both of
+            which contribute to faster responses.
+          </li>
+          <li>
+            <strong class="text-foreground">Minimize hardware lag:</strong> Use a
+            high-refresh-rate monitor (120Hz+) and a wired mouse with a high polling
+            rate (1000Hz) for the most accurate measurements.
+          </li>
+        </ul>
+
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          Practical Applications of Reaction Time
+        </h3>
+        <p>
+          Fast reaction time isn't just a party trick — it matters in real-world
+          scenarios:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <strong class="text-foreground">Gaming and esports:</strong> Competitive
+            gamers need sub-200ms reactions to outperform opponents in FPS, fighting,
+            and MOBA titles.
+          </li>
+          <li>
+            <strong class="text-foreground">Driving safety:</strong> Emergency braking
+            reactions depend on rapid visual processing. A 50ms improvement can translate
+            to meters of additional stopping distance at highway speeds.
+          </li>
+          <li>
+            <strong class="text-foreground">Sports performance:</strong> Athletes
+            in tennis, boxing, and baseball rely on split-second visual-motor responses
+            to return serves, dodge punches, or hit fastballs.
+          </li>
+          <li>
+            <strong class="text-foreground">Cognitive health monitoring:</strong
+            > Tracking your reaction time over time provides insight into cognitive
+            aging, fatigue levels, and the effectiveness of brain training.
+          </li>
+        </ul>
+
+        <h3 class="text-xl font-semibold tracking-tight text-foreground">
+          Beyond Reaction Time: Explore More Cognitive Assessments
+        </h3>
+        <p>
+          CogniArena offers 23+ assessments across six cognitive domains. After
+          testing your reflexes, explore other dimensions of your cognitive
+          performance:
+        </p>
+        <ul class="ml-2 list-inside list-disc space-y-1">
+          <li>
+            <a
+              href={`${localePrefix}/quiz/iq-test`}
+              class="font-medium text-accent hover:underline">Free IQ Test</a
+            > — Measure your intelligence across logical, numerical, verbal, and spatial
+            reasoning domains. 20 questions, instant results.
+          </li>
+          <li>
+            <a
+              href={`${localePrefix}/tests/typing-speed`}
+              class="font-medium text-accent hover:underline"
+              >Typing Speed Test</a
+            > — Benchmark your words per minute (WPM) and typing accuracy. Compare
+            against profession-based benchmarks.
+          </li>
+          <li>
+            <a
+              href={`${localePrefix}/tests/sequence-memory`}
+              class="font-medium text-accent hover:underline"
+              >Sequence Memory Test</a
+            > — Test your working memory capacity by recalling expanding grid patterns.
+          </li>
+          <li>
+            <a
+              href={`${localePrefix}/tests/pattern-reasoning`}
+              class="font-medium text-accent hover:underline"
+              >Pattern Reasoning Test</a
+            > — Evaluate your fluid intelligence and logical reasoning with geometric
+            progressions.
+          </li>
+          <li>
+            <a href={`${localePrefix}/gauntlet`} class="font-medium text-accent hover:underline"
+              >The Gauntlet</a
+            > — Our flagship 5-stage cognitive challenge covering reaction, memory,
+            focus, reasoning, and precision.
+          </li>
+          <li>
+            <a
+              href={`${localePrefix}/brain-games`}
+              class="font-medium text-accent hover:underline">Brain Games</a
+            > — Fun, science-backed games to train your cognitive skills across all
+            domains.
+          </li>
+        </ul>
       </div>
     </section>
   </div>
