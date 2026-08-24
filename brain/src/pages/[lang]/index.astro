@@ -1,0 +1,410 @@
+---
+import Layout from "@/layouts/main.astro"
+import Icon from "@/components/ui/Icon.astro"
+import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard"
+import GameSearch from "@/components/ui/GameSearch"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/`
+const title = `${t("hero.title", lang, "How Fast is Your Brain?")} — CogniArena`
+const description = t("hero.subtitle", lang, "Take free cognitive tests and reflex assessments directly in your browser.").replace(/<[^>]*>/g, "")
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: t("faq.q1", lang, "What is CogniArena?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a1", lang, "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q2", lang, "Is my data stored or sent anywhere?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a2", lang, "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q4", lang, "What is the Brain Challenge (Gauntlet)?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions."),
+      },
+    },
+  ],
+}
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: t("mobile.home", lang, "Home"),
+      item: canonicalUrl,
+    },
+  ],
+}
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  description: description,
+  url: canonicalUrl,
+  publisher: {
+    "@type": "Organization",
+    name: "CogniArena",
+    url: "https://cogniarena.com/",
+  },
+}
+
+const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="flex flex-col gap-10 py-4">
+    <!-- ===== HERO: The Challenge ===== -->
+    <section
+      class="animate-fade-in-up hero-glow relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 py-8 text-center md:py-14"
+    >
+      <!-- Trust badge -->
+      <div
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-5 py-2 font-mono text-xs tracking-wider uppercase backdrop-blur-sm"
+        style="color: var(--accent);"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          ><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg
+        >
+        <span class="font-semibold" data-i18n="hero.badge"
+          >{t("hero.badge", lang, "23+ Cognitive Benchmarks")}</span
+        >
+        <span class="h-3 w-px bg-accent/40"></span>
+        <span class="opacity-80" data-i18n="hero.anonymous">{t("hero.anonymous", lang, "100% Anonymous")}</span
+        >
+      </div>
+
+      <!-- Main headline with gradient -->
+      <h1
+        class="hero-gradient-text mb-4 text-4xl leading-[1.05] font-black tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+      >
+        <span data-i18n="hero.title">{t("hero.title", lang, "How Fast is Your Brain?")}</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p
+        class="mb-8 max-w-2xl text-base leading-relaxed text-secondary sm:text-lg md:text-xl"
+        data-i18n-html="hero.subtitle"
+      >
+        {t("hero.subtitle", lang, "Challenge your reflexes, attention, and memory with 23+ free online games and assessments directly in your browser.")}
+      </p>
+
+      <!-- Stat cards row -->
+      <div
+        class="mb-8 flex w-full max-w-2xl flex-wrap items-center justify-center gap-4 sm:gap-6"
+      >
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-accent tabular-nums sm:text-4xl"
+            >250ms</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_reaction">{t("hero.stat_reaction", lang, "Avg Reaction")}</span
+          >
+        </div>
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-foreground/80 tabular-nums sm:text-4xl"
+            >7&plusmn;2</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_memory">{t("hero.stat_memory", lang, "Memory Span")}</span
+          >
+        </div>
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-accent/80 tabular-nums sm:text-4xl"
+            >60s</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_focus">{t("hero.stat_focus", lang, "Focus Challenge")}</span
+          >
+        </div>
+      </div>
+
+      <!-- Single CTA -->
+      <a
+        href={`${localePrefix}/gauntlet`}
+        class="hero-cta-primary transition-standard animate-pulse-glow inline-flex h-14 cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-accent px-10 text-base font-bold text-white shadow-lg shadow-accent/20 hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.97]"
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span data-i18n="hero.cta_primary">{t("hero.cta_primary", lang, "Take the Brain Challenge")}</span>
+      </a>
+
+      <!-- Social proof -->
+      <div
+        class="mt-8 flex items-center gap-3 font-mono text-[11px] text-muted"
+      >
+        <div class="flex -space-x-1.5">
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-accent/20"
+            ><Icon name="zap" size={10} /></span
+          >
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-purple-500/20"
+            ><Icon name="brain" size={10} /></span
+          >
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-cyan-500/20"
+            ><Icon name="crosshair" size={10} /></span
+          >
+        </div>
+        <span data-i18n="hero.trust"
+          >{t("hero.trust", lang, "Trusted by researchers & cognitive enthusiasts")}</span
+        >
+      </div>
+    </section>
+
+    <!-- ===== BRAIN ROT CHALLENGE ===== -->
+    <section
+      class="card-interactive animate-fade-in-up stagger-1 group relative mx-auto flex w-full max-w-4xl flex-col items-center gap-8 overflow-hidden rounded-xl border border-accent/20 bg-gradient-to-br from-amber-950/20 via-card to-rose-950/20 p-6 md:flex-row md:p-8"
+    >
+      <div
+        class="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-amber-500/5 blur-3xl"
+      >
+      </div>
+      <div
+        class="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-rose-500/5 blur-3xl"
+      >
+      </div>
+      <div class="flex w-full shrink-0 justify-center md:w-1/3">
+        <div class="relative">
+          <div
+            class="flex h-28 w-28 items-center justify-center rounded-2xl border border-accent/30 bg-gradient-to-br from-amber-500/20 to-rose-500/20 text-5xl transition-transform duration-500 group-hover:scale-110"
+          >
+            🧠
+          </div>
+          <span class="absolute -top-1 -right-1 animate-pulse text-xs">🔥</span>
+        </div>
+      </div>
+      <div class="flex flex-1 flex-col gap-4">
+        <div class="flex items-center gap-2">
+          <span
+            class="font-mono text-[10px] tracking-widest text-warning uppercase"
+            >New Challenge</span
+          >
+          <span
+            class="rounded bg-[var(--error-bg)] px-1.5 py-0.5 font-mono text-[9px] tracking-wider text-error uppercase"
+            >Brain Rot Edition</span
+          >
+        </div>
+        <h2 class="text-xl font-bold tracking-tight text-foreground">
+          {t("nav.focus_challenge", lang, "Focus Challenge")}
+        </h2>
+        <p class="text-sm leading-relaxed text-secondary">
+          A <strong class="text-accent">5-stage attention gauntlet</strong> — selective
+          focus, impulse control, task switching, sustained vigilance, and working
+          memory under distraction.
+        </p>
+        <div class="flex items-center gap-6 font-mono text-xs text-muted">
+          <span><Icon name="crosshair" size={12} /> 5 stages</span>
+          <span>⏱️ ~4 minutes</span>
+          <span
+            ><Icon name="chart-bar" size={12} /> Composite score + percentile</span
+          >
+        </div>
+        <div class="mt-1 flex gap-3">
+          <a href={`${localePrefix}/tests/focus-challenge`}>
+            <button
+              class="transition-standard h-11 cursor-pointer rounded-lg bg-accent px-5 text-xs font-semibold text-white hover:bg-accent-hover active:scale-95"
+            >
+              {t("hero.cta_primary", lang, "Accept Challenge")}
+            </button>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BRAIN SCORE DASHBOARD ===== -->
+    <section
+      class="animate-fade-in-up stagger-3 mx-auto flex w-full max-w-4xl flex-col items-center"
+    >
+      <BrainScoreDashboard client:visible />
+    </section>
+
+    <!-- ===== 6 CATEGORY LINKS ===== -->
+    <section class="animate-fade-in-up stagger-4 mx-auto w-full max-w-3xl px-4">
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+        <a
+          href={`${localePrefix}/tests/reaction-time`}
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="zap" size={16} /> {t("nav.reaction", lang, "Reaction")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/sequence-memory`}
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="brain" size={16} /> {t("nav.memory", lang, "Memory")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/pattern-reasoning`}
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="puzzle" size={16} /> {t("nav.reasoning", lang, "Reasoning")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/focus-challenge`}
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="crosshair" size={16} /> {t("nav.focus", lang, "Focus")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/click-speed`}
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="gamepad" size={16} /> {t("nav.motor", lang, "Motor")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/decision-speed`}
+          class="transition-standard flex items-center gap-2 rounded-xl border border-card-border bg-card px-4 py-3 text-sm font-medium text-foreground/80 hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="compass" size={16} /> {t("nav.executive", lang, "Executive")}
+        </a>
+      </div>
+      <div class="mt-4 text-center">
+        <a
+          href={`${localePrefix}/tests/reaction-time`}
+          class="transition-standard cursor-pointer text-xs font-medium text-accent hover:text-accent-hover"
+          data-i18n="hero.cta_secondary">{t("hero.cta_secondary", lang, "Explore all 23+ assessments &rarr;")}</a
+        >
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="animate-fade-in-up stagger-5 mx-auto w-full max-w-4xl px-4">
+      <h2
+        class="mb-6 text-center text-xl font-bold tracking-tight text-foreground"
+        data-i18n="how.title"
+      >
+        {t("how.title", lang, "How It Works")}
+      </h2>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+        <div
+          class="card-interactive rounded-xl border border-card-border bg-card p-5 text-center"
+        >
+          <div
+            class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--warning-border)] bg-[var(--warning-bg)]"
+          >
+            <span class="font-mono text-lg font-bold text-warning">1</span>
+          </div>
+          <h3
+            class="mb-1 text-sm font-bold text-foreground"
+            data-i18n="how.step1_title"
+          >
+            {t("how.step1_title", lang, "Pick an Assessment")}
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step1_desc"
+          >
+            {t("how.step1_desc", lang, "Choose from 23+ tests across reaction, memory, reasoning, focus, motor, and executive function.")}
+          </p>
+        </div>
+        <div
+          class="card-interactive rounded-xl border border-card-border bg-card p-5 text-center"
+        >
+          <div
+            class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-accent/20 bg-accent/10"
+          >
+            <span class="font-mono text-lg font-bold text-accent">2</span>
+          </div>
+          <h3
+            class="mb-1 text-sm font-bold text-foreground"
+            data-i18n="how.step2_title"
+          >
+            {t("how.step2_title", lang, "Perform Under Pressure")}
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step2_desc"
+          >
+            {t("how.step2_desc", lang, "Each test runs locally with sub-millisecond precision. No uploads, no accounts, no distractions.")}
+          </p>
+        </div>
+        <div
+          class="card-interactive rounded-xl border border-card-border bg-card p-5 text-center"
+        >
+          <div
+            class="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full border border-[var(--success-border)] bg-[var(--success-bg)]"
+          >
+            <span class="font-mono text-lg font-bold text-success">3</span>
+          </div>
+          <h3
+            class="mb-1 text-sm font-bold text-foreground"
+            data-i18n="how.step3_title"
+          >
+            {t("how.step3_title", lang, "Track Your Growth")}
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step3_desc"
+          >
+            {t("how.step3_desc", lang, "See your scores, percentiles, and improvement over time. Build your cognitive profile across all dimensions.")}
+          </p>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

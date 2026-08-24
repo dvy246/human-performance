@@ -1,0 +1,167 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/brain-games`
+const title = `${t("nav.brain_games", lang, "Brain Games")} | CogniArena`
+const description = t("hero.subtitle", lang, "Play 23+ free online brain games scientifically designed to train memory, attention, logic, and reflexes.")
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("nav.brain_games", lang, "Brain Games"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+
+const categories = [
+  {
+    name: t("nav.reaction", lang, "Reaction & Reflexes"),
+    href: `${localePrefix}/tests/reaction-time`,
+    desc: "Test raw reflex speed with visual, auditory, and choice reaction tests.",
+    games: [
+      t("nav.visual_reaction", lang, "Reaction Time Test"),
+      t("nav.auditory_reflex", lang, "Sound Reaction Test"),
+      t("nav.f1_lights", lang, "F1 Lights Test"),
+      t("nav.choice_reaction", lang, "Choice Reaction Test"),
+    ],
+  },
+  {
+    name: t("nav.memory", lang, "Memory"),
+    href: `${localePrefix}/tests/sequence-memory`,
+    desc: "Challenge your short-term and working memory capacity.",
+    games: [
+      t("nav.sequence_memory", lang, "Sequence Memory"),
+      t("nav.number_memory", lang, "Number Memory"),
+      t("nav.visual_pattern", lang, "Visual Pattern"),
+      t("nav.dual_nback", lang, "Dual N-Back"),
+      t("nav.verbal_memory", lang, "Verbal Memory"),
+    ],
+  },
+  {
+    name: t("nav.reasoning", lang, "Reasoning & Logic"),
+    href: `${localePrefix}/tests/pattern-reasoning`,
+    desc: "Test abstract reasoning, pattern recognition, and spatial logic.",
+    games: [
+      t("nav.pattern_recognition", lang, "Pattern Reasoning"),
+      t("nav.matrix_reasoning", lang, "Matrix Reasoning"),
+      t("nav.spatial_orientation", lang, "Spatial Orientation"),
+    ],
+  },
+  {
+    name: t("nav.focus", lang, "Focus & Attention"),
+    href: `${localePrefix}/tests/focus-challenge`,
+    desc: "Measure selective attention, impulse control, and task switching.",
+    games: [
+      t("nav.focus_challenge", lang, "Focus Challenge"),
+      t("nav.stroop", lang, "Stroop Test"),
+      t("nav.trail_making", lang, "Trail Making Test"),
+      t("nav.go_nogo", lang, "Go/No-Go Test"),
+    ],
+  },
+  {
+    name: t("nav.motor", lang, "Motor & Coordination"),
+    href: `${localePrefix}/tests/click-speed`,
+    desc: "Assess clicking speed, aim precision, and fine motor control.",
+    games: [
+      t("nav.cps_test", lang, "CPS Test"),
+      t("nav.aim_precision", lang, "Aim Trainer"),
+      t("nav.mouse_accuracy", lang, "Mouse Accuracy"),
+      t("nav.flick_trainer", lang, "Flick Trainer"),
+    ],
+  },
+  {
+    name: t("nav.quizzes", lang, "IQ & Cognitive Assessment"),
+    href: `${localePrefix}/quiz/iq-test`,
+    desc: "Full-scale cognitive assessments with IQ scoring.",
+    games: [t("nav.iq_test", lang, "Free IQ Test"), t("nav.typing_speed", lang, "Typing Speed Test"), t("nav.gauntlet", lang, "The Gauntlet")],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
+        <span>/</span>
+        <span class="text-muted">{t("nav.brain_games", lang, "Brain Games")}</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        {t("nav.brain_games", lang, "Free Brain Games Online")}
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        {description}
+      </p>
+    </header>
+
+    <!-- Game Categories Grid -->
+    <section class="flex flex-col gap-6">
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        {t("explore.title", lang, "Browse Brain Games by Category")}
+      </h2>
+      <div class="grid gap-4">
+        {
+          categories.map((cat) => (
+            <a
+              href={cat.href}
+              class="flex flex-col gap-2 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+            >
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-foreground">{cat.name}</h3>
+                <span class="text-xs text-accent">Explore →</span>
+              </div>
+              <p class="text-xs leading-relaxed text-muted">{cat.desc}</p>
+              <div class="mt-1 flex flex-wrap gap-1.5">
+                {cat.games.map((g) => (
+                  <span class="rounded bg-subtle px-2 py-0.5 font-mono text-[10px] text-muted">
+                    {g}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</Layout>

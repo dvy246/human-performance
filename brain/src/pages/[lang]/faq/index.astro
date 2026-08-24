@@ -1,0 +1,253 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/faq`
+const title = `${t("faq.title", lang, "Frequently Asked Questions")} | CogniArena`
+const description = t("faq.subtitle", lang, "Answers to common questions about reaction time tests, memory assessments, typing speed, aim training, cognitive assessments, and the CogniArena platform.")
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: t("faq.q1", lang, "What is CogniArena?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a1", lang, "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q2", lang, "Is my data stored or sent anywhere?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a2", lang, "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q3", lang, "How accurate are the measurements?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a3", lang, "We use requestAnimationFrame timing with sub-millisecond precision. Our calibration system accounts for monitor refresh rate and browser input latency to give you the most accurate physical reaction measurements possible."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q4", lang, "What is the Brain Challenge (Gauntlet)?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q5", lang, "Can I improve my scores over time?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a5", lang, "Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement."),
+      },
+    },
+  ],
+}
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: t("mobile.home", lang, "Home"),
+      item: `https://cogniarena.com/${lang}`,
+    },
+    {
+      "@type": "ListItem",
+      position: 2,
+      name: t("nav.faq", lang, "FAQ"),
+      item: canonicalUrl,
+    },
+  ],
+}
+
+const schemaJson = [faqSchema, breadcrumbSchema]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <header class="flex flex-col gap-3">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
+        <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
+        <span>&middot;</span>
+        <span>{t("nav.faq", lang, "FAQ")}</span>
+      </div>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="faq.title"
+      >
+        {t("faq.title", lang, "Frequently Asked Questions")}
+      </h1>
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+      >
+        {description}
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-3 border-t border-card-border pt-10">
+      <!-- FAQ 1 -->
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+        open
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
+          <span>{t("faq.q1", lang, "What is CogniArena?")}</span>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
+        </summary>
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          {t("faq.a1", lang, "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.")}
+        </div>
+      </details>
+
+      <!-- FAQ 2 -->
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
+          <span>{t("faq.q2", lang, "Is my data stored or sent anywhere?")}</span>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
+        </summary>
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          {t("faq.a2", lang, "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device.")}
+        </div>
+      </details>
+
+      <!-- FAQ 3 -->
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
+          <span>{t("faq.q3", lang, "How accurate are the measurements?")}</span>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
+        </summary>
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          {t("faq.a3", lang, "We use requestAnimationFrame timing with sub-millisecond precision. Our calibration system accounts for monitor refresh rate and browser input latency to give you the most accurate physical reaction measurements possible.")}
+        </div>
+      </details>
+
+      <!-- FAQ 4 -->
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
+          <span>{t("faq.q4", lang, "What is the Brain Challenge (Gauntlet)?")}</span>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
+        </summary>
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          {t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.")}
+        </div>
+      </details>
+
+      <!-- FAQ 5 -->
+      <details
+        class="group overflow-hidden rounded-xl border border-card-border bg-card"
+      >
+        <summary
+          class="flex cursor-pointer list-none items-center justify-between gap-4 p-5 text-sm font-bold text-foreground hover:bg-subtle [&::-webkit-details-marker]:hidden"
+        >
+          <span>{t("faq.q5", lang, "Can I improve my scores over time?")}</span>
+          <svg
+            class="h-4 w-4 shrink-0 text-muted transition-transform duration-200 group-open:rotate-180"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+            ><polyline points="6 9 12 15 18 9"></polyline></svg
+          >
+        </summary>
+        <div
+          class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
+        >
+          {t("faq.a5", lang, "Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement.")}
+        </div>
+      </details>
+    </section>
+  </div>
+</Layout>

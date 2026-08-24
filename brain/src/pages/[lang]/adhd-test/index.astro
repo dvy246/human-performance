@@ -1,0 +1,147 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/adhd-test`
+const title = `${t("nav.adhd_test", lang, "ADHD & Attention Test")} | CogniArena`
+const description = "Take a free online ADHD screening test to evaluate attention, impulse control, and focus. Scientifically grounded self-assessment for adults and teens."
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("nav.adhd_test", lang, "Attention Test"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
+        <span>/</span>
+        <span class="text-muted">{t("nav.adhd_test", lang, "Attention Test")}</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        {t("nav.adhd_test", lang, "Free Attention Assessment Online")}
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        {description}
+      </p>
+    </header>
+
+    <!-- Important Disclaimer -->
+    <div
+      class="rounded-xl border border-[var(--error-border)] bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >{t("footer.disclaimer_title", lang, "Important Disclaimer:")}</strong
+      > {t("footer.disclaimer", lang, "CogniArena is an educational and cognitive training platform. All assessments are for self-tracking only and do not constitute medical evaluations.")}
+    </div>
+
+    <!-- Recommended Test Battery -->
+    <section class="flex flex-col gap-4">
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        ADHD Cognitive Screening Battery
+      </h2>
+      <div class="grid gap-3">
+        <a
+          href={`${localePrefix}/tests/go-no-go`}
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              1. {t("nav.go_nogo", lang, "Go/No-Go Test")} — Response Inhibition
+            </h3>
+            <span class="text-xs text-accent">Take Test →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Measures your ability to suppress automatic reactions and impulsive actions.
+          </p>
+        </a>
+        <a
+          href={`${localePrefix}/tests/stroop`}
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              2. {t("nav.stroop", lang, "Stroop Test")} — Selective Attention
+            </h3>
+            <span class="text-xs text-accent">Take Test →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Assesses interference control and focus under cognitive conflict.
+          </p>
+        </a>
+        <a
+          href={`${localePrefix}/tests/trail-making`}
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              3. {t("nav.trail_making", lang, "Trail Making Test")} — Cognitive Flexibility
+            </h3>
+            <span class="text-xs text-accent">Take Test →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Evaluates task-switching speed and executive function.
+          </p>
+        </a>
+        <a
+          href={`${localePrefix}/tests/focus-challenge`}
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              4. {t("nav.focus_challenge", lang, "Focus Challenge")} — Sustained Attention
+            </h3>
+            <span class="text-xs text-accent">Take Test →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Tests sustained vigilance and working memory under active distraction.
+          </p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,0 +1,157 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const canonicalUrl = `https://cogniarena.com/${lang}/contact`
+const title = `${t("contact.title", lang, "Contact Us")} | CogniArena`
+const description = t("contact.subtitle", lang, "Get in touch with CogniArena platform support, feedback submissions, and developer integration requests.")
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("footer.contact", lang, "Contact"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-10 py-4">
+    <header class="flex flex-col gap-3">
+      <span
+        class="font-mono text-xs tracking-widest text-accent uppercase"
+        data-i18n="contact.badge">{t("contact.badge", lang, "Communications")}</span
+      >
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="contact.title"
+      >
+        {t("contact.title", lang, "Contact Platform Support")}
+      </h1>
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+        data-i18n="contact.subtitle"
+      >
+        {t("contact.subtitle", lang, "Submit feedback, feature requests, or report calibration anomalies.")}
+      </p>
+    </header>
+
+    <section
+      class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm leading-relaxed text-muted dark:text-muted"
+    >
+      <div class="grid grid-cols-1 gap-8 md:grid-cols-2">
+        <article class="flex flex-col gap-4">
+          <h2
+            class="text-lg font-bold text-foreground"
+            data-i18n="contact.feedback_title"
+          >
+            {t("contact.feedback_title", lang, "Submit Platform Feedback")}
+          </h2>
+          <p data-i18n="contact.feedback_desc">
+            {t("contact.feedback_desc", lang, "Since we run entirely anonymous local-first clients, we do not require account logins to receive messages. Please reach out to our team at:")}
+          </p>
+          <a
+            href="mailto:hello@cogniarena.com"
+            class="font-mono text-sm font-semibold text-accent hover:underline"
+          >
+            hello@cogniarena.com
+          </a>
+          <p class="text-xs text-muted" data-i18n="contact.hardware_note">
+            {t("contact.hardware_note", lang, "For hardware synchronization and display calibration queries, please attach your environment specs from the Diagnostics tab in your profile.")}
+          </p>
+        </article>
+
+        {/* Contact Form — constructs mailto link with subject + message */}
+        <div
+          class="flex flex-col gap-4 rounded-xl border border-card-border bg-card p-5"
+        >
+          <h3
+            class="font-mono text-sm font-bold tracking-wider text-foreground uppercase"
+            data-i18n="contact.form_title"
+          >
+            {t("contact.form_title", lang, "Send a Message")}
+          </h3>
+          <form
+            id="contact-form"
+            class="flex flex-col gap-3"
+            onsubmit="event.preventDefault(); const subj = document.getElementById('contact-subject').value; const msg = document.getElementById('contact-message').value; window.location.href = 'mailto:hello@cogniarena.com?subject=' + encodeURIComponent(subj) + '&body=' + encodeURIComponent(msg);"
+          >
+            <div class="flex flex-col gap-1">
+              <label
+                class="font-mono text-[10px] text-muted uppercase"
+                for="contact-subject"
+                data-i18n="contact.subject_label">{t("contact.subject_label", lang, "Subject")}</label
+              >
+              <select
+                id="contact-subject"
+                name="subject"
+                class="w-full rounded border border-card-border bg-subtle px-2.5 py-1.5 text-xs text-foreground outline-none"
+              >
+                <option>General Feedback</option>
+                <option>Calibration Assistance</option>
+                <option>Integration Request</option>
+                <option>Report Anomaly</option>
+              </select>
+            </div>
+            <div class="flex flex-col gap-1">
+              <label
+                class="font-mono text-[10px] text-muted uppercase"
+                for="contact-message"
+                data-i18n="contact.message_label">{t("contact.message_label", lang, "Message")}</label
+              >
+              <textarea
+                id="contact-message"
+                name="message"
+                rows="3"
+                required
+                placeholder={t("contact.placeholder", lang, "Type your message here...")}
+                data-i18n-placeholder="contact.placeholder"
+                class="w-full resize-none rounded border border-card-border bg-subtle px-2.5 py-1.5 text-xs text-foreground outline-none focus:border-accent"
+              ></textarea>
+            </div>
+            <button
+              type="submit"
+              data-i18n="contact.submit"
+              class="transition-standard h-11 w-full cursor-pointer rounded bg-accent font-mono text-xs font-semibold tracking-wider text-white uppercase hover:bg-accent-hover"
+            >
+              {t("contact.submit", lang, "Submit Message")}
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>
