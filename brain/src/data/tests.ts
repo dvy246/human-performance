@@ -79,7 +79,7 @@ function t(
     iconName,
     category: cat?.name ?? categorySlug,
     categorySlug,
-    href: `/tests/${slug}`,
+    href: slug === "gauntlet" ? "/gauntlet/" : `/tests/${slug}/`,
   }
 }
 

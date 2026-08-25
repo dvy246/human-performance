@@ -16,11 +16,16 @@ const schemaJson = [
     publisher: {
       "@type": "Organization",
       name: "CogniArena",
+      url: "https://cogniarena.com/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://cogniarena.com/og-image.png",
+      },
     },
     author: {
       "@type": "Organization",
       name: "CogniArena Scientific Review Board",
-      url: "https://cogniarena.com/about#board",
+      url: "https://cogniarena.com/about/#board",
     },
     datePublished: "2026-07-05",
     dateModified: "2026-07-10",
@@ -120,7 +125,7 @@ const schemaJson = [
         </div>
         <span
           >Prepared by the <a
-            href="/about#board"
+            href="/about/#board"
             class="font-semibold text-accent hover:underline"
             >CogniArena Scientific Review Board</a
           > &middot; Reviewed for Scientific Rigor</span
@@ -208,9 +213,9 @@ const schemaJson = [
         </h2>
         <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is mouse accuracy?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Mouse accuracy is the ability to move the cursor to a specific
               visual coordinate precisely, requiring fine motor control, visual
@@ -218,9 +223,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What causes micro-tremors when aiming?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Micro-tremors are caused by motor noise—fluctuations in electrical
               signaling from motor neurons. Stress, caffeine, muscle fatigue,
@@ -229,9 +234,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               How does mouse sensitivity (DPI) affect accuracy?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               High DPI increases cursor speed, making small movements translate
               to large cursor shifts and increasing the difficulty of fine
@@ -240,9 +245,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is Henneman's size principle?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               It states that the brain recruits smaller motor units (which
               control fine movements) before larger units. For precision aiming,

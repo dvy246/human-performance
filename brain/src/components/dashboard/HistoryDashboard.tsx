@@ -83,7 +83,7 @@ export default function HistoryDashboard() {
           No test history yet. Take your first test to see it here!
         </p>
         <a
-          href="/tests/reaction-time"
+          href="/tests/reaction-time/"
           className="inline-block rounded-md bg-accent px-4 py-2 text-sm text-white hover:opacity-90"
         >
           Take a Test

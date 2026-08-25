@@ -16,11 +16,16 @@ const schemaJson = [
     publisher: {
       "@type": "Organization",
       name: "CogniArena",
+      url: "https://cogniarena.com/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://cogniarena.com/og-image.png",
+      },
     },
     author: {
       "@type": "Organization",
       name: "CogniArena Scientific Review Board",
-      url: "https://cogniarena.com/about#board",
+      url: "https://cogniarena.com/about/#board",
     },
     datePublished: "2026-07-05",
     dateModified: "2026-07-10",
@@ -120,7 +125,7 @@ const schemaJson = [
         </div>
         <span
           >Prepared by the <a
-            href="/about#board"
+            href="/about/#board"
             class="font-semibold text-accent hover:underline"
             >CogniArena Scientific Review Board</a
           > &middot; Reviewed for Scientific Rigor</span
@@ -212,9 +217,9 @@ const schemaJson = [
         </h2>
         <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is the average human typing speed?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               The average typing speed is around 40 Words Per Minute (WPM).
               Trained individuals who touch-type typically average 60 to 80 WPM,
@@ -222,9 +227,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is motor chunking in typing?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Motor chunking is the process where the brain groups individual
               keystrokes into a single motor program. Instead of thinking
@@ -233,9 +238,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               Do mechanical keyboards improve typing speed?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Yes. Mechanical keyboards provide consistent tactile feedback and
               actuation points, allowing typists to feel when a key registers.
@@ -244,9 +249,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               How does accuracy relate to typing speed?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Accuracy is the foundation of speed. Making an error requires
               hitting backspace and retyping, which breaks motor flow and

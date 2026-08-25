@@ -69,7 +69,7 @@ export default function TestBenchmarkPage({ config }: Props) {
           {testIds.map((id) => (
             <a
               key={id}
-              href={`${localePrefix}/tests/${id}`}
+              href={`${localePrefix}/tests/${id}/`}
               className="rounded-full bg-subtle px-2 py-0.5 font-mono text-[10px] text-muted transition-colors hover:bg-accent/10 hover:text-accent"
             >
               {id.replace(/-/g, " ")}

@@ -58,6 +58,41 @@ if (!test) {
   return Astro.redirect(`/${lang}/tests`)
 }
 
+const LEARN_SLUG_MAP: Record<string, string> = {
+  "aim-coordination": "aim-training",
+  "aim-trainer": "aim-training",
+  "choice-reaction": "choice-reaction",
+  "click-speed": "click-speed",
+  "decision-speed": "decision-speed",
+  "dual-n-back": "dual-n-back",
+  "ergonomic-architect": "typing-speed",
+  "f1-lights": "f1-lights",
+  "flick-trainer": "flick-trainer",
+  "focus-challenge": "brain-training",
+  "go-no-go": "brain-training",
+  "latency-optimizer": "reaction-time",
+  "mouse-accuracy": "mouse-accuracy",
+  "number-memory": "number-memory",
+  "object-tracking": "brain-training",
+  "pattern-reasoning": "iq-test",
+  "planning": "planning",
+  "prioritization": "prioritization",
+  "quant-dev-grid": "typing-speed",
+  "reaction-time": "reaction-time",
+  "sequence-memory": "sequence-memory",
+  "sleep-sanctuary": "typing-speed",
+  "sound-reaction": "sound-reaction",
+  "spatial-orientation": "spatial-orientation",
+  "speed-arithmetic": "typing-speed",
+  "stroop": "stroop",
+  "trail-making": "trail-making",
+  "typing-speed": "typing-speed",
+  "verbal-memory": "verbal-memory",
+  "visual-pattern": "visual-pattern",
+}
+
+const mappedLearnSlug = LEARN_SLUG_MAP[slug] || "brain-training"
+
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/tests/${slug}`
 const pageTitle = `${test.title} | CogniArena`
@@ -115,7 +150,7 @@ const schemaJson = [
       >
         <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
         <span>/</span>
-        <a href={`${localePrefix}/tests`} class="hover:underline">{t("mobile.tests", lang, "Tests")}</a>
+        <a href={`${localePrefix}/tests/`} class="hover:underline">{t("mobile.tests", lang, "Tests")}</a>
         <span>/</span>
         <span class="text-muted">{test.title}</span>
       </nav>
@@ -174,7 +209,7 @@ const schemaJson = [
 
     <HowItWorks
       testName={test.title}
-      learnSlug={slug}
+      learnSlug={mappedLearnSlug}
       learnTitle={`${test.title} Science`}
       whatItMeasures={test.shortDesc}
       howScoringWorks="Your final score is recorded locally with sub-millisecond precision and calibrated against your hardware refresh rate."

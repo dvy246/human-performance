@@ -290,7 +290,10 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "how.step3_desc":
       "See your scores, percentiles, and improvement over time. Build your cognitive profile across all dimensions.",
     // FAQ
+    "faq.badge": "Knowledge Base",
     "faq.title": "Frequently Asked Questions",
+    "faq.subtitle":
+      "Key details regarding sub-millisecond timer calibration, zero-knowledge local privacy, and cognitive score modeling.",
     "faq.q1": "What is CogniArena?",
     "faq.a1":
       "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.",
@@ -306,6 +309,9 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "faq.q5": "Can I improve my scores over time?",
     "faq.a5":
       "Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement.",
+    "faq.research_title": "Explore Cognitive Science Research",
+    "faq.research_desc":
+      "Deep dive into experimental paradigms, latency hardware calibration, and peer-reviewed literature.",
     // Profile teaser
     "profile.title": "Your Brain Profile",
     "profile.desc":
@@ -857,22 +863,28 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "how.step3_title": "Rastrea tu Crecimiento",
     "how.step3_desc":
       "Ve tus puntuaciones, percentiles y mejora a lo largo del tiempo. Construye tu perfil cognitivo.",
+    "faq.badge": "Base de Conocimientos",
     "faq.title": "Preguntas Frecuentes",
+    "faq.subtitle":
+      "Detalles clave sobre calibración de temporizador de sub-milisegundo, privacidad local de conocimiento cero y modelado cognitivo.",
     "faq.q1": "¿Qué es CogniArena?",
     "faq.a1":
-      "CogniArena es una plataforma gratuita de rendimiento cognitivo con 23+ evaluaciones basadas en navegador.",
+      "CogniArena es una plataforma gratuita de rendimiento cognitivo con más de 23 evaluaciones basadas en el navegador que miden la velocidad de reacción, memoria, razonamiento, concentración, control motor y función ejecutiva. Todas las pruebas se ejecutan localmente con precisión de sub-milisegundo.",
     "faq.q2": "¿Mis datos se almacenan o envían?",
     "faq.a2":
-      "No. Todo se ejecuta 100% en tu navegador. Sin cuentas, sin cookies, sin recopilación de datos.",
+      "No. Todo se ejecuta 100% en tu navegador. Sin cuentas, sin cookies, sin recopilación de datos. Tus resultados permanecen en tu dispositivo.",
     "faq.q3": "¿Qué tan precisas son las mediciones?",
     "faq.a3":
-      "Usamos timing con requestAnimationFrame con precisión sub-milisegundo.",
-    "faq.q4": "¿Qué es el Brain Challenge?",
+      "Usamos temporización con requestAnimationFrame con precisión de sub-milisegundo. Nuestro sistema de calibración tiene en cuenta la tasa de refresco del monitor y la latencia de entrada.",
+    "faq.q4": "¿Qué es el Brain Challenge (Gauntlet)?",
     "faq.a4":
-      "El Gauntlet es nuestra evaluación cognitiva insignia de 5 etapas.",
+      "The Gauntlet es nuestra evaluación cognitiva insignia de 5 etapas que abarca reacción, memoria, enfoque, razonamiento y precisión con un perfil de radar hexagonal.",
     "faq.q5": "¿Puedo mejorar mis puntuaciones?",
     "faq.a5":
-      "Sí. Cada evaluación incluye guía de entrenamiento basada en evidencia.",
+      "Sí. Cada evaluación incluye guía de entrenamiento basada en evidencia con más de 20 guías exhaustivas en nuestro Centro de Aprendizaje.",
+    "faq.research_title": "Explora la Investigación en Ciencias Cognitivas",
+    "faq.research_desc":
+      "Profundiza en paradigmas experimentales, calibración de hardware de latencia y literatura revisada por pares.",
     "profile.title": "Tu Perfil Cerebral",
     "profile.desc":
       "Completa evaluaciones para construir tu radar cognitivo hexagonal en 6 dimensiones.",
@@ -1399,21 +1411,28 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "how.step3_title": "Suivez Votre Progrès",
     "how.step3_desc":
       "Consultez vos scores, percentiles et améliorations au fil du temps. Construisez votre profil cognitif.",
+    "faq.badge": "Base de Connaissances",
     "faq.title": "Questions Fréquentes",
+    "faq.subtitle":
+      "Détails clés sur le calibrage du chronomètre sous le milliseconde, la confidentialité locale sans suivi et les scores cognitifs.",
     "faq.q1": "Qu'est-ce que CogniArena?",
     "faq.a1":
-      "CogniArena est une plateforme gratuite de performance cognitive avec 23+ évaluations basées sur le navigateur.",
-    "faq.q2": "Mes données sont-elles stockées?",
+      "CogniArena est une plateforme gratuite de performance cognitive proposant plus de 23 tests dans le navigateur pour mesurer la vitesse de réaction, la mémoire, le raisonnement, la concentration, le contrôle moteur et la fonction exécutive. Tout s'exécute localement avec une précision sub-milliseconde.",
+    "faq.q2": "Mes données sont-elles stockées ou envoyées?",
     "faq.a2":
-      "Non. Tout s'exécute à 100% dans votre navigateur. Sans compte, sans cookies, sans collecte.",
+      "Non. Tout s'exécute à 100% dans votre navigateur. Sans compte, sans cookies, sans collecte de données. Vos résultats restent sur votre appareil.",
     "faq.q3": "Quelle est la précision des mesures?",
     "faq.a3":
-      "Nous utilisons le timing requestAnimationFrame avec une précision sub-milliseconde.",
-    "faq.q4": "Qu'est-ce que le Brain Challenge?",
-    "faq.a4": "Le Gauntlet est notre évaluation cognitive phare en 5 étapes.",
-    "faq.q5": "Puis-je améliorer mes scores?",
+      "Nous utilisons un chronométrage requestAnimationFrame avec une précision au sous-milliseconde et un calibrage du taux de rafraîchissement d'écran.",
+    "faq.q4": "Qu'est-ce que le Brain Challenge (Gauntlet)?",
+    "faq.a4":
+      "Le Gauntlet est notre évaluation cognitive phare en 5 étapes couvrant la réaction, la mémoire, l'attention, le raisonnement et la précision avec un profil radar hexagonal.",
+    "faq.q5": "Puis-je améliorer mes scores au fil du temps?",
     "faq.a5":
-      "Oui. Chaque évaluation inclut des conseils d'entraînement fondés sur des preuves.",
+      "Oui. Chaque évaluation inclut des conseils d'entraînement fondés sur des preuves avec plus de 20 guides détaillés dans notre Centre d'apprentissage.",
+    "faq.research_title": "Explorer la Recherche en Sciences Cognitives",
+    "faq.research_desc":
+      "Approfondissez les paradigmes expérimentaux, le calibrage du matériel de latence et la littérature scientifique évaluée par des pairs.",
     "profile.title": "Votre Profil Cérébral",
     "profile.desc":
       "Complétez des évaluations pour construire votre radar cognitif hexagonal sur 6 dimensions.",
@@ -1938,20 +1957,28 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "how.step3_title": "Verfolge Dein Wachstum",
     "how.step3_desc":
       "Sieh deine Scores, Perzentile und Verbesserungen over Zeit. Erstelle dein kognitives Profil.",
+    "faq.badge": "Wissensdatenbank",
     "faq.title": "Häufig Gestellte Fragen",
+    "faq.subtitle":
+      "Wichtige Details zu Sub-Millisekunden-Kalibrierung, lokaler Privatsphäre ohne Datenspeicherung und kognitiven Modellen.",
     "faq.q1": "Was ist CogniArena?",
     "faq.a1":
-      "CogniArena ist eine kostenlose kognitive Performance-Plattform mit 23+ browserbasierten Bewertungen.",
-    "faq.q2": "Werden meine Daten gespeichert?",
+      "CogniArena ist eine kostenlose Plattform für kognitive Leistung mit 23+ browserbasierten Tests für Reaktionszeit, Gedächtnis, Logik, Fokus, Motorik und Exekutivfunktionen. Alle Tests laufen lokal mit Sub-Millisekunden-Präzision.",
+    "faq.q2": "Werden meine Daten gespeichert oder übertragen?",
     "faq.a2":
-      "Nein. Alles läuft zu 100% in deinem Browser. Keine Konten, keine Cookies, keine Datenerfassung.",
+      "Nein. Alles läuft zu 100% in Ihrem Browser. Keine Konten, keine Cookies, keine Datenerfassung. Ihre Ergebnisse bleiben auf Ihrem Gerät.",
     "faq.q3": "Wie genau sind die Messungen?",
     "faq.a3":
-      "Wir verwenden requestAnimationFrame-Timing mit Sub-Millisekunden-Präzision.",
-    "faq.q4": "Was ist die Brain Challenge?",
-    "faq.a4": "Das Gauntlet ist unsere Flaggschiff-5-Stufen-Bewertung.",
-    "faq.q5": "Kann ich meine Scores verbessern?",
-    "faq.a5": "Ja. Jede Bewertung enthält evidenzbasierte Trainingsanleitung.",
+      "Wir verwenden requestAnimationFrame-Timing mit Sub-Millisekunden-Präzision und Monitor-Bildwiederholfrequenz-Kalibrierung.",
+    "faq.q4": "Was ist die Brain Challenge (Gauntlet)?",
+    "faq.a4":
+      "Das Gauntlet ist unsere 5-Stufen-Hauptbewertung für Reaktion, Gedächtnis, Fokus, Logik und Präzision mit hexagonalem Radarprofil.",
+    "faq.q5": "Kann ich meine Scores im Laufe der Zeit verbessern?",
+    "faq.a5":
+      "Ja. Jede Bewertung enthält evidenzbasierte Trainingsanleitungen mit über 20 Leitfäden in unserem Lernzentrum.",
+    "faq.research_title": "Kognitionswissenschaftliche Forschung entdecken",
+    "faq.research_desc":
+      "Erfahren Sie mehr über experimentelle Paradigmen, Latenzkalibrierung und wissenschaftliche Literatur.",
     "profile.title": "Dein Gehirnprofil",
     "profile.desc":
       "Schließe Bewertungen ab, um deinen hexagonalen kognitiven Radar über 6 Dimensionen zu erstellen.",
@@ -2470,21 +2497,28 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "how.step3_title": "Acompanhe Seu Crescimento",
     "how.step3_desc":
       "Veja suas pontuações, percentis e melhorias ao longo do tempo. Construa seu perfil cognitivo.",
+    "faq.badge": "Base de Conhecimento",
     "faq.title": "Perguntas Frequentes",
+    "faq.subtitle":
+      "Principais detalhes sobre calibração de temporizador de sub-milissegundo, privacidade local sem rastreamento e modelos cognitivos.",
     "faq.q1": "O que é CogniArena?",
     "faq.a1":
-      "CogniArena é uma plataforma gratuita de performance cognitiva com 23+ avaliações baseadas em navegador.",
-    "faq.q2": "Meus dados são armazenados?",
+      "CogniArena é uma plataforma gratuita de desempenho cognitivo com mais de 23 avaliações no navegador que medem velocidade de reação, memória, raciocínio, foco, controle motor e função executiva. Todos os testes rodam localmente com precisão de sub-milissegundo.",
+    "faq.q2": "Meus dados são armazenados ou enviados?",
     "faq.a2":
-      "Não. Tudo roda 100% no seu navegador. Sem contas, sem cookies, sem coleta de dados.",
+      "Não. Tudo roda 100% no seu navegador. Sem contas, sem cookies, sem coleta de dados. Seus resultados permanecem no seu dispositivo.",
     "faq.q3": "Quão precisas são as medições?",
     "faq.a3":
-      "Usamos timing requestAnimationFrame com precisão sub-milissegundo.",
-    "faq.q4": "O que é o Brain Challenge?",
-    "faq.a4": "O Gauntlet é nossa avaliação cognitiva principal em 5 etapas.",
-    "faq.q5": "Posso melhorar minhas pontuações?",
+      "Usamos temporização requestAnimationFrame com precisão de sub-milissegundo e calibração de taxa de atualização de tela do monitor.",
+    "faq.q4": "O que é o Brain Challenge (Gauntlet)?",
+    "faq.a4":
+      "O Gauntlet é nossa avaliação cognitiva de 5 etapas cobrindo reação, memória, foco, raciocínio e precisão com um perfil de radar hexagonal.",
+    "faq.q5": "Posso melhorar minhas pontuações ao longo do tempo?",
     "faq.a5":
-      "Sim. Cada avaliação inclui orientação de treinamento baseada em evidências.",
+      "Sim. Cada avaliação inclui orientações de treino baseadas em evidências com mais de 20 guias detalhados em nossa Central de Aprendizado.",
+    "faq.research_title": "Explorar Pesquisa em Ciência Cognitiva",
+    "faq.research_desc":
+      "Aprofunde-se em paradigmas experimentais, calibração de hardware e literatura científica revisada por pares.",
     "profile.title": "Seu Perfil Cerebral",
     "profile.desc":
       "Complete avaliações para construir seu radar cognitivo hexagonal em 6 dimensões.",
@@ -3009,21 +3043,28 @@ export const translations: Record<LangCode, Record<string, string>> = {
     "how.step3_title": "成長を追跡",
     "how.step3_desc":
       "スコア、パーセンタイル、経時的な改善を確認。認知プロファイルを構築。",
+    "faq.badge": "ナレッジベース",
     "faq.title": "よくある質問",
+    "faq.subtitle":
+      "サブミリ秒精度のタイマー補正、完全ローカル保存のプライバシー、認知スコア算出の詳細。",
     "faq.q1": "CogniArenaとは？",
     "faq.a1":
-      "CogniArenaは23+のブラウザベース評価を持つ無料の認知パフォーマンスプラットフォームです。",
+      "CogniArenaは、反応速度、記憶力、推論力、集中力、運動制御、実行機能を測定する23以上のブラウザベースの無料認知機能テストプラットフォームです。すべてのテストはサブミリ秒の精度でローカルで実行されます。",
     "faq.q2": "データは保存されますか？",
     "faq.a2":
-      "いいえ。すべて100%ブラウザ内で実行。アカウントなし、Cookieなし、データ収集なし。",
-    "faq.q3": "測定精度は？",
+      "いいえ。すべてがお使いのブラウザ内で100%実行されます。アカウント不要、クッキー不使用、データ収集はありません。結果はお使いのデバイス内に保持されます。",
+    "faq.q3": "測定精度はどれくらいですか？",
     "faq.a3":
-      "requestAnimationFrameタイミングでサブミリ秒精度を使用しています。",
-    "faq.q4": "ブレインチャレンジとは？",
-    "faq.a4": "ガントレットは5段階のフラッグシップ認知評価です。",
-    "faq.q5": "スコアを改善できますか？",
+      "requestAnimationFrameタイミングを使用してサブミリ秒の精度で測定し、ディスプレイのリフレッシュレートと入力遅延を補正します。",
+    "faq.q4": "ブレインチャレンジ（Gauntlet）とは？",
+    "faq.a4":
+      "Gauntletは、反応、記憶、集中、推論、正確性の5つのステージからなる総合認知機能テストです。六角形レーダーチャートで能力を可視化します。",
+    "faq.q5": "スコアを改善することはできますか？",
     "faq.a5":
-      "はい。各評価にはエビデンスに基づくトレーニングガイドが含まれています。",
+      "はい。各テストには科学的根拠に基づいたトレーニングガイダンスが含まれており、学習センターで20以上の詳細なガイドを提供しています。",
+    "faq.research_title": "認知科学の研究を探求する",
+    "faq.research_desc":
+      "実験パラダイム、ハードウェア遅延補正、査読済み学術文献について詳しく学びましょう。",
     "profile.title": "あなたの脳プロファイル",
     "profile.desc": "評価を完了して6次元の六角形認知レーダーを構築しましょう。",
     "profile.cta": "チャレンジ開始",
@@ -3311,9 +3352,12 @@ export function t(key: string, lang: LangCode = "en", fallback?: string): string
 
 export function getLocalizedPath(pathname: string, lang: LangCode = "en"): string {
   const cleanPath = pathname.replace(/^\/(es|fr|de|pt|ja)(\/|$)/, "/")
-  const normalized = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`
+  let normalized = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`
+  if (!normalized.endsWith("/")) {
+    normalized += "/"
+  }
   if (lang === "en") {
     return normalized
   }
-  return `/${lang}${normalized === "/" ? "" : normalized}`
+  return `/${lang}${normalized === "/" ? "/" : normalized}`
 }

@@ -85,7 +85,7 @@ export default function LanguageSwitcher({ initialLang = "en" }: LanguageSwitche
           {languages.map((lang) => {
             const targetUrl = typeof window !== "undefined"
               ? getLocalizedPath(window.location.pathname, lang.code)
-              : (lang.code === "en" ? "/" : `/${lang.code}`)
+              : (lang.code === "en" ? "/" : `/${lang.code}/`)
             return (
               <a
                 key={lang.code}
