@@ -1,3 +1,5 @@
+import { useI18n } from "@/runtime/useI18n"
+
 interface Props {
   data: { group: string; value: number; unit: string }[]
   metric: string
@@ -5,6 +7,7 @@ interface Props {
 }
 
 export default function AgeBenchmarks({ data, lowerIsBetter }: Props) {
+  const { t } = useI18n()
   if (!data || data.length === 0) return null
   const best = lowerIsBetter
     ? Math.min(...data.map((d) => d.value))
@@ -17,7 +20,7 @@ export default function AgeBenchmarks({ data, lowerIsBetter }: Props) {
   return (
     <div className="rounded-xl border border-card-border bg-card p-4">
       <h3 className="mb-4 text-sm font-semibold text-foreground">
-        Age Group Benchmarks
+        {t("bench.age_group_title", "Age Group Benchmarks")}
       </h3>
       <div className="flex flex-col gap-2.5">
         {data.map((d) => {
@@ -47,8 +50,10 @@ export default function AgeBenchmarks({ data, lowerIsBetter }: Props) {
         })}
       </div>
       <p className="mt-3 text-[10px] leading-relaxed text-muted">
-        Data source: Der & Deary (2006), "Age and sex differences in reaction
-        time in adulthood: Results from the UK Health and Lifestyle Survey."
+        {t(
+          "bench.source_der_deary",
+          'Data source: Der & Deary (2006), "Age and sex differences in reaction time in adulthood: Results from the UK Health and Lifestyle Survey."'
+        )}
       </p>
     </div>
   )

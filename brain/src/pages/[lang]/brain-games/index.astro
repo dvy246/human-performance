@@ -11,8 +11,8 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: LangCode }
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/brain-games`
-const title = `${t("nav.brain_games", lang, "Brain Games")} | CogniArena`
-const description = t("hero.subtitle", lang, "Play 23+ free online brain games scientifically designed to train memory, attention, logic, and reflexes.")
+const title = `${t("brain_games.title", lang, "Free Brain Games Online")} | CogniArena`
+const description = t("brain_games.subtitle", lang, "Play 23+ free online brain games scientifically designed to train memory, attention, logic, and reflexes.")
 
 const schemaJson = [
   {
@@ -44,65 +44,69 @@ const schemaJson = [
 
 const categories = [
   {
-    name: t("nav.reaction", lang, "Reaction & Reflexes"),
+    name: t("cat.reaction.name", lang, "Reaction & Reflexes"),
     href: `${localePrefix}/tests/reaction-time`,
-    desc: "Test raw reflex speed with visual, auditory, and choice reaction tests.",
+    desc: t("cat.reaction.subtitle", lang, "Raw speed & sensory pathways"),
     games: [
-      t("nav.visual_reaction", lang, "Reaction Time Test"),
-      t("nav.auditory_reflex", lang, "Sound Reaction Test"),
-      t("nav.f1_lights", lang, "F1 Lights Test"),
-      t("nav.choice_reaction", lang, "Choice Reaction Test"),
+      t("test.reaction-time.title", lang, "Visual Reaction"),
+      t("test.sound-reaction.title", lang, "Auditory Reflex"),
+      t("test.f1-lights.title", lang, "F1 Start Lights"),
+      t("test.choice-reaction.title", lang, "Choice Reaction"),
     ],
   },
   {
-    name: t("nav.memory", lang, "Memory"),
+    name: t("cat.memory.name", lang, "Memory"),
     href: `${localePrefix}/tests/sequence-memory`,
-    desc: "Challenge your short-term and working memory capacity.",
+    desc: t("cat.memory.subtitle", lang, "Active working capacity & retention"),
     games: [
-      t("nav.sequence_memory", lang, "Sequence Memory"),
-      t("nav.number_memory", lang, "Number Memory"),
-      t("nav.visual_pattern", lang, "Visual Pattern"),
-      t("nav.dual_nback", lang, "Dual N-Back"),
-      t("nav.verbal_memory", lang, "Verbal Memory"),
+      t("test.sequence-memory.title", lang, "Sequence Memory"),
+      t("test.number-memory.title", lang, "Number Memory"),
+      t("test.visual-pattern.title", lang, "Visual Pattern"),
+      t("test.dual-n-back.title", lang, "Dual N-Back"),
+      t("test.verbal-memory.title", lang, "Verbal Memory"),
     ],
   },
   {
-    name: t("nav.reasoning", lang, "Reasoning & Logic"),
+    name: t("cat.reasoning.name", lang, "Reasoning"),
     href: `${localePrefix}/tests/pattern-reasoning`,
-    desc: "Test abstract reasoning, pattern recognition, and spatial logic.",
+    desc: t("cat.reasoning.subtitle", lang, "Fluid logic & non-verbal matrices"),
     games: [
-      t("nav.pattern_recognition", lang, "Pattern Reasoning"),
-      t("nav.matrix_reasoning", lang, "Matrix Reasoning"),
-      t("nav.spatial_orientation", lang, "Spatial Orientation"),
+      t("test.pattern-reasoning.title", lang, "Pattern Reasoning"),
+      t("test.spatial-orientation.title", lang, "Spatial Orientation"),
+      t("test.speed-arithmetic.title", lang, "Speed Arithmetic"),
     ],
   },
   {
-    name: t("nav.focus", lang, "Focus & Attention"),
+    name: t("cat.focus.name", lang, "Focus & Attention"),
     href: `${localePrefix}/tests/focus-challenge`,
-    desc: "Measure selective attention, impulse control, and task switching.",
+    desc: t("cat.focus.subtitle", lang, "Selective attention & executive suppression"),
     games: [
-      t("nav.focus_challenge", lang, "Focus Challenge"),
-      t("nav.stroop", lang, "Stroop Test"),
-      t("nav.trail_making", lang, "Trail Making Test"),
-      t("nav.go_nogo", lang, "Go/No-Go Test"),
+      t("test.focus-challenge.title", lang, "Focus Challenge"),
+      t("test.stroop.title", lang, "Stroop Test"),
+      t("test.trail-making.title", lang, "Trail Making"),
+      t("test.go-no-go.title", lang, "Color Go/No-Go"),
     ],
   },
   {
-    name: t("nav.motor", lang, "Motor & Coordination"),
+    name: t("cat.motor.name", lang, "Motor Performance"),
     href: `${localePrefix}/tests/click-speed`,
-    desc: "Assess clicking speed, aim precision, and fine motor control.",
+    desc: t("cat.motor.subtitle", lang, "Spatial mouse control & clicking stamina"),
     games: [
-      t("nav.cps_test", lang, "CPS Test"),
-      t("nav.aim_precision", lang, "Aim Trainer"),
-      t("nav.mouse_accuracy", lang, "Mouse Accuracy"),
-      t("nav.flick_trainer", lang, "Flick Trainer"),
+      t("test.click-speed.title", lang, "CPS Test"),
+      t("test.aim-trainer.title", lang, "Aim Precision"),
+      t("test.mouse-accuracy.title", lang, "Mouse Accuracy"),
+      t("test.flick-trainer.title", lang, "Flick Trainer"),
     ],
   },
   {
-    name: t("nav.quizzes", lang, "IQ & Cognitive Assessment"),
+    name: t("cat.executive.name", lang, "Executive Function"),
     href: `${localePrefix}/quiz/iq-test`,
-    desc: "Full-scale cognitive assessments with IQ scoring.",
-    games: [t("nav.iq_test", lang, "Free IQ Test"), t("nav.typing_speed", lang, "Typing Speed Test"), t("nav.gauntlet", lang, "The Gauntlet")],
+    desc: t("cat.executive.subtitle", lang, "High-level attention gating & flexibility"),
+    games: [
+      t("nav.iq_test", lang, "Free IQ Test"),
+      t("test.typing-speed.title", lang, "Typing Speed"),
+      t("test.gauntlet.title", lang, "The Gauntlet"),
+    ],
   },
 ]
 ---
@@ -127,7 +131,7 @@ const categories = [
       <h1
         class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
       >
-        {t("nav.brain_games", lang, "Free Brain Games Online")}
+        {t("brain_games.title", lang, "Free Brain Games Online")}
       </h1>
       <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
         {description}
@@ -137,7 +141,7 @@ const categories = [
     <!-- Game Categories Grid -->
     <section class="flex flex-col gap-6">
       <h2 class="text-xl font-semibold tracking-tight text-foreground">
-        {t("explore.title", lang, "Browse Brain Games by Category")}
+        {t("brain_games.browse_category", lang, "Browse Brain Games by Category")}
       </h2>
       <div class="grid gap-4">
         {
@@ -148,7 +152,7 @@ const categories = [
             >
               <div class="flex items-center justify-between">
                 <h3 class="text-sm font-bold text-foreground">{cat.name}</h3>
-                <span class="text-xs text-accent">Explore →</span>
+                <span class="text-xs text-accent">{t("brain_games.explore_cta", lang, "Explore →")}</span>
               </div>
               <p class="text-xs leading-relaxed text-muted">{cat.desc}</p>
               <div class="mt-1 flex flex-wrap gap-1.5">

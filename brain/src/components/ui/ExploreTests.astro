@@ -1,6 +1,6 @@
 ---
 import Icon from "@/components/ui/Icon.astro"
-import { allTests, categories, getTestsByCategory } from "@/data/tests"
+import { allTests, categories, getTestsByCategory, getLocalizedTest } from "@/data/tests"
 import { t, type LangCode } from "@/i18n/translations"
 
 export interface Props {
@@ -12,15 +12,18 @@ export interface Props {
 const { currentSlug, title, lang = "en" } = Astro.props
 const localePrefix = lang === "en" ? "" : `/${lang}`
 const displayTitle = title || t("hero.cta_secondary", lang, "Explore All Assessments").replace(/→|&rarr;/g, "").trim()
-const grouped = getTestsByCategory()
+const grouped = getTestsByCategory(lang)
 // Build schema.org ItemList for SEO
-const itemListElements = allTests.map((t, i) => ({
-  "@type": "ListItem",
-  position: i + 1,
-  name: t.title,
-  description: t.shortDesc,
-  url: `https://cogniarena.com${localePrefix}${t.href}`,
-}))
+const itemListElements = allTests.map((t, i) => {
+  const loc = getLocalizedTest(t, lang)
+  return {
+    "@type": "ListItem",
+    position: i + 1,
+    name: loc.title,
+    description: loc.shortDesc,
+    url: `https://cogniarena.com${localePrefix}${loc.href}`,
+  }
+})
 const exploreSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",

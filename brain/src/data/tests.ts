@@ -345,16 +345,38 @@ export const allTests: TestEntry[] = [
   ),
 ]
 
-export function getTestsByCategory(): {
+import { t as translate, type LangCode } from "@/i18n/translations"
+
+export function getLocalizedTest(test: TestEntry, lang: LangCode = "en"): TestEntry {
+  return {
+    ...test,
+    title: translate(`test.${test.slug}.title`, lang, test.title),
+    shortDesc: translate(`test.${test.slug}.desc`, lang, test.shortDesc),
+  }
+}
+
+export function getLocalizedCategory(cat: CategoryGroup, lang: LangCode = "en"): CategoryGroup {
+  return {
+    ...cat,
+    name: translate(`cat.${cat.slug}.name`, lang, cat.name),
+    subtitle: translate(`cat.${cat.slug}.subtitle`, lang, cat.subtitle),
+  }
+}
+
+export function getTestsByCategory(lang: LangCode = "en"): {
   category: CategoryGroup
   tests: TestEntry[]
 }[] {
   return categories.map((cat) => ({
-    category: cat,
-    tests: allTests.filter((t) => t.categorySlug === cat.slug),
+    category: getLocalizedCategory(cat, lang),
+    tests: allTests
+      .filter((t) => t.categorySlug === cat.slug)
+      .map((test) => getLocalizedTest(test, lang)),
   }))
 }
 
-export function getTestBySlug(slug: string): TestEntry | undefined {
-  return allTests.find((t) => t.slug === slug)
+export function getTestBySlug(slug: string, lang: LangCode = "en"): TestEntry | undefined {
+  const test = allTests.find((t) => t.slug === slug)
+  if (!test) return undefined
+  return getLocalizedTest(test, lang)
 }

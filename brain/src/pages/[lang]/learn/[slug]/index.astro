@@ -116,7 +116,7 @@ const schemaJson = [
     <div class="rounded-xl border border-card-border bg-card p-6">
       <div class="flex flex-col gap-4">
         <h2 class="text-lg font-bold text-foreground">
-          Scientific Overview & Training Protocols
+          {t("learn.scientific_overview", lang, "Scientific Overview & Training Protocols")}
         </h2>
         <p class="text-sm leading-relaxed text-muted">
           Detailed cognitive mechanisms, experimental paradigms, and training protocols for {guide.title.toLowerCase()}.
@@ -126,7 +126,7 @@ const schemaJson = [
             href={guide.testSlug === "gauntlet" ? `${localePrefix}/gauntlet` : `${localePrefix}/tests/${guide.testSlug}`}
             class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-xs font-bold text-white transition-all hover:bg-accent-hover active:scale-95"
           >
-            Take Assessment &rarr;
+            {t("learn.take_assessment", lang, "Take Assessment")} &rarr;
           </a>
         </div>
       </div>

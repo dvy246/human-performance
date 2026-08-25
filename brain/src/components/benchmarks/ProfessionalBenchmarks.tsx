@@ -1,9 +1,12 @@
+import { useI18n } from "@/runtime/useI18n"
+
 interface Props {
   data: { profession: string; value: number; label: string }[]
   lowerIsBetter: boolean
 }
 
 export default function ProfessionalBenchmarks({ data, lowerIsBetter }: Props) {
+  const { t } = useI18n()
   if (!data || data.length === 0) return null
   const best = lowerIsBetter
     ? Math.min(...data.map((d) => d.value))
@@ -16,7 +19,7 @@ export default function ProfessionalBenchmarks({ data, lowerIsBetter }: Props) {
   return (
     <div className="rounded-xl border border-card-border bg-card p-4">
       <h3 className="mb-4 text-sm font-semibold text-foreground">
-        Professional Benchmarks
+        {t("bench.prof_title", "Professional Benchmarks")}
       </h3>
       <div className="flex flex-col gap-2.5">
         {data.map((d) => {
@@ -45,8 +48,10 @@ export default function ProfessionalBenchmarks({ data, lowerIsBetter }: Props) {
         })}
       </div>
       <p className="mt-3 text-[10px] leading-relaxed text-muted">
-        Benchmarks compiled from published research and population studies.
-        Individual results vary.
+        {t(
+          "bench.source_prof",
+          "Benchmarks compiled from published research and population studies. Individual results vary."
+        )}
       </p>
     </div>
   )
