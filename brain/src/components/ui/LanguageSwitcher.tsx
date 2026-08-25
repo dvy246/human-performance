@@ -34,12 +34,18 @@ export default function LanguageSwitcher({ initialLang = "en" }: LanguageSwitche
 
   const handleLanguageChange = (code: LangCode) => {
     setIsOpen(false)
+    setCurrentLang(code)
     if (typeof window !== "undefined") {
       try {
         localStorage.setItem("language", code)
       } catch (e) {}
+      if (typeof (window as unknown as { __applyTranslations?: (c: string) => void }).__applyTranslations === "function") {
+        (window as unknown as { __applyTranslations: (c: string) => void }).__applyTranslations(code)
+      }
       const targetPath = getLocalizedPath(window.location.pathname, code)
-      window.location.href = targetPath
+      if (window.location.pathname !== targetPath) {
+        window.location.href = targetPath
+      }
     }
   }
 
@@ -84,6 +90,7 @@ export default function LanguageSwitcher({ initialLang = "en" }: LanguageSwitche
               <a
                 key={lang.code}
                 href={targetUrl}
+                data-astro-prefetch="hover"
                 onClick={(e) => {
                   e.preventDefault()
                   handleLanguageChange(lang.code)

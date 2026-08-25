@@ -15,6 +15,10 @@ export default defineConfig({
       redirectToDefaultLocale: false,
     },
   },
+  prefetch: {
+    prefetchAll: true,
+    defaultStrategy: "hover",
+  },
   vite: {
     plugins: [tailwindcss()],
   },
