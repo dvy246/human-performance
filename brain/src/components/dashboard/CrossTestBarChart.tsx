@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer, type SessionRecord } from "../../runtime/dataLayer"
+import { useI18n } from "../../runtime/useI18n"
 
 const TEST_NAMES: Record<string, string> = {
   "reaction-time": "Visual Reaction",
@@ -61,7 +62,7 @@ const TEST_CATEGORY: Record<string, string> = {
   "decision-speed": "processing",
   planning: "processing",
   prioritization: "processing",
-  gauntlet: "processing",
+  gauntlet: "reaction",
 }
 
 interface TestBar {
@@ -72,6 +73,7 @@ interface TestBar {
 }
 
 export default function CrossTestBarChart() {
+  const { t, lang } = useI18n()
   const [bars, setBars] = useState<TestBar[]>([])
 
   useEffect(() => {

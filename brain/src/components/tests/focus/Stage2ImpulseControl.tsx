@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, useCallback } from "react"
 import { useVisibilityGuard } from "../../../runtime/useVisibilityGuard"
+import { useI18n } from "../../../runtime/useI18n"
 import type { StageProps, StageResult } from "./StageTypes"
 
 const GO_SYMBOL = "✓"
@@ -28,11 +29,10 @@ const DISTRACTOR_TIERS: Record<string, { lines: string[]; buttons: string[] }> =
     },
     Hard: {
       lines: [
-        "New message from Alex",
-        '"Hey, are you free later?"',
-        "Also: meeting at 3pm moved to 4pm",
+        "Project Update · High Priority",
+        "3 files were modified. Review requested.",
       ],
-      buttons: ["View", "Reply", "Dismiss"],
+      buttons: ["View Changes", "Dismiss"],
     },
   }
 
@@ -49,6 +49,7 @@ export default function Stage2ImpulseControl({
   calibrationHz,
   difficulty,
 }: StageProps) {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<"intro" | "playing" | "done">("intro")
   const [showHelp, setShowHelp] = useState(false)
   const [trialIndex, setTrialIndex] = useState(0)
@@ -276,7 +277,7 @@ export default function Stage2ImpulseControl({
           onClick={startPlaying}
           className="transition-standard h-10 cursor-pointer rounded-lg bg-accent px-6 text-sm font-semibold text-white hover:bg-accent-hover active:scale-95"
         >
-          Start Stage
+          {t("btn.start_stage", "Start Stage")}
         </button>
       </div>
     )

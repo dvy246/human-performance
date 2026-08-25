@@ -21,6 +21,7 @@ import {
 } from "./gauntlet/GauntletTypes"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type Phase = "intro" | "playing" | "transition" | "results"
 
@@ -117,6 +118,7 @@ function getDetailedReview(
 }
 
 function GauntletTest() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>("intro")
   const [currentIdx, setCurrentIdx] = useState(0)
   const [results, setResults] = useState<GauntletStageResult[]>([])
@@ -509,7 +511,7 @@ function GauntletTest() {
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" x2="12" y1="15" y2="3" />
               </svg>
-              <span>Download Share Card</span>
+              <span>{t("test.download_card", "Download Share Card")}</span>
             </a>
           )}
           <SocialShare
@@ -546,7 +548,7 @@ function GauntletTest() {
               <polyline points="23 4 23 10 17 10" />
               <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
             </svg>
-            <span>Take Gauntlet Again</span>
+            <span>{t("btn.try_again", "Take Gauntlet Again")}</span>
           </button>
         </div>
       </div>

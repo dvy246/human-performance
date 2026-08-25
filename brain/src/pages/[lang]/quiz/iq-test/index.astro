@@ -1,0 +1,71 @@
+---
+import Layout from "@/layouts/main.astro"
+import IQTest from "@/components/quiz/IQTest"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/quiz/iq-test`
+const title = `${t("nav.iq_test", lang, "Free IQ Test")} | CogniArena`
+const description = "Take a free online IQ test and get your score instantly. 20 questions covering logical, numerical, and spatial reasoning."
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    name: "CogniArena Free IQ Test",
+    description:
+      "A 20-question IQ test covering numerical, verbal, spatial, and logical reasoning domains, inspired by the ICAR cognitive ability framework.",
+    about: { "@type": "Thing", name: "IQ and Cognitive Ability" },
+    educationalAlignment: {
+      "@type": "AlignmentObject",
+      alignmentType: "educationalRequirement",
+      educationalFramework: "Cognitive Science",
+    },
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-6">
+    <header class="flex flex-col gap-3">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
+        <a href={`${localePrefix}/quiz/`} class="hover:underline">{t("nav.quizzes", lang, "Quizzes")}</a>
+        <span>&middot;</span>
+        <span>{t("nav.iq_test", lang, "IQ Test")}</span>
+      </div>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        {t("nav.iq_test", lang, "Free IQ Test")}
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        {description}
+      </p>
+    </header>
+
+    <section class="w-full"><IQTest client:load /></section>
+
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >{t("footer.disclaimer_title", lang, "Self-Tracking Notice:")}</strong
+      > {t("footer.disclaimer", lang, "This assessment is for self-tracking, educational, and cognitive training purposes only. Not a medical or clinical diagnosis.")}
+    </div>
+  </div>
+</Layout>

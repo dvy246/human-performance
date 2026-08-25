@@ -16,11 +16,16 @@ const schemaJson = [
     publisher: {
       "@type": "Organization",
       name: "CogniArena",
+      url: "https://cogniarena.com/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://cogniarena.com/og-image.png",
+      },
     },
     author: {
       "@type": "Organization",
       name: "CogniArena Scientific Review Board",
-      url: "https://cogniarena.com/about#board",
+      url: "https://cogniarena.com/about/#board",
     },
     datePublished: "2026-07-05",
     dateModified: "2026-07-10",
@@ -120,7 +125,7 @@ const schemaJson = [
         </div>
         <span
           >Prepared by the <a
-            href="/about#board"
+            href="/about/#board"
             class="font-semibold text-accent hover:underline"
             >CogniArena Scientific Review Board</a
           > &middot; Reviewed for Scientific Rigor</span
@@ -209,9 +214,9 @@ const schemaJson = [
         </h2>
         <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is task prioritization in cognitive science?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Task prioritization is the executive process of organizing,
               scheduling, and allocating limited attentional resources to
@@ -219,9 +224,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               Why is multi-tasking inefficient?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               The human brain cannot process two complex cognitive tasks
               simultaneously. Instead, it rapidly switches between them,
@@ -230,9 +235,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is task-set inertia?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Task-set inertia is the residual cognitive activation of a
               previous task's rules or stimulus associations. This lingers in
@@ -241,9 +246,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               How can I reduce cognitive switching costs?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               You can reduce switching costs by grouping similar tasks together,
               completing distinct task blocks before shifting focus, and

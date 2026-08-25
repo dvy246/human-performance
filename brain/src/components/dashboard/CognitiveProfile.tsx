@@ -16,6 +16,8 @@ import {
 import TestSummaryGrid from "./TestSummaryGrid"
 import MultiTrendChart from "./MultiTrendChart"
 import PersonalRecords from "./PersonalRecords"
+import { useI18n } from "../../runtime/useI18n"
+import { getLocalizedPath } from "../../i18n/translations"
 
 interface DiagnosticInfo {
   hz: number
@@ -206,6 +208,7 @@ const ACHIEVEMENTS_LIST = [
 ]
 
 export default function CognitiveProfile() {
+  const { t, lang } = useI18n()
   const [history, setHistory] = useState<SessionRecord[]>([])
   const [streak, setStreak] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(true)
@@ -610,13 +613,13 @@ export default function CognitiveProfile() {
           </div>
           <div className="flex flex-col gap-3 sm:flex-row">
             <a
-              href="/tests/reaction-time"
+              href={getLocalizedPath("/tests/reaction-time", lang)}
               className="transition-standard flex h-11 items-center rounded bg-accent px-6 font-mono text-xs font-semibold text-white uppercase shadow hover:bg-accent-hover active:scale-98"
             >
               Launch First Assessment
             </a>
             <a
-              href="/"
+              href={getLocalizedPath("/", lang)}
               className="transition-standard flex h-11 items-center rounded border border-card-border bg-subtle px-6 font-mono text-xs font-semibold text-foreground uppercase hover:bg-hover active:scale-98"
             >
               Browse All Assessments
@@ -727,12 +730,12 @@ export default function CognitiveProfile() {
           neuropsychological evaluations. If you have concerns about your
           cognitive function, memory, focus, or reflexes, please consult a
           licensed medical professional. Read our full{" "}
-          <a href="/terms" className="font-medium text-accent hover:underline">
+          <a href={getLocalizedPath("/terms", lang)} className="font-medium text-accent hover:underline">
             Terms
           </a>{" "}
           and{" "}
           <a
-            href="/methodology"
+            href={getLocalizedPath("/methodology", lang)}
             className="font-medium text-accent hover:underline"
           >
             Methodology
@@ -985,7 +988,7 @@ export default function CognitiveProfile() {
                   </div>
                   {!challengeCompleted && (
                     <a
-                      href={`/tests/${dailyChallenge.testId}`}
+                      href={getLocalizedPath(`/tests/${dailyChallenge.testId}`, lang)}
                       className="transition-standard shrink-0 rounded bg-accent px-4 py-2 font-mono text-xs font-semibold text-white uppercase hover:bg-accent-hover"
                     >
                       Play Challenge
@@ -1008,7 +1011,7 @@ export default function CognitiveProfile() {
                         {rec.text}
                       </span>
                       <a
-                        href={rec.link}
+                        href={getLocalizedPath(rec.link, lang)}
                         className="ml-3 shrink-0 font-mono text-[10px] text-accent uppercase hover:underline"
                       >
                         Train Now &rarr;

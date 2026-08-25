@@ -1,0 +1,236 @@
+---
+import Layout from "@/layouts/main.astro"
+
+const title = "Human Benchmark Alternative — CogniArena vs Human Benchmark"
+const description =
+  "Compare CogniArena and Human Benchmark: timing calibration, 29+ cognitive tests, 100% anonymous local-first privacy, and comprehensive scientific guides."
+const canonicalUrl = "https://cogniarena.com/compare/human-benchmark-alternative"
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: "Human Benchmark Alternative: CogniArena Feature & Accuracy Comparison",
+    description:
+      "A technical comparison between CogniArena and Human Benchmark evaluating timing precision, test variety, data privacy, and scientific documentation.",
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: "Home",
+        item: "https://cogniarena.com",
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: "Compare",
+        item: "https://cogniarena.com/compare/human-benchmark-alternative",
+      },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    mainEntity: [
+      {
+        "@type": "Question",
+        name: "What makes CogniArena a strong alternative to Human Benchmark?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "CogniArena offers 29+ cognitive assessments compared to Human Benchmark's 8 tests. It features hardware refresh rate calibration (up to 360Hz), double-nested requestAnimationFrame paint synchronization to eliminate browser latency jitter, 100% anonymous local-first storage without requiring an account, and 23 in-depth scientific learning guides.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "How does reaction time timing accuracy compare between both platforms?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Standard web reaction tests often measure latency directly on DOM state triggers, which introduces 8ms to 32ms of variable GPU composite jitter. CogniArena calibrates timing using a double-nested requestAnimationFrame loop that synchronizes timer start events with actual display buffer swaps and measures screen refresh rates.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Is CogniArena free to use?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "Yes. All 29+ tests, benchmark distribution curves, personal history dashboards, and learning guides on CogniArena are completely free with no registration or subscription required.",
+        },
+      },
+      {
+        "@type": "Question",
+        name: "Are CogniArena or Human Benchmark medical diagnostic tools?",
+        acceptedAnswer: {
+          "@type": "Answer",
+          text: "No. Neither platform provides medical, clinical, psychiatric, or neuropsychological evaluations. Both are designed exclusively for educational, self-tracking, and cognitive training purposes.",
+        },
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href="/" class="hover:underline">Home</a>
+        <span>/</span>
+        <span class="text-muted">Human Benchmark Alternative</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        Human Benchmark Alternative — Feature & Precision Comparison
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        A side-by-side technical comparison of CogniArena and Human Benchmark across measurement accuracy, assessment variety, privacy architecture, and scientific methodology.
+      </p>
+    </header>
+
+    <!-- Self-Tracking & Non-Medical Notice -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground">Important Note:</strong> Both CogniArena and Human Benchmark are self-tracking, educational, and cognitive training tools. Neither platform provides clinical, diagnostic, psychiatric, or neuropsychological evaluations.
+    </div>
+
+    <!-- Comparison Matrix Table -->
+    <section class="flex flex-col gap-4">
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        Platform Comparison Matrix
+      </h2>
+      <div class="overflow-x-auto rounded-xl border border-card-border bg-card">
+        <table class="w-full border-collapse text-left text-xs">
+          <thead>
+            <tr class="border-b border-card-border bg-subtle font-mono text-muted">
+              <th class="p-3.5">Feature / Dimension</th>
+              <th class="p-3.5 text-accent">CogniArena</th>
+              <th class="p-3.5">Human Benchmark</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-card-border/50 text-secondary">
+            <tr>
+              <td class="p-3.5 font-medium text-foreground">Total Cognitive Tests</td>
+              <td class="p-3.5 font-bold text-accent">29 Tests + The Gauntlet</td>
+              <td class="p-3.5">8 Tests</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-foreground">Hardware Refresh-Rate Snapping</td>
+              <td class="p-3.5 font-semibold text-foreground">Yes (60Hz to 360Hz auto-calibration)</td>
+              <td class="p-3.5">No</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-foreground">Paint-Sync Timing Precision</td>
+              <td class="p-3.5 font-semibold text-foreground">Double-nested requestAnimationFrame</td>
+              <td class="p-3.5">Standard browser event loop</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-foreground">Data Privacy &amp; Storage</td>
+              <td class="p-3.5 font-semibold text-foreground">100% Anonymous Local-First (IndexedDB)</td>
+              <td class="p-3.5">Account / Cloud-dependent</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-foreground">Account Required</td>
+              <td class="p-3.5 font-semibold text-accent">No (100% open access)</td>
+              <td class="p-3.5">Required for history tracking</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-foreground">Scientific Learning Guides</td>
+              <td class="p-3.5 font-semibold text-foreground">23 In-Depth Guides (1,500+ words each)</td>
+              <td class="p-3.5">Short descriptions</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-foreground">Multi-Axis Skill Radar (CAI)</td>
+              <td class="p-3.5 font-semibold text-foreground">Yes (6 Cognitive Axes: CAI 0–1000)</td>
+              <td class="p-3.5">No composite score</td>
+            </tr>
+            <tr>
+              <td class="p-3.5 font-medium text-foreground">Interactive Quizzes (IQ, Style)</td>
+              <td class="p-3.5 font-semibold text-foreground">Yes (ICAR-framework IQ test)</td>
+              <td class="p-3.5">No</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Deep-Dive Comparison Sections -->
+    <section class="flex flex-col gap-8 border-t border-card-border pt-10">
+      <article class="flex flex-col gap-3">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          1. Timing Accuracy &amp; Display Calibration
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Browser-based cognitive tests often suffer from variable latency caused by operating system compositors, GPU frame queuing, and monitor refresh cycles. On standard 60Hz displays, frame render times are 16.7ms, whereas high-refresh gaming displays (144Hz, 240Hz, 360Hz) draw frames every 6.9ms down to 2.7ms.
+        </p>
+        <p class="text-sm leading-relaxed text-muted">
+          CogniArena incorporates automated refresh rate detection and double-nested <code>requestAnimationFrame</code> paint synchronization in its reaction tests (including <a href="/tests/reaction-time/" class="text-accent hover:underline">Visual Reaction</a>, <a href="/tests/f1-lights/" class="text-accent hover:underline">F1 Start Lights</a>, and <a href="/tests/sound-reaction/" class="text-accent hover:underline">Sound Reaction</a>) to anchor timing start events to physical photon buffer updates.
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          2. Breadth of Cognitive Domains
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          While Human Benchmark covers core visual reaction and short-term memory benchmarks, CogniArena spans 29 individual assessments across 6 cognitive categories:
+        </p>
+        <ul class="flex list-inside list-disc flex-col gap-2 text-sm leading-relaxed text-muted">
+          <li><strong class="text-foreground">Reaction &amp; Reflexes:</strong> Visual Reaction, Sound Reflex, F1 Start Lights, Choice Reaction, Go/No-Go, Aim Coordination.</li>
+          <li><strong class="text-foreground">Memory:</strong> Sequence Memory, Number Memory, Visual Pattern, Dual N-Back, Verbal Memory.</li>
+          <li><strong class="text-foreground">Reasoning:</strong> Pattern Reasoning (matrices), Spatial Orientation, Speed Arithmetic, Quant-Dev Agility Grid.</li>
+          <li><strong class="text-foreground">Focus &amp; Attention:</strong> Stroop Test, Trail Making (TMT-A &amp; B), Focus Challenge (5 stages), Multiple Object Tracking (MOT).</li>
+          <li><strong class="text-foreground">Motor Performance:</strong> Click Speed (CPS), Aim Trainer, Mouse Accuracy, Flick Trainer, Typing Speed.</li>
+          <li><strong class="text-foreground">Executive Function:</strong> Decision Speed, Planning (Tower of Hanoi), Task Prioritization.</li>
+        </ul>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2 class="text-xl font-semibold tracking-tight text-foreground">
+          3. Local-First Privacy Architecture
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          CogniArena operates on a local-first philosophy. Your attempt history, personal bests, and CAI scores are stored directly in your browser's IndexedDB database. You do not need to create an account, provide an email address, or save personal data to a remote server to unlock long-term trend analytics or skill radar visualizations.
+        </p>
+      </article>
+    </section>
+
+    <!-- Call to Action / Explore Section -->
+    <section class="flex flex-col gap-4 rounded-xl border border-card-border bg-card p-6">
+      <h3 class="text-lg font-bold text-foreground">
+        Start Benchmarking Your Cognitive Performance
+      </h3>
+      <p class="text-sm leading-relaxed text-muted">
+        Try the single-test benchmarks or take the comprehensive 5-stage Gauntlet to calculate your composite CogniArena Index (CAI) score.
+      </p>
+      <div class="flex flex-wrap gap-3 pt-2">
+        <a
+          href="/tests/reaction-time/"
+          class="rounded-lg bg-accent px-4 py-2 text-xs font-semibold text-white transition-colors hover:bg-accent-hover"
+        >
+          Take Reaction Time Test →
+        </a>
+        <a
+          href="/gauntlet/"
+          class="rounded-lg border border-card-border bg-subtle px-4 py-2 text-xs font-semibold text-foreground transition-colors hover:border-accent"
+        >
+          Enter The Gauntlet →
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

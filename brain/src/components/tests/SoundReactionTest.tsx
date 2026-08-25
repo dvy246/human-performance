@@ -16,11 +16,13 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { getDifficultyParams } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type TestState =
   "idle" | "waiting" | "ready" | "attempt-result" | "abort" | "result"
 
 function SoundReactionTest() {
+  const { t } = useI18n()
   const [gameState, setGameState] = useState<TestState>("idle")
   const [attempts, setAttempts] = useState<number[]>([])
   const [currentScore, setCurrentScore] = useState<number | null>(null)
@@ -496,7 +498,7 @@ function SoundReactionTest() {
             <div className="mt-4 grid w-full max-w-sm grid-cols-3 gap-8 border-t border-card-border/50 pt-4 text-center">
               <div>
                 <span className="font-mono text-[10px] text-muted uppercase">
-                  Personal Best
+                  {t("test.personal_best", "Personal Best")}
                 </span>
                 <div className="font-mono text-sm text-foreground">
                   {personalBest ? `${personalBest} ms` : "--"}
@@ -504,10 +506,10 @@ function SoundReactionTest() {
               </div>
               <div>
                 <span className="font-mono text-[10px] text-muted uppercase">
-                  Calibrated Hz
+                  {t("test.calibrated_hz", "Calibrated Hz")}
                 </span>
                 <div className="font-mono text-sm text-foreground">
-                  {calibration ? `${calibration.hz}Hz` : "Detecting..."}
+                  {calibration ? `${calibration.hz}Hz` : t("test.detecting", "Detecting...")}
                 </div>
               </div>
               <div>
@@ -550,7 +552,7 @@ function SoundReactionTest() {
                   <polyline points="7 10 12 15 17 10" />
                   <line x1="12" x2="12" y1="15" y2="3" />
                 </svg>
-                <span>Download Reflex Card</span>
+                <span>{t("test.download_card", "Download Reflex Card")}</span>
               </a>
             )}
             <button
@@ -572,7 +574,7 @@ function SoundReactionTest() {
                 <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
               </svg>
               <span>
-                {copiedChallenge ? "Telemetry Copied!" : "Challenge a Friend"}
+                {copiedChallenge ? t("test.challenge_copied", "Telemetry Copied!") : t("test.challenge_friend", "Challenge a Friend")}
               </span>
             </button>
           </div>
@@ -595,7 +597,7 @@ function SoundReactionTest() {
                 <polyline points="23 4 23 10 17 10" />
                 <path d="M20.49 15a9 9 0 1 1-2.12-9.36L23 10" />
               </svg>
-              <span>Restart Assessment</span>
+              <span>{t("test.restart", "Restart Assessment")}</span>
             </button>
             <button
               onClick={() => setGameState("idle")}
@@ -615,7 +617,7 @@ function SoundReactionTest() {
                 <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 0 1-1 1.73l-.43.25a2 2 0 0 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.1a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z" />
                 <circle cx="12" cy="12" r="3" />
               </svg>
-              <span>Configure Test</span>
+              <span>{t("btn.configure", "Configure Test")}</span>
             </button>
           </div>
         </div>

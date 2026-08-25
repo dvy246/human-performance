@@ -1,0 +1,66 @@
+---
+import Layout from "@/layouts/main.astro"
+import TestBenchmarkPage from "@/components/benchmarks/TestBenchmarkPage"
+import { categoryConfigs, getBenchmarkConfig } from "@/data/benchmarks"
+import { nonDefaultLocales, type LangCode } from "@/i18n/translations"
+
+export async function getStaticPaths() {
+  const paths = []
+  for (const lang of nonDefaultLocales) {
+    for (const c of categoryConfigs) {
+      paths.push({
+        params: { lang, slug: c.slug },
+        props: { slug: c.slug, lang },
+      })
+    }
+  }
+  return paths
+}
+
+const { slug, lang } = Astro.props as { slug: string; lang: LangCode }
+const config = getBenchmarkConfig(slug)
+
+if (!config) {
+  return Astro.redirect(`/${lang}/benchmarks`)
+}
+
+const {
+  title,
+  description: configDescription,
+  lowerIsBetter,
+  metric,
+  unit,
+} = config
+const pageTitle = `${title} Benchmarks — Percentiles | CogniArena`
+const pageDescription = `Explore population distribution curves, age percentiles, and professional benchmarks for ${title.toLowerCase()} on CogniArena.`
+const canonicalUrl = `https://cogniarena.com/${lang}/benchmarks/${slug}`
+
+const metricDirection = lowerIsBetter ? "lowerScore" : "higherScore"
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "Dataset",
+  name: `${title} Benchmark Data`,
+  description: configDescription,
+  variableMeasured: {
+    "@type": "PropertyValue",
+    name: metric,
+    unitText: unit || undefined,
+    [metricDirection]: true,
+  },
+  provider: {
+    "@type": "Organization",
+    name: "CogniArena",
+    url: "https://cogniarena.com",
+  },
+}
+---
+
+<Layout
+  title={pageTitle}
+  description={pageDescription}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <TestBenchmarkPage config={config} client:load />
+</Layout>

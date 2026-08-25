@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer, type SessionRecord } from "@/runtime/dataLayer"
+import { useI18n } from "@/runtime/useI18n"
 
 const TEST_NAMES: Record<string, string> = {
   "reaction-time": "Visual Reaction Test",
@@ -31,6 +32,7 @@ const TEST_NAMES: Record<string, string> = {
 }
 
 export default function HistoryDashboard() {
+  const { t, lang } = useI18n()
   const [sessions, setSessions] = useState<SessionRecord[]>([])
   const [filter, setFilter] = useState<string>("all")
   const [isLoading, setIsLoading] = useState(true)
@@ -81,7 +83,7 @@ export default function HistoryDashboard() {
           No test history yet. Take your first test to see it here!
         </p>
         <a
-          href="/tests/reaction-time"
+          href="/tests/reaction-time/"
           className="inline-block rounded-md bg-accent px-4 py-2 text-sm text-white hover:opacity-90"
         >
           Take a Test

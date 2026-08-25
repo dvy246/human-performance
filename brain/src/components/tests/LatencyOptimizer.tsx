@@ -4,10 +4,12 @@ import { measureRefreshRate, type CalibrationResult } from "../../runtime/calibr
 import { dataLayer } from "../../runtime/dataLayer"
 import { lookupPercentile, formatTopPercentile } from "../../runtime/percentileLookup"
 import { useSound } from "../../runtime/useSound"
+import { useI18n } from "../../runtime/useI18n"
 
 type ActivePhase = "idle" | "calibrating" | "polling-test" | "reaction-test" | "result"
 
 export function LatencyOptimizer() {
+  const { t } = useI18n()
   const { playTone, playClick, playSuccess, playError } = useSound()
   const [phase, setPhase] = useState<ActivePhase>("idle")
   
@@ -438,7 +440,7 @@ export function LatencyOptimizer() {
                 onClick={startBenchmark}
                 className="btn-base btn-primary w-full cursor-pointer py-2.5 text-sm font-semibold rounded-lg"
               >
-                Restart Benchmark Setup
+                {t("test.restart", "Restart Benchmark Setup")}
               </button>
             </div>
           </div>

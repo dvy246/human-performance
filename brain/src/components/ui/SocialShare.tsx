@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import { encodeChallenge } from "../../runtime/share"
 import QRChallengeCard from "./QRChallengeCard"
+import { useI18n } from "../../runtime/useI18n"
 
 interface SocialShareProps {
   testId: string
@@ -22,6 +23,7 @@ export default function SocialShare({
   testName,
   percentile,
 }: SocialShareProps) {
+  const { t } = useI18n()
   const [copied, setCopied] = useState(false)
   const [showQR, setShowQR] = useState(false)
 
@@ -53,7 +55,7 @@ export default function SocialShare({
     <>
       <div className="mt-4 flex w-full flex-col gap-3 border-t border-card-border/40 pt-4">
         <span className="text-center font-mono text-[10px] tracking-wider text-muted uppercase sm:text-left">
-          Share & Challenge Friends
+          {t("social.share_challenge", "Share & Challenge Friends")}
         </span>
         <div className="flex flex-wrap items-center justify-center gap-2 sm:justify-start">
           <button
@@ -76,7 +78,7 @@ export default function SocialShare({
               <rect x="14" y="14" width="7" height="7" />
               <rect x="3" y="14" width="7" height="7" />
             </svg>
-            <span>QR Card</span>
+            <span>{t("social.qr_card", "QR Card")}</span>
           </button>
 
           <button
@@ -97,7 +99,7 @@ export default function SocialShare({
               <rect width="14" height="14" x="8" y="8" rx="2" ry="2" />
               <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" />
             </svg>
-            <span>{copied ? "Copied!" : "Copy Link"}</span>
+            <span>{copied ? t("social.copied", "Copied!") : t("social.copy_link", "Copy Link")}</span>
           </button>
 
           <a

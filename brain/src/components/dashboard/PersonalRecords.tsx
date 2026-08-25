@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer, type SessionRecord } from "@/runtime/dataLayer"
 import { formatTopPercentile } from "@/runtime/percentileLookup"
+import { useI18n } from "@/runtime/useI18n"
 
 const LOWER_IS_BETTER = new Set([
   "reaction-time",
@@ -57,6 +58,7 @@ interface PersonalBest {
 }
 
 export default function PersonalRecords() {
+  const { t, lang } = useI18n()
   const [records, setRecords] = useState<PersonalBest[]>([])
   const [isLoading, setIsLoading] = useState(true)
 
@@ -132,7 +134,7 @@ export default function PersonalRecords() {
           No personal records yet. Take your first test to start tracking!
         </p>
         <a
-          href="/tests/reaction-time"
+          href="/tests/reaction-time/"
           className="inline-block rounded-md bg-accent px-4 py-2 text-sm text-white hover:opacity-90"
         >
           Take a Test

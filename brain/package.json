@@ -16,7 +16,7 @@
     "typecheck": "astro check",
     "test": "vitest run",
     "test:watch": "vitest",
-    "deploy": "npm run build && npx wrangler pages deploy dist --commit-dirty=true"
+    "deploy": "npm run build && npx wrangler pages deploy dist --project-name brain --commit-dirty=true"
   },
   "dependencies": {
     "@astrojs/react": "^5",

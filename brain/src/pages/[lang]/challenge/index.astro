@@ -1,0 +1,102 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+---
+
+<Layout title="Resolving Challenge | CogniArena" robots="noindex, nofollow" lang={lang}>
+  <div
+    class="flex min-h-[300px] flex-col items-center justify-center gap-6 text-center"
+  >
+    <div
+      class="h-8 w-8 animate-spin rounded-full border-2 border-card-border border-t-accent"
+    >
+    </div>
+    <div class="flex flex-col gap-1">
+      <h2
+        class="text-sm font-medium text-foreground"
+        data-i18n="challenge.loading"
+      >
+        {t("challenge.loading", lang, "Decoding Challenge Link")}
+      </h2>
+      <p class="font-mono text-xs text-muted" data-i18n="challenge.preparing">
+        {t("challenge.preparing", lang, "Preparing test canvas and benchmarks...")}
+      </p>
+    </div>
+  </div>
+
+  <script>
+    import { decodeChallenge } from "@/runtime/share"
+
+    // Read token from URL (query param 'id', location hash, or trailing pathname)
+    const getHashToken = () => {
+      const params = new URLSearchParams(window.location.search)
+      if (params.get("id")) return params.get("id")
+
+      if (window.location.hash) return window.location.hash.substring(1)
+
+      const parts = window.location.pathname.split("/").filter(Boolean)
+      const challengeIdx = parts.indexOf("challenge")
+      if (challengeIdx !== -1 && parts.length > challengeIdx + 1) {
+        return parts[challengeIdx + 1]
+      }
+
+      return null
+    }
+
+    const VALID_TEST_IDS = new Set([
+      "reaction-time",
+      "sound-reaction",
+      "f1-lights",
+      "choice-reaction",
+      "go-no-go",
+      "sequence-memory",
+      "number-memory",
+      "visual-pattern",
+      "dual-n-back",
+      "verbal-memory",
+      "pattern-reasoning",
+      "spatial-orientation",
+      "stroop",
+      "trail-making",
+      "focus-challenge",
+      "click-speed",
+      "aim-trainer",
+      "mouse-accuracy",
+      "flick-trainer",
+      "typing-speed",
+      "decision-speed",
+      "planning",
+      "prioritization",
+    ])
+
+    const token = getHashToken()
+    const pathLocaleMatch = window.location.pathname.match(/^\/(es|fr|de|pt|ja)(\/|$)/)
+    const prefix = pathLocaleMatch ? `/${pathLocaleMatch[1]}` : ""
+
+    if (token) {
+      const payload = decodeChallenge(token)
+      if (payload && payload.testId) {
+        let route = payload.testId
+        if (route === "reaction") route = "reaction-time"
+
+        if (VALID_TEST_IDS.has(route)) {
+          window.location.href = `${prefix}/tests/${route}/?challenge=${token}`
+        } else {
+          window.location.href = `${prefix}/`
+        }
+      } else {
+        window.location.href = `${prefix}/`
+      }
+    } else {
+      window.location.href = `${prefix}/`
+    }
+  </script>
+</Layout>

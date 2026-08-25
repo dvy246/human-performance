@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer } from "../../runtime/dataLayer"
 import { generateRecoveryCode } from "../../runtime/recovery"
+import { useI18n } from "../../runtime/useI18n"
 
 export default function SyncPanel() {
+  const { t, lang } = useI18n()
   const [recoveryCode, setRecoveryCode] = useState<string | null>(null)
   const [showModal, setShowModal] = useState<boolean>(false)
   const [inputCode, setInputCode] = useState<string>("")

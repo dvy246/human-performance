@@ -16,11 +16,16 @@ const schemaJson = [
     publisher: {
       "@type": "Organization",
       name: "CogniArena",
+      url: "https://cogniarena.com/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://cogniarena.com/og-image.png",
+      },
     },
     author: {
       "@type": "Organization",
       name: "CogniArena Scientific Review Board",
-      url: "https://cogniarena.com/about#board",
+      url: "https://cogniarena.com/about/#board",
     },
     datePublished: "2026-07-05",
     dateModified: "2026-07-10",
@@ -120,7 +125,7 @@ const schemaJson = [
         </div>
         <span
           >Prepared by the <a
-            href="/about#board"
+            href="/about/#board"
             class="font-semibold text-accent hover:underline"
             >CogniArena Scientific Review Board</a
           > &middot; Reviewed for Scientific Rigor</span
@@ -183,39 +188,28 @@ const schemaJson = [
 
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold tracking-tight text-foreground">
-          3. Performance Benchmarks &amp; Average Human Reaction Time
+          3. Population Benchmarks: What is the Average Human Reaction Time?
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Ecological benchmarks reveal significant variance across populations.
-          If you want to know <strong class="text-foreground"
-            >what is the average reaction time</strong
-          >, the baseline <strong class="text-foreground"
-            >average human reaction time</strong
-          > or visual <strong class="text-foreground"
-            >average reaction time</strong
-          > is approximately 250ms when tested on standard consumer hardware. Elite
-          esports professionals, fighter pilots, and combat athletes operate in the
-          140ms to 180ms range, indicating heightened synaptic efficiency and neural
-          speed. Reaction time is highly sensitive to aging: peak performance is achieved
-          between ages 18 and 24, after which latency increases by approximately 2-3ms
-          per decade. This gradual decline is attributed to white matter demyelination,
-          leading to slower action potential propagation along cortical axons, along
-          with reduced neurotransmitter availability in motor planning centers.
+          Across general population studies, the normative baseline visual reaction speed
+          is approximately 250 milliseconds when measured on standard desktop displays.
+          Elite esports professionals, fighter pilots, and combat athletes frequently operate
+          in the 140ms to 180ms range, reflecting optimized synaptic transmission and
+          trained motor preparation. Reaction time is sensitive to chronological aging:
+          peak physiological performance occurs between ages 18 and 24, after which latency
+          gradually increases by approximately 2–3ms per decade due to progressive white
+          matter demyelination and reduced neurotransmitter availability in motor planning cortex.
         </p>
       </article>
 
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold tracking-tight text-foreground">
-          4. Training Protocols: How to Improve Reaction Time &amp; Best
-          Exercises
+          4. Evidence-Based Training Protocols to Improve Reaction Speed
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Optimizing reaction speed requires addressing both physiological and
-          technical variables. If you want to know <strong
-            class="text-foreground">how to improve reaction time</strong
-          >, implementing the <strong class="text-foreground"
-            >best exercises for reaction time</strong
-          > can yield significant results. Try these targeted techniques:
+          Optimizing reaction speed requires targeting both neuromuscular pathways and
+          cognitive decision stages. Implementing structured drills can yield measurable
+          latency reductions:
         </p>
         <ul
           class="list-inside list-disc space-y-2 text-sm leading-relaxed text-muted"
@@ -257,9 +251,9 @@ const schemaJson = [
         </h2>
         <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is the average human reaction time?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               The average visual reaction speed is roughly 250 milliseconds for
               the general population. Auditory reaction speeds are faster,
@@ -269,9 +263,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               Can you train your reaction time to be faster?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Yes, to an extent. While baseline neural conduction velocity is
               genetically bounded by axonal myelination, you can improve
@@ -282,9 +276,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               How much does screen refresh rate affect my score?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Significantly. A 60Hz display introduces up to 16.7ms of visual
               lag between when the computer registers a change and when it is
@@ -294,9 +288,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What factors can temporarily slow down reaction time?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Common temporary inhibitors include sleep deprivation, mental
               fatigue, alcohol consumption, dehydration, and distraction. Even

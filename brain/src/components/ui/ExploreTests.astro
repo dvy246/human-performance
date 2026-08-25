@@ -1,22 +1,29 @@
 ---
 import Icon from "@/components/ui/Icon.astro"
-import { allTests, categories, getTestsByCategory } from "@/data/tests"
+import { allTests, categories, getTestsByCategory, getLocalizedTest } from "@/data/tests"
+import { t, type LangCode } from "@/i18n/translations"
 
 export interface Props {
   currentSlug?: string
   title?: string
+  lang?: LangCode
 }
 
-const { currentSlug, title = "Explore All Assessments" } = Astro.props
-const grouped = getTestsByCategory()
+const { currentSlug, title, lang = "en" } = Astro.props
+const localePrefix = lang === "en" ? "" : `/${lang}`
+const displayTitle = title || t("hero.cta_secondary", lang, "Explore All Assessments").replace(/→|&rarr;/g, "").trim()
+const grouped = getTestsByCategory(lang)
 // Build schema.org ItemList for SEO
-const itemListElements = allTests.map((t, i) => ({
-  "@type": "ListItem",
-  position: i + 1,
-  name: t.title,
-  description: t.shortDesc,
-  url: `https://cogniarena.com${t.href}`,
-}))
+const itemListElements = allTests.map((t, i) => {
+  const loc = getLocalizedTest(t, lang)
+  return {
+    "@type": "ListItem",
+    position: i + 1,
+    name: loc.title,
+    description: loc.shortDesc,
+    url: `https://cogniarena.com${localePrefix}${loc.href}`,
+  }
+})
 const exploreSchema = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -32,10 +39,9 @@ const exploreSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(exploreSchema)} />
 
   <header class="flex flex-col gap-2">
-    <h2 class="text-2xl font-bold tracking-tight text-foreground">{title}</h2>
+    <h2 class="text-2xl font-bold tracking-tight text-foreground">{displayTitle}</h2>
     <p class="text-sm leading-relaxed text-muted">
-      Explore all {allTests.length} cognitive assessments across six domains. Each
-      test runs locally in your browser with sub-millisecond precision.
+      {t("explore.subtitle", lang, `Explore all ${allTests.length} cognitive assessments across six domains. Each test runs locally in your browser with sub-millisecond precision.`)}
     </p>
   </header>
 
@@ -58,7 +64,7 @@ const exploreSchema = {
               (currentSlug === "gauntlet" && test.slug === "gauntlet")
             return (
               <a
-                href={isCurrent ? undefined : test.href}
+                href={isCurrent ? undefined : `${localePrefix}${test.href}`}
                 class={`card-interactive group flex flex-col justify-between gap-4 rounded-xl border p-5 ${
                   isCurrent
                     ? "cursor-default border-accent/40 bg-accent/5"
@@ -74,7 +80,7 @@ const exploreSchema = {
                     </h4>
                     {isCurrent && (
                       <span class="rounded bg-accent/10 px-1.5 py-0.5 font-mono text-[9px] tracking-wider text-accent uppercase">
-                        Current
+                        {t("btn.current", lang, "Current")}
                       </span>
                     )}
                   </div>
@@ -84,7 +90,7 @@ const exploreSchema = {
                 </div>
                 {!isCurrent && (
                   <span class="font-mono text-[10px] tracking-widest text-accent uppercase group-hover:underline">
-                    Take Test &rarr;
+                    {t("btn.take_test", lang, "Take Test")} &rarr;
                   </span>
                 )}
               </a>

@@ -1,0 +1,112 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const canonicalUrl = `https://cogniarena.com/${lang}/privacy`
+const title = `${t("privacy.title", lang, "Privacy Policy")} | CogniArena`
+const description = t("privacy.subtitle", lang, "CogniArena Privacy Policy. We use browser local storage (IndexedDB) for local-first tracking without collecting personal identifiers.")
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("footer.privacy", lang, "Privacy Policy"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-10 py-4">
+    <header class="flex flex-col gap-3">
+      <span
+        class="font-mono text-xs tracking-widest text-accent uppercase"
+        data-i18n="privacy.badge">{t("privacy.badge", lang, "Legal Documentation")}</span
+      >
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="privacy.title"
+      >
+        {t("privacy.title", lang, "Privacy Policy")}
+      </h1>
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+        data-i18n="privacy.subtitle"
+      >
+        {t("privacy.subtitle", lang, "Effective date: July 5, 2026. We prioritize local-first data isolation.")}
+      </p>
+    </header>
+
+    <section
+      class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm leading-relaxed text-muted dark:text-muted"
+    >
+      <article class="flex flex-col gap-3">
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="privacy.s1_title"
+        >
+          {t("privacy.s1_title", lang, "1. Local Storage Ledger")}
+        </h2>
+        <p data-i18n="privacy.s1_desc">
+          {t("privacy.s1_desc", lang, "All completed runs, scores, raw latencies, and percentiles are processed and saved locally in your browser's IndexedDB. We do not transmit or access this ledger unless you explicitly select Cloud Sync.")}
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="privacy.s2_title"
+        >
+          {t("privacy.s2_title", lang, "2. Optional Cloud Sync")}
+        </h2>
+        <p data-i18n="privacy.s2_desc">
+          {t("privacy.s2_desc", lang, "If you opt to backup your dashboard stats, an anonymous hashed recovery key maps your encrypted scores to our database hosted on Cloudflare edge systems. No emails, names, or physical telemetry data are linked to the sync token.")}
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="privacy.s3_title"
+        >
+          {t("privacy.s3_title", lang, "3. Analytics and AdSense Cookies")}
+        </h2>
+        <p data-i18n="privacy.s3_desc">
+          {t("privacy.s3_desc", lang, "To maintain server calibration costs, we partner with premium ad exchanges (such as Google AdSense). These third-party networks may place anonymous tracking cookies on your device to serve relevant advertisements, in compliance with GDPR and CCPA protocols.")}
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

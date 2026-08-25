@@ -16,11 +16,16 @@ const schemaJson = [
     publisher: {
       "@type": "Organization",
       name: "CogniArena",
+      url: "https://cogniarena.com/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://cogniarena.com/og-image.png",
+      },
     },
     author: {
       "@type": "Organization",
       name: "CogniArena Scientific Review Board",
-      url: "https://cogniarena.com/about#board",
+      url: "https://cogniarena.com/about/#board",
     },
     datePublished: "2026-07-05",
     dateModified: "2026-07-10",
@@ -120,7 +125,7 @@ const schemaJson = [
         </div>
         <span
           >Prepared by the <a
-            href="/about#board"
+            href="/about/#board"
             class="font-semibold text-accent hover:underline"
             >CogniArena Scientific Review Board</a
           > &middot; Reviewed for Scientific Rigor</span
@@ -211,9 +216,9 @@ const schemaJson = [
         </h2>
         <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is the average human clicking speed?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               The average human clicking speed is 6 to 7 Clicks Per Second (CPS)
               using standard finger clicking. With specialized techniques, this
@@ -221,9 +226,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               Is jitter clicking safe?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Jitter clicking involves tensing forearm muscles to vibrate the
               finger, which can cause muscle strain, tendonitis, or carpal
@@ -232,9 +237,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               How does mouse debounce delay affect CPS?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Debounce delay is a firmware safeguard that ignores rapid switch
               vibrations to prevent double-clicks. If set too high, it will
@@ -243,9 +248,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What are fast-twitch muscle fibers?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Type IIb fast-twitch fibers are muscle cells designed for rapid,
               explosive movements. They contract quickly but rely on anaerobic

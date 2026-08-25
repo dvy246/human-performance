@@ -1,0 +1,68 @@
+---
+import Layout from "@/layouts/main.astro"
+import PersonalRecords from "@/components/dashboard/PersonalRecords"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const canonicalUrl = `https://cogniarena.com/${lang}/records`
+const title = `${t("records.title", lang, "Personal Records")} - CogniArena`
+const description = t("records.desc", lang, "Your best scores across all tests. Keep improving to set new records!")
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("records.title", lang, "Personal Records"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="space-y-6">
+    <div>
+      <h1
+        class="mb-2 text-2xl font-bold text-foreground"
+        data-i18n="records.title"
+      >
+        {t("records.title", lang, "Personal Records")}
+      </h1>
+      <p class="text-sm text-muted" data-i18n="records.desc">
+        {t("records.desc", lang, "Your best scores across all tests. Keep improving to set new records!")}
+      </p>
+    </div>
+
+    <PersonalRecords client:load />
+  </div>
+</Layout>

@@ -13,6 +13,7 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { loadTestConfig } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type GameMode = "pattern" | "matrix" | "sequence" | "analogy"
 type GameState = "idle" | "running" | "result"
@@ -615,6 +616,7 @@ function generateAnalogyQuestion(difficulty: string): GeneratedQuestion {
 // ─── Main Component ──────────────────────────────────────────────────────────
 
 function PatternReasoningTest() {
+  const { t } = useI18n()
   const [gameState, setGameState] = useState<GameState>("idle")
   const [currentMode, setCurrentMode] = useState<GameMode>("pattern")
   const [questions, setQuestions] = useState<GeneratedQuestion[]>([])
@@ -1006,13 +1008,13 @@ function PatternReasoningTest() {
               }
               className="transition-standard h-11 rounded-lg bg-accent font-mono text-xs font-bold tracking-wider text-white uppercase shadow hover:bg-accent-hover active:scale-98"
             >
-              Next Format ➔
+              {t("btn.next_format", "Next Format ➔")}
             </button>
             <button
               onClick={() => setGameState("idle")}
               className="transition-standard h-11 rounded-lg border border-card-border font-mono text-xs font-bold tracking-wider text-foreground uppercase shadow hover:bg-subtle active:scale-98"
             >
-              Main Menu
+              {t("btn.main_menu", "Main Menu")}
             </button>
           </div>
 

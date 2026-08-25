@@ -1,0 +1,175 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/about`
+const title = `${t("about.title", lang, "About CogniArena")} | CogniArena`
+const description = t("about.subtitle", lang, "Learn about the mission, E-E-A-T research credentials, and engineering design values of CogniArena.")
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("footer.about", lang, "About"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "@id": `https://cogniarena.com/${lang}/about/#board`,
+    name: "CogniArena Scientific Review Board",
+    url: canonicalUrl,
+    logo: {
+      "@type": "ImageObject",
+      url: "https://cogniarena.com/og-image.svg",
+    },
+    description:
+      "Scientific and editorial board overseeing cognitive calibration formulas, assessment validation protocols, and educational research integrity.",
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-10 py-4">
+    <header class="flex flex-col gap-3">
+      <span
+        class="font-mono text-xs tracking-widest text-accent uppercase"
+        data-i18n="about.badge">{t("about.badge", lang, "About Our Platform")}</span
+      >
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="about.title"
+      >
+        {t("about.title", lang, "Platform Mission & Research Integrity")}
+      </h1>
+      <p
+        class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+        data-i18n="about.subtitle"
+      >
+        {t("about.subtitle", lang, "CogniArena was created to provide high-precision, accessible, and scientifically grounded cognitive assessment telemetry.")}
+      </p>
+    </header>
+
+    <section
+      class="flex flex-col gap-8 border-t border-card-border pt-10 text-sm leading-relaxed text-muted dark:text-muted"
+    >
+      <article class="flex flex-col gap-3">
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="about.s1_title"
+        >
+          {t("about.s1_title", lang, "1. Core Design Values")}
+        </h2>
+        <p data-i18n="about.s1_desc">
+          {t("about.s1_desc", lang, "We build for local-first privacy, sub-millisecond paint sync alignment, and complete research transparency. We explicitly reject intrusive ads that trigger layout shifts (CLS) to preserve timing accuracy and provide professional-grade performance logs.")}
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="about.s2_title"
+        >
+          {t("about.s2_title", lang, "2. Scientific Methodological Rigor")}
+        </h2>
+        <p data-i18n="about.s2_desc">
+          {t("about.s2_desc", lang, "Our cognitive measurement models map standard psychological frameworks (such as Hick's Law for choice reaction and Miller's Law for working memory span capacity). All demographic percentile curves are derived from peer-reviewed cognitive science datasets.")}
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="about.s3_title"
+        >
+          {t("about.s3_title", lang, "3. Local-First Architecture")}
+        </h2>
+        <p data-i18n="about.s3_desc">
+          {t("about.s3_desc", lang, "We believe you own your cognitive data. Your performance logs are stored securely in your browser's local cache (IndexedDB). No personal metrics are uploaded to cloud servers unless you explicitly configure the optional edge-sync backup engine.")}
+        </p>
+      </article>
+
+      <article class="flex flex-col gap-3">
+        <h2
+          class="text-lg font-bold text-foreground"
+          data-i18n="about.s4_title"
+        >
+          {t("about.s4_title", lang, "4. Team & Ownership")}
+        </h2>
+        <p data-i18n="about.s4_desc">
+          {t("about.s4_desc", lang, "CogniArena is built and maintained by a small independent team of cognitive science researchers, performance engineers, and design practitioners. Our work sits at the intersection of experimental psychology and modern web performance engineering.")}
+        </p>
+        <p data-i18n="about.s4_contact">
+          For inquiries, partnerships, or research collaboration, reach us at <a
+            href="mailto:hello@cogniarena.com"
+            class="text-accent hover:underline">hello@cogniarena.com</a
+          >.
+        </p>
+      </article>
+
+      <article id="board" class="flex flex-col gap-4 border-t border-card-border/40 pt-6">
+        <h2 class="text-lg font-bold text-foreground">
+          5. Scientific &amp; Editorial Board
+        </h2>
+        <div
+          class="flex items-start gap-4 rounded-xl border border-card-border bg-card p-4"
+        >
+          <div
+            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-accent/30 bg-accent/15 text-lg font-bold text-accent"
+          >
+            CA
+          </div>
+          <div class="flex flex-col gap-1">
+            <h3 class="text-sm font-bold text-foreground">
+              CogniArena Scientific Review Board
+            </h3>
+            <span class="text-xs font-medium text-accent"
+              >Methodological Integrity &amp; Editorial Oversight</span
+            >
+            <p class="mt-1 text-xs leading-relaxed text-muted">
+              CogniArena's assessments, mathematical models, and educational
+              guides are reviewed and updated by an internal editorial and
+              scientific review board. We ensure our testing methodologies align
+              with published standards in cognitive psychology, hardware
+              response telemetry research, and neuropsychological testing
+              benchmarks.
+            </p>
+          </div>
+        </div>
+      </article>
+    </section>
+  </div>
+</Layout>

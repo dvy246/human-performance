@@ -1,13 +1,16 @@
+import { useI18n } from "@/runtime/useI18n"
+
 interface Props {
   factors: { icon: string; title: string; body: string }[]
 }
 
 export default function PerformanceFactors({ factors }: Props) {
+  const { t } = useI18n()
   if (!factors || factors.length === 0) return null
   return (
     <div className="rounded-xl border border-card-border bg-card p-4">
       <h3 className="mb-4 text-sm font-semibold text-foreground">
-        Key Performance Factors
+        {t("bench.factors_title", "Key Performance Factors")}
       </h3>
       <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
         {factors.map((f) => (

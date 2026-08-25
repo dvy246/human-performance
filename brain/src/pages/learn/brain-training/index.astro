@@ -16,11 +16,16 @@ const schemaJson = [
     publisher: {
       "@type": "Organization",
       name: "CogniArena",
+      url: "https://cogniarena.com/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://cogniarena.com/og-image.png",
+      },
     },
     author: {
       "@type": "Organization",
       name: "CogniArena Scientific Review Board",
-      url: "https://cogniarena.com/about#board",
+      url: "https://cogniarena.com/about/#board",
     },
     datePublished: "2026-07-05",
     dateModified: "2026-07-10",
@@ -120,7 +125,7 @@ const schemaJson = [
         </div>
         <span
           >Prepared by the <a
-            href="/about#board"
+            href="/about/#board"
             class="font-semibold text-accent hover:underline"
             >CogniArena Scientific Review Board</a
           > &middot; Reviewed for Scientific Rigor</span
@@ -129,13 +134,10 @@ const schemaJson = [
       <p
         class="text-sm leading-relaxed text-muted md:text-base dark:text-muted"
       >
-        Developing your <strong class="text-foreground">mind power</strong> and <strong
-          class="text-foreground">brain power</strong
-        > requires structured engagement. This guide evaluates the neuroscience behind
-        cognitive brain training, executive control development, and how to utilize
-        a <strong class="text-foreground">free brain test</strong> or <strong
-          class="text-foreground">free cognitive test</strong
-        > to measure your neuroplasticity baseline.
+        Enhancing cognitive capacity and executive control requires structured
+        engagement with validated cognitive paradigms. This guide examines the
+        neurobiology of brain training, working memory transfer, and how systematic
+        self-tracking helps establish an objective baseline of cognitive performance.
       </p>
     </header>
 
@@ -162,19 +164,20 @@ const schemaJson = [
 
       <article class="flex flex-col gap-4">
         <h2 class="text-xl font-bold tracking-tight text-foreground">
-          2. Cognitive Modeling &amp; Theoretical Frameworks
+          2. Mathematical &amp; Computational Models
         </h2>
         <p class="text-sm leading-relaxed text-muted dark:text-muted">
-          Cognitive training is modeled using neuroplasticity and cognitive
-          reserve frameworks. Neuroplasticity is the brain's ability to
-          reorganize itself by forming new neural connections in response to
-          learning or experience. Training challenges executive networks,
-          triggering the release of brain-derived neurotrophic factor (BDNF) and
-          promoting synaptic growth. While the extent of 'far-transfer'
-          (improving unrelated real-world skills) is debated, training
-          consistently improves 'near-transfer' skills—cognitive control,
-          attention gating, and working memory updating within the trained
-          domains.
+          Cognitive stamina and task-switching costs follow well-defined decay
+          models. Time-on-task performance degradation can be modeled as an
+          exponential decay function of vigilance: <code>V(t) = V₀ · e^(-kt)</code>,
+          where <code>V₀</code> is initial vigilance, <code>k</code> is the
+          fatigue coefficient, and <code>t</code> is time on task. Executive
+          switch costs are quantified by the difference in reaction time
+          between switch trials and repeat trials:
+          <code>Switch Cost = RT_switch - RT_repeat</code>. Systematic
+          cognitive training reduces the fatigue coefficient <code>k</code> and
+          minimizes switch costs, allowing for longer sustained focus periods
+          with fewer attentional lapses.
         </p>
       </article>
 
@@ -186,10 +189,10 @@ const schemaJson = [
           Average attention spans and focus stamina vary by age, lifestyle, and
           cognitive load. Digital environments with frequent interruptions can
           reduce attentional stamina, leading to rapid fatigue during sustained
-          focus tasks. Cognitive training programs have shown efficacy in
-          improving attentional focus in individuals with ADHD, aging adults,
-          and high-performance professionals, helping to build cognitive reserve
-          and maintain executive function.
+          focus tasks. Cognitive training programs have shown positive utility in
+          supporting attentional focus across student populations, aging adults,
+          and high-performance professionals, contributing to cognitive reserve
+          and executive function maintenance.
         </p>
       </article>
 
@@ -214,9 +217,9 @@ const schemaJson = [
         </h2>
         <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               Does cognitive brain training work?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Consistent training improves cognitive control, working memory,
               and attention within trained areas (near-transfer). While it may
@@ -225,9 +228,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What is neuroplasticity?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Neuroplasticity is the brain's ability to adapt and change its
               structure and function in response to training, learning, or
@@ -235,9 +238,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               How does inhibitory control support focus?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Inhibitory control allows the brain to suppress impulsive
               responses to distractions or incorrect triggers, helping you
@@ -245,9 +248,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               How long should I train to see cognitive benefits?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Consistent practice of 15 to 20 minutes daily, 3-4 times a week,
               has been shown to improve focus and cognitive control within a few

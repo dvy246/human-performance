@@ -1,0 +1,912 @@
+---
+import Layout from "@/layouts/main.astro"
+import Icon from "@/components/ui/Icon.astro"
+import BrainScoreDashboard from "@/components/dashboard/BrainScoreDashboard"
+import GameSearch from "@/components/ui/GameSearch"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/`
+const title = `${t("hero.title", lang, "How Fast is Your Brain?")} — CogniArena`
+const description = t("hero.subtitle", lang, "Take free cognitive tests and reflex assessments directly in your browser.").replace(/<[^>]*>/g, "")
+
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: [
+    {
+      "@type": "Question",
+      name: t("faq.q1", lang, "What is CogniArena?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a1", lang, "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q2", lang, "Is my data stored or sent anywhere?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a2", lang, "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q3", lang, "How accurate are the measurements?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a3", lang, "We use requestAnimationFrame timing with sub-millisecond precision. Our calibration system accounts for monitor refresh rate and browser input latency to give you the most accurate physical reaction measurements possible."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q4", lang, "What is the Brain Challenge (Gauntlet)?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions."),
+      },
+    },
+    {
+      "@type": "Question",
+      name: t("faq.q5", lang, "Can I improve my scores over time?"),
+      acceptedAnswer: {
+        "@type": "Answer",
+        text: t("faq.a5", lang, "Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement."),
+      },
+    },
+  ],
+}
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    {
+      "@type": "ListItem",
+      position: 1,
+      name: t("mobile.home", lang, "Home"),
+      item: canonicalUrl,
+    },
+  ],
+}
+
+const webPageSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  name: title,
+  description: description,
+  url: canonicalUrl,
+  publisher: {
+    "@type": "Organization",
+    name: "CogniArena",
+    url: "https://cogniarena.com/",
+  },
+}
+
+const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="flex flex-col gap-16 sm:gap-20 md:gap-24 py-6 md:py-12">
+    <!-- ===== HERO: The Challenge ===== -->
+    <section
+      class="animate-fade-in-up hero-glow relative mx-auto flex w-full max-w-5xl flex-col items-center px-4 sm:px-6 text-center"
+    >
+      <!-- Trust badge -->
+      <div
+        class="mb-6 inline-flex items-center gap-2 rounded-full border border-accent/30 bg-accent/10 px-5 py-2 font-mono text-xs tracking-wider uppercase backdrop-blur-sm"
+        style="color: var(--accent);"
+      >
+        <svg
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+          ><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg
+        >
+        <span class="font-semibold" data-i18n="hero.badge"
+          >{t("hero.badge", lang, "23+ Cognitive Benchmarks")}</span
+        >
+        <span class="h-3 w-px bg-accent/40"></span>
+        <span class="opacity-80" data-i18n="hero.anonymous">{t("hero.anonymous", lang, "100% Anonymous")}</span
+        >
+      </div>
+
+      <!-- Main headline with gradient -->
+      <h1
+        class="hero-gradient-text mb-4 text-4xl leading-[1.05] font-black tracking-tight sm:text-5xl md:text-6xl lg:text-7xl"
+      >
+        <span data-i18n="hero.title">{t("hero.title", lang, "How Fast is Your Brain?")}</span>
+      </h1>
+
+      <!-- Subtitle -->
+      <p
+        class="mb-8 max-w-2xl text-base leading-relaxed text-secondary sm:text-lg md:text-xl"
+        data-i18n-html="hero.subtitle"
+      >
+        {t("hero.subtitle", lang, "Challenge your reflexes, attention, and memory with 23+ free online games and assessments directly in your browser.")}
+      </p>
+
+      <!-- Stat cards row -->
+      <div
+        class="mb-8 flex w-full max-w-2xl flex-wrap items-center justify-center gap-4 sm:gap-6"
+      >
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-accent tabular-nums sm:text-4xl"
+            >250ms</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_reaction">{t("hero.stat_reaction", lang, "Avg Reaction")}</span
+          >
+        </div>
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-foreground/80 tabular-nums sm:text-4xl"
+            >7&plusmn;2</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_memory">{t("hero.stat_memory", lang, "Memory Span")}</span
+          >
+        </div>
+        <div
+          class="hero-stat-card flex flex-col items-center rounded-xl border border-card-border bg-card/60 px-6 py-4 backdrop-blur-sm"
+        >
+          <span
+            class="font-mono text-3xl leading-none font-black text-accent/80 tabular-nums sm:text-4xl"
+            >60s</span
+          >
+          <span
+            class="mt-2 font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.stat_focus">{t("hero.stat_focus", lang, "Focus Challenge")}</span
+          >
+        </div>
+      </div>
+
+      <!-- Single CTA -->
+      <a
+        href={`${localePrefix}/gauntlet/`}
+        class="hero-cta-primary transition-standard animate-pulse-glow inline-flex h-14 cursor-pointer items-center justify-center gap-2.5 rounded-xl bg-accent px-10 text-base font-bold text-white shadow-lg shadow-accent/20 hover:bg-accent-hover focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:outline-none active:scale-[0.97]"
+      >
+        <svg
+          width="18"
+          height="18"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>
+        </svg>
+        <span data-i18n="hero.cta_primary">{t("hero.cta_primary", lang, "Take the Brain Challenge")}</span>
+      </a>
+
+      <!-- Social proof -->
+      <div
+        class="mt-8 flex items-center justify-center gap-3 font-mono text-[11px] text-muted"
+      >
+        <div class="flex -space-x-1.5">
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-accent/20"
+            ><Icon name="zap" size={10} /></span
+          >
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-purple-500/20"
+            ><Icon name="brain" size={10} /></span
+          >
+          <span
+            class="flex h-5 w-5 items-center justify-center rounded-full border border-card bg-cyan-500/20"
+            ><Icon name="crosshair" size={10} /></span
+          >
+        </div>
+        <span data-i18n="hero.trust"
+          >{t("hero.trust", lang, "Trusted by researchers & cognitive enthusiasts")}</span
+        >
+      </div>
+    </section>
+
+    <!-- ===== BRAIN ROT CHALLENGE ===== -->
+    <section
+      class="animate-fade-in-up stagger-1 mx-auto w-full max-w-4xl px-4 sm:px-6"
+    >
+      <div
+        class="card-interactive group relative flex flex-col items-center gap-6 overflow-hidden rounded-2xl border border-accent/20 bg-gradient-to-br from-amber-950/20 via-card to-rose-950/20 p-6 sm:p-8 md:flex-row md:gap-8 backdrop-blur-sm"
+      >
+        <div
+          class="pointer-events-none absolute -top-16 -right-16 h-64 w-64 rounded-full bg-amber-500/5 blur-3xl"
+        >
+        </div>
+        <div
+          class="pointer-events-none absolute -bottom-16 -left-16 h-64 w-64 rounded-full bg-rose-500/5 blur-3xl"
+        >
+        </div>
+        <div class="flex w-full shrink-0 justify-center md:w-1/3">
+          <div class="relative">
+            <div
+              class="flex h-28 w-28 items-center justify-center rounded-2xl border border-accent/30 bg-gradient-to-br from-amber-500/20 to-rose-500/20 text-5xl transition-transform duration-500 group-hover:scale-110"
+            >
+              🧠
+            </div>
+            <span class="absolute -top-1 -right-1 animate-pulse text-xs">🔥</span>
+          </div>
+        </div>
+        <div class="flex flex-1 flex-col gap-4 text-left">
+          <div class="flex items-center gap-2">
+            <span
+              class="font-mono text-[10px] tracking-widest text-warning uppercase"
+              >{t("hero.brain_rot_new", lang, "New Challenge")}</span
+            >
+            <span
+              class="rounded bg-[var(--error-bg)] px-1.5 py-0.5 font-mono text-[9px] tracking-wider text-error uppercase"
+              >{t("hero.brain_rot_edition", lang, "Brain Rot Edition")}</span
+            >
+          </div>
+          <h2 class="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+            {t("hero.brain_rot_title", lang, "Can You Survive the Brain Rot Challenge?")}
+          </h2>
+          <p class="text-sm leading-relaxed text-secondary">
+            {t("hero.brain_rot_desc", lang, "A 5-stage attention gauntlet — selective focus, impulse control, task switching, sustained vigilance, and working memory under distraction.")}
+          </p>
+          <div class="flex flex-wrap items-center gap-4 sm:gap-6 font-mono text-xs text-muted">
+            <span class="flex items-center gap-1.5"><Icon name="crosshair" size={12} /> {t("hero.stages_label", lang, "5 stages")}</span>
+            <span>⏱️ {t("hero.duration_approx", lang, "~4 minutes")}</span>
+            <span class="flex items-center gap-1.5"
+              ><Icon name="chart-bar" size={12} /> {t("hero.composite_label", lang, "Composite score + percentile")}</span
+            >
+          </div>
+          <div class="mt-1 flex flex-wrap items-center gap-3">
+            <a href={`${localePrefix}/tests/focus-challenge/`}>
+              <button
+                class="transition-standard h-11 cursor-pointer rounded-lg bg-accent px-5 text-xs font-semibold text-white shadow-sm hover:bg-accent-hover active:scale-95"
+              >
+                {t("hero.accept_challenge", lang, "Accept Challenge")}
+              </button>
+            </a>
+            <a href={`${localePrefix}/tests/focus-challenge/#learn`}>
+              <button
+                class="transition-standard h-11 cursor-pointer rounded-lg border border-card-border bg-subtle px-5 text-xs text-secondary hover:text-foreground active:scale-95"
+              >
+                {t("hero.learn_more", lang, "Learn More")}
+              </button>
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== STATS BAR ===== -->
+    <section class="animate-fade-in-up stagger-2 mx-auto w-full max-w-4xl px-4 sm:px-6">
+      <div
+        class="flex items-center justify-center gap-6 rounded-2xl border border-card-border/60 bg-card/40 py-4 px-6 text-center backdrop-blur-xs sm:gap-12 md:gap-16"
+      >
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums sm:text-2xl"
+            >23+</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.badge">Assessments</span
+          >
+        </div>
+        <span class="h-8 w-px bg-card-border/80"></span>
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums sm:text-2xl"
+            >100%</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            data-i18n="hero.anonymous">{t("hero.anonymous", lang, "100% Anonymous")}</span
+          >
+        </div>
+        <span class="h-8 w-px bg-card-border/80"></span>
+        <div>
+          <span class="block text-xl font-bold text-foreground tabular-nums sm:text-2xl"
+            >&lt;1ms</span
+          >
+          <span
+            class="font-mono text-[10px] tracking-widest text-muted uppercase"
+            >{t("test.calibration_precise", lang, "Timer Precision")}</span
+          >
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== BRAIN SCORE DASHBOARD ===== -->
+    <section
+      class="animate-fade-in-up stagger-3 mx-auto flex w-full max-w-4xl flex-col items-center px-4 sm:px-6"
+    >
+      <BrainScoreDashboard client:visible />
+    </section>
+
+    <!-- ===== 6 CATEGORY LINKS ===== -->
+    <section class="animate-fade-in-up stagger-4 mx-auto w-full max-w-4xl px-4 sm:px-6">
+      <div class="mb-6 flex flex-col items-center text-center">
+        <h2 class="text-xl font-bold tracking-tight text-foreground sm:text-2xl">
+          {t("nav.categories_title", lang, "Explore Cognitive Categories")}
+        </h2>
+        <p class="mt-1 text-xs text-muted">
+          {t("nav.categories_desc", lang, "Targeted assessments engineered for every mental domain.")}
+        </p>
+      </div>
+      <div class="grid grid-cols-2 gap-3.5 sm:grid-cols-3">
+        <a
+          href={`${localePrefix}/tests/reaction-time/`}
+          class="transition-standard flex items-center gap-2.5 rounded-xl border border-card-border bg-card px-4 py-3.5 text-sm font-medium text-foreground hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="zap" size={16} /> {t("nav.reaction", lang, "Reaction")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/sequence-memory/`}
+          class="transition-standard flex items-center gap-2.5 rounded-xl border border-card-border bg-card px-4 py-3.5 text-sm font-medium text-foreground hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="brain" size={16} /> {t("nav.memory", lang, "Memory")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/pattern-reasoning/`}
+          class="transition-standard flex items-center gap-2.5 rounded-xl border border-card-border bg-card px-4 py-3.5 text-sm font-medium text-foreground hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="puzzle" size={16} /> {t("nav.reasoning", lang, "Reasoning")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/focus-challenge/`}
+          class="transition-standard flex items-center gap-2.5 rounded-xl border border-card-border bg-card px-4 py-3.5 text-sm font-medium text-foreground hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="crosshair" size={16} /> {t("nav.focus", lang, "Focus")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/click-speed/`}
+          class="transition-standard flex items-center gap-2.5 rounded-xl border border-card-border bg-card px-4 py-3.5 text-sm font-medium text-foreground hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="gamepad" size={16} /> {t("nav.motor", lang, "Motor")}
+        </a>
+        <a
+          href={`${localePrefix}/tests/decision-speed/`}
+          class="transition-standard flex items-center gap-2.5 rounded-xl border border-card-border bg-card px-4 py-3.5 text-sm font-medium text-foreground hover:border-accent/30 hover:bg-accent/[0.03] hover:text-accent"
+        >
+          <Icon name="compass" size={16} /> {t("nav.executive", lang, "Executive")}
+        </a>
+      </div>
+      <div class="mt-5 text-center">
+        <a
+          href={`${localePrefix}/tests/reaction-time/`}
+          class="transition-standard cursor-pointer text-xs font-semibold text-accent hover:text-accent-hover"
+          data-i18n="hero.cta_secondary">{t("hero.cta_secondary", lang, "Explore all 23+ assessments &rarr;")}</a
+        >
+      </div>
+    </section>
+
+    <!-- ===== HOW IT WORKS ===== -->
+    <section class="animate-fade-in-up stagger-5 mx-auto w-full max-w-4xl px-4 sm:px-6">
+      <div class="mb-8 flex flex-col items-center text-center">
+        <div
+          class="mb-2 inline-flex items-center gap-1.5 rounded-full border border-card-border bg-subtle px-3 py-1 font-mono text-[11px] font-semibold uppercase tracking-wider text-muted"
+        >
+          <span>3-Step Process</span>
+        </div>
+        <h2
+          class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl"
+          data-i18n="how.title"
+        >
+          {t("how.title", lang, "How It Works")}
+        </h2>
+      </div>
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-3 sm:gap-6">
+        <div
+          class="card-interactive flex flex-col items-center rounded-2xl border border-card-border bg-card p-6 text-center h-full"
+        >
+          <div
+            class="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-full border border-[var(--warning-border)] bg-[var(--warning-bg)]"
+          >
+            <span class="font-mono text-lg font-bold text-warning">1</span>
+          </div>
+          <h3
+            class="mb-2 text-base font-bold text-foreground"
+            data-i18n="how.step1_title"
+          >
+            {t("how.step1_title", lang, "Pick an Assessment")}
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step1_desc"
+          >
+            {t("how.step1_desc", lang, "Choose from 23+ tests across reaction, memory, reasoning, focus, motor, and executive function.")}
+          </p>
+        </div>
+        <div
+          class="card-interactive flex flex-col items-center rounded-2xl border border-card-border bg-card p-6 text-center h-full"
+        >
+          <div
+            class="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-full border border-accent/20 bg-accent/10"
+          >
+            <span class="font-mono text-lg font-bold text-accent">2</span>
+          </div>
+          <h3
+            class="mb-2 text-base font-bold text-foreground"
+            data-i18n="how.step2_title"
+          >
+            {t("how.step2_title", lang, "Perform Under Pressure")}
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step2_desc"
+          >
+            {t("how.step2_desc", lang, "Each test runs locally with sub-millisecond precision. No uploads, no accounts, no distractions.")}
+          </p>
+        </div>
+        <div
+          class="card-interactive flex flex-col items-center rounded-2xl border border-card-border bg-card p-6 text-center h-full"
+        >
+          <div
+            class="mx-auto mb-4 flex h-11 w-11 items-center justify-center rounded-full border border-[var(--success-border)] bg-[var(--success-bg)]"
+          >
+            <span class="font-mono text-lg font-bold text-success">3</span>
+          </div>
+          <h3
+            class="mb-2 text-base font-bold text-foreground"
+            data-i18n="how.step3_title"
+          >
+            {t("how.step3_title", lang, "Track Your Growth")}
+          </h3>
+          <p
+            class="text-xs leading-relaxed text-muted"
+            data-i18n="how.step3_desc"
+          >
+            {t("how.step3_desc", lang, "See your scores, percentiles, and improvement over time. Build your cognitive profile across all dimensions.")}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===== SEO CONTENT: Reaction Time Test Guide ===== -->
+    <section class="animate-fade-in-up stagger-6 mx-auto w-full max-w-4xl px-4 sm:px-6">
+      <div
+        class="rounded-2xl border border-card-border/70 bg-card/40 p-6 sm:p-10 backdrop-blur-xs"
+      >
+        <article class="flex flex-col gap-6 text-sm leading-relaxed text-secondary sm:text-[14.5px]">
+          <h2 class="text-2xl font-bold tracking-tight text-foreground sm:text-3xl">
+            {t("guide.title", lang, "The Complete Guide to the Reaction Time Test")}
+          </h2>
+
+          <p>
+            {t("guide.p1", lang, "Reaction time is one of the most fundamental measures of cognitive performance. It captures the interval between a stimulus appearing and your motor response completing — a window typically measured in milliseconds. This free reaction time test serves as a high-fidelity online reaction time tester. By utilizing advanced requestAnimationFrame paint-sync calibration, our reaction test records your responses with sub-millisecond accuracy, eliminating the browser rendering jitter that plagues most online timers.")}
+          </p>
+
+          <h3 class="text-xl font-semibold tracking-tight text-foreground">
+            {t("guide.h2_what", lang, "What Is Reaction Time and How to Test Reaction Time?")}
+          </h3>
+          <p>
+            {t("guide.what_p1", lang, "Reaction time (RT) is the duration between the presentation of a sensory stimulus and the initiation of a voluntary motor response. If you want to test reaction time, you typically engage in a visual reaction time game or human reaction test, where a screen changes color (e.g., from red to green) and you click or tap as quickly as possible. The timer records the gap between the pixel actually changing and your input registering.")}
+          </p>
+          <p>
+            {t("guide.what_p2", lang, "The biological pipeline of this human reaction time assessment involves three stages: sensory transduction (retinal hyperpolarization), central processing (prefrontal decision and motor planning), and motor execution (corticospinal muscle activation). Each stage adds latency, meaning that the total visual response time for a healthy adult typically falls between 180ms and 320ms.")}
+          </p>
+
+          <h3 class="text-xl font-semibold tracking-tight text-foreground">
+            {t("guide.h2_avg", lang, "What Is the Average Reaction Time for Humans?")}
+          </h3>
+          <p>
+            {t("guide.avg_p1", lang, "What is the average reaction time? Large-scale cognitive studies consistently show that the average reaction time (specifically the average human reaction time) for simple visual stimuli is approximately 250 milliseconds. Auditory reactions are notably faster — around 160-180ms — because the pathway bypasses visual cortical routing. Here is how reaction time varies by age group:")}
+          </p>
+          <ul class="ml-2 list-inside list-disc space-y-1.5">
+            <li>
+              <strong class="text-foreground">{t("guide.age_15_24", lang, "Ages 15-24: 220-240ms (peak performance window)")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.age_25_34", lang, "Ages 25-34: 240-260ms (still near peak)")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.age_35_44", lang, "Ages 35-44: 260-280ms (gradual neural decay)")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.age_45_54", lang, "Ages 45-54: 280-300ms (myelination changes)")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.age_55_plus", lang, "Ages 55+: 300ms+ (cognitive aging effects)")}</strong>
+            </li>
+          </ul>
+          <p>
+            {t("guide.avg_p2", lang, "These benchmarks come from peer-reviewed datasets, including Der & Deary (2006) and Williamson & Feyer (2000). Your score on our platform compares your performance against these population distributions to calculate your percentile ranking.")}
+          </p>
+
+          <h3 class="text-xl font-semibold tracking-tight text-foreground">
+            {t("guide.h2_affects", lang, "What Affects Your Reaction Time?")}
+          </h3>
+          <p>
+            {t("guide.affects_p1", lang, "Several factors influence how quickly you respond to a stimulus. Understanding them helps you interpret your scores and optimize your performance:")}
+          </p>
+          <ul class="ml-2 list-inside list-disc space-y-1.5">
+            <li>
+              <strong class="text-foreground">{t("guide.affect_fatigue", lang, "Fatigue and sleep: Sleep deprivation can slow reaction time by 20% or more. Even one night of poor sleep measurably increases response latency.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.affect_hardware", lang, "Hardware latency: A 60Hz monitor adds up to 16.7ms of display lag. A 144Hz screen reduces this to ~3.5ms. Wireless mice add 8-20ms of input delay compared to wired connections.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.affect_age", lang, "Age: Reaction time peaks in the early-to-mid 20s and gradually increases after age 30 due to changes in myelination and synaptic efficiency.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.affect_modality", lang, "Stimulus modality: Sound reactions are 60-80ms faster than visual reactions. This is why auditory reflex tests often produce lower (faster) scores.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.affect_practice", lang, "Practice and training: Repeated exposure to the same task builds neuromuscular myelin sheaths, reducing motor pathway latency over time.")}</strong>
+            </li>
+          </ul>
+
+          <h3 class="text-xl font-semibold tracking-tight text-foreground">
+            {t("guide.h2_improve", lang, "How to Improve Reaction Time: Best Exercises")}
+          </h3>
+          <p>
+            {t("guide.improve_p1", lang, "While genetics set a baseline for raw neural conduction speed, you can discover how to improve reaction time through targeted practice and implementing the best exercises for reaction time:")}
+          </p>
+          <ul class="ml-2 list-inside list-disc space-y-1.5">
+            <li>
+              <strong class="text-foreground">{t("guide.improve_ex1", lang, "Practice with reaction time tests regularly: Even 5-10 minutes of daily practice using a visual reaction time tester can trim 10-20ms from your score within a few weeks.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.improve_ex2", lang, "Play fast-paced video games: Action games train rapid stimulus-response cycling, visual attention span, and motor prediction.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.improve_ex3", lang, "Prioritize sleep and hydration: Seven to nine hours of quality sleep per night is essential for optimal neural processing speed.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.improve_ex4", lang, "Physical exercise: Aerobic activity increases blood flow to the brain and supports neuroplasticity, both of which contribute to faster responses.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.improve_ex5", lang, "Minimize hardware lag: Use a high-refresh-rate monitor (120Hz+) and a wired mouse with a high polling rate (1000Hz) for the most accurate measurements.")}</strong>
+            </li>
+          </ul>
+
+          <h3 class="text-xl font-semibold tracking-tight text-foreground">
+            {t("guide.h2_apps", lang, "Practical Applications of Reaction Time")}
+          </h3>
+          <p>
+            {t("guide.apps_p1", lang, "Fast reaction time isn't just a party trick — it matters in real-world scenarios:")}
+          </p>
+          <ul class="ml-2 list-inside list-disc space-y-1.5">
+            <li>
+              <strong class="text-foreground">{t("guide.app_gaming", lang, "Gaming and esports: Competitive gamers need sub-200ms reactions to outperform opponents in FPS, fighting, and MOBA titles.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.app_driving", lang, "Driving safety: Emergency braking reactions depend on rapid visual processing. A 50ms improvement can translate to meters of additional stopping distance at highway speeds.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.app_sports", lang, "Sports performance: Athletes in tennis, boxing, and baseball rely on split-second visual-motor responses to return serves, dodge punches, or hit fastballs.")}</strong>
+            </li>
+            <li>
+              <strong class="text-foreground">{t("guide.app_health", lang, "Cognitive health monitoring: Tracking your reaction time over time provides insight into cognitive aging, fatigue levels, and the effectiveness of brain training.")}</strong>
+            </li>
+          </ul>
+
+          <h3 class="text-xl font-semibold tracking-tight text-foreground">
+            {t("guide.h2_beyond", lang, "Beyond Reaction Time: Explore More Cognitive Assessments")}
+          </h3>
+          <p>
+            {t("guide.beyond_p1", lang, "CogniArena offers 23+ assessments across six cognitive domains. After testing your reflexes, explore other dimensions of your cognitive performance:")}
+          </p>
+          <ul class="ml-2 list-inside list-disc space-y-1.5">
+            <li>
+              <a
+                href={`${localePrefix}/quiz/iq-test/`}
+                class="font-medium text-accent hover:underline">{t("guide.beyond_iq_desc", lang, "Free IQ Test — Measure your intelligence across logical, numerical, verbal, and spatial reasoning domains. 20 questions, instant results.")}</a
+              >
+            </li>
+            <li>
+              <a
+                href={`${localePrefix}/tests/typing-speed/`}
+                class="font-medium text-accent hover:underline"
+                >{t("guide.beyond_typing_desc", lang, "Typing Speed Test — Benchmark your words per minute (WPM) and typing accuracy. Compare against profession-based benchmarks.")}</a
+              >
+            </li>
+            <li>
+              <a
+                href={`${localePrefix}/tests/sequence-memory/`}
+                class="font-medium text-accent hover:underline"
+                >{t("guide.beyond_sequence_desc", lang, "Sequence Memory Test — Test your working memory capacity by recalling expanding grid patterns.")}</a
+              >
+            </li>
+            <li>
+              <a
+                href={`${localePrefix}/tests/pattern-reasoning/`}
+                class="font-medium text-accent hover:underline"
+                >{t("guide.beyond_pattern_desc", lang, "Pattern Reasoning Test — Evaluate your fluid intelligence and logical reasoning with geometric progressions.")}</a
+              >
+            </li>
+            <li>
+              <a href={`${localePrefix}/gauntlet/`} class="font-medium text-accent hover:underline"
+                >{t("guide.beyond_gauntlet_desc", lang, "The Gauntlet — Our flagship 5-stage cognitive challenge covering reaction, memory, focus, reasoning, and precision.")}</a
+              >
+            </li>
+            <li>
+              <a
+                href={`${localePrefix}/brain-games/`}
+                class="font-medium text-accent hover:underline">{t("guide.beyond_games_desc", lang, "Brain Games — Fun, science-backed games to train your cognitive skills across all domains.")}</a
+              >
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <!-- ===== FREQUENTLY ASKED QUESTIONS (PREMIUM ACCORDION) ===== -->
+    <section
+      class="animate-fade-in-up stagger-7 mx-auto w-full max-w-4xl border-t border-card-border/60 px-4 pt-12 pb-16"
+      id="faq"
+    >
+      <!-- Section Header -->
+      <div class="mb-10 flex flex-col items-center text-center">
+        <div
+          class="mb-3 inline-flex items-center gap-2 rounded-full border border-accent/25 bg-accent/10 px-3.5 py-1 font-mono text-xs font-semibold uppercase tracking-wider text-accent shadow-sm"
+        >
+          <Icon name="message-circle" size={13} />
+          <span data-i18n="faq.badge">{t("faq.badge", lang, "Knowledge Base")}</span>
+        </div>
+        <h2
+          class="text-3xl font-black tracking-tight text-foreground sm:text-4xl"
+          data-i18n="faq.title"
+        >
+          {t("faq.title", lang, "Frequently Asked Questions")}
+        </h2>
+        <p
+          class="mt-3 max-w-xl text-sm leading-relaxed text-muted sm:text-base"
+        >
+          {t("faq.subtitle", lang, "Key details regarding sub-millisecond timer calibration, zero-knowledge local privacy, and cognitive score modeling.")}
+        </p>
+      </div>
+
+      <!-- Accordion List -->
+      <div class="flex flex-col gap-3.5">
+        <!-- Q1 -->
+        <details
+          class="group card-interactive overflow-hidden rounded-2xl border border-card-border/80 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-card/90 open:border-accent/40 open:bg-card"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between gap-4 p-5 text-left font-semibold text-foreground select-none transition-colors hover:text-accent sm:text-base"
+          >
+            <div class="flex items-center gap-3.5">
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-card-border bg-subtle font-mono text-xs font-bold text-accent"
+                >01</span
+              >
+              <span data-i18n="faq.q1">{t("faq.q1", lang, "What is CogniArena?")}</span>
+            </div>
+            <div
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-card-border/70 bg-subtle/80 text-muted transition-all duration-300 group-open:rotate-180 group-open:border-accent/30 group-open:bg-accent/10 group-open:text-accent"
+            >
+              <svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="6 9 12 15 18 9"></polyline></svg
+              >
+            </div>
+          </summary>
+          <div
+            class="border-t border-card-border/50 px-5 pt-3.5 pb-5 text-sm leading-relaxed text-secondary sm:text-[14.5px]"
+          >
+            <p data-i18n="faq.a1">
+              {t("faq.a1", lang, "CogniArena is a free cognitive performance platform with 23+ browser-based assessments measuring reaction speed, memory, reasoning, focus, motor control, and executive function. All tests run locally with sub-millisecond precision.")}
+            </p>
+          </div>
+        </details>
+
+        <!-- Q2 -->
+        <details
+          class="group card-interactive overflow-hidden rounded-2xl border border-card-border/80 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-card/90 open:border-accent/40 open:bg-card"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between gap-4 p-5 text-left font-semibold text-foreground select-none transition-colors hover:text-accent sm:text-base"
+          >
+            <div class="flex items-center gap-3.5">
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-card-border bg-subtle font-mono text-xs font-bold text-accent"
+                >02</span
+              >
+              <span data-i18n="faq.q2">{t("faq.q2", lang, "Is my data stored or sent anywhere?")}</span>
+            </div>
+            <div
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-card-border/70 bg-subtle/80 text-muted transition-all duration-300 group-open:rotate-180 group-open:border-accent/30 group-open:bg-accent/10 group-open:text-accent"
+            >
+              <svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="6 9 12 15 18 9"></polyline></svg
+              >
+            </div>
+          </summary>
+          <div
+            class="border-t border-card-border/50 px-5 pt-3.5 pb-5 text-sm leading-relaxed text-secondary sm:text-[14.5px]"
+          >
+            <p data-i18n="faq.a2">
+              {t("faq.a2", lang, "No. Everything runs 100% in your browser. No accounts, no cookies, no data collection. Your results stay on your device.")}
+            </p>
+          </div>
+        </details>
+
+        <!-- Q3 -->
+        <details
+          class="group card-interactive overflow-hidden rounded-2xl border border-card-border/80 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-card/90 open:border-accent/40 open:bg-card"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between gap-4 p-5 text-left font-semibold text-foreground select-none transition-colors hover:text-accent sm:text-base"
+          >
+            <div class="flex items-center gap-3.5">
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-card-border bg-subtle font-mono text-xs font-bold text-accent"
+                >03</span
+              >
+              <span data-i18n="faq.q3">{t("faq.q3", lang, "How accurate are the measurements?")}</span>
+            </div>
+            <div
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-card-border/70 bg-subtle/80 text-muted transition-all duration-300 group-open:rotate-180 group-open:border-accent/30 group-open:bg-accent/10 group-open:text-accent"
+            >
+              <svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="6 9 12 15 18 9"></polyline></svg
+              >
+            </div>
+          </summary>
+          <div
+            class="border-t border-card-border/50 px-5 pt-3.5 pb-5 text-sm leading-relaxed text-secondary sm:text-[14.5px]"
+          >
+            <p data-i18n="faq.a3">
+              {t("faq.a3", lang, "We use requestAnimationFrame timing with sub-millisecond precision. Our calibration system accounts for monitor refresh rate and browser input latency to give you the most accurate physical reaction measurements possible.")}
+            </p>
+          </div>
+        </details>
+
+        <!-- Q4 -->
+        <details
+          class="group card-interactive overflow-hidden rounded-2xl border border-card-border/80 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-card/90 open:border-accent/40 open:bg-card"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between gap-4 p-5 text-left font-semibold text-foreground select-none transition-colors hover:text-accent sm:text-base"
+          >
+            <div class="flex items-center gap-3.5">
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-card-border bg-subtle font-mono text-xs font-bold text-accent"
+                >04</span
+              >
+              <span data-i18n="faq.q4">{t("faq.q4", lang, "What is the Brain Challenge (Gauntlet)?")}</span>
+            </div>
+            <div
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-card-border/70 bg-subtle/80 text-muted transition-all duration-300 group-open:rotate-180 group-open:border-accent/30 group-open:bg-accent/10 group-open:text-accent"
+            >
+              <svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="6 9 12 15 18 9"></polyline></svg
+              >
+            </div>
+          </summary>
+          <div
+            class="border-t border-card-border/50 px-5 pt-3.5 pb-5 text-sm leading-relaxed text-secondary sm:text-[14.5px]"
+          >
+            <p data-i18n="faq.a4">
+              {t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.")}
+            </p>
+          </div>
+        </details>
+
+        <!-- Q5 -->
+        <details
+          class="group card-interactive overflow-hidden rounded-2xl border border-card-border/80 bg-card/60 backdrop-blur-sm transition-all duration-300 hover:border-accent/40 hover:bg-card/90 open:border-accent/40 open:bg-card"
+        >
+          <summary
+            class="flex cursor-pointer items-center justify-between gap-4 p-5 text-left font-semibold text-foreground select-none transition-colors hover:text-accent sm:text-base"
+          >
+            <div class="flex items-center gap-3.5">
+              <span
+                class="flex h-7 w-7 shrink-0 items-center justify-center rounded-lg border border-card-border bg-subtle font-mono text-xs font-bold text-accent"
+                >05</span
+              >
+              <span data-i18n="faq.q5">{t("faq.q5", lang, "Can I improve my scores over time?")}</span>
+            </div>
+            <div
+              class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-card-border/70 bg-subtle/80 text-muted transition-all duration-300 group-open:rotate-180 group-open:border-accent/30 group-open:bg-accent/10 group-open:text-accent"
+            >
+              <svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                ><polyline points="6 9 12 15 18 9"></polyline></svg
+              >
+            </div>
+          </summary>
+          <div
+            class="border-t border-card-border/50 px-5 pt-3.5 pb-5 text-sm leading-relaxed text-secondary sm:text-[14.5px]"
+          >
+            <p data-i18n="faq.a5">
+              {t("faq.a5", lang, "Yes. Each assessment includes evidence-based training guidance. Our Learning Center has 20+ in-depth guides covering the neuroscience behind every cognitive domain, with practical protocols for measurable improvement.")}
+            </p>
+          </div>
+        </details>
+      </div>
+
+      <!-- Knowledge Base Bottom Banner -->
+      <div
+        class="mt-8 flex flex-col items-center justify-between gap-4 rounded-2xl border border-card-border/80 bg-gradient-to-r from-card/80 via-subtle/60 to-card/80 p-5 backdrop-blur-sm sm:flex-row"
+      >
+        <div class="flex items-center gap-3.5 text-left">
+          <div
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-accent/25 bg-accent/10 text-accent shadow-sm"
+          >
+            <Icon name="book-open" size={20} />
+          </div>
+          <div>
+            <h3 class="text-sm font-bold text-foreground">
+              {t("faq.research_title", lang, "Explore Cognitive Science Research")}
+            </h3>
+            <p class="text-xs text-muted">
+              {t("faq.research_desc", lang, "Deep dive into experimental paradigms, latency hardware calibration, and peer-reviewed literature.")}
+            </p>
+          </div>
+        </div>
+        <div class="flex shrink-0 items-center gap-2.5">
+          <a
+            href={`${localePrefix}/methodology/`}
+            class="transition-standard inline-flex h-9 items-center gap-1.5 rounded-lg border border-card-border bg-card px-3.5 text-xs font-semibold text-foreground hover:border-accent/40 hover:text-accent active:scale-95"
+          >
+            {t("nav.methodology", lang, "Methodology")} &rarr;
+          </a>
+          <a
+            href={`${localePrefix}/learn/`}
+            class="transition-standard inline-flex h-9 items-center gap-1.5 rounded-lg bg-accent px-4 text-xs font-semibold text-white shadow-sm hover:bg-accent-hover active:scale-95"
+          >
+            {t("nav.learning", lang, "Learning Center")}
+          </a>
+        </div>
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import type { CategoryBenchmarkConfig } from "@/data/benchmarks"
+import { useI18n } from "@/runtime/useI18n"
 import DistributionCurve from "./DistributionCurve"
 import AgeBenchmarks from "./AgeBenchmarks"
 import ProfessionalBenchmarks from "./ProfessionalBenchmarks"
@@ -10,6 +11,7 @@ interface Props {
 }
 
 export default function TestBenchmarkPage({ config }: Props) {
+  const { t, lang } = useI18n()
   const [userScore, setUserScore] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
 
@@ -32,11 +34,14 @@ export default function TestBenchmarkPage({ config }: Props) {
     }
   }, [config])
 
+  const keySlug = config.slug.replace(/-/g, "_")
+  const title = t(`bench.cat_${keySlug}_title`, config.title)
+  const description = t(`bench.cat_${keySlug}_desc`, config.description)
+  const metric = t(`bench.cat_${keySlug}_metric`, config.metric)
+  const localePrefix = lang === "en" ? "" : `/${lang}`
+
   const {
-    title,
-    description,
     icon,
-    metric,
     unit,
     lowerIsBetter,
     color,
@@ -52,19 +57,19 @@ export default function TestBenchmarkPage({ config }: Props) {
       <header className="flex flex-col gap-3">
         <div className="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase">
           <span>{icon}</span>
-          <span>Benchmarks</span>
+          <span>{t("bench.badge1", "Benchmarks")}</span>
           <span>&middot;</span>
           <span>{title}</span>
         </div>
         <h1 className="text-2xl font-extrabold tracking-tight text-foreground md:text-3xl">
-          {title} — Population Benchmarks
+          {title} — {t("bench.title", "Population Benchmarks")}
         </h1>
         <p className="text-sm leading-relaxed text-muted">{description}</p>
         <div className="mt-1 flex flex-wrap gap-1.5">
           {testIds.map((id) => (
             <a
               key={id}
-              href={`/tests/${id}`}
+              href={`${localePrefix}/tests/${id}/`}
               className="rounded-full bg-subtle px-2 py-0.5 font-mono text-[10px] text-muted transition-colors hover:bg-accent/10 hover:text-accent"
             >
               {id.replace(/-/g, " ")}
@@ -76,13 +81,13 @@ export default function TestBenchmarkPage({ config }: Props) {
       <section className="flex flex-col gap-4">
         <div className="flex items-center gap-4">
           <h2 className="text-sm font-semibold text-foreground">
-            Your Personal Best
+            {t("bench.your_pb", "Your Personal Best")}
           </h2>
           {loading ? (
             <div className="flex items-center gap-2">
               <div className="h-3 w-3 animate-spin rounded-full border border-card-border border-t-accent" />
               <span className="font-mono text-xs text-muted">
-                Loading from local storage...
+                {t("bench.loading_storage", "Loading from local storage...")}
               </span>
             </div>
           ) : userScore != null ? (
@@ -97,7 +102,7 @@ export default function TestBenchmarkPage({ config }: Props) {
             </div>
           ) : (
             <span className="font-mono text-xs text-muted italic">
-              No recorded results yet — take a test first!
+              {t("bench.no_results", "No recorded results yet — take a test first!")}
             </span>
           )}
         </div>
@@ -137,15 +142,10 @@ export default function TestBenchmarkPage({ config }: Props) {
 
       <section className="flex flex-col gap-3 border-t border-card-border pt-6">
         <h2 className="text-sm font-semibold text-foreground">
-          About These Benchmarks
+          {t("bench.about_title", "About These Benchmarks")}
         </h2>
         <p className="text-xs leading-relaxed text-muted">
-          Population distribution data is derived from CogniArena's aggregated
-          user results for the primary test in this category. Age and
-          professional benchmarks are sourced from published peer-reviewed
-          research. Your percentile ranking shows how your score compares to all
-          CogniArena users — a higher percentile means you outperformed more
-          people. Benchmarks are updated regularly as new data is collected.
+          {t("bench.about_desc", "Population distribution data is derived from CogniArena's aggregated user results for the primary test in this category. Age and professional benchmarks are sourced from published peer-reviewed research. Your percentile ranking shows how your score compares to all CogniArena users — a higher percentile means you outperformed more people. Benchmarks are updated regularly as new data is collected.")}
         </p>
       </section>
     </div>

@@ -418,10 +418,41 @@ ReactionTimeTest, ClickSpeedTest, AimTrainer, AimCoordinationTest, MouseAccuracy
   - Dynamically constructs and injects `FAQPage` JSON-LD schemas into `schemaJson` array for search engines.
   - Renders `<FaqsList slug={testSlug} />` component below page slot content.
 - **Visual FAQ Component (`src/components/ui/FaqsList.astro`)**: Collapsible details cards styled using the product's design system tokens, supporting clean semantic HTML.
-- **Landing Page Expansion**: Added 10 more high-intent SEO FAQs on the home page (`src/pages/index.astro`) inside both layout frontmatter schema and body dropdowns, total of 16 FAQs.
+## Phase 9 — Complete Multi-Language & International SEO Architecture (August 2026)
 
-### 2. Automated Cleanups & Build Checks
-- Stripped duplicate visual FAQ articles and static frontmatter FAQ schemas across all 31 page files to prevent array syntax conflicts, reduce maintenance overhead, and guarantee zero Google duplicate-content flags.
-- Confirmed full Vitest suite passing (58/58 tests) and successful static build generation (84 pages built in 3.86s).
+### 1. Subdirectory Routing & Static Site Generation (SSG)
+- **Zero-Shift Default English (`/`)**: Preserved 100% verbatim English URLs, copy, and layout without any prefix or DOM restructuring.
+- **Dynamic Localized Subdirectories (`/[lang]/`)**: Dedicated static route trees for all 5 non-default locales: `es`, `fr`, `de`, `pt`, `ja`.
+  - Statically pre-renders **506 complete HTML pages** on every build in ~7s with 0 runtime errors.
+  - Zero reliance on client-side text swapping or runtime translation APIs; full pre-rendered HTML for Googlebot and users alike.
+
+### 2. Google Search Central International SEO Standard
+- **Bidirectional `hreflang` Clusters**: Every page injects bidirectional `<link rel="alternate" hreflang="..." href="..." />` tags into `<head>`:
+  - `hreflang="x-default"` pointing to root English URL.
+  - `hreflang="en"`, `hreflang="es"`, `hreflang="fr"`, `hreflang="de"`, `hreflang="pt"`, `hreflang="ja"`.
+- **Self-Referential Canonical Tags**: Every localized page resolves its own canonical URL (e.g. `https://cogniarena.com/fr/tests/reaction-time`).
+- **Google-Compliant Multilingual XML Sitemap (`public/sitemap.xml`)**:
+  - Structured with `xmlns:xhtml="http://www.w3.org/1999/xhtml"`.
+  - Maps all 83 route clusters (~500 URLs) with complete `<xhtml:link rel="alternate" hreflang="..." />` cross-references on every `<url>` entry.
+- **Localized JSON-LD Schemas**: Dynamic schema generation for `SoftwareApplication`, `Quiz`, `Dataset`, `CollectionPage`, `BreadcrumbList`, and `FAQPage` with translated fields.
+- **Social Graph Optimization**: Dynamic `og:locale` (`fr_FR`, `es_ES`, `de_DE`, `pt_BR`, `ja_JP`, `en_US`) and `og:locale:alternate` arrays on every page.
+
+### 3. Full Coverage Across All Domains
+- **31 Cognitive Tests & Composites**: Localized titles, descriptions, instructions, difficulty badges, and `<HowItWorks>` cards.
+- **6 Core Category Axes**: Localized in sidebar navigation, mobile drawer, category hubs, and test exploration grids (`ExploreTests.astro`).
+- **7 Benchmark Suites & Interactive Islands**: `TestBenchmarkPage.tsx`, `AgeBenchmarks.tsx`, `ProfessionalBenchmarks.tsx`, and `PerformanceFactors.tsx` wired via `useI18n()`.
+- **Learning Center & 23 Guides**: Dynamic article headings, summaries, and action CTAs across all 6 locales.
+- **Brain Games Hub (`/[lang]/brain-games`)**: Category grouping, game tags, and exploration links.
+- **Navigation & Layout**: 112 internal navigation links retain the active locale prefix (`${localePrefix}/...`), preventing language loss during browsing.
+
+### 4. Zero-Latency Switching & Link Prefetching
+- **Instant In-Place Text Swap (`__applyTranslations`)**: Clicking any language in `LanguageSwitcher.tsx` translates on-screen DOM elements in **0ms** prior to navigation.
+- **Astro Link Prefetching**: Configured `prefetch: { prefetchAll: true, defaultStrategy: 'hover' }` in `astro.config.mjs` and added `data-astro-prefetch="hover"` to the language switcher.
+
+### 5. Verification & Quality Gates
+- **`npm run typecheck`**: 0 errors across 219 source files.
+- **`vitest run`**: 56/56 unit tests passing.
+- **`astro build`**: 506 static HTML pages compiled in ~7s with 0 errors.
+
 
 

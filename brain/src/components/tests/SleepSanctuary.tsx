@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react"
 import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
 import { dataLayer } from "../../runtime/dataLayer"
 import { useSound } from "../../runtime/useSound"
+import { useI18n } from "../../runtime/useI18n"
 
 type ViewPhase = "quiz" | "stroop" | "result"
 type Chronotype = "Lion" | "Bear" | "Wolf" | "Dolphin"
@@ -56,6 +57,7 @@ const QUESTIONS: QuizQuestion[] = [
 ]
 
 export function SleepSanctuary() {
+  const { t } = useI18n()
   const { playClick, playSuccess, playError } = useSound()
   const [phase, setPhase] = useState<ViewPhase>("quiz")
   
@@ -359,7 +361,7 @@ export function SleepSanctuary() {
                   onClick={() => setPhase("quiz")}
                   className="btn-base btn-primary flex-1 cursor-pointer py-2.5 text-sm font-semibold rounded-lg"
                 >
-                  Retake Quiz
+                  {t("btn.try_again", "Retake Quiz")}
                 </button>
               </div>
             </div>

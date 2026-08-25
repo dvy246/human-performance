@@ -1,0 +1,106 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/color-game`
+const title = `${t("nav.color_game", lang, "Color Game")} | CogniArena`
+const description = "Play the free online color game and test your color recognition speed. Match colors, train your reflexes, and compare your score against thousands of players."
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("nav.color_game", lang, "Color Game"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
+        <span>/</span>
+        <span class="text-muted">{t("nav.color_game", lang, "Color Game")}</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        {t("nav.color_game", lang, "Color Game")} — Color Recognition & Reflexes
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        {description}
+      </p>
+    </header>
+
+    <section class="flex flex-col gap-4 border-t border-card-border pt-8">
+      <div class="grid gap-3">
+        <a
+          href={`${localePrefix}/tests/go-no-go/`}
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              {t("nav.go_nogo", lang, "Color Go/No-Go Test")}
+            </h3>
+            <span class="text-xs text-accent">Play Now →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Fast-paced color flash response inhibition challenge.
+          </p>
+        </a>
+        <a
+          href={`${localePrefix}/tests/stroop/`}
+          class="flex flex-col gap-1.5 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+        >
+          <div class="flex items-center justify-between">
+            <h3 class="text-sm font-bold text-foreground">
+              {t("nav.stroop", lang, "Stroop Color Conflict Test")}
+            </h3>
+            <span class="text-xs text-accent">Play Now →</span>
+          </div>
+          <p class="text-xs leading-relaxed text-muted">
+            Match ink colors against conflicting text names under pressure.
+          </p>
+        </a>
+      </div>
+    </section>
+  </div>
+</Layout>

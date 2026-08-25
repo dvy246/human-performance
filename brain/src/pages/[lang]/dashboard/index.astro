@@ -1,0 +1,149 @@
+---
+import Layout from "@/layouts/main.astro"
+import CognitiveProfile from "@/components/dashboard/CognitiveProfile"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/dashboard`
+const title = `${t("dash.title", lang, "Dashboard")} — CogniArena | Cognitive Performance Hub`
+const description = t("dash.subtitle", lang, "Your personal performance hub. View records, trends, achievements, and full test history at a glance.")
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "ProfilePage",
+  name: t("dash.title", lang, "Dashboard"),
+  description: description,
+  url: canonicalUrl,
+}
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-5xl flex-col gap-12">
+    <!-- Header Section -->
+    <header class="flex flex-col gap-3">
+      <div
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+      >
+        <span data-i18n="dash.badge1">{t("dash.badge1", lang, "Command Center")}</span>
+        <span>&middot;</span>
+        <span data-i18n="dash.badge2">{t("dash.badge2", lang, "Dashboard")}</span>
+      </div>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+        data-i18n="dash.title"
+      >
+        {t("dash.title", lang, "Dashboard")}
+      </h1>
+      <p
+        class="max-w-2xl text-sm leading-relaxed text-muted md:text-base dark:text-muted"
+        data-i18n="dash.subtitle"
+      >
+        {t("dash.subtitle", lang, "Your personal performance hub. View records, trends, achievements, and full test history at a glance.")}
+      </p>
+    </header>
+
+    <!-- Interactive Dashboard Island Container -->
+    <section class="w-full">
+      <CognitiveProfile client:load />
+    </section>
+
+    <!-- Below the fold Scientific Content -->
+    <section
+      class="flex max-w-3xl flex-col gap-10 border-t border-card-border pt-12"
+    >
+      {/* Scientific Methodology link */}
+      <div class="flex items-center gap-3 text-xs text-muted dark:text-muted">
+        <div
+          class="flex h-6 w-6 items-center justify-center rounded-full border border-accent/20 bg-accent/10 font-mono text-[10px] font-bold text-accent"
+        >
+          BB
+        </div>
+        <span
+          >Learn about calibration protocols and scientific formulas on our <a
+            href={`${localePrefix}/methodology/`}
+            class="font-medium text-accent hover:underline">{t("footer.methodology", lang, "Methodology Page")}</a
+          >.</span
+        >
+      </div>
+
+      <article class="flex flex-col gap-4">
+        <h2
+          class="text-xl font-semibold tracking-tight text-foreground"
+          data-i18n="dash.radar_title"
+        >
+          {t("dash.radar_title", lang, "Understanding Your Skill Radar Chart")}
+        </h2>
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="dash.radar_desc"
+        >
+          {t("dash.radar_desc", lang, "The hexagonal skill radar measures your cognitive capabilities across six distinct dimensions.")}
+        </p>
+        <ul
+          class="flex list-disc flex-col gap-2.5 pl-5 text-sm text-muted dark:text-muted"
+        >
+          <li>
+            <strong class="text-foreground">{t("nav.reaction", lang, "Reaction")}:</strong> How fast you respond
+            to what you see and hear. Based on Visual Reaction, Choice Grid, and Go/No-Go
+            tests.
+          </li>
+          <li>
+            <strong class="text-foreground">{t("nav.memory", lang, "Memory")}:</strong> How well you remember
+            sequences, patterns, and numbers. Based on Sequence Memory and related
+            tests.
+          </li>
+          <li>
+            <strong class="text-foreground">{t("aim.accuracy", lang, "Precision")}:</strong> How accurately you
+            click targets on screen. Based on Aim Precision and Mouse Accuracy tests.
+          </li>
+          <li>
+            <strong class="text-foreground">{t("nav.motor", lang, "Speed & Motor")}:</strong> How fast you can
+            click repeatedly (CPS) and maintain a steady cadence.
+          </li>
+          <li>
+            <strong class="text-foreground">Stamina:</strong> How consistent your
+            performance stays across multiple attempts and extended sessions.
+          </li>
+          <li>
+            <strong class="text-foreground">{t("nav.auditory_reflex", lang, "Auditory")}:</strong> How quickly you react
+            to sounds. Compares your hearing reaction speed to visual cues.
+          </li>
+        </ul>
+      </article>
+
+      <article class="flex flex-col gap-4">
+        <h2
+          class="text-xl font-semibold tracking-tight text-foreground"
+          data-i18n="dash.privacy_title"
+        >
+          {t("dash.privacy_title", lang, "Privacy & Local Ledger Integrity")}
+        </h2>
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="dash.privacy_desc1"
+        >
+          {t("dash.privacy_desc1", lang, "CogniArena is anonymous and does not collect personal identifiers. All performance records are stored locally inside your browser's IndexedDB database.")}
+        </p>
+        <p
+          class="text-sm leading-relaxed text-muted dark:text-muted"
+          data-i18n="dash.privacy_desc2"
+        >
+          {t("dash.privacy_desc2", lang, "By activating Cloud Sync, an encrypted hash of your recovery key is saved to the Cloudflare D1 edge database.")}
+        </p>
+      </article>
+    </section>
+  </div>
+</Layout>

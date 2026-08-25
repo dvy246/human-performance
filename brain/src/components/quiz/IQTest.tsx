@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { useI18n } from "../../runtime/useI18n"
 
 type Domain = "numerical" | "verbal" | "spatial" | "logical"
 
@@ -660,6 +661,7 @@ function getIQLabel(iq: number) {
 type Phase = "start" | "playing" | "result"
 
 export default function IQTest() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>("start")
   const [current, setCurrent] = useState(0)
   const [answers, setAnswers] = useState<(number | null)[]>(
@@ -727,7 +729,7 @@ export default function IQTest() {
           onClick={() => setPhase("playing")}
           className="transition-standard rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:bg-accent/90"
         >
-          Start Test
+          {t("btn.start", "Start Test")}
         </button>
       </div>
     )
@@ -826,7 +828,7 @@ export default function IQTest() {
             onClick={handleRestart}
             className="transition-standard rounded-lg bg-accent px-6 py-3 text-sm font-semibold text-white hover:bg-accent/90"
           >
-            Retake Test
+            {t("btn.try_again", "Retake Test")}
           </button>
         </div>
       </div>
@@ -914,7 +916,7 @@ export default function IQTest() {
             onClick={handleNext}
             className="transition-standard rounded-lg bg-accent px-6 py-2.5 text-sm font-semibold text-white hover:bg-accent/90"
           >
-            {current < questions.length - 1 ? "Next Question" : "See Results"}
+            {current < questions.length - 1 ? t("btn.next", "Next Question") : t("quiz.see_results", "See Results")}
           </button>
         </div>
       )}

@@ -1,0 +1,171 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export function getStaticPaths() {
+  return nonDefaultLocales.map((lang) => ({
+    params: { lang },
+  }))
+}
+
+const { lang } = Astro.params as { lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/brain-games`
+const title = `${t("brain_games.title", lang, "Free Brain Games Online")} | CogniArena`
+const description = t("brain_games.subtitle", lang, "Play 23+ free online brain games scientifically designed to train memory, attention, logic, and reflexes.")
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    name: title,
+    description: description,
+    url: canonicalUrl,
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("nav.brain_games", lang, "Brain Games"),
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+
+const categories = [
+  {
+    name: t("cat.reaction.name", lang, "Reaction & Reflexes"),
+    href: `${localePrefix}/tests/reaction-time/`,
+    desc: t("cat.reaction.subtitle", lang, "Raw speed & sensory pathways"),
+    games: [
+      t("test.reaction-time.title", lang, "Visual Reaction"),
+      t("test.sound-reaction.title", lang, "Auditory Reflex"),
+      t("test.f1-lights.title", lang, "F1 Start Lights"),
+      t("test.choice-reaction.title", lang, "Choice Reaction"),
+    ],
+  },
+  {
+    name: t("cat.memory.name", lang, "Memory"),
+    href: `${localePrefix}/tests/sequence-memory/`,
+    desc: t("cat.memory.subtitle", lang, "Active working capacity & retention"),
+    games: [
+      t("test.sequence-memory.title", lang, "Sequence Memory"),
+      t("test.number-memory.title", lang, "Number Memory"),
+      t("test.visual-pattern.title", lang, "Visual Pattern"),
+      t("test.dual-n-back.title", lang, "Dual N-Back"),
+      t("test.verbal-memory.title", lang, "Verbal Memory"),
+    ],
+  },
+  {
+    name: t("cat.reasoning.name", lang, "Reasoning"),
+    href: `${localePrefix}/tests/pattern-reasoning/`,
+    desc: t("cat.reasoning.subtitle", lang, "Fluid logic & non-verbal matrices"),
+    games: [
+      t("test.pattern-reasoning.title", lang, "Pattern Reasoning"),
+      t("test.spatial-orientation.title", lang, "Spatial Orientation"),
+      t("test.speed-arithmetic.title", lang, "Speed Arithmetic"),
+    ],
+  },
+  {
+    name: t("cat.focus.name", lang, "Focus & Attention"),
+    href: `${localePrefix}/tests/focus-challenge/`,
+    desc: t("cat.focus.subtitle", lang, "Selective attention & executive suppression"),
+    games: [
+      t("test.focus-challenge.title", lang, "Focus Challenge"),
+      t("test.stroop.title", lang, "Stroop Test"),
+      t("test.trail-making.title", lang, "Trail Making"),
+      t("test.go-no-go.title", lang, "Color Go/No-Go"),
+    ],
+  },
+  {
+    name: t("cat.motor.name", lang, "Motor Performance"),
+    href: `${localePrefix}/tests/click-speed/`,
+    desc: t("cat.motor.subtitle", lang, "Spatial mouse control & clicking stamina"),
+    games: [
+      t("test.click-speed.title", lang, "CPS Test"),
+      t("test.aim-trainer.title", lang, "Aim Precision"),
+      t("test.mouse-accuracy.title", lang, "Mouse Accuracy"),
+      t("test.flick-trainer.title", lang, "Flick Trainer"),
+    ],
+  },
+  {
+    name: t("cat.executive.name", lang, "Executive Function"),
+    href: `${localePrefix}/quiz/iq-test/`,
+    desc: t("cat.executive.subtitle", lang, "High-level attention gating & flexibility"),
+    games: [
+      t("nav.iq_test", lang, "Free IQ Test"),
+      t("test.typing-speed.title", lang, "Typing Speed"),
+      t("test.gauntlet.title", lang, "The Gauntlet"),
+    ],
+  },
+]
+---
+
+<Layout
+  title={title}
+  description={description}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-12">
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
+        <span>/</span>
+        <span class="text-muted">{t("nav.brain_games", lang, "Brain Games")}</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        {t("brain_games.title", lang, "Free Brain Games Online")}
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        {description}
+      </p>
+    </header>
+
+    <!-- Game Categories Grid -->
+    <section class="flex flex-col gap-6">
+      <h2 class="text-xl font-semibold tracking-tight text-foreground">
+        {t("brain_games.browse_category", lang, "Browse Brain Games by Category")}
+      </h2>
+      <div class="grid gap-4">
+        {
+          categories.map((cat) => (
+            <a
+              href={cat.href}
+              class="flex flex-col gap-2 rounded-lg border border-card-border bg-card p-4 transition-colors hover:border-accent"
+            >
+              <div class="flex items-center justify-between">
+                <h3 class="text-sm font-bold text-foreground">{cat.name}</h3>
+                <span class="text-xs text-accent">{t("brain_games.explore_cta", lang, "Explore →")}</span>
+              </div>
+              <p class="text-xs leading-relaxed text-muted">{cat.desc}</p>
+              <div class="mt-1 flex flex-wrap gap-1.5">
+                {cat.games.map((g) => (
+                  <span class="rounded bg-subtle px-2 py-0.5 font-mono text-[10px] text-muted">
+                    {g}
+                  </span>
+                ))}
+              </div>
+            </a>
+          ))
+        }
+      </div>
+    </section>
+  </div>
+</Layout>

@@ -1,6 +1,9 @@
 import React, { useEffect } from "react"
+import { useI18n } from "../../runtime/useI18n"
+import { getLocalizedPath } from "../../i18n/translations"
 
 export default function useKeyboardShortcuts() {
+  const { lang } = useI18n()
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Don't trigger if user is typing in an input
@@ -53,7 +56,7 @@ export default function useKeyboardShortcuts() {
           // Go home
           if (e.target === document.body) {
             e.preventDefault()
-            window.location.href = "/"
+            window.location.href = getLocalizedPath("/", lang)
           }
           break
 

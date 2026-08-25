@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import { formatTopPercentile } from "../../runtime/percentileLookup"
 import { dataLayer, type SessionRecord } from "../../runtime/dataLayer"
+import { useI18n } from "../../runtime/useI18n"
+import { getLocalizedPath } from "../../i18n/translations"
 
 const LOWER_IS_BETTER = new Set([
   "reaction-time",
@@ -168,6 +170,7 @@ const formatScore = (testId: string, score: number): string => {
 }
 
 export default function TestSummaryGrid() {
+  const { t, lang } = useI18n()
   const [summaries, setSummaries] = useState<Map<string, TestSummary>>(
     new Map()
   )
@@ -317,7 +320,7 @@ export default function TestSummaryGrid() {
                       </div>
 
                       <a
-                        href={`/tests/${TEST_SLUGS[testId] || testId}`}
+                        href={getLocalizedPath(`/tests/${TEST_SLUGS[testId] || testId}`, lang)}
                         className="text-sm font-bold text-foreground transition-colors hover:text-accent"
                       >
                         {TEST_NAMES[testId] || testId}
@@ -362,7 +365,7 @@ export default function TestSummaryGrid() {
                           {related.map((r) => (
                             <a
                               key={r.slug}
-                              href={`/tests/${r.slug}`}
+                              href={getLocalizedPath(`/tests/${r.slug}`, lang)}
                               className="font-mono text-[10px] text-accent/70 transition-colors hover:text-accent"
                             >
                               {r.name} →

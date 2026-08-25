@@ -1,0 +1,144 @@
+---
+import Layout from "@/layouts/main.astro"
+import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
+
+export async function getStaticPaths() {
+  const guides = [
+    { slug: "reaction-time", testSlug: "reaction-time", title: "Reaction Time Science", desc: "Visual and auditory reflex pathways, Hick's Law, and paint-sync calibration protocols." },
+    { slug: "click-speed", testSlug: "click-speed", title: "Click Speed Science", desc: "Neuromuscular firing rates, clicking biomechanics, jitter vs butterfly techniques." },
+    { slug: "aim-training", testSlug: "aim-trainer", title: "Aim Training Science", desc: "Fitts's Law, spatial motor mapping, flick vs tracking precision, and mouse sensitivity." },
+    { slug: "choice-reaction", testSlug: "choice-reaction", title: "Choice Reaction Time", desc: "Hick-Hyman Law, Donders subtraction method, and multi-alternative decision latency." },
+    { slug: "f1-lights", testSlug: "f1-lights", title: "Peripheral Vision", desc: "Retinal rod density, peripheral motion detection, and athletic start reaction training." },
+    { slug: "flick-trainer", testSlug: "flick-trainer", title: "Visual Tracking", desc: "Smooth pursuit vs saccadic eye movements, dynamic visual acuity, and target acquisition." },
+    { slug: "mouse-accuracy", testSlug: "mouse-accuracy", title: "Fine Motor Control", desc: "Motor unit recruitment, deceleration control, and precision target acquisition." },
+    { slug: "sound-reaction", testSlug: "sound-reaction", title: "Auditory Processing", desc: "Cochlear transduction, auditory brainstem responses, and audio vs visual reaction times." },
+    { slug: "memory-test", testSlug: "sequence-memory", title: "Memory Science", desc: "Working memory architecture, Miller's 7±2 law, cognitive load theory, and chunking." },
+    { slug: "dual-n-back", testSlug: "dual-n-back", title: "Dual N-Back Training", desc: "Jaeggi protocol, working memory updating, fluid intelligence transfer, and brain training." },
+    { slug: "number-memory", testSlug: "number-memory", title: "Number Memory", desc: "Phonological loop, digit span capacity, major system mnemonics, and working memory." },
+    { slug: "sequence-memory", testSlug: "sequence-memory", title: "Sequence Memory", desc: "Visuospatial sketchpad, Corsi block-tapping task, spatial chunking, and memory span." },
+    { slug: "verbal-memory", testSlug: "verbal-memory", title: "Verbal Recall", desc: "Episodic vs semantic memory, word frequency effects, false memory paradigms." },
+    { slug: "visual-pattern", testSlug: "visual-pattern", title: "Visual Pattern Recognition", desc: "Gestalt grouping principles, visual working memory capacity, and pattern completion." },
+    { slug: "brain-training", testSlug: "gauntlet", title: "Cognitive Training Science", desc: "Neuroplasticity mechanisms, near vs far transfer effects, and evidence-based training." },
+    { slug: "planning", testSlug: "planning", title: "Executive Planning", desc: "Tower of London/Hanoi paradigms, dorsolateral prefrontal cortex, look-ahead depth." },
+    { slug: "prioritization", testSlug: "prioritization", title: "Task Prioritization", desc: "Eisenhower matrix neuroscience, cognitive triage, urgency vs importance trade-offs." },
+    { slug: "stroop", testSlug: "stroop", title: "Stroop Effect", desc: "Automated reading vs color processing, anterior cingulate cortex, selective attention." },
+    { slug: "trail-making", testSlug: "trail-making", title: "Cognitive Set Shifting", desc: "Trail Making Test Parts A & B, executive function, task-switching costs." },
+    { slug: "spatial-orientation", testSlug: "spatial-orientation", title: "Mental Rotation", desc: "Shepard-Metzler mental rotation, parietal lobe spatial processing, 3D visualization." },
+    { slug: "decision-speed", testSlug: "decision-speed", title: "Processing Speed", desc: "Mental chronometry, inspection time, information processing rate, and cognitive efficiency." },
+    { slug: "iq-test", testSlug: "pattern-reasoning", title: "IQ & Intelligence Testing", desc: "g factor, Cattell-Horn-Carroll theory, Raven's matrices, fluid vs crystallized intelligence." },
+    { slug: "typing-speed", testSlug: "typing-speed", title: "Typing Ergonomics & Speed", desc: "Motor chunking, predictive finger motion, touch-typing muscle memory, and WPM limits." },
+  ]
+
+  const paths = []
+  for (const lang of nonDefaultLocales) {
+    for (const g of guides) {
+      paths.push({
+        params: { lang, slug: g.slug },
+        props: { guide: g, lang },
+      })
+    }
+  }
+  return paths
+}
+
+const { guide, lang } = Astro.props as { guide: { slug: string; testSlug: string; title: string; desc: string }; lang: LangCode }
+const localePrefix = `/${lang}`
+const canonicalUrl = `https://cogniarena.com/${lang}/learn/${guide.slug}`
+const pageTitle = `${guide.title} | CogniArena`
+
+const schemaJson = [
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    headline: guide.title,
+    description: guide.desc,
+    publisher: {
+      "@type": "Organization",
+      name: "CogniArena",
+    },
+  },
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    itemListElement: [
+      {
+        "@type": "ListItem",
+        position: 1,
+        name: t("mobile.home", lang, "Home"),
+        item: `https://cogniarena.com/${lang}`,
+      },
+      {
+        "@type": "ListItem",
+        position: 2,
+        name: t("learning.title", lang, "Learn"),
+        item: `https://cogniarena.com/${lang}/learn`,
+      },
+      {
+        "@type": "ListItem",
+        position: 3,
+        name: guide.title,
+        item: canonicalUrl,
+      },
+    ],
+  },
+]
+---
+
+<Layout
+  title={pageTitle}
+  description={guide.desc}
+  canonicalUrl={canonicalUrl}
+  schemaJson={schemaJson}
+  lang={lang}
+>
+  <div class="mx-auto flex w-full max-w-3xl flex-col gap-10 py-4">
+    <header class="flex flex-col gap-3">
+      <nav
+        class="flex items-center gap-2 font-mono text-xs tracking-widest text-accent uppercase"
+        aria-label="Breadcrumb"
+      >
+        <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
+        <span>/</span>
+        <a href={`${localePrefix}/learn/`} class="hover:underline">{t("learning.title", lang, "Learn")}</a>
+        <span>/</span>
+        <span class="text-muted">{guide.title}</span>
+      </nav>
+      <h1
+        class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
+      >
+        {guide.title}
+      </h1>
+      <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
+        {guide.desc}
+      </p>
+    </header>
+
+    <div class="rounded-xl border border-card-border bg-card p-6">
+      <div class="flex flex-col gap-4">
+        <h2 class="text-lg font-bold text-foreground">
+          {t("learn.scientific_overview", lang, "Scientific Overview & Training Protocols")}
+        </h2>
+        <p class="text-sm leading-relaxed text-muted">
+          Detailed cognitive mechanisms, experimental paradigms, and training protocols for {guide.title.toLowerCase()}.
+        </p>
+        <div class="pt-2">
+          <a
+            href={guide.testSlug === "gauntlet" ? `${localePrefix}/gauntlet/` : `${localePrefix}/tests/${guide.testSlug}/`}
+            class="inline-flex items-center gap-2 rounded-lg bg-accent px-5 py-2.5 text-xs font-bold text-white transition-all hover:bg-accent-hover active:scale-95"
+          >
+            {t("learn.take_assessment", lang, "Take Assessment")} &rarr;
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Disclaimer -->
+    <div
+      class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
+    >
+      <strong class="font-semibold text-foreground"
+        >{t("footer.disclaimer_title", lang, "Self-Tracking Notice:")}</strong
+      > {t("footer.disclaimer", lang, "This guide is for educational and cognitive training purposes only.")}
+    </div>
+  </div>
+</Layout>

@@ -10,7 +10,7 @@ import RecentTests from "@/components/ui/RecentTests"
 import Icon from "@/components/ui/Icon.astro"
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher"
 import GameSearch from "@/components/ui/GameSearch"
-import { translations } from "@/i18n/translations"
+import { translations, t, type LangCode } from "@/i18n/translations"
 import FaqsList from "@/components/ui/FaqsList.astro"
 import { getFaqSchemaForSlug, hasFaqsForPath } from "@/data/faqs"
 
@@ -19,46 +19,100 @@ interface Props {
   description?: string
   canonicalUrl?: string
   ogImage?: string
+  ogType?: "website" | "article" | string
   schemaJson?: Record<string, any> | Record<string, any>[]
   robots?: string
+  lang?: LangCode
 }
 
 const {
   title = "CogniArena — Free Reaction Time Test & Cognitive Assessments",
-  description = "Take the free reaction time test and measure your reflexes in milliseconds. 23+ cognitive assessments including IQ test, typing test, memory games. 100% anonymous, runs in your browser.",
+  description = "Take the free reaction time test and measure your reflexes in milliseconds. 29+ cognitive assessments including IQ test, typing test, memory games. 100% anonymous, runs in your browser.",
   canonicalUrl = "https://cogniarena.com",
   ogImage,
+  ogType,
   schemaJson,
   robots = "index, follow",
+  lang,
 } = Astro.props
 
-// Normalize canonicalUrl to ensure it ends with a trailing slash if it doesn't already
+const { pathname } = Astro.url
+
+// Determine active language
+const pathLocaleMatch = pathname.match(/^\/(es|fr|de|pt|ja)(\/|$)/)
+const currentLang: LangCode = lang || (pathLocaleMatch ? (pathLocaleMatch[1] as LangCode) : "en")
+const localePrefix = currentLang === "en" ? "" : `/${currentLang}`
+
+// Clean unlocalized path for hreflang cluster and canonical resolution
+const cleanPath = pathname.replace(/^\/(es|fr|de|pt|ja)(\/|$)/, "/")
+const unlocalizedPath = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`
+
+const ogLocaleMap: Record<LangCode, string> = {
+  en: "en_US",
+  es: "es_ES",
+  fr: "fr_FR",
+  de: "de_DE",
+  pt: "pt_BR",
+  ja: "ja_JP",
+}
+
+// Normalize canonicalUrl to ensure it ends with a trailing slash
 let formattedCanonicalUrl = canonicalUrl;
-if (formattedCanonicalUrl && !formattedCanonicalUrl.endsWith('/')) {
-  const lastPart = formattedCanonicalUrl.split('/').pop() || '';
-  if (!lastPart.includes('.')) {
-    formattedCanonicalUrl = formattedCanonicalUrl + '/';
+if (formattedCanonicalUrl) {
+  if (formattedCanonicalUrl === "https://cogniarena.com" || formattedCanonicalUrl === "https://cogniarena.com/") {
+    formattedCanonicalUrl = currentLang === "en" ? "https://cogniarena.com/" : `https://cogniarena.com/${currentLang}/`;
+  } else if (!formattedCanonicalUrl.endsWith('/')) {
+    const lastPart = formattedCanonicalUrl.split('/').pop() || '';
+    if (!lastPart.includes('.')) {
+      formattedCanonicalUrl = formattedCanonicalUrl + '/';
+    }
   }
 }
+
+// Resolve fully-qualified absolute OG image URL (PNG format for broad social crawler compatibility)
+let resolvedOgImage = "https://cogniarena.com/og-image.png";
+if (ogImage) {
+  if (ogImage.startsWith("http://") || ogImage.startsWith("https://")) {
+    resolvedOgImage = ogImage;
+  } else {
+    resolvedOgImage = `https://cogniarena.com${ogImage.startsWith("/") ? "" : "/"}${ogImage}`;
+  }
+}
+
+// Resolve OG type (articles for educational / learn guides, website for everything else)
+const resolvedOgType = ogType || (pathname.startsWith("/learn/") && pathname !== "/learn" && pathname !== "/learn/" ? "article" : "website");
+
 
 // Organization + WebSite schema — injected on every page for knowledge panel / sitelinks
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
+  "@id": "https://cogniarena.com/#organization",
   name: "CogniArena",
   url: "https://cogniarena.com/",
-  logo: "https://cogniarena.com/favicon.svg",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://cogniarena.com/og-image.png",
+    width: "1200",
+    height: "630",
+  },
   description:
-    "Free online cognitive assessment platform with 23+ brain tests measuring reaction time, memory, reasoning, focus, and motor skills.",
+    "Free online cognitive assessment platform with 29+ brain tests measuring reaction time, memory, reasoning, focus, and motor skills.",
   foundingDate: "2025",
-  sameAs: [],
 }
 
 const webSiteSchema = {
   "@context": "https://schema.org",
   "@type": "WebSite",
+  "@id": "https://cogniarena.com/#website",
   name: "CogniArena",
   url: "https://cogniarena.com/",
+  description:
+    "Free online cognitive assessments, reflex testers, and brain training platform.",
+  inLanguage: currentLang,
+  publisher: {
+    "@id": "https://cogniarena.com/#organization",
+  },
 }
 
 // Default structured data for the site (fallback when page provides no schema)
@@ -80,17 +134,16 @@ const pageSchemas = Array.isArray(schemaJson)
   ? [...schemaJson]
   : [schemaJson || defaultSchema]
 
-const { pathname } = Astro.url
 const isHome = pathname.replace(/\/$/, "") === "" || pathname.includes("/index.html")
 
 // Parse slug
 let testSlug = ""
-if (pathname === "/gauntlet" || pathname === "/gauntlet/") {
+if (unlocalizedPath === "/gauntlet" || unlocalizedPath === "/gauntlet/") {
   testSlug = "gauntlet"
-} else if (pathname === "/attention-test" || pathname === "/attention-test/") {
+} else if (unlocalizedPath === "/attention-test" || unlocalizedPath === "/attention-test/") {
   testSlug = "attention-test"
-} else if (pathname.startsWith("/tests/")) {
-  const parts = pathname.split("/").filter(Boolean)
+} else if (unlocalizedPath.startsWith("/tests/")) {
+  const parts = unlocalizedPath.split("/").filter(Boolean)
   if (parts[1] && parts[1] !== "results") {
     testSlug = parts[1]
   }
@@ -145,7 +198,7 @@ const isHistoryActive = pathname === "/history"
 const isProfileActive = pathname === "/dashboard"
 ---
 
-<html lang="en">
+<html lang={currentLang}>
   <head>
     <script is:inline>
       const stored = localStorage.getItem("theme")
@@ -157,10 +210,6 @@ const isProfileActive = pathname === "/dashboard"
         document.documentElement.classList.add("dark")
       } else {
         document.documentElement.classList.remove("dark")
-      }
-      const lang = localStorage.getItem("language") || "en"
-      if (lang !== "en") {
-        document.documentElement.lang = lang
       }
     </script>
     <meta charset="utf-8" />
@@ -175,31 +224,51 @@ const isProfileActive = pathname === "/dashboard"
     <meta name="apple-mobile-web-app-title" content="cogniarena" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="canonical" href={formattedCanonicalUrl} />
+    <link rel="alternate" hreflang="x-default" href={`https://cogniarena.com${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="en" href={`https://cogniarena.com${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="es" href={`https://cogniarena.com/es${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="fr" href={`https://cogniarena.com/fr${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="de" href={`https://cogniarena.com/de${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="pt" href={`https://cogniarena.com/pt${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    <link rel="alternate" hreflang="ja" href={`https://cogniarena.com/ja${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
     <title>{title}</title>
 
     <!-- Meta tags for SEO -->
     <meta name="description" content={description} />
     <meta name="robots" content={robots} />
+    <meta name="yandex-verification" content="2cae89c2d02f63bb" />
 
     <!-- Open Graph tags for Social Sharing -->
-    <meta property="og:type" content="website" />
+    <meta property="og:locale" content={ogLocaleMap[currentLang] || "en_US"} />
+    <meta property="og:locale:alternate" content="es_ES" />
+    <meta property="og:locale:alternate" content="fr_FR" />
+    <meta property="og:locale:alternate" content="de_DE" />
+    <meta property="og:locale:alternate" content="pt_BR" />
+    <meta property="og:locale:alternate" content="ja_JP" />
+
+    <meta property="og:type" content={resolvedOgType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={formattedCanonicalUrl} />
     <meta property="og:site_name" content="CogniArena" />
-    <meta property="og:image" content={ogImage || "/og-image.svg"} />
+    <meta property="og:image" content={resolvedOgImage} />
+    <meta property="og:image:secure_url" content={resolvedOgImage} />
+    <meta
+      property="og:image:type"
+      content={resolvedOgImage.endsWith(".jpg") || resolvedOgImage.endsWith(".jpeg")
+        ? "image/jpeg"
+        : "image/png"}
+    />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
-    <meta
-      property="og:image:alt"
-      content="CogniArena — Free Reaction Time Test & Cognitive Assessments"
-    />
+    <meta property="og:image:alt" content={title} />
 
     <!-- Twitter card tags -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImage || "/og-image.svg"} />
+    <meta name="twitter:image" content={resolvedOgImage} />
+    <meta name="twitter:image:alt" content={title} />
 
     <!-- Theme Color -->
     <meta
@@ -273,13 +342,13 @@ const isProfileActive = pathname === "/dashboard"
     >
 
     <!-- Onboarding Flow -->
-    <OnboardingFlow client:load />
+    <OnboardingFlow client:idle />
 
     <!-- How To Play Modal (Test Onboarding) -->
-    <HowToPlayModal client:load />
+    <HowToPlayModal client:idle />
 
     <!-- Keyboard Shortcuts Help Modal -->
-    <KeyboardShortcutsHelp client:load />
+    <KeyboardShortcutsHelp client:idle />
     <div class="flex min-h-screen flex-1 flex-col lg:flex-row">
       <!-- Desktop Sidebar Layout -->
       <aside
@@ -287,7 +356,7 @@ const isProfileActive = pathname === "/dashboard"
       >
         <div class="flex flex-col gap-2">
           <a
-            href="/"
+            href={`${localePrefix}/`}
             class="flex items-center gap-2 transition-opacity hover:opacity-90"
           >
             <img
@@ -315,46 +384,46 @@ const isProfileActive = pathname === "/dashboard"
               data-i18n="nav.ecosystem">Ecosystem</span
             >
             <a
-              href="/"
+              href={`${localePrefix}/`}
               class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === "/" ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
             >
               <Icon name="home" size={16} />
-              <span data-i18n="nav.home">Home Overview</span>
+              <span data-i18n="nav.home">{t("nav.home", currentLang, "Home Overview")}</span>
             </a>
             <a
-              href="/benchmarks"
+              href={`${localePrefix}/benchmarks/`}
               class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes("/benchmarks") ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
             >
               <Icon name="chart-bar" size={16} />
-              <span data-i18n="nav.benchmarks">Population Benchmarks</span>
+              <span data-i18n="nav.benchmarks">{t("nav.benchmarks", currentLang, "Population Benchmarks")}</span>
             </a>
             <a
-              href="/dashboard"
+              href={`${localePrefix}/dashboard/`}
               class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes("/dashboard") ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
             >
               <Icon name="chart-bar" size={16} />
-              <span data-i18n="nav.dashboard">Dashboard</span>
+              <span data-i18n="nav.dashboard">{t("nav.dashboard", currentLang, "Dashboard")}</span>
             </a>
             <a
-              href="/records"
+              href={`${localePrefix}/records/`}
               class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === "/records" ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
             >
               <Icon name="clipboard" size={16} />
-              <span data-i18n="nav.records">Personal Records</span>
+              <span data-i18n="nav.records">{t("nav.records", currentLang, "Personal Records")}</span>
             </a>
             <a
-              href="/brain-games"
+              href={`${localePrefix}/brain-games/`}
               class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === "/brain-games" ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
             >
               <Icon name="brain" size={16} />
-              <span data-i18n="nav.brain_games">Brain Games</span>
+              <span data-i18n="nav.brain_games">{t("nav.brain_games", currentLang, "Brain Games")}</span>
             </a>
             <a
-              href="/gauntlet"
+              href={`${localePrefix}/gauntlet/`}
               class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes("/gauntlet") ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
             >
               <Icon name="castle" size={16} />
-              <span data-i18n="nav.gauntlet">The Gauntlet</span>
+              <span data-i18n="nav.gauntlet">{t("nav.gauntlet", currentLang, "The Gauntlet")}</span>
               <span
                 class="ml-auto font-mono text-[8px] text-accent uppercase"
                 data-i18n="nav.flagship">Flagship</span
@@ -369,7 +438,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <Icon name="zap" size={16} />
-                <span data-i18n="nav.reaction">Reaction & Reflexes</span>
+                <span data-i18n="nav.reaction">{t("nav.reaction", currentLang, "Reaction & Reflexes")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -389,46 +458,46 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href="/tests/reaction-time"
+                href={`${localePrefix}/tests/reaction-time/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/reaction-time") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="zap" size={16} />
-                <span data-i18n="nav.visual_reaction">Visual Reaction</span>
+                <span data-i18n="nav.visual_reaction">{t("nav.visual_reaction", currentLang, "Visual Reaction")}</span>
               </a>
               <a
-                href="/tests/sound-reaction"
+                href={`${localePrefix}/tests/sound-reaction/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/sound-reaction") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="volume" size={16} />
-                <span data-i18n="nav.auditory_reflex">Auditory Reflex</span>
+                <span data-i18n="nav.auditory_reflex">{t("nav.auditory_reflex", currentLang, "Auditory Reflex")}</span>
               </a>
               <a
-                href="/tests/f1-lights"
+                href={`${localePrefix}/tests/f1-lights/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/f1-lights") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="flag" size={16} />
-                <span data-i18n="nav.f1_lights">F1 Start Lights</span>
+                <span data-i18n="nav.f1_lights">{t("nav.f1_lights", currentLang, "F1 Start Lights")}</span>
               </a>
               <a
-                href="/tests/choice-reaction"
+                href={`${localePrefix}/tests/choice-reaction/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/choice-reaction") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="hash" size={16} />
-                <span data-i18n="nav.choice_reaction">Choice Reaction</span>
+                <span data-i18n="nav.choice_reaction">{t("nav.choice_reaction", currentLang, "Choice Reaction")}</span>
               </a>
               <a
-                href="/tests/go-no-go"
+                href={`${localePrefix}/tests/go-no-go/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/go-no-go") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="shield" size={16} />
-                <span data-i18n="nav.go_nogo">Color Go/No-Go</span>
+                <span data-i18n="nav.go_nogo">{t("nav.go_nogo", currentLang, "Color Go/No-Go")}</span>
               </a>
               <a
-                href="/tests/latency-optimizer"
+                href={`${localePrefix}/tests/latency-optimizer/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/latency-optimizer") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="zap" size={16} />
-                <span data-i18n="nav.latency_optimizer">Latency & Hz Optimizer</span>
+                <span data-i18n="nav.latency_optimizer">{t("nav.latency_optimizer", currentLang, "Latency & Hz Optimizer")}</span>
               </a>
             </div>
           </details>
@@ -440,7 +509,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <Icon name="brain" size={16} />
-                <span data-i18n="nav.memory">Memory</span>
+                <span data-i18n="nav.memory">{t("nav.memory", currentLang, "Memory")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -460,39 +529,39 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href="/tests/sequence-memory"
+                href={`${localePrefix}/tests/sequence-memory/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/sequence-memory") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="layers" size={16} />
-                <span data-i18n="nav.sequence_memory">Sequence Memory</span>
+                <span data-i18n="nav.sequence_memory">{t("nav.sequence_memory", currentLang, "Sequence Memory")}</span>
               </a>
               <a
-                href="/tests/number-memory"
+                href={`${localePrefix}/tests/number-memory/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/number-memory") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="hash" size={16} />
-                <span data-i18n="nav.number_memory">Number Memory</span>
+                <span data-i18n="nav.number_memory">{t("nav.number_memory", currentLang, "Number Memory")}</span>
               </a>
               <a
-                href="/tests/visual-pattern"
+                href={`${localePrefix}/tests/visual-pattern/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/visual-pattern") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="puzzle" size={16} />
-                <span data-i18n="nav.visual_pattern">Visual Pattern</span>
+                <span data-i18n="nav.visual_pattern">{t("nav.visual_pattern", currentLang, "Visual Pattern")}</span>
               </a>
               <a
-                href="/tests/dual-n-back"
+                href={`${localePrefix}/tests/dual-n-back/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/dual-n-back") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="brain" size={16} />
-                <span data-i18n="nav.dual_nback">Dual N-Back</span>
+                <span data-i18n="nav.dual_nback">{t("nav.dual_nback", currentLang, "Dual N-Back")}</span>
               </a>
               <a
-                href="/tests/verbal-memory"
+                href={`${localePrefix}/tests/verbal-memory/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/verbal-memory") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="file-text" size={16} />
-                <span data-i18n="nav.verbal_memory">Verbal Memory</span>
+                <span data-i18n="nav.verbal_memory">{t("nav.verbal_memory", currentLang, "Verbal Memory")}</span>
               </a>
             </div>
           </details>
@@ -504,7 +573,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <Icon name="puzzle" size={16} />
-                <span data-i18n="nav.reasoning">Reasoning</span>
+                <span data-i18n="nav.reasoning">{t("nav.reasoning", currentLang, "Reasoning")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -524,7 +593,7 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href="/tests/pattern-reasoning?format=pattern"
+                href={`${localePrefix}/tests/pattern-reasoning?format=pattern`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
                 <span data-i18n="nav.pattern_recognition"
@@ -536,37 +605,37 @@ const isProfileActive = pathname === "/dashboard"
                 >
               </a>
               <a
-                href="/tests/pattern-reasoning?format=matrix"
+                href={`${localePrefix}/tests/pattern-reasoning?format=matrix`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
-                <span data-i18n="nav.matrix_reasoning">Matrix Reasoning</span>
+                <span data-i18n="nav.matrix_reasoning">{t("nav.matrix_reasoning", currentLang, "Matrix Reasoning")}</span>
                 <span
                   class="rounded bg-accent/10 px-1.5 font-mono text-[9px] text-accent"
                   data-i18n="btn.play">Play</span
                 >
               </a>
               <a
-                href="/tests/pattern-reasoning?format=sequence"
+                href={`${localePrefix}/tests/pattern-reasoning?format=sequence`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
-                <span data-i18n="nav.sequence_logic">Sequence Logic</span>
+                <span data-i18n="nav.sequence_logic">{t("nav.sequence_logic", currentLang, "Sequence Logic")}</span>
                 <span
                   class="rounded bg-accent/10 px-1.5 font-mono text-[9px] text-accent"
                   data-i18n="btn.play">Play</span
                 >
               </a>
               <a
-                href="/tests/pattern-reasoning?format=analogy"
+                href={`${localePrefix}/tests/pattern-reasoning?format=analogy`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
-                <span data-i18n="nav.shape_analogies">Shape Analogies</span>
+                <span data-i18n="nav.shape_analogies">{t("nav.shape_analogies", currentLang, "Shape Analogies")}</span>
                 <span
                   class="rounded bg-accent/10 px-1.5 font-mono text-[9px] text-accent"
                   data-i18n="btn.play">Play</span
                 >
               </a>
               <a
-                href="/tests/spatial-orientation"
+                href={`${localePrefix}/tests/spatial-orientation/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/spatial-orientation") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="refresh" size={16} />
@@ -575,18 +644,18 @@ const isProfileActive = pathname === "/dashboard"
                 >
               </a>
               <a
-                href="/tests/speed-arithmetic"
+                href={`${localePrefix}/tests/speed-arithmetic/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/speed-arithmetic") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="hash" size={16} />
-                <span data-i18n="nav.speed_arithmetic">Speed Arithmetic</span>
+                <span data-i18n="nav.speed_arithmetic">{t("nav.speed_arithmetic", currentLang, "Speed Arithmetic")}</span>
               </a>
               <a
-                href="/tests/quant-dev-grid"
+                href={`${localePrefix}/tests/quant-dev-grid/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/quant-dev-grid") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="keyboard" size={16} />
-                <span data-i18n="nav.quant_dev_grid">Quant-Dev Grid</span>
+                <span data-i18n="nav.quant_dev_grid">{t("nav.quant_dev_grid", currentLang, "Quant-Dev Grid")}</span>
               </a>
             </div>
           </details>
@@ -598,7 +667,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <Icon name="crosshair" size={16} />
-                <span data-i18n="nav.focus">Focus & Attention</span>
+                <span data-i18n="nav.focus">{t("nav.focus", currentLang, "Focus & Attention")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -618,46 +687,46 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href="/tests/stroop"
+                href={`${localePrefix}/tests/stroop/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/stroop") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="palette" size={16} />
-                <span data-i18n="nav.stroop">Stroop Test</span>
+                <span data-i18n="nav.stroop">{t("nav.stroop", currentLang, "Stroop Test")}</span>
               </a>
               <a
-                href="/tests/trail-making"
+                href={`${localePrefix}/tests/trail-making/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/trail-making") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="compass" size={16} />
-                <span data-i18n="nav.trail_making">Trail Making</span>
+                <span data-i18n="nav.trail_making">{t("nav.trail_making", currentLang, "Trail Making")}</span>
               </a>
               <a
-                href="/tests/focus-challenge"
+                href={`${localePrefix}/tests/focus-challenge/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/focus-challenge") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="crosshair" size={16} />
-                <span data-i18n="nav.focus_challenge">Focus Challenge</span>
+                <span data-i18n="nav.focus_challenge">{t("nav.focus_challenge", currentLang, "Focus Challenge")}</span>
               </a>
               <a
-                href="/attention-test"
+                href={`${localePrefix}/attention-test/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/attention-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="brain" size={16} />
-                <span data-i18n="nav.adhd_test">Attention Test</span>
+                <span data-i18n="nav.adhd_test">{t("nav.adhd_test", currentLang, "Attention Test")}</span>
               </a>
               <a
-                href="/color-game"
+                href={`${localePrefix}/color-game/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/color-game") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="palette" size={16} />
-                <span data-i18n="nav.color_game">Color Game</span>
+                <span data-i18n="nav.color_game">{t("nav.color_game", currentLang, "Color Game")}</span>
               </a>
               <a
-                href="/tests/sleep-sanctuary"
+                href={`${localePrefix}/tests/sleep-sanctuary/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/sleep-sanctuary") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="compass" size={16} />
-                <span data-i18n="nav.sleep_sanctuary">Sleep & Chronotype</span>
+                <span data-i18n="nav.sleep_sanctuary">{t("nav.sleep_sanctuary", currentLang, "Sleep & Chronotype")}</span>
               </a>
             </div>
           </details>
@@ -669,7 +738,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <span>🎮</span>
-                <span data-i18n="nav.motor">Motor Performance</span>
+                <span data-i18n="nav.motor">{t("nav.motor", currentLang, "Motor Performance")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -689,53 +758,53 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href="/tests/click-speed"
+                href={`${localePrefix}/tests/click-speed/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/click-speed") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="mouse" size={16} />
-                <span data-i18n="nav.cps_test">CPS Test</span>
+                <span data-i18n="nav.cps_test">{t("nav.cps_test", currentLang, "CPS Test")}</span>
               </a>
               <a
-                href="/tests/aim-trainer"
+                href={`${localePrefix}/tests/aim-trainer/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/aim-trainer") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="crosshair" size={16} />
-                <span data-i18n="nav.aim_precision">Aim Precision</span>
+                <span data-i18n="nav.aim_precision">{t("nav.aim_precision", currentLang, "Aim Precision")}</span>
               </a>
               <a
-                href="/tests/mouse-accuracy"
+                href={`${localePrefix}/tests/mouse-accuracy/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/mouse-accuracy") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="crosshair" size={16} />
-                <span data-i18n="nav.mouse_accuracy">Mouse Accuracy</span>
+                <span data-i18n="nav.mouse_accuracy">{t("nav.mouse_accuracy", currentLang, "Mouse Accuracy")}</span>
               </a>
               <a
-                href="/tests/flick-trainer"
+                href={`${localePrefix}/tests/flick-trainer/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/flick-trainer") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="zap" size={16} />
-                <span data-i18n="nav.flick_trainer">Flick Trainer</span>
+                <span data-i18n="nav.flick_trainer">{t("nav.flick_trainer", currentLang, "Flick Trainer")}</span>
               </a>
               <a
-                href="/tests/typing-speed"
+                href={`${localePrefix}/tests/typing-speed/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/typing-speed") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="keyboard" size={16} />
-                <span data-i18n="nav.typing_speed">Typing Speed</span>
+                <span data-i18n="nav.typing_speed">{t("nav.typing_speed", currentLang, "Typing Speed")}</span>
               </a>
               <a
-                href="/tests/aim-coordination"
+                href={`${localePrefix}/tests/aim-coordination/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/aim-coordination") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="crosshair" size={16} />
-                <span data-i18n="nav.aim_coordination">Aim Coordination</span>
+                <span data-i18n="nav.aim_coordination">{t("nav.aim_coordination", currentLang, "Aim Coordination")}</span>
               </a>
               <a
-                href="/tests/ergonomic-architect"
+                href={`${localePrefix}/tests/ergonomic-architect/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/ergonomic-architect") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="mouse" size={16} />
-                <span data-i18n="nav.ergonomic_architect">Ergonomic Architect</span>
+                <span data-i18n="nav.ergonomic_architect">{t("nav.ergonomic_architect", currentLang, "Ergonomic Architect")}</span>
               </a>
             </div>
           </details>
@@ -747,7 +816,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <Icon name="compass" size={16} />
-                <span data-i18n="nav.executive">Executive Function</span>
+                <span data-i18n="nav.executive">{t("nav.executive", currentLang, "Executive Function")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -767,28 +836,28 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href="/tests/decision-speed"
+                href={`${localePrefix}/tests/decision-speed/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/decision-speed") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="zap" size={16} />
-                <span data-i18n="nav.decision_speed">Decision Speed</span>
+                <span data-i18n="nav.decision_speed">{t("nav.decision_speed", currentLang, "Decision Speed")}</span>
               </a>
               <a
-                href="/tests/planning"
+                href={`${localePrefix}/tests/planning/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/planning") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="git-branch" size={16} />
-                <span data-i18n="nav.planning">Planning</span>
+                <span data-i18n="nav.planning">{t("nav.planning", currentLang, "Planning")}</span>
               </a>
               <a
-                href="/tests/prioritization"
+                href={`${localePrefix}/tests/prioritization/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/prioritization") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="chart-bar" size={16} />
-                <span data-i18n="nav.prioritization">Prioritization</span>
+                <span data-i18n="nav.prioritization">{t("nav.prioritization", currentLang, "Prioritization")}</span>
               </a>
               <a
-                href="/tests/trail-making"
+                href={`${localePrefix}/tests/trail-making/`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
                 <span data-i18n="nav.cognitive_flexibility"
@@ -809,7 +878,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <Icon name="crosshair" size={16} />
-                <span data-i18n="nav.quizzes">Quizzes</span>
+                <span data-i18n="nav.quizzes">{t("nav.quizzes", currentLang, "Quizzes")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -829,25 +898,25 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href="/quiz"
+                href={`${localePrefix}/quiz/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/quiz") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="clipboard" size={16} />
-                <span data-i18n="nav.all_quizzes">All Quizzes</span>
+                <span data-i18n="nav.all_quizzes">{t("nav.all_quizzes", currentLang, "All Quizzes")}</span>
               </a>
               <a
-                href="/quiz/iq-test"
+                href={`${localePrefix}/quiz/iq-test/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/quiz/iq-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="brain" size={16} />
-                <span data-i18n="nav.iq_test">IQ Test</span>
+                <span data-i18n="nav.iq_test">{t("nav.iq_test", currentLang, "IQ Test")}</span>
               </a>
               <a
-                href="/quiz/cognitive-style"
+                href={`${localePrefix}/quiz/cognitive-style/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/quiz/cognitive-style") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="message-circle" size={16} />
-                <span data-i18n="nav.cognitive_style">Cognitive Style</span>
+                <span data-i18n="nav.cognitive_style">{t("nav.cognitive_style", currentLang, "Cognitive Style")}</span>
               </a>
             </div>
           </details>
@@ -859,7 +928,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <Icon name="book-open" size={16} />
-                <span data-i18n="nav.learning">Learning Center</span>
+                <span data-i18n="nav.learning">{t("nav.learning", currentLang, "Learning Center")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -879,11 +948,11 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href="/learn"
+                href={`${localePrefix}/learn/`}
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname === "/learn" ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="book" size={16} />
-                <span data-i18n="nav.all_guides">All Guides</span>
+                <span data-i18n="nav.all_guides">{t("nav.all_guides", currentLang, "All Guides")}</span>
               </a>
             </div>
           </details>
@@ -892,40 +961,40 @@ const isProfileActive = pathname === "/dashboard"
         <div
           class="flex flex-col gap-4 border-t border-card-border pt-6 text-[11px] text-muted"
         >
-          <RecentTests client:load />
+          <RecentTests client:idle />
 
           <div class="flex items-center justify-between">
-            <span data-i18n="nav.calibration">Calibration Status</span>
+            <span data-i18n="nav.calibration">{t("nav.calibration", currentLang, "Calibration Status")}</span>
             <span class="font-mono font-bold text-accent" data-i18n="nav.online"
               >Online</span
             >
           </div>
 
-          <SyncPanel client:load />
+          <SyncPanel client:idle />
 
           <div
             class="mt-1 flex flex-wrap gap-2 font-mono text-[10px] text-muted"
           >
             <a
-              href="/methodology"
+              href={`${localePrefix}/methodology/`}
               class="transition-colors hover:text-accent"
               data-i18n="footer.methodology">Methodology</a
             >
             <span>&middot;</span>
             <a
-              href="/faq"
+              href={`${localePrefix}/faq/`}
               class="transition-colors hover:text-accent"
               data-i18n="nav.faq">FAQ</a
             >
             <span>&middot;</span>
             <a
-              href="/privacy"
+              href={`${localePrefix}/privacy/`}
               class="transition-colors hover:text-accent"
               data-i18n="footer.privacy">Privacy Policy</a
             >
             <span>&middot;</span>
             <a
-              href="/terms"
+              href={`${localePrefix}/terms/`}
               class="transition-colors hover:text-accent"
               data-i18n="footer.terms">Terms</a
             >
@@ -956,7 +1025,7 @@ const isProfileActive = pathname === "/dashboard"
             class="flex items-center justify-between border-b border-card-border/60 pb-2"
           >
             <div class="flex flex-col gap-0.5">
-              <a href="/" class="flex items-center gap-2 hover:opacity-90">
+              <a href={`${localePrefix}/`} class="flex items-center gap-2 hover:opacity-90">
                 <img
                   src="/favicon.svg"
                   alt="CogniArena"
@@ -1005,46 +1074,46 @@ const isProfileActive = pathname === "/dashboard"
                 data-i18n="nav.ecosystem">Ecosystem</span
               >
               <a
-                href="/"
+                href={`${localePrefix}/`}
                 class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === "/" ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="home" size={16} />
-                <span data-i18n="nav.home">Home Overview</span>
+                <span data-i18n="nav.home">{t("nav.home", currentLang, "Home Overview")}</span>
               </a>
               <a
-                href="/benchmarks"
+                href={`${localePrefix}/benchmarks/`}
                 class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes("/benchmarks") ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="chart-bar" size={16} />
-                <span data-i18n="nav.benchmarks">Population Benchmarks</span>
+                <span data-i18n="nav.benchmarks">{t("nav.benchmarks", currentLang, "Population Benchmarks")}</span>
               </a>
               <a
-                href="/dashboard"
+                href={`${localePrefix}/dashboard/`}
                 class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes("/dashboard") ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="chart-bar" size={16} />
-                <span data-i18n="nav.dashboard">Dashboard</span>
+                <span data-i18n="nav.dashboard">{t("nav.dashboard", currentLang, "Dashboard")}</span>
               </a>
               <a
-                href="/records"
+                href={`${localePrefix}/records/`}
                 class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === "/records" ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="clipboard" size={16} />
-                <span data-i18n="nav.records">Personal Records</span>
+                <span data-i18n="nav.records">{t("nav.records", currentLang, "Personal Records")}</span>
               </a>
               <a
-                href="/brain-games"
+                href={`${localePrefix}/brain-games/`}
                 class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname === "/brain-games" ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="brain" size={16} />
-                <span data-i18n="nav.brain_games">Brain Games</span>
+                <span data-i18n="nav.brain_games">{t("nav.brain_games", currentLang, "Brain Games")}</span>
               </a>
               <a
-                href="/gauntlet"
+                href={`${localePrefix}/gauntlet/`}
                 class={`flex items-center gap-2.5 px-3 py-2 rounded-md text-xs transition-standard hover:bg-subtle ${pathname.includes("/gauntlet") ? "bg-accent/15 border-l-2 border-accent text-accent font-semibold" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="castle" size={16} />
-                <span data-i18n="nav.gauntlet">The Gauntlet</span>
+                <span data-i18n="nav.gauntlet">{t("nav.gauntlet", currentLang, "The Gauntlet")}</span>
                 <span
                   class="ml-auto font-mono text-[8px] text-accent uppercase"
                   data-i18n="nav.flagship">Flagship</span
@@ -1059,7 +1128,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <Icon name="zap" size={16} />
-                  <span data-i18n="nav.reaction">Reaction & Reflexes</span>
+                  <span data-i18n="nav.reaction">{t("nav.reaction", currentLang, "Reaction & Reflexes")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1079,46 +1148,46 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href="/tests/reaction-time"
+                  href={`${localePrefix}/tests/reaction-time/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/reaction-time") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="zap" size={16} />
-                  <span data-i18n="nav.visual_reaction">Visual Reaction</span>
+                  <span data-i18n="nav.visual_reaction">{t("nav.visual_reaction", currentLang, "Visual Reaction")}</span>
                 </a>
                 <a
-                  href="/tests/sound-reaction"
+                  href={`${localePrefix}/tests/sound-reaction/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/sound-reaction") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="volume" size={16} />
-                  <span data-i18n="nav.auditory_reflex">Auditory Reflex</span>
+                  <span data-i18n="nav.auditory_reflex">{t("nav.auditory_reflex", currentLang, "Auditory Reflex")}</span>
                 </a>
                 <a
-                  href="/tests/f1-lights"
+                  href={`${localePrefix}/tests/f1-lights/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/f1-lights") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="flag" size={16} />
-                  <span data-i18n="nav.f1_lights">F1 Start Lights</span>
+                  <span data-i18n="nav.f1_lights">{t("nav.f1_lights", currentLang, "F1 Start Lights")}</span>
                 </a>
                 <a
-                  href="/tests/choice-reaction"
+                  href={`${localePrefix}/tests/choice-reaction/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/choice-reaction") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="hash" size={16} />
-                  <span data-i18n="nav.choice_reaction">Choice Reaction</span>
+                  <span data-i18n="nav.choice_reaction">{t("nav.choice_reaction", currentLang, "Choice Reaction")}</span>
                 </a>
                 <a
-                  href="/tests/go-no-go"
+                  href={`${localePrefix}/tests/go-no-go/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/go-no-go") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="shield" size={16} />
-                  <span data-i18n="nav.go_nogo">Color Go/No-Go</span>
+                  <span data-i18n="nav.go_nogo">{t("nav.go_nogo", currentLang, "Color Go/No-Go")}</span>
                 </a>
                 <a
-                  href="/tests/latency-optimizer"
+                  href={`${localePrefix}/tests/latency-optimizer/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/latency-optimizer") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="zap" size={16} />
-                  <span data-i18n="nav.latency_optimizer">Latency & Hz Optimizer</span>
+                  <span data-i18n="nav.latency_optimizer">{t("nav.latency_optimizer", currentLang, "Latency & Hz Optimizer")}</span>
                 </a>
               </div>
             </details>
@@ -1130,7 +1199,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <Icon name="brain" size={16} />
-                  <span data-i18n="nav.memory">Memory</span>
+                  <span data-i18n="nav.memory">{t("nav.memory", currentLang, "Memory")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1150,39 +1219,39 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href="/tests/sequence-memory"
+                  href={`${localePrefix}/tests/sequence-memory/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/sequence-memory") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="layers" size={16} />
-                  <span data-i18n="nav.sequence_memory">Sequence Memory</span>
+                  <span data-i18n="nav.sequence_memory">{t("nav.sequence_memory", currentLang, "Sequence Memory")}</span>
                 </a>
                 <a
-                  href="/tests/number-memory"
+                  href={`${localePrefix}/tests/number-memory/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/number-memory") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="hash" size={16} />
-                  <span data-i18n="nav.number_memory">Number Memory</span>
+                  <span data-i18n="nav.number_memory">{t("nav.number_memory", currentLang, "Number Memory")}</span>
                 </a>
                 <a
-                  href="/tests/visual-pattern"
+                  href={`${localePrefix}/tests/visual-pattern/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/visual-pattern") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="puzzle" size={16} />
-                  <span data-i18n="nav.visual_pattern">Visual Pattern</span>
+                  <span data-i18n="nav.visual_pattern">{t("nav.visual_pattern", currentLang, "Visual Pattern")}</span>
                 </a>
                 <a
-                  href="/tests/dual-n-back"
+                  href={`${localePrefix}/tests/dual-n-back/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/dual-n-back") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="brain" size={16} />
-                  <span data-i18n="nav.dual_nback">Dual N-Back</span>
+                  <span data-i18n="nav.dual_nback">{t("nav.dual_nback", currentLang, "Dual N-Back")}</span>
                 </a>
                 <a
-                  href="/tests/verbal-memory"
+                  href={`${localePrefix}/tests/verbal-memory/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/verbal-memory") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="file-text" size={16} />
-                  <span data-i18n="nav.verbal_memory">Verbal Memory</span>
+                  <span data-i18n="nav.verbal_memory">{t("nav.verbal_memory", currentLang, "Verbal Memory")}</span>
                 </a>
               </div>
             </details>
@@ -1194,7 +1263,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <Icon name="puzzle" size={16} />
-                  <span data-i18n="nav.reasoning">Reasoning</span>
+                  <span data-i18n="nav.reasoning">{t("nav.reasoning", currentLang, "Reasoning")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1214,7 +1283,7 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href="/tests/pattern-reasoning?format=pattern"
+                  href={`${localePrefix}/tests/pattern-reasoning?format=pattern`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
                   <span data-i18n="nav.pattern_recognition"
@@ -1226,37 +1295,37 @@ const isProfileActive = pathname === "/dashboard"
                   >
                 </a>
                 <a
-                  href="/tests/pattern-reasoning?format=matrix"
+                  href={`${localePrefix}/tests/pattern-reasoning?format=matrix`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
-                  <span data-i18n="nav.matrix_reasoning">Matrix Reasoning</span>
+                  <span data-i18n="nav.matrix_reasoning">{t("nav.matrix_reasoning", currentLang, "Matrix Reasoning")}</span>
                   <span
                     class="rounded bg-accent/10 px-1.5 font-mono text-[9px] text-accent"
                     >Play</span
                   >
                 </a>
                 <a
-                  href="/tests/pattern-reasoning?format=sequence"
+                  href={`${localePrefix}/tests/pattern-reasoning?format=sequence`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
-                  <span data-i18n="nav.sequence_logic">Sequence Logic</span>
+                  <span data-i18n="nav.sequence_logic">{t("nav.sequence_logic", currentLang, "Sequence Logic")}</span>
                   <span
                     class="rounded bg-accent/10 px-1.5 font-mono text-[9px] text-accent"
                     >Play</span
                   >
                 </a>
                 <a
-                  href="/tests/pattern-reasoning?format=analogy"
+                  href={`${localePrefix}/tests/pattern-reasoning?format=analogy`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
-                  <span data-i18n="nav.shape_analogies">Shape Analogies</span>
+                  <span data-i18n="nav.shape_analogies">{t("nav.shape_analogies", currentLang, "Shape Analogies")}</span>
                   <span
                     class="rounded bg-accent/10 px-1.5 font-mono text-[9px] text-accent"
                     >Play</span
                   >
                 </a>
                 <a
-                  href="/tests/spatial-orientation"
+                  href={`${localePrefix}/tests/spatial-orientation/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/spatial-orientation") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="refresh" size={16} />
@@ -1265,18 +1334,18 @@ const isProfileActive = pathname === "/dashboard"
                   >
                 </a>
                 <a
-                  href="/tests/speed-arithmetic"
+                  href={`${localePrefix}/tests/speed-arithmetic/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/speed-arithmetic") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="hash" size={16} />
-                  <span data-i18n="nav.speed_arithmetic">Speed Arithmetic</span>
+                  <span data-i18n="nav.speed_arithmetic">{t("nav.speed_arithmetic", currentLang, "Speed Arithmetic")}</span>
                 </a>
                 <a
-                  href="/tests/quant-dev-grid"
+                  href={`${localePrefix}/tests/quant-dev-grid/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/quant-dev-grid") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="keyboard" size={16} />
-                  <span data-i18n="nav.quant_dev_grid">Quant-Dev Grid</span>
+                  <span data-i18n="nav.quant_dev_grid">{t("nav.quant_dev_grid", currentLang, "Quant-Dev Grid")}</span>
                 </a>
               </div>
             </details>
@@ -1288,7 +1357,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <Icon name="crosshair" size={16} />
-                  <span data-i18n="nav.focus">Focus & Attention</span>
+                  <span data-i18n="nav.focus">{t("nav.focus", currentLang, "Focus & Attention")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1308,46 +1377,46 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href="/tests/stroop"
+                  href={`${localePrefix}/tests/stroop/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/stroop") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="palette" size={16} />
-                  <span data-i18n="nav.stroop">Stroop Test</span>
+                  <span data-i18n="nav.stroop">{t("nav.stroop", currentLang, "Stroop Test")}</span>
                 </a>
                 <a
-                  href="/tests/trail-making"
+                  href={`${localePrefix}/tests/trail-making/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/trail-making") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="compass" size={16} />
-                  <span data-i18n="nav.trail_making">Trail Making</span>
+                  <span data-i18n="nav.trail_making">{t("nav.trail_making", currentLang, "Trail Making")}</span>
                 </a>
                 <a
-                  href="/tests/focus-challenge"
+                  href={`${localePrefix}/tests/focus-challenge/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/focus-challenge") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="crosshair" size={16} />
-                  <span data-i18n="nav.focus_challenge">Focus Challenge</span>
+                  <span data-i18n="nav.focus_challenge">{t("nav.focus_challenge", currentLang, "Focus Challenge")}</span>
                 </a>
                 <a
-                  href="/attention-test"
+                  href={`${localePrefix}/attention-test/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/attention-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="brain" size={16} />
-                  <span data-i18n="nav.adhd_test">Attention Test</span>
+                  <span data-i18n="nav.adhd_test">{t("nav.adhd_test", currentLang, "Attention Test")}</span>
                 </a>
                 <a
-                  href="/color-game"
+                  href={`${localePrefix}/color-game/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/color-game") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="palette" size={16} />
-                  <span data-i18n="nav.color_game">Color Game</span>
+                  <span data-i18n="nav.color_game">{t("nav.color_game", currentLang, "Color Game")}</span>
                 </a>
                 <a
-                  href="/tests/sleep-sanctuary"
+                  href={`${localePrefix}/tests/sleep-sanctuary/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/sleep-sanctuary") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="compass" size={16} />
-                  <span data-i18n="nav.sleep_sanctuary">Sleep & Chronotype</span>
+                  <span data-i18n="nav.sleep_sanctuary">{t("nav.sleep_sanctuary", currentLang, "Sleep & Chronotype")}</span>
                 </a>
               </div>
             </details>
@@ -1359,7 +1428,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <span>🎮</span>
-                  <span data-i18n="nav.motor">Motor Performance</span>
+                  <span data-i18n="nav.motor">{t("nav.motor", currentLang, "Motor Performance")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1379,53 +1448,53 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href="/tests/click-speed"
+                  href={`${localePrefix}/tests/click-speed/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/click-speed") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="mouse" size={16} />
-                  <span data-i18n="nav.cps_test">CPS Test</span>
+                  <span data-i18n="nav.cps_test">{t("nav.cps_test", currentLang, "CPS Test")}</span>
                 </a>
                 <a
-                  href="/tests/aim-trainer"
+                  href={`${localePrefix}/tests/aim-trainer/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/aim-trainer") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="crosshair" size={16} />
-                  <span data-i18n="nav.aim_precision">Aim Precision</span>
+                  <span data-i18n="nav.aim_precision">{t("nav.aim_precision", currentLang, "Aim Precision")}</span>
                 </a>
                 <a
-                  href="/tests/mouse-accuracy"
+                  href={`${localePrefix}/tests/mouse-accuracy/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/mouse-accuracy") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="crosshair" size={16} />
-                  <span data-i18n="nav.mouse_accuracy">Mouse Accuracy</span>
+                  <span data-i18n="nav.mouse_accuracy">{t("nav.mouse_accuracy", currentLang, "Mouse Accuracy")}</span>
                 </a>
                 <a
-                  href="/tests/flick-trainer"
+                  href={`${localePrefix}/tests/flick-trainer/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/flick-trainer") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="zap" size={16} />
-                  <span data-i18n="nav.flick_trainer">Flick Trainer</span>
+                  <span data-i18n="nav.flick_trainer">{t("nav.flick_trainer", currentLang, "Flick Trainer")}</span>
                 </a>
                 <a
-                  href="/tests/typing-speed"
+                  href={`${localePrefix}/tests/typing-speed/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/typing-speed") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="keyboard" size={16} />
-                  <span data-i18n="nav.typing_speed">Typing Speed</span>
+                  <span data-i18n="nav.typing_speed">{t("nav.typing_speed", currentLang, "Typing Speed")}</span>
                 </a>
                 <a
-                  href="/tests/aim-coordination"
+                  href={`${localePrefix}/tests/aim-coordination/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/aim-coordination") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="crosshair" size={16} />
-                  <span data-i18n="nav.aim_coordination">Aim Coordination</span>
+                  <span data-i18n="nav.aim_coordination">{t("nav.aim_coordination", currentLang, "Aim Coordination")}</span>
                 </a>
                 <a
-                  href="/tests/ergonomic-architect"
+                  href={`${localePrefix}/tests/ergonomic-architect/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/ergonomic-architect") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="mouse" size={16} />
-                  <span data-i18n="nav.ergonomic_architect">Ergonomic Architect</span>
+                  <span data-i18n="nav.ergonomic_architect">{t("nav.ergonomic_architect", currentLang, "Ergonomic Architect")}</span>
                 </a>
               </div>
             </details>
@@ -1437,7 +1506,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <Icon name="compass" size={16} />
-                  <span data-i18n="nav.executive">Executive Function</span>
+                  <span data-i18n="nav.executive">{t("nav.executive", currentLang, "Executive Function")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1457,28 +1526,28 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href="/tests/decision-speed"
+                  href={`${localePrefix}/tests/decision-speed/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/decision-speed") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="zap" size={16} />
-                  <span data-i18n="nav.decision_speed">Decision Speed</span>
+                  <span data-i18n="nav.decision_speed">{t("nav.decision_speed", currentLang, "Decision Speed")}</span>
                 </a>
                 <a
-                  href="/tests/planning"
+                  href={`${localePrefix}/tests/planning/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/planning") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="git-branch" size={16} />
-                  <span data-i18n="nav.planning">Planning</span>
+                  <span data-i18n="nav.planning">{t("nav.planning", currentLang, "Planning")}</span>
                 </a>
                 <a
-                  href="/tests/prioritization"
+                  href={`${localePrefix}/tests/prioritization/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/tests/prioritization") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="chart-bar" size={16} />
-                  <span data-i18n="nav.prioritization">Prioritization</span>
+                  <span data-i18n="nav.prioritization">{t("nav.prioritization", currentLang, "Prioritization")}</span>
                 </a>
                 <a
-                  href="/tests/trail-making"
+                  href={`${localePrefix}/tests/trail-making/`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
                   <span data-i18n="nav.cognitive_flexibility"
@@ -1499,7 +1568,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <Icon name="crosshair" size={16} />
-                  <span data-i18n="nav.quizzes">Quizzes</span>
+                  <span data-i18n="nav.quizzes">{t("nav.quizzes", currentLang, "Quizzes")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1519,25 +1588,25 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href="/quiz"
+                  href={`${localePrefix}/quiz/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/quiz") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="clipboard" size={16} />
-                  <span data-i18n="nav.all_quizzes">All Quizzes</span>
+                  <span data-i18n="nav.all_quizzes">{t("nav.all_quizzes", currentLang, "All Quizzes")}</span>
                 </a>
                 <a
-                  href="/quiz/iq-test"
+                  href={`${localePrefix}/quiz/iq-test/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/quiz/iq-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="brain" size={16} />
-                  <span data-i18n="nav.iq_test">IQ Test</span>
+                  <span data-i18n="nav.iq_test">{t("nav.iq_test", currentLang, "IQ Test")}</span>
                 </a>
                 <a
-                  href="/quiz/cognitive-style"
+                  href={`${localePrefix}/quiz/cognitive-style/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/quiz/cognitive-style") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="message-circle" size={16} />
-                  <span data-i18n="nav.cognitive_style">Cognitive Style</span>
+                  <span data-i18n="nav.cognitive_style">{t("nav.cognitive_style", currentLang, "Cognitive Style")}</span>
                 </a>
               </div>
             </details>
@@ -1549,7 +1618,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <Icon name="book-open" size={16} />
-                  <span data-i18n="nav.learning">Learning Center</span>
+                  <span data-i18n="nav.learning">{t("nav.learning", currentLang, "Learning Center")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1569,11 +1638,11 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href="/learn"
+                  href={`${localePrefix}/learn/`}
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname === "/learn" ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="book" size={16} />
-                  <span data-i18n="nav.all_guides">All Guides</span>
+                  <span data-i18n="nav.all_guides">{t("nav.all_guides", currentLang, "All Guides")}</span>
                 </a>
               </div>
             </details>
@@ -1583,7 +1652,7 @@ const isProfileActive = pathname === "/dashboard"
             class="flex flex-col gap-4 border-t border-card-border pt-6 text-[11px] text-muted"
           >
             <div class="flex items-center justify-between">
-              <span data-i18n="nav.calibration">Calibration Status</span>
+              <span data-i18n="nav.calibration">{t("nav.calibration", currentLang, "Calibration Status")}</span>
               <span
                 class="font-mono font-bold text-accent"
                 data-i18n="nav.online">Online</span
@@ -1594,25 +1663,25 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-wrap gap-2 font-mono text-[10px] text-muted"
             >
               <a
-                href="/methodology"
+                href={`${localePrefix}/methodology/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="footer.methodology">Methodology</a
               >
               <span>&middot;</span>
               <a
-                href="/faq"
+                href={`${localePrefix}/faq/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="nav.faq">FAQ</a
               >
               <span>&middot;</span>
               <a
-                href="/privacy"
+                href={`${localePrefix}/privacy/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="footer.privacy">Privacy Policy</a
               >
               <span>&middot;</span>
               <a
-                href="/terms"
+                href={`${localePrefix}/terms/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="footer.terms">Terms</a
               >
@@ -1653,7 +1722,7 @@ const isProfileActive = pathname === "/dashboard"
                 ></line></svg
               >
             </button>
-            <a href="/" class="flex items-center gap-2 hover:opacity-90">
+            <a href={`${localePrefix}/`} class="flex items-center gap-2 hover:opacity-90">
               <img
                 src="/favicon.svg"
                 alt="CogniArena"
@@ -1668,7 +1737,7 @@ const isProfileActive = pathname === "/dashboard"
           </div>
           <div class="ml-auto flex items-center gap-2">
             <a
-              href="/"
+              href={`${localePrefix}/`}
               class="hidden items-center lg:flex"
               aria-label="CogniArena"
             >
@@ -1680,13 +1749,13 @@ const isProfileActive = pathname === "/dashboard"
                 class="h-7 w-7 brightness-125"
               />
             </a>
-            {isHome && <GameSearch client:load variant="compact" />}
-            <LanguageSwitcher client:load />
-            <ThemeToggle client:load />
+            {isHome && <GameSearch client:idle variant="compact" />}
+            <LanguageSwitcher client:idle />
+            <ThemeToggle client:idle />
           </div>
         </header>
         <div class="mb-6">
-          <CalibrationBanner client:load />
+          <CalibrationBanner client:idle />
         </div>
         <slot />
         {testSlug && <FaqsList slug={testSlug} />}
@@ -1734,37 +1803,37 @@ const isProfileActive = pathname === "/dashboard"
               class="flex flex-wrap justify-center gap-x-4 gap-y-2 font-mono text-[10px] tracking-wider uppercase"
             >
               <a
-                href="/about"
+                href={`${localePrefix}/about/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="footer.about">About Us</a
               >
               <span>&middot;</span>
               <a
-                href="/contact"
+                href={`${localePrefix}/contact/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="footer.contact">Contact</a
               >
               <span>&middot;</span>
               <a
-                href="/privacy"
+                href={`${localePrefix}/privacy/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="footer.privacy">Privacy Policy</a
               >
               <span>&middot;</span>
               <a
-                href="/terms"
+                href={`${localePrefix}/terms/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="footer.terms">Terms of Service</a
               >
               <span>&middot;</span>
               <a
-                href="/methodology"
+                href={`${localePrefix}/methodology/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="footer.methodology">Methodology</a
               >
               <span>&middot;</span>
               <a
-                href="/faq"
+                href={`${localePrefix}/faq/`}
                 class="transition-colors hover:text-accent"
                 data-i18n="nav.faq">FAQ</a
               >
@@ -1779,7 +1848,7 @@ const isProfileActive = pathname === "/dashboard"
       class="fixed right-0 bottom-0 left-0 z-50 flex h-16 items-center justify-around border-t border-card-border bg-card/95 px-4 backdrop-blur lg:hidden"
     >
       <a
-        href="/"
+        href={`${localePrefix}/`}
         class={`flex flex-col items-center gap-1 text-[10px] ${isHomeActive ? "text-accent font-semibold" : "text-muted"} hover:text-accent transition-colors`}
         aria-current={isHomeActive ? "page" : undefined}
       >
@@ -1796,10 +1865,10 @@ const isProfileActive = pathname === "/dashboard"
           ><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
           ></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg
         >
-        <span data-i18n="mobile.home">Home</span>
+        <span data-i18n="mobile.home">{t("mobile.home", currentLang, "Home")}</span>
       </a>
       <a
-        href="/tests"
+        href={`${localePrefix}/tests/`}
         class={`flex flex-col items-center gap-1 text-[10px] ${isTestsActive ? "text-accent font-semibold" : "text-muted"} hover:text-accent transition-colors`}
         aria-current={isTestsActive ? "page" : undefined}
       >
@@ -1816,10 +1885,10 @@ const isProfileActive = pathname === "/dashboard"
           ><circle cx="12" cy="12" r="10"></circle><polyline
             points="12 6 12 12 16 14"></polyline></svg
         >
-        <span data-i18n="mobile.tests">Tests</span>
+        <span data-i18n="mobile.tests">{t("mobile.tests", currentLang, "Tests")}</span>
       </a>
       <a
-        href="/history"
+        href={`${localePrefix}/history/`}
         class={`flex flex-col items-center gap-1 text-[10px] ${isHistoryActive ? "text-accent font-semibold" : "text-muted"} hover:text-accent transition-colors`}
         aria-current={isHistoryActive ? "page" : undefined}
       >
@@ -1836,10 +1905,10 @@ const isProfileActive = pathname === "/dashboard"
           ><path d="M3 3v5h5"></path><path d="M3.05 13A9 9 0 1 0 6 5.3L3 8"
           ></path><path d="M12 7v5l4 2"></path></svg
         >
-        <span data-i18n="mobile.history">History</span>
+        <span data-i18n="mobile.history">{t("mobile.history", currentLang, "History")}</span>
       </a>
       <a
-        href="/dashboard"
+        href={`${localePrefix}/dashboard/`}
         class={`flex flex-col items-center gap-1 text-[10px] ${isProfileActive ? "text-accent font-semibold" : "text-muted"} hover:text-accent transition-colors`}
         aria-current={isProfileActive ? "page" : undefined}
       >
@@ -1861,7 +1930,7 @@ const isProfileActive = pathname === "/dashboard"
             rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"
           ></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg
         >
-        <span data-i18n="mobile.profile">Profile</span>
+        <span data-i18n="mobile.profile">{t("mobile.profile", currentLang, "Profile")}</span>
       </a>
     </nav>
 

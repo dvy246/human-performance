@@ -11,5 +11,17 @@
 /reaction-time-test  /tests/reaction-time/  301
 /typing-test  /tests/typing-speed/  301
 /iq-test  /quiz/iq-test/  301
-/adhd-test  /attention-test/  301
+/tests/gauntlet  /gauntlet/  301
+/tests/gauntlet/  /gauntlet/  301
+/es/tests/gauntlet  /es/gauntlet/  301
+/es/tests/gauntlet/  /es/gauntlet/  301
+/fr/tests/gauntlet  /fr/gauntlet/  301
+/fr/tests/gauntlet/  /fr/gauntlet/  301
+/de/tests/gauntlet  /de/gauntlet/  301
+/de/tests/gauntlet/  /de/gauntlet/  301
+/pt/tests/gauntlet  /pt/gauntlet/  301
+/pt/tests/gauntlet/  /pt/gauntlet/  301
+/ja/tests/gauntlet  /ja/gauntlet/  301
+/ja/tests/gauntlet/  /ja/gauntlet/  301
+
 

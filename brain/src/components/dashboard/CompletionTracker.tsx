@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer } from "../../runtime/dataLayer"
+import { useI18n } from "../../runtime/useI18n"
+import { getLocalizedPath } from "../../i18n/translations"
 
 const ALL_TESTS = [
   "reaction-time",
@@ -92,6 +94,7 @@ const CATEGORIES: {
 ]
 
 export default function CompletionTracker() {
+  const { t, lang } = useI18n()
   const [attemptedTests, setAttemptedTests] = useState<Set<string>>(new Set())
 
   useEffect(() => {
@@ -183,7 +186,7 @@ export default function CompletionTracker() {
             {ALL_TESTS.filter((t) => !attemptedTests.has(t)).map((t) => (
               <a
                 key={t}
-                href={`/tests/${t}`}
+                href={getLocalizedPath(`/tests/${t}`, lang)}
                 className="rounded border border-dashed border-card-border/60 px-2 py-0.5 font-mono text-[10px] text-muted transition-colors hover:border-accent/40 hover:text-accent"
               >
                 {t.replace(/-/g, " ")}

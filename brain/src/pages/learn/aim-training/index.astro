@@ -16,11 +16,16 @@ const schemaJson = [
     publisher: {
       "@type": "Organization",
       name: "CogniArena",
+      url: "https://cogniarena.com/",
+      logo: {
+        "@type": "ImageObject",
+        url: "https://cogniarena.com/og-image.png",
+      },
     },
     author: {
       "@type": "Organization",
       name: "CogniArena Scientific Review Board",
-      url: "https://cogniarena.com/about#board",
+      url: "https://cogniarena.com/about/#board",
     },
     datePublished: "2026-07-05",
     dateModified: "2026-07-10",
@@ -120,7 +125,7 @@ const schemaJson = [
         </div>
         <span
           >Prepared by the <a
-            href="/about#board"
+            href="/about/#board"
             class="font-semibold text-accent hover:underline"
             >CogniArena Scientific Review Board</a
           > &middot; Reviewed for Scientific Rigor</span
@@ -214,9 +219,9 @@ const schemaJson = [
         </h2>
         <div class="flex flex-col gap-6 text-sm">
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               What does Fitts's Law state?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Fitts's Law states that the time required to move to a target
               depends on the distance to the target and the width of the target.
@@ -225,9 +230,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               Why is cerebellar health important for aiming?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               The cerebellum act as the brain's real-time error correction
               engine. It continuously compares visual feedback of the cursor
@@ -236,9 +241,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               Should I use mouse acceleration for aiming tests?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               No. Mouse acceleration changes cursor speed based on how fast you
               move the mouse, making it difficult for the cerebellum to build
@@ -247,9 +252,9 @@ const schemaJson = [
             </p>
           </div>
           <div>
-            <h4 class="mb-2 font-bold text-foreground">
+            <h3 class="mb-2 font-bold text-foreground">
               How does display latency affect aiming?
-            </h4>
+            </h3>
             <p class="leading-relaxed text-muted dark:text-muted">
               Display lag delays the visual feedback of your cursor's position.
               This causes the cerebellum to receive outdated information,

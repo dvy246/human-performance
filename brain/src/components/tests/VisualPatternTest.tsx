@@ -13,6 +13,7 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { getDifficultyParams } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type Phase = "idle" | "showing" | "input" | "feedback" | "result"
 
@@ -22,6 +23,7 @@ const TILE_COUNTS = [
 ]
 
 function VisualPatternTest() {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>("idle")
   const [level, setLevel] = useState(1)
   const [gridSize, setGridSize] = useState(3)
@@ -442,7 +444,7 @@ function VisualPatternTest() {
             <div className="mt-2 grid w-full max-w-xs grid-cols-2 gap-8 border-t border-card-border/50 pt-4 text-center">
               <div>
                 <span className="font-mono text-[10px] text-muted uppercase">
-                  Personal Best
+                  {t("results.personal_best", "Personal Best")}
                 </span>
                 <div className="font-mono text-sm text-foreground">
                   {personalBest ? `Level ${personalBest}` : "--"}
@@ -450,7 +452,7 @@ function VisualPatternTest() {
               </div>
               <div>
                 <span className="font-mono text-[10px] text-muted uppercase">
-                  Percentile
+                  {t("results.percentile", "Percentile")}
                 </span>
                 <div className="font-mono text-sm text-foreground">
                   ~
@@ -487,7 +489,7 @@ function VisualPatternTest() {
               onClick={() => startTest()}
               className="mt-4 cursor-pointer rounded border border-card-border bg-subtle px-4 py-1.5 font-mono text-xs tracking-widest text-muted uppercase hover:border-accent/30 hover:text-foreground"
             >
-              Try Again
+              {t("btn.try_again", "Try Again")}
             </button>
           </div>
         )}
@@ -517,7 +519,7 @@ function VisualPatternTest() {
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" x2="12" y1="15" y2="3" />
               </svg>
-              <span>Download Score Card</span>
+              <span>{t("test.download_card", "Download Score Card")}</span>
             </a>
           )}
         </div>

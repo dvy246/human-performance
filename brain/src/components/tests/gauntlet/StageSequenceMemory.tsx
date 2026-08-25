@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { useVisibilityGuard } from "../../../runtime/useVisibilityGuard"
+import { useI18n } from "../../../runtime/useI18n"
 import type { StageProps, GauntletStageResult } from "./GauntletTypes"
 
 const GRID = [
@@ -18,6 +19,7 @@ export default function StageSequenceMemory({
   onComplete,
   difficulty,
 }: StageProps) {
+  const { t } = useI18n()
   const [phase, setPhase] = useState<"intro" | "watching" | "recall" | "done">(
     "intro"
   )
@@ -172,7 +174,7 @@ export default function StageSequenceMemory({
           onClick={startGame}
           className="transition-standard h-11 cursor-pointer rounded-lg bg-accent px-6 text-xs font-semibold text-white hover:bg-accent-hover active:scale-95"
         >
-          Start
+          {t("btn.start", "Start")}
         </button>
       </div>
     )

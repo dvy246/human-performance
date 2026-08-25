@@ -16,6 +16,7 @@ import type { GameConfig } from "../../runtime/testConfig"
 import { getDifficultyParams } from "../../runtime/testConfig"
 import { useBeforeUnload } from "../../runtime/useBeforeUnload"
 import { useVisibilityGuard } from "../../runtime/useVisibilityGuard"
+import { useI18n } from "../../runtime/useI18n"
 
 type TestState = "idle" | "playing" | "result"
 
@@ -27,6 +28,7 @@ interface Target {
 }
 
 function AimCoordinationTest() {
+  const { t } = useI18n()
   const [gameState, setGameState] = useState<TestState>("idle")
   const [hits, setHits] = useState<number>(0)
   const [clicks, setClicks] = useState<number>(0)
@@ -450,7 +452,7 @@ function AimCoordinationTest() {
             onClick={() => startTest()}
             className="mt-2 cursor-pointer rounded border border-card-border bg-subtle px-4 py-1.5 font-mono text-xs tracking-widest text-muted uppercase hover:border-accent/30 hover:text-foreground"
           >
-            Restart Assessment
+            {t("test.restart", "Restart Assessment")}
           </button>
         </div>
       ) : (
@@ -497,7 +499,7 @@ function AimCoordinationTest() {
                 <polyline points="7 10 12 15 17 10" />
                 <line x1="12" x2="12" y1="15" y2="3" />
               </svg>
-              <span>Download Coordination Profile</span>
+              <span>{t("test.download_card", "Download Coordination Profile")}</span>
             </a>
           )}
           <button
@@ -519,7 +521,7 @@ function AimCoordinationTest() {
               <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
             </svg>
             <span>
-              {copiedChallenge ? "Telemetry Copied!" : "Challenge a Friend"}
+              {copiedChallenge ? t("test.challenge_copied", "Telemetry Copied!") : t("test.challenge_friend", "Challenge a Friend")}
             </span>
           </button>
         </div>

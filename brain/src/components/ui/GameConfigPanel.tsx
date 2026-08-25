@@ -33,7 +33,7 @@ interface GameConfigPanelProps {
 export default function GameConfigPanel({
   testId,
   onStart,
-  startLabel = "Start Assessment",
+  startLabel,
   icon,
   title,
   description,
@@ -41,6 +41,7 @@ export default function GameConfigPanel({
   personalBestLabel,
 }: GameConfigPanelProps) {
   const { t } = useI18n()
+  const defaultStartLabel = startLabel || t("btn.start_assessment", "Start Assessment")
   const options = TEST_CONFIGS[testId] || []
   const [config, setConfig] = useState<GameConfig>(() => loadTestConfig(testId))
   const [soundEnabled, setSoundEnabled] = useState(() => {
@@ -148,7 +149,7 @@ export default function GameConfigPanel({
           onClick={handleStart}
           className="transition-standard mt-3 h-11 w-full cursor-pointer rounded-lg bg-accent font-mono text-xs font-bold tracking-wider text-white uppercase shadow hover:bg-accent-hover active:scale-[0.98]"
         >
-          {startLabel}
+          {defaultStartLabel}
         </button>
 
         <span className="mt-2 font-mono text-[10px] text-muted/50">
