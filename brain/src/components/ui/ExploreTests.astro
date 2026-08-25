@@ -1,7 +1,7 @@
 ---
 import Icon from "@/components/ui/Icon.astro"
 import { allTests, categories, getTestsByCategory } from "@/data/tests"
-import { type LangCode } from "@/i18n/translations"
+import { t, type LangCode } from "@/i18n/translations"
 
 export interface Props {
   currentSlug?: string
@@ -9,8 +9,9 @@ export interface Props {
   lang?: LangCode
 }
 
-const { currentSlug, title = "Explore All Assessments", lang = "en" } = Astro.props
+const { currentSlug, title, lang = "en" } = Astro.props
 const localePrefix = lang === "en" ? "" : `/${lang}`
+const displayTitle = title || t("hero.cta_secondary", lang, "Explore All Assessments").replace(/→|&rarr;/g, "").trim()
 const grouped = getTestsByCategory()
 // Build schema.org ItemList for SEO
 const itemListElements = allTests.map((t, i) => ({
@@ -35,10 +36,9 @@ const exploreSchema = {
   <script type="application/ld+json" set:html={JSON.stringify(exploreSchema)} />
 
   <header class="flex flex-col gap-2">
-    <h2 class="text-2xl font-bold tracking-tight text-foreground">{title}</h2>
+    <h2 class="text-2xl font-bold tracking-tight text-foreground">{displayTitle}</h2>
     <p class="text-sm leading-relaxed text-muted">
-      Explore all {allTests.length} cognitive assessments across six domains. Each
-      test runs locally in your browser with sub-millisecond precision.
+      {t("explore.subtitle", lang, `Explore all ${allTests.length} cognitive assessments across six domains. Each test runs locally in your browser with sub-millisecond precision.`)}
     </p>
   </header>
 
@@ -77,7 +77,7 @@ const exploreSchema = {
                     </h4>
                     {isCurrent && (
                       <span class="rounded bg-accent/10 px-1.5 py-0.5 font-mono text-[9px] tracking-wider text-accent uppercase">
-                        Current
+                        {t("btn.current", lang, "Current")}
                       </span>
                     )}
                   </div>
@@ -87,7 +87,7 @@ const exploreSchema = {
                 </div>
                 {!isCurrent && (
                   <span class="font-mono text-[10px] tracking-widest text-accent uppercase group-hover:underline">
-                    Take Test &rarr;
+                    {t("btn.take_test", lang, "Take Test")} &rarr;
                   </span>
                 )}
               </a>
