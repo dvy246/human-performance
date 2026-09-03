@@ -128,6 +128,32 @@ describe("measureRefreshRate", () => {
       )
     }))
 
+  it("correctly identifies 60Hz even under heavy frame drops (30% dropped vsyncs)", () =>
+    new Promise<void>((done) => {
+      let frameCount = 0
+      let currentTime = 0
+
+      vi.spyOn(window, "requestAnimationFrame").mockImplementation(
+        (cb: FrameRequestCallback) => {
+          // 15 out of 45 frames drop a vsync (33.33ms), which previously produced ~46Hz
+          const delta = frameCount % 3 === 0 ? 33.33 : 16.67
+          currentTime += delta
+          frameCount++
+          cb(currentTime)
+          return frameCount
+        }
+      )
+
+      measureRefreshRate(
+        (result) => {
+          expect(result.hz).toBe(60)
+          expect(result.expectedLagMs).toBeCloseTo(8.3, 0)
+          done()
+        },
+        { frameCount: 45, forceFresh: true }
+      )
+    }))
+
   it("returns 60Hz fallback when requestAnimationFrame is unavailable", () => {
     vi.stubGlobal("requestAnimationFrame", undefined)
 

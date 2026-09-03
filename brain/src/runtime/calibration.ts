@@ -24,7 +24,12 @@ export function measureRefreshRate(
       const cached = sessionStorage.getItem("cogniarena_display_calibration")
       if (cached) {
         const parsed = JSON.parse(cached) as CalibrationResult
-        if (parsed && typeof parsed.hz === "number" && parsed.hz > 0) {
+        if (
+          parsed &&
+          typeof parsed.hz === "number" &&
+          parsed.hz >= 50 &&
+          REFRESH_RATE_STANDARDS.includes(parsed.hz)
+        ) {
           onComplete(parsed)
           return () => {}
         }
@@ -39,7 +44,8 @@ export function measureRefreshRate(
   let frameCount = 0
   let rafId: number | null = null
   let timeoutId: number | null = null
-  const targetFrameCount = options?.frameCount ?? 45 // Optimal balance between speed and precision
+  const WARMUP_FRAMES = 2
+  const targetFrameCount = (options?.frameCount ?? 45) + WARMUP_FRAMES
 
   function finalize() {
     if (frameTimes.length === 0) {
@@ -52,12 +58,21 @@ export function measureRefreshRate(
       return
     }
 
-    // Sort to apply trimmed statistics (discard top 20% lag spikes & bottom 10% bursts)
+    // Sort to compute robust median and filter multi-vsync dropped frames
     const sorted = [...frameTimes].sort((a, b) => a - b)
-    const n = sorted.length
-    const startIdx = Math.floor(n * 0.1)
-    const endIdx = Math.max(startIdx + 1, Math.floor(n * 0.8))
-    const trimmed = sorted.slice(startIdx, endIdx)
+    const medianDt = sorted[Math.floor(sorted.length / 2)]
+
+    // Filter out multi-vsync dropped frames (> 1.45 * median) and sub-frame burst noise (< 0.65 * median)
+    const fundamentalFrames = sorted.filter(
+      (dt) => dt >= 0.65 * medianDt && dt <= 1.45 * medianDt
+    )
+    const validFrames = fundamentalFrames.length >= 5 ? fundamentalFrames : sorted
+
+    // Trim top and bottom 10% of fundamental frames for sub-millisecond precision
+    const k = validFrames.length
+    const startIdx = Math.floor(k * 0.1)
+    const endIdx = Math.max(startIdx + 1, Math.floor(k * 0.9))
+    const trimmed = validFrames.slice(startIdx, endIdx)
 
     const avgDuration =
       trimmed.reduce((sum, val) => sum + val, 0) / trimmed.length
@@ -79,9 +94,9 @@ export function measureRefreshRate(
     const nominalDt = 1000 / closestStandard
     const relativeError = Math.abs(avgDuration - nominalDt) / nominalDt
 
-    // Snap to standard if within 7% tolerance of nominal frame time (e.g. 56-64Hz -> 60Hz; 135-154Hz -> 144Hz)
+    // Snap to standard if within 14% tolerance of nominal frame time (e.g. 52-69Hz -> 60Hz; 125-163Hz -> 144Hz)
     let hz = Math.round(measuredHz)
-    if (relativeError <= 0.07) {
+    if (relativeError <= 0.14) {
       hz = closestStandard
     }
 
@@ -105,9 +120,9 @@ export function measureRefreshRate(
     const elapsed = now - lastTime
     lastTime = now
 
-    // Skip the first frame to avoid layout/hydration initialization noise
+    // Skip warmup frames to avoid layout/hydration initialization noise
     // Also ignore outlier frames from background tab pause (>500ms) or <=0.5ms
-    if (frameCount >= 1 && elapsed > 0.5 && elapsed < 500) {
+    if (frameCount >= WARMUP_FRAMES && elapsed > 0.5 && elapsed < 500) {
       frameTimes.push(elapsed)
     }
 
