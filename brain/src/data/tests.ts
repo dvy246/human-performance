@@ -87,7 +87,7 @@ export const allTests: TestEntry[] = [
   // Reaction & Reflexes
   t(
     "reaction-time",
-    "Visual Reaction",
+    "Reaction Time Test",
     "Test your physical reflexes against visual triggers. Calibrate input delay, monitor refresh rate, and view population distributions.",
     "⚡",
     "zap",
@@ -95,7 +95,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "sound-reaction",
-    "Auditory Reflex",
+    "Sound Reaction Test",
     "Measure your auditory response speeds to low-latency synthesized sound waves. Contrast hearing triggers against visual pathways.",
     "🔊",
     "volume",
@@ -103,7 +103,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "f1-lights",
-    "F1 Start Lights",
+    "F1 Reaction Time Test",
     "Simulate a Grand Prix start gantry. Suppress anticipatory impulse and release motor actions at the exact millisecond lights extinguish.",
     "🏎️",
     "flag",
@@ -111,7 +111,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "choice-reaction",
-    "Choice Reaction",
+    "Choice Reaction Time Test",
     "Map color changes to keys R, G, B, Y. Manage accuracy-speed trade-offs under cognitive decision load with built-in mismatch penalties.",
     "🔢",
     "hash",
@@ -119,7 +119,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "go-no-go",
-    "Color Go/No-Go",
+    "Go/No-Go Test",
     "Inhibitory motor control. Click only when green flashes; suppress actions for distractors (Red, Blue, Purple).",
     "🛡️",
     "shield",
@@ -127,7 +127,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "aim-coordination",
-    "Aim Coordination",
+    "Aim Coordination Test",
     "Test hand-eye coordination speed. Click targets as they appear and measure your visual-motor response latency.",
     "🎯",
     "crosshair",
@@ -137,7 +137,7 @@ export const allTests: TestEntry[] = [
   // Memory
   t(
     "sequence-memory",
-    "Sequence Memory",
+    "Sequence Memory Test",
     "Remember an expanding grid flash sequence, evaluating Miller's Law bounds on working memory capacity.",
     "🗂️",
     "layers",
@@ -145,7 +145,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "number-memory",
-    "Number Memory",
+    "Number Memory Test",
     "Recall numeric strings of growing length to evaluate active visual digit spans.",
     "🔢",
     "hash",
@@ -153,7 +153,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "visual-pattern",
-    "Visual Pattern",
+    "Visual Pattern Test",
     "Memorize illuminated pattern positions inside dynamic scale matrices.",
     "🧩",
     "puzzle",
@@ -161,7 +161,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "dual-n-back",
-    "Dual N-Back",
+    "Dual N-Back Test",
     "Track independent auditory tone and visual positions shown N steps back, taxing working memory.",
     "🧠",
     "brain",
@@ -169,7 +169,7 @@ export const allTests: TestEntry[] = [
   ),
   t(
     "verbal-memory",
-    "Verbal Memory",
+    "Verbal Memory Test",
     "Memorize growing word lists and recall them from distractor sets.",
     "📝",
     "file-text",

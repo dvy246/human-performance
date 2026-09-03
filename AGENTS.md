@@ -45,7 +45,7 @@ Node >=22.12.0 required. Vite pinned to ^7.3.6 via overrides.
 | Deployment | Cloudflare Pages (brain-bfn.pages.dev → cogniarena.com) |
 | Database | IndexedDB (local), Cloudflare D1 (optional sync) |
 | Analytics | Google Analytics G-9WHJWEWD5L |
-| AdSense | Scaffolded but NOT active (commented out, placeholder pub ID) |
+| AdSense | Active in layout (`ca-pub-5910777021067126`) |
 
 ## Project Structure
 
@@ -175,11 +175,11 @@ Current protections (all verified):
 - Any new page must include: disclaimer + FAQPage with "Is this a medical diagnostic tool?" Q&A
 - Schema.org markup required on every page
 
-### AdSense (verified — NOT active)
+### AdSense (verified — active in main.astro)
 
-- Script exists in layout (commented out): `ca-pub-XXXXXXXXXXXXXXXX` placeholder
+- Script exists in layout: `ca-pub-5910777021067126`
 - Privacy policy (s3) mentions AdSense cookies
-- Status: **Not active**. Publisher ID is placeholder. Activate by uncommenting script + replacing with real pub ID
+- Status: **Active** with publisher ID `ca-pub-5910777021067126`
 
 ## Architecture Summary
 

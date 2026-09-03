@@ -212,8 +212,8 @@ const schemaJson = [
       learnSlug={mappedLearnSlug}
       learnTitle={`${test.title} Science`}
       whatItMeasures={test.shortDesc}
-      howScoringWorks="Your final score is recorded locally with sub-millisecond precision and calibrated against your hardware refresh rate."
-      whatAffectsResults="Display refresh rate, input latency, sleep quality, and focus affect measured scores."
+      howScoringWorks={t("how.scoring_desc", lang, "Your final score is recorded locally with sub-millisecond precision and calibrated against your hardware refresh rate.")}
+      whatAffectsResults={t("how.affects_desc", lang, "Display refresh rate, input latency, sleep quality, and focus affect measured scores.")}
       lang={lang}
     />
 

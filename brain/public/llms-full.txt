@@ -1,0 +1,47 @@
+# CogniArena Full Technical & Knowledge Specification
+
+> CogniArena is an open, high-precision cognitive assessment telemetry platform.
+> Canonical URL: https://cogniarena.com/
+> Contact: hello@cogniarena.com
+
+## Technical Architecture & Calibration
+Unlike standard web timer benchmarks that rely on primitive JavaScript Date or performance.now() timestamps measured inside event callbacks, CogniArena utilizes hardware refresh rate synchronization.
+1. Display Refresh Rate Detection: Measures requestAnimationFrame delta intervals across 30 animation frames and snaps the display to standard industrial refresh rate buckets (60Hz, 75Hz, 90Hz, 120Hz, 144Hz, 165Hz, 240Hz, 280Hz, 360Hz).
+2. Double-Nested requestAnimationFrame: Synchronizes timer onset to physical display buffer swap to eliminate browser compositor queue jitter (typically 8ms to 32ms variance on standard web apps).
+3. Client-Side Privacy: All session data is stored exclusively in IndexedDB. Zero mandatory cloud accounts. Optional backup via encrypted edge synchronization.
+
+## Assessment Matrix & Experimental Psychology Paradigms
+
+### 1. Reaction & Reflexes
+- Visual Reaction Time: Simple reaction time (SRT). Normative population average: ~250ms visual, ~170ms auditory.
+- Sound Reaction Time: Auditory reflex testing transduction through the auditory brainstem.
+- F1 Start Lights: Anticipatory inhibition testing false alarm suppression.
+- Choice Reaction Time: 4-alternative choice reaction latency governed by Hick-Hyman Law: RT = a + b * log2(n).
+- Color Go/No-Go: Inhibitory motor control assessing commission error rate.
+
+### 2. Working Memory
+- Sequence Memory: Spatial working memory span based on the Corsi Block-Tapping task.
+- Number Memory: Forward digit span testing phonological loop capacity (Miller's Law bounds: 7 +/- 2 chunks).
+- Visual Pattern: Visuospatial sketchpad capacity testing matrix cell recall.
+- Dual N-Back: Working memory updating testing simultaneous visual and auditory tracking (Jaeggi paradigm).
+- Verbal Memory: Recognition memory testing word list recall against distractor sets.
+
+### 3. Reasoning & Logic
+- Pattern Reasoning: Matrix reasoning testing fluid non-verbal logic (g factor correlate).
+- Spatial Orientation: 3D mental rotation based on Shepard & Metzler (1971).
+
+### 4. Focus & Executive Function
+- Stroop Test: Selective attention and automatic reading suppression (Anterior Cingulate Cortex activation).
+- Trail Making Test (TMT-A & TMT-B): Executive set-shifting and task switching latency.
+- Focus Challenge: 5-stage sustained attention test under distraction.
+- Multiple Object Tracking (MOT): Visual tracking capacity tracking moving targets among identical distractors.
+
+### 5. Motor Performance
+- CPS Test (Click Speed): High-speed clicking rate (clicks per second).
+- Aim Trainer: Ballistic motor precision adhering to Fitts's Law: MT = a + b * log2(2D / W).
+- Mouse Accuracy: Deceleration control measuring pixel offset error on shrinking targets.
+- Flick Trainer: Rapid target acquisition and muscle memory flicking.
+- Typing Speed Test: Words per minute (WPM) and character accuracy.
+
+## Non-Clinical Disclaimer
+CogniArena is an educational, self-tracking, and cognitive training platform. Its tests are not clinical, psychiatric, medical, or neuropsychological evaluations. They cannot diagnose ADHD, dementia, or cognitive disorders.

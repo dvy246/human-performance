@@ -34,12 +34,27 @@ const schemaJson = {
   "@type": "Dataset",
   name: `${title} Benchmark Data`,
   description: configDescription,
+  url: canonicalUrl,
+  license: "https://creativecommons.org/licenses/by/4.0/",
+  isAccessibleForFree: true,
+  creator: {
+    "@type": "Organization",
+    name: "CogniArena Research Team",
+    url: "https://cogniarena.com/about",
+  },
   variableMeasured: {
     "@type": "PropertyValue",
     name: metric,
     unitText: unit || undefined,
     [metricDirection]: true,
   },
+  distribution: [
+    {
+      "@type": "DataDownload",
+      encodingFormat: "application/json",
+      contentUrl: `https://cogniarena.com/benchmarks/${slug}`,
+    },
+  ],
   provider: {
     "@type": "Organization",
     name: "CogniArena",

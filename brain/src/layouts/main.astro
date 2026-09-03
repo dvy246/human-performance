@@ -10,7 +10,7 @@ import RecentTests from "@/components/ui/RecentTests"
 import Icon from "@/components/ui/Icon.astro"
 import LanguageSwitcher from "@/components/ui/LanguageSwitcher"
 import GameSearch from "@/components/ui/GameSearch"
-import { translations, t, type LangCode } from "@/i18n/translations"
+import { t, type LangCode } from "@/i18n/translations"
 import FaqsList from "@/components/ui/FaqsList.astro"
 import { getFaqSchemaForSlug, hasFaqsForPath } from "@/data/faqs"
 
@@ -46,6 +46,8 @@ const localePrefix = currentLang === "en" ? "" : `/${currentLang}`
 // Clean unlocalized path for hreflang cluster and canonical resolution
 const cleanPath = pathname.replace(/^\/(es|fr|de|pt|ja)(\/|$)/, "/")
 const unlocalizedPath = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`
+const isLearnGuide = unlocalizedPath.startsWith("/learn/") && unlocalizedPath.replace(/\/$/, "") !== "/learn"
+const shouldEmitHreflang = !isLearnGuide && (!robots || !robots.includes("noindex"))
 
 const ogLocaleMap: Record<LangCode, string> = {
   en: "en_US",
@@ -149,8 +151,8 @@ if (unlocalizedPath === "/gauntlet" || unlocalizedPath === "/gauntlet/") {
   }
 }
 
-// Append FAQ schema if available
-if (testSlug && hasFaqsForPath(testSlug)) {
+// Append FAQ schema if available (only for English pages since FAQs are currently in English)
+if (currentLang === "en" && testSlug && hasFaqsForPath(testSlug)) {
   pageSchemas.push(getFaqSchemaForSlug(testSlug))
 }
 
@@ -224,13 +226,17 @@ const isProfileActive = pathname === "/dashboard"
     <meta name="apple-mobile-web-app-title" content="cogniarena" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="canonical" href={formattedCanonicalUrl} />
-    <link rel="alternate" hreflang="x-default" href={`https://cogniarena.com${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
-    <link rel="alternate" hreflang="en" href={`https://cogniarena.com${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
-    <link rel="alternate" hreflang="es" href={`https://cogniarena.com/es${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
-    <link rel="alternate" hreflang="fr" href={`https://cogniarena.com/fr${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
-    <link rel="alternate" hreflang="de" href={`https://cogniarena.com/de${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
-    <link rel="alternate" hreflang="pt" href={`https://cogniarena.com/pt${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
-    <link rel="alternate" hreflang="ja" href={`https://cogniarena.com/ja${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+    {shouldEmitHreflang && (
+      <>
+        <link rel="alternate" hreflang="x-default" href={`https://cogniarena.com${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+        <link rel="alternate" hreflang="en" href={`https://cogniarena.com${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+        <link rel="alternate" hreflang="es" href={`https://cogniarena.com/es${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+        <link rel="alternate" hreflang="fr" href={`https://cogniarena.com/fr${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+        <link rel="alternate" hreflang="de" href={`https://cogniarena.com/de${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+        <link rel="alternate" hreflang="pt" href={`https://cogniarena.com/pt${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+        <link rel="alternate" hreflang="ja" href={`https://cogniarena.com/ja${unlocalizedPath === "/" ? "/" : unlocalizedPath}`} />
+      </>
+    )}
     <title>{title}</title>
 
     <!-- Meta tags for SEO -->
@@ -304,15 +310,24 @@ const isProfileActive = pathname === "/dashboard"
       crossorigin="anonymous"
     />
     <link
-      rel="stylesheet"
+      rel="preload"
+      as="style"
       href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
     />
-
-    <!-- i18n: Embed translations data + load translation engine -->
-    <script
-      is:inline
-      set:html={`window.__i18nData = ${JSON.stringify(translations)};`}
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"
+      />
+    </noscript>
+
+    <!-- i18n client engine (fetches locales asynchronously on demand) -->
     <script is:inline src="/i18n.js"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9WHJWEWD5L"
@@ -1758,7 +1773,7 @@ const isProfileActive = pathname === "/dashboard"
           <CalibrationBanner client:idle />
         </div>
         <slot />
-        {testSlug && <FaqsList slug={testSlug} />}
+        {testSlug && <FaqsList slug={testSlug} lang={currentLang} />}
         <footer
           class="mt-16 flex flex-col gap-6 border-t border-card-border/40 pt-8 text-xs text-muted"
         >

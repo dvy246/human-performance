@@ -11,8 +11,12 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: LangCode }
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/adhd-test`
-const title = `${t("nav.adhd_test", lang, "ADHD & Attention Test")} | CogniArena`
-const description = "Take a free online ADHD screening test to evaluate attention, impulse control, and focus. Scientifically grounded self-assessment for adults and teens."
+const title = `${t("nav.adhd_test_heading", lang, "Attention & Impulse Control Assessment — Cognitive Research Battery")} | CogniArena`
+const description = t(
+  "adhd.meta_desc",
+  lang,
+  "Evaluate sustained attention, response inhibition, and impulse control with an evidence-based cognitive battery. Free, anonymous browser assessment."
+)
 
 const schemaJson = [
   {
@@ -35,7 +39,7 @@ const schemaJson = [
       {
         "@type": "ListItem",
         position: 2,
-        name: t("nav.adhd_test", lang, "Attention Test"),
+        name: t("nav.adhd_test_short", lang, "Attention & Impulse Control"),
         item: canonicalUrl,
       },
     ],
@@ -58,12 +62,12 @@ const schemaJson = [
       >
         <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
         <span>/</span>
-        <span class="text-muted">{t("nav.adhd_test", lang, "Attention Test")}</span>
+        <span class="text-muted">{t("nav.adhd_test_short", lang, "Attention & Impulse Control")}</span>
       </nav>
       <h1
         class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
       >
-        {t("nav.adhd_test", lang, "Free Attention Assessment Online")}
+        {t("nav.adhd_test_heading", lang, "Attention & Impulse Control Assessment — Cognitive Research Battery")}
       </h1>
       <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
         {description}
@@ -77,6 +81,21 @@ const schemaJson = [
       <strong class="font-semibold text-foreground"
         >{t("footer.disclaimer_title", lang, "Important Disclaimer:")}</strong
       > {t("footer.disclaimer", lang, "CogniArena is an educational and cognitive training platform. All assessments are for self-tracking only and do not constitute medical evaluations.")}
+      <p class="mt-2.5 pt-2 border-t border-card-border/60 text-[11px] text-muted">
+        If you are seeking clinical guidance, diagnosis, or support, consult a licensed healthcare provider. For evidence-based clinical guidance and diagnostic resources, visit <a
+          href="https://chadd.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-accent underline hover:text-foreground"
+          >CHADD (Children and Adults with Attention-Deficit/Hyperactivity Disorder)</a
+        > and the <a
+          href="https://www.apa.org/topics/adhd"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-accent underline hover:text-foreground"
+          >American Psychological Association (APA)</a
+        >.
+      </p>
     </div>
 
     <!-- Recommended Test Battery -->

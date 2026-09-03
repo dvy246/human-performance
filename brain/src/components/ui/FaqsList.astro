@@ -8,6 +8,11 @@ export interface Props {
 }
 
 const { slug, lang = "en" } = Astro.props
+
+if (lang !== "en") {
+  return null
+}
+
 const faqs = getFaqsForSlug(slug)
 
 if (!faqs || faqs.length === 0) {

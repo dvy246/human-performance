@@ -1,17 +1,17 @@
 /**
  * CogniArena client-side i18n engine
  * Applies translations to all elements with data-i18n attributes.
- * 
+ *
  * Usage in HTML:
  *   <span data-i18n="nav.home">Home Overview</span>
  *   <h1 data-i18n-html="hero.title_1">How powerful</h1>  (allows <strong> tags etc)
  *   <input data-i18n-placeholder="search.placeholder" />
- * 
- * Called automatically on language change and page load.
+ *
+ * Loads translations asynchronously on demand / interaction to keep initial HTML lightweight.
  */
 
 // @ts-nocheck — runs as inline script
-(function() {
+(function () {
   'use strict';
 
   // SEC-04: Allowlisted HTML tags for data-i18n-html elements.
@@ -51,8 +51,8 @@
     return div.innerHTML;
   }
 
-  // Will be populated by inline script in <head> with window.__i18nData
-  var translations = window.__i18nData || {};
+  var translations = window.__i18nData || null;
+  var fetchPromise = null;
 
   function getPathLang() {
     if (typeof window === 'undefined') return 'en';
@@ -63,13 +63,38 @@
 
   var currentLang = getPathLang();
 
-  function applyTranslations(lang) {
-    if (!lang) lang = getPathLang();
-    currentLang = lang;
-    try {
-      localStorage.setItem('language', lang);
-    } catch (e) {}
-    var dict = translations[lang] || translations['en'] || {};
+  /**
+   * Fetch translations JSON asynchronously on demand.
+   */
+  function loadTranslations(callback) {
+    if (translations) {
+      if (callback) callback(translations);
+      return Promise.resolve(translations);
+    }
+    if (!fetchPromise) {
+      fetchPromise = fetch('/locales/translations.json')
+        .then(function (res) {
+          if (!res.ok) throw new Error('HTTP error ' + res.status);
+          return res.json();
+        })
+        .then(function (data) {
+          translations = data;
+          window.__i18nData = data;
+          return data;
+        })
+        .catch(function (err) {
+          console.warn('[i18n] Failed to load translations:', err);
+          return {};
+        });
+    }
+    return fetchPromise.then(function (data) {
+      if (callback) callback(data);
+      return data;
+    });
+  }
+
+  function doApply(lang) {
+    var dict = (translations && (translations[lang] || translations['en'])) || {};
     if (!dict) return;
 
     // Text content replacements
@@ -111,21 +136,56 @@
 
     // Update document lang
     document.documentElement.lang = lang;
-    
+
     // Dispatch custom event for other components
     window.dispatchEvent(new CustomEvent('cogniarena:langchange', { detail: { lang: lang } }));
   }
 
+  function applyTranslations(lang) {
+    if (!lang) lang = getPathLang();
+    currentLang = lang;
+    try {
+      localStorage.setItem('language', lang);
+    } catch (e) {}
+    document.documentElement.lang = lang;
+
+    if (translations) {
+      doApply(lang);
+      return Promise.resolve();
+    }
+    return loadTranslations(function () {
+      doApply(lang);
+    });
+  }
+
+  // Preload on first user interaction or idle callback
+  function schedulePreload() {
+    var interactionEvents = ['pointerdown', 'keydown', 'touchstart'];
+    function onInteract() {
+      interactionEvents.forEach(function (evt) {
+        window.removeEventListener(evt, onInteract);
+      });
+      loadTranslations();
+    }
+    interactionEvents.forEach(function (evt) {
+      window.addEventListener(evt, onInteract, { once: true, passive: true });
+    });
+
+    if ('requestIdleCallback' in window) {
+      window.requestIdleCallback(function () { loadTranslations(); }, { timeout: 3000 });
+    } else {
+      setTimeout(function () { loadTranslations(); }, 2000);
+    }
+  }
+
   // Expose globally
   window.__applyTranslations = applyTranslations;
-  window.__getCurrentLang = function() { return currentLang; };
+  window.__loadTranslations = loadTranslations;
+  window.__getCurrentLang = function () { return currentLang; };
 
-  // Apply on DOM ready
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', function() {
-      applyTranslations();
-    });
+    document.addEventListener('DOMContentLoaded', schedulePreload);
   } else {
-    applyTranslations();
+    schedulePreload();
   }
 })();

@@ -1,0 +1,39 @@
+# CogniArena
+
+> CogniArena is a free, high-precision cognitive performance and reflex assessment platform with 29 browser-based assessments, population benchmark curves, and neuroscience learning guides.
+
+All assessments run locally in the user's browser with sub-millisecond paint-sync calibration (double-nested requestAnimationFrame) to eliminate display compositor jitter.
+
+## Primary Cognitive Assessments
+- [Reaction Time Test](https://cogniarena.com/tests/reaction-time/): Visual reflex speed measurement with monitor refresh-rate snapping (60Hz to 360Hz).
+- [Sound Reaction Test](https://cogniarena.com/tests/sound-reaction/): Auditory reflex testing comparing cochlear response latency against visual pathways.
+- [F1 Reaction Time Test](https://cogniarena.com/tests/f1-lights/): Grand Prix start gantry simulation evaluating anticipatory impulse suppression.
+- [Choice Reaction Time Test](https://cogniarena.com/tests/choice-reaction/): 4-choice visual decision latency mapping Hick-Hyman Law.
+- [Go/No-Go Test](https://cogniarena.com/tests/go-no-go/): Response inhibition testing measuring commission errors (false alarms).
+- [Sequence Memory Test](https://cogniarena.com/tests/sequence-memory/): Spatial working memory span based on Corsi block-tapping task.
+- [Number Memory Test](https://cogniarena.com/tests/number-memory/): Phonological loop capacity measuring forward digit span limits.
+- [Visual Pattern Test](https://cogniarena.com/tests/visual-pattern/): Visuospatial sketchpad retention testing pattern matrix recall.
+- [Dual N-Back Test](https://cogniarena.com/tests/dual-n-back/): Working memory updating taxing auditory and spatial streams simultaneously.
+- [Verbal Memory Test](https://cogniarena.com/tests/verbal-memory/): Recognition memory testing word lists against distractor sets.
+- [Pattern Reasoning Test](https://cogniarena.com/tests/pattern-reasoning/): Fluid intelligence and matrix reasoning assessment.
+- [Spatial Orientation Test](https://cogniarena.com/tests/spatial-orientation/): Mental rotation paradigm evaluating 3D spatial visualization.
+- [Stroop Test](https://cogniarena.com/tests/stroop/): Selective attention and interference control testing automatic reading suppression.
+- [Trail Making Test](https://cogniarena.com/tests/trail-making/): Cognitive set-shifting and executive processing speed (Parts A & B).
+- [Focus Challenge](https://cogniarena.com/tests/focus-challenge/): 5-stage sustained attention battery under dynamic distraction.
+- [Multiple Object Tracking Test](https://cogniarena.com/tests/object-tracking/): Dynamic spatial attention tracking moving target spheres.
+- [CPS Test](https://cogniarena.com/tests/click-speed/): Neuromuscular clicking rate measuring clicks per second.
+- [Aim Trainer](https://cogniarena.com/tests/aim-trainer/): Fine motor target acquisition adhering to Fitts's Law.
+- [Mouse Accuracy Test](https://cogniarena.com/tests/mouse-accuracy/): Precision target acquisition measuring offset error on shrinking targets.
+- [Flick Trainer](https://cogniarena.com/tests/flick-trainer/): Rapid spatial repositioning testing ballistic mouse movements.
+- [Typing Speed Test](https://cogniarena.com/tests/typing-speed/): Touch-typing speed evaluating words per minute (WPM) and accuracy.
+- [Decision Speed Test](https://cogniarena.com/tests/decision-speed/): Information processing speed testing inspection time.
+- [The Gauntlet](https://cogniarena.com/gauntlet/): Flagship 5-stage composite assessment calculating CogniArena Index (CAI 0-1000).
+
+## Hardware Calibration Protocols
+- [Methodology](https://cogniarena.com/methodology/): Documentation of requestAnimationFrame paint-synchronization, monitor refresh rate detection, and input delay compensation.
+
+## Population Benchmarks
+- [Benchmarks Center](https://cogniarena.com/benchmarks/): Population distribution curves, age-stratified norms, and professional benchmarks across 6 cognitive axes.
+
+## Competitor Comparisons
+- [Human Benchmark Alternative](https://cogniarena.com/compare/human-benchmark-alternative/): Technical feature and accuracy comparison matrix between CogniArena and Human Benchmark.
