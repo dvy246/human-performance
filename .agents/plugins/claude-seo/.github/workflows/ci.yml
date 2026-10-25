@@ -1,0 +1,119 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  lint:
+    name: Python Syntax Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.10"
+
+      - name: Check Python syntax
+        run: |
+          mapfile -t PYFILES < <(git ls-files 'scripts/*.py')
+          python3 -m py_compile "${PYFILES[@]}"
+          echo "All ${#PYFILES[@]} scripts passed syntax check"
+
+  test:
+    name: Test suite (manifests + sync_flow)
+    runs-on: ubuntu-latest
+    env:
+      # gh CLI honors GH_TOKEN automatically; sync_flow.py uses gh for auth.
+      # Without this, anonymous API requests hit GitHub's 60/hr per-IP rate
+      # limit and the sync_flow dry-run test fails on shared-runner IPs.
+      GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.10"
+
+      - name: Install runtime + test deps
+        # Tests import scripts that import url_safety.py (and others), which
+        # require the full runtime dependency set at module-import time. The
+        # prior minimal install (pytest + beautifulsoup4) broke when Phase J/K
+        # tests added imports through url_safety -> requests. Installing from
+        # requirements.txt matches the documented user install path and keeps
+        # CI in sync with the runtime contract.
+        run: pip install -r requirements.txt pytest
+
+      - name: Run pytest
+        run: pytest tests/ -v
+
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Scan tracked files for leaked credentials
+        run: |
+          set -uo pipefail
+          # High-signal credential patterns. Test fixtures and documented
+          # placeholders are allowlisted; auth-setup.md ships a private-key
+          # placeholder (BEGIN PRIVATE KEY\n...) that is not a real key.
+          PATTERN='AIza[0-9A-Za-z_-]{35}|ghp_[A-Za-z0-9]{36}|github_pat_[A-Za-z0-9_]{40,}|gh[ous]_[A-Za-z0-9]{36}|AKIA[0-9A-Z]{16}|GOCSPX-[A-Za-z0-9_-]{20,}|sk-(proj-)?[A-Za-z0-9]{20,}|xox[baprs]-[A-Za-z0-9-]{10,}'
+          HITS=$(git ls-files -z \
+            | xargs -0 grep -nIEH "$PATTERN" 2>/dev/null \
+            | grep -vE 'DUMMY|EXAMPLE|YOUR_|REDACTED|placeholder|<[A-Z_]+>' \
+            | grep -vE '^tests/|/auth-setup\.md:' || true)
+          if [ -n "$HITS" ]; then
+            echo "::error::Potential leaked credentials in tracked files:"
+            echo "$HITS"
+            exit 1
+          fi
+          echo "Secret scan clean: no credentials detected in tracked files."
+
+  portability:
+    name: Portability (${{ matrix.os }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      # Report both legs independently; a failure on one platform should not
+      # hide the result on the other.
+      fail-fast: false
+      matrix:
+        os: [windows-latest, macos-latest]
+    steps:
+      - uses: actions/checkout@v7
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.10"
+
+      - name: Install pytest
+        # These three modules need nothing beyond pytest -- verified on a clean
+        # virtualenv. Keeping the install minimal keeps the job from failing for
+        # reasons that have nothing to do with portability.
+        run: pip install pytest
+
+      - name: Run the platform-sensitive suites
+        # Deliberately not `pytest tests/`. The full suite has 15 tests that
+        # assert POSIX semantics directly -- the executable bit via os.access
+        # X_OK in test_parasite_risk_and_extensions.py and
+        # test_runtime_installers.py, and chmod 0o600/0o644 token permissions in
+        # test_url_safety.py -- which cannot hold on Windows. The three modules
+        # below are the ones written to be platform-neutral, so they are the
+        # ones worth running here. Widening this list means teaching those 15
+        # tests to skip on non-POSIX first.
+        run: >
+          pytest
+          tests/test_portability.py
+          tests/test_cross_platform_hooks.py
+          tests/test_drift_portability.py
+          -v

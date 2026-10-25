@@ -57,7 +57,9 @@ interface PersonalBest {
   lastAttempt: number
 }
 
-export default function PersonalRecords() {
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
+
+function PersonalRecords() {
   const { t, lang } = useI18n()
   const [records, setRecords] = useState<PersonalBest[]>([])
   const [isLoading, setIsLoading] = useState(true)
@@ -217,3 +219,5 @@ export default function PersonalRecords() {
     return "🏆"
   }
 }
+
+export default withErrorBoundary(PersonalRecords)

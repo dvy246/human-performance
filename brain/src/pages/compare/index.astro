@@ -1,0 +1,39 @@
+---
+import Layout from "@/layouts/main.astro"
+
+const title = "Compare esports benchmarks | CogniArena"
+const description = "Compare CogniArena with other platforms like Human Benchmark. See how our esports reflexes, aiming drills, and hardware latency calibration stacks up."
+
+const schemaJson = {
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: "Compare CogniArena",
+  description: description,
+  url: "https://cogniarena.com/compare/"
+}
+---
+
+<Layout
+  title={title}
+  description={description}
+  schemaJson={schemaJson}
+  canonicalUrl="https://cogniarena.com/compare/"
+>
+  <div class="mx-auto max-w-4xl px-4 py-12 sm:px-6 lg:px-8">
+    <header class="mb-12 text-center">
+      <h1 class="text-4xl font-extrabold tracking-tight text-foreground sm:text-5xl">
+        Platform Comparisons
+      </h1>
+      <p class="mt-4 text-lg text-muted">
+        See how CogniArena stacks up against other benchmarking tools.
+      </p>
+    </header>
+
+    <div class="grid grid-cols-1 gap-6">
+      <a href="/compare/human-benchmark-alternative/" class="group block rounded-2xl border border-card-border bg-card p-6 shadow-sm transition-all hover:-translate-y-1 hover:border-accent/50 hover:shadow-md">
+        <h2 class="text-xl font-bold text-foreground group-hover:text-accent">CogniArena vs Human Benchmark</h2>
+        <p class="mt-2 text-sm text-muted">A detailed breakdown of why gamers and esports enthusiasts prefer CogniArena for measuring reflexes, mouse accuracy, and typing speed.</p>
+      </a>
+    </div>
+  </div>
+</Layout>

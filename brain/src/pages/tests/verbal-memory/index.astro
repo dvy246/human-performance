@@ -14,6 +14,8 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     applicationCategory: "GameApplication",
+    operatingSystem: "Web Browser",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     name: "Verbal Memory Test",
     description:
       "Verbal working memory assessment measuring word recall from growing lists with distractors.",
@@ -33,13 +35,13 @@ const schemaJson = [
         "@type": "ListItem",
         position: 2,
         name: "Memory Suite",
-        item: "https://cogniarena.com/tests",
+        item: "https://cogniarena.com/tests/",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Verbal Memory Test",
-        item: "https://cogniarena.com/tests/verbal-memory",
+        item: "https://cogniarena.com/tests/verbal-memory/",
       },
     ],
   },
@@ -114,13 +116,11 @@ const schemaJson = [
 
     <ExploreTests currentSlug="verbal-memory" />
 
+<!-- Gamer Benchmark Notice -->
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
-      <strong class="font-semibold text-foreground"
-        >Self-Tracking Notice:</strong
-      > For self-tracking and educational purposes only. Not a clinical or diagnostic
-      evaluation.
+      <strong class="font-semibold text-foreground">Gamer Benchmark Notice:</strong> This test is designed for reaction timing, mouse precision, and reflex tracking. Built for entertainment and competitive drills.
     </div>
   </div>
 </Layout>

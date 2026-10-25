@@ -207,7 +207,9 @@ const ACHIEVEMENTS_LIST = [
   },
 ]
 
-export default function CognitiveProfile() {
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
+
+function CognitiveProfile() {
   const { t, lang } = useI18n()
   const [history, setHistory] = useState<SessionRecord[]>([])
   const [streak, setStreak] = useState<number>(0)
@@ -1436,3 +1438,5 @@ export default function CognitiveProfile() {
     </div>
   )
 }
+
+export default withErrorBoundary(CognitiveProfile)

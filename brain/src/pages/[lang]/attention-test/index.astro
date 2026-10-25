@@ -11,7 +11,7 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: LangCode }
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/attention-test`
-const title = `${t("nav.adhd_test", lang, "Attention Assessment")} | CogniArena`
+const title = `${t("nav.attention_test", lang, "Attention Assessment")} | CogniArena`
 const description = "Evaluate your sustained attention, impulse response pace, and selective focus with a scientifically grounded self-assessment battery."
 
 const schemaJson = [
@@ -35,7 +35,7 @@ const schemaJson = [
       {
         "@type": "ListItem",
         position: 2,
-        name: t("nav.adhd_test", lang, "Attention Assessment"),
+        name: t("nav.attention_test", lang, "Attention Assessment"),
         item: canonicalUrl,
       },
     ],
@@ -58,12 +58,12 @@ const schemaJson = [
       >
         <a href={`${localePrefix}/`} class="hover:underline">{t("mobile.home", lang, "Home")}</a>
         <span>/</span>
-        <span class="text-muted">{t("nav.adhd_test", lang, "Attention Assessment")}</span>
+        <span class="text-muted">{t("nav.attention_test", lang, "Attention Assessment")}</span>
       </nav>
       <h1
         class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
       >
-        {t("nav.adhd_test", lang, "Attention & Focus Assessment")}
+        {t("nav.attention_test", lang, "Attention & Focus Assessment")}
       </h1>
       <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
         {description}

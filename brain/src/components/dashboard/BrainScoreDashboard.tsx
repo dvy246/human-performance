@@ -148,7 +148,9 @@ function ScoreCircle({ score, animate }: { score: number; animate: boolean }) {
   )
 }
 
-export default function BrainScoreDashboard() {
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
+
+function BrainScoreDashboard() {
   const { t, lang } = useI18n()
   const [loading, setLoading] = useState(true)
   const [averages, setAverages] = useState<CognitiveAverages | null>(null)
@@ -391,3 +393,4 @@ export default function BrainScoreDashboard() {
 }
 
 BrainScoreDashboard.displayName = "BrainScoreDashboard"
+export default withErrorBoundary(BrainScoreDashboard)

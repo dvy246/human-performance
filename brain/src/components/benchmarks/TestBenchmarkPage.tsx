@@ -10,7 +10,9 @@ interface Props {
   config: CategoryBenchmarkConfig
 }
 
-export default function TestBenchmarkPage({ config }: Props) {
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
+
+function TestBenchmarkPage({ config }: Props) {
   const { t, lang } = useI18n()
   const [userScore, setUserScore] = useState<number | null>(null)
   const [loading, setLoading] = useState(true)
@@ -151,3 +153,5 @@ export default function TestBenchmarkPage({ config }: Props) {
     </div>
   )
 }
+
+export default withErrorBoundary(TestBenchmarkPage)

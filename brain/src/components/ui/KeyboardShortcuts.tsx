@@ -1,6 +1,6 @@
 import React, { useEffect } from "react"
 import { useI18n } from "../../runtime/useI18n"
-import { getLocalizedPath } from "../../i18n/translations"
+import { getLocalizedPath } from "@/utils/routing"
 
 export default function useKeyboardShortcuts() {
   const { lang } = useI18n()

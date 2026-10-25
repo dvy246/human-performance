@@ -14,9 +14,11 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     applicationCategory: "GameApplication",
+    operatingSystem: "Web Browser",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     name: "Quant-Dev Agility Grid",
     description:
-      "A developer-oriented cognitive assessment testing bitwise shifts, logic gates, and hex conversions in real-time.",
+      "A developer-oriented esports benchmark testing bitwise shifts, logic gates, and hex conversions in real-time.",
     about: {
       "@type": "Thing",
       name: "Computer Science Arithmetic & Fluid Logic",
@@ -35,14 +37,14 @@ const schemaJson = [
       {
         "@type": "ListItem",
         position: 2,
-        name: "Cognitive Tests",
-        item: "https://cogniarena.com/tests",
+        name: "esports benchmarks",
+        item: "https://cogniarena.com/tests/",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Quant-Dev Agility Grid",
-        item: "https://cogniarena.com/tests/quant-dev-grid",
+        item: "https://cogniarena.com/tests/quant-dev-grid/",
       },
     ],
   },
@@ -80,24 +82,22 @@ const schemaJson = [
 
     <!-- Interactive Grid Panel -->
     <section class="w-full">
-      <QuantGrid client:load />
+      <QuantGrid client:visible />
     </section>
 
-    <!-- Medical/Scientific Disclaimer Notice -->
+    <!-- Gamer Benchmark Notice -->
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
-      <strong class="font-semibold text-foreground"
-        >Self-Tracking Notice:</strong
-      > This logic and code arithmetic game is designed for self-tracking, educational programming practice, and quantitative training purposes only. It is not a clinical IQ test or medical diagnostic tool for logical deficits.
+      <strong class="font-semibold text-foreground">Gamer Benchmark Notice:</strong> This test is designed for reaction timing, mouse precision, and reflex tracking. Built for entertainment and competitive drills.
     </div>
 
     <!-- Below the fold SEO and Methodology Content -->
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       <HowItWorks
         testName="the Quant-Dev Agility Grid"
-        learnSlug="typing-speed"
-        learnTitle="Systems Logic"
+        learnSlug="brain-training"
+        learnTitle="Cognitive Training & Performance Guides"
         whatItMeasures="This assessment measures binary logic parsing speed, computer science math conversions, and mental register indexing capacity."
         howScoringWorks="Logic matches verify outputs correctly resolved within a 60-second limit, penalizing errors to calculate net score metrics."
         whatAffectsResults="Keyboard shortcut familiarity, math layout familiarity (hexadecimal notation, binary bitwise operators), and focus levels affect scores."

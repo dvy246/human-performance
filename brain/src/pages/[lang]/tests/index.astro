@@ -13,7 +13,7 @@ const { lang } = Astro.params as { lang: LangCode }
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/tests`
 const title = `${t("mobile.tests", lang, "Tests")} | CogniArena`
-const description = t("hero.subtitle", lang, "Explore our complete library of 24+ free brain tests, cognitive assessments, and online mind power games.")
+const description = t("hero.subtitle", lang, "Explore our complete library of 24+ free reflex tests, esports benchmarks, and online mind power games.")
 
 const breadcrumbSchema = {
   "@context": "https://schema.org",
@@ -37,7 +37,7 @@ const breadcrumbSchema = {
 const collectionPageSchema = {
   "@context": "https://schema.org",
   "@type": "CollectionPage",
-  name: "Cognitive Assessments Collection",
+  name: "esports benchmarks Collection",
   description: description,
   url: canonicalUrl,
 }
@@ -65,7 +65,7 @@ const schemaJson = [breadcrumbSchema, collectionPageSchema]
       <h1
         class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
       >
-        {t("explore.title", lang, "Cognitive Assessments Library")}
+        {t("explore.title", lang, "esports benchmarks Library")}
       </h1>
       <p class="max-w-3xl text-sm leading-relaxed text-muted md:text-base">
         {description}

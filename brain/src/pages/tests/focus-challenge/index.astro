@@ -14,6 +14,8 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     applicationCategory: "GameApplication",
+    operatingSystem: "Web Browser",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     name: "Focus Challenge — Attention Battery",
     description:
       "A five-stage online attention test measuring selective attention, impulse control, task switching, sustained attention, and working memory under distraction.",
@@ -45,13 +47,13 @@ const schemaJson = [
         "@type": "ListItem",
         position: 2,
         name: "Tests",
-        item: "https://cogniarena.com/tests",
+        item: "https://cogniarena.com/tests/",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Focus Challenge",
-        item: "https://cogniarena.com/tests/focus-challenge",
+        item: "https://cogniarena.com/tests/focus-challenge/",
       },
     ],
   },
@@ -92,15 +94,11 @@ const schemaJson = [
       <FocusChallengeTest client:visible />
     </section>
 
+<!-- Gamer Benchmark Notice -->
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
-      <strong class="font-semibold text-foreground"
-        >Self-Tracking Notice:</strong
-      > This assessment is for self-tracking, educational, and cognitive training
-      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
-      evaluation. If you have concerns about your attention or cognitive health, consult
-      a healthcare professional.
+      <strong class="font-semibold text-foreground">Gamer Benchmark Notice:</strong> This test is designed for reaction timing, mouse precision, and reflex tracking. Built for entertainment and competitive drills.
     </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">

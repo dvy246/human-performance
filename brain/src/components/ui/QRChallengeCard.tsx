@@ -3,7 +3,7 @@ import QRCodeLib from "qrcode"
 import { encodeChallenge } from "../../runtime/share"
 import { formatTopPercentile } from "../../runtime/percentileLookup"
 import { useI18n } from "../../runtime/useI18n"
-import { getLocalizedPath } from "../../i18n/translations"
+import { getLocalizedPath } from "@/utils/routing"
 
 const REACTION_TESTS = [
   "reaction-time",

@@ -195,9 +195,9 @@ const styleData: Record<
   },
 }
 
-type Phase = "start" | "playing" | "result"
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
 
-export default function CognitiveStyleQuiz() {
+function CognitiveStyleQuiz() {
   const { t } = useI18n()
   const [phase, setPhase] = useState<Phase>("start")
   const [current, setCurrent] = useState(0)
@@ -365,3 +365,5 @@ export default function CognitiveStyleQuiz() {
     </div>
   )
 }
+
+export default withErrorBoundary(CognitiveStyleQuiz)

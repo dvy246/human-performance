@@ -15,7 +15,7 @@ const { lang } = Astro.params as { lang: LangCode }
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/`
 const title = `${t("hero.title", lang, "How Fast is Your Brain?")} — CogniArena`
-const description = t("hero.subtitle", lang, "Take free cognitive tests and reflex assessments directly in your browser.").replace(/<[^>]*>/g, "")
+const description = t("hero.subtitle", lang, "Take free esports benchmarks and reflex assessments directly in your browser.").replace(/<[^>]*>/g, "")
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -50,7 +50,7 @@ const faqSchema = {
       name: t("faq.q4", lang, "What is the Brain Challenge (Gauntlet)?"),
       acceptedAnswer: {
         "@type": "Answer",
-        text: t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions."),
+        text: t("faq.a4", lang, "The Gauntlet is our flagship 5-stage esports benchmark covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions."),
       },
     },
     {
@@ -342,7 +342,7 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
     <section
       class="animate-fade-in-up stagger-3 mx-auto flex w-full max-w-4xl flex-col items-center px-4 sm:px-6"
     >
-      <BrainScoreDashboard client:visible />
+      <BrainScoreDashboard lang={lang} client:visible />
     </section>
 
     <!-- ===== 6 CATEGORY LINKS ===== -->
@@ -600,12 +600,12 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
               <strong class="text-foreground">{t("guide.app_sports", lang, "Sports performance: Athletes in tennis, boxing, and baseball rely on split-second visual-motor responses to return serves, dodge punches, or hit fastballs.")}</strong>
             </li>
             <li>
-              <strong class="text-foreground">{t("guide.app_health", lang, "Cognitive health monitoring: Tracking your reaction time over time provides insight into cognitive aging, fatigue levels, and the effectiveness of brain training.")}</strong>
+              <strong class="text-foreground">{t("guide.app_health", lang, "Cognitive health monitoring: Tracking your reaction time over time provides insight into cognitive aging, fatigue levels, and the effectiveness of reflex training.")}</strong>
             </li>
           </ul>
 
           <h3 class="text-xl font-semibold tracking-tight text-foreground">
-            {t("guide.h2_beyond", lang, "Beyond Reaction Time: Explore More Cognitive Assessments")}
+            {t("guide.h2_beyond", lang, "Beyond Reaction Time: Explore More esports benchmarks")}
           </h3>
           <p>
             {t("guide.beyond_p1", lang, "CogniArena offers 23+ assessments across six cognitive domains. After testing your reflexes, explore other dimensions of your cognitive performance:")}
@@ -614,7 +614,7 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
             <li>
               <a
                 href={`${localePrefix}/quiz/iq-test/`}
-                class="font-medium text-accent hover:underline">{t("guide.beyond_iq_desc", lang, "Free IQ Test — Measure your intelligence across logical, numerical, verbal, and spatial reasoning domains. 20 questions, instant results.")}</a
+                class="font-medium text-accent hover:underline">{t("guide.beyond_iq_desc", lang, "Free Logic Benchmark — Measure your problem-solving ability across logical, numerical, verbal, and spatial reasoning domains. 20 questions, instant results.")}</a
               >
             </li>
             <li>
@@ -635,7 +635,7 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
               <a
                 href={`${localePrefix}/tests/pattern-reasoning/`}
                 class="font-medium text-accent hover:underline"
-                >{t("guide.beyond_pattern_desc", lang, "Pattern Reasoning Test — Evaluate your fluid intelligence and logical reasoning with geometric progressions.")}</a
+                >{t("guide.beyond_pattern_desc", lang, "Pattern Reasoning Test — Evaluate your fluid problem-solving ability and logical reasoning with geometric progressions.")}</a
               >
             </li>
             <li>
@@ -829,7 +829,7 @@ const schemaJson = [faqSchema, breadcrumbSchema, webPageSchema]
             class="border-t border-card-border/50 px-5 pt-3.5 pb-5 text-sm leading-relaxed text-secondary sm:text-[14.5px]"
           >
             <p data-i18n="faq.a4">
-              {t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.")}
+              {t("faq.a4", lang, "The Gauntlet is our flagship 5-stage esports benchmark covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.")}
             </p>
           </div>
         </details>

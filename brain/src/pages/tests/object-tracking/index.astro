@@ -15,9 +15,11 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     applicationCategory: "GameApplication",
+    operatingSystem: "Web Browser",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     name: "Multiple Object Tracking Test",
     description:
-      "A high-precision cognitive assessment measuring sustained visual attention, dynamic spatial indexing, and visual working memory capacity.",
+      "A high-precision esports benchmark measuring sustained visual attention, dynamic spatial indexing, and visual working memory capacity.",
     about: {
       "@type": "Thing",
       name: "Sustained Attention",
@@ -42,13 +44,13 @@ const schemaJson = [
         "@type": "ListItem",
         position: 2,
         name: "Focus & Attention",
-        item: "https://cogniarena.com/tests",
+        item: "https://cogniarena.com/tests/",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Multiple Object Tracking",
-        item: "https://cogniarena.com/tests/object-tracking",
+        item: "https://cogniarena.com/tests/object-tracking/",
       },
     ],
   },
@@ -89,15 +91,11 @@ const schemaJson = [
       <ObjectTrackingTest client:visible />
     </section>
 
-    <!-- Medical/Scientific Disclaimer Notice -->
+<!-- Gamer Benchmark Notice -->
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
-      <strong class="font-semibold text-foreground"
-        >Self-Tracking Notice:</strong
-      > This assessment is for self-tracking, educational, and cognitive training
-      purposes only. It is not a clinical, medical, diagnostic, or neuropsychological
-      evaluation, and may be affected by display latency, fatigue, or device configuration.
+      <strong class="font-semibold text-foreground">Gamer Benchmark Notice:</strong> This test is designed for reaction timing, mouse precision, and reflex tracking. Built for entertainment and competitive drills.
     </div>
 
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
@@ -131,7 +129,7 @@ const schemaJson = [
           What is a Multiple Object Tracking Test?
         </h2>
         <p class="text-sm leading-relaxed text-muted">
-          A <strong class="text-foreground">Multiple Object Tracking (MOT) test</strong> is a standard cognitive assessment used in neuropsychology to study visual attention limits. In an MOT task, a set of identical circles moves randomly across a screen. At the start, a subset of these circles is highlighted as "targets." They then return to their original appearance and begin moving. Your goal is to track these targets and click them once the motion ceases.
+          A <strong class="text-foreground">Multiple Object Tracking (MOT) test</strong> is a standard esports benchmark used in neuropsychology to study visual attention limits. In an MOT task, a set of identical circles moves randomly across a screen. At the start, a subset of these circles is highlighted as "targets." They then return to their original appearance and begin moving. Your goal is to track these targets and click them once the motion ceases.
         </p>
         <p class="text-sm leading-relaxed text-muted">
           Unlike static focus games, MOT requires active, continuous spatial processing. It forces your brain to distribute its attentional resources across multiple coordinate vectors simultaneously, highlighting the limits of visual working memory capacity.

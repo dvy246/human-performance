@@ -16,7 +16,3 @@
 
 /site.webmanifest
   Cache-Control: public, max-age=86400
-
-https://brain-bfn.pages.dev/*
-  X-Robots-Tag: noindex
-

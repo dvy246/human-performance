@@ -14,7 +14,7 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: LangCode }
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/gauntlet`
-const title = `${t("gaunt.title", lang, "The Gauntlet")} — 5-Stage Cognitive Assessment | CogniArena`
+const title = `${t("gaunt.title", lang, "The Gauntlet")} — 5-Stage esports benchmark | CogniArena`
 const description = t("gaunt.subtitle", lang, "A 5-stage cognitive gauntlet: reaction speed, sequence memory, Stroop, matrix reasoning, and aim.")
 
 const schemaJson = [
@@ -23,7 +23,7 @@ const schemaJson = [
     "@type": "Quiz",
     name: "The Gauntlet — CogniArena Flagship Assessment",
     description:
-      "A five-stage sequential cognitive assessment measuring reaction, memory, focus, reasoning, and precision.",
+      "A five-stage sequential esports benchmark measuring reaction, memory, focus, reasoning, and precision.",
     about: { "@type": "Thing", name: "Multi-Domain Cognitive Performance" },
     timeRequired: "PT4M",
     assesses: [
@@ -85,7 +85,7 @@ const schemaJson = [
         {t("gaunt.subtitle", lang, "A 5-stage cognitive gauntlet: reaction → memory → focus → logic → precision. Takes ~4 minutes.")}
       </p>
     </header>
-    <section class="w-full"><GauntletTest client:visible /></section>
+    <section class="w-full"><GauntletTest lang={lang} client:visible /></section>
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
@@ -98,7 +98,7 @@ const schemaJson = [
       testName="The Gauntlet"
       learnSlug="brain-training"
       learnTitle="Cognitive Training & Focus Science"
-      whatItMeasures="A 5-stage composite cognitive assessment: visual reaction speed, sequence memory, Stroop interference, matrix reasoning, and aim precision. Measures your performance across five core cognitive domains in one continuous session."
+      whatItMeasures="A 5-stage composite esports benchmark: visual reaction speed, sequence memory, Stroop interference, matrix reasoning, and aim precision. Measures your performance across five core cognitive domains in one continuous session."
       howScoringWorks="Each stage produces a score from 0-100. The overall CogniArena Index (CAI) is the average of all five stages. Your percentile compares your CAI against the full population distribution."
       whatAffectsResults="Your performance in your weakest domain constrains your overall score (the weakest link effect). Mental fatigue across stages, prior experience with each test type, and hardware quality all affect results."
       lang={lang}
@@ -116,7 +116,7 @@ const schemaJson = [
           class="text-sm leading-relaxed text-muted"
           data-i18n="gaunt.what_desc"
         >
-          {t("gaunt.what_desc", lang, "The Gauntlet is CogniArena' flagship multi-domain cognitive assessment producing a unified CAI score.")}
+          {t("gaunt.what_desc", lang, "The Gauntlet is CogniArena' flagship multi-domain esports benchmark producing a unified CAI score.")}
         </p>
       </article>
       <article class="flex flex-col gap-4">
@@ -160,7 +160,7 @@ const schemaJson = [
             <span class="text-lg">🧩</span>
             <div>
               <span class="text-xs font-bold text-foreground">Stage 4: Matrix Reasoning</span>
-              <p class="text-[11px] text-muted">Fluid intelligence</p>
+              <p class="text-[11px] text-muted">Fluid problem-solving ability</p>
             </div>
           </div>
           <div

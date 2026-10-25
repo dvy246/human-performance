@@ -92,7 +92,7 @@ export default function GameSearch({ variant = "default" }: GameSearchProps) {
         </div>
         <input
           type="text"
-          placeholder={isCompact ? "Search..." : "Search 29+ cognitive tests & games..."}
+          placeholder={isCompact ? "Search..." : "Search 29+ esports benchmarks & games..."}
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           onFocus={() => {

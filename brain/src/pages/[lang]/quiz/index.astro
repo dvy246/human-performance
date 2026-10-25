@@ -24,7 +24,7 @@ const schemaJson = {
     name: "CogniArena",
     url: "https://cogniarena.com",
   },
-  about: { "@type": "Thing", name: "Cognitive Assessment" },
+  about: { "@type": "Thing", name: "esports benchmark" },
   hasPart: [
     {
       "@type": "Quiz",
@@ -71,7 +71,7 @@ const schemaJson = {
     </header>
 
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-      <!-- IQ Quiz Card -->
+      <!-- Logic Quiz Card -->
       <a
         href={`${localePrefix}/quiz/iq-test/`}
         class="card-interactive group flex flex-col justify-between rounded-xl border border-card-border bg-card p-6 transition-all hover:border-accent/50 hover:bg-subtle"
@@ -84,7 +84,7 @@ const schemaJson = {
             </span>
           </div>
           <h2 class="text-lg font-bold text-foreground group-hover:text-accent">
-            {t("nav.iq_test", lang, "Free IQ Test")}
+            {t("nav.iq_test", lang, "Free Logic Benchmark")}
           </h2>
           <p class="mt-2 text-xs leading-relaxed text-muted">
             20-question cognitive reasoning assessment covering numerical, verbal, spatial, and logical domains.

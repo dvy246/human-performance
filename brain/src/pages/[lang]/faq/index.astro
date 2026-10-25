@@ -12,7 +12,7 @@ const { lang } = Astro.params as { lang: LangCode }
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/faq`
 const title = `${t("faq.title", lang, "Frequently Asked Questions")} | CogniArena`
-const description = t("faq.subtitle", lang, "Answers to common questions about reaction time tests, memory assessments, typing speed, aim training, cognitive assessments, and the CogniArena platform.")
+const description = t("faq.subtitle", lang, "Answers to common questions about reaction time tests, memory assessments, typing speed, aim training, esports benchmarks, and the CogniArena platform.")
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -47,7 +47,7 @@ const faqSchema = {
       name: t("faq.q4", lang, "What is the Brain Challenge (Gauntlet)?"),
       acceptedAnswer: {
         "@type": "Answer",
-        text: t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions."),
+        text: t("faq.a4", lang, "The Gauntlet is our flagship 5-stage esports benchmark covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions."),
       },
     },
     {
@@ -218,7 +218,7 @@ const schemaJson = [faqSchema, breadcrumbSchema]
         <div
           class="border-t border-card-border px-5 pt-4 pb-5 text-sm leading-relaxed text-muted dark:text-muted"
         >
-          {t("faq.a4", lang, "The Gauntlet is our flagship 5-stage cognitive assessment covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.")}
+          {t("faq.a4", lang, "The Gauntlet is our flagship 5-stage esports benchmark covering reaction, memory, focus, reasoning, and precision. You receive a unified CAI score and cognitive archetype, plus a hexagonal radar profile showing your strengths across all dimensions.")}
         </div>
       </details>
 

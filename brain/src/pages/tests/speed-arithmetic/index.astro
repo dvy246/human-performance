@@ -14,6 +14,8 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     applicationCategory: "GameApplication",
+    operatingSystem: "Web Browser",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     name: "Speed Arithmetic Test",
     description:
       "A fast-paced client-side mental calculation game to evaluate arithmetic recall rates, processing limits, and quantitative agility.",
@@ -40,14 +42,14 @@ const schemaJson = [
       {
         "@type": "ListItem",
         position: 2,
-        name: "Cognitive Tests",
-        item: "https://cogniarena.com/tests",
+        name: "esports benchmarks",
+        item: "https://cogniarena.com/tests/",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Speed Arithmetic Test",
-        item: "https://cogniarena.com/tests/speed-arithmetic",
+        item: "https://cogniarena.com/tests/speed-arithmetic/",
       },
     ],
   },
@@ -85,24 +87,22 @@ const schemaJson = [
 
     <!-- Interactive Math Panel -->
     <section class="w-full">
-      <SpeedArithmetic client:load />
+      <SpeedArithmetic client:visible />
     </section>
 
-    <!-- Medical/Scientific Disclaimer Notice -->
+    <!-- Gamer Benchmark Notice -->
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
-      <strong class="font-semibold text-foreground"
-        >Self-Tracking Notice:</strong
-      > This math practice test is designed for self-tracking, educational arithmetic practice, and cognitive math training purposes only. It is not a clinical or medical diagnosis for dyscalculia or quantitative cognitive decline.
+      <strong class="font-semibold text-foreground">Gamer Benchmark Notice:</strong> This test is designed for reaction timing, mouse precision, and reflex tracking. Built for entertainment and competitive drills.
     </div>
 
     <!-- Below the fold SEO and Methodology Content -->
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       <HowItWorks
         testName="the Speed Arithmetic Test"
-        learnSlug="typing-speed"
-        learnTitle="Mental Math Science"
+        learnSlug="brain-training"
+        learnTitle="Cognitive Training & Performance Guides"
         whatItMeasures="This assessment measures basic operator extraction speed, numerical working memory registers, and equation resolution under timed load."
         howScoringWorks="Equations resolved correctly within the active 60-second window increment scores, with a small error penalty to prevent guessing."
         whatAffectsResults="Shortcuts recall (rounding operations, left-to-right math), calculation cadence, typing speed, and fatigue affect results."

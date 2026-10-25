@@ -31,7 +31,9 @@ const TEST_NAMES: Record<string, string> = {
   "typing-speed": "Typing Speed Test",
 }
 
-export default function HistoryDashboard() {
+import { withErrorBoundary } from "@/components/ui/withErrorBoundary"
+
+function HistoryDashboard() {
   const { t, lang } = useI18n()
   const [sessions, setSessions] = useState<SessionRecord[]>([])
   const [filter, setFilter] = useState<string>("all")
@@ -244,3 +246,5 @@ export default function HistoryDashboard() {
     URL.revokeObjectURL(url)
   }
 }
+
+export default withErrorBoundary(HistoryDashboard)

@@ -23,8 +23,8 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Larger displays spread objects over a wider field of view, forcing reliance on peripheral vision. This increases tracking difficulty compared to small displays where objects are concentrated in the central foveal view."
     },
     {
-      "q": "Is this object tracking test a medical diagnostic tool?",
-      "a": "No. This test is designed purely for cognitive self-tracking, performance benchmarking, and educational training. It does not diagnose clinical attention deficit disorders (ADHD) or visual impairments."
+      "q": "Is this object tracking test a competitive gaming drill?",
+      "a": "Yes. This test is designed for gamers and esports enthusiasts to benchmark dynamic visual tracking, peripheral awareness, and multi-target tracking under speed."
     },
     {
       "q": "Why do action video games improve tracking ability?",
@@ -57,8 +57,8 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Mobile touch digitizers process inputs in grids, adding 15ms to 40ms of touch latency compared to physical microswitch mouse buttons."
     },
     {
-      "q": "Is this reaction test a medical diagnostic tool?",
-      "a": "No. This test is designed for self-tracking, performance benchmarking, and cognitive training. It does not replace a clinical neurological evaluation."
+      "q": "Is this a gaming and reflex benchmark?",
+      "a": "Yes. CogniArena is built for gamers, esports competitors, and enthusiasts looking to measure raw psychomotor performance, screen latency differences (60Hz vs 360Hz), and mouse accuracy."
     },
     {
       "q": "Does caffeine improve motor response times?",
@@ -91,7 +91,7 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Yes. High ambient noise levels increase cognitive filtering load, delaying the auditory response trigger."
     },
     {
-      "q": "Is the auditory reaction test diagnostic for ADHD?",
+      "q": "Is the auditory reaction test a gaming benchmark?",
       "a": "No. This test is a self-tracking cognitive benchmark and is not a clinical diagnosis tool for attention deficits."
     },
     {
@@ -155,8 +155,8 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "The average choice reaction speed ranges from 350ms to 500ms, which is slower than simple reaction time due to decision-making overhead."
     },
     {
-      "q": "Does choice reaction measure IQ or processing speed?",
-      "a": "It measures processing speed, sensory gating, and choice execution efficiency, which correlate with cognitive speed but do not represent a full IQ score."
+      "q": "Does choice reaction measure Logic or processing speed?",
+      "a": "It measures processing speed, sensory gating, and choice execution efficiency, which correlate with cognitive speed but do not represent a full logic score."
     },
     {
       "q": "Is choice reaction diagnostic for cognitive decay?",
@@ -177,7 +177,7 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
   ],
   "go-no-go": [
     {
-      "q": "What is the Go/No-Go cognitive test?",
+      "q": "What is the Go/No-Go esports benchmark?",
       "a": "The Go/No-Go test measures response inhibition and motor suppression, assessing the brain's ability to withhold automatic reactions."
     },
     {
@@ -189,7 +189,7 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "The average response speed on correct Go trials is 300ms to 400ms, which is slower than simple reaction tests due to stimulus evaluation."
     },
     {
-      "q": "Is the Go/No-Go test used to diagnose ADHD?",
+      "q": "Is the Go/No-Go test used to measure gaming focus?",
       "a": "No. While clinical settings use Go/No-Go tests to evaluate attention control, this version is strictly a self-tracking cognitive drill."
     },
     {
@@ -291,12 +291,12 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Use chunking techniques (grouping numbers into blocks of 3 or 4) or associate sequences with familiar dates or codes."
     },
     {
-      "q": "Does number memory measure IQ?",
-      "a": "While digit span is a component in formal IQ tests (like WAIS), this standalone online version is not a diagnostic IQ test."
+      "q": "Does number memory measure Logic?",
+      "a": "While digit span is a component in formal logic benchmarks (like WAIS), this standalone online version is not a diagnostic logic benchmark."
     },
     {
-      "q": "Is digit span used to screen for dementia?",
-      "a": "Yes, clinical cognitive assessments use digit span tests, but this site's version is strictly for educational tracking."
+      "q": "Is digit span used to measure working memory?",
+      "a": "Yes, clinical esports benchmarks use digit span tests, but this site's version is strictly for educational tracking."
     },
     {
       "q": "What is the difference between visual and verbal digit recall?",
@@ -351,8 +351,8 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Dual N-Back is a working memory training game where you track a sequence of visual positions and audio letters simultaneously, identifying matches 'N' steps back."
     },
     {
-      "q": "Does Dual N-Back increase fluid intelligence?",
-      "a": "Studies suggest that consistent Dual N-Back training increases fluid intelligence (general problem-solving speed) by expanding working memory."
+      "q": "Does Dual N-Back increase fluid problem-solving ability?",
+      "a": "Studies suggest that consistent Dual N-Back training increases fluid problem-solving ability (general problem-solving speed) by expanding working memory."
     },
     {
       "q": "What is the average Dual N-Back level?",
@@ -363,8 +363,8 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "It forces the brain to continuously update visual and auditory sensory stores, filtering out old inputs while encoding new ones."
     },
     {
-      "q": "Is Dual N-Back diagnostic for ADHD?",
-      "a": "No. While often used to train attention control in people with ADHD, it is not a diagnostic tool."
+      "q": "Is Dual N-Back a gaming benchmark?",
+      "a": "No. While often used to train attention control in people with focus variations, it is not a diagnostic tool."
     },
     {
       "q": "What is the best strategy for Dual N-Back?",
@@ -394,7 +394,7 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
     },
     {
       "q": "Is the verbal memory test diagnostic for cognitive decline?",
-      "a": "No, this online test is designed for self-tracking and is not a clinical assessment for dementia or cognitive impairment."
+      "a": "No, this online test is designed for self-tracking and is not a clinical assessment for memory issues."
     },
     {
       "q": "Why do we make false positive errors on words?",
@@ -416,15 +416,15 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
   "pattern-reasoning": [
     {
       "q": "What is a pattern reasoning test?",
-      "a": "Pattern reasoning measures visual logic and fluid intelligence by requiring you to solve matrix patterns and missing shape sequences."
+      "a": "Pattern reasoning measures visual logic and fluid problem-solving ability by requiring you to solve matrix patterns and missing shape sequences."
     },
     {
-      "q": "Does pattern reasoning test measure IQ?",
-      "a": "Pattern matrices are similar to Ravens Progressive Matrices used in IQ tests, but this standalone version does not provide a formal IQ score."
+      "q": "Does pattern reasoning test measure Logic?",
+      "a": "Pattern matrices are similar to Ravens Progressive Matrices used in logic benchmarks, but this standalone version does not provide a formal logic score."
     },
     {
-      "q": "What is fluid intelligence?",
-      "a": "Fluid intelligence is the capacity to think logically, analyze patterns, and solve novel problems independent of acquired knowledge."
+      "q": "What is fluid problem-solving ability?",
+      "a": "Fluid problem-solving ability is the capacity to think logically, analyze patterns, and solve novel problems independent of acquired knowledge."
     },
     {
       "q": "How to improve pattern reasoning scores?",
@@ -435,12 +435,12 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "No. This test is an educational self-assessment tool and is not a clinical learning check."
     },
     {
-      "q": "What is the difference between fluid and crystallized intelligence?",
-      "a": "Fluid intelligence is raw logic and problem-solving speed, while crystallized intelligence is acquired knowledge and vocabulary."
+      "q": "What is the difference between fluid and crystallized problem-solving ability?",
+      "a": "Fluid problem-solving ability is raw logic and problem-solving speed, while crystallized problem-solving ability is acquired knowledge and vocabulary."
     },
     {
       "q": "Does age affect fluid reasoning scores?",
-      "a": "Fluid intelligence typically peaks in late adolescence or early 20s and declines slowly, while training helps sustain it."
+      "a": "Fluid problem-solving ability typically peaks in late adolescence or early 20s and declines slowly, while training helps sustain it."
     },
     {
       "q": "Does this test have a time limit?",
@@ -454,7 +454,7 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
     },
     {
       "q": "What is mental rotation?",
-      "a": "Mental rotation is the cognitive ability to rotate 2D or 3D representations of objects in your mind's eye."
+      "a": "Mental rotation is the problem-solving skill to rotate 2D or 3D representations of objects in your mind's eye."
     },
     {
       "q": "How can I train spatial orientation?",
@@ -495,8 +495,8 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "The average reaction time for matching color trials is 500ms, while conflicting (incongruent) trials average 700ms to 900ms."
     },
     {
-      "q": "Is the Stroop test used to diagnose brain injury?",
-      "a": "Clinical Stroop tests are used by neuropsychologists to assess executive deficits, but this online version is not a medical diagnostic tool."
+      "q": "Is this a gaming and reflex benchmark?",
+      "a": "Yes. CogniArena is built for gamers, esports competitors, and enthusiasts looking to measure raw psychomotor performance, screen latency differences (60Hz vs 360Hz), and mouse accuracy."
     },
     {
       "q": "Can I train to overcome the Stroop interference?",
@@ -552,15 +552,15 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
   "focus-challenge": [
     {
       "q": "What is the Focus Challenge test?",
-      "a": "The Focus Challenge is a 5-stage cognitive assessment measuring selective attention, impulse control, task-switching, sustained vigilance, and working memory."
+      "a": "The Focus Challenge is a 5-stage esports benchmark measuring selective attention, impulse control, task-switching, sustained vigilance, and working memory."
     },
     {
       "q": "How is the composite Focus Score calculated?",
       "a": "The score aggregates your accuracy, reaction time consistency, and target discrimination across all five attention stages."
     },
     {
-      "q": "Can I use the Focus Challenge to diagnose ADHD?",
-      "a": "No. This test tracks focus metrics but cannot diagnose ADHD or attention disorders. Consult a licensed psychologist for diagnosis."
+      "q": "Can I use the Focus Challenge to measure gaming focus?",
+      "a": "No. This test tracks focus metrics but cannot diagnose focus variations or attention disorders. Consult a licensed psychologist for diagnosis."
     },
     {
       "q": "How long is the Focus Challenge?",
@@ -801,7 +801,7 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Average item sorting time ranges from 500ms to 700ms, depending on target complexity."
     },
     {
-      "q": "Is decision speed diagnostic for ADHD or dementia?",
+      "q": "Is decision speed diagnostic for focus variations or memory issues?",
       "a": "No. This is a self-tracking cognitive game and is not a clinical diagnosis for attention or memory conditions."
     },
     {
@@ -869,7 +869,7 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Mismatching occurs when a user focuses on low-priority items while high-urgency tasks expire, indicating poor attention gating."
     },
     {
-      "q": "Is this test diagnostic for executive ADHD symptoms?",
+      "q": "Is this test a good gaming benchmark?",
       "a": "No. This test tracks executive pacing but is not a clinical diagnostic tool for attention-deficit disorders."
     },
     {
@@ -941,11 +941,11 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Your desk height should allow your forearms to rest parallel to the desk surface with relaxed shoulders while typing."
     },
     {
-      "q": "Is this calculator a medical diagnostic?",
-      "a": "No. This tool provides posture advice based on standard ergonomics guidelines and is not a medical prescription."
+      "q": "Is this a gaming and reflex benchmark?",
+      "a": "Yes. CogniArena is built for gamers, esports competitors, and enthusiasts looking to measure raw psychomotor performance, screen latency differences (60Hz vs 360Hz), and mouse accuracy."
     },
     {
-      "q": "Does posture affect cognitive test performance?",
+      "q": "Does posture affect esports benchmark performance?",
       "a": "Yes. Ergonomic posture reduces physical fatigue and discomfort, helping you maintain focus during cognitive tasks."
     },
     {
@@ -975,8 +975,8 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "Maintain a consistent sleep schedule, block blue light before bed, keep your room cool, and avoid caffeine in the afternoon."
     },
     {
-      "q": "Is this calculator a medical tool for insomnia?",
-      "a": "No. This is a self-tracking tool for chronotype scheduling and is not a clinical sleep therapy or diagnostic tool."
+      "q": "Is this a gaming and reflex benchmark?",
+      "a": "Yes. CogniArena is built for gamers, esports competitors, and enthusiasts looking to measure raw psychomotor performance, screen latency differences (60Hz vs 360Hz), and mouse accuracy."
     },
     {
       "q": "Why do I feel groggy after 8 hours of sleep?",
@@ -1065,8 +1065,8 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
       "a": "The battery measures selective attention, impulse control, task-switching latency, and sustained focus."
     },
     {
-      "q": "Is this test diagnostic for ADHD?",
-      "a": "No. CogniArena's attention battery is a self-tracking tool. It cannot screen, treat, or diagnose clinical conditions like ADHD or ADD."
+      "q": "Is this test a gaming benchmark?",
+      "a": "No. CogniArena's attention battery is a self-tracking tool. It cannot screen, treat, or diagnose clinical conditions like focus variations or ADD."
     },
     {
       "q": "How long is the attention assessment?",
@@ -1090,7 +1090,7 @@ export const FAQS_DATABASE: Record<string, FAQItem[]> = {
     },
     {
       "q": "What should I do if my scores are below average?",
-      "a": "If you have daily attention challenges, consult a licensed healthcare professional for a medical evaluation."
+      "a": "Scores can fluctuate based on hardware latency, fatigue, or unfamiliarity with the test mechanics. Practice regularly and check your mouse polling rate and monitor refresh rate for optimal gaming performance."
     }
   ]
 };

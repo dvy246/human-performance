@@ -1,0 +1,109 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" width="2560" height="1440">
+  <defs>
+    <!-- Midnight Emerald Ambient Glow -->
+    <radialGradient id="ecomMintGlow" cx="20%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#064e3b" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#040d0a" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#020705" stop-opacity="1"/>
+    </radialGradient>
+    <linearGradient id="neonMintGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#10b981"/>
+      <stop offset="100%" stop-color="#6ee7b7"/>
+    </linearGradient>
+    <filter id="ecomCardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+  </defs>
+
+  <!-- 1. TV Background Canvas (2560 x 1440) -->
+  <rect width="2560" height="1440" fill="#020705"/>
+  <rect width="2560" height="1440" fill="url(#ecomMintGlow)"/>
+
+  <!-- TV Grid & Supply Chain Vector Accents -->
+  <g opacity="0.12" stroke="#10b981" stroke-width="0.6">
+    <line x1="280" y1="0" x2="280" y2="1440"/>
+    <line x1="2280" y1="0" x2="2280" y2="1440"/>
+    <line x1="0" y1="220" x2="2560" y2="220"/>
+    <line x1="0" y1="1220" x2="2560" y2="1220"/>
+  </g>
+
+  <!-- ================= 2. SAFE AREA (1546 x 423 at x=507, y=508.5) ================= -->
+  <!-- Safe Area Card Container -->
+  <rect x="507" y="508.5" width="1546" height="423" rx="16" fill="#06120e" fill-opacity="0.8" stroke="#13382c" stroke-width="1.2"/>
+
+  <!-- Left Content Group (Anchored at x=585, y=580) -->
+  <g transform="translate(585, 580)">
+    <!-- Top Verification & Niche Badges -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="120" height="26" rx="6" fill="#064e3b" fill-opacity="0.4" stroke="#059669" stroke-width="1"/>
+      <text x="60" y="17" fill="#10b981" font-family="-apple-system, 'Inter', sans-serif" font-size="11" font-weight="800" text-anchor="middle" letter-spacing="1">E-COMMERCE</text>
+
+      <rect x="130" y="0" width="165" height="26" rx="6" fill="#0a1a14" stroke="#1b3d31" stroke-width="1"/>
+      <circle cx="142" cy="13" r="3.5" fill="#10b981"/>
+      <text x="153" y="17" fill="#86efac" font-family="monospace" font-size="10.5" font-weight="600" letter-spacing="0.5">Safe-area verified</text>
+    </g>
+
+    <!-- Main Headline with Accent Underline -->
+    <g transform="translate(0, 105)">
+      <text x="0" y="0" fill="#ffffff" font-family="-apple-system, 'Inter', 'Helvetica Neue', sans-serif" font-size="78" font-weight="900" letter-spacing="-2.5">{{TITLE}}</text>
+      <!-- Mint Accent Underline -->
+      <line x1="0" y1="12" x2="180" y2="12" stroke="#10b981" stroke-width="3"/>
+    </g>
+
+    <!-- Subtitle: Value Proposition -->
+    <text x="0" y="152" fill="url(#neonMintGrad)" font-family="-apple-system, 'Inter', sans-serif" font-size="14.5" font-weight="700" letter-spacing="2">{{TAGLINE}}</text>
+
+    <!-- Operational Growth Pills -->
+    <g transform="translate(0, 188)">
+      <rect x="0" y="0" width="140" height="26" rx="4" fill="#0a1a14" stroke="#1a3d31" stroke-width="1"/>
+      <text x="70" y="17" fill="#d1fae5" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">SHOPIFY PLUS</text>
+
+      <rect x="150" y="0" width="140" height="26" rx="4" fill="#0a1a14" stroke="#1a3d31" stroke-width="1"/>
+      <text x="220" y="17" fill="#d1fae5" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">SUPPLY CHAIN</text>
+
+      <rect x="300" y="0" width="130" height="26" rx="4" fill="#0a1a14" stroke="#1a3d31" stroke-width="1"/>
+      <text x="365" y="17" fill="#10b981" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">CONVERSION</text>
+    </g>
+
+    <!-- Bottom Readout -->
+    <g transform="translate(0, 240)">
+      <line x1="0" y1="-10" x2="680" y2="-10" stroke="#13382c" stroke-width="1"/>
+      <text x="0" y="10" fill="#6ee7b7" font-family="-apple-system, 'Inter', sans-serif" font-size="12" font-weight="600">{{SCHEDULE_PROOF}}</text>
+    </g>
+  </g>
+
+  <!-- Right Visual Group: E-Com Revenue KPI Readout (x=1480, y=553) -->
+  <g transform="translate(1480, 553.5)" filter="url(#ecomCardShadow)">
+    <rect x="0" y="0" width="490" height="333" rx="14" fill="#05100c" stroke="#153e31" stroke-width="1.2"/>
+
+    <!-- Inner Financial Card Container -->
+    <g transform="translate(24, 28)">
+      <!-- Top Status -->
+      <text x="0" y="20" fill="#6ee7b7" font-family="monospace" font-size="11" letter-spacing="1">LIVE STORE TELEMETRY</text>
+      <text x="442" y="20" fill="#10b981" font-family="monospace" font-size="11" font-weight="bold" text-anchor="end">ACTIVE // Q3</text>
+
+      <!-- Large Revenue Figure -->
+      <text x="0" y="80" fill="#ffffff" font-family="-apple-system, 'Inter', sans-serif" font-size="52" font-weight="900" letter-spacing="-1">$1,482,900</text>
+      <text x="0" y="108" fill="#a7f3d0" font-family="monospace" font-size="12">NET REVENUE • ROAS 4.2X</text>
+
+      <!-- Divider -->
+      <line x1="0" y1="135" x2="442" y2="135" stroke="#13382c" stroke-width="1"/>
+
+      <!-- Supply Chain Metrics Row -->
+      <g transform="translate(0, 165)">
+        <text x="0" y="0" fill="#6ee7b7" font-family="monospace" font-size="11">AVERAGE ORDER VALUE</text>
+        <text x="0" y="24" fill="#ffffff" font-family="-apple-system, sans-serif" font-size="20" font-weight="bold">$138.50</text>
+
+        <text x="240" y="0" fill="#6ee7b7" font-family="monospace" font-size="11">CONVERSION RATE</text>
+        <text x="240" y="24" fill="#10b981" font-family="-apple-system, sans-serif" font-size="20" font-weight="bold">3.84% (+1.2%)</text>
+      </g>
+
+      <!-- Bottom Status Pill -->
+      <g transform="translate(0, 240)">
+        <rect x="0" y="0" width="442" height="28" rx="6" fill="#09241b" stroke="#1b4d3c" stroke-width="1"/>
+        <circle cx="16" cy="14" r="3.5" fill="#10b981"/>
+        <text x="28" y="18" fill="#d1fae5" font-family="monospace" font-size="11">GLOBAL FULFILLMENT NETWORK VERIFIED</text>
+      </g>
+    </g>
+  </g>
+</svg>

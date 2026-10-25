@@ -14,6 +14,8 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     applicationCategory: "GameApplication",
+    operatingSystem: "Web Browser",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     name: "Flick Trainer",
     description:
       "Speed and accuracy flick-aiming assessment measuring rapid target acquisition.",
@@ -27,19 +29,19 @@ const schemaJson = [
         "@type": "ListItem",
         position: 1,
         name: "Home",
-        item: "https://cogniarena.com",
+        item: "https://cogniarena.com/",
       },
       {
         "@type": "ListItem",
         position: 2,
-        name: "Motor",
-        item: "https://cogniarena.com/",
+        name: "Tests",
+        item: "https://cogniarena.com/tests/",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Flick Trainer",
-        item: "https://cogniarena.com/tests/flick-trainer",
+        item: "https://cogniarena.com/tests/flick-trainer/",
       },
     ],
   },
@@ -113,13 +115,11 @@ const schemaJson = [
 
     <ExploreTests currentSlug="flick-trainer" />
 
+<!-- Gamer Benchmark Notice -->
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
-      <strong class="font-semibold text-foreground"
-        >Self-Tracking Notice:</strong
-      > For self-tracking and educational purposes only. Not a clinical or diagnostic
-      evaluation.
+      <strong class="font-semibold text-foreground">Gamer Benchmark Notice:</strong> This test is designed for reaction timing, mouse precision, and reflex tracking. Built for entertainment and competitive drills.
     </div>
   </div>
 </Layout>

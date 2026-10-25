@@ -14,6 +14,8 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     applicationCategory: "GameApplication",
+    operatingSystem: "Web Browser",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     name: "Ergonomic Workspace Architect",
     description:
       "An interactive workspace design tool to calculate custom ergonomic dimensions for desks, chairs, and monitors based on body size.",
@@ -40,14 +42,14 @@ const schemaJson = [
       {
         "@type": "ListItem",
         position: 2,
-        name: "Cognitive Tests",
-        item: "https://cogniarena.com/tests",
+        name: "esports benchmarks",
+        item: "https://cogniarena.com/tests/",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Ergonomic Workspace Architect",
-        item: "https://cogniarena.com/tests/ergonomic-architect",
+        item: "https://cogniarena.com/tests/ergonomic-architect/",
       },
     ],
   },
@@ -85,24 +87,22 @@ const schemaJson = [
 
     <!-- Interactive Workspace Panel -->
     <section class="w-full">
-      <ErgonomicArchitect client:load />
+      <ErgonomicArchitect client:visible />
     </section>
 
-    <!-- Medical/Scientific Disclaimer Notice -->
+    <!-- Gamer Benchmark Notice -->
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
-      <strong class="font-semibold text-foreground"
-        >Self-Tracking Notice:</strong
-      > This workspace planning utility is designed for self-tracking, educational, and ergonomics planning purposes only. It is not a medical, clinical, diagnostic, or physical therapy evaluation. Consult a licensed physical therapist or occupational health specialist for diagnostic support.
+      <strong class="font-semibold text-foreground">Gamer Benchmark Notice:</strong> This test is designed for reaction timing, mouse precision, and reflex tracking. Built for entertainment and competitive drills.
     </div>
 
     <!-- Below the fold SEO and Methodology Content -->
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       <HowItWorks
         testName="the Ergonomic Workspace Architect"
-        learnSlug="typing-speed"
-        learnTitle="Motor Ergonomics"
+        learnSlug="brain-training"
+        learnTitle="Cognitive Training & Performance Guides"
         whatItMeasures="This workspace calculator measures motor reaching speeds at different areas of the display, correlating visual fatigue with height dimensions, and computes precise physical workstation requirements."
         howScoringWorks="Formulas are derived from human physical dimensions (anthropometric percentiles) to recommend a desk layout ensuring joint angles stay within comfortable limits."
         whatAffectsResults="Correct seating posture, screen distance, footrest positioning, and keyboard tilting all affect workspace comfort."

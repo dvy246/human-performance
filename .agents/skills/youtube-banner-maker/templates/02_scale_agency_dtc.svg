@@ -1,0 +1,119 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" width="2560" height="1440">
+  <defs>
+    <!-- Deep Agency Carbon Radial Mesh Glow -->
+    <radialGradient id="agencyCyanGlow" cx="25%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#0284c7" stop-opacity="0.35"/>
+      <stop offset="60%" stop-color="#070a10" stop-opacity="0.95"/>
+      <stop offset="100%" stop-color="#050608" stop-opacity="1"/>
+    </radialGradient>
+    <radialGradient id="agencyPurpleGlow" cx="85%" cy="45%" r="45%">
+      <stop offset="0%" stop-color="#4f46e5" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#050608" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="cyanVelocityGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#00f0ff"/>
+      <stop offset="100%" stop-color="#3b82f6"/>
+    </linearGradient>
+    <linearGradient id="glassBorder" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.5"/>
+      <stop offset="50%" stop-color="#1e293b" stop-opacity="0.2"/>
+      <stop offset="100%" stop-color="#6366f1" stop-opacity="0.4"/>
+    </linearGradient>
+    <filter id="agencyCardShadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.7"/>
+    </filter>
+  </defs>
+
+  <!-- 1. TV Full Canvas (2560 x 1440) -->
+  <rect width="2560" height="1440" fill="#050608"/>
+  <rect width="2560" height="1440" fill="url(#agencyCyanGlow)"/>
+  <rect width="2560" height="1440" fill="url(#agencyPurpleGlow)"/>
+
+  <!-- Subtle Velocity Lines & Grid across TV View -->
+  <g opacity="0.12" stroke="#38bdf8" stroke-width="0.5">
+    <line x1="0" y1="200" x2="2560" y2="200"/>
+    <line x1="0" y1="1240" x2="2560" y2="1240"/>
+    <line x1="300" y1="0" x2="300" y2="1440" stroke-dasharray="6 6"/>
+    <line x1="2260" y1="0" x2="2260" y2="1440" stroke-dasharray="6 6"/>
+  </g>
+
+  <!-- ================= 2. SAFE AREA (1546 x 423 at x=507, y=508.5) ================= -->
+  <!-- Safe Area Card -->
+  <rect x="507" y="508.5" width="1546" height="423" rx="16" fill="#0b0f17" fill-opacity="0.75" stroke="url(#glassBorder)" stroke-width="1.2"/>
+
+  <!-- Left Content Group (Anchored at x=585, y=580) -->
+  <g transform="translate(585, 580)">
+    <!-- Top Pill Badges -->
+    <g transform="translate(0, 0)">
+      <rect x="0" y="0" width="105" height="26" rx="6" fill="#0c4a6e" fill-opacity="0.4" stroke="#0284c7" stroke-width="1"/>
+      <text x="52.5" y="17" fill="#38bdf8" font-family="-apple-system, 'Inter', sans-serif" font-size="11" font-weight="800" text-anchor="middle" letter-spacing="1">BUSINESS</text>
+
+      <rect x="115" y="0" width="165" height="26" rx="6" fill="#0f172a" stroke="#1e293b" stroke-width="1"/>
+      <circle cx="127" cy="13" r="3.5" fill="#10b981"/>
+      <text x="138" y="17" fill="#94a3b8" font-family="monospace" font-size="10.5" font-weight="600" letter-spacing="0.5">Safe-area verified</text>
+    </g>
+
+    <!-- Headline: Bold Grotesk Display -->
+    <text x="0" y="105" fill="#ffffff" font-family="-apple-system, 'Inter', 'Helvetica Neue', sans-serif" font-size="78" font-weight="900" letter-spacing="-2.5">{{TITLE}}</text>
+
+    <!-- Subtitle: Cyan Gradient Value Proposition -->
+    <text x="0" y="148" fill="url(#cyanVelocityGrad)" font-family="-apple-system, 'Inter', sans-serif" font-size="15" font-weight="700" letter-spacing="2">{{TAGLINE}}</text>
+
+    <!-- Topic / Growth Metric Pills -->
+    <g transform="translate(0, 185)">
+      <!-- Pill 1 -->
+      <rect x="0" y="0" width="120" height="28" rx="6" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+      <text x="60" y="18" fill="#e2e8f0" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">{{PILL_1}}</text>
+
+      <!-- Pill 2 -->
+      <rect x="130" y="0" width="130" height="28" rx="6" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+      <text x="195" y="18" fill="#e2e8f0" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">{{PILL_2}}</text>
+
+      <!-- Pill 3 -->
+      <rect x="270" y="0" width="150" height="28" rx="6" fill="#111827" stroke="#1f2937" stroke-width="1"/>
+      <text x="345" y="18" fill="#38bdf8" font-family="monospace" font-size="11" font-weight="bold" text-anchor="middle">{{PILL_3}}</text>
+    </g>
+
+    <!-- Bottom Readout -->
+    <g transform="translate(0, 240)">
+      <line x1="0" y1="-12" x2="680" y2="-12" stroke="#1e293b" stroke-width="1"/>
+      <text x="0" y="10" fill="#94a3b8" font-family="-apple-system, 'Inter', sans-serif" font-size="12" font-weight="600">{{SCHEDULE_PROOF}}</text>
+    </g>
+  </g>
+
+  <!-- Right Visual Group: Agency Telemetry HUD Frame (x=1480, y=553) -->
+  <g transform="translate(1480, 553.5)" filter="url(#agencyCardShadow)">
+    <rect x="0" y="0" width="490" height="333" rx="14" fill="#080c13" stroke="#1e293b" stroke-width="1.2"/>
+
+    <!-- Telemetry Graph Visual -->
+    <g transform="translate(30, 40)">
+      <!-- Background Grid -->
+      <line x1="0" y1="40" x2="430" y2="40" stroke="#162032" stroke-width="1"/>
+      <line x1="0" y1="90" x2="430" y2="90" stroke="#162032" stroke-width="1"/>
+      <line x1="0" y1="140" x2="430" y2="140" stroke="#162032" stroke-width="1"/>
+      <line x1="0" y1="190" x2="430" y2="190" stroke="#162032" stroke-width="1"/>
+
+      <!-- Performance Trajectory Curve -->
+      <path d="M 0 180 Q 90 170, 150 120 T 280 80 T 430 20" fill="none" stroke="url(#cyanVelocityGrad)" stroke-width="3"/>
+      
+      <!-- Gradient Fill under curve -->
+      <path d="M 0 180 Q 90 170, 150 120 T 280 80 T 430 20 L 430 220 L 0 220 Z" fill="url(#cyanVelocityGrad)" fill-opacity="0.1"/>
+
+      <!-- Peak Node Point -->
+      <circle cx="430" cy="20" r="5" fill="#00f0ff"/>
+      <circle cx="430" cy="20" r="10" fill="none" stroke="#00f0ff" stroke-width="1" opacity="0.6"/>
+
+      <!-- KPI readout badges inside HUD -->
+      <g transform="translate(0, 220)">
+        <text x="0" y="16" fill="#64748b" font-family="monospace" font-size="11">PERFORMANCE INDEX</text>
+        <text x="430" y="16" fill="#00f0ff" font-family="monospace" font-size="12" font-weight="bold" text-anchor="end">99.8% EFFICIENCY</text>
+      </g>
+    </g>
+
+    <!-- Top Window Dots -->
+    <circle cx="28" cy="22" r="4" fill="#334155"/>
+    <circle cx="42" cy="22" r="4" fill="#334155"/>
+    <circle cx="56" cy="22" r="4" fill="#334155"/>
+    <text x="466" y="25" fill="#475569" font-family="monospace" font-size="10.5" text-anchor="end">SYSTEM TELEMETRY v4.2</text>
+  </g>
+</svg>

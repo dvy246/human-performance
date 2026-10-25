@@ -39,19 +39,18 @@ const schemaJson = {
   isAccessibleForFree: true,
   creator: {
     "@type": "Organization",
-    name: "CogniArena Research Team",
+    name: "CogniArena Benchmark Labs",
     url: "https://cogniarena.com/about",
   },
   variableMeasured: {
     "@type": "PropertyValue",
     name: metric,
     unitText: unit || undefined,
-    [metricDirection]: true,
   },
   distribution: [
     {
       "@type": "DataDownload",
-      encodingFormat: "application/json",
+      encodingFormat: "text/html",
       contentUrl: `https://cogniarena.com/benchmarks/${slug}`,
     },
   ],

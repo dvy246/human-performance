@@ -15,12 +15,12 @@ const canonicalUrl = `https://cogniarena.com/${lang}/tests/results`
 
 <Layout
   title="Test Results — CogniArena"
-  description="View your detailed cognitive test results."
+  description="View your detailed esports benchmark results."
   canonicalUrl={canonicalUrl}
   robots="noindex, nofollow"
   lang={lang}
 >
   <div class="mx-auto flex w-full max-w-3xl flex-col gap-8">
-    <TestResultsPage client:load />
+    <TestResultsPage lang={lang} client:load />
   </div>
 </Layout>

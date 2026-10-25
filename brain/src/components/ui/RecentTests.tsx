@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { dataLayer } from "@/runtime/dataLayer"
 import { useI18n } from "@/runtime/useI18n"
-import { getLocalizedPath } from "@/i18n/translations"
+import { getLocalizedPath } from "@/utils/routing"
 
 const TEST_SLUGS: Record<string, string> = {
   "tmt-partA": "trail-making",

@@ -14,6 +14,8 @@ const schemaJson = [
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     applicationCategory: "GameApplication",
+    operatingSystem: "Web Browser",
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
     name: "Sleep Sanctuary & Chronotype Planner",
     description:
       "A circadian assessment quiz and interactive scheduler to optimize daily sleep schedules and resting environments based on chronobiology.",
@@ -40,14 +42,14 @@ const schemaJson = [
       {
         "@type": "ListItem",
         position: 2,
-        name: "Cognitive Tests",
-        item: "https://cogniarena.com/tests",
+        name: "esports benchmarks",
+        item: "https://cogniarena.com/tests/",
       },
       {
         "@type": "ListItem",
         position: 3,
         name: "Sleep Sanctuary",
-        item: "https://cogniarena.com/tests/sleep-sanctuary",
+        item: "https://cogniarena.com/tests/sleep-sanctuary/",
       },
     ],
   },
@@ -85,24 +87,22 @@ const schemaJson = [
 
     <!-- Interactive Sleep Panel -->
     <section class="w-full">
-      <SleepSanctuary client:load />
+      <SleepSanctuary client:visible />
     </section>
 
-    <!-- Medical/Scientific Disclaimer Notice -->
+    <!-- Gamer Benchmark Notice -->
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"
     >
-      <strong class="font-semibold text-foreground"
-        >Self-Tracking Notice:</strong
-      > This circadian schedule calculator is designed for self-tracking, sleep hygiene educational tracking, and chronobiology planning purposes only. It is not medical or diagnostic support for sleep apnea, clinical insomnia, or sleep disorders. Consult a certified clinical somnologist for medical diagnoses.
+      <strong class="font-semibold text-foreground">Gamer Benchmark Notice:</strong> This test is designed for reaction timing, mouse precision, and reflex tracking. Built for entertainment and competitive drills.
     </div>
 
     <!-- Below the fold SEO and Methodology Content -->
     <section class="flex flex-col gap-10 border-t border-card-border pt-12">
       <HowItWorks
         testName="the Sleep Sanctuary Planner"
-        learnSlug="typing-speed"
-        learnTitle="Rest Science"
+        learnSlug="brain-training"
+        learnTitle="Cognitive Training & Performance Guides"
         whatItMeasures="This planner assesses your subjective fatigue indexes, chronobiology schedules, caffeine half-lives, and sleep environment variables."
         howScoringWorks="Logic checks integrate circadian chronotypes (Lion, Bear, Wolf, Dolphin) to map optimal alert windows."
         whatAffectsResults="Consistent wake times, blue-light exposure, caffeine clearance limits, and bedroom temperatures affect sleep depth."

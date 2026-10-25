@@ -1,6 +1,6 @@
 ---
 import Layout from "@/layouts/main.astro"
-import IQTest from "@/components/quiz/IQTest"
+import LogicTest from "@/components/quiz/LogicTest"
 import { nonDefaultLocales, t, type LangCode } from "@/i18n/translations"
 
 export function getStaticPaths() {
@@ -12,17 +12,16 @@ export function getStaticPaths() {
 const { lang } = Astro.params as { lang: LangCode }
 const localePrefix = `/${lang}`
 const canonicalUrl = `https://cogniarena.com/${lang}/quiz/iq-test`
-const title = `${t("nav.iq_test", lang, "Free IQ Test")} | CogniArena`
-const description = "Take a free online IQ test and get your score instantly. 20 questions covering logical, numerical, and spatial reasoning."
+const title = `${t("nav.iq_test", lang, "Free Logic Benchmark")} | CogniArena`
+const description = t("iq_test.meta_desc", lang, "Take a free online logic benchmark and get your score instantly. 20 questions covering logical, numerical, and spatial reasoning.")
 
 const schemaJson = [
   {
     "@context": "https://schema.org",
     "@type": "Quiz",
-    name: "CogniArena Free IQ Test",
-    description:
-      "A 20-question IQ test covering numerical, verbal, spatial, and logical reasoning domains, inspired by the ICAR cognitive ability framework.",
-    about: { "@type": "Thing", name: "IQ and Cognitive Ability" },
+    name: t("iq_test.schema_name", lang, "CogniArena Free Logic Benchmark"),
+    description: t("iq_test.schema_desc", lang, "A 20-question logic benchmark covering numerical, verbal, spatial, and logical reasoning domains, inspired by the ICAR problem-solving skill framework."),
+    about: { "@type": "Thing", name: "Logic and Puzzle Solving" },
     educationalAlignment: {
       "@type": "AlignmentObject",
       alignmentType: "educationalRequirement",
@@ -46,19 +45,19 @@ const schemaJson = [
       >
         <a href={`${localePrefix}/quiz/`} class="hover:underline">{t("nav.quizzes", lang, "Quizzes")}</a>
         <span>&middot;</span>
-        <span>{t("nav.iq_test", lang, "IQ Test")}</span>
+        <span>{t("nav.iq_test", lang, "Logic Benchmark")}</span>
       </div>
       <h1
         class="text-3xl font-extrabold tracking-tight text-foreground md:text-4xl"
       >
-        {t("nav.iq_test", lang, "Free IQ Test")}
+        {t("nav.iq_test", lang, "Free Logic Benchmark")}
       </h1>
       <p class="max-w-2xl text-sm leading-relaxed text-muted md:text-base">
         {description}
       </p>
     </header>
 
-    <section class="w-full"><IQTest client:load /></section>
+    <section class="w-full"><LogicTest lang={lang} client:load /></section>
 
     <div
       class="rounded-xl border border-card-border bg-subtle p-4 text-xs leading-relaxed text-muted shadow-sm"

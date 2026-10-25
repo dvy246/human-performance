@@ -26,8 +26,8 @@ interface Props {
 }
 
 const {
-  title = "CogniArena — Free Reaction Time Test & Cognitive Assessments",
-  description = "Take the free reaction time test and measure your reflexes in milliseconds. 29+ cognitive assessments including IQ test, typing test, memory games. 100% anonymous, runs in your browser.",
+  title = "CogniArena — Free Reaction Time Test & esports benchmarks",
+  description = "Take the free reaction time test and measure your reflexes in milliseconds. 29+ esports benchmarks including logic benchmark, typing test, and memory games. 100% anonymous, runs in your browser.",
   canonicalUrl = "https://cogniarena.com",
   ogImage,
   ogType,
@@ -45,7 +45,14 @@ const localePrefix = currentLang === "en" ? "" : `/${currentLang}`
 
 // Clean unlocalized path for hreflang cluster and canonical resolution
 const cleanPath = pathname.replace(/^\/(es|fr|de|pt|ja)(\/|$)/, "/")
-const unlocalizedPath = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`
+let normalizedUnlocalized = cleanPath.startsWith("/") ? cleanPath : `/${cleanPath}`
+if (!normalizedUnlocalized.endsWith("/")) {
+  const lastSegment = normalizedUnlocalized.split("/").pop() || ""
+  if (!lastSegment.includes(".")) {
+    normalizedUnlocalized = normalizedUnlocalized + "/"
+  }
+}
+const unlocalizedPath = normalizedUnlocalized
 const isLearnGuide = unlocalizedPath.startsWith("/learn/") && unlocalizedPath.replace(/\/$/, "") !== "/learn"
 const shouldEmitHreflang = !isLearnGuide && (!robots || !robots.includes("noindex"))
 
@@ -99,7 +106,7 @@ const orgSchema = {
     height: "630",
   },
   description:
-    "Free online cognitive assessment platform with 29+ brain tests measuring reaction time, memory, reasoning, focus, and motor skills.",
+    "Free online esports benchmark platform with 29+ reflex tests measuring reaction time, memory, reasoning, focus, and motor skills.",
   foundingDate: "2025",
 }
 
@@ -110,7 +117,7 @@ const webSiteSchema = {
   name: "CogniArena",
   url: "https://cogniarena.com/",
   description:
-    "Free online cognitive assessments, reflex testers, and brain training platform.",
+    "Free online esports benchmarks, reflex testers, and esports benchmarking platform.",
   inLanguage: currentLang,
   publisher: {
     "@id": "https://cogniarena.com/#organization",
@@ -158,6 +165,27 @@ if (currentLang === "en" && testSlug && hasFaqsForPath(testSlug)) {
 
 const finalSchemas = [...pageSchemas, orgSchema, webSiteSchema]
 
+function normalizeSchemaUrls(obj: any): any {
+  if (!obj || typeof obj !== "object") return obj
+  if (Array.isArray(obj)) return obj.map(normalizeSchemaUrls)
+  const result: Record<string, any> = {}
+  for (const [k, v] of Object.entries(obj)) {
+    if ((k === "url" || k === "item") && typeof v === "string") {
+      if (v.startsWith("https://cogniarena.com") && !v.endsWith("/") && !v.includes("#")) {
+        const last = v.split("/").pop() || ""
+        if (!last.includes(".")) {
+          result[k] = v + "/"
+          continue
+        }
+      }
+    }
+    result[k] = normalizeSchemaUrls(v)
+  }
+  return result
+}
+
+const cleanSchemas = finalSchemas.map(normalizeSchemaUrls)
+
 // Determine active state indicators
 const isReactionOpen =
   pathname.includes("/tests/reaction-time") ||
@@ -193,7 +221,7 @@ const isExecutiveOpen =
   pathname.includes("/tests/decision-speed") ||
   pathname.includes("/tests/planning") ||
   pathname.includes("/tests/prioritization") // Keep default closed unless clicked
-const isScienceOpen = pathname.includes("/learn/")
+const isScienceOpen = pathname.includes("/learn");
 const isHomeActive = pathname === "/"
 const isTestsActive = pathname.startsWith("/tests")
 const isHistoryActive = pathname === "/history"
@@ -241,16 +269,16 @@ const isProfileActive = pathname === "/dashboard"
 
     <!-- Meta tags for SEO -->
     <meta name="description" content={description} />
-    <meta name="robots" content={robots} />
+    <meta name="robots" content={Astro.url.hostname.includes("pages.dev") ? "noindex, nofollow" : robots} />
     <meta name="yandex-verification" content="2cae89c2d02f63bb" />
 
     <!-- Open Graph tags for Social Sharing -->
     <meta property="og:locale" content={ogLocaleMap[currentLang] || "en_US"} />
-    <meta property="og:locale:alternate" content="es_ES" />
-    <meta property="og:locale:alternate" content="fr_FR" />
-    <meta property="og:locale:alternate" content="de_DE" />
-    <meta property="og:locale:alternate" content="pt_BR" />
-    <meta property="og:locale:alternate" content="ja_JP" />
+    {Object.entries(ogLocaleMap)
+      .filter(([langCode]) => langCode !== currentLang)
+      .map(([_, locale]) => (
+        <meta property="og:locale:alternate" content={locale} />
+      ))}
 
     <meta property="og:type" content={resolvedOgType} />
     <meta property="og:title" content={title} />
@@ -291,11 +319,11 @@ const isProfileActive = pathname === "/dashboard"
     <!-- JSON-LD Structured Data -->
     <script
       type="application/ld+json"
-      set:html={JSON.stringify(finalSchemas[0])}
+      set:html={JSON.stringify(cleanSchemas[0])}
     />
     {
-      finalSchemas.length > 1 &&
-        finalSchemas
+      cleanSchemas.length > 1 &&
+        cleanSchemas
           .slice(1)
           .map((s: any) => (
             <script type="application/ld+json" set:html={JSON.stringify(s)} />
@@ -328,7 +356,7 @@ const isProfileActive = pathname === "/dashboard"
     </noscript>
 
     <!-- i18n client engine (fetches locales asynchronously on demand) -->
-    <script is:inline src="/i18n.js"></script>
+    <script src="../scripts/i18n.js"></script>
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-9WHJWEWD5L"
     ></script>
@@ -376,7 +404,7 @@ const isProfileActive = pathname === "/dashboard"
           >
             <img
               src="/favicon.svg"
-              alt="CogniArena"
+              alt="CogniArena" loading="lazy"
               width="32"
               height="32"
               class="h-8 w-8"
@@ -608,7 +636,7 @@ const isProfileActive = pathname === "/dashboard"
               class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
             >
               <a
-                href={`${localePrefix}/tests/pattern-reasoning?format=pattern`}
+                href={`${localePrefix}/tests/pattern-reasoning/?format=pattern`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
                 <span data-i18n="nav.pattern_recognition"
@@ -620,7 +648,7 @@ const isProfileActive = pathname === "/dashboard"
                 >
               </a>
               <a
-                href={`${localePrefix}/tests/pattern-reasoning?format=matrix`}
+                href={`${localePrefix}/tests/pattern-reasoning/?format=matrix`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
                 <span data-i18n="nav.matrix_reasoning">{t("nav.matrix_reasoning", currentLang, "Matrix Reasoning")}</span>
@@ -630,7 +658,7 @@ const isProfileActive = pathname === "/dashboard"
                 >
               </a>
               <a
-                href={`${localePrefix}/tests/pattern-reasoning?format=sequence`}
+                href={`${localePrefix}/tests/pattern-reasoning/?format=sequence`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
                 <span data-i18n="nav.sequence_logic">{t("nav.sequence_logic", currentLang, "Sequence Logic")}</span>
@@ -640,7 +668,7 @@ const isProfileActive = pathname === "/dashboard"
                 >
               </a>
               <a
-                href={`${localePrefix}/tests/pattern-reasoning?format=analogy`}
+                href={`${localePrefix}/tests/pattern-reasoning/?format=analogy`}
                 class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
               >
                 <span data-i18n="nav.shape_analogies">{t("nav.shape_analogies", currentLang, "Shape Analogies")}</span>
@@ -727,7 +755,7 @@ const isProfileActive = pathname === "/dashboard"
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/attention-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="brain" size={16} />
-                <span data-i18n="nav.adhd_test">{t("nav.adhd_test", currentLang, "Attention Test")}</span>
+                <span data-i18n="nav.attention_test">{t("nav.attention_test", currentLang, "Attention Test")}</span>
               </a>
               <a
                 href={`${localePrefix}/color-game/`}
@@ -831,7 +859,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <div class="flex items-center gap-1.5">
                 <Icon name="compass" size={16} />
-                <span data-i18n="nav.executive">{t("nav.executive", currentLang, "Executive Function")}</span>
+                <span data-i18n="nav.executive">{t("nav.executive", currentLang, "Strategy & Logic")}</span>
               </div>
               <svg
                 class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -924,7 +952,7 @@ const isProfileActive = pathname === "/dashboard"
                 class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/quiz/iq-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="brain" size={16} />
-                <span data-i18n="nav.iq_test">{t("nav.iq_test", currentLang, "IQ Test")}</span>
+                <span data-i18n="nav.iq_test">{t("nav.iq_test", currentLang, "Logic Benchmark")}</span>
               </a>
               <a
                 href={`${localePrefix}/quiz/cognitive-style/`}
@@ -964,7 +992,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <a
                 href={`${localePrefix}/learn/`}
-                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname === "/learn" ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${(pathname === "/learn" || pathname === "/learn/" || pathname === `${localePrefix}/learn` || pathname === `${localePrefix}/learn/`) ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
               >
                 <Icon name="book" size={16} />
                 <span data-i18n="nav.all_guides">{t("nav.all_guides", currentLang, "All Guides")}</span>
@@ -1043,7 +1071,7 @@ const isProfileActive = pathname === "/dashboard"
               <a href={`${localePrefix}/`} class="flex items-center gap-2 hover:opacity-90">
                 <img
                   src="/favicon.svg"
-                  alt="CogniArena"
+                  alt="CogniArena" loading="lazy"
                   width="32"
                   height="32"
                   class="h-8 w-8"
@@ -1298,7 +1326,7 @@ const isProfileActive = pathname === "/dashboard"
                 class="mt-1 flex flex-col gap-1 border-l border-card-border/60 pl-2"
               >
                 <a
-                  href={`${localePrefix}/tests/pattern-reasoning?format=pattern`}
+                  href={`${localePrefix}/tests/pattern-reasoning/?format=pattern`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
                   <span data-i18n="nav.pattern_recognition"
@@ -1310,7 +1338,7 @@ const isProfileActive = pathname === "/dashboard"
                   >
                 </a>
                 <a
-                  href={`${localePrefix}/tests/pattern-reasoning?format=matrix`}
+                  href={`${localePrefix}/tests/pattern-reasoning/?format=matrix`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
                   <span data-i18n="nav.matrix_reasoning">{t("nav.matrix_reasoning", currentLang, "Matrix Reasoning")}</span>
@@ -1320,7 +1348,7 @@ const isProfileActive = pathname === "/dashboard"
                   >
                 </a>
                 <a
-                  href={`${localePrefix}/tests/pattern-reasoning?format=sequence`}
+                  href={`${localePrefix}/tests/pattern-reasoning/?format=sequence`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
                   <span data-i18n="nav.sequence_logic">{t("nav.sequence_logic", currentLang, "Sequence Logic")}</span>
@@ -1330,7 +1358,7 @@ const isProfileActive = pathname === "/dashboard"
                   >
                 </a>
                 <a
-                  href={`${localePrefix}/tests/pattern-reasoning?format=analogy`}
+                  href={`${localePrefix}/tests/pattern-reasoning/?format=analogy`}
                   class="transition-standard flex items-center justify-between rounded px-3 py-1.5 text-xs text-muted hover:bg-subtle hover:text-foreground"
                 >
                   <span data-i18n="nav.shape_analogies">{t("nav.shape_analogies", currentLang, "Shape Analogies")}</span>
@@ -1417,7 +1445,7 @@ const isProfileActive = pathname === "/dashboard"
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/attention-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="brain" size={16} />
-                  <span data-i18n="nav.adhd_test">{t("nav.adhd_test", currentLang, "Attention Test")}</span>
+                  <span data-i18n="nav.attention_test">{t("nav.attention_test", currentLang, "Attention Test")}</span>
                 </a>
                 <a
                   href={`${localePrefix}/color-game/`}
@@ -1521,7 +1549,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <div class="flex items-center gap-1.5">
                   <Icon name="compass" size={16} />
-                  <span data-i18n="nav.executive">{t("nav.executive", currentLang, "Executive Function")}</span>
+                  <span data-i18n="nav.executive">{t("nav.executive", currentLang, "Strategy & Logic")}</span>
                 </div>
                 <svg
                   class="h-3 w-3 text-muted transition-transform duration-250 group-open:rotate-180"
@@ -1614,7 +1642,7 @@ const isProfileActive = pathname === "/dashboard"
                   class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname.includes("/quiz/iq-test") ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="brain" size={16} />
-                  <span data-i18n="nav.iq_test">{t("nav.iq_test", currentLang, "IQ Test")}</span>
+                  <span data-i18n="nav.iq_test">{t("nav.iq_test", currentLang, "Logic Benchmark")}</span>
                 </a>
                 <a
                   href={`${localePrefix}/quiz/cognitive-style/`}
@@ -1654,7 +1682,7 @@ const isProfileActive = pathname === "/dashboard"
               >
                 <a
                   href={`${localePrefix}/learn/`}
-                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${pathname === "/learn" ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
+                  class={`flex items-center gap-2 px-3 py-1.5 rounded text-xs transition-standard hover:bg-subtle ${(pathname === "/learn" || pathname === "/learn/" || pathname === `${localePrefix}/learn` || pathname === `${localePrefix}/learn/`) ? "text-accent font-semibold bg-accent/5" : "text-muted hover:text-foreground"}`}
                 >
                   <Icon name="book" size={16} />
                   <span data-i18n="nav.all_guides">{t("nav.all_guides", currentLang, "All Guides")}</span>
@@ -1740,7 +1768,7 @@ const isProfileActive = pathname === "/dashboard"
             <a href={`${localePrefix}/`} class="flex items-center gap-2 hover:opacity-90">
               <img
                 src="/favicon.svg"
-                alt="CogniArena"
+                alt="CogniArena" loading="lazy"
                 width="28"
                 height="28"
                 class="h-7 w-7"
@@ -1758,7 +1786,7 @@ const isProfileActive = pathname === "/dashboard"
             >
               <img
                 src="/favicon.svg"
-                alt="CogniArena"
+                alt="CogniArena" loading="lazy"
                 width="28"
                 height="28"
                 class="h-7 w-7 brightness-125"
@@ -1783,19 +1811,17 @@ const isProfileActive = pathname === "/dashboard"
             <strong
               class="mb-1 block font-semibold text-secondary"
               data-i18n="footer.disclaimer_title"
-              >Disclaimer & Scope Note:</strong
+              >Gaming Benchmark Notice:</strong
             >
             <span data-i18n="footer.disclaimer"
-              >CogniArena is an educational, self-tracking, and cognitive
-              training platform. All assessments (including visual/audio
-              reaction speed, sequence memory, visual memory, clicking
-              frequency, and target precision) and generated metrics (including
-              percentiles, demographic ranks, and CogniArena Index / CAI score)
-              are intended for self-tracking and entertainment purposes only.
-              They do not constitute medical, diagnostic, clinical, psychiatric,
-              or neuropsychological evaluations. If you have concerns about your
-              cognitive health or attention controls, please consult a licensed
-              healthcare professional.</span
+              >CogniArena is a free gaming, reflex, and esports benchmarking
+              platform. All assessments (including visual/audio reaction speed,
+              sequence memory, clicking frequency, and target precision) and
+              generated metrics (including percentiles, demographic ranks, and
+              CogniArena Index / CAI score) are competitive skill drills
+              designed for gamers and enthusiasts to measure reaction speed,
+              mouse accuracy, and typing speed. Built for entertainment and
+              self-benchmarking purposes.</span
             >
           </div>
           <div
@@ -1804,7 +1830,7 @@ const isProfileActive = pathname === "/dashboard"
             <div class="flex items-center gap-2">
               <img
                 src="/favicon.svg"
-                alt="CogniArena"
+                alt="CogniArena" loading="lazy"
                 width="24"
                 height="24"
                 class="h-6 w-6"

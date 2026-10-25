@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "YouTubeBannerSpecification",
+  "description": "Schema for generating and parameterizing premium YouTube channel art in the YouTube Banner Maker utility.",
+  "type": "object",
+  "required": ["channel_title", "tagline", "archetype"],
+  "properties": {
+    "channel_title": {
+      "type": "string",
+      "description": "Primary creator or brand headline (e.g. 'VELOCITY AGENCY', 'KAI NAKAMURA').",
+      "maxLength": 32
+    },
+    "tagline": {
+      "type": "string",
+      "description": "Primary value proposition (e.g. 'Scaling 8-Figure DTC Brands with Paid Acquisition').",
+      "maxLength": 75
+    },
+    "category_kicker": {
+      "type": "string",
+      "description": "Micro category tag above title (e.g. 'B2B GROWTH', 'BOARDROOM STRATEGY', 'ESSAYS & ARCHITECTURE').",
+      "maxLength": 30
+    },
+    "archetype": {
+      "type": "string",
+      "enum": [
+        "executive_authority",
+        "scale_agency",
+        "creative_director",
+        "solo_founder",
+        "creator_cutout",
+        "ecom_growth_lab",
+        "minimalist_editorial"
+      ],
+      "default": "scale_agency"
+    },
+    "accent_color": {
+      "type": "string",
+      "pattern": "^#([A-Fa-f0-9]{6})$",
+      "description": "Primary hexadecimal accent color (e.g. '#00f0ff', '#d4af37', '#10b981')."
+    },
+    "background_base": {
+      "type": "string",
+      "pattern": "^#([A-Fa-f0-9]{6})$",
+      "description": "Base canvas background color (e.g. '#06070a', '#0e1014')."
+    },
+    "badge_items": {
+      "type": "array",
+      "description": "Array of 2-4 pill labels displayed in the safe area (e.g. ['PYTHON', 'PYTORCH', 'LANGGRAPH']).",
+      "items": {
+        "type": "string",
+        "maxLength": 20
+      },
+      "maxItems": 4
+    },
+    "schedule_or_proof": {
+      "type": "string",
+      "description": "Publishing schedule or credibility statement (e.g. 'NEW VIDEOS EVERY SUNDAY', '$50M+ MANAGED SPEND').",
+      "maxLength": 45
+    },
+    "location_or_specs": {
+      "type": "string",
+      "description": "Optional secondary metadata (e.g. 'LONDON • TOKYO', '45°50\'01\" N, 6°51\'54\" E').",
+      "maxLength": 35
+    },
+    "photo_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Optional URL to transparent PNG cutout of the creator or brand hero asset."
+    }
+  }
+}

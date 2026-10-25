@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2560 1440" width="2560" height="1440">
+  <defs>
+    <!-- Dramatic Atmospheric Grayscale Gradient & Vignette -->
+    <radialGradient id="moodyVignette" cx="50%" cy="50%" r="65%">
+      <stop offset="0%" stop-color="#2a3038" stop-opacity="0.5"/>
+      <stop offset="60%" stop-color="#14171d" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#08090b" stop-opacity="1"/>
+    </radialGradient>
+    <filter id="portraitShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="16" stdDeviation="24" flood-color="#000000" flood-opacity="0.8"/>
+    </filter>
+    <filter id="buttonGlow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#ff0000" flood-opacity="0.35"/>
+    </filter>
+  </defs>
+
+  <!-- 1. TV Background Canvas (2560 x 1440) -->
+  <rect width="2560" height="1440" fill="#08090b"/>
+
+  <!-- Atmospheric Mountain & Lake Silhouettes (Grayscale Cinematic Bleed) -->
+  <g opacity="0.35">
+    <path d="M 0 1440 L 0 680 L 250 520 L 500 620 L 780 440 L 1050 580 L 1280 380 L 1520 590 L 1800 420 L 2100 600 L 2350 490 L 2560 620 L 2560 1440 Z" fill="#181d24"/>
+    <path d="M 0 1440 L 0 780 L 350 660 L 700 740 L 1100 600 L 1480 730 L 1900 610 L 2250 720 L 2560 670 L 2560 1440 Z" fill="#101318"/>
+    <!-- Lake Water Horizontal Surface Line -->
+    <line x1="0" y1="900" x2="2560" y2="900" stroke="#252c38" stroke-width="2"/>
+    <!-- Lake Inverted Mountain Reflection -->
+    <path d="M 0 900 L 0 1100 L 350 1020 L 700 1060 L 1100 980 L 1480 1070 L 1900 990 L 2250 1050 L 2560 1010 L 2560 900 Z" fill="#0b0e12" opacity="0.6"/>
+  </g>
+
+  <!-- Radial Dark Vignette Overlay -->
+  <rect width="2560" height="1440" fill="url(#moodyVignette)"/>
+
+  <!-- ================= 2. SAFE AREA (1546 x 423 at x=507, y=508.5) ================= -->
+  <!-- Architectural Safe-Zone Minimalist Frame (Image 3 Inspiration) -->
+  <g transform="translate(507, 508.5)">
+    <!-- Thin Architectural Horizontal Crosshairs -->
+    <line x1="-30" y1="120" x2="1576" y2="120" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.8"/>
+    <line x1="-30" y1="303" x2="1576" y2="303" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.8"/>
+
+    <!-- Vertical Framing Brackets -->
+    <line x1="0" y1="90" x2="0" y2="333" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.8"/>
+    <line x1="1546" y1="90" x2="1546" y2="333" stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.8"/>
+
+    <!-- Corner Tick Crosshairs -->
+    <path d="M -10 120 L 10 120 M 0 110 L 0 130" stroke="#ffffff" stroke-width="1.2"/>
+    <path d="M 1536 120 L 1556 120 M 1546 110 L 1546 130" stroke="#ffffff" stroke-width="1.2"/>
+    <path d="M -10 303 L 10 303 M 0 293 L 0 313" stroke="#ffffff" stroke-width="1.2"/>
+    <path d="M 1536 303 L 1556 303 M 1546 293 L 1546 313" stroke="#ffffff" stroke-width="1.2"/>
+
+    <!-- ================= LEFT IDENTITY BLOCK ================= -->
+    <g transform="translate(180, 200)">
+      <!-- Channel Brand / Creator Name -->
+      <text x="0" y="0" fill="#ffffff" font-family="-apple-system, 'Inter', 'Montserrat', sans-serif" font-size="64" font-weight="900" letter-spacing="-1" text-anchor="middle">{{TITLE}}</text>
+      <!-- Subtitle / Niche Role -->
+      <text x="0" y="38" fill="#d1d5db" font-family="-apple-system, 'Inter', sans-serif" font-size="16" font-weight="600" letter-spacing="4" text-anchor="middle">{{TAGLINE}}</text>
+    </g>
+
+    <!-- ================= CENTER CREATOR CUTOUT BREAKOUT ================= -->
+    <g transform="translate(773, 211.5)" filter="url(#portraitShadow)">
+      <!-- Stylized Organic Backdrop Cloud / Brush Shape (Popping above frame) -->
+      <path d="M -90 -120 C -130 -90, -150 -30, -120 40 C -140 100, -80 150, 0 140 C 70 145, 130 110, 120 40 C 145 -20, 120 -80, 70 -110 C 20 -140, -50 -140, -90 -120 Z" fill="#f3f4f6"/>
+
+      <!-- Stylized Creator Silhouette / Photo Slot (Popping out of frame) -->
+      <g transform="translate(0, 0)">
+        <!-- Silhouette Body / Jacket (Red Pop from Image 3) -->
+        <path d="M -100 135 C -100 80, -70 40, -50 30 L 50 30 C 70 40, 100 80, 100 135 Z" fill="#e50914"/>
+        <!-- Face / Head Contour -->
+        <ellipse cx="0" cy="-20" rx="42" ry="50" fill="#d49575"/>
+        <!-- Beard & Hair (Bearded Creator Aesthetic from Image 3) -->
+        <path d="M -40 -20 C -40 35, -20 60, 0 65 C 20 60, 40 35, 40 -20 L 35 -10 C 25 30, -25 30, -35 -10 Z" fill="#261b14"/>
+        <path d="M -44 -40 C -44 -75, 44 -75, 44 -40 C 35 -60, -35 -60, -44 -40 Z" fill="#261b14"/>
+        <!-- Cap with Brim (Style from Image 3) -->
+        <ellipse cx="0" cy="-48" rx="48" ry="16" fill="#1e293b"/>
+        <path d="M -42 -48 C -42 -72, 42 -72, 42 -48 Z" fill="#0f172a"/>
+        <rect x="-18" y="-66" width="36" height="14" rx="3" fill="#f8fafc"/>
+        <text x="0" y="-55" fill="#0f172a" font-family="monospace" font-size="8" font-weight="bold" text-anchor="middle">CREATOR</text>
+        <!-- Sunglasses (Tinted Orange from Image 3) -->
+        <rect x="-36" y="-28" width="32" height="20" rx="6" fill="#f97316" fill-opacity="0.85" stroke="#1c1917" stroke-width="2"/>
+        <rect x="4" y="-28" width="32" height="20" rx="6" fill="#f97316" fill-opacity="0.85" stroke="#1c1917" stroke-width="2"/>
+        <line x1="-4" y1="-20" x2="4" y2="-20" stroke="#1c1917" stroke-width="2"/>
+      </g>
+    </g>
+
+    <!-- ================= RIGHT ACTION CTA BLOCK ================= -->
+    <g transform="translate(1320, 195)">
+      <!-- Subscribe Button Pill (Image 3 Red Pill) -->
+      <g transform="translate(0, 0)" filter="url(#buttonGlow)">
+        <rect x="-100" y="-24" width="200" height="48" rx="24" fill="#e50914"/>
+        <text x="0" y="6" fill="#ffffff" font-family="-apple-system, 'Inter', sans-serif" font-size="16" font-weight="800" letter-spacing="1" text-anchor="middle">SUBSCRIBE</text>
+      </g>
+
+      <!-- Circular Interaction Badges (Thumbs-Up & Bell) -->
+      <g transform="translate(0, 48)">
+        <!-- Like / Thumbs Up Circle -->
+        <circle cx="-30" cy="0" r="18" fill="#e50914"/>
+        <!-- Thumbs up icon path -->
+        <path d="M -36 3 L -34 3 L -34 -4 L -36 -4 Z M -32 3 L -28 3 C -26 3, -25 2, -25 0 L -25 -2 C -25 -3, -26 -4, -27 -4 L -30 -4 L -29 -8 C -29 -9, -30 -10, -31 -10 L -33 -6 L -32 3 Z" fill="#ffffff"/>
+
+        <!-- Notification Bell Circle -->
+        <circle cx="30" cy="0" r="18" fill="#e50914"/>
+        <!-- Bell icon path -->
+        <path d="M 30 -8 C 26 -8, 24 -5, 24 -1 L 22 3 L 38 3 L 36 -1 C 36 -5, 34 -8, 30 -8 Z M 28 5 C 28 6, 29 7, 30 7 C 31 7, 32 6, 32 5 Z" fill="#ffffff"/>
+      </g>
+    </g>
+  </g>
+</svg>

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react"
 import { useI18n } from "../../runtime/useI18n"
-import { getLocalizedPath } from "../../i18n/translations"
+import { getLocalizedPath } from "@/utils/routing"
 import { formatTopPercentile } from "../../runtime/percentileLookup"
 import QRChallengeCard from "./QRChallengeCard"
 
@@ -197,7 +197,9 @@ function computeStdDev(values: number[], mean: number): number {
   )
 }
 
-export default function TestResultsPage() {
+import { withErrorBoundary } from "./withErrorBoundary"
+
+function TestResultsPage() {
   const { t, lang } = useI18n()
   const [data, setData] = useState<ResultData | null>(null)
   const [showQR, setShowQR] = useState(false)
@@ -584,3 +586,5 @@ export default function TestResultsPage() {
     </div>
   )
 }
+
+export default withErrorBoundary(TestResultsPage)

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react"
-import { languages, getLocalizedPath, type LangCode } from "../../i18n/translations"
+import { languages, getLocalizedPath, type LangCode } from "@/utils/routing"
 
 export interface LanguageSwitcherProps {
   initialLang?: LangCode

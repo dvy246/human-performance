@@ -1,11 +1,20 @@
 # Cloudflare Pages SPA fallback + legacy redirects
 /challenge/*  /challenge/  200
-
+/es/challenge/*  /es/challenge/  200
+/fr/challenge/*  /fr/challenge/  200
+/de/challenge/*  /de/challenge/  200
+/pt/challenge/*  /pt/challenge/  200
+/ja/challenge/*  /ja/challenge/  200
 
 # SEO keyword-URL redirects (301)
 /reaction-time-test  /tests/reaction-time/  301
+/reaction-time-test/  /tests/reaction-time/  301
 /typing-test  /tests/typing-speed/  301
+/typing-test/  /tests/typing-speed/  301
 /iq-test  /quiz/iq-test/  301
+/iq-test/  /quiz/iq-test/  301
+
+# Gauntlet legacy redirects
 /tests/gauntlet  /gauntlet/  301
 /tests/gauntlet/  /gauntlet/  301
 /es/tests/gauntlet  /es/gauntlet/  301
@@ -18,5 +27,20 @@
 /pt/tests/gauntlet/  /pt/gauntlet/  301
 /ja/tests/gauntlet  /ja/gauntlet/  301
 /ja/tests/gauntlet/  /ja/gauntlet/  301
+
+# 0-YMYL purged routes redirect
+/adhd-test  /tests/go-no-go/  301
+/adhd-test/  /tests/go-no-go/  301
+/es/adhd-test  /es/tests/go-no-go/  301
+/es/adhd-test/  /es/tests/go-no-go/  301
+/fr/adhd-test  /fr/tests/go-no-go/  301
+/fr/adhd-test/  /fr/tests/go-no-go/  301
+/de/adhd-test  /de/tests/go-no-go/  301
+/de/adhd-test/  /de/tests/go-no-go/  301
+/pt/adhd-test  /pt/tests/go-no-go/  301
+/pt/adhd-test/  /pt/tests/go-no-go/  301
+/ja/adhd-test  /ja/tests/go-no-go/  301
+/ja/adhd-test/  /ja/tests/go-no-go/  301
+
 
 
